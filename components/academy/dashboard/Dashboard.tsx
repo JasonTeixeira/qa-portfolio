@@ -1,241 +1,23 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
-import { topic, TOPICS } from '@/lib/academy/topics'
-import type { LearnerDashboard } from '@/lib/academy/learner'
+import type { LearnerDashboard, DashCourse } from '@/lib/academy/learner'
+import { TOPICS, topic } from '@/lib/academy/topics'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
 import type { QuestProgress, BonusState } from '@/lib/academy/quest-logic'
 import type { Trigger } from '@/lib/academy/trigger-logic'
 import type { NextRewards } from '@/lib/academy/reward-logic'
+import type { EvidenceItem } from '@/lib/academy/evidence'
 import { PushOptIn } from '@/components/academy/notifications/PushOptIn'
 import { NextUp } from './NextUp'
 import { TriggerBanner } from '@/components/academy/triggers/TriggerBanner'
 import { QuestPanel } from '@/components/academy/quests/QuestPanel'
-import { ProgressBar } from '@/components/academy/shell/ProgressBar'
-import { CountUp } from '@/components/academy/ui/CountUp'
-import { GrowBar } from '@/components/academy/ui/GrowBar'
+import { JourneyHero } from './JourneyHero'
 import { SoundToggle } from '@/components/academy/ui/SoundToggle'
 import { Icon } from '@/components/academy/ui/Icon'
-import { JourneyHero } from './JourneyHero'
 import styles from './dashboard.module.css'
 
-const ACCENT = '#3D6BFF'
-
-function tvars(t: ReturnType<typeof topic>): CSSProperties {
-  return { ['--topic']: t.color, ['--topic-soft']: t.soft } as CSSProperties
-}
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
-const titleCase = (s: string) =>
-  s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-
-/** Honest progress ring (real %). Part of the design system, not decoration. */
-function Ring({
-  pct,
-  size = 60,
-  stroke = 5,
-  color = ACCENT,
-}: {
-  pct: number
-  size?: number
-  stroke?: number
-  color?: string
-}) {
-  const r = (size - stroke) / 2
-  const circ = 2 * Math.PI * r
-  const clamped = Math.max(0, Math.min(100, pct))
-  const offset = circ * (1 - clamped / 100)
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className={styles.ring} aria-hidden="true">
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={stroke} />
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={r}
-        fill="none"
-        stroke={color}
-        strokeWidth={stroke}
-        strokeLinecap="round"
-        strokeDasharray={circ}
-        strokeDashoffset={offset}
-        transform={`rotate(-90 ${size / 2} ${size / 2})`}
-      />
-      <text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" className={styles.ringText}>
-        {clamped}%
-      </text>
-    </svg>
-  )
-}
-
-/**
- * Stakes + identity copy for the streak card. Loss aversion without lying: we only
- * claim "your longest yet" when the live streak genuinely equals the recorded peak
- * (and is non-trivial). Freeze info is demoted to a small secondary reassurance —
- * never the headline — so banked freezes can't read as "you're safe, skip today".
- */
-function streakStakesCopy(streak: GamificationState['streak']): {
-  headline: string
-  stakes: string
-  reassurance: string | null
-} {
-  const { current, longest, freezes, activeToday } = streak
-
-  if (current <= 0) {
-    return {
-      headline: 'Start a streak',
-      stakes: 'Finish one lesson to put the first day on the board',
-      reassurance: null,
-    }
-  }
-
-  const isPersonalBest = current > 1 && current >= longest
-  const headline = isPersonalBest
-    ? 'Personal best — on the line'
-    : activeToday
-      ? 'Streak alive — keep it going'
-      : 'On the line today'
-
-  // The stakes line leads with identity/loss — never reassurance, even when today is
-  // already banked. At peak it's the thing to PROTECT; otherwise it's the thing not to
-  // let RESET. (Freezes only soften this afterward, never replace it.)
-  const stakes = isPersonalBest
-    ? 'Your longest streak yet — protect it'
-    : 'Don’t let it reset'
-
-  const reassurance =
-    !activeToday && freezes > 0
-      ? `${freezes} freeze${freezes === 1 ? '' : 's'} can cover one missed day — but don’t spend it`
-      : null
-
-  return { headline, stakes, reassurance }
-}
-
-/** Today panel — the habit core surfaced: daily-goal ring, streak + freezes, level/XP. */
-function HabitPanel({ game }: { game: GamificationState }) {
-  const { streak, xp, dailyGoal } = game
-  const goalPct = dailyGoal.goalXp > 0 ? Math.round((dailyGoal.todayXp / dailyGoal.goalXp) * 100) : 0
-  const freezePips = Array.from({ length: Math.max(streak.freezes, 0) })
-  const streakStakes = streakStakesCopy(streak)
-
-  return (
-    <section className={styles.habit} aria-label="Today">
-      {/* Daily goal */}
-      <div className={`${styles.habitCard} ${dailyGoal.met ? styles.habitMet : ''}`}>
-        <Ring pct={goalPct} size={64} stroke={6} color={dailyGoal.met ? '#2dd4bf' : ACCENT} />
-        <div className={styles.habitMeta}>
-          <span className={styles.habitLabel}>Daily goal</span>
-          <span className={styles.habitValue}>
-            <CountUp value={dailyGoal.todayXp} /> <span className={styles.habitDim}>/ {dailyGoal.goalXp} XP</span>
-          </span>
-          <span className={styles.habitSub}>
-            {dailyGoal.met ? (
-              <>
-                <Icon name="check" size={13} aria-hidden />
-                Goal hit today
-              </>
-            ) : (
-              'Earn XP to close the ring'
-            )}
-          </span>
-        </div>
-      </div>
-
-      {/* Streak — stakes + identity, not reassurance. The headline names what's on
-          the line (a personal best, or "don't let it reset"); freeze info is only a
-          small secondary line AFTER the stakes, never the lead. */}
-      <div className={`${styles.habitCard} ${streak.activeToday ? styles.habitActive : ''}`}>
-        <span className={styles.flame} aria-hidden="true">
-          <Icon name={streak.current > 0 ? 'flame' : 'circle'} size={22} />
-        </span>
-        <div className={styles.habitMeta}>
-          <span className={styles.habitLabel}>{streakStakes.headline}</span>
-          <span className={styles.habitValue}>
-            {streak.current} <span className={styles.habitDim}>{streak.current === 1 ? 'day' : 'days'}</span>
-          </span>
-          <span className={styles.habitSub}>{streakStakes.stakes}</span>
-          {streakStakes.reassurance ? (
-            <span className={styles.freezeNote}>
-              <span className={styles.freezePips} aria-hidden="true">
-                {freezePips.map((_, i) => (
-                  <Icon key={i} name="sparkle" size={11} />
-                ))}
-              </span>
-              {streakStakes.reassurance}
-            </span>
-          ) : null}
-        </div>
-      </div>
-
-      {/* Level / XP */}
-      <div className={styles.habitCard}>
-        <span className={styles.levelBadge} aria-hidden="true">
-          <CountUp value={xp.level} />
-        </span>
-        <div className={styles.habitMeta}>
-          <span className={styles.habitLabel}>Level {xp.level}</span>
-          <GrowBar
-            value={xp.pct}
-            color="var(--ac-accent, #3D6BFF)"
-            className={styles.xpGrowBar}
-            ariaLabel={`Level ${xp.level} progress: ${xp.pct}% to level ${xp.level + 1}`}
-          />
-          <span className={styles.habitSub}>{xp.toNext} XP to level {xp.level + 1}</span>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const
-
-/**
- * Honest trailing 7-day streak strip. We only have streak length + activeToday
- * (no per-day event log is surfaced), so we fill the last N days the current
- * streak provably covers — ending today when active, else ending yesterday.
- * No fabricated history beyond the known streak length.
- */
-function StreakStrip({ streak }: { streak: GamificationState['streak'] }) {
-  const today = new Date()
-  const filledFromOffset = streak.activeToday ? 0 : 1
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const offset = 6 - i // 0 = today, 6 = six days ago
-    const d = new Date(today)
-    d.setDate(today.getDate() - offset)
-    const within = offset >= filledFromOffset && offset < filledFromOffset + streak.current
-    const isToday = offset === 0
-    return { key: offset, label: DAY_LABELS[d.getDay()], active: within, isToday }
-  })
-  const summary =
-    streak.current > 0
-      ? `${streak.current}-day streak${streak.activeToday ? ' · active today' : ' · keep it alive today'}`
-      : 'No streak yet — complete a lesson to start one'
-
-  return (
-    <section className={styles.streak} aria-label="Activity streak">
-      <div className={styles.streakHead}>
-        <span className={styles.streakKicker}>Last 7 days</span>
-        <span className={styles.streakSummary}>{summary}</span>
-      </div>
-      <ol className={styles.streakRow}>
-        {days.map((d) => (
-          <li
-            key={d.key}
-            className={`${styles.streakCell} ${d.active ? styles.streakOn : ''} ${d.isToday ? styles.streakToday : ''}`}
-            title={d.isToday ? 'Today' : undefined}
-          >
-            <span className={styles.streakDot} aria-hidden="true">
-              <Icon name={d.active ? 'flame' : 'dot'} size={d.active ? 14 : 8} />
-            </span>
-            <span className={styles.streakDay}>{d.label}</span>
-            <span className={styles.srOnly}>
-              {d.label}
-              {d.isToday ? ' (today)' : ''}: {d.active ? 'active' : 'no activity'}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </section>
-  )
-}
+const titleCase = (s: string) => s.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
 interface DashboardProps {
   dash: LearnerDashboard
@@ -258,7 +40,13 @@ interface DashboardProps {
   rewards?: NextRewards | null
   /** Resume point (or catalog) — where the near-miss CTAs send the learner. */
   nextHref?: string
+  /** Real FSRS recall count due right now (0 when nothing is due / unavailable). */
+  recallDue?: number
+  /** Real shipped-proof timeline (evidence ledger), newest first. */
+  evidence?: EvidenceItem[]
 }
+
+const DAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const
 
 export function Dashboard({
   dash,
@@ -272,15 +60,18 @@ export function Dashboard({
   triggers = [],
   rewards = null,
   nextHref = '/academy/catalog',
+  recallDue = 0,
+  evidence = [],
 }: DashboardProps) {
   if (!dash.signedIn) {
     return (
       <div className={styles.page}>
-        <div className={styles.atmosphere} aria-hidden="true" />
         <div className={styles.gate}>
           <p className={styles.kicker}>My Learning</p>
           <h1 className={styles.gateTitle}>Sign in to track your learning.</h1>
-          <p className={styles.gateBody}>Your progress, courses, and certificates live here once you’re in.</p>
+          <p className={styles.gateBody}>
+            Your progress, courses, and certificates live here once you’re in.
+          </p>
           <Link href="/login?audience=academy&next=/academy/dashboard" className={styles.gateBtn}>
             Sign in
             <Icon name="arrow-right" size={16} aria-hidden />
@@ -293,250 +84,347 @@ export function Dashboard({
     )
   }
 
-  const inProgress = dash.courses.find((c) => c.total > 0 && c.done > 0 && c.done < c.total)
+  const name = displayName ?? cap(dash.name)
+
+  // The dominant course to continue — the resume target's course, else the most-progressed.
   const continueCourse = dash.continueTo
     ? dash.courses.find((c) => c.slug === dash.continueTo!.courseSlug)
-    : undefined
-  const subtitle = inProgress
-    ? `You’re ${inProgress.pct}% through ${inProgress.title}. Keep the momentum.`
-    : dash.courses.length
-      ? 'Pick a course back up and keep building.'
-      : 'Your first build is one click away — browse the catalog below.'
+    : dash.courses.find((c) => c.total > 0 && c.done > 0 && c.done < c.total)
+  const resumeHref = dash.continueTo
+    ? `/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`
+    : nextHref
 
-  // The ONE dominant next action — promoted directly under the header so it
-  // outweighs every secondary chip/stat. Its strongest styling lives in `.resume`.
-  const resumeBlock = dash.continueTo ? (
-    <Link
-      href={`/academy/learn/${dash.continueTo.courseSlug}/${dash.continueTo.lessonSlug}`}
-      className={styles.resume}
-    >
-      <span className={styles.resumeGlow} aria-hidden="true" />
-      <div className={styles.resumeBody}>
-        <span className={styles.resumeKicker}>
-          <Icon name="play" size={12} aria-hidden />
-          Pick up where you left off
-        </span>
-        <span className={styles.resumeTitle}>{titleCase(dash.continueTo.lessonSlug)}</span>
-        {continueCourse ? (
-          <span className={styles.resumeCourse}>
-            {continueCourse.title} · {continueCourse.done}/{continueCourse.total} lessons
-          </span>
-        ) : null}
-      </div>
-      {continueCourse ? <Ring pct={continueCourse.pct} /> : null}
-      <span className={styles.resumeBtn}>
-        Finish lesson
-        <Icon name="arrow-right" size={16} aria-hidden />
-      </span>
-    </Link>
-  ) : null
+  // Real "one arrow" framing without a fabricated mastery score: the honest next
+  // action is resuming the in-flight lesson (else the goal's next milestone, else
+  // the catalog). We name the real course + lesson, never an invented "78 → 91".
+  const heroTitle = dash.continueTo && continueCourse
+    ? `Continue ${continueCourse.title} — pick up ${titleCase(dash.continueTo.lessonSlug)}.`
+    : journey?.nextMilestone
+      ? journey.nextMilestone.label
+      : 'Start your first build — pick a track from the catalog.'
+  const heroBody = dash.continueTo && continueCourse
+    ? `You’re ${continueCourse.pct}% through this course. Your place is saved to the exact block — resume in one click.`
+    : journey
+      ? `Your goal: ${journey.label}. This is the next milestone on the path — one action moves the needle.`
+      : 'Every lesson you start keeps its place, so you can always resume in one click.'
+  const heroCtaLabel = dash.continueTo ? 'Resume the lesson' : journey?.nextMilestone ? 'Continue the path' : 'Browse the catalog'
+  const heroMeta = continueCourse ? `${continueCourse.done} of ${continueCourse.total} lessons done` : 'your first proof awaits'
+
+  // Ledger summary line — all real: shipped proofs + certs + courses.
+  const shippedCount = dash.lessonsCompleted
+  const ledgerLine = `ledger: ${shippedCount} proof${shippedCount === 1 ? '' : 's'} · ${dash.coursesInProgress} in progress · ${dash.certificates.length} certificate${dash.certificates.length === 1 ? '' : 's'}`
+
+  // Real per-course progress rows (the honest analog of the design's "mastery" panel).
+  const courseRows = dash.courses.filter((c) => c.total > 0).slice(0, 4)
+
+  // Real streak trailing-7 (same honest fill the old strip used).
+  const streak = game?.streak
+  const streakDays = streak
+    ? (() => {
+        const today = new Date()
+        const filledFromOffset = streak.activeToday ? 0 : 1
+        return Array.from({ length: 7 }, (_, i) => {
+          const offset = 6 - i
+          const d = new Date(today)
+          d.setDate(today.getDate() - offset)
+          const within = offset >= filledFromOffset && offset < filledFromOffset + streak.current
+          return { key: offset, label: DAY_LABELS[d.getDay()], active: within, isToday: offset === 0 }
+        })
+      })()
+    : []
+
+  const dateLine = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
 
   return (
     <div className={styles.page}>
-      <div className={styles.atmosphere} aria-hidden="true" />
-
-      {/* A tiny eyebrow kicker is the only thing allowed above the hero — it labels the
-          surface without competing as a CTA. The greeting headline and the timely
-          nudge both sit BELOW the hero so the eye lands on the reward action first. */}
-      <p className={`${styles.kicker} ${styles.eyebrow}`}>My Learning</p>
-
-      {/* THE single dominant next action — the FIRST focal point on the page: resume the
-          lesson when there is one (the literal "do this next"), otherwise the
-          closest-reward hero from NextUp. Only one hero-scale block renders here so the
-          eye lands on exactly one thing. */}
-      {resumeBlock ?? (rewards ? <NextUp rewards={rewards} nextHref={nextHref} /> : null)}
-
-      {/* When resume IS the hero, NextUp's closest-reward block renders below it as a
-          clearly secondary motivator (still hero-internally, but demoted in the page
-          flow). When there's no resume, NextUp already played the hero role above. */}
-      {resumeBlock && rewards ? <NextUp rewards={rewards} nextHref={nextHref} compact /> : null}
-
-      {/* Timely urgent nudge (e.g. review-due / streak-resets-in-9h) — demoted to sit
-          BELOW the hero so its blue pill reads as a secondary nudge, not the top CTA. */}
-      <TriggerBanner triggers={triggers} />
-
-      {/* Identity/greeting — context, not an action; demoted below the hero so it never
-          out-ranks the reward action for the eye. */}
-      <header className={styles.head}>
-        <h1 className={styles.title}>Welcome back, {displayName ?? cap(dash.name)}.</h1>
-        <p className={styles.sub}>{subtitle}</p>
-      </header>
-
-      {/* Goal context — demoted beneath the action so it never competes with it. */}
-      <JourneyHero progress={journey} nextHref={journeyNextHref} />
-
-      {game ? <HabitPanel game={game} /> : null}
-      {game ? <StreakStrip streak={game.streak} /> : null}
-
-      <PushOptIn />
-
-      <dl className={styles.stats}>
-        <div className={styles.stat} data-zero={dash.lessonsCompleted === 0}>
-          <dt><CountUp value={dash.lessonsCompleted} /></dt>
-          <dd>Lessons completed</dd>
+      {/* header row */}
+      <div className={styles.topline}>
+        <div>
+          <div className={styles.dateLine}>{dateLine} · your cockpit</div>
+          <h1 className={styles.headline}>Welcome back, {name}.</h1>
         </div>
-        <div
-          className={`${styles.stat} ${dash.coursesInProgress ? styles.statLive : ''}`}
-          data-zero={dash.coursesInProgress === 0}
-        >
-          <dt><CountUp value={dash.coursesInProgress} /></dt>
-          <dd>In progress</dd>
-        </div>
-        <div className={styles.stat} data-zero={dash.coursesCompleted === 0}>
-          <dt><CountUp value={dash.coursesCompleted} /></dt>
-          <dd>Courses finished</dd>
-        </div>
-        <div className={styles.stat} data-zero={dash.certificates.length === 0}>
-          <dt><CountUp value={dash.certificates.length} /></dt>
-          <dd>Certificates</dd>
-        </div>
-      </dl>
+        <div className={styles.ledgerLine}>{ledgerLine}</div>
+      </div>
 
-      <QuestPanel daily={dailyQuests} weekly={weeklyQuests} bonus={dailyBonus ?? undefined} />
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 className={styles.h2}>Your courses</h2>
-          {dash.courses.length > 0 ? (
-            <Link href="/academy/catalog" className={styles.sectionLink}>
-              Find more
-              <Icon name="arrow-right" size={14} aria-hidden />
-            </Link>
-          ) : null}
-        </div>
-        {dash.courses.length === 0 ? (
-          <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">
-              <Icon name="compass" size={26} />
+      <div className={styles.bento}>
+        {/* HERO — the one real next action */}
+        <Link href={resumeHref} className={styles.hero}>
+          <div className={styles.heroTop}>
+            <span className={styles.heroTag}>One arrow · next best action</span>
+            <span className={styles.heroLeverage}>{dash.continueTo ? 'resume' : 'start here'}</span>
+          </div>
+          <div className={styles.heroTitle}>{heroTitle}</div>
+          <p className={styles.heroBody}>{heroBody}</p>
+          <div className={styles.heroActions}>
+            <span className={styles.heroCta}>
+              {heroCtaLabel}
+              <Icon name="arrow-right" size={16} aria-hidden />
             </span>
-            <div className={styles.emptyBody}>
-              <p className={styles.emptyTitle}>Nothing in progress yet.</p>
-              <p className={styles.emptyHelp}>
-                Pick a track from the catalog and your first build lands here — every lesson you
-                start keeps its place so you can resume in one click.
-              </p>
+            <span className={styles.heroMeta}>{heroMeta}</span>
+          </div>
+        </Link>
+
+        {/* CONTINUE / course map */}
+        {continueCourse ? (
+          <Link href={`/academy/course/${continueCourse.slug}`} className={styles.continue}>
+            <div className={styles.panelHead}>
+              <span className={styles.panelKicker}>Continue</span>
+              <span className={styles.panelLink}>{TOPICS[continueCourse.topic].label} · map →</span>
             </div>
-            <Link href="/academy/catalog" className={styles.emptyCta}>
-              Browse the catalog
-              <Icon name="arrow-right" size={15} aria-hidden />
-            </Link>
-          </div>
+            <div className={styles.continueTitle}>{continueCourse.title}</div>
+            <SegmentBar course={continueCourse} />
+            <div className={styles.continueStat}>
+              <span>{continueCourse.done} of {continueCourse.total} lessons</span>
+              <span className={styles.continueStatPct}>{continueCourse.pct}%</span>
+            </div>
+            {dash.continueTo ? (
+              <div className={styles.continueFoot}>
+                <span className={styles.continueGlyph} aria-hidden>
+                  <Icon name="play" size={14} />
+                </span>
+                <div className={styles.continueFootBody}>
+                  <div className={styles.continueFootTitle}>{titleCase(dash.continueTo.lessonSlug)}</div>
+                  <div className={styles.continueFootMeta}>your next lesson — saved in place</div>
+                </div>
+                <span className={styles.continueFootLink}>open →</span>
+              </div>
+            ) : null}
+          </Link>
         ) : (
-          <div className={styles.courseGrid}>
-            {dash.courses.map((c) => {
-              const t = topic(c.topic)
-              const finished = c.total > 0 && c.done >= c.total
-              return (
-                <Link
-                  key={c.slug}
-                  href={`/academy/course/${c.slug}`}
-                  className={styles.courseCard}
-                  style={tvars(t)}
-                >
-                  <div className={styles.courseTop}>
-                    <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
-                    <Ring pct={c.pct} size={44} stroke={4} color={t.color} />
-                  </div>
-                  <h3 className={styles.courseTitle}>{c.title}</h3>
-                  <span className={styles.courseMeta}>
-                    {c.done} / {c.total} lessons · {c.pct}%
-                  </span>
-                  <ProgressBar
-                    value={c.pct}
-                    size="sm"
-                    className={styles.courseProgress}
-                    ariaLabel={`${c.title}: ${c.done} of ${c.total} lessons complete`}
-                  />
-                  <span className={styles.courseCta}>
-                    {finished ? (
-                      <>
-                        <Icon name="check" size={13} aria-hidden />
-                        Finished · review
-                        <Icon name="arrow-right" size={13} aria-hidden />
-                      </>
-                    ) : (
-                      <>
-                        Continue
-                        <Icon name="arrow-right" size={13} aria-hidden />
-                      </>
-                    )}
-                  </span>
-                </Link>
-              )
-            })}
-          </div>
+          rewards ? (
+            <div className={styles.continue}>
+              <div className={styles.panelHead}>
+                <span className={styles.panelKicker}>Next up</span>
+              </div>
+              <NextUp rewards={rewards} nextHref={nextHref} compact />
+            </div>
+          ) : null
         )}
-      </section>
 
-      {dash.certificates.length > 0 ? (
-        <section className={styles.section}>
-          <h2 className={styles.h2}>Certificates</h2>
-          <div className={styles.certGrid}>
-            {dash.certificates.map((cert) => {
-              const t = topic(cert.topic)
+        {/* PER-COURSE PROGRESS (real) */}
+        {courseRows.length > 0 ? (
+          <section className={`${styles.panel} ${styles.mastery}`} aria-label="Course progress">
+            <div className={styles.panelHead}>
+              <span className={styles.panelKicker}>Progress · honestly measured</span>
+              <Link href="/academy/catalog" className={styles.panelLink}>find more →</Link>
+            </div>
+            {courseRows.map((c) => {
+              const t = topic(c.topic)
+              const finished = c.done >= c.total
               return (
-                <Link
-                  key={cert.code}
-                  href={`/academy/certificate/${cert.code}`}
-                  className={styles.certCard}
-                  style={tvars(t)}
-                >
-                  <span className={styles.certSeal} aria-hidden="true">
-                    <Icon name="trophy" size={20} />
-                  </span>
-                  <span className={styles.certKicker}>Certificate of completion</span>
-                  <h3 className={styles.certTitle}>{cert.courseTitle}</h3>
-                  <span className={styles.certCta}>
-                    View certificate
-                    <Icon name="arrow-right" size={14} aria-hidden />
-                  </span>
-                </Link>
+                <div key={c.slug} className={styles.masteryRow}>
+                  <div className={styles.masteryRowHead}>
+                    <span className={styles.masteryName}>{c.title}</span>
+                    <span
+                      className={styles.masteryScore}
+                      style={{ color: finished ? 'var(--dc-green)' : 'var(--dc-muted)' }}
+                    >
+                      {c.done}/{c.total}
+                    </span>
+                  </div>
+                  <div className={styles.masteryTrack}>
+                    <div
+                      className={styles.masteryFill}
+                      style={{ width: `${c.pct}%`, background: finished ? 'var(--dc-green)' : t.color }}
+                    />
+                  </div>
+                  <div className={styles.masteryFoot}>
+                    <span className={styles.masteryReason}>{TOPICS[c.topic].label}</span>
+                    <span
+                      className={styles.masteryLift}
+                      style={{ color: finished ? 'var(--dc-green)' : 'var(--dc-accent-text)' }}
+                    >
+                      {finished ? 'complete' : `${c.pct}%`}
+                    </span>
+                  </div>
+                </div>
               )
             })}
+          </section>
+        ) : null}
+
+        {/* EVIDENCE LEDGER (real shipped proofs) */}
+        <section className={`${styles.panel} ${styles.ledger}`} aria-label="Evidence ledger">
+          <div className={styles.panelHead}>
+            <span className={styles.panelKicker}>
+              Evidence ledger · {shippedCount} proof{shippedCount === 1 ? '' : 's'}
+            </span>
+            <Link href="/academy/evidence" className={styles.panelLink}>view portfolio →</Link>
           </div>
+          {evidence.length > 0 ? (
+            <div className={styles.ledgerRows}>
+              {evidence.slice(0, 5).map((e) => (
+                <div key={`${e.courseSlug}:${e.lessonSlug}:${e.at}`} className={styles.ledgerRow}>
+                  <span className={styles.ledgerClaim}>{e.lessonTitle}</span>
+                  <span className={styles.ledgerArtifact}>{e.courseTitle}</span>
+                  <span className={styles.ledgerBadge}>PROVEN</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className={styles.ledgerEmpty}>
+              No proofs shipped yet. Finish a lesson and its proof lands here — a
+              timeline you can show an employer.
+            </p>
+          )}
         </section>
-      ) : null}
 
-      {dash.paths.length > 0 ? (
-        <section className={styles.section}>
-          <h2 className={styles.h2}>Saved paths</h2>
-          <ul className={styles.pathList}>
-            {dash.paths.map((p) => (
-              <li key={p.id} className={styles.pathRow}>
-                <span className={styles.pathName}>{p.name}</span>
-                <span className={styles.pathMeta}>{p.courseSlugs.length} courses</span>
-                <Link href="/academy/build" className={styles.pathEdit}>
-                  Edit
-                  <Icon name="arrow-right" size={13} aria-hidden />
-                </Link>
-              </li>
+        {/* MOMENTUM · weekly XP + streak (real) */}
+        {game ? (
+          <section className={`${styles.panel} ${styles.momentum}`} aria-label="Momentum">
+            <div className={styles.panelHead}>
+              <span className={styles.panelKicker}>Momentum · level {game.xp.level}</span>
+              <span
+                className={styles.momentumSafe}
+                style={{ color: game.streak.activeToday ? 'var(--dc-green)' : 'var(--dc-gold)' }}
+              >
+                {game.streak.current}-day streak{game.streak.activeToday ? ' · active' : ' · on the line'}
+              </span>
+            </div>
+            {/* XP progress toward next level — the one honest weekly bar we have. */}
+            <div className={styles.xpBars} aria-hidden>
+              {(() => {
+                // Real: level progress split into 8 filled/empty ticks (level pct).
+                const filled = Math.round((game.xp.pct / 100) * 8)
+                return Array.from({ length: 8 }, (_, i) => (
+                  <div key={i} className={styles.xpCol}>
+                    <div
+                      className={`${styles.xpBar} ${i < filled ? styles.xpBarNow : ''}`}
+                      style={{ height: i < filled ? '100%' : '22%' }}
+                    />
+                    <div className={styles.xpLabel}>{i + 1}</div>
+                  </div>
+                ))
+              })()}
+            </div>
+            <div className={styles.momentumSafe} style={{ color: 'var(--dc-muted)' }}>
+              {game.xp.intoLevel}/{150} XP into level {game.xp.level} · {game.xp.toNext} to level {game.xp.level + 1}
+            </div>
+            {streakDays.length > 0 ? (
+              <ol className={styles.streakGrid} aria-label="Last 7 days">
+                {streakDays.map((d) => (
+                  <li
+                    key={d.key}
+                    className={`${styles.streakCell} ${d.active ? styles.streakOn : ''} ${d.isToday ? styles.streakToday : ''}`}
+                    title={d.isToday ? 'Today' : undefined}
+                  >
+                    <span className={styles.streakDot} aria-hidden>
+                      <Icon name={d.active ? 'flame' : 'dot'} size={d.active ? 13 : 8} />
+                    </span>
+                    <span className={styles.streakDay}>{d.label}</span>
+                    <span className={styles.srOnly}>
+                      {d.label}{d.isToday ? ' (today)' : ''}: {d.active ? 'active' : 'no activity'}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+          </section>
+        ) : null}
+
+        {/* RETENTION · recall pressure (real FSRS) */}
+        {game ? (
+          <section className={`${styles.panel} ${styles.retention}`} aria-label="Recall pressure">
+            <div className={styles.panelHead}>
+              <span className={styles.panelKicker}>Recall · holds under pressure</span>
+              <span
+                className={styles.retentionStat}
+                style={{ color: recallDue > 0 ? 'var(--dc-gold)' : 'var(--dc-green)' }}
+              >
+                {recallDue > 0 ? `${recallDue} due` : 'all clear'}
+              </span>
+            </div>
+            <div className={styles.retentionCards}>
+              <div className={`${styles.retentionCard} ${recallDue > 0 ? styles.retentionCardDue : ''}`}>
+                <div className={`${styles.retentionBig} ${recallDue > 0 ? styles.retentionBigDue : ''}`}>
+                  {recallDue}
+                </div>
+                <div className={styles.retentionSub}>due today</div>
+              </div>
+              <div className={styles.retentionCard}>
+                <div className={styles.retentionBig}>{dash.lessonsCompleted}</div>
+                <div className={styles.retentionSub}>concepts tracked</div>
+              </div>
+            </div>
+            <Link
+              href="/academy/review"
+              className={`${styles.recallCta} ${recallDue === 0 ? styles.recallCtaClear : ''}`}
+            >
+              {recallDue > 0 ? `Recall ${recallDue} concept${recallDue === 1 ? '' : 's'}` : 'Open the recall queue'}
+              <Icon name="refresh" size={14} aria-hidden />
+            </Link>
+          </section>
+        ) : null}
+
+        {/* CERTIFICATES strip (real earned certs) */}
+        {dash.certificates.length > 0 ? (
+          <section className={styles.certs} aria-label="Certificates">
+            <span className={styles.certsKicker}>Certificates</span>
+            {dash.certificates.slice(0, 4).map((cert) => (
+              <Link key={cert.code} href={`/academy/certificate/${cert.code}`} className={styles.certChip}>
+                <span className={styles.certSeal} aria-hidden>
+                  <Icon name="trophy" size={16} />
+                </span>
+                <div>
+                  <div className={styles.certChipTitle}>{cert.courseTitle}</div>
+                  <div className={styles.certChipCode}>{cert.code} · verifiable</div>
+                </div>
+              </Link>
             ))}
-          </ul>
-        </section>
-      ) : null}
+            <Link href="/academy/catalog" className={styles.certsMore}>explore more tracks →</Link>
+          </section>
+        ) : null}
 
-      {/* Secondary / vanity destinations — demoted to a calm footer utility row so they
-          never compete with the dominant next-action hierarchy above. Clearly a
-          "more, when you want it" strip, not a primary nav. */}
-      <nav className={styles.utilityNav} aria-label="More">
-        <Link href="/academy/catalog" className={styles.utilityLink}>
-          <Icon name="book" size={15} aria-hidden />
-          Browse catalog
-        </Link>
-        <Link href="/academy/refer" className={styles.utilityLink}>
-          <Icon name="users" size={15} aria-hidden />
-          Invite a friend
-        </Link>
-        <Link href="/academy/profile" className={styles.utilityLink}>
-          <Icon name="trophy" size={15} aria-hidden />
-          Public profile
-        </Link>
-        <Link href="/academy/efficacy" className={styles.utilityLink}>
-          <Icon name="target" size={15} aria-hidden />
-          Does it work?
-        </Link>
-        <SoundToggle className={styles.soundToggle} />
-      </nav>
+        {/* Real supporting panels — kept exactly, calm placement below the bento. */}
+        <div className={styles.subPanels}>
+          <TriggerBanner triggers={triggers} />
+          <JourneyHero progress={journey} nextHref={journeyNextHref} />
+          <QuestPanel daily={dailyQuests} weekly={weeklyQuests} bonus={dailyBonus ?? undefined} />
+          <PushOptIn />
+        </div>
+
+        {/* utility footer */}
+        <nav className={styles.utilityNav} aria-label="More">
+          <Link href="/academy/catalog" className={styles.utilityLink}>
+            <Icon name="book" size={14} aria-hidden />
+            Browse catalog
+          </Link>
+          <Link href="/academy/refer" className={styles.utilityLink}>
+            <Icon name="users" size={14} aria-hidden />
+            Invite a friend
+          </Link>
+          <Link href="/academy/profile" className={styles.utilityLink}>
+            <Icon name="trophy" size={14} aria-hidden />
+            Public profile
+          </Link>
+          <Link href="/academy/efficacy" className={styles.utilityLink}>
+            <Icon name="target" size={14} aria-hidden />
+            Does it work?
+          </Link>
+          <SoundToggle className={styles.soundToggle} />
+        </nav>
+      </div>
+    </div>
+  )
+}
+
+/** Real module/lesson segment bar — filled proportional to lessons done. */
+function SegmentBar({ course }: { course: DashCourse }) {
+  // Honest: N segments = lesson count (capped at 8 for layout), filled = done.
+  const segs = Math.min(Math.max(course.total, 1), 8)
+  const doneRatio = course.total > 0 ? course.done / course.total : 0
+  const filled = Math.round(doneRatio * segs)
+  return (
+    <div className={styles.continueBar} aria-hidden>
+      {Array.from({ length: segs }, (_, i) => {
+        const isNow = i === filled && filled < segs
+        const cls = i < filled ? styles.continueSegDone : isNow ? styles.continueSegNow : ''
+        return <div key={i} className={`${styles.continueSeg} ${cls}`} />
+      })}
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { signInWithPassword } from '@/app/auth/actions';
 import { AuthShell, AuthSubmit, authFieldClass } from '@/components/auth/auth-shell';
+import { AcademyValuePanel } from '@/components/auth/academy-value-panel';
+import { AcademyAuth } from '@/components/auth/academy-auth';
 
 export const metadata = {
   title: 'Sign in · Sage Ideas',
@@ -11,7 +13,13 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 type Props = {
-  searchParams: Promise<{ error?: string; next?: string; audience?: string }>;
+  searchParams: Promise<{
+    error?: string;
+    next?: string;
+    audience?: string;
+    mode?: string;
+    email?: string;
+  }>;
 };
 
 const COPY = {
@@ -21,33 +29,66 @@ const COPY = {
     sub: 'Sign in with the email tied to your engagement, or continue with a connected account.',
     signUpLabel: 'Request access',
   },
-  academy: {
-    kicker: 'Sage Academy',
-    heading: 'Sign in to keep learning.',
-    sub: 'Reach your courses, hands-on labs, and certificates — right where you left off.',
-    signUpLabel: 'Create account',
-  },
 } as const;
 
 export default async function LoginPage({ searchParams }: Props) {
   const sp = await searchParams;
   const error = sp.error ? decodeURIComponent(sp.error) : undefined;
+  const email = sp.email ? decodeURIComponent(sp.email) : undefined;
   const next = sp.next ?? '/auth/redirect';
   const audience: 'studio' | 'academy' =
     sp.audience === 'academy' || next.startsWith('/academy') ? 'academy' : 'studio';
-  const c = COPY[audience];
 
-  const signInHref = audience === 'academy' ? '/login?audience=academy&next=/academy/dashboard' : '/login';
+  // ── Academy audience → the Sage Academy split-screen design (Create / Log in tabs). ──
+  if (audience === 'academy') {
+    const academyNext = next.startsWith('/academy') ? next : '/academy/dashboard';
+    const initialMode = sp.mode === 'signup' ? 'signup' : 'login';
+    return (
+      <main
+        style={{
+          minHeight: '100vh',
+          background: '#0B0B0E',
+          color: '#F2EFE9',
+          fontFamily: "var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif)",
+          fontSize: 16,
+          lineHeight: 1.6,
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
+          overflowX: 'hidden',
+        }}
+      >
+        <AcademyValuePanel />
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 'clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px)',
+          }}
+        >
+          <AcademyAuth
+            audience="academy"
+            initialMode={initialMode}
+            next={academyNext}
+            error={error}
+            email={email}
+            forgotHref="/auth/forgot-password"
+            crossLink={{ href: '/login', label: 'studio client? sign in here →' }}
+          />
+        </div>
+      </main>
+    );
+  }
+
+  // ── Studio audience → existing studio shell (unchanged behaviour). ──
+  const c = COPY.studio;
+  const signInHref = '/login';
   const signUpHref =
-    audience === 'academy'
-      ? '/academy/signup'
-      : next !== '/auth/redirect'
-        ? `/signup?next=${encodeURIComponent(next)}`
-        : '/signup';
+    next !== '/auth/redirect' ? `/signup?next=${encodeURIComponent(next)}` : '/signup';
 
   return (
     <AuthShell
-      audience={audience}
+      audience="studio"
       mode="signin"
       kicker={c.kicker}
       heading={c.heading}
@@ -59,18 +100,12 @@ export default async function LoginPage({ searchParams }: Props) {
       signUpLabel={c.signUpLabel}
       footer={
         <p className="text-[12px] text-[#52525B]">
-          {audience === 'academy' ? (
-            <Link href="/login" className="hover:text-[#9C9CA6] transition-colors">
-              Studio client? Sign in here →
-            </Link>
-          ) : (
-            <Link
-              href="/login?audience=academy&next=/academy/dashboard"
-              className="hover:text-[#9C9CA6] transition-colors"
-            >
-              Here to learn? Academy sign-in →
-            </Link>
-          )}
+          <Link
+            href="/login?audience=academy&next=/academy/dashboard"
+            className="hover:text-[#9C9CA6] transition-colors"
+          >
+            Here to learn? Academy sign-in →
+          </Link>
         </p>
       }
     >

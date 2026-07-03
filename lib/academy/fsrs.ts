@@ -28,6 +28,20 @@ export interface DueReview {
   courseSlug: string | null
   lessonSlug: string | null
   prompt: string
+  /** Human "N-day window" the card is scheduled on (real, from FSRS stability). */
+  intervalLabel: string
+}
+
+/** Round a stability (days) into an honest human recall window ("7-day window"). */
+function intervalLabelFromStability(stability: number | null): string {
+  const s = Number(stability ?? 0)
+  if (!(s > 0)) return 'first pass'
+  if (s < 1.5) return 'same-day window'
+  const days = Math.round(s)
+  if (days < 45) return `${days}-day window`
+  const weeks = Math.round(days / 7)
+  if (weeks < 12) return `${weeks}-week window`
+  return `${Math.round(days / 30)}-month window`
 }
 
 type ReviewRow = {
@@ -94,7 +108,7 @@ export async function getDueReviews(userId: string, limit = 20): Promise<DueRevi
   const sb = supabaseAdmin()
   const { data } = await sb
     .from('academy_reviews')
-    .select('id, concept_key, course_slug, lesson_slug, prompt')
+    .select('id, concept_key, course_slug, lesson_slug, prompt, fsrs_stability')
     .eq('user_id', userId)
     .lte('fsrs_due_at', new Date().toISOString())
     .order('fsrs_due_at', { ascending: true })
@@ -105,7 +119,39 @@ export async function getDueReviews(userId: string, limit = 20): Promise<DueRevi
     courseSlug: r.course_slug,
     lessonSlug: r.lesson_slug,
     prompt: r.prompt ?? r.concept_key,
+    intervalLabel: intervalLabelFromStability(r.fsrs_stability as number | null),
   }))
+}
+
+/**
+ * Real mean retrievability across the learner's reviewed cards — the FSRS
+ * forgetting curve R(t) = (1 + t/(9·S))^(-1) evaluated per card at elapsed time,
+ * averaged and expressed as a percent. Returns null when no card has been
+ * reviewed yet (nothing real to average) so the UI can honestly omit the stat.
+ */
+export async function getRetentionRate(userId: string): Promise<number | null> {
+  const sb = supabaseAdmin()
+  const { data } = await sb
+    .from('academy_reviews')
+    .select('fsrs_stability, last_reviewed_at')
+    .eq('user_id', userId)
+    .gt('reps', 0)
+  const rows = data ?? []
+  if (!rows.length) return null
+  const now = Date.now()
+  const DAY_MS = 24 * 60 * 60 * 1000
+  let sum = 0
+  let n = 0
+  for (const r of rows) {
+    const stability = Number(r.fsrs_stability ?? 0)
+    if (!(stability > 0)) continue
+    const last = r.last_reviewed_at ? new Date(r.last_reviewed_at).getTime() : now
+    const elapsedDays = Math.max(0, (now - last) / DAY_MS)
+    sum += scheduler.forgetting_curve(elapsedDays, stability)
+    n += 1
+  }
+  if (n === 0) return null
+  return Math.round((sum / n) * 100)
 }
 
 export async function getDueCount(userId: string): Promise<number> {

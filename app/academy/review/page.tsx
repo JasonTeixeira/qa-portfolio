@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { ensureReviewCardsForCompleted, getDueReviews } from '@/lib/academy/fsrs'
+import { ensureReviewCardsForCompleted, getDueReviews, getRetentionRate } from '@/lib/academy/fsrs'
 import { getOpenRepairs } from '@/lib/academy/repairs'
 import { AcademyShell } from '@/components/academy/academy-shell'
 import { ReviewSession } from '@/components/academy/review/ReviewSession'
@@ -21,12 +21,16 @@ export default async function ReviewPage() {
   if (!user) return null // middleware gates this; defensive
 
   await ensureReviewCardsForCompleted(user.id)
-  const [due, repairs] = await Promise.all([getDueReviews(user.id), getOpenRepairs(user.id)])
+  const [due, repairs, retention] = await Promise.all([
+    getDueReviews(user.id),
+    getOpenRepairs(user.id),
+    getRetentionRate(user.id),
+  ])
 
   return (
     <AcademyShell active="practice">
       <RepairQueue repairs={repairs} hasActiveReview={due.length > 0} />
-      <ReviewSession initialCards={due} />
+      <ReviewSession initialCards={due} retention={retention} />
     </AcademyShell>
   )
 }

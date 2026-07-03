@@ -1,0 +1,136 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Recall Queue"><div data-dc-tpl="6" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 16px; line-height: 1.6; display: flex; flex-direction: column; overflow-x: hidden;">
+
+  
+  <div data-dc-tpl="7" style="display: flex; align-items: center; gap: 16px; padding: 10px clamp(16px, 3vw, 28px); border-bottom: 1px solid rgb(30, 30, 36);">
+    <a data-dc-tpl="8" href="Sage Dashboard Cockpit.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit;">
+      <span data-dc-tpl="9" style="display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 11px;">◆</span>
+      <span data-dc-tpl="10" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">← cockpit</span>
+    </a>
+    <span data-dc-tpl="11" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">Recall · six minutes, not homework</span>
+    <sage-app-nav data-dc-tpl="12" current="recall"></sage-app-nav>
+    <span data-dc-tpl="13" style="margin-left: auto; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(24, 182, 99);">retention 91%</span>
+    <sage-notify data-dc-tpl="14" hide-due="true"></sage-notify>
+  </div>
+
+  
+  <main data-dc-tpl="15" style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);">
+    <div data-dc-tpl="16" style="width: min(640px, 100%);">
+
+      
+      <div data-dc-tpl="17" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 28px;">
+        
+          <div data-dc-tpl="19" style="width: 26px; height: 6px; border-radius: 3px; background: rgb(61, 90, 254);"></div>
+        
+          <div data-dc-tpl="19" style="width: 14px; height: 6px; border-radius: 3px; background: rgb(38, 38, 46);"></div>
+        
+          <div data-dc-tpl="19" style="width: 14px; height: 6px; border-radius: 3px; background: rgb(38, 38, 46);"></div>
+        
+          <div data-dc-tpl="19" style="width: 14px; height: 6px; border-radius: 3px; background: rgb(38, 38, 46);"></div>
+        
+        <span data-dc-tpl="20" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162); margin-left: 8px;"><span class="sc-interp">1 of 4</span></span>
+      </div>
+
+      
+        
+        <div data-dc-tpl="22" style="border: 1px solid rgb(30, 30, 36); border-radius: 18px; background: rgb(17, 17, 21); padding: clamp(28px, 4vw, 44px); box-shadow: rgba(0, 0, 0, 0.85) 0px 32px 80px -32px;">
+          <div data-dc-tpl="23" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px;">
+            <span data-dc-tpl="24" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(143, 160, 255);"><span class="sc-interp">Course 00 · blast radius</span></span>
+            <span data-dc-tpl="25" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84);"><span class="sc-interp">due · 7-day window</span></span>
+          </div>
+          <div data-dc-tpl="26" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -0.02em; line-height: 1.2; text-wrap: balance;"><span class="sc-interp">What bounds a change's blast radius?</span></div>
+
+          
+
+          
+            <div data-dc-tpl="45" style="display: flex; justify-content: center; margin-top: 32px; white-space: nowrap;">
+              <span data-dc-tpl="46" class="scp4" style="display: inline-flex; color: rgb(255, 255, 255); background: rgb(61, 90, 254); font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 26px; cursor: pointer; user-select: none; box-shadow: rgba(61, 90, 254, 0.35) 0px 0px 24px; white-space: nowrap;">Show answer</span>
+            </div>
+            <div data-dc-tpl="47" style="text-align: center; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); margin-top: 14px;">think first — the retrieval IS the rep</div>
+          
+        </div>
+      
+
+      
+
+    </div>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{}">
+class Component extends DCLogic {
+  state = { idx: 0, revealed: false, grades: [], transfer: '', transferBusy: false };
+
+  async getTransfer() {
+    if (this.state.transferBusy) return;
+    this.setState({ transferBusy: true });
+    let q;
+    try {
+      if (!window.claude || !window.claude.complete) throw new Error('offline');
+      q = await window.claude.complete({
+        system: 'You are Sprout, generating ONE fresh spaced-recall transfer question for an engineer. Their held concepts: blast radius (bounded by readers, transitive readers count), idempotency keys (derived from intent, not time), and defended omissions on maps. Write one question, 35 words max, applying ONE of these concepts to a NOVEL domain they have not seen (feature flags, cron, CDN purge, IAM, migrations). Plain text, the question only.',
+        messages: [{ role: 'user', content: 'One fresh transfer prompt, please.' }],
+      });
+    } catch (e) {
+      q = 'A feature flag flips for 2% of users, but 9% see the change. Who reads that flag that your rollout map forgot?';
+    }
+    this.setState({ transfer: (q || '').trim(), transferBusy: false });
+  }
+
+  cards() {
+    return [
+      { tag: 'Course 00 · blast radius', due: 'due · 7-day window', prompt: 'What bounds a change\'s blast radius?', answer: 'Everything that reads what you touched — including transitive readers. The radius is a property of the read graph, not the diff.' },
+      { tag: 'Course 00 · decisions', due: 'due · 3-day window', prompt: 'What makes an omission from a map defensible?', answer: 'A written defense on the map itself ("out of scope because the cache key is unchanged") — not an approval, a memory, or a vibe.' },
+      { tag: 'Backend · idempotency', due: 'due · 7-day window', prompt: 'Why derive an idempotency key from intent instead of time?', answer: 'A retry of the same intent must map to the same key. Timestamps make every retry look like a new intent — which is exactly the duplicate charge.' },
+      { tag: 'Concept maps · edges', due: 'due · 30-day window', prompt: 'Why is a map with fewer, defended edges worth more than a complete diagram?', answer: 'Because a reviewer trusts what you can defend. Every edge you draw is a claim; undefended completeness is just decoration.' },
+    ];
+  }
+
+  grade(g) {
+    const grades = [...this.state.grades, g];
+    if (grades.length >= this.cards().length && window.SageState) window.SageState.set('recallDue', 0);
+    this.setState({ grades, idx: this.state.idx + 1, revealed: false });
+  }
+
+  renderVals() {
+    const cards = this.cards();
+    const { idx, revealed, grades } = this.state;
+    const inQueue = idx < cards.length;
+    const card = inQueue ? cards[idx] : cards[0];
+    const goodCount = grades.filter((g) => g === 'good' || g === 'easy').length;
+
+    return {
+      dots: cards.map((_, i) => ({
+        size: i === idx ? '26px' : '14px',
+        color: i < idx ? '#18B663' : i === idx ? '#3D5AFE' : '#26262E',
+      })),
+      counter: inQueue ? (idx + 1) + ' of ' + cards.length : 'done',
+
+      inQueue,
+      done: !inQueue,
+      revealed: inQueue && revealed,
+      notRevealed: inQueue && !revealed,
+
+      cardTag: card.tag,
+      cardDue: card.due,
+      cardPrompt: card.prompt,
+      cardAnswer: card.answer,
+
+      reveal: () => this.setState({ revealed: true }),
+      gradeAgain: () => this.grade('again'),
+      gradeHard: () => this.grade('hard'),
+      gradeGood: () => this.grade('good'),
+      gradeEasy: () => this.grade('easy'),
+
+      summaryLine: goodCount === 4 ? 'All four held.' : goodCount + ' of 4 held; the misses come back sooner.',
+      restart: () => this.setState({ idx: 0, revealed: false, grades: [] }),
+      noTransfer: !this.state.transfer,
+      hasTransfer: !!this.state.transfer,
+      transfer: this.state.transfer,
+      transferBtnLabel: this.state.transferBusy ? 'Sprout is writing…' : 'Fresh transfer prompt from Sprout',
+      getTransfer: () => this.getTransfer(),
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>

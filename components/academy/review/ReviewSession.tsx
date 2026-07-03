@@ -37,13 +37,39 @@ function kickerFor(card: DueReview): string {
   return `${course} · ${concept}`
 }
 
+/**
+ * Framing for the SAME flashcard flow. `queue` is the full Recall-Queue page
+ * ("Recall · six minutes, not homework" + retention stat). `daily` is the
+ * Daily-Rep streak-shield page ("Daily Rep · six minutes, shields the streak"
+ * + a gold streak pill + streak-shield footer). Only header/footer copy and the
+ * right-hand stat differ — the card, dots, reveal, and FSRS grading are identical.
+ */
+type ReviewVariant = 'daily' | 'queue'
+
+const BRAND_KICKER: Record<ReviewVariant, string> = {
+  queue: 'Recall · six minutes, not homework',
+  daily: 'Daily Rep · six minutes, shields the streak',
+}
+
+const FOOTER_COPY: Record<ReviewVariant, string> = {
+  queue: 'FSRS reschedules each card at 90% target retention — the science of not forgetting.',
+  daily:
+    "clear the rep and today's streak is shielded · miss two days and concepts start to fade",
+}
+
 export function ReviewSession({
   initialCards,
   retention = null,
+  variant = 'queue',
+  streakDays = null,
 }: {
   initialCards: DueReview[]
   /** Real mean FSRS retrievability (%) across reviewed cards, or null to omit. */
   retention?: number | null
+  /** Header/footer framing: full Recall Queue vs the Daily-Rep streak shield. */
+  variant?: ReviewVariant
+  /** Real current streak length (days) from academy_streaks; null to omit the pill. */
+  streakDays?: number | null
 }) {
   const router = useRouter()
   const [cards] = useState(initialCards)
@@ -55,7 +81,6 @@ export function ReviewSession({
   const [soonestNextDue, setSoonestNextDue] = useState<string | null>(null)
   // Count only cards the server actually graded (each awards XP_REWARDS.review).
   const [strengthened, setStrengthened] = useState(0)
-  const total = cards.length
   const current = cards[index]
 
   async function grade(g: ReviewGrade) {
@@ -78,18 +103,35 @@ export function ReviewSession({
     router.refresh() // update the header streak/XP/Review-badge live
   }
 
-  const retentionStat =
-    retention != null ? (
-      <span className={styles.retention}>retention {retention}%</span>
-    ) : null
+  const total = cards.length
+  const brandKicker = <span className={styles.brandKicker}>{BRAND_KICKER[variant]}</span>
+
+  // Right-hand stat. Daily Rep: a gold streak pill — "at stake" only when a rep
+  // is actually due today, otherwise honestly "shielded". Queue: retention %.
+  const rightStat =
+    variant === 'daily'
+      ? streakDays != null && streakDays > 0
+        ? (() => {
+            const shielded = index >= total // every due rep cleared this session
+            const label = total === 0 || shielded ? 'shielded' : 'at stake'
+            return (
+              <span className={styles.streakPill} data-shielded={shielded || total === 0}>
+                ◆ {streakDays}-day streak · {label}
+              </span>
+            )
+          })()
+        : null
+      : retention != null
+        ? <span className={styles.retention}>retention {retention}%</span>
+        : null
 
   // ── EMPTY: nothing due ──────────────────────────────────────────────────
   if (total === 0) {
     return (
       <div className={styles.stage}>
         <div className={styles.topbar}>
-          <span className={styles.brandKicker}>Recall · six minutes, not homework</span>
-          {retentionStat}
+          {brandKicker}
+          {rightStat}
         </div>
         <main className={styles.center}>
           <div className={styles.shell}>
@@ -122,8 +164,8 @@ export function ReviewSession({
       <div className={styles.stage}>
         <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
         <div className={styles.topbar}>
-          <span className={styles.brandKicker}>Recall · six minutes, not homework</span>
-          {retentionStat}
+          {brandKicker}
+          {rightStat}
         </div>
         <main className={styles.center}>
           <div className={styles.shell}>
@@ -172,8 +214,8 @@ export function ReviewSession({
     <div className={styles.stage}>
       <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
       <div className={styles.topbar}>
-        <span className={styles.brandKicker}>Recall · six minutes, not homework</span>
-        {retentionStat}
+        {brandKicker}
+        {rightStat}
       </div>
 
       <main className={styles.center}>
@@ -247,9 +289,7 @@ export function ReviewSession({
                     </button>
                   ))}
                 </div>
-                <p className={styles.foot}>
-                  FSRS reschedules each card at 90% target retention — the science of not forgetting.
-                </p>
+                <p className={styles.foot}>{FOOTER_COPY[variant]}</p>
               </div>
             )}
           </div>

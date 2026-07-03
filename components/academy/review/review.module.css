@@ -45,6 +45,22 @@
   font-size: 10.5px;
   color: var(--green);
 }
+/* Daily Rep streak pill — gold "at stake" / dimmed when shielded. */
+.streakPill {
+  margin-left: auto;
+  padding: 5px 12px;
+  border: 1px solid color-mix(in oklab, var(--gold, #e0a93e) 40%, transparent);
+  border-radius: 999px;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--gold, #e0a93e);
+  white-space: nowrap;
+}
+.streakPill[data-shielded='true'] {
+  color: var(--green, #18b663);
+  border-color: color-mix(in oklab, var(--green, #18b663) 35%, transparent);
+}
 
 /* ── centered flashcard column ────────────────────────────────────────── */
 .center {

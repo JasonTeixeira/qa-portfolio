@@ -69,3 +69,4 @@ infra/**/dist/
 # Override the global gitignore `build/` rule that was swallowing them.
 !app/academy/build/
 !components/academy/build/
+design-source/sage-academy/

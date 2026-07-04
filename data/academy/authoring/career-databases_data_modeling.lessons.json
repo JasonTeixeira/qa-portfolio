@@ -115,6 +115,94 @@
           "tone": "muted",
           "label": "in view, out of scope this decision"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The app writes catalog changes into Postgres Primary, the one source of truth every other store copies from.",
+          "nodes": [
+            "app",
+            "primary"
+          ],
+          "edges": [
+            [
+              "app",
+              "primary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Postgres streams its write-ahead log to a read replica, giving you a scale-out copy for read traffic.",
+          "nodes": [
+            "primary",
+            "replica"
+          ],
+          "edges": [
+            [
+              "primary",
+              "replica"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A nightly ETL job also loads Postgres into the columnar warehouse, sized for analytics, not live reads.",
+          "nodes": [
+            "primary",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "primary",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Change data capture feeds the search index, but this edge lags - the index trails the source of truth.",
+          "nodes": [
+            "primary",
+            "search"
+          ],
+          "edges": [
+            [
+              "primary",
+              "search"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Yet the app queries that lagging search index directly, so users can read catalog data that is already stale.",
+          "nodes": [
+            "app",
+            "search"
+          ],
+          "edges": [
+            [
+              "app",
+              "search"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So 'just put it in the database' is meaningless - the real question is which store, and how stale it's allowed to be.",
+          "nodes": [
+            "primary",
+            "search",
+            "warehouse",
+            "replica"
+          ],
+          "edges": [
+            [
+              "primary",
+              "search"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -379,6 +467,116 @@
         {
           "tone": "warning",
           "label": "what happens when the FK is missing"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Four entities live on the order path. Each stores rows about one kind of thing, and a primary key names each row uniquely.",
+          "nodes": [
+            "customer",
+            "order",
+            "orderitem",
+            "product"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "A customer places many orders. That one-to-many link is a foreign key on Order pointing back at the customer's primary key.",
+          "nodes": [
+            "customer",
+            "order"
+          ],
+          "edges": [
+            [
+              "customer",
+              "order"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "An order splits into many line items, and each product appears across many line items. OrderItem is the join table resolving that many-to-many.",
+          "nodes": [
+            "order",
+            "orderitem",
+            "product"
+          ],
+          "edges": [
+            [
+              "order",
+              "orderitem"
+            ],
+            [
+              "product",
+              "orderitem"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the suspect edge. Order references a customer, but no foreign key was ever declared to enforce it.",
+          "nodes": [
+            "order",
+            "orphan"
+          ],
+          "edges": [
+            [
+              "order",
+              "orphan"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Customer 8842 was deleted last quarter. With no constraint, the database kept the order pointing at a customer that no longer exists.",
+          "nodes": [
+            "order",
+            "orphan",
+            "customer"
+          ],
+          "edges": [
+            [
+              "order",
+              "orphan"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the revenue report sums orphaned orders, and finance cannot reconcile the numbers against real customers.",
+          "nodes": [
+            "orphan",
+            "order"
+          ],
+          "edges": [
+            [
+              "order",
+              "orphan"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant is referential integrity: no foreign key may point at a row that does not exist. A declared constraint enforces it.",
+          "nodes": [
+            "customer",
+            "order",
+            "orderitem",
+            "product",
+            "orphan"
+          ],
+          "edges": [
+            [
+              "customer",
+              "order"
+            ],
+            [
+              "order",
+              "orphan"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -671,6 +869,109 @@
         {
           "tone": "success",
           "label": "the repair: one fact, one home"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a single edit: a customer changes their email, and the write lands on just one copy of that fact.",
+          "nodes": [
+            "write",
+            "dup"
+          ],
+          "edges": [
+            [
+              "write",
+              "dup"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The email lived in two tables. You updated one; every other copy silently drifts out of date.",
+          "nodes": [
+            "dup",
+            "anomaly"
+          ],
+          "edges": [
+            [
+              "dup",
+              "anomaly"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the update anomaly: the same fact, stored twice, now holds two different values at once.",
+          "nodes": [
+            "anomaly",
+            "twotruths"
+          ],
+          "edges": [
+            [
+              "anomaly",
+              "twotruths"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Two reads, two answers. The database can no longer tell you which email is true.",
+          "nodes": [
+            "twotruths"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The repair sends that same write down a different path: normalize the email onto its one owning entity.",
+          "nodes": [
+            "write",
+            "norm"
+          ],
+          "edges": [
+            [
+              "write",
+              "norm"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The order no longer stores its own copy. It holds a foreign key, referencing the one place the email lives.",
+          "nodes": [
+            "norm",
+            "join"
+          ],
+          "edges": [
+            [
+              "norm",
+              "join"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "You join on read to reassemble the fact, and it is always current, because there is only one copy to update.",
+          "nodes": [
+            "join",
+            "onetruth"
+          ],
+          "edges": [
+            [
+              "join",
+              "onetruth"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "One fact, one home. That invariant is the whole point: an update can no longer create two truths.",
+          "nodes": [
+            "onetruth",
+            "twotruths"
+          ],
+          "edges": [],
+          "ms": 4200
         }
       ]
     },
@@ -992,6 +1293,130 @@
           "tone": "success",
           "label": "invariant holds, atomically"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Two writers hit the same instant: both ask the app 'is this email taken?' before acting.",
+          "nodes": [
+            "w1",
+            "w2",
+            "appcheck"
+          ],
+          "edges": [
+            [
+              "w1",
+              "appcheck"
+            ],
+            [
+              "w2",
+              "appcheck"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Check-then-act has a gap. Both see 'free', because neither has written yet, so both proceed.",
+          "nodes": [
+            "appcheck",
+            "dup"
+          ],
+          "edges": [
+            [
+              "appcheck",
+              "dup"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On the app-only path both inserts land — a duplicate row, two accounts billing will fight over for a year.",
+          "nodes": [
+            "dup"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Now the constraint path: the same two writers each issue an INSERT straight at the database.",
+          "nodes": [
+            "w1",
+            "w2",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "w1",
+              "constraint"
+            ],
+            [
+              "w2",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The UNIQUE constraint is an invariant. The first write commits into Postgres as truth.",
+          "nodes": [
+            "constraint",
+            "truth"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "truth"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The second write breaks the rule, so the engine rejects it with 23505 — inside the same transaction, no app cooperation.",
+          "nodes": [
+            "constraint",
+            "reject"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "reject"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Even schema changes are guarded: a migration that fails midway triggers rollback, restoring the last-known-true schema.",
+          "nodes": [
+            "migfail",
+            "rollback",
+            "truth"
+          ],
+          "edges": [
+            [
+              "migfail",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "truth"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Name the rule that must always hold, express it as a constraint. App checks advise; constraints guarantee.",
+          "nodes": [
+            "appcheck",
+            "constraint",
+            "truth"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "truth"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -1287,6 +1712,112 @@
         {
           "tone": "accent",
           "label": "the query and the planner that judges it"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A query hits the orders page and lands at the planner — same code that returned 10,000 rows in 40ms now faces 4 million.",
+          "nodes": [
+            "query",
+            "planner"
+          ],
+          "edges": [
+            [
+              "query",
+              "planner"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The planner's whole job is one choice: given this query, which index actually matches how it narrows and sorts?",
+          "nodes": [
+            "planner",
+            "badidx",
+            "goodidx"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Someone added idx(created_at, tenant_id) — but its leading column isn't how this query filters, so there's no usable left prefix.",
+          "nodes": [
+            "planner",
+            "badidx"
+          ],
+          "edges": [
+            [
+              "planner",
+              "badidx"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "With no matching prefix, the planner falls back to a full Seq Scan plus a Sort — the 9-second path.",
+          "nodes": [
+            "badidx",
+            "seqscan",
+            "table"
+          ],
+          "edges": [
+            [
+              "badidx",
+              "seqscan"
+            ],
+            [
+              "seqscan",
+              "table"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The other index leads with the equality filter, then the ORDER BY column — a clean left-prefix match.",
+          "nodes": [
+            "planner",
+            "goodidx"
+          ],
+          "edges": [
+            [
+              "planner",
+              "goodidx"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That match drives an Index Scan that walks a pre-sorted slice and stops at LIMIT — fetching just 20 rows.",
+          "nodes": [
+            "goodidx",
+            "idxscan",
+            "table"
+          ],
+          "edges": [
+            [
+              "goodidx",
+              "idxscan"
+            ],
+            [
+              "idxscan",
+              "table"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: order composite columns equality-first, then ORDER BY, then range — the left prefix must match how the query reads.",
+          "nodes": [
+            "goodidx",
+            "idxscan"
+          ],
+          "edges": [
+            [
+              "planner",
+              "goodidx"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -1600,6 +2131,111 @@
           "tone": "success",
           "label": "correct grain, correct total"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start here: one order and its line items. The dashboard reports $4.2M, but the ledger says $1.4M — and nobody touched the numbers.",
+          "nodes": [
+            "orders",
+            "items"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Someone added a JOIN. One order row meets three line-item rows — that's a one-to-many relationship waiting to multiply.",
+          "nodes": [
+            "orders",
+            "items",
+            "naive"
+          ],
+          "edges": [
+            [
+              "orders",
+              "naive"
+            ],
+            [
+              "items",
+              "naive"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The join changes the grain. One order becomes three rows in the result — the parent now inherits the child's grain.",
+          "nodes": [
+            "naive",
+            "fanout"
+          ],
+          "edges": [
+            [
+              "naive",
+              "fanout"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now SUM order_total runs over the fanned-out rows and triple-counts. That's the failure path — and the query still returns green.",
+          "nodes": [
+            "fanout",
+            "badsum"
+          ],
+          "edges": [
+            [
+              "fanout",
+              "badsum"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair: roll line_items up to order grain first, so each order collapses back to a single row before it ever meets the parent.",
+          "nodes": [
+            "items",
+            "preagg"
+          ],
+          "edges": [
+            [
+              "items",
+              "preagg"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now join at order grain — one order row meets one pre-aggregated row per order. The fan-out never happens.",
+          "nodes": [
+            "orders",
+            "preagg",
+            "goodjoin"
+          ],
+          "edges": [
+            [
+              "orders",
+              "goodjoin"
+            ],
+            [
+              "preagg",
+              "goodjoin"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "SUM order_total over the correct grain returns the true $1.4M. The invariant: aggregate the child first, then join.",
+          "nodes": [
+            "goodjoin",
+            "goodsum"
+          ],
+          "edges": [
+            [
+              "goodjoin",
+              "goodsum"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1903,6 +2539,115 @@
           "tone": "warning",
           "label": "ROLLBACK — every write is discarded together"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A client asks to move $500 between accounts. That single request is really two writes, and it opens a transaction.",
+          "nodes": [
+            "client",
+            "begin"
+          ],
+          "edges": [
+            [
+              "client",
+              "begin"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "BEGIN wraps everything that follows into one unit. Stage one debits Account A by $500.",
+          "nodes": [
+            "begin",
+            "debit"
+          ],
+          "edges": [
+            [
+              "begin",
+              "debit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "This is the danger point. Between the debit and the credit, the process could die from a deploy, deadlock, or network blip.",
+          "nodes": [
+            "debit",
+            "fault"
+          ],
+          "edges": [
+            [
+              "debit",
+              "fault"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If a fault strikes here, we route to ROLLBACK, which restores the exact pre-transaction state as if BEGIN never happened.",
+          "nodes": [
+            "fault",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "fault",
+              "rollback"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "With no fault, we proceed and stage the matching credit: Account B gains $500. Both writes are now staged but not yet durable.",
+          "nodes": [
+            "fault",
+            "credit"
+          ],
+          "edges": [
+            [
+              "fault",
+              "credit"
+            ],
+            [
+              "credit",
+              "commit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only a clean COMMIT makes both writes durable at once. This is the all-or-nothing gate.",
+          "nodes": [
+            "commit",
+            "credit"
+          ],
+          "edges": [
+            [
+              "credit",
+              "commit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The ledger ends in one of two honest states: ALL writes landed, or NONE did. The torn middle is never observable.",
+          "nodes": [
+            "commit",
+            "rollback",
+            "store"
+          ],
+          "edges": [
+            [
+              "commit",
+              "store"
+            ],
+            [
+              "rollback",
+              "store"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2187,6 +2932,109 @@
         {
           "tone": "success",
           "label": "the guard: lock serializes the gap"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Two customers buy the last ticket at once. T1 opens a transaction and reads the quantity, seeing exactly one in stock.",
+          "nodes": [
+            "t1read"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "In the same instant, T2 also reads the row. Under READ COMMITTED it sees one too, because T1 hasn't committed yet.",
+          "nodes": [
+            "t2read"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "T1 finishes its read-modify-write, subtracting one and writing quantity equals zero, then commits.",
+          "nodes": [
+            "t1read",
+            "t1write"
+          ],
+          "edges": [
+            [
+              "t1read",
+              "t1write"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "T2, still holding its stale read of one, does the same math and writes zero — overwriting T1's result blindly.",
+          "nodes": [
+            "t2read",
+            "t2write"
+          ],
+          "edges": [
+            [
+              "t2read",
+              "t2write"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both writes land on zero, but two tickets were sold to one seat. No error fired — this is the silent lost update.",
+          "nodes": [
+            "t1write",
+            "t2write",
+            "lost"
+          ],
+          "edges": [
+            [
+              "t1write",
+              "lost"
+            ],
+            [
+              "t2write",
+              "lost"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The guard cuts it here: SELECT FOR UPDATE or SERIALIZABLE makes T1's read acquire a lock on the row.",
+          "nodes": [
+            "t1read",
+            "guard"
+          ],
+          "edges": [
+            [
+              "t1read",
+              "guard"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "T2 can't read past the lock. It waits for T1 to commit, then re-reads quantity equals zero and is correctly refused.",
+          "nodes": [
+            "guard",
+            "safe"
+          ],
+          "edges": [
+            [
+              "guard",
+              "safe"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: pick the weakest isolation or narrowest lock that still forbids the anomaly your invariant depends on.",
+          "nodes": [
+            "guard",
+            "safe",
+            "lost"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -2496,6 +3344,114 @@
           "tone": "warning",
           "label": "the destructive shortcut and its blast radius"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "We start with the old schema: thousands of live rows and a running app already depend on this column named email.",
+          "nodes": [
+            "old"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Phase one, expand: add the new contact_email column alongside the old one. Nothing breaks yet, and this step is fully reversible.",
+          "nodes": [
+            "old",
+            "expand"
+          ],
+          "edges": [
+            [
+              "old",
+              "expand"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Phase two, backfill: copy data into the new column in small batches, so no single statement locks all eighty million rows.",
+          "nodes": [
+            "expand",
+            "backfill"
+          ],
+          "edges": [
+            [
+              "expand",
+              "backfill"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Phase three, constrain: only once every row is filled do we add the NOT NULL, validating the new shape without a long lock.",
+          "nodes": [
+            "backfill",
+            "constrain"
+          ],
+          "edges": [
+            [
+              "backfill",
+              "constrain"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Phase four, contract: after the app cuts over and stops reading the old column, we finally drop it. Safe because nothing depends on it.",
+          "nodes": [
+            "constrain",
+            "contract"
+          ],
+          "edges": [
+            [
+              "constrain",
+              "contract"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant that makes this safe: every phase is reversible. At any point we can roll back without stranding a single row.",
+          "nodes": [
+            "expand",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "expand",
+              "rollback"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The shortcut skips all of that: one destructive ALTER against the live table at 2 a.m., because the column looked trivial.",
+          "nodes": [
+            "old",
+            "destructive"
+          ],
+          "edges": [
+            [
+              "old",
+              "destructive"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And that single ALTER takes a full table lock: every checkout write blocks for eleven minutes and the old data is stranded. That's the failure this packet prevents.",
+          "nodes": [
+            "destructive",
+            "outage"
+          ],
+          "edges": [
+            [
+              "destructive",
+              "outage"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -2776,6 +3732,113 @@
         {
           "tone": "warning",
           "label": "failure path: stale stats → wrong scan"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts when a SQL query arrives and hands itself to the query planner, whose job is to parse it and decide how to fetch the data.",
+          "nodes": [
+            "sql",
+            "planner"
+          ],
+          "edges": [
+            [
+              "sql",
+              "planner"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The planner doesn't guess blindly — it pulls table statistics to estimate how many rows each step will touch.",
+          "nodes": [
+            "stats",
+            "planner"
+          ],
+          "edges": [
+            [
+              "stats",
+              "planner"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the query is unselective and hits most of the table, the planner picks a sequential scan, reading every row of a giant table.",
+          "nodes": [
+            "planner",
+            "seqscan"
+          ],
+          "edges": [
+            [
+              "planner",
+              "seqscan"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When selectivity is high and only a few rows match, it chooses an index scan — the fast path that jumps straight to the data.",
+          "nodes": [
+            "planner",
+            "idxscan"
+          ],
+          "edges": [
+            [
+              "planner",
+              "idxscan"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Either scan produces the same rows, but EXPLAIN ANALYZE reports the actual rows and time each path really cost.",
+          "nodes": [
+            "seqscan",
+            "idxscan",
+            "result"
+          ],
+          "edges": [
+            [
+              "seqscan",
+              "result"
+            ],
+            [
+              "idxscan",
+              "result"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the failure: stale statistics make the planner mis-estimate rows and choose the wrong scan — 40 milliseconds becomes 9 seconds.",
+          "nodes": [
+            "stats",
+            "planner",
+            "seqscan"
+          ],
+          "edges": [
+            [
+              "stats",
+              "planner"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: when estimated and actual rows diverge wildly, the planner is flying blind — fix the stats, not the schema.",
+          "nodes": [
+            "stats",
+            "planner",
+            "result"
+          ],
+          "edges": [
+            [
+              "stats",
+              "planner"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3070,6 +4133,167 @@
         {
           "tone": "muted",
           "label": "out of scope — its own read path"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Three callers all need the same orders table: the API reads and writes, checkout saves inside a transaction, and a background job queries by status.",
+          "nodes": [
+            "api",
+            "checkout",
+            "jobs",
+            "repo"
+          ],
+          "edges": [
+            [
+              "api",
+              "repo"
+            ],
+            [
+              "checkout",
+              "repo"
+            ],
+            [
+              "jobs",
+              "repo"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "None of them touch the table directly. They all go through one door: the OrderRepository interface, calling findById, save, and findByStatus.",
+          "nodes": [
+            "repo",
+            "api",
+            "checkout",
+            "jobs"
+          ],
+          "edges": [
+            [
+              "api",
+              "repo"
+            ],
+            [
+              "checkout",
+              "repo"
+            ],
+            [
+              "jobs",
+              "repo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Behind that interface, the repository delegates to the SQL and mapping layer, which turns intent into parameterized queries against Postgres.",
+          "nodes": [
+            "repo",
+            "sql",
+            "pg"
+          ],
+          "edges": [
+            [
+              "repo",
+              "sql"
+            ],
+            [
+              "sql",
+              "pg"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Every SELECT, every index assumption, every column name lives here, on one side of the seam. Callers get domain objects back, never raw rows.",
+          "nodes": [
+            "sql",
+            "pg",
+            "repo"
+          ],
+          "edges": [
+            [
+              "sql",
+              "pg"
+            ],
+            [
+              "repo",
+              "sql"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now rename orders.total to total_cents. Without this seam, forty-seven hand-written queries break across three services.",
+          "nodes": [
+            "api",
+            "checkout",
+            "jobs",
+            "pg"
+          ],
+          "edges": [
+            [
+              "sql",
+              "pg"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "With the seam, the change is local: edit the SQL and mapping behind the interface, ship, and the diff touches a single file.",
+          "nodes": [
+            "sql",
+            "repo",
+            "pg"
+          ],
+          "edges": [
+            [
+              "repo",
+              "sql"
+            ],
+            [
+              "sql",
+              "pg"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Reporting is deliberately outside the door: it reads Postgres through its own model, bypassing the repository entirely.",
+          "nodes": [
+            "report",
+            "pg"
+          ],
+          "edges": [
+            [
+              "report",
+              "pg"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant holds: callers depend on the interface, never the schema. Change the table, the index, the SQL, and callers never know.",
+          "nodes": [
+            "repo",
+            "api",
+            "checkout",
+            "jobs"
+          ],
+          "edges": [
+            [
+              "api",
+              "repo"
+            ],
+            [
+              "checkout",
+              "repo"
+            ],
+            [
+              "jobs",
+              "repo"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3493,6 +4717,130 @@
           "tone": "success",
           "label": "repair path — deterministic known state"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every test run starts from an empty schema, then the seed loads the controlled data the whole suite depends on.",
+          "nodes": [
+            "empty",
+            "seed"
+          ],
+          "edges": [
+            [
+              "empty",
+              "seed"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "After seeding, the database has to commit — but only if every constraint holds: unique keys, foreign keys, all of it.",
+          "nodes": [
+            "seed",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "seed",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path: NOW() drifts, a duplicate key collides, or a child row references a parent that was never seeded — the seed fails.",
+          "nodes": [
+            "constraint",
+            "fail"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "fail"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "You repair the seed by pinning the clock, using ON CONFLICT for idempotency, and inserting parents before children.",
+          "nodes": [
+            "fail",
+            "seed"
+          ],
+          "edges": [
+            [
+              "fail",
+              "seed"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "With constraints satisfied, the seed commits into a known, controlled state — the same rows every single run.",
+          "nodes": [
+            "constraint",
+            "known"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "known"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only now does the test read from that known state and assert — because the data underneath it is guaranteed, not accidental.",
+          "nodes": [
+            "known",
+            "test"
+          ],
+          "edges": [
+            [
+              "known",
+              "test"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "After each test, teardown runs and resets the schema back to empty — re-loadable, so the next run starts identical.",
+          "nodes": [
+            "test",
+            "teardown",
+            "empty"
+          ],
+          "edges": [
+            [
+              "test",
+              "teardown"
+            ],
+            [
+              "teardown",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That loop is the invariant: load twice, get the same state; tear down, get empty — or the downstream test is a coin flip.",
+          "nodes": [
+            "empty",
+            "seed",
+            "known"
+          ],
+          "edges": [
+            [
+              "empty",
+              "seed"
+            ],
+            [
+              "constraint",
+              "known"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3782,6 +5130,101 @@
         {
           "tone": "success",
           "label": "promote only on PASS"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every record starts here: an external source drops raw orders into a staging load before anything touches the trusted table.",
+          "nodes": [
+            "source",
+            "staging"
+          ],
+          "edges": [
+            [
+              "source",
+              "staging"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Between staging and the table sits the quality gate — the one place where we assert the invariants that must always hold.",
+          "nodes": [
+            "staging",
+            "checks"
+          ],
+          "edges": [
+            [
+              "staging",
+              "checks"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant here: order_ids must be unique. We write a query that returns the rows that violate it, and assert that set is empty.",
+          "nodes": [
+            "checks"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "If nothing violates the rule, the gate passes and promotes the batch into the trusted Orders Table.",
+          "nodes": [
+            "checks",
+            "table"
+          ],
+          "edges": [
+            [
+              "checks",
+              "table"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "If duplicates show up, the gate fails loudly and quarantines the batch — bad rows never reach production.",
+          "nodes": [
+            "checks",
+            "silent"
+          ],
+          "edges": [
+            [
+              "checks",
+              "silent"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only promoted rows feed the dashboard, so the numbers finance trusts rest on an invariant that was actually enforced.",
+          "nodes": [
+            "table",
+            "dashboard"
+          ],
+          "edges": [
+            [
+              "table",
+              "dashboard"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Skip the gate and corruption leaks straight through — silent duplicates inflating revenue until someone trusts a number that was never checked.",
+          "nodes": [
+            "silent",
+            "dashboard",
+            "checks"
+          ],
+          "edges": [
+            [
+              "silent",
+              "dashboard"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4084,6 +5527,115 @@
           "tone": "muted",
           "label": "retention — expire safely, never below RPO"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The live primary is the source of truth. Everything on this map exists so a destructive migration against it stays reversible.",
+          "nodes": [
+            "primary"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Two streams leave the primary: a nightly base backup dumps the whole database, and the WAL archive ships every change continuously.",
+          "nodes": [
+            "primary",
+            "basebackup",
+            "wal"
+          ],
+          "edges": [
+            [
+              "primary",
+              "basebackup"
+            ],
+            [
+              "primary",
+              "wal"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both streams write into the backup store. Base plus WAL is what gives you point-in-time recovery, not just last night.",
+          "nodes": [
+            "basebackup",
+            "wal",
+            "store"
+          ],
+          "edges": [
+            [
+              "basebackup",
+              "store"
+            ],
+            [
+              "wal",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the decision that saves you: a restore drill pulls from the store and rebuilds it to scratch, never onto the live primary.",
+          "nodes": [
+            "store",
+            "drill"
+          ],
+          "edges": [
+            [
+              "store",
+              "drill"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The drill is what catches a corrupt or zero-byte dump before the incident, instead of at 2 a.m. with the rollback already failed.",
+          "nodes": [
+            "drill",
+            "corrupt"
+          ],
+          "edges": [
+            [
+              "drill",
+              "corrupt"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "A retention sweep expires old backups but keeps your defended window, so the store stays bounded and the RPO stays honest.",
+          "nodes": [
+            "store",
+            "retention"
+          ],
+          "edges": [
+            [
+              "store",
+              "retention"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: the restore is the deliverable, never the dump. A backup you have never restored is a file, not a safety net.",
+          "nodes": [
+            "drill",
+            "store",
+            "corrupt"
+          ],
+          "edges": [
+            [
+              "store",
+              "drill"
+            ],
+            [
+              "drill",
+              "corrupt"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -4372,6 +5924,116 @@
           "tone": "muted",
           "label": "convenience / out of scope"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A single client sends two very different requests to the same door: read my data, and erase my data. Both land on the App Service.",
+          "nodes": [
+            "client",
+            "app"
+          ],
+          "edges": [
+            [
+              "client",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The app does an access check in code, then queries the database. But it never touches the table directly — it acts through the app_rw role.",
+          "nodes": [
+            "app",
+            "role"
+          ],
+          "edges": [
+            [
+              "app",
+              "role"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The real, enforced control lives here: an RLS policy under a least-privilege role filters rows at the store, no matter what the app intended.",
+          "nodes": [
+            "role",
+            "users"
+          ],
+          "edges": [
+            [
+              "role",
+              "users"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Prove it: even if the app tries to bypass its own check and hit the table, the database still blocks the rows it isn't allowed to see.",
+          "nodes": [
+            "app",
+            "users"
+          ],
+          "edges": [
+            [
+              "app",
+              "users"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now erasure gets hard. The users table isn't alone — every row streams out to an analytics replica the DELETE must also reach.",
+          "nodes": [
+            "users",
+            "replica"
+          ],
+          "edges": [
+            [
+              "users",
+              "replica"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And every row is captured in backup snapshots. A deleted user can survive here and get restored by a nightly job forty days later.",
+          "nodes": [
+            "users",
+            "backup"
+          ],
+          "edges": [
+            [
+              "users",
+              "backup"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: privacy is an invariant the schema holds under bypass and replication — enforced at the store, and erasure must cover replica and backup too.",
+          "nodes": [
+            "users",
+            "role",
+            "replica",
+            "backup"
+          ],
+          "edges": [
+            [
+              "role",
+              "users"
+            ],
+            [
+              "users",
+              "replica"
+            ],
+            [
+              "users",
+              "backup"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -4657,6 +6319,115 @@
         {
           "tone": "warning",
           "label": "the failure path: stale served as authoritative"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the entry point: the dashboard reads the 'Total Revenue' tile straight from the read model, never the raw tables.",
+          "nodes": [
+            "client",
+            "readmodel"
+          ],
+          "edges": [
+            [
+              "client",
+              "readmodel"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The read model is a precomputed, query-shaped copy — that's why it loads in 40 ms instead of aggregating orders live.",
+          "nodes": [
+            "readmodel"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Meanwhile the Orders Service writes to Postgres, which stays the single source of truth for every refund and chargeback.",
+          "nodes": [
+            "writer",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "writer",
+              "postgres"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On commit the writer emits an invalidation event that re-derives the read model — this is the repair path that heals the cache.",
+          "nodes": [
+            "writer",
+            "invalidator",
+            "readmodel"
+          ],
+          "edges": [
+            [
+              "writer",
+              "invalidator"
+            ],
+            [
+              "invalidator",
+              "readmodel"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here's the failure: read the model before the rebuild lands and you serve a stale number as if it were authoritative.",
+          "nodes": [
+            "readmodel",
+            "stale"
+          ],
+          "edges": [
+            [
+              "readmodel",
+              "stale"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That's the $2.1M bug — six hours stale because nobody wrote down how long the cache was allowed to lie.",
+          "nodes": [
+            "stale",
+            "client"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant closes the loop: the read model must always reconcile back to Postgres — lag is fine, contradiction is not.",
+          "nodes": [
+            "postgres",
+            "readmodel"
+          ],
+          "edges": [
+            [
+              "postgres",
+              "readmodel"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So write down two things: how stale a served row may be, and what re-derives it — an event or a TTL.",
+          "nodes": [
+            "invalidator",
+            "readmodel",
+            "stale"
+          ],
+          "edges": [
+            [
+              "invalidator",
+              "readmodel"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -4947,6 +6718,112 @@
         {
           "tone": "warning",
           "label": "the two failure paths the boundary forbids"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the checkout app, which commits an ACID write into the Orders database — the operational store that must stay correct under load.",
+          "nodes": [
+            "app",
+            "oltp"
+          ],
+          "edges": [
+            [
+              "app",
+              "oltp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A change-data-capture pipeline tails the OLTP change stream, picking up every committed row without touching the live tables.",
+          "nodes": [
+            "oltp",
+            "cdc"
+          ],
+          "edges": [
+            [
+              "oltp",
+              "cdc"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The sync loads that data one direction only into the warehouse — a denormalized, eventually-consistent copy built for questions, not transactions.",
+          "nodes": [
+            "cdc",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "cdc",
+              "warehouse"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This is the boundary contract: truth flows source to warehouse and the warehouse NEVER writes back, so analytics can never corrupt operational truth.",
+          "nodes": [
+            "warehouse",
+            "oltp"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "oltp"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On the read side, the BI dashboard queries only the warehouse, keeping every heavy analytical scan far from the checkout path.",
+          "nodes": [
+            "dashboard",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "dashboard",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path: an analyst runs one innocent full scan straight against the OLTP store, locking rows until checkout latency spikes to nine seconds.",
+          "nodes": [
+            "analyst",
+            "oltp"
+          ],
+          "edges": [
+            [
+              "analyst",
+              "oltp"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: a missing boundary let analytics take down the transactional system — enforce the one-way seam and the outage disappears.",
+          "nodes": [
+            "cdc",
+            "warehouse",
+            "analyst",
+            "oltp"
+          ],
+          "edges": [
+            [
+              "cdc",
+              "warehouse"
+            ],
+            [
+              "analyst",
+              "oltp"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -5241,6 +7118,124 @@
         {
           "tone": "muted",
           "label": "the instrumentation gap to close next"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "2:14 a.m.: checkout's p99 blows past its SLO, from 200ms to 9 seconds. That breach is where diagnosis starts.",
+          "nodes": [
+            "slo"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The SLO breach fires an alert into the metric layer, which anchors the pain to a number instead of a hunch.",
+          "nodes": [
+            "slo",
+            "metric"
+          ],
+          "edges": [
+            [
+              "slo",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The metric only says slow, not why. It points down to the log and trace layer, naming one slow statement.",
+          "nodes": [
+            "metric",
+            "log"
+          ],
+          "edges": [
+            [
+              "metric",
+              "log"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The on-call pulls that one slow-query log line and runs EXPLAIN against it, dropping into the query-plan layer.",
+          "nodes": [
+            "log",
+            "plan"
+          ],
+          "edges": [
+            [
+              "log",
+              "plan"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The plan confirms WHY: last night's migration dropped an index, so the engine is now eating a full seq-scan.",
+          "nodes": [
+            "plan",
+            "cause"
+          ],
+          "edges": [
+            [
+              "plan",
+              "cause"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Root cause named, the rollback trigger is met, so the migration reverts instead of engineers guessing at read replicas.",
+          "nodes": [
+            "cause",
+            "stop"
+          ],
+          "edges": [
+            [
+              "cause",
+              "stop"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The same cause exposes the instrumentation gap, an alert we should have had, so the next silent index drop screams early.",
+          "nodes": [
+            "cause",
+            "gap"
+          ],
+          "edges": [
+            [
+              "cause",
+              "gap"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every claim traces to evidence across three layers, metric points, log explains, plan confirms. Miss one and you are guessing.",
+          "nodes": [
+            "metric",
+            "log",
+            "plan",
+            "cause"
+          ],
+          "edges": [
+            [
+              "metric",
+              "log"
+            ],
+            [
+              "log",
+              "plan"
+            ],
+            [
+              "plan",
+              "cause"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -5562,6 +7557,123 @@
         {
           "tone": "muted",
           "label": "kept out on purpose (privacy boundary)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Before touching the live orders table, take a snapshot. That backup is the way back nobody wrote at 5 p.m. on Friday.",
+          "nodes": [
+            "backup",
+            "txn"
+          ],
+          "edges": [
+            [
+              "backup",
+              "txn"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The change runs inside one transaction, so nothing partial ever lands. A privacy boundary bounds what data the migration can even see.",
+          "nodes": [
+            "txn",
+            "privacy"
+          ],
+          "edges": [
+            [
+              "privacy",
+              "txn"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "First proof: check the constraint that protects truth. This is the decision point that sends us forward or into repair.",
+          "nodes": [
+            "txn",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "txn",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On pass, compare the query plan before and after to prove the index actually improved how orders filter by status.",
+          "nodes": [
+            "constraint",
+            "plan"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "plan"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Third proof: a data-quality check that row counts match. Only then does the transaction commit as the source of truth.",
+          "nodes": [
+            "plan",
+            "quality",
+            "commit"
+          ],
+          "edges": [
+            [
+              "plan",
+              "quality"
+            ],
+            [
+              "quality",
+              "commit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "If the constraint is violated, run the rollback script instead of committing broken schema onto the live table.",
+          "nodes": [
+            "constraint",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "rollback"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The rollback restores from the snapshot, returning the schema to its prior state. The change is fully reversible.",
+          "nodes": [
+            "rollback",
+            "backup"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "backup"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: welded together, backups, transactions, constraints, plans, and quality checks turn a risky migration into a controlled, reversible change.",
+          "nodes": [
+            "backup",
+            "txn",
+            "constraint",
+            "commit",
+            "rollback"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -5900,6 +8012,131 @@
         {
           "tone": "warning",
           "label": "failure (lock storm) and the reversal doors (rollback)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with the data model. Every change begins here, and from it we derive the one integrity invariant we can never violate.",
+          "nodes": [
+            "model",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "model",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The constraint must hold across the whole change. Unique on org_id and email is the truth the migration has to preserve, not break.",
+          "nodes": [
+            "constraint",
+            "migration"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "migration"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The migration applies DDL to Postgres. This is the trigger: the schema is moving forward while every signup is still hitting the table.",
+          "nodes": [
+            "migration",
+            "store"
+          ],
+          "edges": [
+            [
+              "migration",
+              "store"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The naive path is the trap. A plain unique index takes an exclusive lock, and nine minutes in, every signup times out in a lock storm.",
+          "nodes": [
+            "migration",
+            "lock"
+          ],
+          "edges": [
+            [
+              "migration",
+              "lock"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair is CREATE INDEX CONCURRENTLY plus a backfill, building the index without freezing writes. The safe path skips the storm entirely.",
+          "nodes": [
+            "lock",
+            "index",
+            "migration"
+          ],
+          "edges": [
+            [
+              "lock",
+              "index"
+            ],
+            [
+              "migration",
+              "index"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The index enables the query plan. Compare plans before and after: that's your proof the new path is actually used, not just present.",
+          "nodes": [
+            "index",
+            "plan"
+          ],
+          "edges": [
+            [
+              "index",
+              "plan"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Reversibility is the other half. The migration is paired with a tested rollback that restores the prior schema; the backup and PITR catch what rollback can't.",
+          "nodes": [
+            "migration",
+            "rollback",
+            "store",
+            "backup"
+          ],
+          "edges": [
+            [
+              "migration",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "store"
+            ],
+            [
+              "backup",
+              "store"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The insight: invariant plus reversibility plus proof, never one alone. That packet is what survives change, load, and bad input.",
+          "nodes": [
+            "constraint",
+            "rollback",
+            "plan"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },

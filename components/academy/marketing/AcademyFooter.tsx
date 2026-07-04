@@ -24,7 +24,17 @@ export function AcademyFooter({
   tagline = 'learn by building · proof over paper',
 }: AcademyFooterProps) {
   return (
-    <footer style={{ borderTop: '1px solid #1E1E24' }}>
+    <>
+      {/* Focus-visible ring for footer nav links. Inline styles cannot
+          express :focus-visible; this scoped rule satisfies SC 2.4.11. */}
+      <style>{`
+        footer nav[aria-label="Academy footer"] a:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+      `}</style>
+      <footer style={{ borderTop: '1px solid #1E1E24' }}>
       <div
         style={{
           maxWidth: 1240,
@@ -72,5 +82,6 @@ export function AcademyFooter({
         </span>
       </div>
     </footer>
+    </>
   )
 }

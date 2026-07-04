@@ -144,9 +144,20 @@ export default function ProofNotPaperPage() {
         overflowX: 'hidden',
       }}
     >
+      {/* Focus-visible ring for article links. Inline styles cannot express
+          :focus-visible; this scoped rule satisfies SC 2.4.11. */}
+      <style>{`
+        main a:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+      `}</style>
+
       {/* Nav */}
       <AcademyNav />
 
+      <main>
       <article
         style={{
           maxWidth: 820,
@@ -578,6 +589,7 @@ export default function ProofNotPaperPage() {
           </Link>
         </div>
       </article>
+      </main>
 
       <AcademyFooter tagline="forget the certificate → ship the proof" />
     </div>

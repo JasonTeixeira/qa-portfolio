@@ -41,10 +41,21 @@ export default function AboutPage() {
         overflowX: 'hidden',
       }}
     >
+      {/* Focus-visible ring for article links. Inline styles cannot express
+          :focus-visible; this scoped rule satisfies SC 2.4.11. */}
+      <style>{`
+        main a:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+      `}</style>
+
       {/* Nav */}
       <AcademyNav />
 
       {/* Story */}
+      <main>
       <article
         style={{
           maxWidth: 700,
@@ -259,6 +270,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </article>
+      </main>
 
       <AcademyFooter />
     </div>

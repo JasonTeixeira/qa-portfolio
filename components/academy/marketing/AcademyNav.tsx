@@ -31,17 +31,30 @@ const ACCENT = '#3D5AFE'
  */
 export function AcademyNav({ active }: AcademyNavProps) {
   return (
-    <nav
-      aria-label="Sage Academy"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: 16,
-        padding: '12px clamp(16px, 3vw, 28px)',
-        borderBottom: `1px solid ${LINE}`,
-      }}
-    >
+    <>
+      {/* Scoped focus-visible ring for all interactive nav elements.
+          Inline styles cannot express :focus-visible, so a minimal <style>
+          block is required. Accent #3D5AFE at 3:1+ against #0B0B0E satisfies
+          SC 2.4.11 Focus Appearance (non-text contrast ≥ 3:1). */}
+      <style>{`
+        nav[aria-label="Sage Academy"] a:focus-visible,
+        nav[aria-label="Sage Academy"] button:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+      `}</style>
+      <nav
+        aria-label="Sage Academy"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 16,
+          padding: '12px clamp(16px, 3vw, 28px)',
+          borderBottom: `1px solid ${LINE}`,
+        }}
+      >
       {/* Logo */}
       <Link
         href="/academy"
@@ -53,7 +66,9 @@ export function AcademyNav({ active }: AcademyNavProps) {
           color: 'inherit',
         }}
       >
+        {/* ◆ is a decorative brand glyph — hidden from assistive technology */}
         <span
+          aria-hidden="true"
           style={{
             display: 'grid',
             placeItems: 'center',
@@ -142,5 +157,6 @@ export function AcademyNav({ active }: AcademyNavProps) {
         </Link>
       </div>
     </nav>
+    </>
   )
 }

@@ -96,13 +96,82 @@ export function HelpContent() {
     }))
     .filter((g) => g.items.length > 0)
 
+  // Announce result count changes to screen readers via an aria-live region.
+  const resultCount = filtered.length
+  const resultAnnouncement =
+    normalized
+      ? resultCount === 0
+        ? `No answers found for "${query}"`
+        : `${resultCount} answer${resultCount === 1 ? '' : 's'} found`
+      : ''
+
   return (
     <>
+      {/* Scoped styles:
+          1. :focus-visible ring for keyboard users (SC 2.4.11).
+          2. @media (prefers-reduced-motion: reduce) stops the + icon transition
+             (SC 2.3.3 / respects OS motion preference). */}
+      <style>{`
+        .help-search-input:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 0;
+          border-radius: 22px;
+        }
+        .help-category-link:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 14px;
+        }
+        .help-accordion-btn:focus-visible {
+          outline: 2px solid #3D5AFE;
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .help-accordion-indicator {
+            transition: none !important;
+          }
+        }
+      `}</style>
+
       {/* Search */}
       <div style={{ textAlign: 'center', marginBottom: 36 }}>
-        <label htmlFor={searchId} style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+        {/* Visually-hidden label — complete sr-only pattern per SC 1.3.1 */}
+        <label
+          htmlFor={searchId}
+          style={{
+            position: 'absolute',
+            width: 1,
+            height: 1,
+            padding: 0,
+            margin: -1,
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            whiteSpace: 'nowrap',
+            borderWidth: 0,
+          }}
+        >
           Search help topics
         </label>
+        {/* Live region: announces filtered result counts to screen readers */}
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          style={{
+            position: 'absolute',
+            width: 1,
+            height: 1,
+            padding: 0,
+            margin: -1,
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            whiteSpace: 'nowrap',
+            borderWidth: 0,
+          }}
+        >
+          {resultAnnouncement}
+        </div>
         <div
           style={{
             maxWidth: 480,
@@ -125,6 +194,7 @@ export function HelpContent() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="search: streaks, certificates, cancel, export…"
+            className="help-search-input"
             style={{
               flex: 1,
               border: 'none',
@@ -152,6 +222,7 @@ export function HelpContent() {
           <a
             key={cat.name}
             href={cat.href}
+            className="help-category-link"
             style={{
               display: 'block',
               border: ROW_BORDER,
@@ -162,7 +233,8 @@ export function HelpContent() {
               color: 'inherit',
             }}
           >
-            <div style={{ fontFamily: MONO, fontSize: 14, color: cat.tint, marginBottom: 8 }}>
+            {/* Decorative glyph — the link label comes from cat.name below */}
+            <div aria-hidden="true" style={{ fontFamily: MONO, fontSize: 14, color: cat.tint, marginBottom: 8 }}>
               {cat.glyph}
             </div>
             <div style={{ fontSize: 14.5, fontWeight: 700 }}>{cat.name}</div>
@@ -226,6 +298,7 @@ export function HelpContent() {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setOpenKey(isOpen ? null : key)}
+                    className="help-accordion-btn"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -246,6 +319,7 @@ export function HelpContent() {
                     {faq.q}
                     <span
                       aria-hidden="true"
+                      className="help-accordion-indicator"
                       style={{
                         flexShrink: 0,
                         fontFamily: MONO,

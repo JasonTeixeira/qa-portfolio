@@ -147,6 +147,119 @@
           "tone": "muted",
           "label": "kept out of first-pass scope"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The symptom: half your users get a clean 200, half get a spinner and a timeout. Same app, same commit.",
+          "nodes": [
+            "client",
+            "app"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The room is three commits deep in the app handler. Stop. Don't change code yet — trace the path first.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Layer one, DNS. The client asks 'what IP is this name?' — and this is where working and failing clients diverge.",
+          "nodes": [
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the fault: DNS resolves to a stale IP — a decommissioned pod. Half the users route straight to a dead endpoint.",
+          "nodes": [
+            "dns",
+            "route"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Prove it downstream: a good IP reaches the host, TLS completes a trusted handshake, the gateway forwards.",
+          "nodes": [
+            "route",
+            "tls",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "route",
+              "tls"
+            ],
+            [
+              "tls",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "NetworkPolicy allows the forward and the Service answers — the whole spine is healthy once the IP is correct.",
+          "nodes": [
+            "gateway",
+            "policy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "policy"
+            ],
+            [
+              "policy",
+              "svc"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only now does the app handler run. It was never the cause — it just inherited a spinner from a bad name lookup.",
+          "nodes": [
+            "svc",
+            "app"
+          ],
+          "edges": [
+            [
+              "svc",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: name the layer where working and failing clients disagree, before you touch a single line of code.",
+          "nodes": [
+            "dns",
+            "app"
+          ],
+          "edges": [],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -425,6 +538,101 @@
           "tone": "muted",
           "label": "app: sees only requests that survived the path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "One request starts at the client. It works from your laptop but fails for half of production, and the channel fills with app-code theories.",
+          "nodes": [
+            "client",
+            "app"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Hop one: the client resolves the name. A stale DNS answer can point half your clients at the wrong IP before anything connects.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Hop two: DNS hands back an IP and the client routes to it. An asymmetric route or bad NAT can silently swallow the packet here.",
+          "nodes": [
+            "dns",
+            "route"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Hop three, the suspect: the TLS handshake. An untrusted cert fails a subset of clients, and the app never even sees the request.",
+          "nodes": [
+            "route",
+            "tls"
+          ],
+          "edges": [
+            [
+              "route",
+              "tls"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Hop four: only after trust is established does the HTTP request reach the load balancer or proxy — real bytes, real semantics.",
+          "nodes": [
+            "tls",
+            "proxy"
+          ],
+          "edges": [
+            [
+              "tls",
+              "proxy"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Hop five: the proxy asks to admit the request, and a NetworkPolicy can silently drop it right before delivery.",
+          "nodes": [
+            "proxy",
+            "policy"
+          ],
+          "edges": [
+            [
+              "proxy",
+              "policy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only if every hop passes is the request delivered to your service. The failing hop, not the loudest service, is the cause.",
+          "nodes": [
+            "policy",
+            "app"
+          ],
+          "edges": [
+            [
+              "policy",
+              "app"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -692,6 +900,126 @@
         {
           "tone": "accent",
           "label": "service time (the axis a bigger box actually helps)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One request starts at the client and pays for latency at every hop it takes across the path — nothing here is free.",
+          "nodes": [
+            "client",
+            "dns",
+            "tls",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ],
+            [
+              "dns",
+              "tls"
+            ],
+            [
+              "tls",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "First the client resolves the name in DNS, then completes a TLS handshake — two round trips that add up before any real work begins.",
+          "nodes": [
+            "client",
+            "dns",
+            "tls"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ],
+            [
+              "dns",
+              "tls"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The connected request reaches the API gateway, the front door where all traffic converges and the path narrows.",
+          "nodes": [
+            "tls",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "tls",
+              "gateway"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here the request waits: the gateway hands it to a connection-pool queue and it must await a free slot before proceeding.",
+          "nodes": [
+            "gateway",
+            "queue"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The queue dequeues only as fast as the pool allows — throughput is capped at pool size, the single narrowest stage on the path.",
+          "nodes": [
+            "queue",
+            "service"
+          ],
+          "edges": [
+            [
+              "queue",
+              "service"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The worker finally queries Postgres and returns. One request measures latency; a saturated path measures throughput.",
+          "nodes": [
+            "service",
+            "db"
+          ],
+          "edges": [
+            [
+              "service",
+              "db"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Under load, the queue turns a throughput bound into apparent latency — so a bigger load balancer wouldn't touch this pool ceiling.",
+          "nodes": [
+            "queue",
+            "service",
+            "db"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "queue"
+            ],
+            [
+              "queue",
+              "service"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -973,6 +1301,116 @@
           "tone": "success",
           "label": "the repair path — re-run the hook to confirm"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Same binary, same request — but it's down for 30% of production. The client sends the request and it enters the chain at DNS resolve.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First we clear DNS: both clients resolve the same IP, so the domain isn't guessed — it's pinned to the same route.",
+          "nodes": [
+            "dns",
+            "route"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The route reaches the edge and TLS trust completes — the handshake succeeds, so transport is cleared too.",
+          "nodes": [
+            "route",
+            "tls"
+          ],
+          "edges": [
+            [
+              "route",
+              "tls"
+            ],
+            [
+              "tls",
+              "policy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the request hits the NetworkPolicy. For client B the packet is dropped — a silent DENY, not an application error.",
+          "nodes": [
+            "policy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "policy",
+              "svc"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Because DNS, route, and TLS were cleared first, the failure domain is named: the firewall layer is where clients diverge.",
+          "nodes": [
+            "policy",
+            "repair"
+          ],
+          "edges": [
+            [
+              "policy",
+              "repair"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair adds B's CIDR to the allowlist and re-runs the hooks, so B's traffic is now permitted.",
+          "nodes": [
+            "repair",
+            "svc"
+          ],
+          "edges": [
+            [
+              "repair",
+              "svc"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The insight: an application symptom is not a network cause. Trace the chain, prove which link breaks, then fix that one CIDR.",
+          "nodes": [
+            "client",
+            "policy",
+            "repair",
+            "svc"
+          ],
+          "edges": [
+            [
+              "policy",
+              "svc"
+            ],
+            [
+              "repair",
+              "svc"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1245,6 +1683,116 @@
         {
           "tone": "accent",
           "label": "the answer every later hop trusts"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every request starts here: the app calls getaddrinfo(), asking the local stub resolver to turn a name into an IP.",
+          "nodes": [
+            "app",
+            "stub"
+          ],
+          "edges": [
+            [
+              "app",
+              "stub"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The stub can't answer itself, so it hands a recursive query to the recursive resolver — the hop that does the real work.",
+          "nodes": [
+            "stub",
+            "recursive"
+          ],
+          "edges": [
+            [
+              "stub",
+              "recursive"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "On a cache miss, the recursive resolver walks outward: it asks the root and TLD servers, which refer it down to the authoritative nameserver.",
+          "nodes": [
+            "recursive",
+            "root",
+            "auth"
+          ],
+          "edges": [
+            [
+              "recursive",
+              "root"
+            ],
+            [
+              "root",
+              "auth"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The authoritative nameserver is the source of truth — it returns the real A record straight back to the recursive resolver.",
+          "nodes": [
+            "auth",
+            "recursive"
+          ],
+          "edges": [
+            [
+              "auth",
+              "recursive"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here's the fork: the recursive resolver caches that answer under a TTL — but on the failing client it's holding a STALE record from before the cutover.",
+          "nodes": [
+            "recursive",
+            "answer"
+          ],
+          "edges": [
+            [
+              "recursive",
+              "answer"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The cached answer flows back to the app, which trusts it blindly to pick the IP, open TLS, and route the request.",
+          "nodes": [
+            "answer",
+            "app"
+          ],
+          "edges": [
+            [
+              "answer",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "So half the fleet gets the new IP and half gets the stale one. Prove which A record the FAILING client resolved before you touch application code.",
+          "nodes": [
+            "recursive",
+            "answer",
+            "app"
+          ],
+          "edges": [
+            [
+              "recursive",
+              "answer"
+            ],
+            [
+              "answer",
+              "app"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1531,6 +2079,138 @@
           "tone": "muted",
           "label": "earlier layers (DNS/TLS) — assumed proven this lesson"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A checkout POST starts at the client, which first resolves the hostname through DNS before any bytes move.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "DNS hands off to the TLS layer, where the client opens a secure connection to terminate the handshake.",
+          "nodes": [
+            "dns",
+            "tls"
+          ],
+          "edges": [
+            [
+              "dns",
+              "tls"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Over that trusted channel, the POST /orders request reaches the API gateway, the front door for this write.",
+          "nodes": [
+            "tls",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "tls",
+              "gateway"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gateway forwards to the Orders service, which commits to Postgres — a real, non-idempotent side effect.",
+          "nodes": [
+            "gateway",
+            "orders",
+            "db"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "orders"
+            ],
+            [
+              "orders",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The response flows back toward the client but hits the NetworkPolicy, which silently drops the return path.",
+          "nodes": [
+            "orders",
+            "policy",
+            "client"
+          ],
+          "edges": [
+            [
+              "orders",
+              "policy"
+            ],
+            [
+              "policy",
+              "client"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The route is asymmetric: the write succeeded, but the client never sees the reply and reads it as a timeout.",
+          "nodes": [
+            "policy",
+            "client",
+            "db"
+          ],
+          "edges": [
+            [
+              "policy",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the client auto-retries the POST — but replaying a non-idempotent request over an unproven path double-charges the user.",
+          "nodes": [
+            "client",
+            "tls",
+            "orders",
+            "db"
+          ],
+          "edges": [
+            [
+              "client",
+              "tls"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: HTTP idempotency is the contract, and only idempotent methods are safe to retry when the path shifts underneath.",
+          "nodes": [
+            "client",
+            "orders",
+            "policy"
+          ],
+          "edges": [
+            [
+              "client",
+              "tls"
+            ],
+            [
+              "orders",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1812,6 +2492,131 @@
           "tone": "success",
           "label": "root must already be trusted client-side"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The client opens the connection with a ClientHello — this is the very first message of the TLS handshake.",
+          "nodes": [
+            "client",
+            "hello"
+          ],
+          "edges": [
+            [
+              "client",
+              "hello"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Inside that hello is the SNI: the hostname the client actually wants, so the server knows which certificate to serve.",
+          "nodes": [
+            "hello",
+            "server"
+          ],
+          "edges": [
+            [
+              "hello",
+              "server"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The server matches the SNI name and selects a certificate, packing it into the Cert message it sends back.",
+          "nodes": [
+            "server",
+            "chain"
+          ],
+          "edges": [
+            [
+              "server",
+              "chain"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That message must present both the leaf cert and the intermediate CA — the leaf alone is not enough.",
+          "nodes": [
+            "chain",
+            "leaf",
+            "inter"
+          ],
+          "edges": [
+            [
+              "chain",
+              "leaf"
+            ],
+            [
+              "chain",
+              "inter"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The client walks the chain: the leaf is signed by the intermediate, and the intermediate chains up to a trusted root.",
+          "nodes": [
+            "leaf",
+            "inter",
+            "root"
+          ],
+          "edges": [
+            [
+              "leaf",
+              "inter"
+            ],
+            [
+              "inter",
+              "root"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the fault: if the server omits the intermediate, clients that already cache it succeed while everyone else fails.",
+          "nodes": [
+            "chain",
+            "inter",
+            "root"
+          ],
+          "edges": [
+            [
+              "chain",
+              "inter"
+            ],
+            [
+              "inter",
+              "root"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The padlock lies because trust is per-client — the fix is serving the full chain, not rewriting the app error handler.",
+          "nodes": [
+            "chain",
+            "leaf",
+            "inter",
+            "root"
+          ],
+          "edges": [
+            [
+              "chain",
+              "leaf"
+            ],
+            [
+              "chain",
+              "inter"
+            ],
+            [
+              "inter",
+              "root"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2089,6 +2894,106 @@
           "tone": "muted",
           "label": "the fallback that saves the customer"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "You flip to HTTP/3. The mobile client sends QUIC over UDP/443 and gets a 0-RTT handshake straight to the load balancer.",
+          "nodes": [
+            "mobile",
+            "lb"
+          ],
+          "edges": [
+            [
+              "mobile",
+              "lb"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "QUIC's payoff: when the phone changes IP, the connection ID lets it migrate to the origin without a new handshake.",
+          "nodes": [
+            "mobile",
+            "origin"
+          ],
+          "edges": [
+            [
+              "mobile",
+              "origin"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the corporate client tries the same QUIC attempt, but its packets first hit the company firewall.",
+          "nodes": [
+            "corp",
+            "fw"
+          ],
+          "edges": [
+            [
+              "corp",
+              "fw"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here's the trap: the firewall silently drops UDP. No error, no reset — the client just hears nothing back.",
+          "nodes": [
+            "fw",
+            "corp"
+          ],
+          "edges": [
+            [
+              "fw",
+              "corp"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the whole decision point. A race timer expires and the corp client must fall back to TCP with TLS 1.3 and HTTP/2.",
+          "nodes": [
+            "corp",
+            "tcp"
+          ],
+          "edges": [
+            [
+              "corp",
+              "tcp"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "TCP on 443 is the path every middlebox trusts, so it reaches the load balancer and the customer stays online.",
+          "nodes": [
+            "tcp",
+            "lb"
+          ],
+          "edges": [
+            [
+              "tcp",
+              "lb"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The origin serves h2 or h3 to whoever arrives — the insight: QUIC's speed is real, but reachability lives in the fallback.",
+          "nodes": [
+            "lb",
+            "origin"
+          ],
+          "edges": [
+            [
+              "lb",
+              "origin"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2350,6 +3255,116 @@
         {
           "tone": "warning",
           "label": "peered range — must never overlap"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with the parent: one /16 block, 10.20.0.0/16, giving you 16 host bits and about 65 thousand addresses to carve.",
+          "nodes": [
+            "vpc"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "First carve: a Public /20 for internet-facing subnets — the /20 fixes 20 network bits, leaving a clean, right-sized slice.",
+          "nodes": [
+            "vpc",
+            "pub"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "pub"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Next, two App tiers, one per availability zone — App AZ-a and App AZ-b, each its own /20 so failure of one AZ never takes both.",
+          "nodes": [
+            "vpc",
+            "appa",
+            "appb"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "appa"
+            ],
+            [
+              "vpc",
+              "appb"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The Data tier gets a tighter /22 — fewer hosts by design, since databases need far less address space than app fleets.",
+          "nodes": [
+            "vpc",
+            "data"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "data"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: every child is disjoint. Public, both App zones, and Data must never overlap under the same parent.",
+          "nodes": [
+            "pub",
+            "appa",
+            "appb",
+            "data"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Now the suspect edge — a peering route to on-prem 10.10.0.0/16, a separate space that is out of scope and must never overlap ours.",
+          "nodes": [
+            "vpc",
+            "peer"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "peer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the trap: pick a duplicate range on either side and the router sees two identical destinations and silently drops half the traffic.",
+          "nodes": [
+            "peer",
+            "vpc"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "peer"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: this outage is an address-space decision made months earlier — plan disjoint CIDRs up front, before any route is written.",
+          "nodes": [
+            "vpc",
+            "peer"
+          ],
+          "edges": [
+            [
+              "vpc",
+              "peer"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -2630,7 +3645,129 @@
           "label": "the client whose experience contradicts the server logs"
         }
       ],
-      "caption": "The forward path (1–5) succeeds; the return path (6) is where NAT & routes fail. Debug the whole loop, not just the arrival."
+      "caption": "The forward path (1–5) succeeds; the return path (6) is where NAT & routes fail. Debug the whole loop, not just the arrival.",
+      "storyboard": [
+        {
+          "say": "Client B in Subnet B starts the request by asking the DNS resolver to turn the service name into an address.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "DNS returns the service VIP, and the request enters the router, which consults its route table to decide the forward path.",
+          "nodes": [
+            "dns",
+            "router"
+          ],
+          "edges": [
+            [
+              "dns",
+              "router"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The router hands off to the NAT gateway, which SNATs the source so the return traffic knows how to find its way back.",
+          "nodes": [
+            "router",
+            "nat"
+          ],
+          "edges": [
+            [
+              "router",
+              "nat"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Translated packets traverse the firewall, and the NetworkPolicy admits them into the service pod, which processes the request.",
+          "nodes": [
+            "nat",
+            "policy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "nat",
+              "policy"
+            ],
+            [
+              "policy",
+              "svc"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "First silent trap: if Subnet B is not in the allow-CIDR, the policy drops Client B outright while other subnets sail through.",
+          "nodes": [
+            "policy",
+            "client"
+          ],
+          "edges": [
+            [
+              "policy",
+              "client"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The reply exits through an asymmetric route straight back to the router, skipping the NAT gateway entirely.",
+          "nodes": [
+            "svc",
+            "router"
+          ],
+          "edges": [
+            [
+              "svc",
+              "router"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Second trap: with no reverse translation, the return packet's address is wrong, so it never reaches Client B.",
+          "nodes": [
+            "svc",
+            "router",
+            "nat",
+            "client"
+          ],
+          "edges": [
+            [
+              "svc",
+              "router"
+            ],
+            [
+              "router",
+              "nat"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Server logs success, client sees a timeout: the failure lives on one hop, route and NAT, not in the app code.",
+          "nodes": [
+            "router",
+            "nat",
+            "svc",
+            "client"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2916,6 +4053,128 @@
           "tone": "success",
           "label": "the backend that should keep traffic"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user hits checkout: the client first resolves the name in DNS, then sends its request to the load balancer's virtual IP.",
+          "nodes": [
+            "client",
+            "dns",
+            "lb"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ],
+            [
+              "client",
+              "lb"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The load balancer is the decision point: it must choose which backend answers, and it picks candidates using its health check.",
+          "nodes": [
+            "lb",
+            "health"
+          ],
+          "edges": [
+            [
+              "lb",
+              "health"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Backend A is healthy, so the health check keeps it and the load balancer freely forwards live checkout traffic to it.",
+          "nodes": [
+            "health",
+            "good",
+            "lb"
+          ],
+          "edges": [
+            [
+              "health",
+              "good"
+            ],
+            [
+              "lb",
+              "good"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the suspect edge: Backend B returns 5xx, yet an L4 check only sees an open TCP port, so it keeps a broken server.",
+          "nodes": [
+            "health",
+            "bad"
+          ],
+          "edges": [
+            [
+              "health",
+              "bad"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "L7 changes what you can observe: it terminates TLS and runs a real GET /health, sees the 5xx, and evicts Backend B.",
+          "nodes": [
+            "health",
+            "bad",
+            "lb"
+          ],
+          "edges": [
+            [
+              "health",
+              "bad"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The reply path is the other choice: SNAT returns through the balancer, or Direct Server Return sends the response straight home.",
+          "nodes": [
+            "good",
+            "reply",
+            "client"
+          ],
+          "edges": [
+            [
+              "good",
+              "reply"
+            ],
+            [
+              "reply",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So intermittent 502s aren't app bugs: the mode picks what health checks can catch, and that's where 'broken for some' is born.",
+          "nodes": [
+            "lb",
+            "health",
+            "bad",
+            "client"
+          ],
+          "edges": [
+            [
+              "health",
+              "bad"
+            ],
+            [
+              "reply",
+              "client"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3189,6 +4448,102 @@
           "tone": "success",
           "label": "backend — do NOT touch until path is proven"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The deploy was clean, but half your users load instantly and the other half get a spinning white screen or a scary cert warning.",
+          "nodes": [
+            "client"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The request doesn't hit your code first. It's an ordered path of hops, so trace it in order instead of blaming the app PR.",
+          "nodes": [
+            "client",
+            "dns",
+            "edge",
+            "proxy",
+            "backend"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "First hop: the client resolves the host through GeoDNS, which hands back a different edge IP depending on the caller's region.",
+          "nodes": [
+            "client",
+            "dns",
+            "edge"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ],
+            [
+              "dns",
+              "edge"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the client opens a TLS handshake to that edge. For region A it fails, because the edge serves a stale cert for the wrong host.",
+          "nodes": [
+            "client",
+            "edge"
+          ],
+          "edges": [
+            [
+              "client",
+              "edge"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The CDN edge is the diverging hop: healthy regions terminate TLS and pass, region A breaks before a byte reaches origin.",
+          "nodes": [
+            "edge"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "Only on a cache miss does the edge fetch from the origin proxy, which is subject to NetworkPolicy before forwarding to the backend.",
+          "nodes": [
+            "edge",
+            "proxy",
+            "policy",
+            "backend"
+          ],
+          "edges": [
+            [
+              "edge",
+              "proxy"
+            ],
+            [
+              "proxy",
+              "policy"
+            ],
+            [
+              "proxy",
+              "backend"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The backend stays out of scope until the path is proven. Confirm the diverging hop with dig, curl, and openssl before touching code.",
+          "nodes": [
+            "backend",
+            "edge"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -3460,6 +4815,112 @@
         {
           "tone": "muted",
           "label": "out of scope on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client opens a request on 443 to the public ALB, the one door into this VPC that faces the internet.",
+          "nodes": [
+            "client",
+            "alb"
+          ],
+          "edges": [
+            [
+              "client",
+              "alb"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The ALB forwards inbound traffic to the security group, the stateful firewall that decides who may reach the pod.",
+          "nodes": [
+            "alb",
+            "sg"
+          ],
+          "edges": [
+            [
+              "alb",
+              "sg"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The security group allows 443 through to the app pod living in the private subnet, so the request finally reaches your code.",
+          "nodes": [
+            "sg",
+            "pod"
+          ],
+          "edges": [
+            [
+              "sg",
+              "pod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "For outbound DNS and TLS the pod routes through the NAT gateway, the only sanctioned path to the internet from a private subnet.",
+          "nodes": [
+            "pod",
+            "nat"
+          ],
+          "edges": [
+            [
+              "pod",
+              "nat"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is where it dies: the pod tries Postgres on 5432, but the private subnet's route table has no route to RDS, so it hangs 28 seconds.",
+          "nodes": [
+            "pod",
+            "rds"
+          ],
+          "edges": [
+            [
+              "pod",
+              "rds"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The blast radius is telling: reachable from public over the ALB, blocked from private toward the store. It was never the app's retry code.",
+          "nodes": [
+            "client",
+            "alb",
+            "pod",
+            "rds"
+          ],
+          "edges": [
+            [
+              "client",
+              "alb"
+            ],
+            [
+              "pod",
+              "rds"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "And NetworkPolicy holds the invariant: the analytics VPC must not leak in. If you can't trace a path end to end, you can't trust it.",
+          "nodes": [
+            "peer",
+            "pod"
+          ],
+          "edges": [
+            [
+              "peer",
+              "pod"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -3764,6 +5225,131 @@
           "tone": "success",
           "label": "healthy backend (source of truth)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Same service, green in one region, throwing connection errors in another. Before touching retry logic, trace where Pod B's request actually breaks.",
+          "nodes": [
+            "podb",
+            "svc"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Gate one is DNS. Pod B asks CoreDNS to resolve the Service name, and CoreDNS hands back a ClusterIP.",
+          "nodes": [
+            "podb",
+            "coredns",
+            "svc"
+          ],
+          "edges": [
+            [
+              "podb",
+              "coredns"
+            ],
+            [
+              "coredns",
+              "svc"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Namespace and cluster DNS decide what that name means, so the very first hop can already return a different IP for the failing pod.",
+          "nodes": [
+            "podb",
+            "coredns"
+          ],
+          "edges": [
+            [
+              "podb",
+              "coredns"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Gate two is the NetworkPolicy. Pod B's egress and the Service's ingress must both allow the connection, or it dies silently before routing.",
+          "nodes": [
+            "podb",
+            "policy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "podb",
+              "policy"
+            ],
+            [
+              "policy",
+              "svc"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "If allowed, the Service selects its EndpointSlice and that slice routes to a live Backend Pod IP.",
+          "nodes": [
+            "svc",
+            "eps",
+            "pod"
+          ],
+          "edges": [
+            [
+              "svc",
+              "eps"
+            ],
+            [
+              "eps",
+              "pod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Gate three is trust. Pod B verifies the certificate SAN against the Backend Pod before it will speak.",
+          "nodes": [
+            "podb",
+            "tls",
+            "pod"
+          ],
+          "edges": [
+            [
+              "podb",
+              "tls"
+            ],
+            [
+              "tls",
+              "pod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only gate four sends HTTP, once trust holds. The failure lives on one edge, DNS or NetworkPolicy, never in the app.",
+          "nodes": [
+            "tls",
+            "pod",
+            "coredns",
+            "policy"
+          ],
+          "edges": [
+            [
+              "tls",
+              "pod"
+            ],
+            [
+              "podb",
+              "coredns"
+            ],
+            [
+              "podb",
+              "policy"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4056,6 +5642,117 @@
         {
           "tone": "success",
           "label": "healthy: the app + the client that works"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start where the packet starts. The external client resolves the hostname through DNS, which hands back the load balancer IP.",
+          "nodes": [
+            "client-ok",
+            "dns",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "client-ok",
+              "dns"
+            ],
+            [
+              "dns",
+              "ingress"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "From the LB IP the request hits the Ingress, TLS terminates cleanly, and it's routed onward to the Service.",
+          "nodes": [
+            "ingress",
+            "svc"
+          ],
+          "edges": [
+            [
+              "ingress",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Service's kube-proxy picks endpoints, but NetworkPolicy sits on that edge and decides who is actually allowed through.",
+          "nodes": [
+            "svc",
+            "policy"
+          ],
+          "edges": [
+            [
+              "svc",
+              "policy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "For traffic from namespace A the policy says allow, so the packet reaches the Pod and the app answers. Dashboards go green.",
+          "nodes": [
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "policy",
+              "pod"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the other client: an internal caller in namespace B makes an in-cluster call to the same Service.",
+          "nodes": [
+            "client-bad",
+            "svc"
+          ],
+          "edges": [
+            [
+              "client-bad",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Namespace B isn't in the policy's from list, so the packet is silently dropped here. The app is never reached.",
+          "nodes": [
+            "policy",
+            "client-bad"
+          ],
+          "edges": [
+            [
+              "policy",
+              "client-bad"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That asymmetry is the tell: some clients pass, others don't. The fault is on the path, not in the handler code.",
+          "nodes": [
+            "client-ok",
+            "client-bad",
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "policy",
+              "pod"
+            ],
+            [
+              "policy",
+              "client-bad"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4354,6 +6051,116 @@
           "tone": "muted",
           "label": "on the path but NOT the cause (DNS/TLS/same-ns) — don't chase"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The payments pod resolves your service name fine — CoreDNS answers, so DNS is not the incident. Don't chase it.",
+          "nodes": [
+            "payments",
+            "dns"
+          ],
+          "edges": [
+            [
+              "payments",
+              "dns"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The payments pod opens a SYN to your api service on port 8080. This is the real request path we care about.",
+          "nodes": [
+            "payments",
+            "policy"
+          ],
+          "edges": [
+            [
+              "payments",
+              "policy"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "A deny-by-default NetworkPolicy now selects this namespace, and with no allow rule for payments, it drops the connection.",
+          "nodes": [
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "policy",
+              "pod"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Meanwhile your same-namespace smoke test passes green — which misleads you into thinking the app and service are healthy.",
+          "nodes": [
+            "own",
+            "svc"
+          ],
+          "edges": [
+            [
+              "own",
+              "svc"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix is a targeted ingress allow rule keyed to the payments pod label: permit role=payments.",
+          "nodes": [
+            "allow",
+            "policy"
+          ],
+          "edges": [
+            [
+              "allow",
+              "policy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now on a match the policy forwards to the api service, which reaches the app — payments connects.",
+          "nodes": [
+            "policy",
+            "svc",
+            "pod"
+          ],
+          "edges": [
+            [
+              "policy",
+              "svc"
+            ],
+            [
+              "svc",
+              "pod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: once a policy selects pods, every allow must be named on purpose — the boundary is the incident, not the code.",
+          "nodes": [
+            "policy",
+            "allow",
+            "payments"
+          ],
+          "edges": [
+            [
+              "allow",
+              "policy"
+            ],
+            [
+              "payments",
+              "policy"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -4626,6 +6433,116 @@
         {
           "tone": "muted",
           "label": "kept out of scope on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The request starts at the client, which first asks the resolver for an address before it can reach anything.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "With a name resolved, the client sends a TLS SYN to port 443, opening the real request path we care about.",
+          "nodes": [
+            "client",
+            "lb"
+          ],
+          "edges": [
+            [
+              "client",
+              "lb"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The load balancer forwards that connection inward, the first hop where a dropped SYN can vanish without a trace.",
+          "nodes": [
+            "lb",
+            "policy"
+          ],
+          "edges": [
+            [
+              "lb",
+              "policy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The NetworkPolicy is the silent gate: it either allows the packet through or drops it, and drops leave no log.",
+          "nodes": [
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "policy",
+              "pod"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "So we tap on both sides of the suspect edge at once: one tcpdump at the load balancer, one inside the pod.",
+          "nodes": [
+            "lb",
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "lb",
+              "policy"
+            ],
+            [
+              "policy",
+              "pod"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The pod's downstream billing path is deliberately out of scope, so we don't chase auth or payment red herrings.",
+          "nodes": [
+            "pod",
+            "billing"
+          ],
+          "edges": [
+            [
+              "pod",
+              "billing"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "If the SYN shows at the balancer but never in the pod, the policy killed it. A captured packet is evidence a drop can't give you.",
+          "nodes": [
+            "lb",
+            "policy",
+            "pod"
+          ],
+          "edges": [
+            [
+              "lb",
+              "policy"
+            ],
+            [
+              "policy",
+              "pod"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -4907,6 +6824,103 @@
         {
           "tone": "muted",
           "label": "app code — never reached, not the cause"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The service is green on the dashboard, but dead from Region B. Follow the actual packet, not the retry code three engineers are rewriting.",
+          "nodes": [
+            "client",
+            "pod"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "First hop: the Region B client resolves the name. If DNS returns nothing, the failure is here, before any connection begins.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "DNS resolved, so the client connects to the IP. Route and NAT translation is the next place a packet can silently go astray.",
+          "nodes": [
+            "dns",
+            "route"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The route sends a SYN to the firewall and NetworkPolicy. This is the decision hop where the denial actually lives.",
+          "nodes": [
+            "route",
+            "fw"
+          ],
+          "edges": [
+            [
+              "route",
+              "fw"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Region A's CIDR is allowlisted, so the firewall accepts and forwards it onward to the TLS handshake.",
+          "nodes": [
+            "fw",
+            "tls"
+          ],
+          "edges": [
+            [
+              "fw",
+              "tls"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Region B's CIDR is not allowed, so the firewall issues a silent DROP. No SYN-ACK, no app log, no error the code could catch.",
+          "nodes": [
+            "fw",
+            "drop"
+          ],
+          "edges": [
+            [
+              "fw",
+              "drop"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only survivors reach TLS and then the pod. The app never saw Region B, so proving the drop with command output points repair at the rule, not the code.",
+          "nodes": [
+            "tls",
+            "pod",
+            "fw",
+            "drop"
+          ],
+          "edges": [
+            [
+              "tls",
+              "pod"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5200,7 +7214,135 @@
           "label": "repair path — allowed AND proven"
         }
       ],
-      "caption": "The application code sits behind the pod. Every dashed edge is a break the app can never explain — and every solid accent edge is a hook you can run to localize it."
+      "caption": "The application code sits behind the pod. Every dashed edge is a break the app can never explain — and every solid accent edge is a hook you can run to localize it.",
+      "storyboard": [
+        {
+          "say": "The call starts at the client. Before it reaches the pod, it must survive four separate checkpoints — no hop trusts the last.",
+          "nodes": [
+            "client",
+            "svc"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Checkpoint one: DNS. The client asks for a name and gets an IP. Half your clients fail here on a stale or wrong answer.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If the name is dead — NXDOMAIN or a stale IP pointing nowhere — trust is denied at DNS, long before any code runs.",
+          "nodes": [
+            "dns",
+            "deny"
+          ],
+          "edges": [
+            [
+              "dns",
+              "deny"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A good name connects to the IP, then the route or NAT forwards you to the host on port 443, ready to prove identity.",
+          "nodes": [
+            "dns",
+            "route",
+            "tls"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ],
+            [
+              "route",
+              "tls"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Checkpoint two: mTLS. You present a cert. Untrusted or expired, and the handshake refuses you — this is the other half hanging.",
+          "nodes": [
+            "tls",
+            "deny"
+          ],
+          "edges": [
+            [
+              "tls",
+              "policy"
+            ],
+            [
+              "tls",
+              "deny"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Checkpoint three: NetworkPolicy. Even a proven caller is checked for authorization — no matching allow rule means denied.",
+          "nodes": [
+            "policy",
+            "deny"
+          ],
+          "edges": [
+            [
+              "policy",
+              "deny"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only a caller that clears name, cert, route, and policy reaches the pod. ALLOW is earned at every hop, never assumed.",
+          "nodes": [
+            "policy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "policy",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "So the bug is never 'the network is down' — it's one named hop refusing one caller. Localize the hop, read its evidence, then fix.",
+          "nodes": [
+            "dns",
+            "tls",
+            "policy",
+            "deny"
+          ],
+          "edges": [
+            [
+              "dns",
+              "deny"
+            ],
+            [
+              "tls",
+              "deny"
+            ],
+            [
+              "policy",
+              "deny"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -5472,7 +7614,108 @@
         }
       ],
       "rankdir": "LR",
-      "caption": "Diagnose layer by layer. The first hop that lies is the cause; everything downstream is a symptom."
+      "caption": "Diagnose layer by layer. The first hop that lies is the cause; everything downstream is a symptom.",
+      "storyboard": [
+        {
+          "say": "The service is green on your laptop but 500ing for half the fleet. Don't touch app code yet — trace one request down the layers.",
+          "nodes": [
+            "client",
+            "http"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Layer one: the client must turn a hostname into an address. DNS resolves the host before anything else can happen.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "With an IP in hand, routing and network policy decide whether packets actually reach the host. Route asymmetry hides here.",
+          "nodes": [
+            "dns",
+            "route"
+          ],
+          "edges": [
+            [
+              "dns",
+              "route"
+            ],
+            [
+              "route",
+              "tls"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The request reaches the host and TLS begins. This is the decision fork: did the certificate answer honestly, or is trust broken?",
+          "nodes": [
+            "tls",
+            "route"
+          ],
+          "edges": [
+            [
+              "route",
+              "tls"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the cert is trusted, TLS passes and HTTP finally answers the service. That's the honest, healthy path.",
+          "nodes": [
+            "tls",
+            "http"
+          ],
+          "edges": [
+            [
+              "tls",
+              "http"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But on one host the SAN doesn't match, so TLS fails. Only clients hitting that host get a cert error — the blast radius.",
+          "nodes": [
+            "tls",
+            "stale"
+          ],
+          "edges": [
+            [
+              "tls",
+              "stale"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That's why half return 200 and half 5xx. Name the lying layer — TLS trust — its blast radius and evidence before proposing any fix.",
+          "nodes": [
+            "http",
+            "client",
+            "stale",
+            "tls"
+          ],
+          "edges": [
+            [
+              "http",
+              "client"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",

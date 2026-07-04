@@ -157,6 +157,123 @@
           "tone": "success",
           "label": "the single transaction + source of truth"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a tap. The client fires a POST to /orders and the API gateway receives it as the single entry point.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The gateway routes it inward, but nothing touches state yet. First the handler checks whether the request shape is even valid.",
+          "nodes": [
+            "gateway",
+            "validate"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "validate"
+            ],
+            [
+              "validate",
+              "authorize"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Shape is fine, so we ask a second question: is this caller allowed to do this at all? Authorization gates the action before it happens.",
+          "nodes": [
+            "validate",
+            "authorize"
+          ],
+          "edges": [
+            [
+              "validate",
+              "authorize"
+            ],
+            [
+              "authorize",
+              "idem"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the crucial gate. The idempotency check looks up the request key to decide: is this a brand-new order, or one we've already seen?",
+          "nodes": [
+            "authorize",
+            "idem"
+          ],
+          "edges": [
+            [
+              "authorize",
+              "idem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A new key means act. Only now do we open one transaction and commit the write to Postgres exactly once.",
+          "nodes": [
+            "idem",
+            "txn",
+            "db"
+          ],
+          "edges": [
+            [
+              "idem",
+              "txn"
+            ],
+            [
+              "txn",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The retry story: the spinner hung, they tapped again, same key. We replay the first result instead of writing a second order.",
+          "nodes": [
+            "idem",
+            "response"
+          ],
+          "edges": [
+            [
+              "idem",
+              "response"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Both paths converge on one typed envelope. Success or failure, the endpoint keeps its promise: state changes only after the gates pass, and only once.",
+          "nodes": [
+            "txn",
+            "response"
+          ],
+          "edges": [
+            [
+              "txn",
+              "response"
+            ],
+            [
+              "idem",
+              "response"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -457,6 +574,106 @@
         {
           "tone": "success",
           "label": "source of truth — reached only by a valid, owned write"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client fires a state-changing request at the API handler — this is the promise the endpoint has to keep.",
+          "nodes": [
+            "client",
+            "handler"
+          ],
+          "edges": [
+            [
+              "client",
+              "handler"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The handler parses the raw body first. Right now it's untrusted input — nothing here is known to be safe yet.",
+          "nodes": [
+            "handler",
+            "validate"
+          ],
+          "edges": [
+            [
+              "handler",
+              "validate"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Gate one: validate against the schema. Wrong shape, missing fields, bad types — the request is rejected before it goes further.",
+          "nodes": [
+            "validate",
+            "reject"
+          ],
+          "edges": [
+            [
+              "validate",
+              "reject"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the shape is valid, it crosses to authorization — the second gate on the suspect path.",
+          "nodes": [
+            "validate",
+            "authz"
+          ],
+          "edges": [
+            [
+              "validate",
+              "authz"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Gate two: is this caller allowed to touch this resource? Not allowed means reject — no ownership, no write.",
+          "nodes": [
+            "authz",
+            "reject"
+          ],
+          "edges": [
+            [
+              "authz",
+              "reject"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only after both gates pass do we enforce invariants — the rules that must always hold, like one order per cart.",
+          "nodes": [
+            "authz",
+            "invariant"
+          ],
+          "edges": [
+            [
+              "authz",
+              "invariant"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the input is a valid, owned resource, so the write to Postgres is safe. Skip modeling and that double-click race writes twice.",
+          "nodes": [
+            "invariant",
+            "db"
+          ],
+          "edges": [
+            [
+              "invariant",
+              "db"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -764,6 +981,129 @@
         {
           "tone": "success",
           "label": "validated data only — handler, txn, response"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client fires a POST /payments request into the API gateway, which hands the raw JSON body straight to the front door.",
+          "nodes": [
+            "client",
+            "gateway",
+            "schema"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "schema"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The schema gate stands guard first: it parses every request against the declared contract before any side effect can run.",
+          "nodes": [
+            "schema"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Bad shape fails fast. Quantity of 'two' or a null currency never reaches a handler; the gate returns a typed 422 envelope, not a 500.",
+          "nodes": [
+            "schema",
+            "reject"
+          ],
+          "edges": [
+            [
+              "schema",
+              "reject"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That 422 goes back to the client with a repair path: fix the shape, then retry. The failure is legible, not a corrupted row.",
+          "nodes": [
+            "reject",
+            "client"
+          ],
+          "edges": [
+            [
+              "reject",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only validated requests pass to the idempotency check, which asks: is this a brand new key, or one we've already processed?",
+          "nodes": [
+            "schema",
+            "idem"
+          ],
+          "edges": [
+            [
+              "schema",
+              "idem"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A replayed key short-circuits: it returns the stored result via the response schema, so a retry never double-charges the customer.",
+          "nodes": [
+            "idem",
+            "response"
+          ],
+          "edges": [
+            [
+              "idem",
+              "response"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "A new key reaches the handler, which writes to Postgres in a transaction, then maps the result into the response schema.",
+          "nodes": [
+            "idem",
+            "handler",
+            "db",
+            "response"
+          ],
+          "edges": [
+            [
+              "idem",
+              "handler"
+            ],
+            [
+              "handler",
+              "db"
+            ],
+            [
+              "handler",
+              "response"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The response schema returns a 200 typed body. The contract guards both edges: no handler runs on unvalidated data, no untyped shape escapes.",
+          "nodes": [
+            "response",
+            "client"
+          ],
+          "edges": [
+            [
+              "response",
+              "client"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1099,6 +1439,140 @@
         {
           "tone": "success",
           "label": "the mutation actually commits"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client fires POST /orders. This request changes state, so it will be refused the moment its input is wrong.",
+          "nodes": [
+            "client",
+            "parse"
+          ],
+          "edges": [
+            [
+              "client",
+              "parse"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Four gates stand between the request and the database: parse, authorize, validate, and idempotency, then finally the transaction.",
+          "nodes": [
+            "parse",
+            "authz",
+            "validate",
+            "idem",
+            "tx"
+          ],
+          "edges": [
+            [
+              "parse",
+              "authz"
+            ],
+            [
+              "authz",
+              "validate"
+            ],
+            [
+              "validate",
+              "idem"
+            ],
+            [
+              "idem",
+              "tx"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Parse checks shape. Malformed JSON never reaches your logic; it exits as a 400 through the shared error model.",
+          "nodes": [
+            "parse",
+            "errmodel"
+          ],
+          "edges": [
+            [
+              "parse",
+              "errmodel"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The auth boundary refuses unauthenticated or unauthorized callers, leaving as 401 or 403 through that same error model.",
+          "nodes": [
+            "authz",
+            "errmodel"
+          ],
+          "edges": [
+            [
+              "authz",
+              "errmodel"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Semantic validation is where the silent-200 bug lived: an invalid cart must exit 422 with field detail, not a human sentence.",
+          "nodes": [
+            "validate",
+            "errmodel"
+          ],
+          "edges": [
+            [
+              "validate",
+              "errmodel"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Idempotency and the transaction guard the write: a replay returns the same result, a conflict returns 409, both via the error model.",
+          "nodes": [
+            "idem",
+            "tx",
+            "errmodel"
+          ],
+          "edges": [
+            [
+              "idem",
+              "errmodel"
+            ],
+            [
+              "tx",
+              "errmodel"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only clearing all four gates commits the mutation and answers 201 Created.",
+          "nodes": [
+            "tx",
+            "client2"
+          ],
+          "edges": [
+            [
+              "tx",
+              "client2"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Every rejection funnels into one parseable shape, so the client can always tell 'you sent garbage' from 'try again later'.",
+          "nodes": [
+            "errmodel",
+            "client2"
+          ],
+          "edges": [
+            [
+              "errmodel",
+              "client2"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -1444,6 +1918,139 @@
           "tone": "warning",
           "label": "4xx/5xx — each tells the client a different next move"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "One POST /payments enters the handler. Everything after this is a decision tree, and each leaf is a status code that tells the client what to do next.",
+          "nodes": [
+            "client",
+            "validate"
+          ],
+          "edges": [
+            [
+              "client",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First gate: is the body well-formed? If not, we return 422 Unprocessable — a 4xx that says you sent bad input, so fix it, don't blind-retry.",
+          "nodes": [
+            "validate",
+            "r422"
+          ],
+          "edges": [
+            [
+              "validate",
+              "r422"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Valid body reaches the auth boundary. No credentials or forbidden gets 401 or 403 — re-authenticate; a retry with the same token won't help.",
+          "nodes": [
+            "validate",
+            "authz",
+            "r401"
+          ],
+          "edges": [
+            [
+              "validate",
+              "authz"
+            ],
+            [
+              "authz",
+              "r401"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Allowed requests hit the idempotency store. If the key was seen before, we replay the stored result as 201 — the retry-safety net that stops double charges.",
+          "nodes": [
+            "authz",
+            "idem",
+            "r201"
+          ],
+          "edges": [
+            [
+              "authz",
+              "idem"
+            ],
+            [
+              "idem",
+              "r201"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "A new key proceeds to charge and persist. On a conflict with current state — a duplicate or stale write — we answer 409, not a blind success.",
+          "nodes": [
+            "idem",
+            "charge",
+            "r409"
+          ],
+          "edges": [
+            [
+              "idem",
+              "charge"
+            ],
+            [
+              "charge",
+              "r409"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Clean commit returns 201 Created — succeeded, stop. This is the one 2xx leaf the whole tree is trying to reach honestly.",
+          "nodes": [
+            "charge",
+            "r201"
+          ],
+          "edges": [
+            [
+              "charge",
+              "r201"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But if the DB dies after the charge, we return 500 — WE failed, safe to retry. The idempotency key makes that retry replay 201 instead of charging twice.",
+          "nodes": [
+            "charge",
+            "r500",
+            "idem",
+            "r201"
+          ],
+          "edges": [
+            [
+              "charge",
+              "r500"
+            ],
+            [
+              "idem",
+              "r201"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The invariant: the status code is the contract. It must match the action the client should take — get it wrong and correct downstream code does the wrong thing.",
+          "nodes": [
+            "r422",
+            "r401",
+            "r409",
+            "r201",
+            "r500"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1731,6 +2338,110 @@
           "tone": "warning",
           "label": "the production failure if validation is skipped"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer exports order history and hits GET /orders. The client's raw query string is where every control begins.",
+          "nodes": [
+            "client",
+            "handler"
+          ],
+          "edges": [
+            [
+              "client",
+              "handler"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The API handler hands the raw params straight to the contract check. It trusts nothing it received yet.",
+          "nodes": [
+            "handler",
+            "validate"
+          ],
+          "edges": [
+            [
+              "handler",
+              "validate"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Validation is the choke point: it allowlists which columns you may sort and filter, caps the limit, and forbids any user string reaching SQL.",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 5000
+        },
+        {
+          "say": "Skip that check and you take the warning branch: OFFSET drift, an unbounded scan, or an injected ORDER BY that can down the database.",
+          "nodes": [
+            "validate",
+            "danger"
+          ],
+          "edges": [
+            [
+              "validate",
+              "danger"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Pass it, and only safe, bounded input reaches the keyset query that pages by the last row's sort key, never by OFFSET.",
+          "nodes": [
+            "validate",
+            "query"
+          ],
+          "edges": [
+            [
+              "validate",
+              "query"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The keyset WHERE seeks straight into the composite index on (sort_key, id) — a targeted seek, not a full-table scan.",
+          "nodes": [
+            "query",
+            "index"
+          ],
+          "edges": [
+            [
+              "query",
+              "index"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "It fetches limit plus one row: the extra row becomes hasMore and yields an opaque next_cursor in the response.",
+          "nodes": [
+            "query",
+            "resp"
+          ],
+          "edges": [
+            [
+              "query",
+              "resp"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant holds: stable order under concurrent writes, a hard ceiling on work, and no page-2 row ever repeating page 1.",
+          "nodes": [
+            "validate",
+            "query",
+            "resp"
+          ],
+          "edges": [],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -2010,6 +2721,113 @@
         {
           "tone": "muted",
           "label": "the replay path — short-circuits to stored result"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client sends the charge request, attaching an Idempotency-Key so the server can recognize this exact request if it ever arrives again.",
+          "nodes": [
+            "client",
+            "handler"
+          ],
+          "edges": [
+            [
+              "client",
+              "handler"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The handler opens one transaction and reserves the key in the idempotency store — a unique constraint here is what will enforce exactly-once.",
+          "nodes": [
+            "handler",
+            "keys"
+          ],
+          "edges": [
+            [
+              "handler",
+              "keys"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Inside that same transaction, it writes the charge to the charges table — dedupe and effect commit together, or not at all.",
+          "nodes": [
+            "handler",
+            "charges",
+            "keys"
+          ],
+          "edges": [
+            [
+              "handler",
+              "charges"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only after the key is reserved does the handler hit the payment gateway to charge the card exactly once.",
+          "nodes": [
+            "handler",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "handler",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the timeout: the mobile client retries. The replay arrives, but the key already exists in the store.",
+          "nodes": [
+            "replay",
+            "keys"
+          ],
+          "edges": [
+            [
+              "replay",
+              "keys"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The store returns the first stored result — the gateway is skipped entirely, so the card is never charged a second time.",
+          "nodes": [
+            "keys",
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "keys",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: a request can arrive twice and change the world exactly once — the unique constraint on the keys store is the repair.",
+          "nodes": [
+            "keys",
+            "handler",
+            "client"
+          ],
+          "edges": [
+            [
+              "handler",
+              "keys"
+            ],
+            [
+              "keys",
+              "client"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2295,6 +3113,111 @@
           "tone": "muted",
           "label": "the failure path: object check skipped (BOLA)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters: the client sends its Bearer token plus the object id it wants, here order 1043.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway authenticates once, verifying the token and passing a trusted principal down to the handler.",
+          "nodes": [
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The handler loads the object the request named from Postgres, using the client-supplied id verbatim.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the real question: does this authenticated principal actually own this specific object?",
+          "nodes": [
+            "handler",
+            "authz"
+          ],
+          "edges": [
+            [
+              "handler",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When ownership fails, the check denies the request with a 403 — the principal is authenticated but not authorized.",
+          "nodes": [
+            "authz",
+            "deny"
+          ],
+          "edges": [
+            [
+              "authz",
+              "deny"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dashed edge is the bug: skip the check and a valid token returns a stranger's data with a cheerful 200.",
+          "nodes": [
+            "authz",
+            "leak"
+          ],
+          "edges": [
+            [
+              "authz",
+              "leak"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: re-derive the principal from the trusted token and check it against the object every time. Authenticated is not authorized.",
+          "nodes": [
+            "gateway",
+            "handler",
+            "authz"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ],
+            [
+              "handler",
+              "authz"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2570,6 +3493,116 @@
         {
           "tone": "warning",
           "label": "the leak the boundary forbids"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client fires POST /orders, then its connection times out — so it retries. The same command arrives twice at your API handler.",
+          "nodes": [
+            "client",
+            "handler"
+          ],
+          "edges": [
+            [
+              "client",
+              "handler"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The handler validates the request and hands a clean command to the Order Service — the last place raw input is checked.",
+          "nodes": [
+            "handler",
+            "service"
+          ],
+          "edges": [
+            [
+              "handler",
+              "service"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here's the seam: the service depends on the OrderRepository interface — just save and findById — and never touches SQL or the ORM directly.",
+          "nodes": [
+            "service",
+            "repo"
+          ],
+          "edges": [
+            [
+              "service",
+              "repo"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This is the mistake that double-billed a customer: wiring the service straight to the database means the retry re-runs the INSERT.",
+          "nodes": [
+            "service",
+            "orm"
+          ],
+          "edges": [
+            [
+              "service",
+              "orm"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repository implementation owns the write — it opens one transaction and persists everything atomically, ready to roll back on failure.",
+          "nodes": [
+            "repo",
+            "pg"
+          ],
+          "edges": [
+            [
+              "repo",
+              "pg"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "It also owns the idempotency key: the retried command maps to the same key, so the second INSERT is caught and the charge happens exactly once.",
+          "nodes": [
+            "repo",
+            "pg",
+            "orm"
+          ],
+          "edges": [
+            [
+              "repo",
+              "pg"
+            ],
+            [
+              "repo",
+              "orm"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: the ORM lives only behind the boundary. Swap Postgres for anything else and the service code never changes.",
+          "nodes": [
+            "repo",
+            "orm",
+            "service"
+          ],
+          "edges": [
+            [
+              "repo",
+              "orm"
+            ],
+            [
+              "service",
+              "repo"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -2870,6 +3903,111 @@
         {
           "tone": "warning",
           "label": "dead-letter — failures parked, not dropped"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's Black Friday at 11pm. The client hits /checkout — one request that must feel instant, even though real money is about to move.",
+          "nodes": [
+            "client",
+            "api"
+          ],
+          "edges": [
+            [
+              "client",
+              "api"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The API's first job is to commit durably: it writes the order AND an outbox job row inside ONE Postgres transaction. Both save, or neither does.",
+          "nodes": [
+            "api",
+            "db"
+          ],
+          "edges": [
+            [
+              "api",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Then it returns immediately — 202 Accepted plus a job id — in 80 milliseconds. No card charged yet, no load-balancer timeout, no double-submit.",
+          "nodes": [
+            "api",
+            "client"
+          ],
+          "edges": [
+            [
+              "api",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A dispatcher scans committed job rows and hands them to the queue. The transaction was the source of truth; the queue is just delivery.",
+          "nodes": [
+            "db",
+            "queue"
+          ],
+          "edges": [
+            [
+              "db",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The queue delivers to the charge worker with at-least-once semantics — meaning it WILL sometimes deliver the same job twice.",
+          "nodes": [
+            "queue",
+            "worker"
+          ],
+          "edges": [
+            [
+              "queue",
+              "worker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the worker charges the payment API with an idempotency key. Run twice, the card is charged once — the key absorbs the duplicate.",
+          "nodes": [
+            "worker",
+            "psp"
+          ],
+          "edges": [
+            [
+              "worker",
+              "psp"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Transient failures get retried back through the queue. But after N attempts the job goes to the dead-letter queue — surfaced, never silently lost.",
+          "nodes": [
+            "worker",
+            "queue",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "worker",
+              "queue"
+            ],
+            [
+              "queue",
+              "dlq"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -3180,6 +4318,120 @@
         {
           "tone": "warning",
           "label": "retry-or-give-up — the DLQ ends the loop"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A message leaves the job queue and the broker delivers it to a worker — possibly twice, because queues promise at-least-once, not exactly-once.",
+          "nodes": [
+            "queue",
+            "worker"
+          ],
+          "edges": [
+            [
+              "queue",
+              "worker"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before touching anything, the worker checks the idempotency store for this message's key — the guard against charging a card a second time.",
+          "nodes": [
+            "worker",
+            "idem"
+          ],
+          "edges": [
+            [
+              "worker",
+              "idem"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "First time seeing the key, the worker runs the job for real — the actual state-changing work like the card charge.",
+          "nodes": [
+            "idem",
+            "work"
+          ],
+          "edges": [
+            [
+              "idem",
+              "work"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "If the key is already there, it's a redelivery — the worker skips the work and acks immediately, so replay changes nothing.",
+          "nodes": [
+            "idem",
+            "decision"
+          ],
+          "edges": [
+            [
+              "idem",
+              "decision"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When work completes, its result flows into the decision: did the job actually succeed?",
+          "nodes": [
+            "work",
+            "decision"
+          ],
+          "edges": [
+            [
+              "work",
+              "decision"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "A transient failure requeues the message with backoff — a brief, bounded retry, not an instant hammering loop.",
+          "nodes": [
+            "decision",
+            "queue"
+          ],
+          "edges": [
+            [
+              "decision",
+              "queue"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Once attempts hit the cap, the message is dead-lettered with its reason — parked, never retried forever.",
+          "nodes": [
+            "decision",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "decision",
+              "dlq"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dead-letter queue surfaces to an alert or dashboard, so a human sees the failure instead of a worker silently spinning nine thousand times.",
+          "nodes": [
+            "dlq",
+            "alert"
+          ],
+          "edges": [
+            [
+              "dlq",
+              "alert"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3507,6 +4759,131 @@
           "tone": "success",
           "label": "the immutable fact, fanned out to subscribers"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts as a command: the client fires ChargeCard, a request to DO something that must run exactly once.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway enforces the auth boundary and passes an authorized command to one owner: the payments handler.",
+          "nodes": [
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before charging, the handler checks the idempotency store, deduping by key so a retry storm can't slip past.",
+          "nodes": [
+            "handler",
+            "idem"
+          ],
+          "edges": [
+            [
+              "handler",
+              "idem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The store answers first-time-only; four identical POSTs collapse into a single accepted execution.",
+          "nodes": [
+            "idem",
+            "handler"
+          ],
+          "edges": [
+            [
+              "idem",
+              "handler"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the money moves: the handler writes the charge exactly once inside one Postgres transaction.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Once it happened, the handler emits PaymentCaptured, an immutable past-tense fact, onto the event bus.",
+          "nodes": [
+            "handler",
+            "bus"
+          ],
+          "edges": [
+            [
+              "handler",
+              "bus"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Receipts, ledger, and analytics observe that fact and react; they never re-run the charge.",
+          "nodes": [
+            "bus",
+            "receipts",
+            "ledger",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "bus",
+              "receipts"
+            ],
+            [
+              "bus",
+              "ledger"
+            ],
+            [
+              "bus",
+              "analytics"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: commands are processed once behind an owner, events are observed by many. Confuse them and you double-charge.",
+          "nodes": [
+            "handler",
+            "idem",
+            "bus"
+          ],
+          "edges": [
+            [
+              "handler",
+              "bus"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3801,7 +5178,115 @@
           "label": "evidence: queryable logs + RED metrics"
         }
       ],
-      "caption": "Drop the id at any hop and the chain breaks: a payment-service log line with no request_id cannot be tied back to the customer's order. Propagation is the whole skill."
+      "caption": "Drop the id at any hop and the chain breaks: a payment-service log line with no request_id cannot be tied back to the customer's order. Propagation is the whole skill.",
+      "storyboard": [
+        {
+          "say": "A customer's checkout is failing. Their request enters the system here, at the API gateway — the one door every request comes through.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway stamps the request with an X-Request-ID, or keeps the one it arrived with, and hands it to the orders handler.",
+          "nodes": [
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The handler forwards that same ID downstream to the payment service, so the whole call chain shares one identity.",
+          "nodes": [
+            "handler",
+            "payment"
+          ],
+          "edges": [
+            [
+              "handler",
+              "payment"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the failure: payment times out and returns a 504 back to the handler — the checkout the customer felt.",
+          "nodes": [
+            "payment",
+            "handler"
+          ],
+          "edges": [
+            [
+              "payment",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The handler logs that failure as structured JSON carrying the ID, so the exact request is searchable — not lost in a million error lines.",
+          "nodes": [
+            "handler",
+            "logs"
+          ],
+          "edges": [
+            [
+              "handler",
+              "logs"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "In parallel it emits RED metrics: count this as an error and record its duration, turning 'some users' into a number.",
+          "nodes": [
+            "handler",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "handler",
+              "metrics"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The insight: paste the ID into log search and replay gateway to orders to payment to 504. Every log and error is attributable to one request.",
+          "nodes": [
+            "client",
+            "gateway",
+            "handler",
+            "payment",
+            "logs",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "handler",
+              "logs"
+            ],
+            [
+              "handler",
+              "metrics"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -4099,6 +5584,117 @@
           "tone": "success",
           "label": "the all-or-nothing transaction"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "At 2 a.m. a timed-out client fires the same POST /payments three times, each carrying an Idempotency-Key the endpoint must honor.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First boundary: the handler validates request shape. A contract test asserts a bad body returns 400 before anything else runs.",
+          "nodes": [
+            "gateway",
+            "validate"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "validate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Second boundary: only valid requests reach the auth check. A test proves an unauthorized caller gets 401, never slipping past.",
+          "nodes": [
+            "validate",
+            "authz"
+          ],
+          "edges": [
+            [
+              "validate",
+              "authz"
+            ],
+            [
+              "authz",
+              "idem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Third boundary: the idempotency store keys on the retry token, so a first request writes, but a duplicate replays the stored result.",
+          "nodes": [
+            "authz",
+            "idem",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "idem",
+              "gateway"
+            ],
+            [
+              "idem",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On a first-time key, the transaction opens and charges the processor exactly once — the irreversible side effect this whole contract exists to protect.",
+          "nodes": [
+            "idem",
+            "db",
+            "processor"
+          ],
+          "edges": [
+            [
+              "idem",
+              "db"
+            ],
+            [
+              "db",
+              "processor"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Fourth boundary: if the transaction fails mid-flight, a rollback test proves no partial write survives and the charge is not orphaned.",
+          "nodes": [
+            "db",
+            "processor"
+          ],
+          "edges": [
+            [
+              "db",
+              "processor"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every promise — shape, auth, exactly-once, rollback — has a test that can turn red, so a regression fails CI instead of the customer.",
+          "nodes": [
+            "validate",
+            "authz",
+            "idem",
+            "db"
+          ],
+          "edges": [],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -4395,6 +5991,129 @@
         {
           "tone": "success",
           "label": "downstream protected from the storm"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 11:58pm on Black Friday. A broken mobile client's retry storm floods the API gateway at 40k requests per second.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Every request hits the token bucket at the auth boundary. This decision node is where each request lives or dies.",
+          "nodes": [
+            "gateway",
+            "limiter"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "limiter"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path: with no limiter, requests pile into an unbounded in-memory buffer that grows until the kernel OOM-kills the service.",
+          "nodes": [
+            "limiter",
+            "queue",
+            "oom"
+          ],
+          "edges": [
+            [
+              "limiter",
+              "queue"
+            ],
+            [
+              "queue",
+              "oom"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That OOM takes checkout down for everyone — a cascade failure through every upstream that called this endpoint.",
+          "nodes": [
+            "oom"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The repair path: no token, so the bucket sheds the burst instantly, returning 429 with Retry-After to the abusive client.",
+          "nodes": [
+            "limiter",
+            "reject"
+          ],
+          "edges": [
+            [
+              "limiter",
+              "reject"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Admitted requests enter a bounded queue. When it fills, overflow is rejected fast and cheap instead of silently buffered.",
+          "nodes": [
+            "limiter",
+            "queue",
+            "reject"
+          ],
+          "edges": [
+            [
+              "limiter",
+              "queue"
+            ],
+            [
+              "queue",
+              "reject"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The worker pool pulls at a safe concurrency, keeping Postgres under bounded load so the service keeps serving real traffic.",
+          "nodes": [
+            "queue",
+            "worker",
+            "db"
+          ],
+          "edges": [
+            [
+              "queue",
+              "worker"
+            ],
+            [
+              "worker",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: say no on purpose before the kernel says it for you. Arrivals you can't serve are refused, never buffered until death.",
+          "nodes": [
+            "limiter",
+            "reject"
+          ],
+          "edges": [
+            [
+              "limiter",
+              "reject"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4712,6 +6431,121 @@
           "tone": "success",
           "label": "single internal path both versions share"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Two callers you can't recall hit one endpoint: old mobile with no shippingTier, new web that sends it.",
+          "nodes": [
+            "v1client",
+            "v2client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "v1client",
+              "gateway"
+            ],
+            [
+              "v2client",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The gateway doesn't guess. It reads the requested version and routes on it, treating the version as a contract.",
+          "nodes": [
+            "gateway",
+            "negotiate"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "negotiate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A v1 body is missing shippingTier, so it takes the upgrade step, which fills the field with a safe default.",
+          "nodes": [
+            "negotiate",
+            "upgrade"
+          ],
+          "edges": [
+            [
+              "negotiate",
+              "upgrade"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A v2 body already matches the internal shape, so it passes straight through — no translation needed.",
+          "nodes": [
+            "negotiate",
+            "handler"
+          ],
+          "edges": [
+            [
+              "negotiate",
+              "handler"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Both paths converge on one handler in the internal shape, which writes the order to Postgres — a single code path.",
+          "nodes": [
+            "upgrade",
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "upgrade",
+              "handler"
+            ],
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The contract test replays both shapes against the live endpoint, so a broken upgrade fails CI before it fails checkout.",
+          "nodes": [
+            "ctest",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "ctest",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The insight: the deployed caller defines 'compatible.' Keep new fields optional with defaults, or negotiate a version.",
+          "nodes": [
+            "v1client",
+            "negotiate",
+            "upgrade"
+          ],
+          "edges": [
+            [
+              "v1client",
+              "gateway"
+            ],
+            [
+              "negotiate",
+              "upgrade"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5011,6 +6845,107 @@
           "tone": "success",
           "label": "row-scoped store — the contained side"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: the client sends POST transfer with a signed JWT proving who they are. That token says logged in, nothing more.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway confirms the JWT is authentic and hands off. Being authenticated is table stakes, not permission to touch this account.",
+          "nodes": [
+            "gateway",
+            "validate"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First boundary: validate the input. Untrusted body is checked for shape before any code trusts it. Trust nothing the client sent.",
+          "nodes": [
+            "validate",
+            "authz"
+          ],
+          "edges": [
+            [
+              "validate",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Second boundary, the crucial one: authorize against THIS object. Does this caller actually own the account id they named?",
+          "nodes": [
+            "authz",
+            "handler"
+          ],
+          "edges": [
+            [
+              "authz",
+              "handler"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only now does the handler commit, scoped by tenant_id so the query itself can never reach another owner's rows.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Third boundary: what we observe is redacted. PII is classified so it never leaks into logs or traces that aren't cleared to hold it.",
+          "nodes": [
+            "handler",
+            "log"
+          ],
+          "edges": [
+            [
+              "handler",
+              "log"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The attack: swap the id in the body straight to the handler, skipping authz. Auth passed, but the boundary was never drawn. That's IDOR.",
+          "nodes": [
+            "client",
+            "handler",
+            "authz"
+          ],
+          "edges": [
+            [
+              "client",
+              "handler"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -5279,7 +7214,112 @@
           "label": "downstream blast radius (double events)"
         }
       ],
-      "caption": "Isolate by walking the path: did the contract accept two requests? Did auth pass both? Did the handler write twice? The diagram is the search space the loop shrinks."
+      "caption": "Isolate by walking the path: did the contract accept two requests? Did auth pass both? Did the handler write twice? The diagram is the search space the loop shrinks.",
+      "storyboard": [
+        {
+          "say": "It's 2 a.m. and the page fires: one customer was charged twice for a single order. The retry that passed review is now the suspect.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a timeout, the client fires POST /orders twice. Two identical requests enter the gateway — the trigger for everything downstream.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gateway checks the contract and hands off to the auth boundary, which confirms the caller is authorized. Both retries pass cleanly.",
+          "nodes": [
+            "gateway",
+            "auth",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "auth"
+            ],
+            [
+              "auth",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the layer that lies. The order handler runs an INSERT with no idempotency guard, so each retry becomes its own committed row.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The blast radius is duplicate persisted state. Postgres now holds two orders, and emits order.created twice into the event queue.",
+          "nodes": [
+            "db",
+            "queue"
+          ],
+          "edges": [
+            [
+              "db",
+              "queue"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The queue and its analytics readers are downstream context — they faithfully double every effect, but they are symptoms, not the source.",
+          "nodes": [
+            "db",
+            "queue"
+          ],
+          "edges": [
+            [
+              "db",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The Incident Loop isolates the handler-to-database edge, repairs it with an idempotency key, and proves the retry now writes exactly once.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -5580,6 +7620,125 @@
         {
           "tone": "muted",
           "label": "observability — the trace that proves it"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One state-changing POST enters here: the client sends POST /charges through the API gateway, which forwards an authenticated request inward.",
+          "nodes": [
+            "client",
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Auth and contract are gates: a bad token or malformed body exits at the gateway before any write, so failures never touch money.",
+          "nodes": [
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The handler's first move is the boundary the buggy version skipped: it asks the idempotency store whether this key has been seen before.",
+          "nodes": [
+            "handler",
+            "idem"
+          ],
+          "edges": [
+            [
+              "handler",
+              "idem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On a retry after a network blip, the store recognizes the key and short-circuits, replaying the stored 202 instead of charging twice.",
+          "nodes": [
+            "idem",
+            "client"
+          ],
+          "edges": [
+            [
+              "idem",
+              "client"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "First time through, the handler opens ONE transaction: charge, record the key, and enqueue the receipt all commit together or not at all.",
+          "nodes": [
+            "handler",
+            "txn",
+            "queue"
+          ],
+          "edges": [
+            [
+              "handler",
+              "txn"
+            ],
+            [
+              "txn",
+              "queue"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The queue carries the after-effect; if delivery fails past max retries the message lands in the DLQ instead of being lost.",
+          "nodes": [
+            "queue",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "queue",
+              "dlq"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The tracer emits a span across the whole path, so every request and every replay is observable end to end.",
+          "nodes": [
+            "handler",
+            "otel"
+          ],
+          "edges": [
+            [
+              "handler",
+              "otel"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The core insight: the network only promises at-least-once, so bind the side effect to an idempotency key and it changes the world exactly once.",
+          "nodes": [
+            "idem",
+            "txn"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -5899,6 +8058,111 @@
         {
           "tone": "muted",
           "label": "observability woven through, not bolted on"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 2 a.m. A checkout client never got your 200, so it fires the exact same charge again — this path has to survive that.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The gateway is the contract boundary: it validates the request and returns a clean 200, 4xx, or 429 to the handler.",
+          "nodes": [
+            "gateway",
+            "handler"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "handler"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Past auth, the charge handler reads the Idempotency-Key — the fingerprint that decides whether this request is new or a repeat.",
+          "nodes": [
+            "handler",
+            "idem"
+          ],
+          "edges": [
+            [
+              "handler",
+              "idem"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On a new key, we write in a single Postgres transaction — the key persists alongside the charge, so the effect commits exactly once.",
+          "nodes": [
+            "idem",
+            "db"
+          ],
+          "edges": [
+            [
+              "idem",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This is the whole point: on a seen key we skip the write and replay the stored 200, so the 2 a.m. retry never double-charges.",
+          "nodes": [
+            "idem",
+            "client"
+          ],
+          "edges": [
+            [
+              "idem",
+              "client"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "After the transaction commits, we enqueue fulfillment — async work runs outside the charge, and repeated failures fall to the dead-letter queue.",
+          "nodes": [
+            "db",
+            "queue",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "db",
+              "queue"
+            ],
+            [
+              "queue",
+              "dlq"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Every hop emits a span and a structured log, so the path isn't just demonstrable — it's reviewable evidence you can break and repair.",
+          "nodes": [
+            "handler",
+            "obs"
+          ],
+          "edges": [
+            [
+              "handler",
+              "obs"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },

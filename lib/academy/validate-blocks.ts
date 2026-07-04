@@ -324,6 +324,46 @@ function validateDiagram(block: Record<string, unknown>, where: string, errors: 
         errors.push(`${where}: diagram edge ${i} 'to' references unknown node '${edge.to}'`)
     })
   }
+
+  // Optional NARRATION storyboard (the diagram explains itself, beat by beat).
+  // Fail-closed: every beat must have a 'say' line, and any node/edge it
+  // spotlights MUST exist in this diagram — a bad ref can never reach the player.
+  if (block.storyboard !== undefined) {
+    if (!Array.isArray(block.storyboard)) {
+      errors.push(`${where}: diagram 'storyboard' must be an array of beats`)
+    } else {
+      const edgeKeys = Array.isArray(edges)
+        ? new Set(edges.filter(isRecord).map((e) => `${String(e.from)}->${String(e.to)}`))
+        : new Set<string>()
+      block.storyboard.forEach((beat, i) => {
+        if (!isRecord(beat)) {
+          errors.push(`${where}: storyboard beat ${i} is not an object`)
+          return
+        }
+        if (!isNonEmptyString(beat.say)) errors.push(`${where}: storyboard beat ${i} missing 'say'`)
+        if (beat.nodes !== undefined) {
+          if (!Array.isArray(beat.nodes)) errors.push(`${where}: storyboard beat ${i} 'nodes' must be an array`)
+          else
+            beat.nodes.forEach((n) => {
+              if (nodeIds.size > 0 && !nodeIds.has(String(n)))
+                errors.push(`${where}: storyboard beat ${i} references unknown node '${String(n)}'`)
+            })
+        }
+        if (beat.edges !== undefined) {
+          if (!Array.isArray(beat.edges)) errors.push(`${where}: storyboard beat ${i} 'edges' must be an array`)
+          else
+            beat.edges.forEach((pair) => {
+              if (!Array.isArray(pair) || pair.length !== 2) {
+                errors.push(`${where}: storyboard beat ${i} edge must be [from, to]`)
+                return
+              }
+              if (edgeKeys.size > 0 && !edgeKeys.has(`${String(pair[0])}->${String(pair[1])}`))
+                errors.push(`${where}: storyboard beat ${i} references unknown edge '${String(pair[0])}->${String(pair[1])}'`)
+            })
+        }
+      })
+    }
+  }
 }
 
 function validateViz(block: Record<string, unknown>, where: string, errors: string[]): void {

@@ -174,6 +174,126 @@
           "tone": "muted",
           "label": "flake — quarantined, not trusted"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with ranked product risk — you list failures by impact before writing a single test.",
+          "nodes": [
+            "risk"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Each risk fans out to the cheapest layer that can catch it: logic to units, contracts to the API layer.",
+          "nodes": [
+            "risk",
+            "unit",
+            "api"
+          ],
+          "edges": [
+            [
+              "risk",
+              "unit"
+            ],
+            [
+              "risk",
+              "api"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "User-visible flows go to browser end-to-end, and conformance risk goes to dedicated accessibility checks.",
+          "nodes": [
+            "risk",
+            "browser",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "risk",
+              "browser"
+            ],
+            [
+              "risk",
+              "a11y"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Every layer must hand up falsifiable proof — a pass, a contract, a trace or screenshot, an axe result.",
+          "nodes": [
+            "unit",
+            "api",
+            "browser",
+            "a11y",
+            "gate"
+          ],
+          "edges": [
+            [
+              "unit",
+              "gate"
+            ],
+            [
+              "api",
+              "gate"
+            ],
+            [
+              "browser",
+              "gate"
+            ],
+            [
+              "a11y",
+              "gate"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The CI quality gate is the single decision point — it only releases when the evidence backs the risk.",
+          "nodes": [
+            "gate",
+            "release"
+          ],
+          "edges": [
+            [
+              "gate",
+              "release"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A flaky browser test that cannot produce a trace must not gate the release — no evidence, no vote.",
+          "nodes": [
+            "flake",
+            "gate"
+          ],
+          "edges": [
+            [
+              "flake",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: coverage is proven by CI evidence, never a local green — that green checkout suite proves nothing.",
+          "nodes": [
+            "risk",
+            "gate",
+            "release"
+          ],
+          "edges": [
+            [
+              "gate",
+              "release"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -465,6 +585,118 @@
         {
           "tone": "warning",
           "label": "expensive + flake-prone — keep thin, harden hard"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Same checkout flow, two shapes. The pyramid piles cheap unit tests at the base; each risk should fall to the lowest layer that can falsify it.",
+          "nodes": [
+            "unit",
+            "contract",
+            "browser",
+            "a11y"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Unit tests catch logic bugs fast and cheap, feeding the gate a near-instant signal on every commit.",
+          "nodes": [
+            "unit",
+            "ci"
+          ],
+          "edges": [
+            [
+              "unit",
+              "ci"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The trophy widens this band: API and contract tests verify the checkout integration where most real risk actually lives.",
+          "nodes": [
+            "contract",
+            "ci"
+          ],
+          "edges": [
+            [
+              "contract",
+              "ci"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The browser tier stays deliberately thin. Full E2E flow signal is slow and expensive, so we spend it sparingly.",
+          "nodes": [
+            "browser",
+            "ci"
+          ],
+          "edges": [
+            [
+              "browser",
+              "ci"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Flake noise corrupts that top tier: the six specs that pass on your laptop but fail in CI live right here.",
+          "nodes": [
+            "flake",
+            "browser"
+          ],
+          "edges": [
+            [
+              "flake",
+              "browser"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Accessibility runs alongside the browser tier, sending its own conformance signal so untriaged a11y defects get an owner.",
+          "nodes": [
+            "a11y",
+            "ci"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "ci"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "CI is the gate reading all four signals. Shape follows risk, not prestige, so no release gets defended by flaky browser tests alone.",
+          "nodes": [
+            "ci",
+            "unit",
+            "contract",
+            "browser",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "unit",
+              "ci"
+            ],
+            [
+              "contract",
+              "ci"
+            ],
+            [
+              "browser",
+              "ci"
+            ],
+            [
+              "a11y",
+              "ci"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -784,6 +1016,128 @@
         {
           "tone": "success",
           "label": "the gate + the replayable evidence it cites"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with product risk — checkout is revenue-critical, so we name every way shipping could hurt the user before we write a test.",
+          "nodes": [
+            "risk"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Each risk gets the cheapest layer that can disqualify it: unit for logic, contract for APIs, browser for user flows, a11y for conformance.",
+          "nodes": [
+            "risk",
+            "unit",
+            "contract",
+            "browser",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "risk",
+              "unit"
+            ],
+            [
+              "risk",
+              "contract"
+            ],
+            [
+              "risk",
+              "browser"
+            ],
+            [
+              "risk",
+              "a11y"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The two browser tests are red again — different failure each run. That flaky edge is a suspect path, not proof of anything yet.",
+          "nodes": [
+            "browser",
+            "triage"
+          ],
+          "edges": [
+            [
+              "browser",
+              "triage"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Flake triage answers the SDET's question: is this failure real? A genuine defect holds the release; noise gets quarantined.",
+          "nodes": [
+            "triage",
+            "gate"
+          ],
+          "edges": [
+            [
+              "triage",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The four accessibility defects nobody triaged are the second suspect path — a11y must reach the gate as a triaged result, not a blind pass.",
+          "nodes": [
+            "a11y",
+            "gate"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Unit and contract feed the gate as clean pass or fail — the layers that cheaply disqualify logic and API risk.",
+          "nodes": [
+            "unit",
+            "contract",
+            "gate"
+          ],
+          "edges": [
+            [
+              "unit",
+              "gate"
+            ],
+            [
+              "contract",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The CI quality gate decides ship or hold — only after both suspect paths clear, never on a green vibe.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Every decision is written to the evidence ledger: replayable proof of why we shipped, and what would have invalidated it.",
+          "nodes": [
+            "gate",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "gate",
+              "evidence"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -1115,6 +1469,129 @@
           "tone": "success",
           "label": "gate action the class dictates"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The release train leaves in an hour and CI is a wall of red — every failure enters here as one undifferentiated run.",
+          "nodes": [
+            "red"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The tempting move is a blind override: skip the gate, ship anyway, and let the loudest voice decide instead of the evidence.",
+          "nodes": [
+            "red",
+            "override"
+          ],
+          "edges": [
+            [
+              "red",
+              "override"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The disciplined move is to classify each failure — the first fork asks a single evidence question: is it reproducible?",
+          "nodes": [
+            "red",
+            "repro"
+          ],
+          "edges": [
+            [
+              "red",
+              "repro"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "A deterministic fail is a product bug, and a bug blocks the release outright.",
+          "nodes": [
+            "repro",
+            "bug",
+            "gate"
+          ],
+          "edges": [
+            [
+              "repro",
+              "bug"
+            ],
+            [
+              "bug",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Green on retry means a flaky test — quarantine it and file a ticket rather than blocking the whole train.",
+          "nodes": [
+            "repro",
+            "flake",
+            "gate"
+          ],
+          "edges": [
+            [
+              "repro",
+              "flake"
+            ],
+            [
+              "flake",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Env-dependent failures are drift: fix the harness and re-run — the code was never the problem.",
+          "nodes": [
+            "repro",
+            "drift",
+            "gate"
+          ],
+          "edges": [
+            [
+              "repro",
+              "drift"
+            ],
+            [
+              "drift",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Axe and contrast reds are accessibility gaps — the one the room skips — filed against conformance, not silenced.",
+          "nodes": [
+            "repro",
+            "a11y",
+            "gate"
+          ],
+          "edges": [
+            [
+              "repro",
+              "a11y"
+            ],
+            [
+              "a11y",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every failure exits through exactly one class into the gate — untriaged is not a class, and evidence, not volume, decides the release.",
+          "nodes": [
+            "gate",
+            "override"
+          ],
+          "edges": [],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1386,6 +1863,106 @@
           "tone": "warning",
           "label": "browser flow only — flake risk if logic leaks up"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the top: the browser test drives the real checkout flow through Playwright — the slowest, flakiest layer we own.",
+          "nodes": [
+            "browser"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The browser test shouldn't re-prove the API. It trusts the contract test to guard the boundary between services.",
+          "nodes": [
+            "browser",
+            "contract"
+          ],
+          "edges": [
+            [
+              "browser",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The contract test verifies the Checkout API's shape — the request and response schema — without asserting a single price.",
+          "nodes": [
+            "contract",
+            "api"
+          ],
+          "edges": [
+            [
+              "contract",
+              "api"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Pricing correctness isn't the contract's job either. It delegates that logic downward to the unit layer.",
+          "nodes": [
+            "contract",
+            "unit"
+          ],
+          "edges": [
+            [
+              "contract",
+              "unit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The unit test asserts pricing logic directly, in-memory, in milliseconds — no browser, no network, no flake.",
+          "nodes": [
+            "unit",
+            "logic"
+          ],
+          "edges": [
+            [
+              "unit",
+              "logic"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's where the 40 red tests were born: pricing checked through a real browser, colliding with stale selectors and timing.",
+          "nodes": [
+            "browser",
+            "selector"
+          ],
+          "edges": [
+            [
+              "browser",
+              "selector"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The rule: push every check down to the lightest layer that still proves it. Logic lives in unit, shape in contract, flow in browser.",
+          "nodes": [
+            "logic",
+            "unit",
+            "contract",
+            "browser"
+          ],
+          "edges": [
+            [
+              "unit",
+              "logic"
+            ],
+            [
+              "browser",
+              "contract"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1648,6 +2225,102 @@
         {
           "tone": "success",
           "label": "the release decision it feeds"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: the external Payments API quietly renames a field, amount_cents becomes amountMinor. The shape drifted.",
+          "nodes": [
+            "provider"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "One level below the UI, the contract test asserts the response schema at the seam and fails fast, pointing straight at the provider.",
+          "nodes": [
+            "provider",
+            "contract"
+          ],
+          "edges": [
+            [
+              "provider",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The browser test also sees the drift, but slowly: it hangs on a spinner that never resolves and times out flaky.",
+          "nodes": [
+            "provider",
+            "browser"
+          ],
+          "edges": [
+            [
+              "provider",
+              "browser"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "At the CI gate the contract test is red and blocks the release, giving a clean, unambiguous stop signal.",
+          "nodes": [
+            "contract",
+            "gate"
+          ],
+          "edges": [
+            [
+              "contract",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The browser test's flake reaches the same gate as noise, so the team blames Playwright instead of the provider.",
+          "nodes": [
+            "browser",
+            "gate"
+          ],
+          "edges": [
+            [
+              "browser",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If nothing pins the shape, the drift sails through to Production and checkout dies on the customer.",
+          "nodes": [
+            "provider",
+            "prod"
+          ],
+          "edges": [
+            [
+              "provider",
+              "prod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: guard the cheapest check. The contract test catches drift at the seam, fast and readable, so the release rests on the right evidence.",
+          "nodes": [
+            "contract",
+            "browser",
+            "gate",
+            "prod"
+          ],
+          "edges": [
+            [
+              "contract",
+              "gate"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1925,6 +2598,122 @@
           "tone": "success",
           "label": "worker-scoped base + CI evidence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every test wakes up in a built world: the seed fixture lays down base data, then hands off to the auth fixture.",
+          "nodes": [
+            "seed",
+            "auth"
+          ],
+          "edges": [
+            [
+              "seed",
+              "auth"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Auth grants the test body a fresh, authenticated context — clean credentials scoped to this one run.",
+          "nodes": [
+            "auth",
+            "test"
+          ],
+          "edges": [
+            [
+              "auth",
+              "test"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the suspect: shared, un-scoped state left by a prior test leaks into this body. That leak is the flake.",
+          "nodes": [
+            "shared",
+            "test"
+          ],
+          "edges": [
+            [
+              "shared",
+              "test"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The trap: green locally, red in CI. The test depends on state nobody owns, so ordering decides pass or fail.",
+          "nodes": [
+            "test",
+            "shared"
+          ],
+          "edges": [
+            [
+              "shared",
+              "test"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Teardown always runs after the body — pass or fail, it fires. This is where isolation gets enforced.",
+          "nodes": [
+            "test",
+            "teardown"
+          ],
+          "edges": [
+            [
+              "test",
+              "teardown"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Teardown resets the shared state, cutting the leaking edge so the next test starts from a known, clean world.",
+          "nodes": [
+            "teardown",
+            "shared"
+          ],
+          "edges": [
+            [
+              "teardown",
+              "shared"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On failure the test emits a CI trace — the evidence that pins the flake to state, not luck.",
+          "nodes": [
+            "test",
+            "trace"
+          ],
+          "edges": [
+            [
+              "test",
+              "trace"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: no test may depend on what another left behind. Scope the fixture, own the teardown — isolation is the whole job.",
+          "nodes": [
+            "seed",
+            "auth",
+            "shared",
+            "teardown"
+          ],
+          "edges": [
+            [
+              "teardown",
+              "shared"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2195,7 +2984,132 @@
           "label": "shared state = the collision = the flake"
         }
       ],
-      "caption": "The flake lives on the shared-row edge, not in the assertions. Isolation removes that edge by giving each worker its own key."
+      "caption": "The flake lives on the shared-row edge, not in the assertions. Isolation removes that edge by giving each worker its own key.",
+      "storyboard": [
+        {
+          "say": "The Playwright Runner opens the checkout suite by spawning two workers in parallel to run tests at the same time.",
+          "nodes": [
+            "runner",
+            "w1",
+            "w2"
+          ],
+          "edges": [
+            [
+              "runner",
+              "w1"
+            ],
+            [
+              "runner",
+              "w2"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Each worker starts by running the same setup fixture to prepare its test data before asserting.",
+          "nodes": [
+            "w1",
+            "w2",
+            "seed"
+          ],
+          "edges": [
+            [
+              "w1",
+              "seed"
+            ],
+            [
+              "w2",
+              "seed"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the trap: that fixture writes to the same key every time, so both workers land on one shared user row.",
+          "nodes": [
+            "seed",
+            "db"
+          ],
+          "edges": [
+            [
+              "seed",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Worker 1 now reads that row to make its assertion, expecting the exact state it just seeded.",
+          "nodes": [
+            "w1",
+            "assert"
+          ],
+          "edges": [
+            [
+              "w1",
+              "assert"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But Worker 2 has already mutated the shared row, so the assertion sees foreign data and fails at random.",
+          "nodes": [
+            "db",
+            "assert"
+          ],
+          "edges": [
+            [
+              "db",
+              "assert"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "This is why it passes locally and reddens in CI: the flake is shared state, not timing, and retrying it hides the bug.",
+          "nodes": [
+            "db",
+            "assert",
+            "seed"
+          ],
+          "edges": [
+            [
+              "seed",
+              "db"
+            ],
+            [
+              "db",
+              "assert"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The fix is a per-test namespace: run-id plus worker plus test name, so each worker owns a distinct row and sees only what it created.",
+          "nodes": [
+            "w1",
+            "w2",
+            "seed",
+            "db"
+          ],
+          "edges": [
+            [
+              "w1",
+              "seed"
+            ],
+            [
+              "w2",
+              "seed"
+            ],
+            [
+              "seed",
+              "db"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2524,6 +3438,145 @@
           "tone": "warning",
           "label": "the muted-flake trap (retries, no root cause)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Friday, 4 p.m.: the checkout release has one red CI check that failed 3 of the last 10 runs on nobody's code.",
+          "nodes": [
+            "fail"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The tempting shortcut: just add retries. That routes the red straight into the muted-flake trap instead of understanding it.",
+          "nodes": [
+            "fail",
+            "muted"
+          ],
+          "edges": [
+            [
+              "fail",
+              "muted"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A muted flake isn't fixed — it comes back next sprint, still red, still untrusted. Skip the trap.",
+          "nodes": [
+            "muted",
+            "fail"
+          ],
+          "edges": [
+            [
+              "muted",
+              "fail"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Do the real thing: before re-running, open the trace and read the timeline of what the browser actually did.",
+          "nodes": [
+            "fail",
+            "trace",
+            "triage"
+          ],
+          "edges": [
+            [
+              "fail",
+              "trace"
+            ],
+            [
+              "trace",
+              "triage"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Classify the cause: element not found is selector drift; acting too early is a timing race.",
+          "nodes": [
+            "triage",
+            "selector",
+            "timing"
+          ],
+          "edges": [
+            [
+              "triage",
+              "selector"
+            ],
+            [
+              "triage",
+              "timing"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "State that bled in is a fixture leak; passing local but red in CI is an env assumption.",
+          "nodes": [
+            "triage",
+            "fixture",
+            "env"
+          ],
+          "edges": [
+            [
+              "triage",
+              "fixture"
+            ],
+            [
+              "triage",
+              "env"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Each cause gets a real repair plus a green trace — only a confirmed fix reaches the CI quality gate.",
+          "nodes": [
+            "selector",
+            "timing",
+            "fixture",
+            "env",
+            "gate"
+          ],
+          "edges": [
+            [
+              "selector",
+              "gate"
+            ],
+            [
+              "timing",
+              "gate"
+            ],
+            [
+              "fixture",
+              "gate"
+            ],
+            [
+              "env",
+              "gate"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: a user-visible behavior test with role locators and auto-retrying assertions makes red an inspectable decision, not a coin flip.",
+          "nodes": [
+            "trace",
+            "triage",
+            "gate"
+          ],
+          "edges": [
+            [
+              "trace",
+              "triage"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2791,6 +3844,129 @@
         {
           "tone": "warning",
           "label": "structure/styling — brittle, breaks in CI"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every locator is a bet. Here's the target element every test has to find before it can click, type, or assert.",
+          "nodes": [
+            "element"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The first bet: getByRole or getByLabel — the user-visible contract. It survives refactors because roles and labels rarely change.",
+          "nodes": [
+            "element",
+            "role"
+          ],
+          "edges": [
+            [
+              "element",
+              "role"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "No clear role or label? Drop one tier to getByTestId — an explicit, stable handle you deliberately placed for tests.",
+          "nodes": [
+            "element",
+            "testid"
+          ],
+          "edges": [
+            [
+              "element",
+              "testid"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only as a last resort reach for CSS class selectors or XPath nth-child — bets on how the framework rendered this exact build.",
+          "nodes": [
+            "element",
+            "css",
+            "xpath"
+          ],
+          "edges": [
+            [
+              "element",
+              "css"
+            ],
+            [
+              "element",
+              "xpath"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Then CI runs. A styled-components hash rotates overnight, the class no longer matches, and the CSS selector finds nothing.",
+          "nodes": [
+            "css",
+            "ci"
+          ],
+          "edges": [
+            [
+              "css",
+              "ci"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "XPath breaks the same way: a re-render shifts the child index, so nth-child now points at the wrong node.",
+          "nodes": [
+            "xpath",
+            "ci"
+          ],
+          "edges": [
+            [
+              "xpath",
+              "ci"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The quiet part: getByCss never located a button — it located a build. The bottom tier binds to markup that CI reshuffles.",
+          "nodes": [
+            "css",
+            "xpath",
+            "ci"
+          ],
+          "edges": [
+            [
+              "css",
+              "ci"
+            ],
+            [
+              "xpath",
+              "ci"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: locate what the user perceives, never how the framework rendered it this build. Stay high on the tier and the gate stays green.",
+          "nodes": [
+            "element",
+            "role",
+            "testid"
+          ],
+          "edges": [
+            [
+              "element",
+              "role"
+            ],
+            [
+              "element",
+              "testid"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3086,6 +4262,130 @@
           "tone": "success",
           "label": "web-first assertion + trace proof"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The test spec is the entry point: it drives a checkout scenario by acting through a locator, not by touching the app directly.",
+          "nodes": [
+            "spec",
+            "locator"
+          ],
+          "edges": [
+            [
+              "spec",
+              "locator"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The locator drives the real app under test, which in turn fetches from the API and database as it renders.",
+          "nodes": [
+            "locator",
+            "app",
+            "backend"
+          ],
+          "edges": [
+            [
+              "locator",
+              "app"
+            ],
+            [
+              "app",
+              "backend"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The app is a moving target: buttons appear, disable, and settle at times the test can never predict.",
+          "nodes": [
+            "app",
+            "backend"
+          ],
+          "edges": [
+            [
+              "app",
+              "backend"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The brittle path bets on timing: the spec sleeps a guessed two thousand milliseconds instead of the actual condition.",
+          "nodes": [
+            "spec",
+            "sleep"
+          ],
+          "edges": [
+            [
+              "spec",
+              "sleep"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the app is slower than the guess, the fixed sleep races it and loses, producing the flaky failure CI hates.",
+          "nodes": [
+            "sleep",
+            "flake"
+          ],
+          "edges": [
+            [
+              "sleep",
+              "flake"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gold path instead sends a web-first assertion that polls visible, stable, and enabled until it holds or the timeout box fires.",
+          "nodes": [
+            "spec",
+            "assert"
+          ],
+          "edges": [
+            [
+              "spec",
+              "assert"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On retry and pass the assertion leaves trace evidence, so you debug real state, not a number someone guessed.",
+          "nodes": [
+            "assert",
+            "trace"
+          ],
+          "edges": [
+            [
+              "assert",
+              "trace"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: express the exact user-visible condition and delete every fixed sleep to stop paying the flake tax.",
+          "nodes": [
+            "sleep",
+            "assert",
+            "trace"
+          ],
+          "edges": [
+            [
+              "spec",
+              "assert"
+            ],
+            [
+              "assert",
+              "trace"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -3370,6 +4670,116 @@
         {
           "tone": "warning",
           "label": "diff + gate — intended vs unintended change"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A pull request opens and triggers the CI runner — the entry point where every visual check begins.",
+          "nodes": [
+            "pr",
+            "runner"
+          ],
+          "edges": [
+            [
+              "pr",
+              "runner"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The runner executes the test, rendering the page and capturing a fresh screenshot of exactly what a customer would see.",
+          "nodes": [
+            "runner",
+            "render"
+          ],
+          "edges": [
+            [
+              "runner",
+              "render"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That actual.png meets the committed expected.png from the baseline store — this is the moment pixels get compared.",
+          "nodes": [
+            "render",
+            "compare",
+            "baseline"
+          ],
+          "edges": [
+            [
+              "render",
+              "compare"
+            ],
+            [
+              "baseline",
+              "compare"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The compare step produces a diff ratio; masked regions and a threshold above render-noise decide whether the difference is real.",
+          "nodes": [
+            "compare",
+            "diff"
+          ],
+          "edges": [
+            [
+              "compare",
+              "diff"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Under threshold, the change is just noise — the compare feeds straight into the gate and the build passes.",
+          "nodes": [
+            "compare",
+            "gate"
+          ],
+          "edges": [
+            [
+              "compare",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Over threshold, a diff artifact goes to a human for triage — approve the intended change, or block the regression.",
+          "nodes": [
+            "diff",
+            "gate"
+          ],
+          "edges": [
+            [
+              "diff",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The core insight: mask the noise, tune the threshold, and this becomes the one test that actually sees the pixels customers do.",
+          "nodes": [
+            "compare",
+            "diff",
+            "gate"
+          ],
+          "edges": [
+            [
+              "compare",
+              "gate"
+            ],
+            [
+              "diff",
+              "gate"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3674,6 +5084,130 @@
           "tone": "success",
           "label": "repair path back to green"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a commit or PR is pushed and hands off to the CI runner, the machine that decides whether this release ships.",
+          "nodes": [
+            "commit",
+            "ci"
+          ],
+          "edges": [
+            [
+              "commit",
+              "ci"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The runner launches Playwright, driving the real checkout flow in a real browser instead of trusting that a human clicked around.",
+          "nodes": [
+            "ci",
+            "pw"
+          ],
+          "edges": [
+            [
+              "ci",
+              "pw"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "At each rendered state, Playwright injects axe-core and analyzes the live DOM the way assistive tech actually sees it.",
+          "nodes": [
+            "pw",
+            "axe"
+          ],
+          "edges": [
+            [
+              "pw",
+              "axe"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "axe-core hands back a list of violations. This is the raw evidence a reviewer can inspect and replay, not a vibe.",
+          "nodes": [
+            "axe",
+            "assert"
+          ],
+          "edges": [
+            [
+              "axe",
+              "assert"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is the whole gate: the threshold assert. It converts any serious or critical violation into a non-zero exit that fails the build.",
+          "nodes": [
+            "assert",
+            "fail"
+          ],
+          "edges": [
+            [
+              "assert",
+              "fail"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On a red build you get a trace and screenshot, you fix the unlabeled button, and re-run the gate against the same states.",
+          "nodes": [
+            "fail",
+            "repair",
+            "pw"
+          ],
+          "edges": [
+            [
+              "fail",
+              "repair"
+            ],
+            [
+              "repair",
+              "pw"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only when zero violations clear the threshold does the assert let the build pass and ship.",
+          "nodes": [
+            "assert",
+            "ship"
+          ],
+          "edges": [
+            [
+              "assert",
+              "ship"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The lesson: logged-but-green is a report, not a gate. The assertion must be able to fail CI, or the div-button ships again.",
+          "nodes": [
+            "assert",
+            "fail",
+            "ship"
+          ],
+          "edges": [
+            [
+              "assert",
+              "fail"
+            ],
+            [
+              "assert",
+              "ship"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3972,6 +5506,100 @@
         {
           "tone": "muted",
           "label": "full load test — downstream, non-blocking"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts when CI fires and builds a preview deploy of the app — a real, running target, not a mock.",
+          "nodes": [
+            "ci",
+            "app"
+          ],
+          "edges": [
+            [
+              "ci",
+              "app"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Instead of just asking 'did it load?', the perf smoke test targets that preview and drives one revenue-critical flow: checkout.",
+          "nodes": [
+            "app",
+            "smoke"
+          ],
+          "edges": [
+            [
+              "app",
+              "smoke"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The smoke test measures a real latency signal — the p95 of a key transition — and hands that number to the budget gate.",
+          "nodes": [
+            "smoke",
+            "budget"
+          ],
+          "edges": [
+            [
+              "smoke",
+              "budget"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "This is the whole point: the gate compares measured p95 against a budget it can actually fail. No threshold means no gate.",
+          "nodes": [
+            "budget"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Within budget, the deploy promotes and everyone goes home confident checkout is still fast.",
+          "nodes": [
+            "budget",
+            "promote"
+          ],
+          "edges": [
+            [
+              "budget",
+              "promote"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "On a breach, the gate blocks the deploy and drops a trace — the slow regression never reaches users, and you know where it slowed.",
+          "nodes": [
+            "budget",
+            "block"
+          ],
+          "edges": [
+            [
+              "budget",
+              "block"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Full load testing still runs nightly off the app, but deliberately off the gate — too slow to block every deploy.",
+          "nodes": [
+            "app",
+            "load"
+          ],
+          "edges": [
+            [
+              "app",
+              "load"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -4273,6 +5901,130 @@
         {
           "tone": "success",
           "label": "release only when every invariant holds"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every release starts here: we deploy the checkout build to staging, where nothing customer-facing is at risk yet.",
+          "nodes": [
+            "deploy"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First the functional suite runs — four hundred browser tests proving the feature works, and only a green run advances.",
+          "nodes": [
+            "deploy",
+            "functional"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "functional"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But green functionals aren't enough. The security smoke gate stands between a working feature and a safe release.",
+          "nodes": [
+            "functional",
+            "gate"
+          ],
+          "edges": [
+            [
+              "functional",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gate fans out three fast, deterministic probes: authorization boundaries, security headers, and no secret leaking in the response body.",
+          "nodes": [
+            "gate",
+            "authz",
+            "headers",
+            "exposure"
+          ],
+          "edges": [
+            [
+              "gate",
+              "authz"
+            ],
+            [
+              "gate",
+              "headers"
+            ],
+            [
+              "gate",
+              "exposure"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "This is the invariant nobody tested: the authz probe asks 'can an anonymous user reach this order?' — the question 400 tests never posed.",
+          "nodes": [
+            "authz",
+            "gate"
+          ],
+          "edges": [
+            [
+              "gate",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Any single probe failing pulls the whole release into Block — the exposure branch never reaches production.",
+          "nodes": [
+            "authz",
+            "headers",
+            "exposure",
+            "block"
+          ],
+          "edges": [
+            [
+              "authz",
+              "block"
+            ],
+            [
+              "headers",
+              "block"
+            ],
+            [
+              "exposure",
+              "block"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only when all three invariants hold does the gate open and the build ships to release.",
+          "nodes": [
+            "gate",
+            "release"
+          ],
+          "edges": [
+            [
+              "gate",
+              "release"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The lesson: a short, release-blocking band of security assertions is the seatbelt light that catches regressions your feature tests can't.",
+          "nodes": [
+            "gate",
+            "block",
+            "release"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -4600,6 +6352,118 @@
           "tone": "success",
           "label": "ship with an inspectable evidence bundle"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's release day for checkout. A commit lands, the build goes red, and the room wants to merge anyway.",
+          "nodes": [
+            "commit",
+            "ci"
+          ],
+          "edges": [
+            [
+              "commit",
+              "ci"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The CI runner does more than pass or fail: it hands the gate a Playwright trace plus a report for every failure.",
+          "nodes": [
+            "ci",
+            "gate"
+          ],
+          "edges": [
+            [
+              "ci",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gate reads each failure and classifies it into one of three kinds: true regression, flaky test, or real a11y defect.",
+          "nodes": [
+            "gate",
+            "regression",
+            "flake",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "gate",
+              "regression"
+            ],
+            [
+              "gate",
+              "flake"
+            ],
+            [
+              "gate",
+              "a11y"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "A true regression is a real break, and the color-contrast defect on the Pay button is an unfixed a11y failure — both block the release.",
+          "nodes": [
+            "regression",
+            "a11y",
+            "block"
+          ],
+          "edges": [
+            [
+              "regression",
+              "block"
+            ],
+            [
+              "a11y",
+              "block"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The login test that flakes on a slow selector isn't a break — it's quarantined so it's isolated, not silently hidden.",
+          "nodes": [
+            "flake",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "flake",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only when every failure is accounted for and nothing real remains does the gate let the release ship.",
+          "nodes": [
+            "gate",
+            "ship"
+          ],
+          "edges": [
+            [
+              "gate",
+              "ship"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: the gate can say no, and every yes cites an evidence bundle a reviewer can replay.",
+          "nodes": [
+            "gate",
+            "block",
+            "quarantine",
+            "ship"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4902,6 +6766,105 @@
         {
           "tone": "success",
           "label": "proven repair → trusted release"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The release train is held: the checkout test failed CI, passed on retry, then failed again. That red run enters triage.",
+          "nodes": [
+            "ci"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "First move: open the trace. Triage the signal, don't retry-blind — a green retry hides the defect, it doesn't clear it.",
+          "nodes": [
+            "ci",
+            "trace"
+          ],
+          "edges": [
+            [
+              "ci",
+              "trace"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The trace names the flake class — timing, selector, fixture, or environment. Classify from evidence, never from a guess.",
+          "nodes": [
+            "trace",
+            "classify"
+          ],
+          "edges": [
+            [
+              "trace",
+              "classify"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the decision splits. If it's release-blocking and the fix is slow, quarantine the test so the train can move.",
+          "nodes": [
+            "classify",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "classify",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If the cause is cheap and user-facing, skip quarantine and fix the root cause directly.",
+          "nodes": [
+            "classify",
+            "fix"
+          ],
+          "edges": [
+            [
+              "classify",
+              "fix"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Both paths reach the CI gate: quarantine counts against the flaky budget, and a real fix must re-run 20x green.",
+          "nodes": [
+            "quarantine",
+            "fix",
+            "gate"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "gate"
+            ],
+            [
+              "fix",
+              "gate"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only a passing gate re-opens the release. The class is now named, proven, and blocks itself from silently re-blocking the next PR.",
+          "nodes": [
+            "gate",
+            "release"
+          ],
+          "edges": [
+            [
+              "gate",
+              "release"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -5218,6 +7181,120 @@
           "tone": "muted",
           "label": "the shortcut that loses information"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Release day: the checkout suite goes red in CI, even though it passes on every laptop in the room.",
+          "nodes": [
+            "ci"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "There's a shortcut waiting here — 'just rerun it' — the reflex that hides a real defect behind a green retry.",
+          "nodes": [
+            "ci",
+            "rerun"
+          ],
+          "edges": [
+            [
+              "ci",
+              "rerun"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Do the harder thing instead: when the pipeline goes red, capture a trace so the failure carries its own evidence.",
+          "nodes": [
+            "ci",
+            "trace"
+          ],
+          "edges": [
+            [
+              "ci",
+              "trace"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That replay evidence feeds the one question that matters: is this a flake or a genuine defect?",
+          "nodes": [
+            "trace",
+            "triage"
+          ],
+          "edges": [
+            [
+              "trace",
+              "triage"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Deterministic failure means a real defect; non-deterministic means an environment or timing flake. The trace decides, not the argument.",
+          "nodes": [
+            "triage",
+            "defect",
+            "flake"
+          ],
+          "edges": [
+            [
+              "triage",
+              "defect"
+            ],
+            [
+              "triage",
+              "flake"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Either verdict files a bug report — the defect attaches its trace, the flake adds a stabilize note.",
+          "nodes": [
+            "defect",
+            "flake",
+            "report"
+          ],
+          "edges": [
+            [
+              "defect",
+              "report"
+            ],
+            [
+              "flake",
+              "report"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Severity in that report decides the CI quality gate — fix and block, or stabilize and quarantine.",
+          "nodes": [
+            "report",
+            "gate"
+          ],
+          "edges": [
+            [
+              "report",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The report is the interface: evidence carries the verdict, so the team repairs the failure once instead of relitigating it forever.",
+          "nodes": [
+            "report",
+            "gate",
+            "triage"
+          ],
+          "edges": [],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -5529,6 +7606,124 @@
           "tone": "success",
           "label": "risk contained → ship path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's release night on checkout. A CI run finishes and emits raw pass/fail signal — two Playwright specs are red again.",
+          "nodes": [
+            "ci",
+            "signal"
+          ],
+          "edges": [
+            [
+              "ci",
+              "signal"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That wall of red isn't a decision. We fan the raw signal out per axis so each risk gets scored on its own evidence.",
+          "nodes": [
+            "signal",
+            "score"
+          ],
+          "edges": [
+            [
+              "signal",
+              "score"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "For every axis we score severity times likelihood times detectability — from a replayable trace, contract check, or a11y result, never gut feel.",
+          "nodes": [
+            "score"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "The flaky-spec axis is the hard one, so it branches into triage: is the test lying, or is it catching a real bug?",
+          "nodes": [
+            "score",
+            "triage"
+          ],
+          "edges": [
+            [
+              "score",
+              "triage"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If the trace is stable and only timing wobbled, it's a real flake — quarantine it so it can't hold the release hostage.",
+          "nodes": [
+            "triage",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "triage",
+              "quarantine"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the trace shows a genuine defect, we block — a red that means revenue is at risk raises the bar to ship.",
+          "nodes": [
+            "triage",
+            "block"
+          ],
+          "edges": [
+            [
+              "triage",
+              "block"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every path converges on one gate: contained flakes and clean a11y-plus-contract axes let it pass; a real block stops it.",
+          "nodes": [
+            "quarantine",
+            "block",
+            "gate",
+            "score"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "gate"
+            ],
+            [
+              "block",
+              "gate"
+            ],
+            [
+              "score",
+              "gate"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The insight: the gate follows the scores, and every number traces to a trace, a contract, or an a11y result a reviewer can replay.",
+          "nodes": [
+            "score",
+            "gate"
+          ],
+          "edges": [
+            [
+              "score",
+              "gate"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -5823,6 +8018,131 @@
         {
           "tone": "warning",
           "label": "blast radius — revenue-critical checkout"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Friday, 4 p.m.: a revenue-critical checkout flow arrives as a release candidate and submits itself to the CI quality gate.",
+          "nodes": [
+            "candidate",
+            "ci"
+          ],
+          "edges": [
+            [
+              "candidate",
+              "ci"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate fans the candidate into three evidence streams — flake triage, accessibility, and contract — because a green light alone proves nothing.",
+          "nodes": [
+            "ci",
+            "flake",
+            "a11y",
+            "contract"
+          ],
+          "edges": [
+            [
+              "ci",
+              "flake"
+            ],
+            [
+              "ci",
+              "a11y"
+            ],
+            [
+              "ci",
+              "contract"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Three browser tests failed twice and passed once; CI hands the failing spec and its trace to flake triage.",
+          "nodes": [
+            "ci",
+            "flake"
+          ],
+          "edges": [
+            [
+              "ci",
+              "flake"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the suspect edge: a flaky test can fake a false-green gate, so the board asks — flakiness or a real regression?",
+          "nodes": [
+            "flake",
+            "board"
+          ],
+          "edges": [
+            [
+              "flake",
+              "board"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "In parallel, two untriaged accessibility defects get a severity, and the contract proof returns a hard pass or fail.",
+          "nodes": [
+            "a11y",
+            "contract",
+            "board"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "board"
+            ],
+            [
+              "contract",
+              "board"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The board converts all three streams into one verdict: ship, hold, or fix — backed by evidence any reviewer can replay.",
+          "nodes": [
+            "flake",
+            "a11y",
+            "contract",
+            "board"
+          ],
+          "edges": [
+            [
+              "flake",
+              "board"
+            ],
+            [
+              "a11y",
+              "board"
+            ],
+            [
+              "contract",
+              "board"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only on that evidence does code reach the revenue flow — the invariant holds: no evidence, no gate.",
+          "nodes": [
+            "board",
+            "revenue"
+          ],
+          "edges": [
+            [
+              "board",
+              "revenue"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },

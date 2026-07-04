@@ -131,6 +131,100 @@
           "tone": "warning",
           "label": "the failure path: skip the check, leak the asset (BOLA)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A client sends GET /orders/1043 — a normal request for what looks like its own invoice.",
+          "nodes": [
+            "client",
+            "authn"
+          ],
+          "edges": [
+            [
+              "client",
+              "authn"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "AuthN answers 'who': it verifies the login and attaches a proven identity to the request.",
+          "nodes": [
+            "authn",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "authn",
+              "boundary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Everything now hinges on the trust boundary — the one place that must ask 'may THIS user touch THIS object?'",
+          "nodes": [
+            "boundary"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "Skip that per-object check and you fall onto the weak path — OWASP's #1 risk, Broken Object-Level Authorization.",
+          "nodes": [
+            "boundary",
+            "weak"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "weak"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The weak path fetches whatever id was typed, so 1044 returns a stranger's order — the asset leaks.",
+          "nodes": [
+            "weak",
+            "store"
+          ],
+          "edges": [
+            [
+              "weak",
+              "store"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair: at the boundary, allow only when owner_id equals the caller — least privilege, per object.",
+          "nodes": [
+            "boundary",
+            "store"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Prove the decision: every allow and every DENY is written to the audit log, so denial is evidence, not assumption.",
+          "nodes": [
+            "boundary",
+            "audit"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -408,6 +502,121 @@
         {
           "tone": "success",
           "label": "source of truth + evidence (revocation, audit)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Authentication is the first control: before anyone asks what a request may do, we decide who it is. Everything downstream trusts this answer.",
+          "nodes": [
+            "boundary",
+            "issuer"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "A raw credential crosses from untrusted to trusted exactly once, arriving at the boundary that guards the token issuer.",
+          "nodes": [
+            "client",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "client",
+              "boundary"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The auth service verifies the credential and issues a short-lived session token, then records that session so it can be checked later.",
+          "nodes": [
+            "boundary",
+            "issuer",
+            "sessions"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "issuer"
+            ],
+            [
+              "issuer",
+              "sessions"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "From now on the client carries only the token. Every request re-crosses the boundary holding a token, never the original credential.",
+          "nodes": [
+            "client",
+            "api"
+          ],
+          "edges": [
+            [
+              "client",
+              "api"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here lives the invariant: the API must check the session store for revoked or expired before answering, and log every decision to audit.",
+          "nodes": [
+            "api",
+            "sessions",
+            "audit"
+          ],
+          "edges": [
+            [
+              "api",
+              "sessions"
+            ],
+            [
+              "api",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The attack: replay a logged-out user's token. If the API accepts identity without re-checking revocation, the lock never latched.",
+          "nodes": [
+            "attacker",
+            "api",
+            "sessions"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "api"
+            ],
+            [
+              "api",
+              "sessions"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "State one falsifiable rule: name what an attacker must forge to be accepted as another principal, and verify it on every request.",
+          "nodes": [
+            "boundary",
+            "issuer",
+            "api"
+          ],
+          "edges": [
+            [
+              "client",
+              "boundary"
+            ],
+            [
+              "client",
+              "api"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -717,6 +926,127 @@
           "tone": "success",
           "label": "defenses proven by evidence (flags, audit log)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts clean: the client sends real credentials to Login, which mints a session token and signs it with the server's secret.",
+          "nodes": [
+            "client",
+            "login",
+            "secret"
+          ],
+          "edges": [
+            [
+              "client",
+              "login"
+            ],
+            [
+              "login",
+              "secret"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Login hands the token back as a cookie flagged HttpOnly, Secure, and SameSite — those flags are the only thing keeping scripts and cross-site pages from stealing it.",
+          "nodes": [
+            "login",
+            "client"
+          ],
+          "edges": [
+            [
+              "login",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "From now on every request replays that token across the trust boundary; the auth middleware is what decides whether to believe it.",
+          "nodes": [
+            "client",
+            "verify"
+          ],
+          "edges": [
+            [
+              "client",
+              "verify"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "A valid signature isn't enough — the middleware must also ask the revocation store 'is this token still valid?' or a logged-out or stolen token keeps working.",
+          "nodes": [
+            "verify",
+            "revocation"
+          ],
+          "edges": [
+            [
+              "verify",
+              "revocation"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only on pass does the request reach the protected API, and every allow or deny is written to the audit log for later forensics.",
+          "nodes": [
+            "verify",
+            "resource",
+            "audit"
+          ],
+          "edges": [
+            [
+              "verify",
+              "resource"
+            ],
+            [
+              "verify",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the break: an attacker who copied the cookie just replays it, and if the signing secret ever leaks they can forge tokens outright.",
+          "nodes": [
+            "attacker",
+            "verify",
+            "secret"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "verify"
+            ],
+            [
+              "secret",
+              "attacker"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The token is a bearer credential — hold it, you're the user. Signature, short expiry, revocation check, and transport flags must all hold, or the session is compromisable.",
+          "nodes": [
+            "verify",
+            "revocation",
+            "secret",
+            "client"
+          ],
+          "edges": [
+            [
+              "verify",
+              "revocation"
+            ],
+            [
+              "login",
+              "client"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -990,6 +1320,111 @@
         {
           "tone": "success",
           "label": "allow only when attributes match"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "User A from tenant 42 sends GET for invoice 9001; the request crosses the trust boundary into the API Gateway.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Authentication already proved WHO is calling; the gateway now hands off to authorization to decide WHAT they may touch.",
+          "nodes": [
+            "gateway",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "rbac"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "RBAC asks the coarse question: may this role read invoices? User A is a billing_reader, so the role check passes.",
+          "nodes": [
+            "rbac",
+            "abac"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "abac"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "ABAC must now answer the row-level question, so it loads the object's attributes to compare against the caller.",
+          "nodes": [
+            "abac",
+            "invoice"
+          ],
+          "edges": [
+            [
+              "abac",
+              "invoice"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The predicate subject.tenant equals resource.tenant fails: 42 is not 88, so ABAC returns 403 deny.",
+          "nodes": [
+            "abac",
+            "deny"
+          ],
+          "edges": [
+            [
+              "abac",
+              "deny"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only on a matching tenant would ABAC have taken the allow path and returned 200.",
+          "nodes": [
+            "abac",
+            "allow"
+          ],
+          "edges": [
+            [
+              "abac",
+              "allow"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Drop the ABAC check and a right role reads the wrong tenant's data: same role, wrong owner, the OWASP number-one BOLA flaw.",
+          "nodes": [
+            "rbac",
+            "abac",
+            "deny"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "abac"
+            ],
+            [
+              "abac",
+              "deny"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1272,6 +1707,100 @@
           "tone": "muted",
           "label": "authentication — proves WHO, not WHICH object"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A logged-in attacker holds a valid token, but changes the URL from their own invoice to 8843 and fires the request.",
+          "nodes": [
+            "attacker",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway routes it into AuthN middleware, which confirms the token is genuine and resolves who the caller is.",
+          "nodes": [
+            "gateway",
+            "authn"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authn"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "AuthN answers 'is this a real user?' — it never asks 'may this user touch object 8843?' The token is valid, so it passes.",
+          "nodes": [
+            "authn",
+            "handler"
+          ],
+          "edges": [
+            [
+              "authn",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invoice handler takes the caller-supplied id and loads the object's real owner_id from the server, not from any client claim.",
+          "nodes": [
+            "handler",
+            "authz"
+          ],
+          "edges": [
+            [
+              "handler",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the gate: the per-object ownership check compares the object's true owner against the caller — the missing check behind BOLA.",
+          "nodes": [
+            "authz"
+          ],
+          "edges": [],
+          "ms": 5000
+        },
+        {
+          "say": "On a match, the caller owns it, so the query runs and Postgres returns the invoice legitimately.",
+          "nodes": [
+            "authz",
+            "db"
+          ],
+          "edges": [
+            [
+              "authz",
+              "db"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "On a mismatch, deny by default: return 404 or 403 and write the attempt to the audit log — no leak, and evidence recorded.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1547,6 +2076,139 @@
         {
           "tone": "success",
           "label": "sink neutralized (parameterized)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A client sends raw input toward the API — this is untrusted data arriving at the edge of the system.",
+          "nodes": [
+            "client",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "client",
+              "boundary"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "At the trust boundary, an allow-list schema accepts only known-good shape and rejects everything else.",
+          "nodes": [
+            "boundary",
+            "api"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "api"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Once validated, the typed value fans out to four interpreters — each a place where data could be mistaken for code.",
+          "nodes": [
+            "api",
+            "db",
+            "shell",
+            "tmpl",
+            "fs"
+          ],
+          "edges": [
+            [
+              "api",
+              "db"
+            ],
+            [
+              "api",
+              "shell"
+            ],
+            [
+              "api",
+              "tmpl"
+            ],
+            [
+              "api",
+              "fs"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "At each sink the second control holds: bound params, an arg array, auto-escaping, a confined path — value as data, never code.",
+          "nodes": [
+            "db",
+            "shell",
+            "tmpl",
+            "fs"
+          ],
+          "edges": [
+            [
+              "api",
+              "db"
+            ],
+            [
+              "api",
+              "shell"
+            ],
+            [
+              "api",
+              "tmpl"
+            ],
+            [
+              "api",
+              "fs"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "But watch the dashed path: input skips validation and reaches the SQL interpreter directly, as code — that is injection.",
+          "nodes": [
+            "client",
+            "db"
+          ],
+          "edges": [
+            [
+              "client",
+              "db"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "id=0 OR 1=1-- was trusted to be an integer and wasn't; string-built SQL turns it into a query that reads every order.",
+          "nodes": [
+            "client",
+            "db"
+          ],
+          "edges": [
+            [
+              "client",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: two controls deny the class — allow-list at the boundary, parameterization at the sink. Escaping alone is a guess.",
+          "nodes": [
+            "boundary",
+            "db"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "api"
+            ],
+            [
+              "api",
+              "db"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -1826,6 +2488,110 @@
         {
           "tone": "success",
           "label": "repair path — encrypted at rest + audited reads"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Here sits the danger: a plaintext secret baked into the repo or image, valid and readable by anyone who can see the source.",
+          "nodes": [
+            "repo"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Because it's plaintext at rest, an unauthorized reader just greps the git history and walks off with a live credential.",
+          "nodes": [
+            "repo",
+            "attacker"
+          ],
+          "edges": [
+            [
+              "repo",
+              "attacker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invisible cost: nothing logged that read, so nobody can say who took it or when. That's the leak path.",
+          "nodes": [
+            "attacker",
+            "repo"
+          ],
+          "edges": [
+            [
+              "repo",
+              "attacker"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair path starts with identity. The Orders Service assumes a role instead of carrying any secret itself.",
+          "nodes": [
+            "service",
+            "iam"
+          ],
+          "edges": [
+            [
+              "service",
+              "iam"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "IAM checks least privilege and allows this one secret only, so the manager hands it back at runtime, never at rest.",
+          "nodes": [
+            "iam",
+            "vault",
+            "service"
+          ],
+          "edges": [
+            [
+              "iam",
+              "vault"
+            ],
+            [
+              "vault",
+              "service"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Every GetSecretValue is written to the audit log, so no read is silent and each one is attributable.",
+          "nodes": [
+            "vault",
+            "audit"
+          ],
+          "edges": [
+            [
+              "vault",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The same attacker now hits the boundary with no role: denied and logged. The invariant holds -- no plaintext at rest, no unaudited read.",
+          "nodes": [
+            "attacker",
+            "iam",
+            "audit"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "iam"
+            ],
+            [
+              "vault",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2113,6 +2879,120 @@
           "tone": "success",
           "label": "least-privilege query + audit evidence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A logged-in client sends GET /orders/{id} with its token. Two things are untrusted here: the client, and the id sitting in that URL.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The gateway forwards the request inward to authentication — this is the trust boundary the request is now crossing.",
+          "nodes": [
+            "gateway",
+            "authn"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authn"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "AuthN resolves who is calling from the session, not the URL, and hands a verified caller identity to the authorization check.",
+          "nodes": [
+            "authn",
+            "authz"
+          ],
+          "edges": [
+            [
+              "authn",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The authorization check is the pivot: it must ask whether THIS caller owns THAT order, deciding server-side from identity.",
+          "nodes": [
+            "authz"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "On allow, the query is scoped to the caller's tenant, the store returns the row, and the access is recorded to the audit log.",
+          "nodes": [
+            "authz",
+            "db",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "db"
+            ],
+            [
+              "db",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On deny, a non-owner never sees a row — the request is refused with a 403 and the attempt is written to the audit log.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Skip the ownership check and the trusted URL id becomes the exploit: increment it and you read another tenant's data.",
+          "nodes": [
+            "client",
+            "leak"
+          ],
+          "edges": [
+            [
+              "client",
+              "leak"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: trust the session, never the URL. Authorization is decided from the caller's identity at every object boundary.",
+          "nodes": [
+            "authn",
+            "authz",
+            "leak"
+          ],
+          "edges": [
+            [
+              "authn",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2371,6 +3251,97 @@
         {
           "tone": "success",
           "label": "asset + the least-privilege allow path"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters at the edge: an authenticated user asks the gateway for an invoice by id, GET /invoices/{other_id}.",
+          "nodes": [
+            "attacker",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway confirms the token is valid, so authentication passes and the request reaches the authorization check.",
+          "nodes": [
+            "gateway",
+            "authz"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authz"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the second trust boundary: object ownership. A valid token is not enough; the id in the URL must belong to this caller.",
+          "nodes": [
+            "authz",
+            "invoices"
+          ],
+          "edges": [
+            [
+              "authz",
+              "invoices"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the abuse case: the token is valid but the invoice belongs to someone else, so the owner check fails and returns 403.",
+          "nodes": [
+            "authz",
+            "deny"
+          ],
+          "edges": [
+            [
+              "authz",
+              "deny"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The denial is not silent; it emits a denied event to the audit log, turning an attack attempt into evidence.",
+          "nodes": [
+            "deny",
+            "audit"
+          ],
+          "edges": [
+            [
+              "deny",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every asset crossing a boundary needs a control tied to an abuse case it provably denies, proven by this failing request.",
+          "nodes": [
+            "authz",
+            "deny",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "deny"
+            ],
+            [
+              "deny",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2661,6 +3632,108 @@
           "tone": "success",
           "label": "control that severs the cheapest branch"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the top: the attacker's goal is to take over a user account. Everything below is just how they get there.",
+          "nodes": [
+            "goal"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The goal branches into an OR node: two independent paths, and the attacker only needs one of them to succeed.",
+          "nodes": [
+            "goal",
+            "or"
+          ],
+          "edges": [
+            [
+              "goal",
+              "or"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Path two is the simple one: reuse a leaked credential, which only works because there's no MFA on login.",
+          "nodes": [
+            "or",
+            "cred",
+            "nomfa"
+          ],
+          "edges": [
+            [
+              "or",
+              "cred"
+            ],
+            [
+              "cred",
+              "nomfa"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Path one abuses password reset. It's an AND node, so the attacker needs both children at once, not just one.",
+          "nodes": [
+            "or",
+            "reset"
+          ],
+          "edges": [
+            [
+              "or",
+              "reset"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those two conditions: a guessable reset token AND no rate limit, so the attacker can brute-force it freely.",
+          "nodes": [
+            "reset",
+            "token",
+            "nolimit"
+          ],
+          "edges": [
+            [
+              "reset",
+              "token"
+            ],
+            [
+              "reset",
+              "nolimit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "One rate-limit control severs that branch: it denies the cheapest leaf, and the whole AND path collapses.",
+          "nodes": [
+            "control",
+            "nolimit",
+            "reset"
+          ],
+          "edges": [
+            [
+              "control",
+              "nolimit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The tree's value is its cheapest root-reaching path. Price the leaves, cut the cheapest one, and defend that first.",
+          "nodes": [
+            "goal",
+            "token",
+            "nolimit",
+            "control"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2947,6 +4020,125 @@
         {
           "tone": "success",
           "label": "the object-level control + audit evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with an authenticated user firing a normal-looking request: GET /invoices/1002 — a valid session, just not their invoice.",
+          "nodes": [
+            "attacker",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway routes it inward to the authentication check — the first and most obvious gate every caller must pass.",
+          "nodes": [
+            "gateway",
+            "authn"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authn"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The session is valid, so authentication passes and hands off to the invoice handler. The door check is satisfied — but it only proved who, not what.",
+          "nodes": [
+            "authn",
+            "handler"
+          ],
+          "edges": [
+            [
+              "authn",
+              "handler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the failure path: the handler fetches straight from the invoices table by id alone, trusting a number from the URL. That is IDOR.",
+          "nodes": [
+            "handler",
+            "db"
+          ],
+          "edges": [
+            [
+              "handler",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair path inserts one gold gate — object authorization — that re-checks whether this caller actually owns invoice 1002.",
+          "nodes": [
+            "handler",
+            "authz"
+          ],
+          "edges": [
+            [
+              "handler",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On an owner match, and only then, authorization permits the read from the invoices table — access scoped to the specific object.",
+          "nodes": [
+            "authz",
+            "db"
+          ],
+          "edges": [
+            [
+              "authz",
+              "db"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a mismatch, it denies with a 403 and writes to the audit log — the attempt is refused and recorded, not silently served.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: authentication at the door is necessary but never sufficient. Every request must re-check ownership of the exact object it touches.",
+          "nodes": [
+            "authn",
+            "authz",
+            "db"
+          ],
+          "edges": [
+            [
+              "authn",
+              "handler"
+            ],
+            [
+              "handler",
+              "authz"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3235,6 +4427,112 @@
           "tone": "success",
           "label": "verified path + evidence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "An attacker publishes a poisoned patch bump into the package registry — a transitive dependency nobody deliberately chose.",
+          "nodes": [
+            "attacker",
+            "registry"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "registry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Your resolver pulls it automatically into the lockfile, alongside every other stranger's code you now implicitly trust.",
+          "nodes": [
+            "registry",
+            "resolve"
+          ],
+          "edges": [
+            [
+              "registry",
+              "resolve"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Instead of running blind, resolve presents each artifact plus its hash to the verification gate — the install and build boundary.",
+          "nodes": [
+            "resolve",
+            "gate"
+          ],
+          "edges": [
+            [
+              "resolve",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the hash matches its pin and provenance checks out, the gate marks it VERIFIED and lets the build proceed.",
+          "nodes": [
+            "gate",
+            "build"
+          ],
+          "edges": [
+            [
+              "gate",
+              "build"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But the poisoned package cannot prove what it is — the hash mismatches, so the gate DENIES it and logs the denial.",
+          "nodes": [
+            "gate",
+            "audit"
+          ],
+          "edges": [
+            [
+              "gate",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On the verified path, CI records provenance and ships an SBOM-attested artifact to production runtime.",
+          "nodes": [
+            "build",
+            "prod",
+            "audit"
+          ],
+          "edges": [
+            [
+              "build",
+              "prod"
+            ],
+            [
+              "build",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: enforce a provable boundary — least privilege for code you didn't write, and every denial leaves a trail.",
+          "nodes": [
+            "gate",
+            "audit",
+            "prod"
+          ],
+          "edges": [
+            [
+              "gate",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -3521,6 +4819,116 @@
           "tone": "muted",
           "label": "audit evidence the boundary held"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "An attacker leaks a CI token from one repo and replays it, calling the cloud API as if they were the deployer.",
+          "nodes": [
+            "attacker",
+            "sts"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "sts"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "STS hands the call to the deployer's IAM policy — in the cloud, identity is the perimeter, so this policy is the whole defense.",
+          "nodes": [
+            "sts",
+            "policy"
+          ],
+          "edges": [
+            [
+              "sts",
+              "policy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The policy allows exactly what the deploy job needs: PutObject onto the artifacts prefix. That request goes through, contained.",
+          "nodes": [
+            "policy",
+            "artifacts"
+          ],
+          "edges": [
+            [
+              "policy",
+              "artifacts"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the attacker tries to escalate — iam:CreateUser and PassRole to mint an admin — but that action was never granted, so it's denied at the boundary.",
+          "nodes": [
+            "policy",
+            "escalate"
+          ],
+          "edges": [
+            [
+              "policy",
+              "escalate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only a wildcard iam:* policy would have let this path continue to full account takeover. Least privilege severs it here.",
+          "nodes": [
+            "escalate",
+            "takeover"
+          ],
+          "edges": [
+            [
+              "escalate",
+              "takeover"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every denied attempt writes an AccessDenied entry to the audit log — the trail is proof the boundary held.",
+          "nodes": [
+            "policy",
+            "cloudtrail"
+          ],
+          "edges": [
+            [
+              "policy",
+              "cloudtrail"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: grant only the identity, resource, and action a job provably needs; everything else stays denied, and the log proves it.",
+          "nodes": [
+            "policy",
+            "artifacts",
+            "escalate",
+            "cloudtrail"
+          ],
+          "edges": [
+            [
+              "policy",
+              "artifacts"
+            ],
+            [
+              "policy",
+              "escalate"
+            ],
+            [
+              "policy",
+              "cloudtrail"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3806,6 +5214,124 @@
         {
           "tone": "muted",
           "label": "audit log — every deny is evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A request leaves the hostile internet and hits your edge. Everything on the attacker's side of this line is untrusted by default.",
+          "nodes": [
+            "attacker",
+            "tls"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "tls"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First control: TLS termination decrypts the connection, so every layer downstream can actually inspect the payload it's guarding.",
+          "nodes": [
+            "tls",
+            "waf"
+          ],
+          "edges": [
+            [
+              "tls",
+              "waf"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The WAF scans the decrypted payload for injection and known attack signatures, forwarding only what looks clean.",
+          "nodes": [
+            "waf",
+            "ratelimit"
+          ],
+          "edges": [
+            [
+              "waf",
+              "ratelimit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The rate limiter is the abuse gate: the scraper walking your API blows past quota and gets a 429, never reaching the app.",
+          "nodes": [
+            "ratelimit",
+            "audit"
+          ],
+          "edges": [
+            [
+              "ratelimit",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "A legitimate request stays under quota and passes to the gateway, which checks identity and authorization.",
+          "nodes": [
+            "ratelimit",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "ratelimit",
+              "gateway"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Fail auth and the gateway denies with a 403, logged; pass, and only then does authenticated, allowed traffic reach the origin.",
+          "nodes": [
+            "gateway",
+            "origin",
+            "audit"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "origin"
+            ],
+            [
+              "gateway",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: nothing crosses untrusted to trusted unless every control got its chance to deny. Least privilege for traffic, default-deny.",
+          "nodes": [
+            "attacker",
+            "tls",
+            "waf",
+            "ratelimit",
+            "gateway",
+            "origin",
+            "audit"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "tls"
+            ],
+            [
+              "ratelimit",
+              "audit"
+            ],
+            [
+              "gateway",
+              "origin"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -4112,6 +5638,130 @@
         {
           "tone": "success",
           "label": "denial proven in the audit log"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A support agent's request enters here: GET /users/42 hits the API gateway, crossing the trust boundary into your user store.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gateway checks the session at AuthN. This proves who is calling, but only that they are a valid, logged-in caller.",
+          "nodes": [
+            "gateway",
+            "authn"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authn"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path: authenticated is treated as authorized, so it reads the whole record straight from the PII store.",
+          "nodes": [
+            "authn",
+            "store"
+          ],
+          "edges": [
+            [
+              "authn",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That full record ships back untrimmed, and the raw SSN plus a session token leak to a caller who never needed them.",
+          "nodes": [
+            "store",
+            "leak"
+          ],
+          "edges": [
+            [
+              "store",
+              "leak"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair path forks off AuthN: before any read, ask object AuthZ whether this identity may see THIS specific record.",
+          "nodes": [
+            "authn",
+            "authz"
+          ],
+          "edges": [
+            [
+              "authn",
+              "authz"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When object AuthZ says no, the caller gets a 403 and the denied attempt lands in the audit log as evidence.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On yes, the field minimizer reads only allowed fields from the store, so SSN and tokens never enter the response at all.",
+          "nodes": [
+            "authz",
+            "minimize",
+            "store"
+          ],
+          "edges": [
+            [
+              "authz",
+              "minimize"
+            ],
+            [
+              "minimize",
+              "store"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: no PII leaves without an object-level and field-level check that can return no, every denial logged.",
+          "nodes": [
+            "authz",
+            "minimize",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ],
+            [
+              "authz",
+              "minimize"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -4421,6 +6071,131 @@
           "tone": "warning",
           "label": "the silent gap — logged but never detected or acted on"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "An action crosses an authorization boundary — the one moment where a control gets to say yes or no. This is where the story starts.",
+          "nodes": [
+            "action",
+            "authz"
+          ],
+          "edges": [
+            [
+              "action",
+              "authz"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The authz decision must emit a structured audit event for BOTH outcomes — every allow and, crucially, every deny.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The audit event ships to a collector, which normalizes it into a stream your detection engine can actually read.",
+          "nodes": [
+            "audit",
+            "collector",
+            "siem"
+          ],
+          "edges": [
+            [
+              "audit",
+              "collector"
+            ],
+            [
+              "collector",
+              "siem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A good detection rule fires on the abuse case — like DENY retried 400 times — while staying silent on normal baseline traffic.",
+          "nodes": [
+            "siem",
+            "alert"
+          ],
+          "edges": [
+            [
+              "siem",
+              "alert"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The high-signal alert is routed to a runbook with a named owner — someone who is accountable to act on it.",
+          "nodes": [
+            "alert",
+            "runbook"
+          ],
+          "edges": [
+            [
+              "alert",
+              "runbook"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is where it silently breaks: if the deny is never logged, the decision vanishes into a gap no rule can see.",
+          "nodes": [
+            "authz",
+            "blackhole"
+          ],
+          "edges": [
+            [
+              "authz",
+              "blackhole"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "And the second gap: an alert with no owner gets ignored — the attacker moved for eleven days past a signal nobody watched.",
+          "nodes": [
+            "alert",
+            "blackhole"
+          ],
+          "edges": [
+            [
+              "alert",
+              "blackhole"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: every control emits evidence for allow AND deny, and every high-signal event has an owner who acts.",
+          "nodes": [
+            "authz",
+            "audit",
+            "alert",
+            "runbook"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ],
+            [
+              "alert",
+              "runbook"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4682,7 +6457,117 @@
           "label": "asset protected — denial observed"
         }
       ],
-      "caption": "The failure path (dashed) allows the delete and logs nothing. The repair path denies AND writes the audit line detection can alert on. Payments and billing are out of scope on purpose."
+      "caption": "The failure path (dashed) allows the delete and logs nothing. The repair path denies AND writes the audit line detection can alert on. Payments and billing are out of scope on purpose.",
+      "storyboard": [
+        {
+          "say": "It's 2:14 a.m. A support-tier token fires DELETE /accounts/8842 and reaches the API gateway from outside the trust boundary.",
+          "nodes": [
+            "attacker",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "boundary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway confirms the token is authentic — authN is fine — and hands the request to the authorization control to decide if it's allowed.",
+          "nodes": [
+            "boundary",
+            "authz"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "authz"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the failure: a bug lets the control silently allow the delete. Support should never delete accounts, yet the store obeys and returns 200.",
+          "nodes": [
+            "authz",
+            "asset"
+          ],
+          "edges": [
+            [
+              "authz",
+              "asset"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair path denies instead: least-privilege at the boundary rejects the support token with a 403 before the accounts store is ever touched.",
+          "nodes": [
+            "authz",
+            "asset"
+          ],
+          "edges": [
+            [
+              "authz",
+              "asset"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But denial alone isn't evidence. The same control must emit a deny event into the audit log — one line that proves the abuse was seen and stopped.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That audit line feeds detection, which raises the alert. Now the 2 a.m. call has an answer: the log line that screamed no.",
+          "nodes": [
+            "audit",
+            "detect"
+          ],
+          "edges": [
+            [
+              "audit",
+              "detect"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: name the asset, the boundary, and the control — then prove it with one abuse case denied AND logged. Unobserved denial is not evidence.",
+          "nodes": [
+            "authz",
+            "asset",
+            "audit",
+            "detect"
+          ],
+          "edges": [
+            [
+              "authz",
+              "asset"
+            ],
+            [
+              "authz",
+              "audit"
+            ],
+            [
+              "audit",
+              "detect"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -4987,6 +6872,116 @@
           "tone": "success",
           "label": "the evidence: denial + log line"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A non-owner caller sends an unauthorized request into the API endpoint — this is the abuse attempt we need to prove we can stop.",
+          "nodes": [
+            "attacker",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The endpoint hands the request to the authorization check, which evaluates whether this caller may touch this object.",
+          "nodes": [
+            "gateway",
+            "authz"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authz"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The check denies. The caller gets a 403 Forbidden and never reaches the records store — enforcement working as designed.",
+          "nodes": [
+            "authz",
+            "attacker",
+            "store"
+          ],
+          "edges": [
+            [
+              "authz",
+              "attacker"
+            ],
+            [
+              "authz",
+              "store"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "At the same instant, the denial is written to the append-only audit log — that log line, not the policy doc, is the actual evidence.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The failing request plus its matching log line get captured into one evidence packet an auditor can replay end to end.",
+          "nodes": [
+            "audit",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "audit",
+              "evidence"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The failure path: a missing check lets a delete leak straight through to the store — a denial that never fires leaves no evidence at all.",
+          "nodes": [
+            "gap",
+            "store"
+          ],
+          "edges": [
+            [
+              "gap",
+              "store"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: a control is proven only by a reproducible refusal plus its audit trail. No denial and no log means you have a claim, not evidence.",
+          "nodes": [
+            "authz",
+            "audit",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ],
+            [
+              "audit",
+              "evidence"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -5257,6 +7252,106 @@
         {
           "tone": "warning",
           "label": "the vulnerability if least privilege is skipped (BOLA)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "User A is authenticated and fires the request that starts everything: GET /invoices/4172, crossing into our system.",
+          "nodes": [
+            "userA",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "userA",
+              "gateway"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gateway confirms who you are — authentication passes — then hands off the real question: are you allowed to read this object?",
+          "nodes": [
+            "gateway",
+            "authz"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authz"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The object-level check is the whole control: it compares the invoice's owner_id against the authenticated subject before any data moves.",
+          "nodes": [
+            "authz"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Happy path: owner matches subject, least privilege is satisfied, and only then does the read reach the invoice store.",
+          "nodes": [
+            "authz",
+            "store"
+          ],
+          "edges": [
+            [
+              "authz",
+              "store"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the abuse case: A requests B's invoice id. Owner mismatch, so the check denies with a 403 and writes an audit-log entry.",
+          "nodes": [
+            "authz",
+            "deny",
+            "userA"
+          ],
+          "edges": [
+            [
+              "authz",
+              "deny"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The failure mode is what sells the answer: drop the check and the same abuse request returns 200 with B's invoice — a broken-object-level-authorization leak.",
+          "nodes": [
+            "authz",
+            "leak"
+          ],
+          "edges": [
+            [
+              "authz",
+              "leak"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The gold answer isn't 'add authorization' — it's naming the boundary, the abuse case, and the 403 plus audit log as proof the denial actually fired.",
+          "nodes": [
+            "authz",
+            "deny",
+            "leak"
+          ],
+          "edges": [
+            [
+              "authz",
+              "deny"
+            ],
+            [
+              "authz",
+              "leak"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5554,6 +7649,130 @@
         {
           "tone": "success",
           "label": "least-privilege allow (own tenant only)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a Tenant A admin clicking Export — a request plus token heads for the API Gateway, the single front door.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway trusts nothing on its own; it hands a verified session forward so authorization decides what this identity may actually touch.",
+          "nodes": [
+            "gateway",
+            "authz"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "authz"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "This is the trust boundary. For the admin's own tenant, authorization says ALLOW and lets the request reach the records store.",
+          "nodes": [
+            "authz",
+            "data"
+          ],
+          "edges": [
+            [
+              "authz",
+              "data"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the abuse case: Tenant A reaches for Tenant B's object. Least privilege at the boundary answers 403 DENY — no cross-tenant read.",
+          "nodes": [
+            "authz",
+            "client"
+          ],
+          "edges": [
+            [
+              "authz",
+              "client"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "A denial isn't enough — it must be evidenced. Authorization logs every decision, allow and deny alike, to the audit trail.",
+          "nodes": [
+            "authz",
+            "audit"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The audit log feeds detection: a denied-access signal, especially cross-tenant, is exactly the pattern worth watching.",
+          "nodes": [
+            "audit",
+            "detect"
+          ],
+          "edges": [
+            [
+              "audit",
+              "detect"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Cross a threshold and detection triggers the incident runbook — the abuse case now has a response, not just a rejection.",
+          "nodes": [
+            "detect",
+            "incident"
+          ],
+          "edges": [
+            [
+              "detect",
+              "incident"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: no control counts until its abuse case fails and that failure is logged, detected, and actionable end to end.",
+          "nodes": [
+            "authz",
+            "audit",
+            "detect",
+            "incident"
+          ],
+          "edges": [
+            [
+              "authz",
+              "audit"
+            ],
+            [
+              "audit",
+              "detect"
+            ],
+            [
+              "detect",
+              "incident"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },

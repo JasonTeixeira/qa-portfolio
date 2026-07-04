@@ -146,6 +146,124 @@
           "tone": "success",
           "label": "the protected metric"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: the source emits rows into the pipeline, and the question is whether we treat those rows as a promise or just as code that lands data.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The source contract is the gate. It checks two things before any write: does the schema match, and is the data fresh enough to trust?",
+          "nodes": [
+            "contract"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "On pass, schema and freshness both hold, so the rows flow into the warehouse as a partition we can stand behind.",
+          "nodes": [
+            "contract",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "contract",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On fail, the gate isolates the bad records into quarantine instead of letting them poison the store.",
+          "nodes": [
+            "contract",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Downstream, the dbt model reads that trusted partition and reconciles it into the metric the exec team actually reads.",
+          "nodes": [
+            "warehouse",
+            "model",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "model"
+            ],
+            [
+              "model",
+              "metric"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the failure the frame exists to catch: with no contract, the source leaks silent corruption straight past every check.",
+          "nodes": [
+            "source",
+            "stale"
+          ],
+          "edges": [
+            [
+              "source",
+              "stale"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That corruption reaches the metric quietly. The dashboard reads flat, nobody sees stale, and a hiring call gets made on nine-day-old data.",
+          "nodes": [
+            "stale",
+            "metric"
+          ],
+          "edges": [
+            [
+              "stale",
+              "metric"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: every promise must be checkable, so a violation is caught before the warehouse, not by the CFO.",
+          "nodes": [
+            "contract",
+            "warehouse",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "warehouse"
+            ],
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -427,6 +545,115 @@
         {
           "tone": "success",
           "label": "trusted path — conforming data only"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: the vendor feed hands us a partition, raw and untrusted, and we ingest it toward the pipeline's front door.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That door is the contract gate. Before anything is trusted, it checks schema, freshness, and value constraints against the pinned agreement.",
+          "nodes": [
+            "contract"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "If the partition conforms, the gate loads it into the warehouse, where it becomes a trusted table safe to build on.",
+          "nodes": [
+            "contract",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "contract",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If it violates the contract, stale or malformed, the gate rejects it into quarantine and pages, so bad data never reaches the warehouse.",
+          "nodes": [
+            "contract",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only clean, loaded data feeds the revenue metric, which is why the 9am dashboard can actually be trusted.",
+          "nodes": [
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Quarantined data isn't lost: after the vendor fixes the file, backfill picks it up for repair.",
+          "nodes": [
+            "quarantine",
+            "backfill"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "backfill"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Backfill re-ingests the corrected partition through the same gate, so even the repair path must pass the contract, no back doors.",
+          "nodes": [
+            "backfill",
+            "contract"
+          ],
+          "edges": [
+            [
+              "backfill",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: bad data is quarantined at ingestion, never served. A contract that cannot reject is just decoration.",
+          "nodes": [
+            "contract",
+            "quarantine",
+            "metric"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -711,6 +938,100 @@
         {
           "tone": "success",
           "label": "only validated data reaches the metric"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A vendor feed arrives and lands in raw storage exactly as sent — untouched, unjudged, just captured as-is.",
+          "nodes": [
+            "source",
+            "raw"
+          ],
+          "edges": [
+            [
+              "source",
+              "raw"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "From raw the batch is handed to the ingestion gates, which validate it against a schema contract, a freshness SLO, and row-quality rules.",
+          "nodes": [
+            "raw",
+            "gate"
+          ],
+          "edges": [
+            [
+              "raw",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's Friday's disaster: the vendor changed a column type, prices coerced to NULL — the schema gate catches exactly this before it spreads.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4800
+        },
+        {
+          "say": "Pass every gate and the batch loads clean into the warehouse — verified data, safe to build on.",
+          "nodes": [
+            "gate",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "gate",
+              "warehouse"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Fail any gate and the batch is held in quarantine and an alert fires — it is never merged, so no bad rows leak downstream.",
+          "nodes": [
+            "gate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Once the source is fixed, the quarantined batch repairs and re-runs the exact same gates — no shortcut back in.",
+          "nodes": [
+            "quarantine",
+            "gate"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only warehouse data feeds the metric and dbt model. The invariant: no unverified source ever reaches a number a human trusts.",
+          "nodes": [
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "metric"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -1001,6 +1322,118 @@
           "tone": "success",
           "label": "pass path — data earns the next task"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The pipeline begins when extract_source pulls the raw source file and writes it as a partition for the day's ingest run.",
+          "nodes": [
+            "extract"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "That raw partition doesn't flow straight to the warehouse — it hands off to validate_source, the gate on the critical path.",
+          "nodes": [
+            "extract",
+            "validate"
+          ],
+          "edges": [
+            [
+              "extract",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "validate_source runs freshness and schema checks. Because it sits upstream of the load, a bad file can be stopped before it ever lands.",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "On a clean pass, validate hands off to load_warehouse, and the load-transform-metric branch is now cleared to run.",
+          "nodes": [
+            "validate",
+            "load"
+          ],
+          "edges": [
+            [
+              "validate",
+              "load"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On failure, validate routes to quarantine_bad instead — it halts the branch, so the stale empty file never reaches the warehouse.",
+          "nodes": [
+            "validate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "validate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When the gate passes, load feeds staged rows to dbt_transform, which shapes them into metric rows for reconcile_metric.",
+          "nodes": [
+            "load",
+            "transform",
+            "reconcile"
+          ],
+          "edges": [
+            [
+              "load",
+              "transform"
+            ],
+            [
+              "transform",
+              "reconcile"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "reconcile_metric is the final check: on drift it also diverts to quarantine, blocking publish so no wrong number reaches the dashboard.",
+          "nodes": [
+            "reconcile",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "reconcile",
+              "quarantine"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a check is only real if the DAG can halt on it — the gate must live upstream of the load, not beside the metric.",
+          "nodes": [
+            "validate",
+            "load",
+            "reconcile"
+          ],
+          "edges": [
+            [
+              "extract",
+              "validate"
+            ],
+            [
+              "validate",
+              "load"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1267,6 +1700,94 @@
         {
           "tone": "warning",
           "label": "quarantine path — bad rows kept, never dropped"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a source feed you don't control — an external drop, and the one thing you must capture before it vanishes.",
+          "nodes": [
+            "source"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First move: extract with no transform. The file lands in Raw Landing exactly as received, byte for byte.",
+          "nodes": [
+            "source",
+            "landing"
+          ],
+          "edges": [
+            [
+              "source",
+              "landing"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "From landing, every record flows into a schema and freshness check that validates shape before anything is trusted.",
+          "nodes": [
+            "landing",
+            "check"
+          ],
+          "edges": [
+            [
+              "landing",
+              "check"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On pass, rows append to the Bronze table — append-only, one row per source record, stamped and partitioned by ingest date.",
+          "nodes": [
+            "check",
+            "bronze"
+          ],
+          "edges": [
+            [
+              "check",
+              "bronze"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On fail, malformed rows don't get dropped or fixed — they're isolated in quarantine and counted, so nothing silently disappears.",
+          "nodes": [
+            "check",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "check",
+              "quarantine"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Bronze then serves silver and metrics as a read-only replay source — downstream reads it, never rewrites it.",
+          "nodes": [
+            "bronze",
+            "silver"
+          ],
+          "edges": [
+            [
+              "bronze",
+              "silver"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That's the invariant: bronze is replayable ground truth. When the dashboard is off by 8%, this is what proves what the source actually sent.",
+          "nodes": [
+            "bronze"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -1546,6 +2067,106 @@
         {
           "tone": "success",
           "label": "business logic — downstream, not here"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A revenue dashboard reads 12% low all quarter. Follow the data from where it enters: the raw Stripe export lands as a source.",
+          "nodes": [
+            "raw",
+            "source"
+          ],
+          "edges": [
+            [
+              "raw",
+              "source"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The source() declaration is the checkpoint: it registers the raw table and asserts a freshness contract, so stale partitions get flagged, not trusted.",
+          "nodes": [
+            "source"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The staging model reads exactly that one source. It renames columns to house convention, casts types, and stays one-to-one with the source.",
+          "nodes": [
+            "source",
+            "staging"
+          ],
+          "edges": [
+            [
+              "source",
+              "staging"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On the staging edge lives the light contract: not_null and freshness. When Stripe renamed amount to amount_cents, this is where the test would fire.",
+          "nodes": [
+            "staging",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "staging",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Bad records route to quarantine before they ever reach a metric. The contract catches schema drift at the doorway instead of downstream.",
+          "nodes": [
+            "quarantine",
+            "staging"
+          ],
+          "edges": [
+            [
+              "staging",
+              "quarantine"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only clean, typed, tested rows pass into fct_revenue, and the mart feeds the BI metric everyone reads.",
+          "nodes": [
+            "staging",
+            "mart",
+            "bi"
+          ],
+          "edges": [
+            [
+              "staging",
+              "mart"
+            ],
+            [
+              "mart",
+              "bi"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure mode: raw wired straight to the mart, skipping staging. No contract stood between the file and the metric, so drift leaked in silently.",
+          "nodes": [
+            "raw",
+            "mart",
+            "staging"
+          ],
+          "edges": [
+            [
+              "raw",
+              "mart"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1860,6 +2481,125 @@
           "tone": "warning",
           "label": "failure path — stale/bad data quarantined, build fails"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts upstream: an external job lands the day's orders partition into raw.orders — the pipeline's only trigger.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "First, the source contract inspects that partition, asking one question: is this data fresh and structurally valid?",
+          "nodes": [
+            "contract"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "When the source is stale or malformed, the contract diverts those records to quarantine and FAILS the build — no bad number gets served.",
+          "nodes": [
+            "contract",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When it passes, the clean rows materialize into stg_orders, then hit the quality gate that tests the staged data.",
+          "nodes": [
+            "contract",
+            "staging",
+            "tests"
+          ],
+          "edges": [
+            [
+              "contract",
+              "staging"
+            ],
+            [
+              "staging",
+              "tests"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The quality gate is the last guard: rows that fail data tests are shunted to quarantine before any metric is computed.",
+          "nodes": [
+            "tests",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "tests",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only on a clean pass does the gate build mart_daily_revenue, which serves the metric the dashboard trusts blindly.",
+          "nodes": [
+            "tests",
+            "mart",
+            "dashboard"
+          ],
+          "edges": [
+            [
+              "tests",
+              "mart"
+            ],
+            [
+              "mart",
+              "dashboard"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Quarantined records aren't dead — after backfill they re-run through the contract, closing the loop with repair, not a silent wrong number.",
+          "nodes": [
+            "quarantine",
+            "contract"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a mart's job is to refuse to serve a number it can't stand behind — freshness and tests gate every metric.",
+          "nodes": [
+            "contract",
+            "tests",
+            "mart"
+          ],
+          "edges": [
+            [
+              "tests",
+              "mart"
+            ]
+          ],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -2163,6 +2903,110 @@
           "tone": "success",
           "label": "idempotent upsert — result must equal full refresh"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The job starts at the orders source, but before any data flows we validate it against a source contract so schema surprises don't leak downstream.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here's the whole point: the watermark store remembers the last timestamp we processed, so the reader knows where to resume instead of rescanning 400 million rows.",
+          "nodes": [
+            "watermark",
+            "reader"
+          ],
+          "edges": [
+            [
+              "watermark",
+              "reader"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The incremental read pulls only the new partitions the contract exposes, past the watermark, so cost and latency scale with new data, not total history.",
+          "nodes": [
+            "contract",
+            "reader"
+          ],
+          "edges": [
+            [
+              "contract",
+              "reader"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This self-loop is the look-back window: we reread a little before the watermark to catch the row created at 11:58 but that landed at 12:03.",
+          "nodes": [
+            "reader"
+          ],
+          "edges": [
+            [
+              "reader",
+              "reader"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Rows that fail checks divert to quarantine instead of poisoning the metric, so one malformed record can't silently corrupt the whole dashboard.",
+          "nodes": [
+            "reader",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "reader",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Clean rows upsert into the warehouse by key, so reprocessing the same row is idempotent and the incremental result equals a full refresh.",
+          "nodes": [
+            "reader",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "reader",
+              "warehouse"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only after a successful write do we advance the watermark, then the warehouse feeds the downstream metric — correct, cheap, and on time.",
+          "nodes": [
+            "warehouse",
+            "watermark",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "watermark"
+            ],
+            [
+              "warehouse",
+              "metric"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -2447,6 +3291,100 @@
         {
           "tone": "success",
           "label": "clean data reaching the metric"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts here: the orders source loads raw into the warehouse. But 'the load ran' is not the same as 'the data is right.'",
+          "nodes": [
+            "source",
+            "schema"
+          ],
+          "edges": [
+            [
+              "source",
+              "schema"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "First gate is the schema check. It asserts the shape: right columns, right types. A malformed row fails here and never moves forward.",
+          "nodes": [
+            "schema",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "schema",
+              "quarantine"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If the shape is OK, the batch passes to the freshness check — the gate that asks the harder question: is this data actually recent?",
+          "nodes": [
+            "schema",
+            "fresh"
+          ],
+          "edges": [
+            [
+              "schema",
+              "fresh"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "This is where the board got burned. A stale batch is well-shaped but two days old, so freshness halts it and routes it to quarantine.",
+          "nodes": [
+            "fresh",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "fresh",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The quarantine is the safety net: bad rows are caught and held here, before they ever reach a number the board will trust.",
+          "nodes": [
+            "quarantine"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Only fresh and valid data flows into the dbt model, where the transform runs on inputs the pipeline has actually verified.",
+          "nodes": [
+            "fresh",
+            "model"
+          ],
+          "edges": [
+            [
+              "fresh",
+              "model"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The model reconciles totals into the revenue metric. The invariant: every test must be able to fail on real bad data, or it guards nothing.",
+          "nodes": [
+            "model",
+            "metric"
+          ],
+          "edges": [
+            [
+              "model",
+              "metric"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2749,6 +3687,126 @@
           "tone": "success",
           "label": "pass path — the metric is trusted only after the tie-out"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Orders start in the source and get extracted into ingestion — this is the promise the source contract makes about how many rows should land.",
+          "nodes": [
+            "source",
+            "ingest"
+          ],
+          "edges": [
+            [
+              "source",
+              "ingest"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Ingestion loads the partition into the warehouse, where dbt models run and turn raw rows into a revenue figure.",
+          "nodes": [
+            "ingest",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "ingest",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the control: the reconcile gate pulls the warehouse count and the source control total and ties them together.",
+          "nodes": [
+            "warehouse",
+            "reconcile",
+            "source"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "reconcile"
+            ],
+            [
+              "source",
+              "reconcile"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "If the extract was stale or short — 850k rows instead of 1.1M — the gate fails loudly and routes the partition to quarantine.",
+          "nodes": [
+            "reconcile",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "reconcile",
+              "quarantine"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Quarantined records take the repair path: a backfill re-extracts and re-runs the partition through ingestion again.",
+          "nodes": [
+            "quarantine",
+            "backfill",
+            "ingest"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "backfill"
+            ],
+            [
+              "backfill",
+              "ingest"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only when the warehouse ties back to the source within tolerance does the gate pass and publish a trusted metric.",
+          "nodes": [
+            "reconcile",
+            "metric"
+          ],
+          "edges": [
+            [
+              "reconcile",
+              "metric"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: source count must equal warehouse count within a declared tolerance — never let a silently-short number ship to the board.",
+          "nodes": [
+            "source",
+            "reconcile",
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "source",
+              "reconcile"
+            ],
+            [
+              "warehouse",
+              "reconcile"
+            ],
+            [
+              "reconcile",
+              "metric"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -3028,7 +4086,128 @@
           "label": "served metric (source of truth for the dashboard)"
         }
       ],
-      "caption": "Trace daily_revenue backward: the freshness monitor is red because Stripe extract lags — found in one backward walk, not twelve tabs."
+      "caption": "Trace daily_revenue backward: the freshness monitor is red because Stripe extract lags — found in one backward walk, not twelve tabs.",
+      "storyboard": [
+        {
+          "say": "Revenue is down 18% overnight and the exec channel is on fire. Don't guess across twelve tabs — open the lineage packet and trace.",
+          "nodes": [
+            "metric",
+            "downstream"
+          ],
+          "edges": [
+            [
+              "metric",
+              "downstream"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Start at the served number: the daily_revenue metric feeds Finance close and investor KPIs — that's your blast radius if it's wrong.",
+          "nodes": [
+            "metric",
+            "downstream"
+          ],
+          "edges": [
+            [
+              "metric",
+              "downstream"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Walk backward one hop: fct_revenue reconciles and serves the metric. Its tests passed green, so the drift is further upstream.",
+          "nodes": [
+            "metric",
+            "fct"
+          ],
+          "edges": [
+            [
+              "fct",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Keep tracing: stg_payouts transforms into fct_revenue. Schema check and load both held — the models are innocent.",
+          "nodes": [
+            "stg",
+            "fct",
+            "ingest"
+          ],
+          "edges": [
+            [
+              "stg",
+              "fct"
+            ],
+            [
+              "ingest",
+              "stg"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The last hop is the extract from the Stripe Payouts API, and its freshness check went red at 2 a.m. — the source lagged.",
+          "nodes": [
+            "stripe",
+            "ingest"
+          ],
+          "edges": [
+            [
+              "stripe",
+              "ingest"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Culprit named in ninety seconds: the drifted external source, not the pipeline. Each hop carried an owner, SLA, and check.",
+          "nodes": [
+            "stripe",
+            "ingest",
+            "stg",
+            "fct",
+            "metric"
+          ],
+          "edges": [
+            [
+              "stripe",
+              "ingest"
+            ],
+            [
+              "ingest",
+              "stg"
+            ],
+            [
+              "stg",
+              "fct"
+            ],
+            [
+              "fct",
+              "metric"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: any wrong number is traceable backward to the exact hop that drifted. Catalog without direction is just a table list.",
+          "nodes": [
+            "stripe",
+            "metric",
+            "downstream"
+          ],
+          "edges": [
+            [
+              "metric",
+              "downstream"
+            ]
+          ],
+          "ms": 4600
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -3319,6 +4498,112 @@
           "tone": "success",
           "label": "metric healed only when it reconciles"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a late vendor file re-lands overnight on a partition that already closed, re-entering through the source contract.",
+          "nodes": [
+            "vendor",
+            "contract"
+          ],
+          "edges": [
+            [
+              "vendor",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The contract is the gate. If schema and freshness checks pass, the data flows into ingestion; if they fail, it's diverted to quarantine.",
+          "nodes": [
+            "contract",
+            "ingest",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "ingest"
+            ],
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here is the suspect edge. Appending the file stacks it on top of the old partition and doubles the count; only REPLACE heals it idempotently.",
+          "nodes": [
+            "ingest",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "ingest",
+              "warehouse"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "Whatever lands in the partition propagates: dbt rebuilds every affected model that reads from that slice of the warehouse.",
+          "nodes": [
+            "warehouse",
+            "dbt"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "dbt"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The blast radius terminates at the revenue metric — a double-counted partition makes last Tuesday read 2.3x too high on the board deck.",
+          "nodes": [
+            "dbt",
+            "metric"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: same input, same partition, same warehouse state. Overwrite the bounded window so N runs equal exactly one run.",
+          "nodes": [
+            "ingest",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "ingest",
+              "warehouse"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "It's done only when the reprocessed metric reconciles against the source contract. Exit code is not proof — the recovered number is.",
+          "nodes": [
+            "dbt",
+            "metric",
+            "contract"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3606,6 +4891,115 @@
           "tone": "success",
           "label": "trusted output (validated lineage only)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the edge: a client SDK you don't control emits events into a queue at high volume, schema-drifting and arriving late.",
+          "nodes": [
+            "sdk",
+            "queue"
+          ],
+          "edges": [
+            [
+              "sdk",
+              "queue"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The queue consumes into a quality gate. This is the contract at the door — every event is checked before it touches the warehouse.",
+          "nodes": [
+            "queue",
+            "gate"
+          ],
+          "edges": [
+            [
+              "queue",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate is the decision point: it validates each event against required fields, types, and a freshness SLA defined as a versioned contract.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Schema-invalid or stale records don't get dropped — they divert to quarantine, a dead-letter store, so no bad data reaches the metric.",
+          "nodes": [
+            "gate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only valid records pass through to raw landing, then dbt builds them into the mart that aggregates the revenue metric.",
+          "nodes": [
+            "gate",
+            "raw",
+            "mart",
+            "metric"
+          ],
+          "edges": [
+            [
+              "gate",
+              "raw"
+            ],
+            [
+              "raw",
+              "mart"
+            ],
+            [
+              "mart",
+              "metric"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Quarantine isn't a graveyard: fix the contract or the field, then replay the held events back through the gate to recover them.",
+          "nodes": [
+            "quarantine",
+            "gate"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a contract, a gate, and full lineage from raw to metric mean one renamed field gets caught and quarantined, never silently zeroing your dashboard.",
+          "nodes": [
+            "gate",
+            "quarantine",
+            "metric"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ],
+            [
+              "mart",
+              "metric"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -3885,6 +5279,110 @@
         {
           "tone": "success",
           "label": "pruned + fresh — the repair path"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a dashboard query carrying a predicate — a filter on event_date and customer_id — handed to the planner.",
+          "nodes": [
+            "query",
+            "planner"
+          ],
+          "edges": [
+            [
+              "query",
+              "planner"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The planner's only job here is decide which files to read. That single decision is where cost is won or lost.",
+          "nodes": [
+            "planner"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "On the unpartitioned table there's no pruning key, so the planner must read every file — a 480-gigabyte full scan, stale-prone and slow.",
+          "nodes": [
+            "planner",
+            "fullscan"
+          ],
+          "edges": [
+            [
+              "planner",
+              "fullscan"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Same query, partitioned on event_date and clustered on customer_id: min/max stats let the planner prune to one partition — 12 gigabytes.",
+          "nodes": [
+            "planner",
+            "pruned"
+          ],
+          "edges": [
+            [
+              "planner",
+              "pruned"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The pruned rows flow out to the freshness gate, which checks the metric's timestamp before anything reaches a human.",
+          "nodes": [
+            "pruned",
+            "freshness"
+          ],
+          "edges": [
+            [
+              "pruned",
+              "freshness"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If fresh, the gate serves the downstream metric; if stale, it blocks and alerts instead of shipping a wrong number to the board.",
+          "nodes": [
+            "freshness",
+            "metric",
+            "query"
+          ],
+          "edges": [
+            [
+              "freshness",
+              "metric"
+            ],
+            [
+              "freshness",
+              "query"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: layout must match the predicate. Partition coarse, cluster fine on your hot filters, or every query pays for the whole table.",
+          "nodes": [
+            "fullscan",
+            "pruned",
+            "planner"
+          ],
+          "edges": [
+            [
+              "planner",
+              "fullscan"
+            ],
+            [
+              "planner",
+              "pruned"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -4204,6 +5702,121 @@
           "tone": "success",
           "label": "repair path — policy enforced, tag carried"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the source: raw_users hands its columns to a source contract that must declare what each column actually is.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The contract feeds the governance gate, whose only job is to check that every column carries a sensitivity class.",
+          "nodes": [
+            "contract",
+            "gate"
+          ],
+          "edges": [
+            [
+              "contract",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the failure path: a column has no class, so an ungoverned SELECT star copies it straight through, untouched.",
+          "nodes": [
+            "gate",
+            "leak"
+          ],
+          "edges": [
+            [
+              "gate",
+              "leak"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That raw copy carries raw_email and home ZIP into a dashboard three teams can query — the Monday-morning leak.",
+          "nodes": [
+            "leak",
+            "dashboard"
+          ],
+          "edges": [
+            [
+              "leak",
+              "dashboard"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the repair path: because the column is classified, the gate routes it to policy, which masks the sensitive value.",
+          "nodes": [
+            "gate",
+            "mask"
+          ],
+          "edges": [
+            [
+              "gate",
+              "mask"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Governed rows land in the warehouse, and the PII tag rides the lineage forward into the dbt model.",
+          "nodes": [
+            "mask",
+            "warehouse",
+            "dbt"
+          ],
+          "edges": [
+            [
+              "mask",
+              "warehouse"
+            ],
+            [
+              "warehouse",
+              "dbt"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The tag reaches the served metric safely — the invariant holds: no unclassified column ever reaches a mart.",
+          "nodes": [
+            "dbt",
+            "metric"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: policy that isn't enforced at the gate is decoration; a tag that travels with the data is protection.",
+          "nodes": [
+            "gate",
+            "metric",
+            "dashboard"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -4514,6 +6127,145 @@
           "tone": "success",
           "label": "source of truth + the human who gets paged"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The pipeline runs left to right: a source feed delivers a partition to ingestion, which writes it to the warehouse.",
+          "nodes": [
+            "source",
+            "ingest",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "source",
+              "ingest"
+            ],
+            [
+              "ingest",
+              "warehouse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The warehouse feeds dbt, which materializes the revenue metric the board actually reads.",
+          "nodes": [
+            "warehouse",
+            "dbt",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "dbt"
+            ],
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the failure: the source went stale on day one, the warehouse kept serving yesterday's partition, and dbt still built green.",
+          "nodes": [
+            "source",
+            "warehouse",
+            "dbt",
+            "metric"
+          ],
+          "edges": [
+            [
+              "source",
+              "ingest"
+            ],
+            [
+              "warehouse",
+              "dbt"
+            ],
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "No test failed, so the metric quietly reported 4.1 million to the board for six days while nobody watched freshness.",
+          "nodes": [
+            "metric"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Detectors tap the data path: freshness, schema, and volume off the warehouse; quality and lineage off dbt.",
+          "nodes": [
+            "warehouse",
+            "dbt",
+            "detect"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "detect"
+            ],
+            [
+              "dbt",
+              "detect"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When a detector crosses its numeric threshold, it fires into the alert router with a severity and a route.",
+          "nodes": [
+            "detect",
+            "router"
+          ],
+          "edges": [
+            [
+              "detect",
+              "router"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The router pages on-call with a runbook link, so every alert names a next action instead of adding noise.",
+          "nodes": [
+            "router",
+            "oncall"
+          ],
+          "edges": [
+            [
+              "router",
+              "oncall"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The core insight: the freshness detector cuts the exact stale-to-corrupt path, catching what green builds never will.",
+          "nodes": [
+            "detect",
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "detect"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -4797,6 +6549,105 @@
         {
           "tone": "success",
           "label": "source of truth + correct metric"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts upstream: the orders extract lands raw rows as dated landing partitions in the store, one partition per day.",
+          "nodes": [
+            "source",
+            "landing"
+          ],
+          "edges": [
+            [
+              "source",
+              "landing"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Every candidate partition is handed to the cost and freshness gate before any transform is allowed to touch it.",
+          "nodes": [
+            "landing",
+            "gate"
+          ],
+          "edges": [
+            [
+              "landing",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate enforces the source contract: a freshness SLA plus a per-run ceiling on partitions and warehouse-seconds scanned.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Stale or malformed input never reaches the model — the gate routes it straight to quarantine for inspection.",
+          "nodes": [
+            "gate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only pruned, fresh partitions pass through to the dbt model, so a backfill can't silently scan three years of data.",
+          "nodes": [
+            "gate",
+            "dbt"
+          ],
+          "edges": [
+            [
+              "gate",
+              "dbt"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "dbt writes its rollup to the warehouse, which serves the daily revenue tile downstream.",
+          "nodes": [
+            "dbt",
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "warehouse"
+            ],
+            [
+              "warehouse",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: if budget or SLA fails, the gate blocks the metric outright — better a missing tile than an 18-hour-stale number.",
+          "nodes": [
+            "gate",
+            "metric"
+          ],
+          "edges": [
+            [
+              "gate",
+              "metric"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5082,6 +6933,114 @@
         {
           "tone": "success",
           "label": "only a clean, reconciled run publishes"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A source feed lands a new partition and hands it to the CI/CD quality gate — this is where every deploy begins.",
+          "nodes": [
+            "source",
+            "gate"
+          ],
+          "edges": [
+            [
+              "source",
+              "gate"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gate doesn't trust the data blindly; it pulls the source contract and checks the partition against it.",
+          "nodes": [
+            "contract",
+            "gate"
+          ],
+          "edges": [
+            [
+              "contract",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the decision: schema must match, data must be fresh, and the output must reconcile back to the source.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "On failure — a stale or malformed partition — the gate fails closed and diverts the bad data into quarantine.",
+          "nodes": [
+            "gate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only on pass does the gate release the partition to the dbt build downstream.",
+          "nodes": [
+            "gate",
+            "dbt"
+          ],
+          "edges": [
+            [
+              "gate",
+              "dbt"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "dbt produces a reconciled build and promotes it to the trusted warehouse metric — this is the only clean path out.",
+          "nodes": [
+            "dbt",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "dbt",
+              "warehouse"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair loop: quarantined data triggers a backfill to fix the source, which re-enters the same gate.",
+          "nodes": [
+            "quarantine",
+            "backfill",
+            "gate"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "backfill"
+            ],
+            [
+              "backfill",
+              "gate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: the gate proves the contract before deploy, so a silent upstream gap never reaches the dashboard as truth.",
+          "nodes": [
+            "gate",
+            "warehouse"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -5390,6 +7349,111 @@
           "tone": "success",
           "label": "reconcile + harden — repair and prevent recurrence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Monday 8 a.m.: a vendor silently ships a CSV with a renamed column. The bad partition lands at the contract gate.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Nobody was watching the source contract, so the gate waves the garbage through — a silent pass, and that is the bug.",
+          "nodes": [
+            "contract",
+            "warehouse"
+          ],
+          "edges": [
+            [
+              "contract",
+              "warehouse"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The bad rows land in the warehouse and corrupt the revenue metric. The dashboard reads $0, green the whole weekend.",
+          "nodes": [
+            "warehouse",
+            "metric"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix: the contract gate should have routed that partition into quarantine instead of into the warehouse.",
+          "nodes": [
+            "contract",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now you reconcile — diff the corrupted metric against truth, then replay the clean partition out of quarantine.",
+          "nodes": [
+            "metric",
+            "quarantine",
+            "reconcile"
+          ],
+          "edges": [
+            [
+              "metric",
+              "reconcile"
+            ],
+            [
+              "quarantine",
+              "reconcile"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "From the incident you write a hardened assertion that prevents this exact recurrence.",
+          "nodes": [
+            "reconcile",
+            "harden"
+          ],
+          "edges": [
+            [
+              "reconcile",
+              "harden"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "That assertion arms the gate: next time this vendor breaks the schema, it pages you instead of shipping silently.",
+          "nodes": [
+            "harden",
+            "contract"
+          ],
+          "edges": [
+            [
+              "harden",
+              "contract"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -5679,6 +7743,105 @@
         {
           "tone": "success",
           "label": "the metric the product protects"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A partner source lands a partition — but instead of trusting it, the packet routes it straight into a contract gate at the boundary.",
+          "nodes": [
+            "source",
+            "contract"
+          ],
+          "edges": [
+            [
+              "source",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate is the decision point: it checks freshness and shape before a single row goes downstream. This is where the six-hour-late partition dies.",
+          "nodes": [
+            "contract"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Stale or malformed rows never reach the pipeline — they divert to quarantine, the repair path, where bad records wait for inspection instead of poisoning the metric.",
+          "nodes": [
+            "contract",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "contract",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only rows that pass the contract are accepted into Raw Bronze — the transform stage sees clean, on-time data by construction.",
+          "nodes": [
+            "contract",
+            "raw"
+          ],
+          "edges": [
+            [
+              "contract",
+              "raw"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The dbt model transforms accepted data and publishes the revenue metric — every column traceable back to a source that cleared the gate.",
+          "nodes": [
+            "raw",
+            "dbt",
+            "metric"
+          ],
+          "edges": [
+            [
+              "raw",
+              "dbt"
+            ],
+            [
+              "dbt",
+              "metric"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The published metric doesn't stand alone — reconciliation compares it against the numbers and flags any drift.",
+          "nodes": [
+            "metric",
+            "recon"
+          ],
+          "edges": [
+            [
+              "metric",
+              "recon"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Reconciliation ties the metric back to the source of truth, closing the loop — so a silent $0 becomes a caught, explained failure.",
+          "nodes": [
+            "recon",
+            "source"
+          ],
+          "edges": [
+            [
+              "recon",
+              "source"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },

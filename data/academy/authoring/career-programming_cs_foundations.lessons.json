@@ -144,6 +144,125 @@
           "tone": "success",
           "label": "explicit result — loud, never silent"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "You type a command in the terminal. Its current directory, pwd, is the hidden context that every relative path is measured against.",
+          "nodes": [
+            "terminal"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The path you pass, like data/orders.csv, is just a fragment. It only becomes real when joined to where the terminal actually stands.",
+          "nodes": [
+            "path",
+            "terminal"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Resolution combines the pwd and the relative path into one full absolute path the operating system can actually look up.",
+          "nodes": [
+            "resolve",
+            "terminal",
+            "path"
+          ],
+          "edges": [
+            [
+              "terminal",
+              "resolve"
+            ],
+            [
+              "path",
+              "resolve"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the real question: at that full path, does the file exist and is it well-formed? This decision splits the whole story.",
+          "nodes": [
+            "resolve",
+            "exists"
+          ],
+          "edges": [
+            [
+              "resolve",
+              "exists"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The happy path: the file is there, so you read and parse it and hand back an explicit result, like a row count.",
+          "nodes": [
+            "exists",
+            "read",
+            "handled"
+          ],
+          "edges": [
+            [
+              "exists",
+              "read"
+            ],
+            [
+              "read",
+              "handled"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure path is the main case: one directory off means missing or malformed, and that must be a designed branch, not a surprise.",
+          "nodes": [
+            "exists",
+            "missing"
+          ],
+          "edges": [
+            [
+              "exists",
+              "missing"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "You catch that failure and return a clear error, so both branches converge on one explicit result instead of a raw red traceback.",
+          "nodes": [
+            "missing",
+            "handled"
+          ],
+          "edges": [
+            [
+              "missing",
+              "handled"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: validate the path, catch the failure, return an explicit result loudly. Every parser and handler you build inherits this discipline.",
+          "nodes": [
+            "resolve",
+            "exists",
+            "missing",
+            "handled"
+          ],
+          "edges": [
+            [
+              "exists",
+              "missing"
+            ],
+            [
+              "missing",
+              "handled"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -432,6 +551,111 @@
           "tone": "muted",
           "label": "print — a side effect, kept out of the contract"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a caller: some code that needs a job done and passes its arguments into your function.",
+          "nodes": [
+            "caller",
+            "params"
+          ],
+          "edges": [
+            [
+              "caller",
+              "params"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Those arguments arrive as named parameters, declared by def name(params) as the function's inputs.",
+          "nodes": [
+            "params",
+            "validate"
+          ],
+          "edges": [
+            [
+              "params",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the key decision: validate at the boundary, before you trust a single value the caller handed you.",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "On bad input, the function raises ValueError, an explicit exit that stops the flow instead of quietly corrupting results.",
+          "nodes": [
+            "validate",
+            "raise"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On good input, the function reaches return, handing one inspectable value back to the caller.",
+          "nodes": [
+            "validate",
+            "return",
+            "caller"
+          ],
+          "edges": [
+            [
+              "validate",
+              "return"
+            ],
+            [
+              "return",
+              "caller"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Notice print sits outside the contract: it's a side effect that returns None, not an output a caller can use.",
+          "nodes": [
+            "print",
+            "caller"
+          ],
+          "edges": [
+            [
+              "print",
+              "caller"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: validate at the boundary, then return, never print in place of returning. That's a finished function.",
+          "nodes": [
+            "validate",
+            "return",
+            "raise",
+            "print"
+          ],
+          "edges": [
+            [
+              "validate",
+              "return"
+            ],
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -710,6 +934,101 @@
         {
           "tone": "success",
           "label": "invariant guaranteed for all downstream code"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Raw input arrives with no promised shape — just keys and values you have to trust or check.",
+          "nodes": [
+            "input"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "The loose path parses it straight into a plain dict, where nothing about its shape is enforced.",
+          "nodes": [
+            "input",
+            "dict"
+          ],
+          "edges": [
+            [
+              "input",
+              "dict"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "So every consumer re-guesses the shape — is it 'quantity' or 'qty'? — and hopes it guessed right.",
+          "nodes": [
+            "dict",
+            "guess"
+          ],
+          "edges": [
+            [
+              "dict",
+              "guess"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dataclass path parses the same input into a constructor call: Order(...) with named, typed fields.",
+          "nodes": [
+            "input",
+            "ctor"
+          ],
+          "edges": [
+            [
+              "input",
+              "ctor"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Right after the fields are set, __post_init__ runs automatically to check the invariant.",
+          "nodes": [
+            "ctor",
+            "post"
+          ],
+          "edges": [
+            [
+              "ctor",
+              "post"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On failure it raises ValueError at the door — the bad record never gets to flow downstream.",
+          "nodes": [
+            "post",
+            "input"
+          ],
+          "edges": [
+            [
+              "post",
+              "input"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On pass you get a Valid Order: the shape was proven once, so no consumer ever has to guess again.",
+          "nodes": [
+            "post",
+            "valid",
+            "guess"
+          ],
+          "edges": [
+            [
+              "post",
+              "valid"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -998,6 +1317,115 @@
           "tone": "warning",
           "label": "duplicate path (the bug a list hides)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Raw order events arrive one at a time. Everything downstream depends on how we choose to hold them.",
+          "nodes": [
+            "stream",
+            "list"
+          ],
+          "edges": [
+            [
+              "stream",
+              "list"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "A list appends in arrival order and never drops duplicates, so it faithfully preserves the sequence as it came in.",
+          "nodes": [
+            "list"
+          ],
+          "edges": [
+            [
+              "stream",
+              "list"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "For each event we ask: have we seen this id before? We hand that question to a set, not the list.",
+          "nodes": [
+            "list",
+            "seen"
+          ],
+          "edges": [
+            [
+              "list",
+              "seen"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The set answers membership in O(1). Asking a list the same thing scans every element — O(n) per check, O(n squared) overall.",
+          "nodes": [
+            "seen",
+            "dupe"
+          ],
+          "edges": [
+            [
+              "seen",
+              "dupe"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On a hit the id already exists, so we skip it — this is the dedup guarantee the set alone provides.",
+          "nodes": [
+            "dupe",
+            "list"
+          ],
+          "edges": [
+            [
+              "dupe",
+              "list"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a miss it's genuinely new: record the id and tally its revenue in a dict keyed by customer, O(1) per update.",
+          "nodes": [
+            "dupe",
+            "tally"
+          ],
+          "edges": [
+            [
+              "dupe",
+              "tally"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dict emits revenue per customer as the final report — keyed lookup no list or set could give.",
+          "nodes": [
+            "tally",
+            "report"
+          ],
+          "edges": [
+            [
+              "tally",
+              "report"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "One invariant per container: order to the list, uniqueness to the set, lookup-by-key to the dict. Habit picks wrong; the invariant picks right.",
+          "nodes": [
+            "list",
+            "seen",
+            "tally"
+          ],
+          "edges": [],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1268,6 +1696,105 @@
           "tone": "warning",
           "label": "the failure path — raise, never swallow"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with orders.csv — a file someone else wrote, the vendor export the nightly job trusted every night.",
+          "nodes": [
+            "file"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "We open it and hand it to DictReader, which reads the text and turns each line into a raw dict of strings.",
+          "nodes": [
+            "file",
+            "open"
+          ],
+          "edges": [
+            [
+              "file",
+              "open"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Each row flows into coerce, where every string field is cast to its real type — price becomes a number, not text.",
+          "nodes": [
+            "open",
+            "coerce"
+          ],
+          "edges": [
+            [
+              "open",
+              "coerce"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The coerced, typed fields reach validate — the boundary where the parser decides whether this row is trustworthy.",
+          "nodes": [
+            "coerce",
+            "validate"
+          ],
+          "edges": [
+            [
+              "coerce",
+              "validate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A clean row passes and becomes a typed dict in records — trusted only after it earned it.",
+          "nodes": [
+            "validate",
+            "records"
+          ],
+          "edges": [
+            [
+              "validate",
+              "records"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But a bad row — a price of N-A — raises ValueError, loudly, instead of coercing the whole file to silent garbage.",
+          "nodes": [
+            "validate",
+            "raise"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That fork is the whole lesson: validate never returns a plausible wrong value — it refuses bad input out loud.",
+          "nodes": [
+            "validate",
+            "records",
+            "raise"
+          ],
+          "edges": [
+            [
+              "validate",
+              "records"
+            ],
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1533,6 +2060,107 @@
         {
           "tone": "success",
           "label": "only validated data reaches logic"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every external input arrives untrusted and enters through one gate: the validate() function guarding the boundary.",
+          "nodes": [
+            "input",
+            "validate"
+          ],
+          "edges": [
+            [
+              "input",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "validate() is the decision point where you assert shape and value before a single byte reaches your logic.",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "On bad input, quantity is the string NULL, validate raises a specific ValueError naming exactly what was wrong.",
+          "nodes": [
+            "validate",
+            "raise"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That error surfaces to the caller loud and local, right at the door, instead of a silent lie shipped downstream.",
+          "nodes": [
+            "raise",
+            "caller"
+          ],
+          "edges": [
+            [
+              "raise",
+              "caller"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On good input, and only then, control flows to the business logic with data it can safely trust.",
+          "nodes": [
+            "validate",
+            "logic"
+          ],
+          "edges": [
+            [
+              "validate",
+              "logic"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The logic returns a clean result to the caller, having never seen unchecked data.",
+          "nodes": [
+            "logic",
+            "caller"
+          ],
+          "edges": [
+            [
+              "logic",
+              "caller"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The invariant: no external data enters your logic unchecked, so failures stay loud, local, and cheap.",
+          "nodes": [
+            "input",
+            "validate",
+            "raise",
+            "logic",
+            "caller"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ],
+            [
+              "validate",
+              "logic"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1841,6 +2469,110 @@
           "tone": "warning",
           "label": "the bad-input test + the silent failure it prevents"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "We start with a sample input row and feed it into parse_orders — the function under test.",
+          "nodes": [
+            "input",
+            "contract"
+          ],
+          "edges": [
+            [
+              "input",
+              "contract"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The contract names it: rows go in, parsed orders come out. Three assertions will pin that promise down.",
+          "nodes": [
+            "contract"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The happy path asserts equality on a normal row — the everyday case works exactly as claimed.",
+          "nodes": [
+            "contract",
+            "happy"
+          ],
+          "edges": [
+            [
+              "contract",
+              "happy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The edge assert pins a boundary — empty or extreme input you did not hand-pick — and it also holds.",
+          "nodes": [
+            "contract",
+            "edge"
+          ],
+          "edges": [
+            [
+              "contract",
+              "edge"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The bad-input assert uses pytest.raises: a malformed row must force a ValueError, not pass quietly.",
+          "nodes": [
+            "contract",
+            "bad"
+          ],
+          "edges": [
+            [
+              "contract",
+              "bad"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That rejection is the whole point — it blocks silent data loss, the blank row that drops 400 orders unnoticed.",
+          "nodes": [
+            "bad",
+            "silent"
+          ],
+          "edges": [
+            [
+              "bad",
+              "silent"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "All three assertions report to pytest -q, the reviewable artifact proving the code holds under input you didn't choose.",
+          "nodes": [
+            "happy",
+            "edge",
+            "bad",
+            "pytest"
+          ],
+          "edges": [
+            [
+              "happy",
+              "pytest"
+            ],
+            [
+              "edge",
+              "pytest"
+            ],
+            [
+              "bad",
+              "pytest"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2141,6 +2873,114 @@
           "tone": "warning",
           "label": "the quadratic trap + its scale failure"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with one input of size n. Big O asks a single question: as n grows, how fast does the work grow with it?",
+          "nodes": [
+            "input"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The cheapest shape does one step no matter how big n gets — that's O(1), constant, dead flat.",
+          "nodes": [
+            "input",
+            "constant"
+          ],
+          "edges": [
+            [
+              "input",
+              "constant"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Halving the problem each step is O(log n). Even a billion rows takes only about thirty steps — nearly flat.",
+          "nodes": [
+            "input",
+            "log"
+          ],
+          "edges": [
+            [
+              "input",
+              "log"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Touch each item once and you get O(n), linear. The cost tracks n in a straight line — honest and predictable.",
+          "nodes": [
+            "input",
+            "linear"
+          ],
+          "edges": [
+            [
+              "input",
+              "linear"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Now the trap: compare each item against every other, a loop inside a loop, and you get O(n squared).",
+          "nodes": [
+            "input",
+            "quadratic"
+          ],
+          "edges": [
+            [
+              "input",
+              "quadratic"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a hundred rows it passes every test. At a hundred thousand rows the same code hits thirty seconds and times out.",
+          "nodes": [
+            "quadratic",
+            "timeout"
+          ],
+          "edges": [
+            [
+              "quadratic",
+              "timeout"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair: replace the inner scan with a dict for O(1) membership. That collapses the nested loop to a single pass.",
+          "nodes": [
+            "timeout",
+            "repair"
+          ],
+          "edges": [
+            [
+              "timeout",
+              "repair"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now you're back to O(n) — linear again, and it survives scale. Big O let you prove that before production did.",
+          "nodes": [
+            "repair",
+            "linear"
+          ],
+          "edges": [
+            [
+              "repair",
+              "linear"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -2436,6 +3276,124 @@
           "tone": "warning",
           "label": "the failures a reviewer will probe"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Ten million log lines land as an input file — the on-call needs one number: which error code fired most.",
+          "nodes": [
+            "file",
+            "load"
+          ],
+          "edges": [
+            [
+              "file",
+              "load"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "We read and parse the file into items, turning raw bytes into a stream of codes we can count.",
+          "nodes": [
+            "load",
+            "validate"
+          ],
+          "edges": [
+            [
+              "load",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before counting, validate: is the input a real, non-empty iterable? This gate decides safe path versus crash.",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "If input is wrong type or empty, we reject early with a TypeError instead of failing deep in the loop.",
+          "nodes": [
+            "validate",
+            "badinput"
+          ],
+          "edges": [
+            [
+              "validate",
+              "badinput"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Valid input flows into one pass — we walk every item exactly once, O(n), folding each into the map.",
+          "nodes": [
+            "validate",
+            "loop",
+            "counts"
+          ],
+          "edges": [
+            [
+              "validate",
+              "loop"
+            ],
+            [
+              "loop",
+              "counts"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The safe move is get(k,0)+1: an unseen key defaults to zero and increments cleanly into the frequency map.",
+          "nodes": [
+            "loop",
+            "counts"
+          ],
+          "edges": [
+            [
+              "loop",
+              "counts"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The naive move, raw counts[k], raises KeyError on the very first unseen code — the crash a reviewer hunts for.",
+          "nodes": [
+            "loop",
+            "keyerror"
+          ],
+          "edges": [
+            [
+              "loop",
+              "keyerror"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Same intent, two paths: default-to-zero reaches the counts store, raw indexing breaks. That invariant is the whole lesson.",
+          "nodes": [
+            "counts",
+            "keyerror",
+            "loop"
+          ],
+          "edges": [
+            [
+              "loop",
+              "counts"
+            ],
+            [
+              "loop",
+              "keyerror"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2722,6 +3680,102 @@
         {
           "tone": "warning",
           "label": "the empty-collection failure both must guard"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One input arrives: three items, A then B then C, in that order. Now we send them down two different disciplines.",
+          "nodes": [
+            "input"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The stack pushes all three onto one end. Last-in-first-out: the same door you push through is the door you pop from.",
+          "nodes": [
+            "input",
+            "stack"
+          ],
+          "edges": [
+            [
+              "input",
+              "stack"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "So popping returns C, then B, then A — reversed. That reversal is why stacks check nesting and undo the last action first.",
+          "nodes": [
+            "stack",
+            "sout"
+          ],
+          "edges": [
+            [
+              "stack",
+              "sout"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The queue enqueues at one end but dequeues from the other. First-in-first-out preserves arrival order.",
+          "nodes": [
+            "input",
+            "queue"
+          ],
+          "edges": [
+            [
+              "input",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "So dequeuing returns A, B, C — untouched. Same three items, opposite output order: the invariant is which end you touch.",
+          "nodes": [
+            "queue",
+            "qout",
+            "stack",
+            "sout"
+          ],
+          "edges": [
+            [
+              "queue",
+              "qout"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The shared failure: pop or dequeue an empty collection and there is nothing to return — you must guard that edge.",
+          "nodes": [
+            "stack",
+            "queue",
+            "empty"
+          ],
+          "edges": [
+            [
+              "stack",
+              "empty"
+            ],
+            [
+              "queue",
+              "empty"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Pick the wrong door and correct code looks broken. Reversal wants a stack, fair ordering wants a queue.",
+          "nodes": [
+            "sout",
+            "qout"
+          ],
+          "edges": [],
+          "ms": 4000
         }
       ]
     },
@@ -3014,6 +4068,114 @@
           "tone": "muted",
           "label": "the brute-force path we avoid"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The junior's brute force lives here: a nested re-scan that re-sums every sub-array before we even begin — that's the O(n squared) tax.",
+          "nodes": [
+            "brute",
+            "input"
+          ],
+          "edges": [
+            [
+              "brute",
+              "input"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The senior deletes it. One window starts at left equals zero, right about to sweep the array once, tracking a single running sum.",
+          "nodes": [
+            "input",
+            "right"
+          ],
+          "edges": [
+            [
+              "input",
+              "right"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Each loop, right expands one step and hands the new window sum to the constraint check.",
+          "nodes": [
+            "right",
+            "check"
+          ],
+          "edges": [
+            [
+              "right",
+              "check"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Here is the decision: is the sum still at or under k, which is seven? That single test steers the whole flow.",
+          "nodes": [
+            "check"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "On no — sum over seven — advance left to shrink the window, then re-check. Left only moves forward, never rewinds.",
+          "nodes": [
+            "check",
+            "left"
+          ],
+          "edges": [
+            [
+              "check",
+              "left"
+            ],
+            [
+              "left",
+              "check"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On yes — the window is valid — record it as the best burst so far.",
+          "nodes": [
+            "check",
+            "best"
+          ],
+          "edges": [
+            [
+              "check",
+              "best"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Then loop back: right expands again and the cycle repeats to the end of the log.",
+          "nodes": [
+            "best",
+            "right"
+          ],
+          "edges": [
+            [
+              "best",
+              "right"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Because left never rewinds, each pointer crosses the array once — two million events land in milliseconds, not a timeout.",
+          "nodes": [
+            "right",
+            "left",
+            "best"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3279,7 +4441,96 @@
           "label": "the O(n) path you are beating"
         }
       ],
-      "caption": "3 comparisons to find 23 in 8 elements; linear scan would take 6. The gap widens exponentially: 20 vs 1,000,000."
+      "caption": "3 comparisons to find 23 in 8 elements; linear scan would take 6. The gap widens exponentially: 20 vs 1,000,000.",
+      "storyboard": [
+        {
+          "say": "We start with bounds around the whole list: lo=0, hi=7. The target is inside this range if it exists at all.",
+          "nodes": [
+            "start"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First probe: look at the middle. Index 3 holds 12. Compare it to our target, 23.",
+          "nodes": [
+            "start",
+            "p1"
+          ],
+          "edges": [
+            [
+              "start",
+              "p1"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "12 is too small, so 23 must live in the right half. We raise lo to mid+1 and probe again.",
+          "nodes": [
+            "p1",
+            "p2"
+          ],
+          "edges": [
+            [
+              "p1",
+              "p2"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Second probe lands on index 5, which holds 23. Equal to the target — we return mid.",
+          "nodes": [
+            "p2",
+            "found"
+          ],
+          "edges": [
+            [
+              "p2",
+              "found"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Two comparisons found it. The slow way, a linear scan, would have checked each row one by one.",
+          "nodes": [
+            "start",
+            "linear"
+          ],
+          "edges": [
+            [
+              "start",
+              "linear"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Each probe halves the range. Eight items took three probes; a million takes at most twenty — that is logarithmic time.",
+          "nodes": [
+            "p1",
+            "p2",
+            "found"
+          ],
+          "edges": [
+            [
+              "start",
+              "p1"
+            ],
+            [
+              "p1",
+              "p2"
+            ],
+            [
+              "p2",
+              "found"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -3602,6 +4853,118 @@
           "tone": "warning",
           "label": "failure path: uncapped heap = O(n) memory"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A stream fires 40 million latency samples an hour; every new value flows in one at a time to be judged.",
+          "nodes": [
+            "stream",
+            "size"
+          ],
+          "edges": [
+            [
+              "stream",
+              "size"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First question at the gate: is the heap full yet? While size is under k, we're still filling.",
+          "nodes": [
+            "size"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Not full yet, so we just heappush the value in — the heap grows toward holding exactly k items.",
+          "nodes": [
+            "push",
+            "heap"
+          ],
+          "edges": [
+            [
+              "size",
+              "push"
+            ],
+            [
+              "push",
+              "heap"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Once full, the value must compete: we compare it against the root, the smallest of the current top k.",
+          "nodes": [
+            "size",
+            "root"
+          ],
+          "edges": [
+            [
+              "size",
+              "root"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Bigger than the root? heappushpop evicts the root and admits the newcomer — the heap stays exactly size k.",
+          "nodes": [
+            "root",
+            "replace",
+            "heap"
+          ],
+          "edges": [
+            [
+              "root",
+              "replace"
+            ],
+            [
+              "replace",
+              "heap"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Smaller than or equal to the root? It can't crack the top k, so we drop it in O(1) and move on.",
+          "nodes": [
+            "root",
+            "drop"
+          ],
+          "edges": [
+            [
+              "root",
+              "drop"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Skip the size cap and the heap grows unbounded — you're back to sorting all 40 million and the box falls over.",
+          "nodes": [
+            "size",
+            "bug"
+          ],
+          "edges": [
+            [
+              "size",
+              "bug"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: the heap always holds the k largest seen so far, at O(n log k) time and O(k) space.",
+          "nodes": [
+            "heap",
+            "root"
+          ],
+          "edges": [],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -3889,6 +5252,141 @@
         {
           "tone": "muted",
           "label": "disconnected — traversal must NOT reach it"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Both traversals start at the same place: node A, the entry point. From here, the order you leave decides everything.",
+          "nodes": [
+            "a"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "BFS uses a queue, first-in first-out. It fans out in rings, visiting every neighbor of A before going deeper.",
+          "nodes": [
+            "a",
+            "b",
+            "c"
+          ],
+          "edges": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "a",
+              "c"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So BFS reaches B and C first, then their children D and E. First arrival equals fewest hops — that's why BFS finds shortest paths.",
+          "nodes": [
+            "b",
+            "c",
+            "d",
+            "e"
+          ],
+          "edges": [
+            [
+              "b",
+              "d"
+            ],
+            [
+              "c",
+              "e"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "DFS uses a stack instead. It plunges down one branch — A, B, D — as deep as it can before touching the other side.",
+          "nodes": [
+            "a",
+            "b",
+            "d"
+          ],
+          "edges": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "b",
+              "d"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only when the branch dead-ends does DFS backtrack and explore A, C, E. Deep-first means it can return a long path that merely works.",
+          "nodes": [
+            "a",
+            "c",
+            "e"
+          ],
+          "edges": [
+            [
+              "a",
+              "c"
+            ],
+            [
+              "c",
+              "e"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the trap: D and E point at each other, a cycle. Without a visited set, either traversal bounces D to E to D forever.",
+          "nodes": [
+            "d",
+            "e"
+          ],
+          "edges": [
+            [
+              "d",
+              "e"
+            ],
+            [
+              "e",
+              "d"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Same graph, same O(V+E) cost — but queue versus stack changes the answer. Pick BFS for shortest, and always mark visited.",
+          "nodes": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f"
+          ],
+          "edges": [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "a",
+              "c"
+            ],
+            [
+              "b",
+              "d"
+            ],
+            [
+              "c",
+              "e"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4225,6 +5723,129 @@
           "tone": "success",
           "label": "memo store / cache hit (O(1))"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "We call fib(5). Naively it splits into two smaller calls, fib(4) and fib(3), and each of those splits again.",
+          "nodes": [
+            "f5",
+            "f4",
+            "f3b"
+          ],
+          "edges": [
+            [
+              "f5",
+              "f4"
+            ],
+            [
+              "f5",
+              "f3b"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Follow the left branch. fib(4) needs fib(3) and fib(2), and fib(3) needs fib(2) again — the tree keeps fanning out.",
+          "nodes": [
+            "f4",
+            "f3a",
+            "f2b",
+            "f2a",
+            "f2c"
+          ],
+          "edges": [
+            [
+              "f4",
+              "f3a"
+            ],
+            [
+              "f4",
+              "f2b"
+            ],
+            [
+              "f3a",
+              "f2a"
+            ],
+            [
+              "f3a",
+              "f2c"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the waste. fib(3) is computed twice and fib(2) three times — identical subproblems rebuilt from scratch. That is the exponential blowup.",
+          "nodes": [
+            "f3a",
+            "f3b",
+            "f2a",
+            "f2b",
+            "f2c"
+          ],
+          "edges": [],
+          "ms": 4800
+        },
+        {
+          "say": "The fix: a memo dictionary. The first time we truly solve fib(2) and fib(3), we store each answer exactly once.",
+          "nodes": [
+            "cache",
+            "f2a",
+            "f3a"
+          ],
+          "edges": [
+            [
+              "f2a",
+              "cache"
+            ],
+            [
+              "f3a",
+              "cache"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the repeats change meaning. Instead of rebuilding a subtree, fib(2) and fib(3) hit the cache and return in O(1).",
+          "nodes": [
+            "cache",
+            "f3b",
+            "f2b",
+            "f2c"
+          ],
+          "edges": [
+            [
+              "cache",
+              "f3b"
+            ],
+            [
+              "cache",
+              "f2b"
+            ],
+            [
+              "cache",
+              "f2c"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That single rule — every distinct subproblem solved once, every repeat a cache read — collapses exponential recomputation to linear work.",
+          "nodes": [
+            "f5",
+            "cache"
+          ],
+          "edges": [
+            [
+              "cache",
+              "f3b"
+            ],
+            [
+              "cache",
+              "f2b"
+            ]
+          ],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -4520,6 +6141,126 @@
           "tone": "warning",
           "label": "failure paths: bad value or port already held"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the shell: before launching anything, the launcher exports your config as environment variables.",
+          "nodes": [
+            "shell",
+            "env"
+          ],
+          "edges": [
+            [
+              "shell",
+              "env"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "When the process spawns, it inherits that whole environment - the config is injected from outside, never hardcoded in the program.",
+          "nodes": [
+            "env",
+            "process"
+          ],
+          "edges": [
+            [
+              "env",
+              "process"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "First thing the process does at startup is read its env: it pulls PORT and LOG_LEVEL to decide how it will behave.",
+          "nodes": [
+            "process",
+            "validate"
+          ],
+          "edges": [
+            [
+              "process",
+              "validate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "It validates that config. A bad or missing PORT is a fast exit - fail early rather than run in a broken state.",
+          "nodes": [
+            "validate",
+            "inuse"
+          ],
+          "edges": [
+            [
+              "validate",
+              "inuse"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "With a valid port, the process asks the OS to bind it - claiming a numbered endpoint in the kernel's socket table.",
+          "nodes": [
+            "validate",
+            "os"
+          ],
+          "edges": [
+            [
+              "validate",
+              "os"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If no one else holds that port, the OS grants the socket and the process is bound and listening.",
+          "nodes": [
+            "os",
+            "bound"
+          ],
+          "edges": [
+            [
+              "os",
+              "bound"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But only one process can own a port at a time. If it's taken, the OS returns EADDRINUSE - the 'Address already in use' failure.",
+          "nodes": [
+            "os",
+            "inuse"
+          ],
+          "edges": [
+            [
+              "os",
+              "inuse"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Same code, different outcome: the difference lives in the environment and who holds the socket - that's where works-on-my-machine is won.",
+          "nodes": [
+            "env",
+            "process",
+            "bound",
+            "inuse"
+          ],
+          "edges": [
+            [
+              "os",
+              "bound"
+            ],
+            [
+              "os",
+              "inuse"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -4806,6 +6547,110 @@
         {
           "tone": "success",
           "label": "each layer's successful output"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "You type a URL and hit enter. Before any page arrives, the client must walk three layers in order — starting with the name.",
+          "nodes": [
+            "client"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First, the client asks a DNS resolver to turn the human-readable name into a machine address.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The resolver acts as a phone book, returning an A record — the server's raw IP address.",
+          "nodes": [
+            "dns",
+            "ip"
+          ],
+          "edges": [
+            [
+              "dns",
+              "ip"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Now the client opens a TLS handshake to that IP on port 443 to build an encrypted, identity-verified channel.",
+          "nodes": [
+            "client",
+            "tls"
+          ],
+          "edges": [
+            [
+              "client",
+              "tls"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the key decision: TLS checks the certificate. If it's past its notAfter date, the whole connection aborts right here.",
+          "nodes": [
+            "tls",
+            "expired"
+          ],
+          "edges": [
+            [
+              "tls",
+              "expired"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only if the certificate is valid does the channel go secure, and TLS hands control up to the HTTP layer.",
+          "nodes": [
+            "tls",
+            "http"
+          ],
+          "edges": [
+            [
+              "tls",
+              "http"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Finally the client sends GET / HTTP/1.1 and receives a response — the first bytes of the actual page.",
+          "nodes": [
+            "http",
+            "resp"
+          ],
+          "edges": [
+            [
+              "http",
+              "resp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The insight: DNS, TLS, HTTP run in strict order, each depending on the last. Debug by asking which layer went silent.",
+          "nodes": [
+            "dns",
+            "tls",
+            "http"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -5120,6 +6965,120 @@
           "tone": "muted",
           "label": "guessing — skips reproduction, kept out"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A crash arrives as a bug report: 'my CSV parser throws KeyError sometimes.' The loop starts by pinning the exact input that fails.",
+          "nodes": [
+            "bug",
+            "reproduce"
+          ],
+          "edges": [
+            [
+              "bug",
+              "reproduce"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Reproduce writes one test that reliably fails on the bad row — until red is guaranteed, there's nothing solid to debug.",
+          "nodes": [
+            "reproduce",
+            "localize"
+          ],
+          "edges": [
+            [
+              "reproduce",
+              "localize"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Localize reads the traceback's last frame to narrow from 'broken somewhere' down to the exact line.",
+          "nodes": [
+            "localize",
+            "hypothesize"
+          ],
+          "edges": [
+            [
+              "localize",
+              "hypothesize"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Hypothesize forms one falsifiable guess, then Fix makes exactly one change — no shotgun edits.",
+          "nodes": [
+            "hypothesize",
+            "fix"
+          ],
+          "edges": [
+            [
+              "hypothesize",
+              "fix"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Verify re-runs the same reproduction test. This decision point is the whole discipline: red or green decides what happens next.",
+          "nodes": [
+            "fix",
+            "verify"
+          ],
+          "edges": [
+            [
+              "fix",
+              "verify"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Still red? Loop back to hypothesize — the change was wrong, so form a new theory and try again.",
+          "nodes": [
+            "verify",
+            "hypothesize"
+          ],
+          "edges": [
+            [
+              "verify",
+              "hypothesize"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now green — the test that was red is green, so you exit with proof, not vibes.",
+          "nodes": [
+            "verify",
+            "green"
+          ],
+          "edges": [
+            [
+              "verify",
+              "green"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Guessing is the muted, forbidden shortcut: it jumps straight to Fix and skips reproduction, so you never earn the proof.",
+          "nodes": [
+            "guess",
+            "fix"
+          ],
+          "edges": [
+            [
+              "guess",
+              "fix"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -5408,6 +7367,110 @@
         {
           "tone": "warning",
           "label": "the failure path a reviewer checks first"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One request starts at the terminal: you hand the program a file path and how many top words you want back.",
+          "nodes": [
+            "cli"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Before any work, the input hits a gate. This validate step is the contract: it decides whether the request is even worth running.",
+          "nodes": [
+            "cli",
+            "validate"
+          ],
+          "edges": [
+            [
+              "cli",
+              "validate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the part beginners skip. A missing file or empty text does not compute a wrong answer; it raises and rejects loudly.",
+          "nodes": [
+            "validate",
+            "raise"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On valid input we commit to real work: read the file and pull its raw text off disk.",
+          "nodes": [
+            "validate",
+            "read"
+          ],
+          "edges": [
+            [
+              "validate",
+              "read"
+            ],
+            [
+              "read",
+              "tokenize"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Normalize and tokenize turns messy raw text into clean words, then a counter dict tallies each one in a single pass.",
+          "nodes": [
+            "tokenize",
+            "counts"
+          ],
+          "edges": [
+            [
+              "tokenize",
+              "counts"
+            ],
+            [
+              "counts",
+              "rank"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Rank sorts those word-count pairs and keeps only the top-N, which write out as the final ranked rows.",
+          "nodes": [
+            "rank",
+            "out"
+          ],
+          "edges": [
+            [
+              "rank",
+              "out"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The insight: a real utility is a contract, a transform, and a proof. A reviewer checks the raise path first, so you build it first.",
+          "nodes": [
+            "validate",
+            "raise",
+            "counts",
+            "out"
+          ],
+          "edges": [
+            [
+              "validate",
+              "raise"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5699,6 +7762,105 @@
         {
           "tone": "success",
           "label": "proof: aggregate + pytest"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the terminal — you run the utility, and Python opens the messy CSV the interviewer slid across the table.",
+          "nodes": [
+            "cli",
+            "read"
+          ],
+          "edges": [
+            [
+              "cli",
+              "read"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The reader streams the file one row at a time, handing each line to the validator at the boundary before anything gets trusted.",
+          "nodes": [
+            "read",
+            "validate"
+          ],
+          "edges": [
+            [
+              "read",
+              "validate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Validation is the fork the whole lesson turns on: is this row clean enough to count, or is it broken?",
+          "nodes": [
+            "validate"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "A clean row flows into the aggregate — a dict keyed by product, summing revenue as totals accumulate.",
+          "nodes": [
+            "validate",
+            "aggregate"
+          ],
+          "edges": [
+            [
+              "validate",
+              "aggregate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The blank-price row doesn't crash you — a try catches it, routes it to the skip branch, and increments a counter instead of raising a traceback.",
+          "nodes": [
+            "validate",
+            "skip"
+          ],
+          "edges": [
+            [
+              "validate",
+              "skip"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Both paths converge on the summary: per-product totals plus how many rows were skipped, printed as your answer.",
+          "nodes": [
+            "aggregate",
+            "skip",
+            "summary"
+          ],
+          "edges": [
+            [
+              "aggregate",
+              "summary"
+            ],
+            [
+              "skip",
+              "summary"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Pytest pins both branches — asserting the valid path totals and the malformed path survives — so no path reaches production unproven.",
+          "nodes": [
+            "pytest",
+            "validate"
+          ],
+          "edges": [
+            [
+              "pytest",
+              "validate"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },

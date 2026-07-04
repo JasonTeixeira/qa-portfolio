@@ -1723,31 +1723,31 @@ a:focus-visible {
   /* ── PALETTE · near-black surface ramp (oklch: perceptually even depth) ──
      base → raised → overlay climbs ~2% L per step for layered editorial depth.
      Each carries a tiny cool-violet chroma so the dark reads as ink, not soot. */
-  --ac-bg: oklch(15% 0.006 285); /* page floor — the deepest near-black */
-  --ac-surface: oklch(18.5% 0.007 285); /* default card / raised surface */
+  --ac-bg: #0B0B0E; /* page floor — exact brand hex (deepest near-black) */
+  --ac-surface: #111115; /* default card / raised surface — exact brand hex */
   --ac-surface-2: oklch(21% 0.008 285); /* raised-above-raised / hover lift */
   --ac-overlay: oklch(24% 0.009 285); /* overlays, popovers, the top layer */
 
   /* INK ramp — every step ≥ AA 4.5:1 on --ac-bg (never opacity on text) */
-  --ac-ink: oklch(94% 0.012 75); /* primary — warm bone, ~14:1 */
+  --ac-ink: #F2EFE9; /* primary — exact brand bone, ~15:1 on --ac-bg */
   --ac-ink-soft: oklch(80% 0.012 285); /* secondary prose / dim, ~7.5:1 */
-  --ac-ink-faint: oklch(64% 0.013 285); /* mono captions / labels, ~4.6:1 AA */
+  --ac-ink-faint: #9598A2; /* muted — exact brand hex, ~6:1 AA on --ac-bg */
 
   /* HAIRLINE rules — depth comes from these + surfaces, never glow */
-  --ac-rule: oklch(27% 0.008 285); /* default hairline divider */
+  --ac-rule: #1E1E24; /* default hairline divider — exact brand hex */
   --ac-rule-strong: oklch(33% 0.009 285); /* emphasized / focused edge */
 
   /* ACCENT — ONE disciplined hue, three SEMANTIC roles (not raw color) */
-  --ac-accent: oklch(62% 0.18 264); /* non-text: tints, underlines, rings, focus */
+  --ac-accent: #3D5AFE; /* brand blue — exact hex · non-text: tints, underlines, rings, focus */
   --ac-accent-strong: oklch(54% 0.2 264); /* fills: white-on-accent text ≥ AA 4.5 */
   --ac-accent-text: oklch(76% 0.14 264); /* accent AS TEXT on dark bg ≥ AA 4.5 (links, eyebrows) */
-  --ac-accent-wash: oklch(62% 0.18 264 / 0.1); /* faint tint behind accented blocks */
+  --ac-accent-wash: rgb(61 90 254 / 0.1); /* faint tint behind accented blocks — brand blue @10% */
 
   /* SEMANTIC STATE — meaning only (8-state machine + score caps), each AA */
-  --ac-mastery: oklch(78% 0.16 152); /* proven / complete */
-  --ac-pending: oklch(80% 0.12 80); /* in-progress / proof-pending / capped */
-  --ac-locked: oklch(55% 0.01 285); /* locked / neutral */
-  --ac-danger: oklch(66% 0.2 27); /* failure / repair-required */
+  --ac-mastery: #18B663; /* proven / complete — exact brand green */
+  --ac-pending: #E0A93E; /* in-progress / proof-pending / capped — exact brand gold */
+  --ac-locked: oklch(55% 0.01 285); /* locked / neutral (ramp-derived, not a brand token) */
+  --ac-danger: #E5484D; /* failure / repair-required — exact brand red */
 
   /* ── TYPOGRAPHY · a real pairing (serif display + grotesk body + mono data) ──
      Wired to the faces the app ALREADY loads (app/layout.tsx) — no new font load.

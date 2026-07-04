@@ -55,7 +55,16 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 - [x] **Shared AcademyFooter** — `components/academy/marketing/AcademyFooter.tsx` (server, `tagline` prop) adopted across About/Help/Why-Proof/proof-not-paper; real links only (no Legal/Terms dead links); About/Help gained a footer, why-proof/proof-not-paper keep signature taglines. tsc clean.
 - [x] **Align --ac-* tokens to exact design hex** — 9 brand tokens in app/globals.css set to exact hex (Δ=0 verified via canvas pixel read); fixed accent drift (mastery was mint #59d483 Δ78). PRESERVED the AA-tuned text/ramp derivatives (--ac-accent-text #83afff, accent-strong, ink-soft, surface ramp) — re-verified every text token ≥ AA 4.5:1 on bg. Now one source of truth matching the marketing pages' hardcoded hex.
 - [~] **Componentize Home — N/A (surfaced, not executed).** Investigation: `app/home-v2` (a 643-line dangerouslySetInnerHTML blob) is ORPHANED — nothing links to or routes it (grep empty outside its own dir). The REAL academy home is `app/academy/page.tsx` → `AcademyLanding` (components/academy/landing/*), which is the LOCKED concurrent-design zone (never touch). So there's nothing safe+valuable to componentize: the dead orphan isn't worth componentizing, and the real home is off-limits. Did NOT delete home-v2 unilaterally (didn't create it; may be the other session's staging ground). RECOMMEND: delete/reconcile home-v2 during the Phase-3 root-swap routing cleanup, with operator confirm. **Phase 2 autonomous work COMPLETE (nav + footer + tokens).**
-- OPERATOR DECISION 2026-07-03: team plans CUT (individual-only) → Team Admin cut; drop team clauses from Legal/Cancel. Brand stance added: /academy/proof-not-paper ("Forget the certificate. Ship the proof.").
+- OPERATOR DECISION 2026-07-03: team plans CUT (individual-only) → Team Admin cut; drop team clauses from Legal/Cancel. Brand stance added: /academy/proof-not-paper ("Forget the certificate. Ship the proof."). Agency = separate website (studio.sageideas.dev) → LEAVE agency routes alone entirely (no redirect/remove in this repo).
+
+**Phase 5 (pulled forward — non-gated hardening while Phase-3 root-swap is operator-gate-parked):**
+- [x] **A11y (WCAG 2.2 AA) on new marketing surfaces** — AcademyNav/Footer + About/Help/Why-Proof/proof-not-paper: <main> landmarks, :focus-visible rings (scoped <style>), aria-live Help search, decorative glyphs aria-hidden, reduced-motion guard. No recolor (token contrast already AA). tsc clean.
+- [ ] a11y on the learner-app surfaces (lesson player, dashboard, review, catalog) — bigger, uses --ac tokens.
+- [ ] e2e smoke on real flows (enroll→lesson→lab→certificate) where testable without auth creds.
+- [ ] SEO metadata/sitemap/robots — DEFER to Phase 3 (pages are noindex/gated until made public at root swap; premature now).
+- [ ] analytics + Sentry — needs operator DSN/keys.
+
+**Course-auditor baseline DONE (2026-07-03):** all 23 authored courses audited → docs/academy/AUDIT_BASELINE.md. All unsourced (score 21–36); auditor over-extracts prose so RANKING is the signal. Sourcing priority: security > backend > ai-engineering > concept-maps > databases. Recommendation: EVIDENCE_LEDGER the top fact-critical courses (operator call, not started).
 
 ## Legacy phase plan (subsumed by the 7-phase program above)
 - **P0 Foundation** — align `--ac-*` token values to the exact design hex; confirm fonts wired.

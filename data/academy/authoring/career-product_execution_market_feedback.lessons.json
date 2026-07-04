@@ -128,6 +128,120 @@
           "tone": "muted",
           "label": "the product — kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every product bet starts as a hunch. The Problem Frame is the cheapest thing you build to turn that hunch into a decision.",
+          "nodes": [
+            "bet"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Start with the customer problem, stated in one product-free sentence. It defines what the bet is actually about.",
+          "nodes": [
+            "problem",
+            "bet"
+          ],
+          "edges": [
+            [
+              "problem",
+              "bet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Next, the market segment scopes exactly who has this problem, so the bet answers for a real population, not everyone.",
+          "nodes": [
+            "segment",
+            "bet"
+          ],
+          "edges": [
+            [
+              "segment",
+              "bet"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now name the one riskiest assumption that, if false, kills the whole idea outright.",
+          "nodes": [
+            "assumption"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "An assumption alone is a wish. The invalidation threshold makes it falsifiable, with a number that decides it.",
+          "nodes": [
+            "assumption",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "threshold"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That threshold is the trigger: it either kills the bet or clears it. Discovery evidence hits this line first.",
+          "nodes": [
+            "threshold",
+            "bet"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "bet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The product is deliberately out. It must not leak into the problem statement — it belongs to the PRD after the frame validates.",
+          "nodes": [
+            "product",
+            "problem"
+          ],
+          "edges": [
+            [
+              "product",
+              "problem"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: the frame holds the customer's pain and the evidence that ends the bet, never your solution.",
+          "nodes": [
+            "problem",
+            "segment",
+            "assumption",
+            "threshold",
+            "bet",
+            "product"
+          ],
+          "edges": [
+            [
+              "problem",
+              "bet"
+            ],
+            [
+              "segment",
+              "bet"
+            ],
+            [
+              "threshold",
+              "bet"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -424,6 +538,114 @@
         {
           "tone": "warning",
           "label": "the failure path: confirmation → false YES → dead launch"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: name the single riskiest assumption — the belief that, if wrong, kills the whole feature.",
+          "nodes": [
+            "assumption"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "You test that belief with discovery interviews — talking to real customers before writing any code.",
+          "nodes": [
+            "assumption",
+            "interviews"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "interviews"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Interviews feed an experiment, and here is the invariant: you pre-set the invalidation threshold before you see any data.",
+          "nodes": [
+            "interviews",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "interviews",
+              "experiment"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The experiment measures real behavior — activation and retention — the only signal that can honestly say yes or no.",
+          "nodes": [
+            "experiment",
+            "signal"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "signal"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Compare that signal against the threshold you locked in, and the decision makes itself — enthusiasm can't move the goalposts.",
+          "nodes": [
+            "signal",
+            "decision"
+          ],
+          "edges": [
+            [
+              "signal",
+              "decision"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the failure path. The tempting shortcut skips the experiment and jumps straight to confirmation questions.",
+          "nodes": [
+            "assumption",
+            "confirm"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "confirm"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those questions ask for a yes, so you get a false yes — approval with no evidence a customer will actually do the thing.",
+          "nodes": [
+            "confirm",
+            "falseyes"
+          ],
+          "edges": [
+            [
+              "confirm",
+              "falseyes"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Build on that vibe and you ship to silence: a dead launch. Nobody had asked a customer to act before the team built it.",
+          "nodes": [
+            "falseyes",
+            "deadlaunch"
+          ],
+          "edges": [
+            [
+              "falseyes",
+              "deadlaunch"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -745,6 +967,105 @@
           "tone": "success",
           "label": "experiment → the metric it must move"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with the target segment. The whole landscape is a hiring question: what can these customers hire for this job today?",
+          "nodes": [
+            "segment"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The named incumbent is one option, but for this segment it is too costly, so it rarely gets the job.",
+          "nodes": [
+            "segment",
+            "incumbent"
+          ],
+          "edges": [
+            [
+              "segment",
+              "incumbent"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The real rivals hide in plain sight: a substitute they hire today, and doing nothing, which often wins at 4pm on a Tuesday.",
+          "nodes": [
+            "segment",
+            "substitute",
+            "nothing"
+          ],
+          "edges": [
+            [
+              "segment",
+              "substitute"
+            ],
+            [
+              "segment",
+              "nothing"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now find the wedge: the one axis where this segment stays underserved by every alternative on the board.",
+          "nodes": [
+            "segment",
+            "wedge"
+          ],
+          "edges": [
+            [
+              "segment",
+              "wedge"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That wedge is not a slogan. It becomes a bet: a scoped experiment you can actually build and run.",
+          "nodes": [
+            "wedge",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "wedge",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment names an activation metric it must move, converting market evidence into a measurable target.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "And it carries an invalidation threshold. If that bar is missed, the bet dies. The invariant: it must be able to fail.",
+          "nodes": [
+            "experiment",
+            "invalidate"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "invalidate"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1052,6 +1373,120 @@
           "tone": "muted",
           "label": "repair path — reframe the assumption, keep the threshold honest"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with the segment: name one market you serve, and the specific job it hires you for. That job is the whole reason the product exists.",
+          "nodes": [
+            "segment",
+            "job"
+          ],
+          "edges": [
+            [
+              "segment",
+              "job"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The job exposes the bet — the single riskiest assumption that, if false, sinks the entire idea no matter how well you build it.",
+          "nodes": [
+            "job",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "job",
+              "assumption"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the invariant: that assumption must be wireable to an experiment designed to falsify it — a test whose 'no' can actually stop the build.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The experiment produces real behavior, which becomes an activation metric — like clicks on a fake-door test, not a survey's polite yes.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That metric is measured against the invalidation threshold: the bar you set in advance. This is the fork — clear it or miss it.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Clear the bar and you earn the right to build: scope the MVP with a defensible target every later artifact inherits.",
+          "nodes": [
+            "threshold",
+            "build"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "build"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Miss the bar and you pivot or kill — the failure path. Three percent clicked where you needed fifteen; you saved the quarter.",
+          "nodes": [
+            "threshold",
+            "pivot"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "pivot"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair loop is the lesson: a failed threshold sends you back to reframe the segment or assumption — never to quietly relax the bar.",
+          "nodes": [
+            "pivot",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "pivot",
+              "assumption"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1336,6 +1771,124 @@
           "tone": "success",
           "label": "activation — first value delivered"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a trigger. A real customer arrives with a job to do, then discovers the product.",
+          "nodes": [
+            "trigger",
+            "discover"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "discover"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "They commit by signing up, then get onboarded into setup — the first real friction of the journey.",
+          "nodes": [
+            "discover",
+            "signup",
+            "setup"
+          ],
+          "edges": [
+            [
+              "discover",
+              "signup"
+            ],
+            [
+              "signup",
+              "setup"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Setup is the suspect step: the one decision point where you fear the customer will quietly leak out of the funnel.",
+          "nodes": [
+            "setup"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The win path is that setup activates them — they reach first value, the moment the product actually pays off.",
+          "nodes": [
+            "setup",
+            "firstvalue"
+          ],
+          "edges": [
+            [
+              "setup",
+              "firstvalue"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But the feared path is real too: at setup they drop and abandon, never reaching the feature at all.",
+          "nodes": [
+            "setup",
+            "abandon"
+          ],
+          "edges": [
+            [
+              "setup",
+              "abandon"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Abandonment triggers a test — you instrument the leak and run an experiment against the suspect step.",
+          "nodes": [
+            "abandon",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "abandon",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment loops back to setup: it either invalidates your guess or repairs the step so activation holds.",
+          "nodes": [
+            "experiment",
+            "setup"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "setup"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: a journey holds the exit, not just the win. No measurable drop-off means you drew a demo.",
+          "nodes": [
+            "setup",
+            "abandon",
+            "firstvalue"
+          ],
+          "edges": [
+            [
+              "setup",
+              "abandon"
+            ],
+            [
+              "setup",
+              "firstvalue"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1612,6 +2165,119 @@
         {
           "tone": "muted",
           "label": "vanity metric kept out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts as an assumption — 'users are asking for team workspaces.' That's a hallway opinion, not yet something you can be wrong about.",
+          "nodes": [
+            "assumption"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First move: sharpen the assumption into a falsifiable hypothesis — a claim that could actually turn out false against real data.",
+          "nodes": [
+            "assumption",
+            "hypothesis"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "hypothesis"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Then bind the hypothesis to exactly ONE decision metric — activation or retention — so the result can't be argued after the fact.",
+          "nodes": [
+            "hypothesis",
+            "metric"
+          ],
+          "edges": [
+            [
+              "hypothesis",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Guard that metric hard: vanity signups must NOT leak in. Signups feel like progress but they never tell you the feature worked.",
+          "nodes": [
+            "vanity",
+            "metric"
+          ],
+          "edges": [
+            [
+              "vanity",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now measure the metric against the invalidation threshold — a kill-number you commit to in advance, before any data lands.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This gate is the whole skill. Land below the line and it returns 'no' — you cut the build instead of shipping six wasted weeks.",
+          "nodes": [
+            "threshold",
+            "kill"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "kill"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Land above it and the evidence earns the scope — now you build, connecting discovery to a decision you can defend.",
+          "nodes": [
+            "threshold",
+            "ship"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "ship"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: the kill-number is set before the data. That's what turns 'users want this' into a decision, not a hope.",
+          "nodes": [
+            "threshold",
+            "kill",
+            "ship"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "kill"
+            ],
+            [
+              "threshold",
+              "ship"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -1891,6 +2557,119 @@
         {
           "tone": "muted",
           "label": "scoped out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "We start with a product idea. The trap: scope the feature list. The move: don't build yet — interrogate the bet underneath.",
+          "nodes": [
+            "idea"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First, isolate the one riskiest assumption — the single thing that, if false, sinks the whole idea.",
+          "nodes": [
+            "idea",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "idea",
+              "assumption"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now design the cheapest experiment that can actually falsify it — a test whose honest answer is allowed to be no.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Everything else — payments, chat, reviews, search — is out of scope, and it must not leak into the experiment.",
+          "nodes": [
+            "cut",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "cut",
+              "experiment"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The experiment measures one activation metric, compared against a numeric threshold you commit to in advance.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "At or above threshold, the bet held — double down and keep building.",
+          "nodes": [
+            "metric",
+            "double"
+          ],
+          "edges": [
+            [
+              "metric",
+              "double"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Below threshold, you stop. Invalidate or pivot — no rationalizing, no shipping the roadmap anyway.",
+          "nodes": [
+            "metric",
+            "kill"
+          ],
+          "edges": [
+            [
+              "metric",
+              "kill"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The invariant: scope tests the bet, never the feature list. That's Section one of the packet you defend in review.",
+          "nodes": [
+            "assumption",
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ],
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -2180,6 +2959,105 @@
         {
           "tone": "muted",
           "label": "the hunch the packet exists to replace"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The loop starts here: customer discovery is the raw signal, the real evidence that some market segment has a problem worth solving.",
+          "nodes": [
+            "discovery"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "That signal flows into the PRD, where market evidence becomes a scoped engineering decision instead of a hunch on a roadmap.",
+          "nodes": [
+            "discovery",
+            "prd"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "prd"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Watch the trap: 'users want it' vibes try to sneak into the PRD, but conviction is not evidence and must never substitute for signal.",
+          "nodes": [
+            "vibes",
+            "prd"
+          ],
+          "edges": [
+            [
+              "vibes",
+              "prd"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "A real PRD names the metric, activation or retention, and the metric tree instruments the smallest experiment that can move it.",
+          "nodes": [
+            "prd",
+            "metrictree",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "prd",
+              "metrictree"
+            ],
+            [
+              "metrictree",
+              "experiment"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The experiment ships and reports its result against the invalidation threshold, the number set in advance that would prove the idea wrong.",
+          "nodes": [
+            "experiment",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "threshold"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The threshold is the gate: clear the bar and you ship; miss it and you loop back to re-discover instead of laundering advocacy.",
+          "nodes": [
+            "threshold",
+            "ship",
+            "discovery"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "ship"
+            ],
+            [
+              "threshold",
+              "discovery"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: every decision carries a number that could kill it. No invalidation threshold means no decision, just advocacy.",
+          "nodes": [
+            "threshold",
+            "prd"
+          ],
+          "edges": [],
+          "ms": 4200
         }
       ]
     },
@@ -2488,6 +3366,106 @@
           "tone": "muted",
           "label": "vanity metric kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The launch deck is green because signups are up 40%. But total signups sit outside the loop on purpose — it can never say no.",
+          "nodes": [
+            "vanity"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The honest loop starts upstream: a customer-discovery insight picks which metric actually matters.",
+          "nodes": [
+            "discovery",
+            "activation"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "activation"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The North Star is too coarse to move directly, so decompose it into input metrics: activation and retention.",
+          "nodes": [
+            "northstar",
+            "activation",
+            "retention"
+          ],
+          "edges": [
+            [
+              "northstar",
+              "activation"
+            ],
+            [
+              "northstar",
+              "retention"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Pick the ONE input metric your next experiment can move — here, activation becomes the target metric.",
+          "nodes": [
+            "activation",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "activation",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment runs and its result is measured against a bar — not just celebrated on a slide.",
+          "nodes": [
+            "experiment",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "threshold"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: an invalidation threshold. The result either clears the target or trips the bar and kills the idea.",
+          "nodes": [
+            "threshold",
+            "decision"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "decision"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Guard the center: total signups must NOT stand in for activation — a metric that can't fail is a scoreboard, not a metric.",
+          "nodes": [
+            "vanity",
+            "activation",
+            "decision"
+          ],
+          "edges": [
+            [
+              "vanity",
+              "activation"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2783,6 +3761,125 @@
           "tone": "warning",
           "label": "silent-drop failure + the fire-rate repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a user doing the thing that matters — the action on the causal path to retention, the moment worth measuring.",
+          "nodes": [
+            "action"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "That action is supposed to fire one instrumented event — the single wire connecting a shipped feature to a real decision.",
+          "nodes": [
+            "action",
+            "emit"
+          ],
+          "edges": [
+            [
+              "action",
+              "emit"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The event ships through the pipeline, gets aggregated into your metric tree, and rolls up toward the north-star number.",
+          "nodes": [
+            "emit",
+            "pipe",
+            "tree"
+          ],
+          "edges": [
+            [
+              "emit",
+              "pipe"
+            ],
+            [
+              "pipe",
+              "tree"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That tree informs the decision — ship, kill, double down — as long as every event on the path actually arrived.",
+          "nodes": [
+            "tree",
+            "decision"
+          ],
+          "edges": [
+            [
+              "tree",
+              "decision"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But here's where signal dies: a guard skips the emit, the event is never fired, and it drops silently with no error.",
+          "nodes": [
+            "emit",
+            "drop"
+          ],
+          "edges": [
+            [
+              "emit",
+              "drop"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dropped event undercounts the tree — the dashboard stays green while you false-kill the feature users never reached.",
+          "nodes": [
+            "drop",
+            "tree",
+            "decision"
+          ],
+          "edges": [
+            [
+              "drop",
+              "tree"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair is a fire-rate check: verify the event actually fires at expected volume before you trust the number.",
+          "nodes": [
+            "check",
+            "emit"
+          ],
+          "edges": [
+            [
+              "check",
+              "emit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: pick the invalidating number and its threshold before the data arrives, or it will rationalize any result.",
+          "nodes": [
+            "check",
+            "emit",
+            "decision"
+          ],
+          "edges": [
+            [
+              "check",
+              "emit"
+            ],
+            [
+              "tree",
+              "decision"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3068,6 +4165,114 @@
         {
           "tone": "success",
           "label": "the decision the packet exists to make"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with raw support feedback — noisy, muted, external. It is evidence, not yet a decision. The first move is to distill it.",
+          "nodes": [
+            "feedback"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Distilling feedback into a named assumption is the fork in the road: state the belief the feature depends on, out loud.",
+          "nodes": [
+            "feedback",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "feedback",
+              "assumption"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The dashed shortcut is the trap: skip the test and feedback becomes a curated guess — five cherry-picked tickets dressed as customer demand.",
+          "nodes": [
+            "feedback",
+            "curated"
+          ],
+          "edges": [
+            [
+              "feedback",
+              "curated"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The honest path makes the assumption falsifiable: design the smallest experiment that could actually prove it wrong.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment instruments a metric tree — activation, retention — so the result is measured, not narrated.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Read the metric against the invalidation threshold you set up front. This is the joint where the intake earns the right to say no.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Below the bar, route back to repair: rewrite the assumption instead of shipping. That is how one team killed the bet on a Tuesday.",
+          "nodes": [
+            "threshold",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "assumption"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Clear the bar and it becomes a decision memo — market evidence turned into a scoped, defensible engineering commitment.",
+          "nodes": [
+            "threshold",
+            "memo"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "memo"
+            ]
+          ],
+          "ms": 4200
         }
       ]
     },
@@ -3378,6 +4583,131 @@
           "tone": "muted",
           "label": "opinion — kept out of the confidence input"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Eight tickets, one team, and the loudest voice wants the board demo. The real entry point isn't opinion — it's customer evidence.",
+          "nodes": [
+            "evidence",
+            "opinion"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Evidence grounds confidence: how sure we are must trace to an actual customer signal, not a hunch.",
+          "nodes": [
+            "evidence",
+            "confidence"
+          ],
+          "edges": [
+            [
+              "evidence",
+              "confidence"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here's the guardrail: opinion and the HiPPO may inform debate, but they must NOT set confidence directly.",
+          "nodes": [
+            "opinion",
+            "confidence"
+          ],
+          "edges": [
+            [
+              "opinion",
+              "confidence"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every candidate gets scored on the same four axes — reach, impact, confidence, and effort — no exceptions.",
+          "nodes": [
+            "reach",
+            "impact",
+            "confidence",
+            "effort",
+            "score"
+          ],
+          "edges": [
+            [
+              "reach",
+              "score"
+            ],
+            [
+              "impact",
+              "score"
+            ],
+            [
+              "confidence",
+              "score"
+            ],
+            [
+              "effort",
+              "score"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The formula combines them: reach times impact times confidence, divided by effort, yields one comparable score.",
+          "nodes": [
+            "reach",
+            "impact",
+            "confidence",
+            "effort",
+            "score"
+          ],
+          "edges": [
+            [
+              "reach",
+              "score"
+            ],
+            [
+              "impact",
+              "score"
+            ],
+            [
+              "confidence",
+              "score"
+            ],
+            [
+              "effort",
+              "score"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Score orders the candidates into one ranked roadmap — the artifact your PRD and experiment plan inherit.",
+          "nodes": [
+            "score",
+            "rank"
+          ],
+          "edges": [
+            [
+              "score",
+              "rank"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "One last gate: an invalidation threshold can reverse the rank if the evidence stops holding up.",
+          "nodes": [
+            "threshold",
+            "rank"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "rank"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -3670,6 +5000,126 @@
         {
           "tone": "success",
           "label": "the scoped build the loop exists to earn"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every roadmap bet starts here: a real market segment. That segment scopes the one key assumption the whole feature is riding on.",
+          "nodes": [
+            "segment",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "segment",
+              "assumption"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Notice what does NOT feed the assumption: the vision deck. Conviction is deliberately out of the loop — it must not decide the bet.",
+          "nodes": [
+            "vision",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "vision",
+              "assumption"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "From the assumption we design the cheapest experiment that could invalidate it — not the fanciest, the fastest to prove us wrong.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The experiment produces a signal, which flows into the metric tree gate — an activation or retention number, not an opinion.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That metric is compared against the invalidation threshold — the numeric line, written down in advance, that reverses the decision.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Fall below the threshold and the bet is cut — the roadmap re-ranks and six engineers do not spend three sprints on a dead feature.",
+          "nodes": [
+            "threshold",
+            "cut"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "cut"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Clear the threshold and only then does it become a scoped build — the reviewable link from what customers said to what we commit.",
+          "nodes": [
+            "threshold",
+            "build"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "build"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every bet names its segment, assumption, experiment, metric, and threshold — so evidence, not conviction, can always kill it.",
+          "nodes": [
+            "threshold",
+            "build",
+            "cut",
+            "vision"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "build"
+            ],
+            [
+              "threshold",
+              "cut"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3975,6 +5425,120 @@
           "tone": "muted",
           "label": "kept out until the loop closes"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The deck says huge market, launch in six weeks. Start where evidence has to start: customer discovery, narrowing to one real market segment.",
+          "nodes": [
+            "discovery",
+            "segment"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "segment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "One segment surfaces its riskiest assumption: the single thing that, if false, sinks the entire launch.",
+          "nodes": [
+            "segment",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "segment",
+              "assumption"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That assumption becomes a test. The experiment turns 'we think people want this' into something reality can answer.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The experiment measures activation and retention. This is the store of evidence the launch decision will actually stand on.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Those metrics are compared against an invalidation threshold written before the data. A launch that cannot fail was never a test.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On pass, the threshold greenlights a scoped build and ship. Evidence, not the deck, unlocks engineering.",
+          "nodes": [
+            "threshold",
+            "build"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "build"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On fail, it routes straight back to discovery. The loop closes instead of committing to a market it never tested.",
+          "nodes": [
+            "threshold",
+            "discovery"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "discovery"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Pricing and full launch stay out until the loop closes. They must not jump ahead of the build the evidence earned.",
+          "nodes": [
+            "pricing",
+            "build"
+          ],
+          "edges": [
+            [
+              "pricing",
+              "build"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4275,6 +5839,133 @@
           "tone": "muted",
           "label": "the round-number guess kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's launch week and someone asks what to charge. The temptation is a round-number guess — but that guess must NOT set the price.",
+          "nodes": [
+            "guess",
+            "price"
+          ],
+          "edges": [
+            [
+              "guess",
+              "price"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Start instead with a named market segment. Who exactly is this for? That segment is what packaging targets.",
+          "nodes": [
+            "segment",
+            "package"
+          ],
+          "edges": [
+            [
+              "segment",
+              "package"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Pick the value metric you meter — seats, events, GMV — and let it feed the same packaging tiers.",
+          "nodes": [
+            "metric",
+            "package"
+          ],
+          "edges": [
+            [
+              "metric",
+              "package"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Segment and metric together shape the tiers, and the tiers set the actual price point.",
+          "nodes": [
+            "segment",
+            "metric",
+            "package",
+            "price"
+          ],
+          "edges": [
+            [
+              "package",
+              "price"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Willingness-to-pay evidence bands the number — it constrains the range so the price isn't invented.",
+          "nodes": [
+            "evidence",
+            "price"
+          ],
+          "edges": [
+            [
+              "evidence",
+              "price"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Ship that price to one segment as a live test, then measure it against an invalidation threshold — its kill-number.",
+          "nodes": [
+            "price",
+            "experiment",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "price",
+              "experiment"
+            ],
+            [
+              "experiment",
+              "threshold"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair path: a miss routes back to re-package or re-segment — never to a random discount.",
+          "nodes": [
+            "threshold",
+            "package",
+            "segment"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "package"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every price carries a threshold that could prove it wrong. A price with no kill-number is a guess wearing a decimal point.",
+          "nodes": [
+            "price",
+            "threshold",
+            "guess"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "threshold"
+            ],
+            [
+              "guess",
+              "price"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -4571,6 +6262,119 @@
         {
           "tone": "success",
           "label": "build justified by evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with customer discovery — the raw market evidence that some people seem excited about the idea.",
+          "nodes": [
+            "discovery"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Discovery isn't proof. It designs one falsifiable experiment — a bet sharp enough that a real result could kill it.",
+          "nodes": [
+            "discovery",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "experiment"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The experiment measures a single activation metric — the concrete number the feature must actually move.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the gate: that metric is compared against an invalidation threshold committed BEFORE you looked at the result.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "At or above the threshold, and only then, do you earn a scoped build — real engineering behind a proven bet.",
+          "nodes": [
+            "threshold",
+            "build"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "build"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Below the threshold, you kill or pivot. The pre-committed number is what gives you permission to stop.",
+          "nodes": [
+            "threshold",
+            "kill"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "kill"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This dashed path is the failure the gate exists to block: shipping straight from a hunch, skipping the experiment entirely.",
+          "nodes": [
+            "hunch",
+            "build"
+          ],
+          "edges": [
+            [
+              "hunch",
+              "build"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: write the killing number down before the result arrives — otherwise nine weeks ship to silence.",
+          "nodes": [
+            "threshold",
+            "metric",
+            "kill"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ],
+            [
+              "threshold",
+              "kill"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4869,6 +6673,121 @@
           "tone": "success",
           "label": "keep — evidence cleared the bar"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with launch telemetry — raw usage flowing in after the feature ships, muted until we split it into the two signals that matter.",
+          "nodes": [
+            "launch"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "We measure two things from that stream: activation, whether people used it, and retention, whether they came back.",
+          "nodes": [
+            "launch",
+            "activation",
+            "retention"
+          ],
+          "edges": [
+            [
+              "launch",
+              "activation"
+            ],
+            [
+              "launch",
+              "retention"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both signals get compared against the same gate — the invalidation threshold you wrote down and dated before any data existed.",
+          "nodes": [
+            "activation",
+            "retention",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "activation",
+              "threshold"
+            ],
+            [
+              "retention",
+              "threshold"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When activation and retention both clear the bar, the decision is easy: keep the feature and scale it.",
+          "nodes": [
+            "threshold",
+            "keep"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "keep"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "This is the trap — activation is up but retention is collapsing. Weak retention isn't a win, it routes to the repair path: iterate and re-test.",
+          "nodes": [
+            "threshold",
+            "iterate"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "iterate"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "If the metrics fall below the pre-declared bar outright, you take the failure path — kill it or roll back, no re-litigating the threshold.",
+          "nodes": [
+            "threshold",
+            "kill"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "kill"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair path loops back: ship the change and re-observe fresh telemetry against the same untouched threshold.",
+          "nodes": [
+            "iterate",
+            "launch"
+          ],
+          "edges": [
+            [
+              "iterate",
+              "launch"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant holds the whole tree together — the threshold is dated before the data. A bar moved to fit the result is not analysis.",
+          "nodes": [
+            "threshold",
+            "keep",
+            "kill",
+            "iterate"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5143,6 +7062,100 @@
         {
           "tone": "muted",
           "label": "failure path — story, not evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every loop starts here: name the one assumption that, if false, sinks the whole idea. Not the safe one — the riskiest one.",
+          "nodes": [
+            "assumption"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "From that assumption you design the smallest experiment whose result could actually prove it wrong — nothing bigger.",
+          "nodes": [
+            "assumption",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment emits one activation metric — a single number, like week-two retention, not a dashboard of vanity charts.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the fork that decides everything: you compare that number against a kill-threshold you committed to before any data arrived.",
+          "nodes": [
+            "metric",
+            "threshold"
+          ],
+          "edges": [
+            [
+              "metric",
+              "threshold"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This dashed path is the failure mode: skip the threshold, read the metric as a story, and talk yourself into traction that isn't there.",
+          "nodes": [
+            "metric",
+            "story"
+          ],
+          "edges": [
+            [
+              "metric",
+              "story"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Honor the threshold instead: if the number falls below it, the decision memo says pivot or kill — on the rule, not the hope.",
+          "nodes": [
+            "threshold",
+            "decision"
+          ],
+          "edges": [
+            [
+              "threshold",
+              "decision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A killed bet isn't a dead end; the memo feeds the next riskiest assumption, and the loop turns again toward a better idea.",
+          "nodes": [
+            "decision",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "decision",
+              "assumption"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -5421,6 +7434,121 @@
         {
           "tone": "warning",
           "label": "failure path (findings, no decision)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: customer discovery frames a real question, which becomes the test you actually design and run.",
+          "nodes": [
+            "discovery",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment moves an activation metric. That measured movement is the raw signal everything downstream depends on.",
+          "nodes": [
+            "experiment",
+            "metric"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "metric"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here the path forks. The same metric can become a decision packet, or it can just get dumped as raw findings.",
+          "nodes": [
+            "metric",
+            "packet",
+            "raw"
+          ],
+          "edges": [
+            [
+              "metric",
+              "packet"
+            ],
+            [
+              "metric",
+              "raw"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The failure path: findings listed with no call. The stakeholder reaches it and asks 'so do we build it?' — the deck has no answer.",
+          "nodes": [
+            "metric",
+            "raw",
+            "stakeholder"
+          ],
+          "edges": [
+            [
+              "metric",
+              "raw"
+            ],
+            [
+              "raw",
+              "stakeholder"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair path: the metric becomes the spine of the call — decision up front, one metric, the rejected option named.",
+          "nodes": [
+            "metric",
+            "packet"
+          ],
+          "edges": [
+            [
+              "metric",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That packet carries an invalidation threshold, so the stakeholder can actually act: approve, block, or fund.",
+          "nodes": [
+            "packet",
+            "stakeholder"
+          ],
+          "edges": [
+            [
+              "packet",
+              "stakeholder"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both paths reach the same person — but only the decision packet lets them own the call. Findings without a decision are just a log.",
+          "nodes": [
+            "packet",
+            "raw",
+            "stakeholder"
+          ],
+          "edges": [
+            [
+              "packet",
+              "stakeholder"
+            ],
+            [
+              "raw",
+              "stakeholder"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5742,6 +7870,125 @@
         {
           "tone": "muted",
           "label": "kept out of this packet on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Evidence enters here: three interview quotes and a shaky activation number. Customer discovery grounds the problem frame instead of a founder's hunch.",
+          "nodes": [
+            "discovery",
+            "frame"
+          ],
+          "edges": [
+            [
+              "discovery",
+              "frame"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The problem frame picks one driver from the metric tree, so we chase a single number, not a vibe.",
+          "nodes": [
+            "frame",
+            "metric"
+          ],
+          "edges": [
+            [
+              "frame",
+              "metric"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The metric tree defines the success metric the experiment must move, converting the driver into a testable target.",
+          "nodes": [
+            "metric",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "metric",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before running, the invalidation threshold sets the kill line — the bet must be killable by evidence you defined first.",
+          "nodes": [
+            "invalidate",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "invalidate",
+              "experiment"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Clear the threshold and the experiment produces a decision memo naming the option you rejected — a packet a skeptic would sign.",
+          "nodes": [
+            "experiment",
+            "decision"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "decision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Miss the threshold and it routes back to the problem frame to repair — the loop refuses to ship on a vibe.",
+          "nodes": [
+            "experiment",
+            "frame"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "frame"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The scoped decision becomes a scoped build; launch and feedback flow back into discovery so the next bet inherits a proven loop.",
+          "nodes": [
+            "decision",
+            "launch",
+            "discovery"
+          ],
+          "edges": [
+            [
+              "decision",
+              "launch"
+            ],
+            [
+              "launch",
+              "discovery"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Pricing stays deliberately outside this packet — noted, but not wired into the decision this loop is closing.",
+          "nodes": [
+            "pricing",
+            "frame"
+          ],
+          "edges": [
+            [
+              "pricing",
+              "frame"
+            ]
+          ],
+          "ms": 3600
         }
       ]
     },

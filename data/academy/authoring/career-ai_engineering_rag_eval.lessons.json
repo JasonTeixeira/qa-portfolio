@@ -169,6 +169,127 @@
           "tone": "success",
           "label": "repair path — grounded, cited, or refused; gated by evals"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Before the pipeline, three framing decisions set the bar: the grounded job, the trust constraint, and the hallucination you fear.",
+          "nodes": [
+            "job",
+            "constraint",
+            "feared"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The grounded job defines the pass bar, and the feared hallucination becomes a concrete test case in the eval gate.",
+          "nodes": [
+            "job",
+            "feared",
+            "eval"
+          ],
+          "edges": [
+            [
+              "job",
+              "eval"
+            ],
+            [
+              "feared",
+              "eval"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The trust constraint sets the refusal rule the guardrail must enforce when evidence is missing.",
+          "nodes": [
+            "constraint",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "guardrail"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Now the pipeline runs: a user query retrieves evidence, which becomes the context the prompt contract feeds into a draft answer.",
+          "nodes": [
+            "query",
+            "retrieval",
+            "prompt",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "query",
+              "retrieval"
+            ],
+            [
+              "retrieval",
+              "prompt"
+            ],
+            [
+              "prompt",
+              "guardrail"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The guardrail decides: grounded claims get cited, unsupported ones get refused. Both paths lead to an accountable answer.",
+          "nodes": [
+            "guardrail",
+            "answer"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "answer"
+            ],
+            [
+              "guardrail",
+              "answer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every answer is scored by the eval gate against the job's pass bar and the feared-hallucination test case.",
+          "nodes": [
+            "answer",
+            "eval",
+            "job",
+            "feared"
+          ],
+          "edges": [
+            [
+              "answer",
+              "eval"
+            ],
+            [
+              "job",
+              "eval"
+            ],
+            [
+              "feared",
+              "eval"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: the frame holds the trust contract, never the stack. Name a model in the problem line and you've already pre-decided.",
+          "nodes": [
+            "job",
+            "constraint",
+            "feared"
+          ],
+          "edges": [],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -486,6 +607,121 @@
           "tone": "muted",
           "label": "hallucination — forbidden, and caught by an eval case"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a user query — one question fanning out two ways: it triggers retrieval and it also reaches the contract directly.",
+          "nodes": [
+            "user",
+            "retriever",
+            "contract"
+          ],
+          "edges": [
+            [
+              "user",
+              "retriever"
+            ],
+            [
+              "user",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The retriever fetches the top-k passages and hands back the retrieved context — the only evidence the model is allowed to stand on.",
+          "nodes": [
+            "retriever",
+            "context"
+          ],
+          "edges": [
+            [
+              "retriever",
+              "context"
+            ],
+            [
+              "context",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The prompt contract is the boundary: it takes the question and that evidence, and imposes a schema, a grounding rule, and a refusal rule.",
+          "nodes": [
+            "contract",
+            "context",
+            "user"
+          ],
+          "edges": [
+            [
+              "context",
+              "contract"
+            ],
+            [
+              "user",
+              "contract"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The contract governs the model call, injecting schema plus grounding plus refusal so the LLM answers inside fixed rails, not freehand.",
+          "nodes": [
+            "contract",
+            "model"
+          ],
+          "edges": [
+            [
+              "contract",
+              "model"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the retrieved context supports the answer, the model returns a grounded response — every field checkable against the evidence.",
+          "nodes": [
+            "model",
+            "grounded"
+          ],
+          "edges": [
+            [
+              "model",
+              "grounded"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If support is missing, the contract routes to a fixed refusal — a defined abstain, so silence never gets improvised over.",
+          "nodes": [
+            "model",
+            "refusal"
+          ],
+          "edges": [
+            [
+              "model",
+              "refusal"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Without the contract the model fills that silence with a plausible hallucination — inventing a refund policy — which is exactly what it forbids.",
+          "nodes": [
+            "model",
+            "hallucination",
+            "contract"
+          ],
+          "edges": [
+            [
+              "model",
+              "hallucination"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -798,6 +1034,121 @@
           "tone": "success",
           "label": "only validated, grounded objects escape"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user question enters the pipeline; the retriever fetches the context chunks the answer must be grounded in.",
+          "nodes": [
+            "user",
+            "retriever"
+          ],
+          "edges": [
+            [
+              "user",
+              "retriever"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Those context chunks flow into the prompt contract, which packs in the JSON schema and the answering rules.",
+          "nodes": [
+            "retriever",
+            "prompt"
+          ],
+          "edges": [
+            [
+              "retriever",
+              "prompt"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The prompt hands the schema and rules to the LLM, which decodes under constraint to emit a candidate object.",
+          "nodes": [
+            "prompt",
+            "llm"
+          ],
+          "edges": [
+            [
+              "prompt",
+              "llm"
+            ],
+            [
+              "llm",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the choke point: the schema gate inspects the candidate before anything downstream is allowed to touch it.",
+          "nodes": [
+            "gate",
+            "llm"
+          ],
+          "edges": [
+            [
+              "llm",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only an object that is both valid and grounded passes through to the downstream app for consumption.",
+          "nodes": [
+            "gate",
+            "app"
+          ],
+          "edges": [
+            [
+              "gate",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Invalid or ungrounded output is refused, then looped back to the LLM to retry with the error, never leaking through.",
+          "nodes": [
+            "gate",
+            "refuse",
+            "llm"
+          ],
+          "edges": [
+            [
+              "gate",
+              "refuse"
+            ],
+            [
+              "refuse",
+              "llm"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: constrained decoding plus a schema gate turns a text stream into a typed artifact your pipeline can trust.",
+          "nodes": [
+            "prompt",
+            "llm",
+            "gate",
+            "app"
+          ],
+          "edges": [
+            [
+              "llm",
+              "gate"
+            ],
+            [
+              "gate",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1085,6 +1436,112 @@
           "tone": "success",
           "label": "records that can ground a verifiable citation"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a raw source: a returns policy, a warranty page, whatever document the loader is about to pull in and clean.",
+          "nodes": [
+            "source",
+            "loader"
+          ],
+          "edges": [
+            [
+              "source",
+              "loader"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The loader hands off clean text. Here the pipeline forks: one path respects meaning, the lazy path does not.",
+          "nodes": [
+            "loader",
+            "chunker",
+            "naive"
+          ],
+          "edges": [
+            [
+              "loader",
+              "chunker"
+            ],
+            [
+              "loader",
+              "naive"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lazy path splits on fixed size, drawing a boundary mid-sentence that fuses the end of returns with the start of warranty.",
+          "nodes": [
+            "naive",
+            "embed"
+          ],
+          "edges": [
+            [
+              "naive",
+              "embed"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair path chunks on structure and tags each piece with source_id and its character span, so provenance rides along.",
+          "nodes": [
+            "chunker",
+            "embed"
+          ],
+          "edges": [
+            [
+              "chunker",
+              "embed"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Either chunk hits the same embedding model, which turns text into a vector while carrying its metadata forward.",
+          "nodes": [
+            "embed",
+            "store"
+          ],
+          "edges": [
+            [
+              "embed",
+              "store"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The vector store keeps vector plus metadata, so every record still points back to exactly where it came from.",
+          "nodes": [
+            "store",
+            "retrieval"
+          ],
+          "edges": [
+            [
+              "store",
+              "retrieval"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Retrieval can only ground a citation if the chunk points to a real span; get the boundary wrong here and it quotes garbage faithfully.",
+          "nodes": [
+            "retrieval",
+            "chunker",
+            "naive"
+          ],
+          "edges": [
+            [
+              "store",
+              "retrieval"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1370,6 +1827,116 @@
         {
           "tone": "warning",
           "label": "stale-chunk failure + the repair"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a source doc — a policy PDF, a contract. Ingestion begins by handing it to the chunker.",
+          "nodes": [
+            "source",
+            "chunker"
+          ],
+          "edges": [
+            [
+              "source",
+              "chunker"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The chunker splits it into retrieval-sized spans and, crucially, attaches provenance to each: chunk_id, source_uri, section_path, version.",
+          "nodes": [
+            "chunker",
+            "record"
+          ],
+          "edges": [
+            [
+              "chunker",
+              "record"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Each chunk record — text plus metadata — is upserted into the vector store, keyed by its stable chunk_id.",
+          "nodes": [
+            "record",
+            "index"
+          ],
+          "edges": [
+            [
+              "record",
+              "index"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "At query time the metadata earns its keep: it filters the search before similarity even runs, narrowing to the right scope.",
+          "nodes": [
+            "query",
+            "index"
+          ],
+          "edges": [
+            [
+              "query",
+              "index"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the answer can cite chunk_id straight back to the source span — document, section, paragraph. That is the address legal asks for.",
+          "nodes": [
+            "index",
+            "answer"
+          ],
+          "edges": [
+            [
+              "index",
+              "answer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the failure: re-ingest happens, but a stale v2 chunk survives and, with no version filter, leaks into the answer.",
+          "nodes": [
+            "stale",
+            "answer"
+          ],
+          "edges": [
+            [
+              "stale",
+              "answer"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair lives in the query: an expiry plus version filter kills the stale chunk before it can be retrieved.",
+          "nodes": [
+            "query",
+            "stale"
+          ],
+          "edges": [
+            [
+              "query",
+              "stale"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every chunk can be cited to a source span and expired when its source changes — provenance the whole packet inherits.",
+          "nodes": [
+            "record",
+            "answer",
+            "stale"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -1664,6 +2231,106 @@
           "tone": "warning",
           "label": "the failure recall@k catches — and its repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every grounded answer starts here: the source corpus gets split by the chunker into retrievable pieces.",
+          "nodes": [
+            "docs",
+            "chunker"
+          ],
+          "edges": [
+            [
+              "docs",
+              "chunker"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Each chunk should carry exactly one idea, then the embedding model turns it into a vector.",
+          "nodes": [
+            "chunker",
+            "embed"
+          ],
+          "edges": [
+            [
+              "chunker",
+              "embed"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those vectors are upserted into the vector index under a chosen distance metric — this is the whole memory the LLM can see.",
+          "nodes": [
+            "embed",
+            "index"
+          ],
+          "edges": [
+            [
+              "embed",
+              "index"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "At query time the question is embedded into the same space and runs an ANN search against the index.",
+          "nodes": [
+            "query",
+            "index"
+          ],
+          "edges": [
+            [
+              "query",
+              "index"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The index ranks by its metric and returns the top-k neighbors — the candidates the answer is built from.",
+          "nodes": [
+            "index",
+            "topk"
+          ],
+          "edges": [
+            [
+              "index",
+              "topk"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the silent failure: bad chunking or a metric that mismatches normalization surfaces a wrong-but-plausible neighbor.",
+          "nodes": [
+            "topk",
+            "wrong"
+          ],
+          "edges": [
+            [
+              "topk",
+              "wrong"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair loop feeds that failure back to re-chunk and re-measure recall@k — the gold chunk must land in top-k, or you are guessing.",
+          "nodes": [
+            "wrong",
+            "chunker"
+          ],
+          "edges": [
+            [
+              "wrong",
+              "chunker"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1955,6 +2622,112 @@
         {
           "tone": "success",
           "label": "repair route — refuse + feed the eval set"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a user query — a customer asking about your refund policy. Everything the bot says next hinges on what happens from here.",
+          "nodes": [
+            "query",
+            "embed"
+          ],
+          "edges": [
+            [
+              "query",
+              "embed"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The query is embedded and used to search the vector index, pulling back the top-k candidate chunks it thinks are most relevant.",
+          "nodes": [
+            "embed",
+            "index"
+          ],
+          "edges": [
+            [
+              "embed",
+              "index"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those candidate chunks flow into the grounding gate — the one checkpoint that decides whether the answer is actually supported by evidence.",
+          "nodes": [
+            "index",
+            "gate"
+          ],
+          "edges": [
+            [
+              "index",
+              "gate"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is the risk: if the gold chunk missed the top-k and there is no gate, the model answers anyway and cites a policy that never existed.",
+          "nodes": [
+            "gate",
+            "hallucinate"
+          ],
+          "edges": [
+            [
+              "gate",
+              "hallucinate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair route enforces the invariant: no chunk supports the claim, so the guardrail refuses or escalates instead of inventing an answer.",
+          "nodes": [
+            "gate",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "gate",
+              "refuse"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Either way the miss is captured — hallucinations caught as failures, refusals logged — and both feed the labeled eval set.",
+          "nodes": [
+            "hallucinate",
+            "refuse",
+            "evalset"
+          ],
+          "edges": [
+            [
+              "hallucinate",
+              "evalset"
+            ],
+            [
+              "refuse",
+              "evalset"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: measure whether the gold chunk lands in top-k, and enforce grounding. Measured retrieval plus a refusing guardrail, never one alone.",
+          "nodes": [
+            "index",
+            "gate",
+            "evalset"
+          ],
+          "edges": [
+            [
+              "index",
+              "gate"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2287,6 +3060,121 @@
           "tone": "muted",
           "label": "refusal — the safe branch when nothing supports the claim"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user query enters. The retriever embeds it and searches, pulling back the top-k passages most likely to hold the answer.",
+          "nodes": [
+            "user",
+            "retriever",
+            "chunks"
+          ],
+          "edges": [
+            [
+              "user",
+              "retriever"
+            ],
+            [
+              "retriever",
+              "chunks"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those chunks become the prompt contract's sole evidence. The rule: the answer may say only what this retrieved text supports.",
+          "nodes": [
+            "chunks",
+            "contract"
+          ],
+          "edges": [
+            [
+              "chunks",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The grounding guardrail checks each claim: is it actually backed by a cited chunk? This per-claim gate is the whole safety seam.",
+          "nodes": [
+            "contract",
+            "guard"
+          ],
+          "edges": [
+            [
+              "contract",
+              "guard"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When a chunk supports the claim, it ships as a grounded answer. When nothing supports it, the honest move is to refuse.",
+          "nodes": [
+            "guard",
+            "grounded",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "guard",
+              "grounded"
+            ],
+            [
+              "guard",
+              "refuse"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "But if the guardrail is missing, a fluent, confident, wrong claim escapes with a citation stapled on. That's the refund-window disaster.",
+          "nodes": [
+            "guard",
+            "hallucination"
+          ],
+          "edges": [
+            [
+              "guard",
+              "hallucination"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair loop scores groundedness on every answer, and the eval set is built to catch the ungrounded claim the guardrail let slip.",
+          "nodes": [
+            "grounded",
+            "hallucination",
+            "judge"
+          ],
+          "edges": [
+            [
+              "grounded",
+              "judge"
+            ],
+            [
+              "hallucination",
+              "judge"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When the judge fails an answer, it feeds back to tighten the contract. No claim without a source, no source without the claim inside it.",
+          "nodes": [
+            "judge",
+            "contract"
+          ],
+          "edges": [
+            [
+              "judge",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2592,6 +3480,111 @@
         {
           "tone": "success",
           "label": "judge + repair — the case that makes it fail loudly"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one eval case: a query bound to a gold answer, the exact source it must ground on, and a pass rule.",
+          "nodes": [
+            "case",
+            "contract"
+          ],
+          "edges": [
+            [
+              "case",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The prompt contract fires retrieval, pulling the top-k documents the model is allowed to answer from.",
+          "nodes": [
+            "contract",
+            "retrieval"
+          ],
+          "edges": [
+            [
+              "contract",
+              "retrieval"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "On the happy path, the answer grounds on those top-k docs and the judge scores it against gold and required source.",
+          "nodes": [
+            "retrieval",
+            "answer",
+            "judge"
+          ],
+          "edges": [
+            [
+              "retrieval",
+              "answer"
+            ],
+            [
+              "answer",
+              "judge"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But here retrieval finds no source, and the model answers anyway. That confident invention is the hallucination.",
+          "nodes": [
+            "retrieval",
+            "hallucination"
+          ],
+          "edges": [
+            [
+              "retrieval",
+              "hallucination"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A soft judge lets it slip. Only a must-refuse guardrail case, one that demands a refusal, actually fires and catches it.",
+          "nodes": [
+            "hallucination",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "hallucination",
+              "guardrail"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The failing case triggers repair: fix the prompt or retrieval so the model refuses when it has no grounding.",
+          "nodes": [
+            "guardrail",
+            "repair"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "repair"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Then the case is added back to the eval set. A case that cannot fail is not a test; this one now can.",
+          "nodes": [
+            "repair",
+            "case"
+          ],
+          "edges": [
+            [
+              "repair",
+              "case"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -2902,6 +3895,135 @@
           "tone": "muted",
           "label": "calibration — human labels keep the judge honest"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user asks about the refund window. The query hits the retriever, which pulls the matching policy chunks from your corpus.",
+          "nodes": [
+            "query",
+            "retriever",
+            "context"
+          ],
+          "edges": [
+            [
+              "query",
+              "retriever"
+            ],
+            [
+              "retriever",
+              "context"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those retrieved chunks ground the answer model, which drafts an open-ended reply the customer would actually read.",
+          "nodes": [
+            "context",
+            "llm"
+          ],
+          "edges": [
+            [
+              "context",
+              "llm"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here's the gate: the LLM judge takes both the answer and the same retrieved context it was supposed to be grounded in.",
+          "nodes": [
+            "llm",
+            "judge",
+            "context"
+          ],
+          "edges": [
+            [
+              "llm",
+              "judge"
+            ],
+            [
+              "context",
+              "judge"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When every claim is supported by the context, the verdict is PASS and the answer ships to the customer.",
+          "nodes": [
+            "judge",
+            "pass"
+          ],
+          "edges": [
+            [
+              "judge",
+              "pass"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "But the model says ninety days when the doc says thirty. That claim is unsupported, so the judge fails it as a hallucination.",
+          "nodes": [
+            "judge",
+            "hallucination"
+          ],
+          "edges": [
+            [
+              "judge",
+              "hallucination"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The failed answer never reaches the user. It's routed to guardrail repair to be regenerated or blocked.",
+          "nodes": [
+            "hallucination",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "hallucination",
+              "guardrail"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The dashed line is the catch: human labels calibrate the judge, so a grader that drifts from truth gets corrected.",
+          "nodes": [
+            "labels",
+            "judge"
+          ],
+          "edges": [
+            [
+              "labels",
+              "judge"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: the judge must be able to fail, cite the unsupported span, and itself be checked against humans.",
+          "nodes": [
+            "judge",
+            "hallucination",
+            "labels"
+          ],
+          "edges": [
+            [
+              "judge",
+              "hallucination"
+            ],
+            [
+              "labels",
+              "judge"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3211,6 +4333,132 @@
           "tone": "success",
           "label": "the only exit that ships an answer"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user prompt enters the RAG path -- and real users are adversarial, so the entrance itself must be inspected.",
+          "nodes": [
+            "user",
+            "input"
+          ],
+          "edges": [
+            [
+              "user",
+              "input"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "First enforcement point: the input guardrail. If the prompt is unsafe, like 'ignore your rules', it refuses outright.",
+          "nodes": [
+            "input",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "input",
+              "refuse"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If the input is clean, it advances to retrieval -- the second checkpoint, a grounding gate on the sources.",
+          "nodes": [
+            "input",
+            "retrieval"
+          ],
+          "edges": [
+            [
+              "input",
+              "retrieval"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The grounding gate refuses when no trustworthy source backs the request, so the model can't invent policy.",
+          "nodes": [
+            "retrieval",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "retrieval",
+              "refuse"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "With real sources attached, retrieval hands off to the LLM, which drafts an answer for the final check.",
+          "nodes": [
+            "retrieval",
+            "llm",
+            "output"
+          ],
+          "edges": [
+            [
+              "retrieval",
+              "llm"
+            ],
+            [
+              "llm",
+              "output"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Third point: the output guardrail ships a grounded answer only when every claim is inside the sources and in policy.",
+          "nodes": [
+            "output",
+            "answer"
+          ],
+          "edges": [
+            [
+              "output",
+              "answer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Borderline or unsupported claims don't ship -- they escalate to a human, the repair path beside refuse.",
+          "nodes": [
+            "output",
+            "escalate",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "output",
+              "escalate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: something outside the model must be able to block or escalate -- otherwise safety is just a suggestion.",
+          "nodes": [
+            "input",
+            "retrieval",
+            "output",
+            "escalate"
+          ],
+          "edges": [
+            [
+              "input",
+              "refuse"
+            ],
+            [
+              "output",
+              "escalate"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3505,6 +4753,111 @@
         {
           "tone": "success",
           "label": "grounded execution path"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the user's prompt landing on the model — the model is where a tool call gets proposed, not where it gets trusted.",
+          "nodes": [
+            "user",
+            "llm"
+          ],
+          "edges": [
+            [
+              "user",
+              "llm"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The model emits a structured tool call — search_docs, or a refund — and hands it to the validator as a request, never as a command.",
+          "nodes": [
+            "llm",
+            "validator"
+          ],
+          "edges": [
+            [
+              "llm",
+              "validator"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The validator is the gate: it checks every argument against the schema and policy before a single tool runs.",
+          "nodes": [
+            "validator"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "On PASS, the call executes and the tool runs — this is the only path where model-chosen arguments touch the real world.",
+          "nodes": [
+            "validator",
+            "tool"
+          ],
+          "edges": [
+            [
+              "validator",
+              "tool"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A schema-valid but unsafe call — top_k 5000 or an unauthorized refund — fails, gets blocked, and is sent back for repair.",
+          "nodes": [
+            "validator",
+            "reject",
+            "llm"
+          ],
+          "edges": [
+            [
+              "validator",
+              "reject"
+            ],
+            [
+              "reject",
+              "llm"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When the tool runs it returns sources, and those returned sources are what ground the answer.",
+          "nodes": [
+            "tool",
+            "sources",
+            "answer"
+          ],
+          "edges": [
+            [
+              "tool",
+              "sources"
+            ],
+            [
+              "sources",
+              "answer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: model output is a request to validate, and the answer is grounded only in what the tool actually returned.",
+          "nodes": [
+            "validator",
+            "sources",
+            "answer"
+          ],
+          "edges": [
+            [
+              "sources",
+              "answer"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -3831,6 +5184,131 @@
         {
           "tone": "muted",
           "label": "tools kept out by the allowlist"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A user query enters the loop, but it doesn't hit the model raw — it first passes through a prompt contract that fixes the agent's role and rules.",
+          "nodes": [
+            "user",
+            "contract"
+          ],
+          "edges": [
+            [
+              "user",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before any work runs, the step and token budget checks: are we still under budget? This is what stops the agent from looping forever under load.",
+          "nodes": [
+            "contract",
+            "budget"
+          ],
+          "edges": [
+            [
+              "contract",
+              "budget"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only if a step is allowed does the agent retrieve — running a vector search against the document corpus for the top-k passages.",
+          "nodes": [
+            "budget",
+            "retrieve",
+            "corpus"
+          ],
+          "edges": [
+            [
+              "budget",
+              "retrieve"
+            ],
+            [
+              "retrieve",
+              "corpus"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The retrieved passages flow into the grounding gate — the single decision point that every answer must pass through.",
+          "nodes": [
+            "corpus",
+            "gate"
+          ],
+          "edges": [
+            [
+              "corpus",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When passages actually support the claim, the gate opens and the agent emits a grounded answer tied to real evidence.",
+          "nodes": [
+            "gate",
+            "answer"
+          ],
+          "edges": [
+            [
+              "gate",
+              "answer"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When retrieval comes back empty or unsupported, the gate severs the answer path and routes to refuse — no evidence, no answer.",
+          "nodes": [
+            "gate",
+            "refuse"
+          ],
+          "edges": [
+            [
+              "gate",
+              "refuse"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "And a tool not on the allowlist can't sneak in — it's bounced back to the contract as NOT allowed, never free-running the loop.",
+          "nodes": [
+            "tools",
+            "contract"
+          ],
+          "edges": [
+            [
+              "tools",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant holds: answer is unreachable unless retrieved evidence supports it — same model, but a bounded, auditable, refuse-when-ungrounded workflow.",
+          "nodes": [
+            "gate",
+            "answer",
+            "refuse",
+            "budget"
+          ],
+          "edges": [
+            [
+              "gate",
+              "answer"
+            ],
+            [
+              "gate",
+              "refuse"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4163,6 +5641,131 @@
           "tone": "warning",
           "label": "SLO gate + guardrail — where a bad build is refused"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters here: the client sends a query, and the whole point is that every step it touches will report on itself.",
+          "nodes": [
+            "client",
+            "retrieve"
+          ],
+          "edges": [
+            [
+              "client",
+              "retrieve"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The query fans through the pipeline: retrieve pulls candidates, rerank narrows to top-k context, and generate drafts the answer.",
+          "nodes": [
+            "retrieve",
+            "rerank",
+            "generate"
+          ],
+          "edges": [
+            [
+              "retrieve",
+              "rerank"
+            ],
+            [
+              "rerank",
+              "generate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The draft hits the guardrail last, and it can still refuse — returning either a grounded answer or a refusal to the client.",
+          "nodes": [
+            "generate",
+            "guard",
+            "client"
+          ],
+          "edges": [
+            [
+              "generate",
+              "guard"
+            ],
+            [
+              "guard",
+              "client"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the invariant: every stage emits a span into one trace — latency, tokens, and the cost that generate attaches per request.",
+          "nodes": [
+            "retrieve",
+            "rerank",
+            "generate",
+            "guard",
+            "trace"
+          ],
+          "edges": [
+            [
+              "retrieve",
+              "trace"
+            ],
+            [
+              "rerank",
+              "trace"
+            ],
+            [
+              "generate",
+              "trace"
+            ],
+            [
+              "guard",
+              "trace"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The guardrail's verdict is logged too — even a refusal is a first-class event, so nothing the system decides stays invisible.",
+          "nodes": [
+            "guard",
+            "trace"
+          ],
+          "edges": [
+            [
+              "guard",
+              "trace"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The trace store aggregates p95 latency and dollars-per-request, feeding an SLO gate that measures what accuracy alone never showed.",
+          "nodes": [
+            "trace",
+            "gate"
+          ],
+          "edges": [
+            [
+              "trace",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gate blocks the release on regression: if cost or latency drifts, the deploy is stopped before the $9,000 invoice arrives.",
+          "nodes": [
+            "gate",
+            "release"
+          ],
+          "edges": [
+            [
+              "gate",
+              "release"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4459,6 +6062,126 @@
         {
           "tone": "success",
           "label": "the pinned baseline + a clean release"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Drift never touches your code — a vendor's embedding bump, a prompt tweak, a stray retrieval filter all shift the RAG pipeline's behavior silently.",
+          "nodes": [
+            "drift",
+            "pipeline"
+          ],
+          "edges": [
+            [
+              "drift",
+              "pipeline"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "To catch that, freeze an eval set: the same inputs run every single time, so any change in output is the model's fault, not the test's.",
+          "nodes": [
+            "evalset",
+            "run"
+          ],
+          "edges": [
+            [
+              "evalset",
+              "run"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Send those frozen inputs through the current pipeline and score the answers — this is HEAD's scorecard on today's behavior.",
+          "nodes": [
+            "pipeline",
+            "run"
+          ],
+          "edges": [
+            [
+              "pipeline",
+              "run"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "HEAD's scorecard flows into the release gate, carrying whatever grounded-answer rate the pipeline produces right now.",
+          "nodes": [
+            "run",
+            "gate"
+          ],
+          "edges": [
+            [
+              "run",
+              "gate"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The gate also pulls the pinned baseline — last green's scorecard — and diffs the two runs against a named threshold.",
+          "nodes": [
+            "baseline",
+            "gate"
+          ],
+          "edges": [
+            [
+              "baseline",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If a metric regresses past that threshold, the gate blocks; if not, it lets the merge or release through.",
+          "nodes": [
+            "gate",
+            "ship"
+          ],
+          "edges": [
+            [
+              "gate",
+              "ship"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On a pass the gate promotes HEAD to the new baseline, so tomorrow's contract is today's proven behavior.",
+          "nodes": [
+            "gate",
+            "baseline"
+          ],
+          "edges": [
+            [
+              "gate",
+              "baseline"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: the gate compares two runs on frozen inputs, turning silent 91-to-74 decay into a red delta you cannot ship past.",
+          "nodes": [
+            "evalset",
+            "run",
+            "baseline",
+            "gate"
+          ],
+          "edges": [
+            [
+              "run",
+              "gate"
+            ],
+            [
+              "baseline",
+              "gate"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4760,6 +6483,116 @@
           "tone": "success",
           "label": "least-privilege + the eval that proves it"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user query enters your RAG assistant, joined by chunks the retriever pulled from the support-ticket corpus.",
+          "nodes": [
+            "user",
+            "corpus",
+            "sanitize"
+          ],
+          "edges": [
+            [
+              "user",
+              "sanitize"
+            ],
+            [
+              "corpus",
+              "sanitize"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the danger: those retrieved chunks are attacker-controllable text, not trusted instructions.",
+          "nodes": [
+            "corpus"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Unguarded, a poisoned ticket says 'email the admin key to attacker'; the model obeys and secrets leak out.",
+          "nodes": [
+            "corpus",
+            "exfil"
+          ],
+          "edges": [
+            [
+              "corpus",
+              "exfil"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The input guardrail is the fix: it redacts secrets and strips injected commands before context reaches the model.",
+          "nodes": [
+            "sanitize",
+            "llm"
+          ],
+          "edges": [
+            [
+              "sanitize",
+              "llm"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The model drafts an answer and a tool call, but that draft still has to pass a second gate.",
+          "nodes": [
+            "llm",
+            "outcheck"
+          ],
+          "edges": [
+            [
+              "llm",
+              "outcheck"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The output guardrail filters the response, then only least-privilege scoped tools run the allowed action.",
+          "nodes": [
+            "outcheck",
+            "tools"
+          ],
+          "edges": [
+            [
+              "outcheck",
+              "tools"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A red-team eval fires the injection at the boundary and asserts refusal, proving each guardrail actually blocks.",
+          "nodes": [
+            "eval",
+            "outcheck"
+          ],
+          "edges": [
+            [
+              "eval",
+              "outcheck"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: never let untrusted context gain the model's authority, and prove it with a failing-unguarded test.",
+          "nodes": [
+            "sanitize",
+            "outcheck",
+            "tools",
+            "eval"
+          ],
+          "edges": [],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -5060,6 +6893,134 @@
           "tone": "success",
           "label": "the repair path — promoted into evals + gate"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts where your bot already shipped: real production outputs pile up, most never seen by a human.",
+          "nodes": [
+            "outputs"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "You draw a sample of those live outputs — you can't review everything, so you pull a representative slice.",
+          "nodes": [
+            "outputs",
+            "sample"
+          ],
+          "edges": [
+            [
+              "outputs",
+              "sample"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "A human labels each sampled answer against a written rubric: is it grounded, is the refusal correct, is it harmful?",
+          "nodes": [
+            "sample",
+            "review"
+          ],
+          "edges": [
+            [
+              "sample",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The review splits two ways: supported answers pass as grounded, unsupported ones are flagged as hallucinations.",
+          "nodes": [
+            "review",
+            "pass",
+            "fail"
+          ],
+          "edges": [
+            [
+              "review",
+              "pass"
+            ],
+            [
+              "review",
+              "fail"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the invariant: every hallucination you catch is promoted into the eval set as a permanent repair.",
+          "nodes": [
+            "fail",
+            "eval"
+          ],
+          "edges": [
+            [
+              "fail",
+              "eval"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That new eval row raises the guardrail threshold — the bar the next release has to clear gets higher.",
+          "nodes": [
+            "eval",
+            "guard"
+          ],
+          "edges": [
+            [
+              "eval",
+              "guard"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The release gate weighs pass rate against the raised guardrail; both must be satisfied to ship.",
+          "nodes": [
+            "pass",
+            "gate",
+            "guard"
+          ],
+          "edges": [
+            [
+              "pass",
+              "gate"
+            ],
+            [
+              "guard",
+              "gate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: a review that moves no gate is theater — human labels only count when they tighten what ships.",
+          "nodes": [
+            "review",
+            "eval",
+            "guard",
+            "gate"
+          ],
+          "edges": [
+            [
+              "fail",
+              "eval"
+            ],
+            [
+              "eval",
+              "guard"
+            ],
+            [
+              "guard",
+              "gate"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5353,6 +7314,120 @@
         {
           "tone": "success",
           "label": "promotion — earned by evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a candidate change — an edited prompt, a new retriever, a swapped model. It enters the gate, never prod directly.",
+          "nodes": [
+            "candidate",
+            "judge"
+          ],
+          "edges": [
+            [
+              "candidate",
+              "judge"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The judge runs that candidate against a versioned eval set — the same fixed cases every release must face.",
+          "nodes": [
+            "evalset",
+            "judge"
+          ],
+          "edges": [
+            [
+              "evalset",
+              "judge"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The judge and guardrails score the candidate for grounding, safety, and format, then hand those scores to the gate.",
+          "nodes": [
+            "judge",
+            "gate"
+          ],
+          "edges": [
+            [
+              "judge",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But absolute scores aren't enough — the gate also pulls the live baseline to compare the candidate against what's shipping now.",
+          "nodes": [
+            "baseline",
+            "gate"
+          ],
+          "edges": [
+            [
+              "baseline",
+              "gate"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The gate decides on evidence: clear the thresholds AND regress nothing on a protected axis, or it does not pass.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "Pass with no regression, and the change promotes to prod — reaching users only because the evidence earned it.",
+          "nodes": [
+            "gate",
+            "prod"
+          ],
+          "edges": [
+            [
+              "gate",
+              "prod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Fail, or regress the baseline, and the gate holds the change and returns a rollback plan instead of shipping.",
+          "nodes": [
+            "gate",
+            "hold"
+          ],
+          "edges": [
+            [
+              "gate",
+              "hold"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: no evidence, no ship. Every change faces the same eval and baseline, so nothing reaches users un-gated.",
+          "nodes": [
+            "candidate",
+            "gate",
+            "prod",
+            "hold"
+          ],
+          "edges": [
+            [
+              "gate",
+              "prod"
+            ],
+            [
+              "gate",
+              "hold"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5664,6 +7739,121 @@
         {
           "tone": "muted",
           "label": "trace + repair; ingestion kept out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A user query enters and the retriever pulls the top-k chunks it needs from the vector store to answer.",
+          "nodes": [
+            "query",
+            "retriever",
+            "store"
+          ],
+          "edges": [
+            [
+              "query",
+              "retriever"
+            ],
+            [
+              "store",
+              "retriever"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those chunks feed the prompt contract, which grounds the model's answer in retrieved evidence rather than free memory.",
+          "nodes": [
+            "retriever",
+            "contract"
+          ],
+          "edges": [
+            [
+              "retriever",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The grounded answer hits the guardrail, then the eval judge scores it — the two decision points that gate quality.",
+          "nodes": [
+            "contract",
+            "guardrail",
+            "judge"
+          ],
+          "edges": [
+            [
+              "contract",
+              "guardrail"
+            ],
+            [
+              "guardrail",
+              "judge"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When the judge flags a hallucination, it writes a retrieval trace showing exactly which chunks were and weren't there.",
+          "nodes": [
+            "judge",
+            "trace"
+          ],
+          "edges": [
+            [
+              "judge",
+              "trace"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The dashed loop closes: the trace points back to weak retrieval, and you repair it — recall@5 goes from 61% to 88%.",
+          "nodes": [
+            "trace",
+            "retriever"
+          ],
+          "edges": [
+            [
+              "trace",
+              "retriever"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Corpus ingestion feeds the vector store but stays out of scope — this packet is about catching and fixing a live failure.",
+          "nodes": [
+            "ingest",
+            "store"
+          ],
+          "edges": [
+            [
+              "ingest",
+              "store"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "That whole traced failure-and-repair is the portfolio artifact: the claim names its proof, and no proof means no claim.",
+          "nodes": [
+            "judge",
+            "trace",
+            "retriever"
+          ],
+          "edges": [
+            [
+              "judge",
+              "trace"
+            ],
+            [
+              "trace",
+              "retriever"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -6004,6 +8194,117 @@
         {
           "tone": "success",
           "label": "release gate — the go/no-go decision"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a user query. But before we answer, we pull real sources: an ingested, indexed corpus feeds the retriever alongside the question.",
+          "nodes": [
+            "user",
+            "ingest",
+            "retriever"
+          ],
+          "edges": [
+            [
+              "user",
+              "retriever"
+            ],
+            [
+              "ingest",
+              "retriever"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The retriever returns top-k context, and the prompt contract binds the model to answer only from those retrieved passages.",
+          "nodes": [
+            "retriever",
+            "contract"
+          ],
+          "edges": [
+            [
+              "retriever",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That grounded prompt drives generation. The LLM produces a candidate answer, not a final one, because nothing ships unchecked.",
+          "nodes": [
+            "contract",
+            "llm",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "contract",
+              "llm"
+            ],
+            [
+              "llm",
+              "guardrail"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The guardrail is the first decision: if support is missing, it refuses. The invariant is no unsupported answer ever reaches the user.",
+          "nodes": [
+            "guardrail",
+            "user"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "user"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "In parallel, sampled answers flow to an LLM judge that scores them against your eval set for grounded-answer rate.",
+          "nodes": [
+            "guardrail",
+            "judge"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "judge"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The judge feeds the release gate: does grounded-rate clear the threshold? This is the go or no-go a reviewer actually signs off.",
+          "nodes": [
+            "judge",
+            "gate"
+          ],
+          "edges": [
+            [
+              "judge",
+              "gate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Observability wraps the whole path, tracing every hop so the guardrail's refusals and the gate's verdict are provable, not asserted.",
+          "nodes": [
+            "obs",
+            "guardrail",
+            "gate"
+          ],
+          "edges": [
+            [
+              "obs",
+              "guardrail"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

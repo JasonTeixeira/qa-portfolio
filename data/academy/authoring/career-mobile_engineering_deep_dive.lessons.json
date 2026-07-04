@@ -128,6 +128,119 @@
           "tone": "success",
           "label": "repair path — conflict merge preserves edits"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician closes three work orders offline. The app can't reach the server, so every edit lands as a local write.",
+          "nodes": [
+            "ui",
+            "local"
+          ],
+          "edges": [
+            [
+              "ui",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Local Store is the source of truth while offline. It also holds credentials, handed off to Secure Storage for safekeeping.",
+          "nodes": [
+            "local",
+            "secure"
+          ],
+          "edges": [
+            [
+              "local",
+              "secure"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Those offline edits don't vanish — they're queued into the Sync Engine, waiting for a signal to come back.",
+          "nodes": [
+            "local",
+            "sync"
+          ],
+          "edges": [
+            [
+              "local",
+              "sync"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The elevator reaches the lobby, signal returns, and on reconnect the Sync Engine hands the queue to the Conflict Policy.",
+          "nodes": [
+            "sync",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This decision node is the whole lesson: what happens when local edits and server state disagree.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "The failure path: OVERWRITE lets the server clobber the Local Store, silently erasing a day of field work.",
+          "nodes": [
+            "conflict",
+            "local"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "local"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair path: MERGE pushes local edits up to the server, preserving the technician's work instead of losing it.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Nobody chose the overwrite — it was defaulted. Name the constraint, pick the merge, and record what would invalidate it.",
+          "nodes": [
+            "conflict",
+            "local",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "local"
+            ],
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -421,6 +534,126 @@
           "tone": "accent",
           "label": "sync intent + conflict policy (the real hard part)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A field tech opens the inspection screen and spends forty minutes editing a draft, all of it living in route-local memory.",
+          "nodes": [
+            "tech",
+            "screen"
+          ],
+          "edges": [
+            [
+              "tech",
+              "screen"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That screen's existence is not permanent — the navigation stack owns when it is created and, more dangerously, when it is torn down.",
+          "nodes": [
+            "nav",
+            "screen"
+          ],
+          "edges": [
+            [
+              "nav",
+              "screen"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The app lifecycle is the other threat: backing out to take a call backgrounds or kills the screen, and route-local state simply vanishes.",
+          "nodes": [
+            "lifecycle",
+            "screen"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "screen"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here is the boundary that saves the work: every change must persist into local storage before teardown, never wait for the network.",
+          "nodes": [
+            "screen",
+            "store"
+          ],
+          "edges": [
+            [
+              "screen",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Local persistence doesn't just hold the data — it enqueues an explicit mutation with sync intent into the sync queue.",
+          "nodes": [
+            "store",
+            "queue"
+          ],
+          "edges": [
+            [
+              "store",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When signal returns in the elevator or on the rural site, the queue syncs its mutations up to the backend.",
+          "nodes": [
+            "queue",
+            "server"
+          ],
+          "edges": [
+            [
+              "queue",
+              "server"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The backend resolves conflicts back to the queue — without an explicit policy, a stale server copy silently overwrites her notes.",
+          "nodes": [
+            "server",
+            "queue"
+          ],
+          "edges": [
+            [
+              "server",
+              "queue"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: state that must survive teardown, backgrounding, and offline lives in persistence with sync intent — navigation owns only what's safe to lose.",
+          "nodes": [
+            "screen",
+            "store",
+            "queue",
+            "nav"
+          ],
+          "edges": [
+            [
+              "screen",
+              "store"
+            ],
+            [
+              "nav",
+              "screen"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -708,6 +941,116 @@
         {
           "tone": "muted",
           "label": "out of scope on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician taps to log a repair. The Work Order UI hands that edit to the Work Order Module — the module that owns this job record.",
+          "nodes": [
+            "ui",
+            "wo"
+          ],
+          "edges": [
+            [
+              "ui",
+              "wo"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The Work Order Module writes the record to the Local Store. This module is the SOLE OWNER of that write path — one owner, by design.",
+          "nodes": [
+            "wo",
+            "store"
+          ],
+          "edges": [
+            [
+              "wo",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Signal returns. The Sync Module reads the queued writes out of the Local Store to figure out what needs pushing.",
+          "nodes": [
+            "sync",
+            "store"
+          ],
+          "edges": [
+            [
+              "sync",
+              "store"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Sync pushes local changes to the Server and pulls remote changes back — the round trip where two versions of one record can collide.",
+          "nodes": [
+            "sync",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ],
+            [
+              "server",
+              "sync"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On divergence, Sync does not overwrite blindly. It defers to the Conflict Policy — the explicit rule that owns how two versions merge.",
+          "nodes": [
+            "sync",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The Conflict Policy writes the merged result back to the Local Store, going through the owner's rule instead of a raw last-writer-wins clobber.",
+          "nodes": [
+            "conflict",
+            "store"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The insight: exactly one module owns each record's write path. Skip the Conflict Policy and Sync silently overwrites the technician's basement work.",
+          "nodes": [
+            "wo",
+            "store",
+            "sync",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "wo",
+              "store"
+            ],
+            [
+              "conflict",
+              "store"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1003,6 +1346,130 @@
           "tone": "success",
           "label": "explicit conflict policy — the decision"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts innocently: a technician completes a service ticket, and the app renders that finished state to the screen.",
+          "nodes": [
+            "action",
+            "ui"
+          ],
+          "edges": [
+            [
+              "action",
+              "ui"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The safe design does two things at once — it shows UI state, and it durably persists the write to secure local storage.",
+          "nodes": [
+            "ui",
+            "store"
+          ],
+          "edges": [
+            [
+              "ui",
+              "store"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the trap springs: the OS backgrounds the app in a dead-signal basement and kills it, wiping every in-memory value.",
+          "nodes": [
+            "lifecycle",
+            "ui"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "ui"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Because the write survived to disk, the store enqueues an explicit sync intent into the outbox — nothing was lost.",
+          "nodes": [
+            "store",
+            "queue"
+          ],
+          "edges": [
+            [
+              "store",
+              "queue"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "An hour later the device reconnects, and the outbox hands its intent to the conflict policy instead of syncing blindly.",
+          "nodes": [
+            "queue",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "queue",
+              "conflict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Without a rule, the danger is the red path: the backend's stale empty copy silently overwrites the completed job.",
+          "nodes": [
+            "server",
+            "store"
+          ],
+          "edges": [
+            [
+              "server",
+              "store"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair is an explicit conflict policy that reconciles first, then pushes the durable local truth to the backend.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Lesson: model UI state, durable write, sync intent, and conflict rule separately — only persisted, rule-bound writes are safe.",
+          "nodes": [
+            "ui",
+            "store",
+            "queue",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "ui",
+              "store"
+            ],
+            [
+              "store",
+              "queue"
+            ],
+            [
+              "queue",
+              "conflict"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1276,6 +1743,105 @@
         {
           "tone": "success",
           "label": "server as shared truth once online"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A field tech logs a completed inspection in a signal-dead basement — the write lands locally, offline is fine.",
+          "nodes": [
+            "ui",
+            "local"
+          ],
+          "edges": [
+            [
+              "ui",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Because there's no network, the local store enqueues that write in the outbox, tagged with the base version it was edited from.",
+          "nodes": [
+            "local",
+            "queue"
+          ],
+          "edges": [
+            [
+              "local",
+              "queue"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Two hours later the app foregrounds on 4G, and the outbox replays: the queued write reaches the conflict policy.",
+          "nodes": [
+            "queue",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "queue",
+              "conflict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the one decision the whole model turns on: who owns the write when local and server disagree.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "If the policy checks the base version, it merges or accepts cleanly and the tech's work reaches the server.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But if it's last-write-wins with no base check, the stale server row silently overwrites her completed inspection.",
+          "nodes": [
+            "conflict",
+            "loss"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "loss"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: the model must decide who wins on conflict — if it doesn't, it already chose last-write-wins, and the basement work is gone.",
+          "nodes": [
+            "conflict",
+            "loss",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "loss"
+            ],
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1557,6 +2123,130 @@
         {
           "tone": "success",
           "label": "local durable state (survives app kill)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts in a basement with no signal: the technician closes a work order, and the UI just calls save() on the repository.",
+          "nodes": [
+            "ui",
+            "repo"
+          ],
+          "edges": [
+            [
+              "ui",
+              "repo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The repository writes to the local SQLite database and marks the row dirty — a flag meaning this change has not reached the server yet.",
+          "nodes": [
+            "repo",
+            "db"
+          ],
+          "edges": [
+            [
+              "repo",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Crucially, it also enqueues the write in the outbox, stamped with base_version: the exact server version this edit was made against.",
+          "nodes": [
+            "repo",
+            "queue"
+          ],
+          "edges": [
+            [
+              "repo",
+              "queue"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "She drives to the next site and the phone reconnects. The outbox drains, handing each queued write to the sync engine.",
+          "nodes": [
+            "queue",
+            "sync"
+          ],
+          "edges": [
+            [
+              "queue",
+              "sync"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The sync engine sends a conditional PUT with If-Match: base_version — telling the server, apply this only if nothing changed underneath me.",
+          "nodes": [
+            "sync",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "If versions match, the server applies it. But the dispatcher had reassigned the order, so the server answers 412 — version mismatch.",
+          "nodes": [
+            "sync",
+            "server",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ],
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That 412 routes to the conflict path instead of overwriting. The change is re-marked dirty for resolution — the loss is never silent.",
+          "nodes": [
+            "conflict",
+            "db"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "db"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The invariant holds: base_version detects drift, the dirty flag tracks the unsynced write, and no truth is ever erased without a decision.",
+          "nodes": [
+            "sync",
+            "conflict",
+            "db"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ],
+            [
+              "conflict",
+              "db"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -1845,6 +2535,116 @@
           "tone": "muted",
           "label": "silent overwrite — removed by a real strategy"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Two techs mutate the same work-order offline, each with no signal, so both stack their edits into a local Outbox Queue.",
+          "nodes": [
+            "clientA",
+            "clientB",
+            "queue"
+          ],
+          "edges": [
+            [
+              "clientA",
+              "queue"
+            ],
+            [
+              "clientB",
+              "queue"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When a device reconnects, its queued mutations drain into the Sync Engine, which now holds two truths for one record.",
+          "nodes": [
+            "queue",
+            "sync"
+          ],
+          "edges": [
+            [
+              "queue",
+              "sync"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the fatal shortcut: with no version check, the Sync Engine silently overwrites the basement notes and the work just vanishes.",
+          "nodes": [
+            "sync",
+            "silent"
+          ],
+          "edges": [
+            [
+              "sync",
+              "silent"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The fix is to DETECT: the Sync Engine compares base version tokens, not clocks, and a base mismatch routes to the Conflict Resolver.",
+          "nodes": [
+            "sync",
+            "resolver"
+          ],
+          "edges": [
+            [
+              "sync",
+              "resolver"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Resolver APPLIES a policy fit to the field, last-writer-wins, per-field merge, or manual queue, then commits the winner to the server of record.",
+          "nodes": [
+            "resolver",
+            "server"
+          ],
+          "edges": [
+            [
+              "resolver",
+              "server"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Then it TRACES the loser: the discarded copy is written to a conflict log and an analytics event, so nothing dies silently.",
+          "nodes": [
+            "resolver",
+            "log"
+          ],
+          "edges": [
+            [
+              "resolver",
+              "log"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Detect, apply, trace turns a three-week-later ghost into a logged, defensible choice, that is what conflict resolution buys you.",
+          "nodes": [
+            "resolver",
+            "log",
+            "silent"
+          ],
+          "edges": [
+            [
+              "resolver",
+              "log"
+            ],
+            [
+              "sync",
+              "silent"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -2114,6 +2914,116 @@
         {
           "tone": "success",
           "label": "repair path — versioned reconcile"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A field tech submits an inspection with no signal. The write hits UI state and persists straight to the local store first.",
+          "nodes": [
+            "ui",
+            "local"
+          ],
+          "edges": [
+            [
+              "ui",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Because there's no network, the local store enqueues a sync intent into the queue instead of hitting the server now.",
+          "nodes": [
+            "local",
+            "queue"
+          ],
+          "edges": [
+            [
+              "local",
+              "queue"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "She drives back into coverage. On reconnect the queue drains, handing the pending write to the conflict policy to decide.",
+          "nodes": [
+            "queue",
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "queue",
+              "conflict"
+            ],
+            [
+              "server",
+              "conflict"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The conflict policy compares her offline write against the server's current version. This decision is where the whole flow lives or dies.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "server",
+              "conflict"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The red path: naive last-write-wins lets the stale server copy silently overwrite her work. The form reopens empty, proof erased.",
+          "nodes": [
+            "conflict",
+            "lost"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "lost"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The green path: a versioned policy detects the divergence and produces a repaired write that keeps her data instead of dropping it.",
+          "nodes": [
+            "conflict",
+            "merged"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "merged"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: retry restores connectivity, but policy decides who wins. Name 'no silent data loss' and pick a losing case you can defend.",
+          "nodes": [
+            "conflict",
+            "lost",
+            "merged"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "lost"
+            ],
+            [
+              "conflict",
+              "merged"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -2423,6 +3333,121 @@
           "tone": "accent",
           "label": "the client making the storage decision"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Login starts here: the auth server returns two credentials to the mobile app after the technician signs in on the truck.",
+          "nodes": [
+            "auth",
+            "app"
+          ],
+          "edges": [
+            [
+              "auth",
+              "app"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The app must classify each token first: a short-lived access token and a long-lived refresh token are two different sensitivity levels.",
+          "nodes": [
+            "app",
+            "access",
+            "refresh"
+          ],
+          "edges": [
+            [
+              "app",
+              "access"
+            ],
+            [
+              "app",
+              "refresh"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On the gold path both tokens land in the Keychain or Keystore: hardware-backed storage gated by device-unlock, optionally biometric.",
+          "nodes": [
+            "access",
+            "refresh",
+            "secure"
+          ],
+          "edges": [
+            [
+              "access",
+              "secure"
+            ],
+            [
+              "refresh",
+              "secure"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the failure: dropping the refresh token into a plaintext store writes your longest-lived credential in the clear.",
+          "nodes": [
+            "refresh",
+            "plain"
+          ],
+          "edges": [
+            [
+              "refresh",
+              "plain"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Plaintext is the leak: a rooted device or an unencrypted cloud backup reads the file and exfiltrates the refresh token wholesale.",
+          "nodes": [
+            "plain",
+            "attacker"
+          ],
+          "edges": [
+            [
+              "plain",
+              "attacker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Because the secure path survived, reopening offline re-authenticates from Keychain and authorizes flushing her queued work order.",
+          "nodes": [
+            "secure",
+            "sync"
+          ],
+          "edges": [
+            [
+              "secure",
+              "sync"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The store is the security boundary: pick hardware-backed storage before you write a fetch call, and every later lesson stands on it.",
+          "nodes": [
+            "secure",
+            "refresh",
+            "access"
+          ],
+          "edges": [
+            [
+              "refresh",
+              "secure"
+            ],
+            [
+              "access",
+              "secure"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -2719,6 +3744,112 @@
           "tone": "success",
           "label": "repair path — degrade, re-request, complete"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts when the tech taps Add photo on the repair screen — that tap is where we ask the OS for the camera, right at point of use.",
+          "nodes": [
+            "tech",
+            "check"
+          ],
+          "edges": [
+            [
+              "tech",
+              "check"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The check doesn't decide anything itself — it reads the OS permission state, which can say granted, denied, or revoked at any moment.",
+          "nodes": [
+            "check",
+            "os"
+          ],
+          "edges": [
+            [
+              "os",
+              "check"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On the happy path the OS returns granted, so we capture the photo, store it securely, and attach it to the job. One clean arrow.",
+          "nodes": [
+            "check",
+            "capture",
+            "job"
+          ],
+          "edges": [
+            [
+              "check",
+              "capture"
+            ],
+            [
+              "capture",
+              "job"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the trap: if we assume grant and the OS silently said no, the next upload crashes on launch — the white screen the tech saw.",
+          "nodes": [
+            "check",
+            "crash"
+          ],
+          "edges": [
+            [
+              "check",
+              "crash"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The boundary is the other branch: when denied or revoked mid-session, we degrade gracefully instead of assuming the camera exists.",
+          "nodes": [
+            "check",
+            "degrade"
+          ],
+          "edges": [
+            [
+              "check",
+              "degrade"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "From there we offer a re-request with a clear rationale, so the tech can grant it — but that ask is optional, not a gate.",
+          "nodes": [
+            "degrade",
+            "rationale"
+          ],
+          "edges": [
+            [
+              "degrade",
+              "rationale"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The invariant: even with no camera, the core flow survives and the job still completes. A boundary with no denial path is a crash waiting to happen.",
+          "nodes": [
+            "degrade",
+            "job",
+            "crash"
+          ],
+          "edges": [
+            [
+              "degrade",
+              "job"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3009,6 +4140,113 @@
           "tone": "success",
           "label": "preserved user work"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A field tech opens the app in a basement and starts writing an inspection form straight into a local draft on her device.",
+          "nodes": [
+            "tech",
+            "draft"
+          ],
+          "edges": [
+            [
+              "tech",
+              "draft"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Forty minutes pass in the dead zone, and mid-task the auth token silently reaches the end of its lifetime.",
+          "nodes": [
+            "draft",
+            "expiry"
+          ],
+          "edges": [
+            [
+              "draft",
+              "expiry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the fork: the token expired, but the task is not done. What the app does now decides everything.",
+          "nodes": [
+            "expiry",
+            "silent",
+            "queue"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The shallow failure path treats expiry as auth alone: it logs out, pulls the empty server copy, and silently overwrites her work.",
+          "nodes": [
+            "expiry",
+            "silent"
+          ],
+          "edges": [
+            [
+              "expiry",
+              "silent"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair path separates the clocks: it freezes the sync and holds her write safely in a local queue instead.",
+          "nodes": [
+            "expiry",
+            "queue"
+          ],
+          "edges": [
+            [
+              "expiry",
+              "queue"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When the device reconnects, the queue triggers a silent background refresh to obtain a fresh, valid token.",
+          "nodes": [
+            "queue",
+            "refresh"
+          ],
+          "edges": [
+            [
+              "queue",
+              "refresh"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only after a valid token does it reconcile with the server, pushing the preserved draft upstream instead of losing it.",
+          "nodes": [
+            "refresh",
+            "server"
+          ],
+          "edges": [
+            [
+              "refresh",
+              "server"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant holds across the whole flow: no auth event may ever destroy unsynced user work.",
+          "nodes": [
+            "draft",
+            "queue",
+            "refresh",
+            "server"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -3272,6 +4510,121 @@
         {
           "tone": "success",
           "label": "repair lane: redact before enqueue"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician taps to log a job. That single UI action becomes a telemetry event the app will try to send.",
+          "nodes": [
+            "ui",
+            "emit"
+          ],
+          "edges": [
+            [
+              "ui",
+              "emit"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Emit is the decision point. The very moment the event is created, it goes down one of two lanes.",
+          "nodes": [
+            "emit",
+            "raw",
+            "safe"
+          ],
+          "edges": [
+            [
+              "emit",
+              "raw"
+            ],
+            [
+              "emit",
+              "safe"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The failure lane skips redaction: the raw event still carries the customer's name, address, and GPS breadcrumb.",
+          "nodes": [
+            "emit",
+            "raw"
+          ],
+          "edges": [
+            [
+              "emit",
+              "raw"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair lane redacts at the source, so the event leaves emit already stripped of PII.",
+          "nodes": [
+            "emit",
+            "safe"
+          ],
+          "edges": [
+            [
+              "emit",
+              "safe"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Both lanes land in the offline queue. In a basement with no signal, whatever you queued is what persists to disk.",
+          "nodes": [
+            "raw",
+            "safe",
+            "queue"
+          ],
+          "edges": [
+            [
+              "raw",
+              "queue"
+            ],
+            [
+              "safe",
+              "queue"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On reconnect the queue syncs to analytics and crash. The raw lane leaks PII you never chose to send.",
+          "nodes": [
+            "queue",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "queue",
+              "analytics"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Privacy-safe telemetry is a decision, not a later filter: redact at emit so the queue never survives your regret.",
+          "nodes": [
+            "emit",
+            "safe",
+            "queue"
+          ],
+          "edges": [
+            [
+              "emit",
+              "safe"
+            ],
+            [
+              "safe",
+              "queue"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3550,6 +4903,111 @@
         {
           "tone": "success",
           "label": "work preserved (local durable, conflict merged)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician taps Save deep underground with no signal. Her write goes straight into the secure local store on the device.",
+          "nodes": [
+            "tech",
+            "local"
+          ],
+          "edges": [
+            [
+              "tech",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That local store only counts if it outlives the app itself. Backgrounded or killed, the write must still be on disk.",
+          "nodes": [
+            "lifecycle",
+            "local"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "local"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "An hour later the signal returns. On reconnect the sync engine pulls the saved write and pushes it upward.",
+          "nodes": [
+            "local",
+            "sync"
+          ],
+          "edges": [
+            [
+              "local",
+              "sync"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the fork: her local write and the server record disagree. Two versions of the truth collide.",
+          "nodes": [
+            "sync",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If a conflict policy is decided, the merge runs: version wins, her field survives, and the server record is updated.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "If no policy is decided, the stale server copy silently overwrites her work. The screen said Saved; the data is gone.",
+          "nodes": [
+            "conflict",
+            "loss"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "loss"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: no conflict policy means no decision, just a hope that writes never collide. Name the policy or lose the write.",
+          "nodes": [
+            "conflict",
+            "loss",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "loss"
+            ],
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3840,6 +5298,123 @@
           "tone": "success",
           "label": "cache + preserved edits (the safety)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every visit to the work-order screen starts here: the screen mounts or refocuses and immediately kicks off a fetch.",
+          "nodes": [
+            "mount",
+            "loading"
+          ],
+          "edges": [
+            [
+              "mount",
+              "loading"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Before hitting the network, seed the view from the local cache so the tech sees her jobs instantly, not a blank spinner.",
+          "nodes": [
+            "cache",
+            "loading"
+          ],
+          "edges": [
+            [
+              "cache",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A clean fetch splits two ways: rows returned lands on Loaded and working, while zero rows lands on Empty that invites the next action.",
+          "nodes": [
+            "loading",
+            "loaded",
+            "empty"
+          ],
+          "edges": [
+            [
+              "loading",
+              "loaded"
+            ],
+            [
+              "loading",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The network is a liar. In an elevator or basement the fetch times out, so we route to an explicit Error state, never a frozen screen.",
+          "nodes": [
+            "loading",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Error is a dead end only if you let it. Retry is an explicit action the tech takes, sending her back through loading on her terms.",
+          "nodes": [
+            "error",
+            "loading"
+          ],
+          "edges": [
+            [
+              "error",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the trap: the OS backgrounds the app, and on return a silent refetch tries to overwrite what's on screen.",
+          "nodes": [
+            "loaded",
+            "merge"
+          ],
+          "edges": [
+            [
+              "loaded",
+              "merge"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "So the return path routes through a Merge decision that keeps her pending basement edits before settling back into Loaded.",
+          "nodes": [
+            "merge",
+            "loaded"
+          ],
+          "edges": [
+            [
+              "merge",
+              "loaded"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: four states, four distinct views and next actions, and none of them silently clobbers the tech's local work.",
+          "nodes": [
+            "loading",
+            "empty",
+            "error",
+            "loaded",
+            "merge"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4129,6 +5704,125 @@
           "tone": "success",
           "label": "repair: labels + accessible offline announcement"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician in a no-signal basement double-taps 'Complete' on the work-order screen — the entry point for the whole write.",
+          "nodes": [
+            "tech",
+            "ui"
+          ],
+          "edges": [
+            [
+              "tech",
+              "ui"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The screen exposes that control as a node in the accessibility tree, the layer a screen reader actually consumes.",
+          "nodes": [
+            "ui",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "ui",
+              "a11y"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here's the failure: the node has a role but no name, so VoiceOver reads back 'button' — no label, no meaning.",
+          "nodes": [
+            "a11y",
+            "tech"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "tech"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Meanwhile the write succeeds silently — the screen persists it to the local store, since there's no signal to sync.",
+          "nodes": [
+            "ui",
+            "store"
+          ],
+          "edges": [
+            [
+              "ui",
+              "store"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The store queues a sync intent for later, but the technician still has zero feedback that anything happened.",
+          "nodes": [
+            "store",
+            "sync"
+          ],
+          "edges": [
+            [
+              "store",
+              "sync"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The repair: the store also triggers a live region, wiring persistence directly to an announcement.",
+          "nodes": [
+            "store",
+            "announce"
+          ],
+          "edges": [
+            [
+              "store",
+              "announce"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the live region announces the saved state aloud — the offline write becomes audible, not silent.",
+          "nodes": [
+            "announce",
+            "tech"
+          ],
+          "edges": [
+            [
+              "announce",
+              "tech"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: accessible means a screen reader completes the task offline — name, role, and state must survive the field, not just pass a screenshot.",
+          "nodes": [
+            "a11y",
+            "announce",
+            "tech"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "tech"
+            ],
+            [
+              "announce",
+              "tech"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -4413,6 +6107,109 @@
           "tone": "warning",
           "label": "failure surface (network down / conflict)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A tech swipes to complete a work order. The gesture fires two things: an instant UI response and a write of durable intent.",
+          "nodes": [
+            "gesture",
+            "ui",
+            "store"
+          ],
+          "edges": [
+            [
+              "gesture",
+              "ui"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the naive path that lost the sign-off: on release the app calls the network directly, holding nothing local.",
+          "nodes": [
+            "gesture",
+            "net"
+          ],
+          "edges": [
+            [
+              "gesture",
+              "net"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The elevator kills signal, the call backgrounds the app, and that in-flight call dies with no record left behind.",
+          "nodes": [
+            "net"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: write intent to the secure local store FIRST, so the sign-off survives before the network is ever touched.",
+          "nodes": [
+            "gesture",
+            "store"
+          ],
+          "edges": [
+            [
+              "gesture",
+              "store"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That durable intent is enqueued in the sync queue, patiently waiting for a real connection instead of firing and forgetting.",
+          "nodes": [
+            "store",
+            "queue"
+          ],
+          "edges": [
+            [
+              "store",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On reconnect the queue flushes and the conflict policy resolves it, committing only if this revision wins over the stale copy.",
+          "nodes": [
+            "queue",
+            "net",
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "queue",
+              "net"
+            ],
+            [
+              "net",
+              "conflict"
+            ],
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "A gesture is not the animation. It is UI state, local persistence, sync intent, and conflict policy together.",
+          "nodes": [
+            "gesture",
+            "ui",
+            "store",
+            "queue",
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4685,6 +6482,112 @@
         {
           "tone": "success",
           "label": "local store = the work that must survive"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start in a basement with no signal. The technician logs an inspection, tapping her notes into the app entirely offline.",
+          "nodes": [
+            "tech",
+            "ui"
+          ],
+          "edges": [
+            [
+              "tech",
+              "ui"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The UI immediately persists her edit to the local store on the device, so it survives even without a network. So far, so good.",
+          "nodes": [
+            "ui",
+            "local"
+          ],
+          "edges": [
+            [
+              "ui",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the first hidden risk: the OS may kill the app in the background, wiping UI state that never reached the local store.",
+          "nodes": [
+            "lifecycle",
+            "ui"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "ui"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "She rides the elevator up and reconnects. The local store hands its queued write to the sync layer to reconcile with the server.",
+          "nodes": [
+            "local",
+            "sync"
+          ],
+          "edges": [
+            [
+              "local",
+              "sync"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "This is the suspect edge. On merge, last-write-wins lets the server's timestamp win and overwrites her offline inspection entirely.",
+          "nodes": [
+            "sync",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The damage completes: the server pushes its stale, empty copy back down, silently replacing the good local data with nothing.",
+          "nodes": [
+            "server",
+            "local"
+          ],
+          "edges": [
+            [
+              "server",
+              "local"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: name the risky states — offline, background, reconnect — and attach a test that turns airplane mode on and shows the loss.",
+          "nodes": [
+            "tech",
+            "lifecycle",
+            "sync",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ],
+            [
+              "server",
+              "local"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4993,6 +6896,131 @@
           "tone": "muted",
           "label": "blind spots: crash reporter + lifecycle noise"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a technician in a rural crawlspace, no bars, typing inspection notes into the app UI.",
+          "nodes": [
+            "tech",
+            "ui"
+          ],
+          "edges": [
+            [
+              "tech",
+              "ui"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "With no connection, the UI writes straight to the local store — the work is safe on the device for now.",
+          "nodes": [
+            "ui",
+            "local"
+          ],
+          "edges": [
+            [
+              "ui",
+              "local"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Later the app backgrounds and reconnects; the lifecycle wakes the sync engine, which drains the queued edits.",
+          "nodes": [
+            "lifecycle",
+            "sync",
+            "local"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "sync"
+            ],
+            [
+              "local",
+              "sync"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The sync engine hands off to the conflict policy, which asks the one question that matters: is the server copy newer?",
+          "nodes": [
+            "sync",
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the bug: naive last-write-wins silently overwrites the server, and the technician's notes are gone by morning.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Nothing crashed, so the crash reporter never fires — the failure is invisible and the dashboards stay green.",
+          "nodes": [
+            "conflict",
+            "crash"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "crash"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The only witness is a deliberate analytics event on the conflict edge, carrying device state, lifecycle, and sync intent.",
+          "nodes": [
+            "conflict",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "analytics"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: crashes catch processes that die, analytics catch processes that succeed wrongly — gate release on that event's presence.",
+          "nodes": [
+            "analytics",
+            "crash",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "analytics"
+            ],
+            [
+              "conflict",
+              "crash"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5287,6 +7315,118 @@
         {
           "tone": "muted",
           "label": "observability (crash/analytics event)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A technician finishes an inspection in a basement with no signal, so the write lands only in secure local storage.",
+          "nodes": [
+            "tech",
+            "local"
+          ],
+          "edges": [
+            [
+              "tech",
+              "local"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The phone backgrounds for a call. The write has to survive that lifecycle transition without being dropped.",
+          "nodes": [
+            "local",
+            "lifecycle"
+          ],
+          "edges": [
+            [
+              "local",
+              "lifecycle"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Forty minutes later the app resumes and reconnects, and the sync engine wakes up to push the pending write.",
+          "nodes": [
+            "lifecycle",
+            "sync"
+          ],
+          "edges": [
+            [
+              "lifecycle",
+              "sync"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the failure: last-write-wins fires and silently overwrites the note she typed on the way up. No warning, no trace.",
+          "nodes": [
+            "sync",
+            "server"
+          ],
+          "edges": [
+            [
+              "sync",
+              "server"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair is a conflict policy: before writing, the engine checks whether the server record changed too.",
+          "nodes": [
+            "sync",
+            "conflict"
+          ],
+          "edges": [
+            [
+              "sync",
+              "conflict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On conflict it resolves deliberately, then writes the reconciled record to the server instead of clobbering it.",
+          "nodes": [
+            "conflict",
+            "server"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "server"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "It also emits a sync_conflict event to crash and analytics, so the collision leaves replayable proof.",
+          "nodes": [
+            "conflict",
+            "crash"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "crash"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Passing review is admissibility; surviving real device state with provable reconciliation is readiness.",
+          "nodes": [
+            "tech",
+            "sync",
+            "conflict",
+            "server",
+            "crash"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -5584,6 +7724,106 @@
         {
           "tone": "muted",
           "label": "store review gate: why rollback is not instant on mobile"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts as a field report, not a crash: a technician's notes got silently overwritten when the app synced. Your dashboards look perfect.",
+          "nodes": [
+            "field",
+            "detect"
+          ],
+          "edges": [
+            [
+              "field",
+              "detect"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Detect can't rely on crash analytics here. You instrument the silent sync path so overwrites leave a trace instead of vanishing.",
+          "nodes": [
+            "detect",
+            "triage"
+          ],
+          "edges": [
+            [
+              "detect",
+              "triage"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Triage measures blast radius: how many technicians, how much lost data. The size of the failure sets the urgency of the response.",
+          "nodes": [
+            "triage",
+            "decide"
+          ],
+          "edges": [
+            [
+              "triage",
+              "decide"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Decide splits into two paths. The client fix must clear the store review gate, so it cannot be your only mitigation.",
+          "nodes": [
+            "decide",
+            "store"
+          ],
+          "edges": [
+            [
+              "decide",
+              "store"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the server mitigation, a conflict policy plus backfill, ships now, without waiting on the app store's approval queue.",
+          "nodes": [
+            "decide",
+            "prove"
+          ],
+          "edges": [
+            [
+              "decide",
+              "prove"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Prove means replaying the exact failure, the basement-to-lobby sync, and watching the repair hold instead of trusting a guess.",
+          "nodes": [
+            "prove",
+            "learn"
+          ],
+          "edges": [
+            [
+              "prove",
+              "learn"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Learn closes the loop: the replay becomes a regression test that guards the silent path on every future release.",
+          "nodes": [
+            "learn",
+            "detect"
+          ],
+          "edges": [
+            [
+              "learn",
+              "detect"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

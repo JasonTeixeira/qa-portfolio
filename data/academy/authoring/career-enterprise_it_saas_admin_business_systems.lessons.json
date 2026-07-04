@@ -128,6 +128,118 @@
           "tone": "success",
           "label": "source of truth (HR)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts in HR: a hire, a role change, or a termination fires an identity lifecycle event into the Identity Provider.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Identity Provider is the front door. It authenticates the person into Salesforce with an SSO SAML assertion.",
+          "nodes": [
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saas"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "In parallel, the IdP tells SCIM to provision or deprovision the account — this is the automation meant to grant and revoke.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "SCIM grants the RBAC role inside Salesforce. But on termination this sync LAGS — the revoke never lands, so access stays live.",
+          "nodes": [
+            "scim",
+            "saas"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Separately, the Approval Workflow can elevate access — a second door that also has to be cleaned up on offboarding.",
+          "nodes": [
+            "approvals",
+            "saas"
+          ],
+          "edges": [
+            [
+              "approvals",
+              "saas"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Salesforce emits every access event to the Audit Log — the evidence trail that eventually caught the ghost account.",
+          "nodes": [
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The blast radius: six teams each owned one layer, nobody owned the map, so the contractor stayed live ninety days.",
+          "nodes": [
+            "hr",
+            "idp",
+            "scim",
+            "saas",
+            "approvals",
+            "audit"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ],
+            [
+              "idp",
+              "scim"
+            ],
+            [
+              "scim",
+              "saas"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -415,6 +527,124 @@
           "tone": "warning",
           "label": "builder side — you own audit + access"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The VP wants Slack auto-provisioning by Friday — one change request enters the control plane, and nobody has said which side of the line it lands on.",
+          "nodes": [
+            "request"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Every request first hits the boundary ruling — the single decision that sets the blast radius and decides who owns this change forever.",
+          "nodes": [
+            "request",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "request",
+              "boundary"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Ask: is this identity? Then it's SSO via OIDC or SAML — declarative admin config inside the vendor's governed surface.",
+          "nodes": [
+            "boundary",
+            "idp"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Is it user lifecycle? SCIM provisioning stays admin — the connector config handles onboarding without a line of custom code.",
+          "nodes": [
+            "boundary",
+            "scim"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Is it access or approval? RBAC and workflow are still admin — reversible, governed, inside the guardrails.",
+          "nodes": [
+            "boundary",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "rbac"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only when config provably cannot express the requirement do you cross to custom code past the API — powerful, and now yours to own.",
+          "nodes": [
+            "boundary",
+            "builder"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "builder"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The split shows in the audit log: admin actions are logged automatically, but builder code must emit its own audit — that's the invariant.",
+          "nodes": [
+            "idp",
+            "builder",
+            "audit"
+          ],
+          "edges": [
+            [
+              "idp",
+              "audit"
+            ],
+            [
+              "builder",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So stay admin until it's impossible — crossing the line moves audit, access, and drift ownership onto you.",
+          "nodes": [
+            "boundary",
+            "builder",
+            "audit"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "builder"
+            ],
+            [
+              "builder",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -697,6 +927,116 @@
         {
           "tone": "warning",
           "label": "ownership violation — the drift source"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Ownership starts at HR: it holds the canonical lifecycle for this identity — who exists, and whether they are still employed.",
+          "nodes": [
+            "hr"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "HR feeds identity to Okta, the IdP, which owns authentication — it decides who can log in, but not what HR decides.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Okta pushes provisioning through SCIM: a SAML assertion plus a one-way sync that fans identity out to downstream apps.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The SaaS app receives a read-only copy. It owns its app-local roles, but the identity fields it holds are downstream, not canonical.",
+          "nodes": [
+            "scim",
+            "app"
+          ],
+          "edges": [
+            [
+              "scim",
+              "app"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the risk: the app writes its own department override locally, creating a second writer for a field HR already owns.",
+          "nodes": [
+            "app",
+            "drift"
+          ],
+          "edges": [
+            [
+              "app",
+              "drift"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That local write bleeding back toward HR violates the system of record — two writers means drift, and drift is untrustworthy truth.",
+          "nodes": [
+            "drift",
+            "hr"
+          ],
+          "edges": [
+            [
+              "drift",
+              "hr"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Both Okta and the app emit events to the immutable audit store, which owns the log — and it is what catches the drift first.",
+          "nodes": [
+            "idp",
+            "app",
+            "audit"
+          ],
+          "edges": [
+            [
+              "idp",
+              "audit"
+            ],
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: name exactly one owner per field, feed every copy one-way, and never let a field be writable in two places.",
+          "nodes": [
+            "hr",
+            "idp",
+            "app",
+            "audit"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -997,6 +1337,138 @@
           "tone": "success",
           "label": "source of truth + audit evidence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every access starts as a request that routes to an approval gate, where a human decides whether the user should ever get in.",
+          "nodes": [
+            "request",
+            "approval"
+          ],
+          "edges": [
+            [
+              "request",
+              "approval"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On approve, the request grants at the Identity Provider, our source of truth, and the same moment writes who approved, when, and why to the audit log.",
+          "nodes": [
+            "approval",
+            "idp",
+            "audit"
+          ],
+          "edges": [
+            [
+              "approval",
+              "idp"
+            ],
+            [
+              "approval",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The IdP fires a provisioning event to SCIM, which creates the account and role in the SaaS app and logs that it did so.",
+          "nodes": [
+            "idp",
+            "scim",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ],
+            [
+              "scim",
+              "saas"
+            ],
+            [
+              "scim",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So far every transition leaves inspectable evidence in the audit log — that is the invariant this lifecycle is supposed to hold.",
+          "nodes": [
+            "audit",
+            "approval",
+            "scim"
+          ],
+          "edges": [
+            [
+              "approval",
+              "audit"
+            ],
+            [
+              "scim",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the suspect edge: when someone leaves, the IdP should trigger deprovisioning to revoke their SaaS access.",
+          "nodes": [
+            "idp",
+            "deprov",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "deprov"
+            ],
+            [
+              "deprov",
+              "saas"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "But this transition emits no audit event, so if offboarding never fires, nothing breaks and nothing is logged — the access just silently drifts.",
+          "nodes": [
+            "deprov",
+            "idp",
+            "audit"
+          ],
+          "edges": [
+            [
+              "idp",
+              "deprov"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Months later the auditor replays the map and finds the orphan: still provisioned, approved by a manager who no longer exists. A transition with no audit event is where access hides.",
+          "nodes": [
+            "audit",
+            "deprov",
+            "saas",
+            "approval"
+          ],
+          "edges": [
+            [
+              "deprov",
+              "saas"
+            ],
+            [
+              "approval",
+              "audit"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1292,6 +1764,107 @@
           "tone": "muted",
           "label": "local password — forbidden bypass"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the IdP directory: HR sets each person's role and status, and the Identity Provider becomes the single source of truth.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "For login, the IdP issues a SAML or OIDC assertion that answers one question: who is this person, right now?",
+          "nodes": [
+            "idp",
+            "saml"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saml"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That assertion carries into the SaaS app and logs the user in — no separate password, just the IdP vouching for them.",
+          "nodes": [
+            "saml",
+            "app"
+          ],
+          "edges": [
+            [
+              "saml",
+              "app"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Login isn't lifecycle. SCIM is the second channel: the IdP fires create, update, and deactivate events at the connector.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the suspect edge: SCIM must provision AND deprovision. If deprovisioning never fires, terminated access silently survives.",
+          "nodes": [
+            "scim",
+            "app"
+          ],
+          "edges": [
+            [
+              "scim",
+              "app"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "A local password is the forbidden boundary — it's a door that bypasses the IdP entirely, so it must not exist.",
+          "nodes": [
+            "local",
+            "app"
+          ],
+          "edges": [
+            [
+              "local",
+              "app"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Finally the app writes to the audit log — who, when, what role — so login and lifecycle both trace back to one identity.",
+          "nodes": [
+            "app",
+            "audit",
+            "idp"
+          ],
+          "edges": [
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1583,6 +2156,126 @@
           "tone": "muted",
           "label": "out-of-band drift the IdP cannot revoke"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts in HR: an engineer resigns, and the HRIS marks her terminated — the single lifecycle event that should ripple everywhere.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The Identity Provider is the source of truth. It receives the termination and fires a SCIM deactivate to every connected SaaS app.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "This is the suspect edge. The IdP dashboard says 'de-provisioned' — but that only means the call was attempted, not that it landed.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "SCIM sends a PATCH to the SaaS app to flip the user inactive. Everything upstream now looks green.",
+          "nodes": [
+            "scim",
+            "app"
+          ],
+          "edges": [
+            [
+              "scim",
+              "app"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here's the silent failure: the app ignores or soft-deletes the request, leaving a ghost account — still active, still licensed, still able to export customer data.",
+          "nodes": [
+            "app",
+            "ghost"
+          ],
+          "edges": [
+            [
+              "app",
+              "ghost"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The proof gap: the app SHOULD have logged a revoke to the audit trail. No revoke line means nobody can tell the deactivate never took.",
+          "nodes": [
+            "app",
+            "audit"
+          ],
+          "edges": [
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "And drift compounds: someone assigned access directly in the app — out of band, invisible to the IdP, which never knew to revoke it.",
+          "nodes": [
+            "direct",
+            "app"
+          ],
+          "edges": [
+            [
+              "direct",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: replay one leaver's deactivate from IdP call to account state to entitlements — every app must converge or surface the drift.",
+          "nodes": [
+            "idp",
+            "app",
+            "ghost",
+            "audit"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ],
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1842,6 +2535,111 @@
         {
           "tone": "success",
           "label": "audit evidence — who could act"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The path starts at the Identity Provider: single sign-on proves who the user is, then asserts that identity into SCIM provisioning.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "SCIM provisions the account and assigns a role. Identity is settled here, but capability is not yet decided.",
+          "nodes": [
+            "scim",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "scim",
+              "rbac"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The RBAC role model is where identity turns into consequence: it decides exactly which permissions the SaaS app grants.",
+          "nodes": [
+            "rbac",
+            "app"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the suspect edge. A Support role that quietly inherited read-billing lets the app reach the finance export.",
+          "nodes": [
+            "app",
+            "finance"
+          ],
+          "edges": [
+            [
+              "app",
+              "finance"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Blast radius: a support agent lands on full customer PII and every invoice, because someone cloned a role instead of modeling it.",
+          "nodes": [
+            "finance",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "app",
+              "finance"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Every grant the role model makes is written to the audit log, so you can always answer who could have touched what.",
+          "nodes": [
+            "rbac",
+            "audit"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: map each role to the exact permissions it holds and is denied. A grant nobody can explain is drift waiting to happen.",
+          "nodes": [
+            "rbac",
+            "audit",
+            "app"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "app"
+            ],
+            [
+              "rbac",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2127,6 +2925,105 @@
           "tone": "warning",
           "label": "bypass — the failure the review must catch"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with the source of truth: HR and your identity provider define who is intended to have what, encoded as an RBAC matrix.",
+          "nodes": [
+            "hr",
+            "matrix"
+          ],
+          "edges": [
+            [
+              "hr",
+              "matrix"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The matrix is only intent. The review pulls actual entitlements straight from SSO and SCIM — what people can really touch right now.",
+          "nodes": [
+            "actual"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Both sides feed the diff: expected access from the matrix, observed access from the systems. The review IS this comparison.",
+          "nodes": [
+            "diff",
+            "matrix",
+            "actual"
+          ],
+          "edges": [
+            [
+              "matrix",
+              "diff"
+            ],
+            [
+              "actual",
+              "diff"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every mismatch is drift — the contractor still holding billing admin — and each one is routed to an explicit decision, not a signed spreadsheet.",
+          "nodes": [
+            "diff",
+            "decide"
+          ],
+          "edges": [
+            [
+              "diff",
+              "decide"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The decision does two things at once: it writes the evidence to the audit log so the resolution is provable later.",
+          "nodes": [
+            "decide",
+            "audit"
+          ],
+          "edges": [
+            [
+              "decide",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "And it writes back to reality — revoking or deprovisioning the entitlement so the actual state finally matches the intended one.",
+          "nodes": [
+            "decide",
+            "actual"
+          ],
+          "edges": [
+            [
+              "decide",
+              "actual"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure path: an approval bypass grants access unseen, skipping the diff and the log. That silent grant is exactly what an auditor cannot explain.",
+          "nodes": [
+            "bypass",
+            "actual"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "actual"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -2411,6 +3308,117 @@
         {
           "tone": "muted",
           "label": "the invariant: no decision, no access"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A requester submits an access request — say a contractor asking for admin on the finance SaaS — and it enters the workflow engine.",
+          "nodes": [
+            "requester",
+            "workflow"
+          ],
+          "edges": [
+            [
+              "requester",
+              "workflow"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The engine does not grant anything yet. Every request must pass through the approval gate first — that is the whole point.",
+          "nodes": [
+            "workflow",
+            "gate"
+          ],
+          "edges": [
+            [
+              "workflow",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate is a hard decision on the critical path: with no recorded approver state, there is simply no grant.",
+          "nodes": [
+            "gate",
+            "scim"
+          ],
+          "edges": [
+            [
+              "gate",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On an explicit approve, the gate routes to SCIM and SAML provisioning, which actually assigns the role in the identity systems.",
+          "nodes": [
+            "gate",
+            "scim"
+          ],
+          "edges": [
+            [
+              "gate",
+              "scim"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That grant writes an inspectable audit line — four months later the SOX auditor sees the record, not a Slack thumbs-up.",
+          "nodes": [
+            "scim",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A deny must genuinely stop the grant — access denied, no role provisioned — and it still writes its own audit line.",
+          "nodes": [
+            "gate",
+            "denied",
+            "audit"
+          ],
+          "edges": [
+            [
+              "gate",
+              "denied"
+            ],
+            [
+              "denied",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Enforcement, reversibility, and evidence together: the approver sits between request and power, and every decision is inspectable.",
+          "nodes": [
+            "gate",
+            "scim",
+            "denied",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "audit"
+            ],
+            [
+              "denied",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2711,6 +3719,136 @@
           "tone": "muted",
           "label": "the back door the audit must detect"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a requester opens an access ticket — grant Priya admin on Billing — the trigger for the whole control chain.",
+          "nodes": [
+            "requester",
+            "ticket"
+          ],
+          "edges": [
+            [
+              "requester",
+              "ticket"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The ticket routes by role tier into the approval gate — the policy-checked control where a human or rule must actually decide.",
+          "nodes": [
+            "ticket",
+            "policy"
+          ],
+          "edges": [
+            [
+              "ticket",
+              "policy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On approve, the gate triggers the SCIM provisioner, which combines the request with the IdP's identity assertion.",
+          "nodes": [
+            "policy",
+            "scim",
+            "idp"
+          ],
+          "edges": [
+            [
+              "policy",
+              "scim"
+            ],
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "SCIM provisions the role into the SaaS app, and the app emits a grant event into the audit log.",
+          "nodes": [
+            "scim",
+            "app",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "app"
+            ],
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The keystone control: the ticket reconciles against the log — does an approved ticket exist for every grant the systems recorded?",
+          "nodes": [
+            "ticket",
+            "audit"
+          ],
+          "edges": [
+            [
+              "ticket",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here's the bypass: a direct grant provisions the app with no ticket at all — access exists that the workflow never approved.",
+          "nodes": [
+            "backdoor",
+            "app"
+          ],
+          "edges": [
+            [
+              "backdoor",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Reconcile is what catches it: Priya had admin four days before the ticket opened, so log and ticket disagree — drift, exposed.",
+          "nodes": [
+            "audit",
+            "ticket",
+            "backdoor"
+          ],
+          "edges": [
+            [
+              "ticket",
+              "audit"
+            ],
+            [
+              "backdoor",
+              "app"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: if ticket and log can disagree silently, you have a form, not a control. The chain must be reconstructable evidence.",
+          "nodes": [
+            "policy",
+            "audit",
+            "ticket"
+          ],
+          "edges": [
+            [
+              "ticket",
+              "audit"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -3009,6 +4147,111 @@
         {
           "tone": "muted",
           "label": "out of scope for this packet (reporting/billing)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts in the CRM, the system of record: a contractor leaves, and that lifecycle event should fire identity changes to the IdP.",
+          "nodes": [
+            "crm",
+            "idp"
+          ],
+          "edges": [
+            [
+              "crm",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The IdP asserts group membership over SAML or OIDC, handing the source of truth to the SCIM sync that provisions accounts.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "SCIM provisions roles into the ITSM platform's RBAC — but this sync lags and drops events, so revocations quietly go missing.",
+          "nodes": [
+            "scim",
+            "itsm"
+          ],
+          "edges": [
+            [
+              "scim",
+              "itsm"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Inside ITSM, a privilege elevation hits the approval gate, and every who-what-when decision is written to the audit log.",
+          "nodes": [
+            "itsm",
+            "approval",
+            "audit"
+          ],
+          "edges": [
+            [
+              "itsm",
+              "approval"
+            ],
+            [
+              "approval",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the blast radius: a missed deprovision or a bypassed gate leaves stale, over-privileged admin access nobody proved was correct.",
+          "nodes": [
+            "scim",
+            "approval",
+            "drift"
+          ],
+          "edges": [
+            [
+              "scim",
+              "drift"
+            ],
+            [
+              "approval",
+              "drift"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "ITSM still feeds clean-looking records to business reporting — so drift stays invisible in the dashboards downstream.",
+          "nodes": [
+            "itsm",
+            "report"
+          ],
+          "edges": [
+            [
+              "itsm",
+              "report"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The lesson: turn 'we configured it' into a replayable evidence packet — an inspectable audit trail that proves access right, not just described.",
+          "nodes": [
+            "audit",
+            "drift"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -3399,6 +4642,107 @@
           "tone": "warning",
           "label": "bypass — the uncontrolled failure path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every change starts as an explicit request, not a hunch — someone names the intended change and submits it to the gate.",
+          "nodes": [
+            "request",
+            "gate"
+          ],
+          "edges": [
+            [
+              "request",
+              "gate"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The approval gate is the checkpoint: nothing reaches identity or the app until an approved change is authorized to pass.",
+          "nodes": [
+            "gate",
+            "idp"
+          ],
+          "edges": [
+            [
+              "gate",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only approved, the IdP provisions the role into the SaaS app — SAML and SCIM carry the change into production identity.",
+          "nodes": [
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saas"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The SaaS app records the event to the audit log, so every landed change leaves a complete, replayable trace.",
+          "nodes": [
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The audit log feeds the no-drift proof: RBAC matrix diff, SCIM event replay, and audit-trail completeness all get checked.",
+          "nodes": [
+            "audit",
+            "proof"
+          ],
+          "edges": [
+            [
+              "audit",
+              "proof"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The proof reports back to the gate — an approved change without a replayable no-drift proof is uncontrolled, so the gate needs it.",
+          "nodes": [
+            "proof",
+            "gate"
+          ],
+          "edges": [
+            [
+              "proof",
+              "gate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Friday failure is the bypass: editing the console directly skips the gate — that path must be blocked or drift goes unproven.",
+          "nodes": [
+            "bypass",
+            "saas",
+            "gate"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "saas"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3603,6 +4947,136 @@
         {
           "tone": "warning",
           "label": "where drift enters (dropped webhook, stale role)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a lifecycle event: HR presses Deactivate, telling the Identity Provider, our single source of truth for identity.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The IdP provisions that change outward through the SCIM Bridge, the API path that keeps downstream apps in agreement.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "SCIM sets the role in the Downstream SaaS, and records proof of the deprovision to the Audit Log.",
+          "nodes": [
+            "scim",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ],
+            [
+              "scim",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "To notify the world of the change fast, the SaaS emits an event to the Webhook Receiver, our low-latency path.",
+          "nodes": [
+            "saas",
+            "hook"
+          ],
+          "edges": [
+            [
+              "saas",
+              "hook"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the failure: on a rotated secret the webhook 401s and drops, so nobody hears it and the SaaS keeps a stale Active role.",
+          "nodes": [
+            "saas",
+            "hook"
+          ],
+          "edges": [
+            [
+              "saas",
+              "hook"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The Reconciler is the safety net: fed the true state, it diffs the IdP against the SaaS and heals the drift the webhook lost.",
+          "nodes": [
+            "recon",
+            "hook",
+            "saas"
+          ],
+          "edges": [
+            [
+              "hook",
+              "recon"
+            ],
+            [
+              "recon",
+              "saas"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Reconciliation records its proof to the Audit Log, so the ghost account cannot hide and every sync failure is replayable.",
+          "nodes": [
+            "recon",
+            "audit"
+          ],
+          "edges": [
+            [
+              "recon",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: even if a webhook is silently dropped, reconciliation still converges, so identity and roles cannot drift out of agreement.",
+          "nodes": [
+            "idp",
+            "recon",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "recon",
+              "saas"
+            ],
+            [
+              "recon",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3868,6 +5342,118 @@
         {
           "tone": "warning",
           "label": "drift / blast radius (stale access)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "HR is the system of record: when a contractor is terminated, the HRIS fires a lifecycle event into the identity provider.",
+          "nodes": [
+            "hris",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hris",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The IdP is supposed to push that change into the SaaS app over SCIM, provisioning on hire and deprovisioning on exit.",
+          "nodes": [
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saas"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This SCIM deprovision hop is the suspect edge. It lags, so the SaaS app keeps the contractor marked active for weeks.",
+          "nodes": [
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saas"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Worse, no contract declared a single writer, so the conflict rule never resolves who owns the status field when systems disagree.",
+          "nodes": [
+            "conflict",
+            "saas"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "saas"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Downstream, RBAC reads department to grant roles, so the stale active status keeps the offboarded user's access live.",
+          "nodes": [
+            "saas",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "saas",
+              "rbac"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Both the SaaS app and HRIS emit change events to the audit log, which is how the gap gets found after the fact.",
+          "nodes": [
+            "saas",
+            "audit",
+            "hris"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ],
+            [
+              "hris",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The fix: one writer per field, a declared sync cadence, and a reconciliation check that makes drift observable instead of silent.",
+          "nodes": [
+            "conflict",
+            "hris",
+            "idp",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "saas"
+            ],
+            [
+              "hris",
+              "idp"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -4164,6 +5750,136 @@
           "tone": "success",
           "label": "source of truth + the correlated trail"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The trail begins at the identity provider — every access story starts with an identity event flowing into SCIM provisioning.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "SCIM provisions the account, which triggers an RBAC grant — the moment a user actually gets access to a role.",
+          "nodes": [
+            "scim",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "scim",
+              "rbac"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The invariant: every RBAC grant must reference an approval workflow, so a human decision stands behind each access.",
+          "nodes": [
+            "rbac",
+            "approval"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "approval"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On approve, the decision flows to integration sync, pushing the grant out to the downstream finance app.",
+          "nodes": [
+            "approval",
+            "sync"
+          ],
+          "edges": [
+            [
+              "approval",
+              "sync"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here is the break: an out-of-band grant writes RBAC directly, bypassing approval entirely — access with no ticket behind it.",
+          "nodes": [
+            "bypass",
+            "rbac",
+            "approval"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "rbac"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Every stage emits its own event into the audit trail — RBAC, approval, and sync each write their piece of the chain.",
+          "nodes": [
+            "rbac",
+            "approval",
+            "sync",
+            "trail"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "trail"
+            ],
+            [
+              "approval",
+              "trail"
+            ],
+            [
+              "sync",
+              "trail"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The catch: the bypass emits an orphaned event the trail must flag — a grant with no matching approval is itself recorded.",
+          "nodes": [
+            "bypass",
+            "trail"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "trail"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That is the lesson — a real trail joins every source so any gap is evidence, letting the auditor replay each decision instead of trusting it.",
+          "nodes": [
+            "idp",
+            "scim",
+            "rbac",
+            "approval",
+            "sync",
+            "trail",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "trail"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4434,6 +6150,126 @@
         {
           "tone": "success",
           "label": "trusted source / decision the report drives"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at identity: the provider asserts who each user is, and SCIM turns that assertion into provisioned access.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "SCIM provisions each role into the RBAC matrix, which becomes the entitlements the report will count as admins.",
+          "nodes": [
+            "scim",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "scim",
+              "rbac"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Two feeds reach the reporting control: RBAC supplies entitlements while the audit log supplies activity evidence.",
+          "nodes": [
+            "rbac",
+            "audit",
+            "control"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "control"
+            ],
+            [
+              "audit",
+              "control"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the suspect edge: the legacy local-admin store SCIM never touches, which must reconcile into the control.",
+          "nodes": [
+            "legacy",
+            "control"
+          ],
+          "edges": [
+            [
+              "legacy",
+              "control"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "If that edge silently fails, the report reads complete yet omits a whole class of admins the auditor is asking about.",
+          "nodes": [
+            "legacy",
+            "control",
+            "review"
+          ],
+          "edges": [
+            [
+              "legacy",
+              "control"
+            ],
+            [
+              "control",
+              "review"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The control turns four sources into evidence a reviewer acts on: every figure needs lineage, every report needs an owner.",
+          "nodes": [
+            "control",
+            "review"
+          ],
+          "edges": [
+            [
+              "control",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a number you cannot trace to a source control is a claim, not a control.",
+          "nodes": [
+            "rbac",
+            "audit",
+            "legacy",
+            "control"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "control"
+            ],
+            [
+              "audit",
+              "control"
+            ],
+            [
+              "legacy",
+              "control"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4717,6 +6553,110 @@
         {
           "tone": "success",
           "label": "sources of truth (IdP + audit log)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One identity starts at the Identity Provider. Every lifecycle event — hire, role change, off-boarding — enters the system here and fans out downstream.",
+          "nodes": [
+            "idp"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "A lifecycle event flows into the SCIM connector, the provisioning stream that translates identity changes into concrete SaaS accounts.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "SCIM provisions and deprovisions the SaaS app — but this is the suspect edge, where the deprovision signal can silently drift and never fire.",
+          "nodes": [
+            "scim",
+            "saas"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The approval gate grants elevated roles into the SaaS app. Access looks correct in review, yet no gate re-checks it once ownership changes.",
+          "nodes": [
+            "approval",
+            "saas"
+          ],
+          "edges": [
+            [
+              "approval",
+              "saas"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "From the SaaS app, scope spreads to downstream integrations — so a stale role isn't contained; it reaches everything the app can touch.",
+          "nodes": [
+            "saas",
+            "integration"
+          ],
+          "edges": [
+            [
+              "saas",
+              "integration"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Both the IdP and the SaaS app emit to the audit log. This is the accountability seam — the evidence a reviewer replays to prove access held.",
+          "nodes": [
+            "audit",
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "audit"
+            ],
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: replay SCIM, diff the RBAC matrix, sample the audit log. Correct at review but broken when someone leaves is still invalid.",
+          "nodes": [
+            "scim",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ],
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5017,6 +6957,104 @@
           "tone": "success",
           "label": "evidence path — what proves the repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The story starts at the source of truth: when someone is hired or terminated, the Identity Provider emits a lifecycle event.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "SCIM turns that event into action against the SaaS app, provisioning new access or revoking a departed user's.",
+          "nodes": [
+            "scim",
+            "app",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "scim",
+              "app"
+            ],
+            [
+              "rbac",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here the control fails: the app never revokes the session, so a stale token survives the deprovision and keeps access alive.",
+          "nodes": [
+            "app",
+            "stale"
+          ],
+          "edges": [
+            [
+              "app",
+              "stale"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The auditor asks for proof, and proof only exists if it was written: SCIM logs the deprovision record and the app logs every access.",
+          "nodes": [
+            "scim",
+            "app",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "audit"
+            ],
+            [
+              "app",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The reviewer repairs it by replaying SCIM and reconciling the audit log, turning a silent failure into an inspectable trail.",
+          "nodes": [
+            "audit",
+            "review"
+          ],
+          "edges": [
+            [
+              "audit",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a control you cannot inspect equals no control — the RBAC diff, SCIM replay, and audit trail are the evidence.",
+          "nodes": [
+            "rbac",
+            "scim",
+            "audit",
+            "review"
+          ],
+          "edges": [
+            [
+              "audit",
+              "review"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -5297,6 +7335,117 @@
         {
           "tone": "success",
           "label": "independent evidence the runbook must check"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts clean: HR fires a termination event Friday, and the Identity Provider is supposed to fan that single deprovision out to four places.",
+          "nodes": [
+            "hr",
+            "idp"
+          ],
+          "edges": [
+            [
+              "hr",
+              "idp"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "One branch works — the IdP updates the RBAC matrix, so group membership looks revoked when you glance at identity alone.",
+          "nodes": [
+            "idp",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "idp",
+              "rbac"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But the suspect edge is the IdP handing deprovision to the SCIM connector — the exact hop where sync can silently stall.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "SCIM is meant to push revoke to the Finance SaaS, and it never lands — so Monday the contractor is still an active approver.",
+          "nodes": [
+            "scim",
+            "saas"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The SaaS should have logged the revoke to the audit trail — that's the evidence event a reviewer would expect to see.",
+          "nodes": [
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Instead the audit export shows a gap exactly where revoke belongs — no event, so you can't tell if access is gone or logging just stopped.",
+          "nodes": [
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The insight: no incident closes on one system's self-report — identity, sync, and audit must independently agree before a reviewer signs off.",
+          "nodes": [
+            "idp",
+            "scim",
+            "saas",
+            "audit",
+            "rbac"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ],
+            [
+              "scim",
+              "saas"
+            ],
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -5585,6 +7734,124 @@
         {
           "tone": "muted",
           "label": "out of release-gate scope on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Friday afternoon: an admin is about to flip SSO and SCIM live for 4,000 users. The entry point is the Identity Provider, source of truth for who exists.",
+          "nodes": [
+            "idp"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "At login, the IdP hands the SaaS app a SAML or OIDC assertion — that path proves identity, and it's the clean, well-lit door everyone tests in staging.",
+          "nodes": [
+            "idp",
+            "saas"
+          ],
+          "edges": [
+            [
+              "idp",
+              "saas"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But identity has a second, quieter channel: the IdP fires lifecycle events into SCIM provisioning to create, update, and deactivate accounts over time.",
+          "nodes": [
+            "idp",
+            "scim"
+          ],
+          "edges": [
+            [
+              "idp",
+              "scim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the suspect edge. SCIM provisions into the SaaS role model asynchronously, and this is exactly where access drift hides between deactivate and revoke.",
+          "nodes": [
+            "scim",
+            "saas"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When someone signs in, the SaaS app resolves their role against the RBAC matrix — and an approval workflow is supposed to gate every grant.",
+          "nodes": [
+            "saas",
+            "rbac",
+            "approval"
+          ],
+          "edges": [
+            [
+              "saas",
+              "rbac"
+            ],
+            [
+              "approval",
+              "rbac"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The GRC lead's question: when SCIM drifts, who gets access they shouldn't — and would the audit log even show it? The app must emit a grant event.",
+          "nodes": [
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: a reviewer must replay the drift and see the invalidation. If the grant fires but no audit event does, described was never proven.",
+          "nodes": [
+            "scim",
+            "saas",
+            "audit"
+          ],
+          "edges": [
+            [
+              "scim",
+              "saas"
+            ],
+            [
+              "saas",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "RBAC feeds business reporting downstream, but that's out of release-gate scope — the operating review inspects identity through audit, not the dashboards.",
+          "nodes": [
+            "rbac",
+            "report"
+          ],
+          "edges": [
+            [
+              "rbac",
+              "report"
+            ]
+          ],
+          "ms": 4200
         }
       ]
     },

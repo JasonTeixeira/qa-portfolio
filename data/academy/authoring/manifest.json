@@ -3994,5 +3994,41 @@
     "moduleSort": 1,
     "sort": 8,
     "sourceMdPath": "supabase:programming-fundamentals/git-fundamentals"
+  },
+  {
+    "courseSlug": "python-basics",
+    "slug": "your-first-line",
+    "title": "Your first line",
+    "moduleTitle": "Module 1 · Foundations",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "supabase:python-basics/your-first-line"
+  },
+  {
+    "courseSlug": "python-basics",
+    "slug": "variables",
+    "title": "Variables",
+    "moduleTitle": "Module 1 · Foundations",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "supabase:python-basics/variables"
+  },
+  {
+    "courseSlug": "python-basics",
+    "slug": "logic-conditionals",
+    "title": "Logic & conditionals",
+    "moduleTitle": "Module 1 · Foundations",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "supabase:python-basics/logic-conditionals"
+  },
+  {
+    "courseSlug": "python-basics",
+    "slug": "loops",
+    "title": "Loops",
+    "moduleTitle": "Module 1 · Foundations",
+    "moduleSort": 0,
+    "sort": 4,
+    "sourceMdPath": "supabase:python-basics/loops"
   }
 ]

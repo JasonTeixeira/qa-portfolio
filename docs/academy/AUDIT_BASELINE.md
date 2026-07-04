@@ -31,6 +31,20 @@ Do NOT chase the auditor score (over-extracts prose). Instead apply the **proven
 
 Skill/practice-heavy courses (interview, leadership, product, python-basics) carry few hard factual claims and are low priority for sourcing.
 
+## Sourcing progress — evidence ledgers (docs/academy/evidence/<course>/)
+Web-verified Tier-1/2 source ledgers, built by fetching every source live (WebFetch, 2026-07-03) — zero fabrication. Each = `sources.json` (auditor format) + `EVIDENCE_LEDGER.md` (claim→source→verdict).
+
+| Course | claims | VERIFIED | QUALIFIED | CORRECTED | defects |
+|---|---|---|---|---|---|
+| security_identity | 26 | 21 | 5 | 0 | **0** |
+| backend_engineering | 26 | 22 | 4 | 0 | **0** |
+| ai_engineering_rag_eval | 20 | 11 | 9 | 0 | **0** |
+| **top-3 total** | **72** | **54** | **18** | **0** | **0** |
+
+**Headline: the top-3 fact-critical courses are factually solid — 0 defects across 72 load-bearing claims** checked against real OWASP / NIST / IETF-RFC / PostgreSQL / AWS / OpenAI-Anthropic / arXiv sources. QUALIFIED = true-with-caveats or emerging-practice (no settled standard), not wrong. The courses consistently pre-hedge their own over-attributions honestly.
+
+**Key mechanism note:** dropping `sources.json` into the auditor does NOT auto-lift its score — keyword-matched sources become `candidate_evidence_needs_human_review`, not `verified` (conservative by design), and its `contradicted_by_source_excerpt` flags are matching artifacts (it flags code + correct sentences). So the **EVIDENCE_LEDGER is the proof, not the auditor score** — consistent with the Nexural finding. Next priority courses (unsourced): concept_maps, databases, mobile, platform, cloud.
+
 ## Reproduce
 ```
 node scripts/academy/audit-export.mjs <course-slug> ~/course-auditor-harness/exports/<slug>

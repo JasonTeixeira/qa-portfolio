@@ -154,6 +154,116 @@
           "tone": "accent",
           "label": "the developer (the customer the platform serves)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A product team needs a new service live by Friday, so they walk up to the Developer Portal as their single entry point.",
+          "nodes": [
+            "team",
+            "portal"
+          ],
+          "edges": [
+            [
+              "team",
+              "portal"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "On the paved golden path, the portal generates a Service Template — no hand-written scaffolding, no copied boilerplate.",
+          "nodes": [
+            "portal",
+            "template"
+          ],
+          "edges": [
+            [
+              "portal",
+              "template"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That template wires up CI/CD and infrastructure-as-code automatically, so delivery pipeline and infra come pre-built.",
+          "nodes": [
+            "template",
+            "cicd"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "CI/CD then provisions secrets and observability, closing the loop on the whole platform-owned lane.",
+          "nodes": [
+            "cicd",
+            "secrets"
+          ],
+          "edges": [
+            [
+              "cicd",
+              "secrets"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The finished service hands off to a Support Path the platform owns — ownership stays clear, not a shrug.",
+          "nodes": [
+            "secrets",
+            "support"
+          ],
+          "edges": [
+            [
+              "secrets",
+              "support"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But if any segment is missing, the team leaves the portal and builds the pipeline by hand to hit the deadline.",
+          "nodes": [
+            "portal",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "portal",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That hand-built pipeline produces ownership drift — steps trapped in one terminal history, nobody accountable.",
+          "nodes": [
+            "bypass",
+            "drift"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "drift"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: the golden path only wins if it's complete — pave every segment or teams quietly bypass and drift.",
+          "nodes": [
+            "support",
+            "bypass",
+            "drift"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -439,6 +549,116 @@
         {
           "tone": "success",
           "label": "the repair: extend the pavement"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start from the developer's seat: a real intent, launching a service under a clock. This is where the journey begins.",
+          "nodes": [
+            "intent"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "They click Create and land on the service template — the paved on-ramp the platform team is proud of.",
+          "nodes": [
+            "intent",
+            "template"
+          ],
+          "edges": [
+            [
+              "intent",
+              "template"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The golden path holds: template flows straight into CI/CD, fully paved, zero friction so far.",
+          "nodes": [
+            "template",
+            "cicd"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "CI/CD hands off to environment and secrets — and here, at provisioning, the pavement stops cold.",
+          "nodes": [
+            "cicd",
+            "provision"
+          ],
+          "edges": [
+            [
+              "cicd",
+              "provision"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "This is the failure point: friction spikes, so half the teams route around the platform to a hand-rolled deploy.",
+          "nodes": [
+            "provision",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "provision",
+              "bypass"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair is to keep paving: extend the golden path from provisioning through observability.",
+          "nodes": [
+            "provision",
+            "observe"
+          ],
+          "edges": [
+            [
+              "provision",
+              "observe"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Finish the path with a real support route, so no stage forces the developer to hand-roll and leave.",
+          "nodes": [
+            "observe",
+            "support"
+          ],
+          "edges": [
+            [
+              "observe",
+              "support"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: adoption dies at the first stage where the pavement ends — map the journey and pave every step.",
+          "nodes": [
+            "intent",
+            "provision",
+            "bypass",
+            "support"
+          ],
+          "edges": [
+            [
+              "provision",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -728,6 +948,110 @@
         {
           "tone": "muted",
           "label": "blast radius: teams route around the platform"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A developer starts with an empty repo and one click into the Backstage portal — the single entry point to the golden path.",
+          "nodes": [
+            "dev",
+            "portal"
+          ],
+          "edges": [
+            [
+              "dev",
+              "portal"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The portal scaffolds a service template — an opinionated default that turns an empty repo into a real service skeleton.",
+          "nodes": [
+            "portal",
+            "template"
+          ],
+          "edges": [
+            [
+              "portal",
+              "template"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The template wires a CI/CD pipeline automatically, then deploys into a Terraform-provisioned environment — paved by default.",
+          "nodes": [
+            "template",
+            "cicd",
+            "env"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ],
+            [
+              "cicd",
+              "env"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the suspect edge: the running environment needs secrets and an on-call support path — and the template leaves that gap unwired.",
+          "nodes": [
+            "env",
+            "secrets"
+          ],
+          "edges": [
+            [
+              "env",
+              "secrets"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When secrets and support are complete, the service flows into observability — a running, observed, owned request.",
+          "nodes": [
+            "secrets",
+            "obs"
+          ],
+          "edges": [
+            [
+              "secrets",
+              "obs"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But if that path is incomplete, teams route around the platform — copy-pasting last year's Terraform. That bypass is the blast radius.",
+          "nodes": [
+            "secrets",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "secrets",
+              "bypass"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: pave the whole road end to end as one default, and measure the platform by adoption, not by existence.",
+          "nodes": [
+            "portal",
+            "template",
+            "cicd",
+            "env",
+            "secrets",
+            "obs"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -1040,6 +1364,139 @@
           "tone": "success",
           "label": "the scorecard the lesson produces"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a product developer. When they open the Backstage portal, that's just browsing — a page view, not adoption.",
+          "nodes": [
+            "dev",
+            "portal"
+          ],
+          "edges": [
+            [
+              "dev",
+              "portal"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The real golden path begins when the developer scaffolds a service from the template — this is the paved road we actually want traffic on.",
+          "nodes": [
+            "dev",
+            "template"
+          ],
+          "edges": [
+            [
+              "dev",
+              "template"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The template wires up the golden CI/CD pipeline, which then applies the standard Terraform and Kubernetes provisioning.",
+          "nodes": [
+            "template",
+            "cicd",
+            "provision"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ],
+            [
+              "cicd",
+              "provision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "At provisioning, the golden path emits a real adoption event into the scorecard — this is the behavior we measure, not a page view.",
+          "nodes": [
+            "provision",
+            "scorecard"
+          ],
+          "edges": [
+            [
+              "provision",
+              "scorecard"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But when the template is missing a piece, the developer bypasses it — hand-rolled Terraform, copy-pasted CI, path incomplete.",
+          "nodes": [
+            "dev",
+            "handrolled"
+          ],
+          "edges": [
+            [
+              "dev",
+              "handrolled"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That hand-rolled service still registers in the Backstage catalog, and the catalog inflates the raw service count.",
+          "nodes": [
+            "handrolled",
+            "catalog"
+          ],
+          "edges": [
+            [
+              "handrolled",
+              "catalog"
+            ],
+            [
+              "catalog",
+              "scorecard"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the scorecard sees two inputs: genuine golden-path events and inflated catalog counts. Divide path-scaffolded by all new services, and pair it with a leakage signal.",
+          "nodes": [
+            "provision",
+            "catalog",
+            "scorecard"
+          ],
+          "edges": [
+            [
+              "provision",
+              "scorecard"
+            ],
+            [
+              "catalog",
+              "scorecard"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: a metric that climbs while teams route around you is vanity — measure the road driven on, and catch the bypass.",
+          "nodes": [
+            "scorecard",
+            "handrolled",
+            "template"
+          ],
+          "edges": [
+            [
+              "dev",
+              "handrolled"
+            ],
+            [
+              "dev",
+              "template"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1345,6 +1802,117 @@
           "tone": "muted",
           "label": "escape hatch — visible, not silent"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A single git push into a templated service triggers the same reusable workflow every service inherits — one entry point, not a copy.",
+          "nodes": [
+            "push",
+            "workflow"
+          ],
+          "edges": [
+            [
+              "push",
+              "workflow"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The workflow runs five fixed stages. First, Build and Test: code must compile and pass before anything moves forward.",
+          "nodes": [
+            "workflow",
+            "test"
+          ],
+          "edges": [
+            [
+              "workflow",
+              "test"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On pass it reaches the Policy and Security Scan — the one gate designed to say no, and the first one teams quietly delete because it's slow.",
+          "nodes": [
+            "test",
+            "scan"
+          ],
+          "edges": [
+            [
+              "test",
+              "scan"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Clear the scan and the pipeline plans infrastructure as a dry-run, then deploys that same inspectable way into the environment.",
+          "nodes": [
+            "scan",
+            "plan",
+            "deploy",
+            "prod"
+          ],
+          "edges": [
+            [
+              "scan",
+              "plan"
+            ],
+            [
+              "plan",
+              "deploy"
+            ],
+            [
+              "deploy",
+              "prod"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When someone genuinely must bypass the scan, the escape hatch routes it through an audit log — the bypass becomes a visible event.",
+          "nodes": [
+            "scan",
+            "hatch"
+          ],
+          "edges": [
+            [
+              "scan",
+              "hatch"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The hatch resumes the pipeline at plan, recorded — so a skip flows through review, never silently around it.",
+          "nodes": [
+            "hatch",
+            "plan"
+          ],
+          "edges": [
+            [
+              "hatch",
+              "plan"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The template's real payload is this contract: every service tested, scanned, and deployed identically, versioned centrally, with bypass auditable — not a starting point to diverge from.",
+          "nodes": [
+            "workflow",
+            "scan",
+            "hatch"
+          ],
+          "edges": [
+            [
+              "scan",
+              "hatch"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1632,6 +2200,106 @@
           "tone": "muted",
           "label": "roll-forward: real, but not the reflex"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's Friday at 5 p.m. The CI/CD pipeline promotes a templated service through the golden path, pushing an immutable image digest to the registry.",
+          "nodes": [
+            "ci",
+            "registry",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "ci",
+              "registry"
+            ],
+            [
+              "ci",
+              "deploy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A brand-new revision N goes live. Its image digest is already pinned in the registry, so nothing here has to be rebuilt to move it.",
+          "nodes": [
+            "deploy",
+            "registry",
+            "good"
+          ],
+          "edges": [
+            [
+              "registry",
+              "good"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The health gate watches revision N as real traffic hits it. This is the signal that decides whether the release stays or goes.",
+          "nodes": [
+            "deploy",
+            "gate"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "By 5:40 error rates are climbing. On breach, the gate fires the revert automatically, no human guessing which version to roll back to.",
+          "nodes": [
+            "gate",
+            "good"
+          ],
+          "edges": [
+            [
+              "gate",
+              "good"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "It swings back to last-known-good, revision N-minus-one: an already-run, immutable Helm revision. Fast because it swings, it does not rebuild.",
+          "nodes": [
+            "good",
+            "verify"
+          ],
+          "edges": [
+            [
+              "good",
+              "verify"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Verify recovery runs the command that proves the service is healthy again, turning rollback from a hope into a checked, boring outcome.",
+          "nodes": [
+            "verify"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Rolling forward with a rebuilt fix is the other path, done later and off-incident. The invariant: rollback reverts to proven state, never rebuilds.",
+          "nodes": [
+            "forward",
+            "ci"
+          ],
+          "edges": [
+            [
+              "forward",
+              "ci"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1914,6 +2582,121 @@
           "tone": "warning",
           "label": "the bypass failure — module incomplete"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A product team needs to ship a new service, so they start where the platform wants them to: a Backstage template.",
+          "nodes": [
+            "team",
+            "backstage"
+          ],
+          "edges": [
+            [
+              "team",
+              "backstage"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Filling that template scaffolds one call to the golden-path IaC module — the single seam between platform-owned and team-owned inputs.",
+          "nodes": [
+            "backstage",
+            "module"
+          ],
+          "edges": [
+            [
+              "backstage",
+              "module"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "From that one call the module provisions the Kubernetes namespace and deployment, so the team never hand-builds cluster wiring.",
+          "nodes": [
+            "module",
+            "k8s"
+          ],
+          "edges": [
+            [
+              "module",
+              "k8s"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "It references secrets by pointer, not by value — the team names the ref while the platform owns how secrets are resolved.",
+          "nodes": [
+            "module",
+            "secrets"
+          ],
+          "edges": [
+            [
+              "module",
+              "secrets"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "And it attaches OpenTelemetry wiring automatically, so observability and on-call ownership are baked in, not bolted on.",
+          "nodes": [
+            "module",
+            "otel"
+          ],
+          "edges": [
+            [
+              "module",
+              "otel"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But if the module is incomplete on templates, secrets, or support, the team bypasses it and hand-builds a copy pasted from Slack.",
+          "nodes": [
+            "module",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "module",
+              "bypass"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: own the boilerplate and expose the decisions — lower cognitive load without ever hiding ownership or risk.",
+          "nodes": [
+            "module",
+            "k8s",
+            "secrets",
+            "otel",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "module",
+              "k8s"
+            ],
+            [
+              "module",
+              "secrets"
+            ],
+            [
+              "module",
+              "otel"
+            ],
+            [
+              "module",
+              "bypass"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -2187,6 +2970,111 @@
         {
           "tone": "muted",
           "label": "the wiki rule teams skip (the failure mode)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a developer reaching for the golden-path template — the paved road the platform team built to spin up a new service.",
+          "nodes": [
+            "dev",
+            "template"
+          ],
+          "edges": [
+            [
+              "dev",
+              "template"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The template pushes into CI, which runs a terraform plan — every change to production flows through this one delivery pipe.",
+          "nodes": [
+            "template",
+            "ci"
+          ],
+          "edges": [
+            [
+              "template",
+              "ci"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Before anything touches the cluster, CI hands the plan to the policy engine — OPA and Rego evaluate it against the non-negotiable rules.",
+          "nodes": [
+            "ci",
+            "opa"
+          ],
+          "edges": [
+            [
+              "ci",
+              "opa"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the service has an owner, resource limits, and no plaintext secrets, it passes the rules and the engine allows it into production.",
+          "nodes": [
+            "opa",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "opa",
+              "cluster"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But if it violates a single rule, the engine denies it automatically — it never deploys, no polite reminder, just a hard stop.",
+          "nodes": [
+            "opa",
+            "deny"
+          ],
+          "edges": [
+            [
+              "opa",
+              "deny"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Compare the dashed path: a wiki standard is unenforced, so teams bypass it and ship straight to the cluster with no guardrail.",
+          "nodes": [
+            "wiki",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "wiki",
+              "cluster"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: a portal reminds, but only machine-checked policy where deploys already flow can actually force the golden path.",
+          "nodes": [
+            "opa",
+            "deny",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "opa",
+              "deny"
+            ],
+            [
+              "opa",
+              "cluster"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2468,6 +3356,117 @@
         {
           "tone": "success",
           "label": "one collector, three signals"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters at the client and hits the API Gateway, carrying a trace_id that will identify this one request across every hop.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway propagates that trace context to Orders, so the two hops belong to the same trace instead of two unrelated events.",
+          "nodes": [
+            "gateway",
+            "orders"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "orders"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Every instrumented hop exports the same three signals to a shared OTel Collector: logs for events, metrics for health, spans for the trace.",
+          "nodes": [
+            "gateway",
+            "orders",
+            "collector"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "collector"
+            ],
+            [
+              "orders",
+              "collector"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the failure: Orders calls Payments, but the trace context is dropped, so no signal can stitch across this blind hop.",
+          "nodes": [
+            "orders",
+            "payments"
+          ],
+          "edges": [
+            [
+              "orders",
+              "payments"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Payments is un-instrumented and stays silent — no logs, no metrics, no spans — so the three seconds it ate are invisible.",
+          "nodes": [
+            "payments",
+            "collector"
+          ],
+          "edges": [
+            [
+              "payments",
+              "collector"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The Collector exports everything it did receive to the backends, but the trace has a hole exactly where the on-call needs to look.",
+          "nodes": [
+            "collector",
+            "backend"
+          ],
+          "edges": [
+            [
+              "collector",
+              "backend"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: make all three signals a template default via OpenTelemetry, so every generated service is born observable — not observable by accident.",
+          "nodes": [
+            "gateway",
+            "orders",
+            "payments",
+            "collector"
+          ],
+          "edges": [
+            [
+              "orders",
+              "payments"
+            ],
+            [
+              "payments",
+              "collector"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2783,6 +3782,146 @@
           "tone": "warning",
           "label": "the failure: scaffold stops at the repo, team bypasses"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A product team wants a service by Friday, so they send one request into the platform's scaffold portal.",
+          "nodes": [
+            "request"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "That request generates a service template — the single command that stands in for three days of copy-paste.",
+          "nodes": [
+            "request",
+            "template"
+          ],
+          "edges": [
+            [
+              "request",
+              "template"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "From that one template, six things a real service needs fan out at once instead of being hand-assembled.",
+          "nodes": [
+            "template",
+            "repo",
+            "iac",
+            "secrets",
+            "cicd",
+            "otel",
+            "owner"
+          ],
+          "edges": [
+            [
+              "template",
+              "repo"
+            ],
+            [
+              "template",
+              "iac"
+            ],
+            [
+              "template",
+              "secrets"
+            ],
+            [
+              "template",
+              "cicd"
+            ],
+            [
+              "template",
+              "otel"
+            ],
+            [
+              "template",
+              "owner"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The repair path carries the substance: a Terraform environment and wired secrets, so no one guesses at names.",
+          "nodes": [
+            "iac",
+            "secrets"
+          ],
+          "edges": [
+            [
+              "template",
+              "iac"
+            ],
+            [
+              "template",
+              "secrets"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "It also attaches a working CI/CD pipeline and observability, so the service ships and can be watched on day one.",
+          "nodes": [
+            "cicd",
+            "otel"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ],
+            [
+              "template",
+              "otel"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Crucially, it assigns a named owner — the platform lowers cognitive load without hiding who's on the hook.",
+          "nodes": [
+            "owner"
+          ],
+          "edges": [
+            [
+              "template",
+              "owner"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure path is the scaffold that stops at the repo: teams get bare code and hand-roll the rest.",
+          "nodes": [
+            "repo",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "repo",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Skip provisioning and ownership and every team bypasses the portal — get this entry point wrong and later platform work routes around it.",
+          "nodes": [
+            "bypass",
+            "template"
+          ],
+          "edges": [
+            [
+              "repo",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -3068,6 +4207,110 @@
         {
           "tone": "warning",
           "label": "failure path: bypass on incomplete evidence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts clean: a service template scaffolds a CI build, and CI hands off one artifact to the promotion gate.",
+          "nodes": [
+            "template",
+            "ci",
+            "gate"
+          ],
+          "edges": [
+            [
+              "template",
+              "ci"
+            ],
+            [
+              "ci",
+              "gate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gate is the moment the service leaves the template and tries to enter a real environment. Everything hinges here.",
+          "nodes": [
+            "gate"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "On the golden path the gate runs a server-side dry-run against staging; only when the environment accepts the artifact does it pass.",
+          "nodes": [
+            "gate",
+            "staging"
+          ],
+          "edges": [
+            [
+              "gate",
+              "staging"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Staging then promotes to production on proof — the inspection-hook output a reviewer can rerun travels with it.",
+          "nodes": [
+            "staging",
+            "prod"
+          ],
+          "edges": [
+            [
+              "staging",
+              "prod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But when secrets or ownership are incomplete, teams route around the gate through a manual bypass instead of fixing the environment.",
+          "nodes": [
+            "gate",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "gate",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The bypass ships an unowned artifact straight to prod — the staging secret promoted verbatim, and at 2 a.m. the pager fires.",
+          "nodes": [
+            "bypass",
+            "prod"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "prod"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: the gate must prove the target environment accepts the artifact, not merely that the template rendered.",
+          "nodes": [
+            "gate",
+            "staging",
+            "prod"
+          ],
+          "edges": [
+            [
+              "gate",
+              "staging"
+            ],
+            [
+              "staging",
+              "prod"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3361,6 +4604,117 @@
         {
           "tone": "warning",
           "label": "destroy + the leak that follows a failed reclaim"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one service template — the golden path made durable, so a new team scaffolds an environment the same safe way every time.",
+          "nodes": [
+            "template",
+            "create"
+          ],
+          "edges": [
+            [
+              "template",
+              "create"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Create provisions the first tier: a dev environment, born from the template with its own namespace and secrets.",
+          "nodes": [
+            "create",
+            "dev"
+          ],
+          "edges": [
+            [
+              "create",
+              "dev"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "When a PR merges, the dev environment hits the promote gate — the tier boundary a service must cross to advance.",
+          "nodes": [
+            "dev",
+            "promote"
+          ],
+          "edges": [
+            [
+              "dev",
+              "promote"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If the gate passes, promotion mints the prod environment — same shape, higher stakes, still governed by the template.",
+          "nodes": [
+            "promote",
+            "prod"
+          ],
+          "edges": [
+            [
+              "promote",
+              "prod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Every environment must eventually die: dev on a closed PR or TTL, prod on decommission — both flow into destroy.",
+          "nodes": [
+            "dev",
+            "prod",
+            "destroy"
+          ],
+          "edges": [
+            [
+              "dev",
+              "destroy"
+            ],
+            [
+              "prod",
+              "destroy"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Destroy is the suspect edge: if reclaim fails, namespaces and secrets orphan — the blast radius of a create-only portal.",
+          "nodes": [
+            "destroy",
+            "leak"
+          ],
+          "edges": [
+            [
+              "destroy",
+              "leak"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: anything the platform can create, it must cleanly destroy. Create-only is a leak, not a lifecycle.",
+          "nodes": [
+            "template",
+            "create",
+            "destroy",
+            "leak"
+          ],
+          "edges": [
+            [
+              "template",
+              "create"
+            ],
+            [
+              "destroy",
+              "leak"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3658,6 +5012,127 @@
           "tone": "success",
           "label": "repair path — brokered + revocable at runtime"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A developer adopts the golden path, needs a DB credential, and reaches the one fork where the convenient default is a breach.",
+          "nodes": [
+            "dev",
+            "db"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The unsafe path: the developer pastes the password into values.yaml and commits it straight into the git repo.",
+          "nodes": [
+            "dev",
+            "repo"
+          ],
+          "edges": [
+            [
+              "dev",
+              "repo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "It looks safe because it's base64-encoded, but base64 is not encryption — anyone with repo access can decode the live credential.",
+          "nodes": [
+            "repo",
+            "db"
+          ],
+          "edges": [
+            [
+              "repo",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair starts here: the developer only names the secret in the service template, never its value.",
+          "nodes": [
+            "dev",
+            "template"
+          ],
+          "edges": [
+            [
+              "dev",
+              "template"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The template declares a reference, and the External Secrets Operator fetches it from the broker at deploy time.",
+          "nodes": [
+            "template",
+            "operator",
+            "broker"
+          ],
+          "edges": [
+            [
+              "template",
+              "operator"
+            ],
+            [
+              "operator",
+              "broker"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The broker injects the secret into the pod at runtime, so the credential exists in memory, never in git.",
+          "nodes": [
+            "broker",
+            "pod"
+          ],
+          "edges": [
+            [
+              "broker",
+              "pod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The pod authenticates to Postgres with a rotatable secret — revoke or rotate it anytime, no code change, no git history to scrub.",
+          "nodes": [
+            "pod",
+            "db"
+          ],
+          "edges": [
+            [
+              "pod",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: no plaintext or base64 credential in git, every secret rotatable — the safe path made easier than the unsafe one.",
+          "nodes": [
+            "template",
+            "broker",
+            "pod",
+            "db",
+            "repo"
+          ],
+          "edges": [
+            [
+              "dev",
+              "template"
+            ],
+            [
+              "dev",
+              "repo"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3933,6 +5408,111 @@
         {
           "tone": "warning",
           "label": "the bypass path — an incomplete golden path drives teams off it"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the product team, who need to launch a service by Friday without hand-writing six Kubernetes objects and forty tunables.",
+          "nodes": [
+            "team"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The team fills a small contract: service.yaml declares only name, image, port, replicas, and env — the knobs that are genuinely theirs.",
+          "nodes": [
+            "team",
+            "contract"
+          ],
+          "edges": [
+            [
+              "team",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That contract is the single entry point. A kubectl apply or helm invocation hands service.yaml to the platform's service template.",
+          "nodes": [
+            "contract",
+            "template"
+          ],
+          "edges": [
+            [
+              "contract",
+              "template"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The template renders and owns the Deployment plus HPA, and the Service plus Ingress — dry-run-validated before anything ships.",
+          "nodes": [
+            "template",
+            "deploy",
+            "svc"
+          ],
+          "edges": [
+            [
+              "template",
+              "deploy"
+            ],
+            [
+              "template",
+              "svc"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "It also attaches OpenTelemetry, so observability arrives by default instead of being a thing teams remember to bolt on.",
+          "nodes": [
+            "template",
+            "otel"
+          ],
+          "edges": [
+            [
+              "template",
+              "otel"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The dashed path is the failure to prevent: if the template, secrets, or env are incomplete, the team hand-writes YAML and bypasses the portal.",
+          "nodes": [
+            "team",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "team",
+              "bypass"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: lower cognitive load without hiding ownership — a defensible boundary where every rendered object is validated and owned.",
+          "nodes": [
+            "template",
+            "deploy",
+            "svc",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "template",
+              "deploy"
+            ],
+            [
+              "template",
+              "svc"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4221,6 +5801,112 @@
         {
           "tone": "muted",
           "label": "kept out of the default on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every service starts from one golden-path template — it scaffolds the new service so reliability is inherited, not hand-built later.",
+          "nodes": [
+            "template",
+            "svc"
+          ],
+          "edges": [
+            [
+              "template",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The template instruments the service by default: OpenTelemetry ships with it, so no team has to wire up observability from scratch.",
+          "nodes": [
+            "svc",
+            "otel"
+          ],
+          "edges": [
+            [
+              "svc",
+              "otel"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The OTel collector feeds the SLI — good events over valid events — which the template pins to an SLO target like ninety-nine point nine percent.",
+          "nodes": [
+            "otel",
+            "slo"
+          ],
+          "edges": [
+            [
+              "otel",
+              "slo"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That target implies an error budget, and the SLO exposes how much of that budget remains as the month burns down.",
+          "nodes": [
+            "slo",
+            "burn"
+          ],
+          "edges": [
+            [
+              "slo",
+              "burn"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The burn-rate alert watches budget consumption: a fast burn pages on-call immediately, because that means users are actually being hurt.",
+          "nodes": [
+            "burn",
+            "oncall"
+          ],
+          "edges": [
+            [
+              "burn",
+              "oncall"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The trap is CPU and infra alerts firing at eighty percent — a non-event at 3 a.m. — while checkout silently burns its whole budget.",
+          "nodes": [
+            "cpu",
+            "burn"
+          ],
+          "edges": [
+            [
+              "cpu",
+              "burn"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So the default triggers on budget, never on CPU — reliability becomes a property teams inherit, and override only with a stated reason.",
+          "nodes": [
+            "template",
+            "slo",
+            "burn",
+            "cpu"
+          ],
+          "edges": [
+            [
+              "slo",
+              "burn"
+            ],
+            [
+              "cpu",
+              "burn"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4533,6 +6219,116 @@
         {
           "tone": "muted",
           "label": "the bypass a missing stage creates"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A developer opens the Backstage portal and clicks create — this is the one entry point the platform team wants everyone to use.",
+          "nodes": [
+            "dev",
+            "portal"
+          ],
+          "edges": [
+            [
+              "dev",
+              "portal"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The portal generates a service template — the scaffold that's supposed to carry a new service all the way to production.",
+          "nodes": [
+            "portal",
+            "scaffold"
+          ],
+          "edges": [
+            [
+              "portal",
+              "scaffold"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "From the scaffold the paved road runs on: it wires the CI/CD pipeline, which then provisions the environment automatically.",
+          "nodes": [
+            "scaffold",
+            "cicd",
+            "env"
+          ],
+          "edges": [
+            [
+              "scaffold",
+              "cicd"
+            ],
+            [
+              "cicd",
+              "env"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The environment is enforced by a policy gate, which then wires secrets and instruments observability — every stage paved in sequence.",
+          "nodes": [
+            "env",
+            "policy",
+            "secrets",
+            "obs"
+          ],
+          "edges": [
+            [
+              "env",
+              "policy"
+            ],
+            [
+              "policy",
+              "secrets"
+            ],
+            [
+              "secrets",
+              "obs"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "But when a stage is missing, the scaffold forces teams off-road into hand-built Terraform, secrets, and deploy scripts.",
+          "nodes": [
+            "scaffold",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "scaffold",
+              "bypass"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The incident-ready gate asks: are all stages present? It refuses to publish until the paved road is complete.",
+          "nodes": [
+            "obs",
+            "gate"
+          ],
+          "edges": [
+            [
+              "obs",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Treat the platform as a product: the golden path only wins when it's more complete than any detour, so teams stop routing around it.",
+          "nodes": [
+            "gate",
+            "bypass"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -4850,6 +6646,113 @@
           "tone": "warning",
           "label": "bypass — any incomplete stage leaks teams here"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A product team enters through the platform's service template — the paved on-ramp to launching a new service.",
+          "nodes": [
+            "team",
+            "template"
+          ],
+          "edges": [
+            [
+              "team",
+              "template"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The template generates CI/CD and environment creation — the first stage that must actually work self-serve, not just scaffold a repo.",
+          "nodes": [
+            "template",
+            "cicd"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "CI/CD then provisions secrets and policy, and secrets attach observability — each layer handing off to the next.",
+          "nodes": [
+            "cicd",
+            "secrets",
+            "obs"
+          ],
+          "edges": [
+            [
+              "cicd",
+              "secrets"
+            ],
+            [
+              "secrets",
+              "obs"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the invariant: observability stamps the owner before launch — ownership is named, never skipped.",
+          "nodes": [
+            "obs",
+            "owner",
+            "running"
+          ],
+          "edges": [
+            [
+              "obs",
+              "owner"
+            ],
+            [
+              "owner",
+              "running"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "But if any layer is incomplete — CI/CD or secrets — the team drops off the paved road and hand-builds around it.",
+          "nodes": [
+            "cicd",
+            "secrets",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "cicd",
+              "bypass"
+            ],
+            [
+              "secrets",
+              "bypass"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: lower cognitive load so teams take the golden path, but every gap that forces a bypass hides ownership and risk.",
+          "nodes": [
+            "template",
+            "bypass",
+            "owner",
+            "running"
+          ],
+          "edges": [
+            [
+              "owner",
+              "running"
+            ],
+            [
+              "secrets",
+              "bypass"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5139,6 +7042,115 @@
         {
           "tone": "success",
           "label": "admitted: runs within budget"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a service template scaffolds the deploy manifest, the frictionless entry point onto the paved road.",
+          "nodes": [
+            "template",
+            "ci"
+          ],
+          "edges": [
+            [
+              "template",
+              "ci"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "CI runs policy checks, then does kubectl apply, handing the manifest to the admission controller.",
+          "nodes": [
+            "ci",
+            "admission"
+          ],
+          "edges": [
+            [
+              "ci",
+              "admission"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Admission is the moment of truth: the one place the platform can actually say no before any cost lands.",
+          "nodes": [
+            "admission"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "A manifest with blank limits and no quota is over cap, so admission rejects it outright.",
+          "nodes": [
+            "admission",
+            "reject"
+          ],
+          "edges": [
+            [
+              "admission",
+              "reject"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix is to declare a quota: a conforming manifest passes admission and lands in the namespace.",
+          "nodes": [
+            "admission",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "admission",
+              "cluster"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The namespace consumes cloud resources, and billing tallies the real spend it produced.",
+          "nodes": [
+            "cluster",
+            "billing"
+          ],
+          "edges": [
+            [
+              "cluster",
+              "billing"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Billing feeds a budget alert that watches cost by namespace, then loops back to tune template defaults.",
+          "nodes": [
+            "billing",
+            "finops",
+            "template"
+          ],
+          "edges": [
+            [
+              "billing",
+              "finops"
+            ],
+            [
+              "finops",
+              "template"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: billing and alerts only observe. Enforce limits at admission, or the paved road becomes a blank check.",
+          "nodes": [
+            "admission",
+            "billing",
+            "finops"
+          ],
+          "edges": [],
+          "ms": 4800
         }
       ]
     },
@@ -5430,6 +7442,106 @@
           "tone": "success",
           "label": "repair folded back — the anti-bypass loop"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A product team opens the Backstage portal and requests a new service through the one-click template — this is the golden path's entry point.",
+          "nodes": [
+            "team",
+            "portal"
+          ],
+          "edges": [
+            [
+              "team",
+              "portal"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The portal renders the template and provisioning kicks off — secrets, env, and infrastructure are supposed to materialize automatically.",
+          "nodes": [
+            "portal",
+            "provision"
+          ],
+          "edges": [
+            [
+              "portal",
+              "provision"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the risk: provisioning may break — a secret won't mount, an env won't provision — and now the team is stuck with no obvious owner.",
+          "nodes": [
+            "provision",
+            "fail"
+          ],
+          "edges": [
+            [
+              "provision",
+              "fail"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Instead of a side-channel copy-paste, the failure escalates to L2 platform-assisted support, within a named response SLO.",
+          "nodes": [
+            "fail",
+            "l2"
+          ],
+          "edges": [
+            [
+              "fail",
+              "l2"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If L2 can't resolve it, they page L3 — the platform on-call — so every failure lands on a named owner, never a dead end.",
+          "nodes": [
+            "l2",
+            "l3"
+          ],
+          "edges": [
+            [
+              "l2",
+              "l3"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On-call root-causes the break and ships a template fix — the repair is captured, not just patched for one team.",
+          "nodes": [
+            "l3",
+            "fix"
+          ],
+          "edges": [
+            [
+              "l3",
+              "fix"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix flows back into the portal so the same failure self-serves next time — that feedback loop is what makes a golden path teams actually stay on.",
+          "nodes": [
+            "fix",
+            "portal"
+          ],
+          "edges": [
+            [
+              "fix",
+              "portal"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5719,6 +7831,106 @@
         {
           "tone": "success",
           "label": "proven green — adoption signed"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every roadmap item starts here, and the golden path only earns adoption by generating a real service template.",
+          "nodes": [
+            "roadmap",
+            "template"
+          ],
+          "edges": [
+            [
+              "roadmap",
+              "template"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The template can't be trusted on a slide — it must actually dry-run through CI/CD before anything else.",
+          "nodes": [
+            "template",
+            "cicd"
+          ],
+          "edges": [
+            [
+              "template",
+              "cicd"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only on a passing dry-run does the plan advance to the infrastructure-as-code gate.",
+          "nodes": [
+            "cicd",
+            "iac"
+          ],
+          "edges": [
+            [
+              "cicd",
+              "iac"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "And only when the IaC plan passes does the item reach the secrets and telemetry check — the one that usually breaks.",
+          "nodes": [
+            "iac",
+            "secrets"
+          ],
+          "edges": [
+            [
+              "iac",
+              "secrets"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When the dry-run, IaC plan, and secrets check are all green, the path is proven and can be marked adopted.",
+          "nodes": [
+            "secrets",
+            "adopted"
+          ],
+          "edges": [
+            [
+              "secrets",
+              "adopted"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But a missing secret binding sends it down the bypass path — the failure the roadmap slide never showed.",
+          "nodes": [
+            "secrets",
+            "bypass"
+          ],
+          "edges": [
+            [
+              "secrets",
+              "bypass"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Bypass isn't the end: the item loops back to repair and re-review, because green means proven, not described.",
+          "nodes": [
+            "bypass",
+            "roadmap"
+          ],
+          "edges": [
+            [
+              "bypass",
+              "roadmap"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

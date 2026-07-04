@@ -105,7 +105,79 @@
           "label": "the result you can see"
         }
       ],
-      "caption": "The quotes never make it to the screen — they only tell Python where your text begins and ends."
+      "caption": "The quotes never make it to the screen — they only tell Python where your text begins and ends.",
+      "storyboard": [
+        {
+          "say": "It starts with you. You open a file called hello.py and type one line of instruction inside it.",
+          "nodes": [
+            "you",
+            "file"
+          ],
+          "edges": [
+            [
+              "you",
+              "file"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That file just sits there as text until you run it — you hand hello.py to Python to execute.",
+          "nodes": [
+            "file",
+            "python"
+          ],
+          "edges": [
+            [
+              "file",
+              "python"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Python reads your file top to bottom and reaches your one instruction: the print line.",
+          "nodes": [
+            "python",
+            "print"
+          ],
+          "edges": [
+            [
+              "python",
+              "print"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "print takes the text inside the quotes and sends it out — the quotes just mark the text, they aren't shown.",
+          "nodes": [
+            "print",
+            "screen"
+          ],
+          "edges": [
+            [
+              "print",
+              "screen"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The words appear in your terminal. The machine did exactly what you told it — one line, one direction, first contact.",
+          "nodes": [
+            "you",
+            "screen"
+          ],
+          "edges": [
+            [
+              "print",
+              "screen"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -354,7 +426,116 @@
           "label": "the old value, replaced"
         }
       ],
-      "caption": "The name is a label, not a box. Reassignment moves the label to a new value — it doesn't overwrite the number."
+      "caption": "The name is a label, not a box. Reassignment moves the label to a new value — it doesn't overwrite the number.",
+      "storyboard": [
+        {
+          "say": "Meet the name on the left: score. It's a label your program can hold onto and reuse anywhere.",
+          "nodes": [
+            "name"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The equals sign is the assignment: it takes the name score and draws an arrow to a value.",
+          "nodes": [
+            "name",
+            "assign"
+          ],
+          "edges": [
+            [
+              "name",
+              "assign"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Right now that arrow binds score to the number 7 — an int living on the right side.",
+          "nodes": [
+            "assign",
+            "v7"
+          ],
+          "edges": [
+            [
+              "assign",
+              "v7"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Reassign, and the same name simply re-binds: score now points at 10 instead of 7. The name stays put.",
+          "nodes": [
+            "assign",
+            "v10",
+            "v7"
+          ],
+          "edges": [
+            [
+              "assign",
+              "v10"
+            ],
+            [
+              "assign",
+              "v7"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When print looks up score, it doesn't care about the past — it follows the name to whatever value it holds now.",
+          "nodes": [
+            "name",
+            "use"
+          ],
+          "edges": [
+            [
+              "name",
+              "use"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "So print(score) gets 10, the current value. Change the value, and the same line says something new.",
+          "nodes": [
+            "use",
+            "v10"
+          ],
+          "edges": [
+            [
+              "use",
+              "v10"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That's the whole idea: a name binds to a value you can reuse, and reassigning just redraws the arrow.",
+          "nodes": [
+            "name",
+            "assign",
+            "v10",
+            "use"
+          ],
+          "edges": [
+            [
+              "name",
+              "assign"
+            ],
+            [
+              "assign",
+              "v10"
+            ],
+            [
+              "name",
+              "use"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -640,7 +821,112 @@
           "label": "fell through — skipped"
         }
       ],
-      "caption": "Exactly one message prints. Once a test is True, everything below is skipped — that is why order is the whole game."
+      "caption": "Exactly one message prints. Once a test is True, everything below is skipped — that is why order is the whole game.",
+      "storyboard": [
+        {
+          "say": "The temperature value enters at the top and drops into the first test, waiting to be caught by a branch.",
+          "nodes": [
+            "value",
+            "if"
+          ],
+          "edges": [
+            [
+              "value",
+              "if"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "First question: is temp greater than 75? If that's True, we print 'Warm' and skip everything below.",
+          "nodes": [
+            "if",
+            "warm"
+          ],
+          "edges": [
+            [
+              "if",
+              "warm"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If it's not above 75, the value falls through, False, down to the next test in line.",
+          "nodes": [
+            "if",
+            "elif"
+          ],
+          "edges": [
+            [
+              "if",
+              "elif"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The elif asks a second question: is temp above 50? If True, we catch it here and print 'Mild'.",
+          "nodes": [
+            "elif",
+            "mild"
+          ],
+          "edges": [
+            [
+              "elif",
+              "mild"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Fail that test too and the value keeps falling, False again, past every condition toward the floor.",
+          "nodes": [
+            "elif",
+            "else"
+          ],
+          "edges": [
+            [
+              "elif",
+              "else"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "else is the floor. It has no test, so it always catches whatever fell past everything and prints 'Cold'.",
+          "nodes": [
+            "else",
+            "cold"
+          ],
+          "edges": [
+            [
+              "else",
+              "cold"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The key insight: Python runs only the FIRST True branch, then skips the rest, so exactly one line prints.",
+          "nodes": [
+            "if",
+            "elif",
+            "else"
+          ],
+          "edges": [
+            [
+              "if",
+              "elif"
+            ],
+            [
+              "elif",
+              "else"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -888,7 +1174,93 @@
           "label": "runs every pass (the update)"
         }
       ],
-      "caption": "Init once, update every pass. The line that changes total is INSIDE the loop; the line that creates it is OUTSIDE."
+      "caption": "Init once, update every pass. The line that changes total is INSIDE the loop; the line that creates it is OUTSIDE.",
+      "storyboard": [
+        {
+          "say": "Before the loop even starts, we create total and set it to zero. This one line lives OUTSIDE the loop, and it runs exactly once.",
+          "nodes": [
+            "init"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Now we enter the loop. The list is [10, 20, 30], and the loop will hand us one price at a time.",
+          "nodes": [
+            "init",
+            "p1"
+          ],
+          "edges": [
+            [
+              "init",
+              "p1"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Pass one: we add 10 to total. Because total already existed, it goes from zero to ten instead of starting over.",
+          "nodes": [
+            "p1"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The loop grabs the next item and runs again. Pass two adds 20 to the SAME total, which now holds thirty.",
+          "nodes": [
+            "p1",
+            "p2"
+          ],
+          "edges": [
+            [
+              "p1",
+              "p2"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Pass three adds 30. The accumulator survived every pass, so it carries the running sum forward to sixty.",
+          "nodes": [
+            "p2",
+            "p3"
+          ],
+          "edges": [
+            [
+              "p2",
+              "p3"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The list is exhausted, so the loop ends. We print total: sixty. One loop summed three prices, and it would sum three thousand just as easily.",
+          "nodes": [
+            "p3",
+            "done"
+          ],
+          "edges": [
+            [
+              "p3",
+              "done"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The whole trick: init ONCE outside, update EVERY pass inside. Reset total inside the loop and you would erase all passes but the last.",
+          "nodes": [
+            "init",
+            "p1",
+            "p2",
+            "p3",
+            "done"
+          ],
+          "edges": [],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",

@@ -135,6 +135,112 @@
           "tone": "warning",
           "label": "surviving risk — the register"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with the one thing you're actually committing to: a single decision, stated plainly, not a vibe or a wish.",
+          "nodes": [
+            "decision"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "A decision doesn't float free. One non-negotiable constraint forces a scope boundary — a line that gives the work a shape.",
+          "nodes": [
+            "constraint",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "boundary"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The decision now lives inside that boundary. Everything you're doing sits on this side of the line, protected and finite.",
+          "nodes": [
+            "decision",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "decision",
+              "boundary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Then you push non-goals out on purpose. Naming what you will NOT do keeps scope from leaking back in under deadline pressure.",
+          "nodes": [
+            "nongoal",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "nongoal",
+              "boundary"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every edge that crosses the boundary gets a named owner. No dependency crosses the line anonymously.",
+          "nodes": [
+            "boundary",
+            "owner"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "owner"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Any edge left unowned is a risk, so it lands in the register — where reliability and stakeholder exposure become visible, not implicit.",
+          "nodes": [
+            "owner",
+            "risk"
+          ],
+          "edges": [
+            [
+              "owner",
+              "risk"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "And the loop closes: if a risk fires, it reopens the decision — so the boundary is defended and re-argued over time.",
+          "nodes": [
+            "risk",
+            "decision"
+          ],
+          "edges": [
+            [
+              "risk",
+              "decision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: a scope with no non-goals and no owner map isn't a scope — it's a wish. This is the inspectable packet.",
+          "nodes": [
+            "decision",
+            "boundary",
+            "nongoal",
+            "owner",
+            "risk"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -435,6 +541,114 @@
         {
           "tone": "success",
           "label": "the repair: inspectable, owned proof"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams, one deadline, a VP wanting an answer now. It all starts as raw ambiguity in the room.",
+          "nodes": [
+            "ambiguity"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The staff engineer doesn't pick a side. They separate signal from noise and name the one non-negotiable operating constraint.",
+          "nodes": [
+            "ambiguity",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "ambiguity",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That constraint selects the approach, which gets written down as a decision record with its tradeoff stated.",
+          "nodes": [
+            "constraint",
+            "decision"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decision"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the failure path: skip the artifacts and the decision decays into activity, not alignment — no record, no risk, no owners.",
+          "nodes": [
+            "decision",
+            "activity"
+          ],
+          "edges": [
+            [
+              "decision",
+              "activity"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Break it with a realistic failure. Under real failure behavior, that undocumented decision hits the review gate and can't defend itself.",
+          "nodes": [
+            "activity",
+            "review"
+          ],
+          "edges": [
+            [
+              "activity",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair path: the review gate adds a risk register and an owner map, so every risk has a name attached to it.",
+          "nodes": [
+            "review",
+            "risk"
+          ],
+          "edges": [
+            [
+              "review",
+              "risk"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now it becomes an inspectable packet — a decision, its owners, its risks — that you can attach and defend, not just confidence in the room.",
+          "nodes": [
+            "risk",
+            "packet"
+          ],
+          "edges": [
+            [
+              "risk",
+              "packet"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The loop closes: the packet's reversal condition feeds back and sharpens the constraint you name on the next hard call.",
+          "nodes": [
+            "packet",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "packet",
+              "constraint"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -758,6 +972,110 @@
           "tone": "muted",
           "label": "kept off the load path on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams, one architecture, a Friday deadline — and you have no authority to order anyone. The disagreement is the entry point.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The staff engineer doesn't push a solution. She names the operating constraint first — reliability risk climbing — and that triggers the work.",
+          "nodes": [
+            "conflict",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The named constraint bounds the call: it turns an open argument into a decision record, an ADR everyone can read.",
+          "nodes": [
+            "constraint",
+            "decision"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decision"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That decision record does real work — it surfaces a risk register and assigns an owner-plus-dependency map, so nothing stays vague.",
+          "nodes": [
+            "decision",
+            "risk",
+            "owners"
+          ],
+          "edges": [
+            [
+              "decision",
+              "risk"
+            ],
+            [
+              "decision",
+              "owners"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Because the record is inspectable, it becomes signed alignment — even the person who wanted the other answer can sign it.",
+          "nodes": [
+            "decision",
+            "align"
+          ],
+          "edges": [
+            [
+              "decision",
+              "align"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Alignment isn't a one-time win. It sets an operating cadence, and the repair loop feeds evidence back to update the record.",
+          "nodes": [
+            "align",
+            "repair",
+            "decision"
+          ],
+          "edges": [
+            [
+              "align",
+              "repair"
+            ],
+            [
+              "repair",
+              "decision"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: charisma is deliberately out of the load path. It must never be the mechanism that carries the alignment.",
+          "nodes": [
+            "charisma",
+            "align"
+          ],
+          "edges": [
+            [
+              "charisma",
+              "align"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1063,6 +1381,124 @@
           "tone": "success",
           "label": "owner map + reversal condition (the repair loop)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a cross-team disagreement: three teams, one architecture, a Friday deadline, and a reliability risk no one will name out loud.",
+          "nodes": [
+            "disagree"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The shallow path is the failure the room fears: lots of activity, loud opinions, but no alignment and no decision anyone can inspect.",
+          "nodes": [
+            "disagree",
+            "activity"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "activity"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The evidence path breaks the loop differently: instead of winning the argument, you name the operating constraint out loud.",
+          "nodes": [
+            "disagree",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The named constraint bounds the choice, which becomes a written decision record: the chosen path and the option you killed.",
+          "nodes": [
+            "constraint",
+            "decide"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decide"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That decision is not trusted on charisma; it is checked by inspection hooks that surface findings into the risk register.",
+          "nodes": [
+            "decide",
+            "hooks",
+            "risk"
+          ],
+          "edges": [
+            [
+              "decide",
+              "hooks"
+            ],
+            [
+              "hooks",
+              "risk"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Each register entry is owned and tracked through stakeholder cadence, so the risk you feared stays visible instead of silent.",
+          "nodes": [
+            "risk",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "risk",
+              "cadence"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The decision also names its reversal condition: the exact evidence that would invalidate it and loop the packet back for repair.",
+          "nodes": [
+            "decide",
+            "reversal"
+          ],
+          "edges": [
+            [
+              "decide",
+              "reversal"
+            ],
+            [
+              "reversal",
+              "decide"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: judgment is proven through one inspectable artifact a reviewer can challenge, replay, and invalidate.",
+          "nodes": [
+            "constraint",
+            "decide",
+            "reversal"
+          ],
+          "edges": [
+            [
+              "decide",
+              "reversal"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1352,6 +1788,116 @@
         {
           "tone": "success",
           "label": "the decision the memo exists to make"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams disagree on the architecture with a Friday deadline. The staff engineer starts by framing the disagreement, not picking a side.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The frame converts noise into an operating constraint: what boundary and ownership the decision must respect.",
+          "nodes": [
+            "conflict",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "constraint"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The trap is skipping the constraint entirely and rushing to build. That is activity, not alignment.",
+          "nodes": [
+            "conflict",
+            "activity"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "activity"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The constraint bounds the call, producing one inspectable decision record with the rejected approach and why it fails.",
+          "nodes": [
+            "constraint",
+            "decision"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decision"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The decision fans out: it assigns an owner map with dependencies and surfaces a risk register of what would invalidate it.",
+          "nodes": [
+            "decision",
+            "owners",
+            "risk"
+          ],
+          "edges": [
+            [
+              "decision",
+              "owners"
+            ],
+            [
+              "decision",
+              "risk"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Owners and dependencies feed the operating cadence, the review rhythm that keeps the decision alive.",
+          "nodes": [
+            "owners",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "owners",
+              "cadence"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When a risk fires, the dashed loop routes back into the decision to repair it, not to relitigate the whole memo.",
+          "nodes": [
+            "risk",
+            "decision"
+          ],
+          "edges": [
+            [
+              "risk",
+              "decision"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: judgment is proven through artifacts, not charisma. One memo turns disagreement into alignment.",
+          "nodes": [
+            "conflict",
+            "constraint",
+            "decision",
+            "cadence"
+          ],
+          "edges": [],
+          "ms": 4400
         }
       ]
     },
@@ -1657,6 +2203,116 @@
           "tone": "warning",
           "label": "failure path + residual risk (the repair loop)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams disagree over one architecture doc. This is the entry point: a live team disagreement, not yet a decision.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The staff move is to frame it first: name the one non-negotiable operating constraint that any approach must satisfy.",
+          "nodes": [
+            "conflict",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The constraint does the deciding. It admits one approach as viable and rules the other out on its own terms, not by volume.",
+          "nodes": [
+            "constraint",
+            "selected",
+            "rejected"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "selected"
+            ],
+            [
+              "constraint",
+              "rejected"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Both paths get written down. The record captures the selected approach and, crucially, the rejected one and how it fails.",
+          "nodes": [
+            "selected",
+            "rejected",
+            "record"
+          ],
+          "edges": [
+            [
+              "selected",
+              "record"
+            ],
+            [
+              "rejected",
+              "record"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The ADR surfaces residual risk into the register, and that risk loops back to re-test the constraint if conditions change.",
+          "nodes": [
+            "record",
+            "risk",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "record",
+              "risk"
+            ],
+            [
+              "risk",
+              "constraint"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The failure path: skip the constraint and you get a shallow review, where the loudest design wins and nothing is inspectable.",
+          "nodes": [
+            "conflict",
+            "shallow"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "shallow"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: judgment lives in the artifact, not the meeting. Constraint, choice, rejected option, and the condition that reverses it.",
+          "nodes": [
+            "constraint",
+            "record",
+            "risk"
+          ],
+          "edges": [
+            [
+              "record",
+              "risk"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1945,6 +2601,103 @@
         {
           "tone": "muted",
           "label": "the failure path: activity without alignment"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams disagree on the architecture, each louder about their fix than clear about what actually constrains the choice.",
+          "nodes": [
+            "disagree"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Before any debate, name the operating constraint first — the non-negotiable that no option gets to violate.",
+          "nodes": [
+            "disagree",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The constraint does the work: it admits one approach and rules another out, so the decision is made by the invariant, not by volume.",
+          "nodes": [
+            "constraint",
+            "chosen",
+            "rejected"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "chosen"
+            ],
+            [
+              "constraint",
+              "rejected"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now make the call challengeable — state exactly what evidence would prove the chosen approach wrong.",
+          "nodes": [
+            "chosen",
+            "invalidate"
+          ],
+          "edges": [
+            [
+              "chosen",
+              "invalidate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Whatever survives that test becomes a logged risk in the register — the decision stays honest and inspectable.",
+          "nodes": [
+            "invalidate",
+            "register"
+          ],
+          "edges": [
+            [
+              "invalidate",
+              "register"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Skip the constraint step and you get the failure state: motion and argument, but activity without alignment.",
+          "nodes": [
+            "disagree",
+            "drift"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "drift"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The invariant: a tradeoff that survives review must be challengeable, not merely agreeable — constraint, choice, rejection, and the evidence that flips it.",
+          "nodes": [
+            "constraint",
+            "chosen",
+            "rejected",
+            "invalidate",
+            "register"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -2258,6 +3011,110 @@
           "tone": "muted",
           "label": "kept out on purpose (rejected option shown, charisma excluded)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every decision starts from an operating constraint — the deadline, reliability budget, or scope limit that bounds what you're allowed to pick.",
+          "nodes": [
+            "constraint",
+            "selected"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "selected"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The constraint forces one selected approach. This is the decision the record exists to make inspectable.",
+          "nodes": [
+            "selected"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The option you killed stays on the record — the rejected approach loses, but writing down why stops the Slack thread from reopening it.",
+          "nodes": [
+            "rejected",
+            "selected"
+          ],
+          "edges": [
+            [
+              "rejected",
+              "selected"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "You also name the failure trigger up front: the condition that would raise the bar and invalidate this choice.",
+          "nodes": [
+            "failure",
+            "selected"
+          ],
+          "edges": [
+            [
+              "failure",
+              "selected"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That same trigger logs the surviving risk into the risk register, so the danger the decision leaves behind is tracked, not hidden.",
+          "nodes": [
+            "failure",
+            "risk"
+          ],
+          "edges": [
+            [
+              "failure",
+              "risk"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The selected approach must be proven by a verification another reviewer can actually run — inspectable, never merely described.",
+          "nodes": [
+            "selected",
+            "verify"
+          ],
+          "edges": [
+            [
+              "selected",
+              "verify"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A reviewer's objection feeds the repair loop, which sharpens the decision and cycles back — judgment refined by artifacts, not by charisma.",
+          "nodes": [
+            "verify",
+            "repair",
+            "selected",
+            "charisma"
+          ],
+          "edges": [
+            [
+              "verify",
+              "repair"
+            ],
+            [
+              "repair",
+              "selected"
+            ],
+            [
+              "charisma",
+              "selected"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -2570,6 +3427,120 @@
           "tone": "success",
           "label": "the inspectable output — record + owner map"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Three teams disagree over splitting the monolith now or later, and that unresolved conflict enters the planning cadence cycle.",
+          "nodes": [
+            "disagree",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "cadence"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Down the failure path, the cadence only schedules activity: meetings happen, but nothing forces a call.",
+          "nodes": [
+            "cadence",
+            "activity"
+          ],
+          "edges": [
+            [
+              "cadence",
+              "activity"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "With no decision produced, that activity drifts into fog: no record, no owner, nothing you can inspect.",
+          "nodes": [
+            "activity",
+            "drift"
+          ],
+          "edges": [
+            [
+              "activity",
+              "drift"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Worse, the drift loops back into the next cycle, so six weeks of syncs recreate the same disagreement.",
+          "nodes": [
+            "drift",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "drift",
+              "cadence"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair path breaks the loop: the cadence must force a dated decision every cycle.",
+          "nodes": [
+            "cadence",
+            "decide"
+          ],
+          "edges": [
+            [
+              "cadence",
+              "decide"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "That forced decision writes a durable record and an owner map, turning talk into inspectable alignment.",
+          "nodes": [
+            "decide",
+            "record"
+          ],
+          "edges": [
+            [
+              "decide",
+              "record"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The record attaches a reversal condition, naming exactly what evidence would overturn the call.",
+          "nodes": [
+            "record",
+            "reverse"
+          ],
+          "edges": [
+            [
+              "record",
+              "reverse"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "That reversal condition sharpens the next cycle: a schedule with no forced decision is theater, this is a rhythm.",
+          "nodes": [
+            "reverse",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "reverse",
+              "cadence"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2840,6 +3811,112 @@
         {
           "tone": "success",
           "label": "repair path — trigger fires, reroute to fallback"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Four teams sit on one launch date, but the real risk is a single arrow — the edge where Auth Platform blocks Checkout.",
+          "nodes": [
+            "auth",
+            "checkout",
+            "payments"
+          ],
+          "edges": [
+            [
+              "auth",
+              "checkout"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That blocking edge is the suspect: Checkout cannot ship until the new auth service lands, and Platform says wait.",
+          "nodes": [
+            "auth",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "auth",
+              "checkout"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Payments quietly proves the alternative — the old auth already works, so a fallback exists before you even need it.",
+          "nodes": [
+            "payments",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "payments",
+              "checkout"
+            ]
+          ],
+          "ms": 4300
+        },
+        {
+          "say": "Here is the fork. If the dependency is unwatched, Auth's slip becomes a silent slip — activity documented, nothing fires.",
+          "nodes": [
+            "auth",
+            "silent"
+          ],
+          "edges": [
+            [
+              "auth",
+              "silent"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The managed path instead makes Checkout watch upstream, wiring the blocker to an explicit failure trigger.",
+          "nodes": [
+            "checkout",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "trigger"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When Platform slips, the trigger fires and reroutes to the rejected-but-ready fallback: ship on old auth.",
+          "nodes": [
+            "trigger",
+            "fallback"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "fallback"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That is the invariant: if an upstream team slips and nothing in your artifact fires, you documented activity, not a dependency.",
+          "nodes": [
+            "silent",
+            "trigger",
+            "fallback"
+          ],
+          "edges": [
+            [
+              "auth",
+              "silent"
+            ],
+            [
+              "trigger",
+              "fallback"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3126,6 +4203,106 @@
         {
           "tone": "success",
           "label": "pre-agreed response — the repair path"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The decision is made — but a decision always leaves a residual risk behind, the thing that could still go wrong after everyone agrees.",
+          "nodes": [
+            "decision",
+            "residual"
+          ],
+          "edges": [
+            [
+              "decision",
+              "residual"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Each surviving risk gets ranked: a likelihood-times-impact score, so the register sorts worries by how much they actually matter.",
+          "nodes": [
+            "residual",
+            "score"
+          ],
+          "edges": [
+            [
+              "residual",
+              "score"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The score assigns a single named owner and the exact signal they watch — no shared blame, one throat to choke.",
+          "nodes": [
+            "score",
+            "owner"
+          ],
+          "edges": [
+            [
+              "score",
+              "owner"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That owner watches for the trigger: a pre-agreed threshold that says the risk has stopped being a worry and started being real.",
+          "nodes": [
+            "owner",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "owner",
+              "trigger"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When the signal crosses the threshold, the register routes straight to a response already decided in advance — rollback, not debate.",
+          "nodes": [
+            "trigger",
+            "response"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "response"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The response feeds a repair loop that captures what we learned, so the failure path is also the path that makes us stronger.",
+          "nodes": [
+            "response",
+            "repair"
+          ],
+          "edges": [
+            [
+              "response",
+              "repair"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And the loop closes: repair re-scores the residual at the next review. Every row is assignable and replayable — or it's just a worry.",
+          "nodes": [
+            "repair",
+            "residual"
+          ],
+          "edges": [
+            [
+              "repair",
+              "residual"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3430,6 +4607,105 @@
           "tone": "success",
           "label": "selected decision + surviving risk"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start where every release fight starts: three teams, a Friday cutover, and a reliability risk nobody wants to name out loud.",
+          "nodes": [
+            "scenario"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "A senior engineer doesn't spin up meetings. The disagreement and the clock feed one operating constraint you name before any solution.",
+          "nodes": [
+            "scenario",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "scenario",
+              "constraint"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That constraint forks the packet: it bounds the approach you selected and explicitly rules out the one you rejected.",
+          "nodes": [
+            "constraint",
+            "selected",
+            "rejected"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "selected"
+            ],
+            [
+              "constraint",
+              "rejected"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now stress the chosen path. State the failure trigger — the exact condition under which this decision falls apart under release risk.",
+          "nodes": [
+            "selected",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "selected",
+              "trigger"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Prove it, don't assert it. The failure trigger points at inspection hooks — the verification method anyone can run.",
+          "nodes": [
+            "trigger",
+            "hooks"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "hooks"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "What survives inspection lands in the risk register — the residual risk you accept with eyes open after choosing.",
+          "nodes": [
+            "hooks",
+            "register"
+          ],
+          "edges": [
+            [
+              "hooks",
+              "register"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure path: skip the packet and you get activity without alignment — a doc with no decision record. Proof over charisma.",
+          "nodes": [
+            "scenario",
+            "activity"
+          ],
+          "edges": [
+            [
+              "scenario",
+              "activity"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3730,6 +5006,122 @@
         {
           "tone": "success",
           "label": "inspectable alignment that outlives your presence"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Two teams are locked, Friday looms, and the junior you mentor pings: just tell me what to do. That's the entry point.",
+          "nodes": [
+            "stuck"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The tempting trap is to give the answer. It feels fast and helpful, so watch what happens when it meets review.",
+          "nodes": [
+            "stuck",
+            "answer"
+          ],
+          "edges": [
+            [
+              "stuck",
+              "answer"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The answer fails inspection: no decision record, no owner map. It produced activity, not alignment you can audit.",
+          "nodes": [
+            "answer",
+            "review"
+          ],
+          "edges": [
+            [
+              "answer",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The harder, better move starts by naming the constraint before any solution is proposed.",
+          "nodes": [
+            "stuck",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "stuck",
+              "constraint"
+            ],
+            [
+              "constraint",
+              "proofs"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Coach three proofs: why it fits the constraint, how it behaves when the scenario fails, how it holds under stricter conditions.",
+          "nodes": [
+            "proofs"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "proofs"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The mentee writes it down as a decision packet and risk register, then hands that to the reviewer.",
+          "nodes": [
+            "proofs",
+            "packet",
+            "review"
+          ],
+          "edges": [
+            [
+              "proofs",
+              "packet"
+            ],
+            [
+              "packet",
+              "review"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If proof is weak, it routes back to name the constraint and rebuild — repair, not rescue.",
+          "nodes": [
+            "review",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "review",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When it survives inspection, you reach alignment that outlives your presence: judgment transferred, not just advice given.",
+          "nodes": [
+            "review",
+            "aligned"
+          ],
+          "edges": [
+            [
+              "review",
+              "aligned"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4041,6 +5433,111 @@
           "tone": "warning",
           "label": "the failure path (activity) and its repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A cross-team disagreement enters the loop — three teams, one architecture call, and a reliability risk nobody wants to own.",
+          "nodes": [
+            "disagree",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The staff engineer names the constraint first — that single move bounds the call and turns the argument into a working decision.",
+          "nodes": [
+            "constraint",
+            "record"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "record"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The decision record surfaces the residual risk into a register — the one failure everyone fears is now written down, not implied.",
+          "nodes": [
+            "record",
+            "risk"
+          ],
+          "edges": [
+            [
+              "record",
+              "risk"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Paired with an owner map, the record produces real alignment — proven by artifacts a reviewer can inspect, not by who talked most.",
+          "nodes": [
+            "record",
+            "align"
+          ],
+          "edges": [
+            [
+              "record",
+              "align"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the failure path: skip the record and you get activity, not alignment — motion that looks like agreement but never was.",
+          "nodes": [
+            "constraint",
+            "activity"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "activity"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A reviewer's objection catches the drift and triggers the repair loop — the correction that pulls the work back on track.",
+          "nodes": [
+            "activity",
+            "repair"
+          ],
+          "edges": [
+            [
+              "activity",
+              "repair"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair loop re-enters at the record — feedback becomes a decision again, and alignment is earned, not faked.",
+          "nodes": [
+            "repair",
+            "record",
+            "align"
+          ],
+          "edges": [
+            [
+              "repair",
+              "record"
+            ],
+            [
+              "record",
+              "align"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4335,6 +5832,115 @@
         {
           "tone": "success",
           "label": "risk register, owners, and the repair loop"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a team conflict: Platform wants the shared queue, Payments wants direct calls, and the VP is asking if you're aligned.",
+          "nodes": [
+            "conflict"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The shallow path is tempting — activity with no decision record. Meetings and Slack threads feel like progress but leave no artifact.",
+          "nodes": [
+            "conflict",
+            "activity"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "activity"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The staff move starts here, not at a fix: name the operating constraint — reliability under a Friday deadline — before any solution.",
+          "nodes": [
+            "conflict",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "conflict",
+              "constraint"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The named constraint eliminates an option and produces a decision record that logs the chosen path and the rejected one, with why it fails.",
+          "nodes": [
+            "constraint",
+            "adr"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "adr"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "A real record does not hide risk — it feeds a risk register with named owners, so the reliability cost is visible, not buried.",
+          "nodes": [
+            "adr",
+            "risk"
+          ],
+          "edges": [
+            [
+              "adr",
+              "risk"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Owners plus rhythm become an operating cadence: the alignment survives past the meeting because someone owns it on a schedule.",
+          "nodes": [
+            "risk",
+            "cadence"
+          ],
+          "edges": [
+            [
+              "risk",
+              "cadence"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When operational evidence shifts, the repair loop triggers — you re-decide and log the change back into the record, not restart the argument.",
+          "nodes": [
+            "cadence",
+            "repair",
+            "adr"
+          ],
+          "edges": [
+            [
+              "cadence",
+              "repair"
+            ],
+            [
+              "repair",
+              "adr"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The insight: you don't win the argument, you convert it into an inspectable decision another reviewer can replay. Proof lives in artifacts.",
+          "nodes": [
+            "adr",
+            "risk",
+            "repair"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -4636,6 +6242,115 @@
         {
           "tone": "success",
           "label": "the update that drives alignment"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with three teams deadlocked on a technical direction — raw disagreement, not yet a decision anyone can act on.",
+          "nodes": [
+            "disagree"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The first move is naming the operating constraint — Friday deadline, wobbling reliability — which frames the fight into a bounded problem.",
+          "nodes": [
+            "disagree",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "disagree",
+              "constraint"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That constraint bounds the call, forcing a real decision record — the chosen approach and the rejected option written down as an ADR.",
+          "nodes": [
+            "constraint",
+            "decision"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The decision does two jobs at once: it assigns owners and dependencies, and it surfaces the top surviving risk into the register.",
+          "nodes": [
+            "decision",
+            "owners",
+            "risk"
+          ],
+          "edges": [
+            [
+              "decision",
+              "owners"
+            ],
+            [
+              "decision",
+              "risk"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Owners and risk both feed the executive update — five lines another leader could actually challenge. That's alignment, not activity.",
+          "nodes": [
+            "owners",
+            "risk",
+            "update"
+          ],
+          "edges": [
+            [
+              "owners",
+              "update"
+            ],
+            [
+              "risk",
+              "update"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Left shallow, the update decays into status theatre — meetings and dashboards with no decision anyone can argue against.",
+          "nodes": [
+            "update",
+            "status"
+          ],
+          "edges": [
+            [
+              "update",
+              "status"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair loop catches this: re-anchor on the constraint and force a fresh decision, so the update becomes an instrument again, not a report.",
+          "nodes": [
+            "status",
+            "constraint",
+            "decision"
+          ],
+          "edges": [
+            [
+              "status",
+              "constraint"
+            ],
+            [
+              "constraint",
+              "decision"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4939,6 +6654,110 @@
           "tone": "warning",
           "label": "the failure path — activity without alignment"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A Sev1 fires — checkout is down and three teams are on the bridge blaming each other. Someone must declare and own the incident.",
+          "nodes": [
+            "trigger",
+            "ic"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "ic"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Incident Commander is one named owner who does not debug. Their whole job is turning chaos into alignment.",
+          "nodes": [
+            "ic"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Command fans out: the commander assigns diagnosis to Ops and a stakeholder cadence to Comms, so the VP asking 'ETA?' stops interrupting the fix.",
+          "nodes": [
+            "ic",
+            "ops",
+            "comms"
+          ],
+          "edges": [
+            [
+              "ic",
+              "ops"
+            ],
+            [
+              "ic",
+              "comms"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Both leads feed one Scribe — findings and updates land on a single timeline, separating what's observed from what's inferred.",
+          "nodes": [
+            "ops",
+            "comms",
+            "scribe"
+          ],
+          "edges": [
+            [
+              "ops",
+              "scribe"
+            ],
+            [
+              "comms",
+              "scribe"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The Scribe's timeline hardens into a decision record: every call logged with the option it rejected.",
+          "nodes": [
+            "scribe",
+            "decision"
+          ],
+          "edges": [
+            [
+              "scribe",
+              "decision"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here's the failure this lesson kills: the commander dives into the logs. The moment they debug, nobody owns alignment.",
+          "nodes": [
+            "ic",
+            "drift"
+          ],
+          "edges": [
+            [
+              "ic",
+              "drift"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair: hand diagnosis back to Ops and resume command. Command produces alignment — an owner map and decision log — never just activity.",
+          "nodes": [
+            "drift",
+            "ic"
+          ],
+          "edges": [
+            [
+              "drift",
+              "ic"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5224,6 +7043,111 @@
         {
           "tone": "warning",
           "label": "the leak: unowned action items re-fire the incident"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "An incident fires. The clock is already running, so the first move is to reconstruct exactly what happened, in UTC.",
+          "nodes": [
+            "incident",
+            "timeline"
+          ],
+          "edges": [
+            [
+              "incident",
+              "timeline"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "From the timeline you ask the only useful question: why was each decision reasonable in the moment? That surfaces the real contributing factors.",
+          "nodes": [
+            "timeline",
+            "factors"
+          ],
+          "edges": [
+            [
+              "timeline",
+              "factors"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Name the systemic factors, never a person. Then the hinge: every factor must convert into one action item with an owner and a date.",
+          "nodes": [
+            "factors",
+            "actions"
+          ],
+          "edges": [
+            [
+              "factors",
+              "actions"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This is where postmortems leak. An unowned, undated action item is just a wish, and it short-circuits straight back to recurrence.",
+          "nodes": [
+            "actions",
+            "recur"
+          ],
+          "edges": [
+            [
+              "actions",
+              "recur"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Recurrence loops the same class of outage back to a fresh incident six weeks later. Apology, no owner, learned nothing.",
+          "nodes": [
+            "recur",
+            "incident"
+          ],
+          "edges": [
+            [
+              "recur",
+              "incident"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Done right, action items ship and get verified, so the lesson lands in org memory instead of evaporating into activity.",
+          "nodes": [
+            "actions",
+            "memory"
+          ],
+          "edges": [
+            [
+              "actions",
+              "memory"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The whole loop is a fork: owned and dated builds memory; unowned feeds recurrence. Which branch fires is the postmortem's real output.",
+          "nodes": [
+            "actions",
+            "memory",
+            "recur"
+          ],
+          "edges": [
+            [
+              "actions",
+              "memory"
+            ],
+            [
+              "actions",
+              "recur"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5517,6 +7441,116 @@
         {
           "tone": "success",
           "label": "repair loop: re-tests when evidence changes"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: an incident fires and a postmortem gets written. Everything downstream depends on what you do with that finding.",
+          "nodes": [
+            "incident"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The failure path is seductive: the postmortem drops straight into 'action items filed' and the loop is declared closed.",
+          "nodes": [
+            "incident",
+            "shallow"
+          ],
+          "edges": [
+            [
+              "incident",
+              "shallow"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Tickets aren't a system. Six weeks later the same class of incident fires again, because nothing durable changed.",
+          "nodes": [
+            "shallow"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Real repair takes the other exit: the incident feeds an operating constraint that bounds the decision you're allowed to make.",
+          "nodes": [
+            "incident",
+            "constraint",
+            "adr"
+          ],
+          "edges": [
+            [
+              "incident",
+              "constraint"
+            ],
+            [
+              "constraint",
+              "adr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The decision record captures chosen and rejected approaches, then assigns work through an explicit owner and dependency map.",
+          "nodes": [
+            "adr",
+            "owners"
+          ],
+          "edges": [
+            [
+              "adr",
+              "owners"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Owners surface residual risk into a register, which sets the concrete triggers for when this fix must be re-tested.",
+          "nodes": [
+            "owners",
+            "risk",
+            "loop"
+          ],
+          "edges": [
+            [
+              "owners",
+              "risk"
+            ],
+            [
+              "risk",
+              "loop"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair loop closes back to the decision record: when operational evidence changes, you revisit the artifact, not re-file a ticket.",
+          "nodes": [
+            "loop",
+            "adr"
+          ],
+          "edges": [
+            [
+              "loop",
+              "adr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: judgment is proven by inspectable artifacts — constraint, ADR, owners, risk, loop — never asserted in a nod.",
+          "nodes": [
+            "constraint",
+            "adr",
+            "owners",
+            "risk",
+            "loop"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -5814,6 +7848,120 @@
         {
           "tone": "muted",
           "label": "the failure: motion with nothing inspected"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with the beat: a recurring checkpoint that turns daily motion into progress you can actually inspect.",
+          "nodes": [
+            "beat"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Each beat inspects three artifacts at once — the decision record, the risk register, and the owner map.",
+          "nodes": [
+            "beat",
+            "decision",
+            "risk",
+            "owners"
+          ],
+          "edges": [
+            [
+              "beat",
+              "decision"
+            ],
+            [
+              "beat",
+              "risk"
+            ],
+            [
+              "beat",
+              "owners"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "When reality moves, a drifted signal in the risk register fires the change-trigger.",
+          "nodes": [
+            "risk",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "risk",
+              "trigger"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The trigger fires a re-plan, forcing the team to stop and realign instead of coasting on old assumptions.",
+          "nodes": [
+            "trigger",
+            "replan"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "replan"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The re-plan updates the decision record, so the loop closes and the next beat inspects fresh reality.",
+          "nodes": [
+            "replan",
+            "decision"
+          ],
+          "edges": [
+            [
+              "replan",
+              "decision"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The failure path is a beat with nothing to inspect — pure activity. It must never collapse into the real beat.",
+          "nodes": [
+            "activity",
+            "beat"
+          ],
+          "edges": [
+            [
+              "activity",
+              "beat"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: a beat produces alignment you can inspect, never activity you can only feel.",
+          "nodes": [
+            "beat",
+            "decision",
+            "risk",
+            "owners"
+          ],
+          "edges": [
+            [
+              "beat",
+              "decision"
+            ],
+            [
+              "beat",
+              "risk"
+            ],
+            [
+              "beat",
+              "owners"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

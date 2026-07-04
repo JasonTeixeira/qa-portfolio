@@ -175,6 +175,140 @@
           "tone": "success",
           "label": "alert fires on user impact, not host noise"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user hits checkout. Their request enters at the gateway, which routes it to the checkout service — this is the journey we care about.",
+          "nodes": [
+            "user",
+            "gateway",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "user",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "checkout"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Checkout calls Payments to charge the card, but that hop is running slow — this latent edge is our prime suspect.",
+          "nodes": [
+            "checkout",
+            "payments"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "payments"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Three signals watch this one request: metrics count how often and how slow, traces time each span, logs record the exact error line.",
+          "nodes": [
+            "metrics",
+            "traces",
+            "logs",
+            "checkout",
+            "payments"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "metrics"
+            ],
+            [
+              "payments",
+              "traces"
+            ],
+            [
+              "payments",
+              "logs"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Metrics feed the latency SLI. Traces localize where the burn happens, and logs explain what actually failed.",
+          "nodes": [
+            "metrics",
+            "traces",
+            "logs",
+            "slo"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "slo"
+            ],
+            [
+              "traces",
+              "slo"
+            ],
+            [
+              "logs",
+              "slo"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The SLO is the outcome the user feels. Slow payments burn the error budget — this breach is what defines a real problem.",
+          "nodes": [
+            "slo",
+            "payments"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "payments"
+            ],
+            [
+              "metrics",
+              "slo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only the budget burn fires the alert. Not a red host graph — user impact is the trigger.",
+          "nodes": [
+            "slo",
+            "alert"
+          ],
+          "edges": [
+            [
+              "slo",
+              "alert"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That is the mindset: name the SLI by what a user cares about, then instrument metrics, traces, and logs to answer questions you never pre-planned.",
+          "nodes": [
+            "user",
+            "slo",
+            "metrics",
+            "traces",
+            "logs",
+            "alert"
+          ],
+          "edges": [
+            [
+              "slo",
+              "alert"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -459,6 +593,114 @@
           "tone": "warning",
           "label": "burn-rate alert + incident/freeze path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The alert fired 340 times overnight, so start where truth lives: raw traces and metrics, the signals every dashboard is built from.",
+          "nodes": [
+            "traces"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Turn those signals into one number: the SLI ratio counts good events over valid events, the fast-and-correct requests.",
+          "nodes": [
+            "traces",
+            "sli"
+          ],
+          "edges": [
+            [
+              "traces",
+              "sli"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Compare that live ratio to your SLO target, the single promise you make to users over a rolling window.",
+          "nodes": [
+            "sli",
+            "target"
+          ],
+          "edges": [
+            [
+              "sli",
+              "target"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the invariant: 100% minus the target IS your error budget, the failures you're allowed to spend before you must stop shipping.",
+          "nodes": [
+            "target",
+            "budget"
+          ],
+          "edges": [
+            [
+              "target",
+              "budget"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The budget drains at a spend rate, and burn-rate, not a raw threshold, decides when to page: only fast burn wakes anyone up.",
+          "nodes": [
+            "budget",
+            "burn"
+          ],
+          "edges": [
+            [
+              "budget",
+              "burn"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "On fast burn the failure path fires: page an engineer, open the incident, and freeze releases to stop bleeding budget.",
+          "nodes": [
+            "burn",
+            "incident"
+          ],
+          "edges": [
+            [
+              "burn",
+              "incident"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair path closes the loop: fixing and holding releases lets the budget recover, and the alert stands down on its own.",
+          "nodes": [
+            "incident",
+            "budget"
+          ],
+          "edges": [
+            [
+              "incident",
+              "budget"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the war room ends with one question, not 'is CPU high?' but 'are we still inside our error budget?'",
+          "nodes": [
+            "budget",
+            "burn"
+          ],
+          "edges": [
+            [
+              "budget",
+              "burn"
+            ]
+          ],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -740,6 +982,116 @@
         {
           "tone": "muted",
           "label": "saturation — supporting, never the trigger"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A real user hits checkout: the request enters at the client and crosses into your system through the API gateway.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The gateway routes to the checkout service, which then calls the external payments provider to actually charge the card.",
+          "nodes": [
+            "gateway",
+            "checkout",
+            "payments"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "checkout"
+            ],
+            [
+              "checkout",
+              "payments"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "At every hop checkout emits the RED slice to the metrics store: request rate, errors, and duration seen from the user's side.",
+          "nodes": [
+            "checkout",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "metrics"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The metrics store computes the SLI and compares error rate against the SLO. This is where user pain becomes a number.",
+          "nodes": [
+            "metrics",
+            "budget"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "budget"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Two percent of checkouts return 500, so the error budget is burning; when it burns fast, it pages a human back at checkout.",
+          "nodes": [
+            "budget",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "budget",
+              "checkout"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "CPU saturation is a supporting signal only. It feeds context but does not page, so a busy CPU never wakes you at 3 a.m.",
+          "nodes": [
+            "cpu",
+            "budget"
+          ],
+          "edges": [
+            [
+              "cpu",
+              "budget"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: alert on user-visible symptoms burning the budget, not on machine internals like a hot CPU.",
+          "nodes": [
+            "metrics",
+            "budget",
+            "cpu"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "budget"
+            ],
+            [
+              "cpu",
+              "budget"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -1042,7 +1394,111 @@
           "label": "the named bottleneck + the alert it earns"
         }
       ],
-      "caption": "The failure path runs through utilization ('CPU is fine'); the repair path reads saturation and finds the queue that utilization hid."
+      "caption": "The failure path runs through utilization ('CPU is fine'); the repair path reads saturation and finds the queue that utilization hid.",
+      "storyboard": [
+        {
+          "say": "Latency spikes and the alert channel goes solid red. That storm is the trigger, and by itself it names no cause.",
+          "nodes": [
+            "alerts"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Instead of guessing, the storm triggers a disciplined sweep: enumerate every resource — CPU, memory, disk, network.",
+          "nodes": [
+            "alerts",
+            "enumerate"
+          ],
+          "edges": [
+            [
+              "alerts",
+              "enumerate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "For each resource you read three signals in parallel: Utilization percent busy, Saturation queued work, and Errors.",
+          "nodes": [
+            "enumerate",
+            "util",
+            "sat",
+            "errs"
+          ],
+          "edges": [
+            [
+              "enumerate",
+              "util"
+            ],
+            [
+              "enumerate",
+              "sat"
+            ],
+            [
+              "enumerate",
+              "errs"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Utilization is the false-comfort path — a green CPU percent is why the room had no answer. Check saturation anyway.",
+          "nodes": [
+            "util",
+            "sat"
+          ],
+          "edges": [
+            [
+              "util",
+              "sat"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Saturation is the tell: the resource with the highest queue of waiting work is the one that's actually in pain.",
+          "nodes": [
+            "sat",
+            "bottleneck"
+          ],
+          "edges": [
+            [
+              "sat",
+              "bottleneck"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Errors corroborate the verdict, and the two signals converge on a single named bottleneck the whole team can point at.",
+          "nodes": [
+            "errs",
+            "bottleneck"
+          ],
+          "edges": [
+            [
+              "errs",
+              "bottleneck"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now you act: set the alert threshold on saturation, not utilization, and record the cause in the incident line.",
+          "nodes": [
+            "bottleneck",
+            "alertrule"
+          ],
+          "edges": [
+            [
+              "bottleneck",
+              "alertrule"
+            ]
+          ],
+          "ms": 4600
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -1337,6 +1793,131 @@
           "tone": "warning",
           "label": "drift + its blast radius (alerts, budget)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "3 a.m., latency is climbing, and the on-call opens the dashboard — every panel reads 'No data.'",
+          "nodes": [
+            "dash",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "dash"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is why: your Orders Service emits telemetry, and every query downstream depends on the exact names and units it emits.",
+          "nodes": [
+            "service",
+            "contract"
+          ],
+          "edges": [
+            [
+              "service",
+              "contract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Instrumentation Contract makes that schema explicit — it guarantees metric names and units, and the trace span attributes.",
+          "nodes": [
+            "contract",
+            "metrics",
+            "traces"
+          ],
+          "edges": [
+            [
+              "contract",
+              "metrics"
+            ],
+            [
+              "contract",
+              "traces"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "One contract, three consumers: the latency SLO, the alert rule, and the dashboard all query the same guaranteed metrics.",
+          "nodes": [
+            "metrics",
+            "slo",
+            "alert",
+            "dash"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "slo"
+            ],
+            [
+              "metrics",
+              "alert"
+            ],
+            [
+              "metrics",
+              "dash"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Now someone renames a metric in a refactor. That is schema drift — and the contract's schema check catches it before it ships.",
+          "nodes": [
+            "drift",
+            "contract"
+          ],
+          "edges": [
+            [
+              "drift",
+              "contract"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But if the SLO queries an uncontracted field, drift bypasses the check and breaks it silently — no error, just missing data.",
+          "nodes": [
+            "drift",
+            "slo"
+          ],
+          "edges": [
+            [
+              "drift",
+              "slo"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: name each metric, unit, label, and span attribute, then version it — so telemetry is an enforced interface, not an accident.",
+          "nodes": [
+            "contract",
+            "service",
+            "metrics",
+            "traces"
+          ],
+          "edges": [
+            [
+              "service",
+              "contract"
+            ],
+            [
+              "contract",
+              "metrics"
+            ],
+            [
+              "contract",
+              "traces"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1623,6 +2204,102 @@
           "tone": "success",
           "label": "queryable — incident answered by filter"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters at the edge — the client hits the API gateway, and this is the moment we mint a correlation trace_id.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway stamps that trace_id onto every log line and propagates it forward as it calls the checkout service.",
+          "nodes": [
+            "gateway",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "checkout"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both gateway and checkout emit structured JSON — typed fields like event, level, and latency_ms, never an interpolated sentence.",
+          "nodes": [
+            "gateway",
+            "checkout",
+            "store"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "store"
+            ],
+            [
+              "checkout",
+              "store"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here's the risk: checkout calls payments but the id is dropped, and payments logs a plain string that goes dark in the store.",
+          "nodes": [
+            "checkout",
+            "payments",
+            "store"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "payments"
+            ],
+            [
+              "payments",
+              "store"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "In the searchable store every JSON line is queryable by field — no regex, filter and group directly on trace_id and level.",
+          "nodes": [
+            "store",
+            "query"
+          ],
+          "edges": [
+            [
+              "store",
+              "query"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The payoff: filter level=error AND trace_id=abc123 to see one slow call across three services — while the dark string is invisible.",
+          "nodes": [
+            "query",
+            "payments"
+          ],
+          "edges": [
+            [
+              "store",
+              "query"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1895,6 +2572,103 @@
         {
           "tone": "success",
           "label": "healthy span — ruled out"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One user request hits the API Gateway carrying a traceparent header — this is where the single trace_id abc123 is born.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gateway propagates that same trace_id downstream to Checkout — the invariant is: pass the trace context on every hop.",
+          "nodes": [
+            "gateway",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "checkout"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Checkout fans out two child spans: Inventory returns fast, but the Payment call is the one that will hurt.",
+          "nodes": [
+            "checkout",
+            "inventory",
+            "payment"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "inventory"
+            ],
+            [
+              "checkout",
+              "payment"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The Payment span burns 2.9 seconds waiting on Stripe retries — nearly the whole 4-second request lives on this one edge.",
+          "nodes": [
+            "payment",
+            "psp"
+          ],
+          "edges": [
+            [
+              "payment",
+              "psp"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Every service exports its spans to the Trace Collector, all stamped with trace_id abc123 so they reassemble into one timeline.",
+          "nodes": [
+            "gateway",
+            "payment",
+            "collector"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "collector"
+            ],
+            [
+              "payment",
+              "collector"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the insight: five services each looked green, but the trace shows exactly where the 3 lost seconds went — Payment.",
+          "nodes": [
+            "checkout",
+            "payment",
+            "collector"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "payment"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -2177,7 +2951,132 @@
           "label": "backend stores whatever it receives"
         }
       ],
-      "caption": "The sync HTTP hop carries the trace; the async publish forgets to attach it. That single missing message attribute is why the worker's latency never shows up on the checkout waterfall."
+      "caption": "The sync HTTP hop carries the trace; the async publish forgets to attach it. That single missing message attribute is why the worker's latency never shows up on the checkout waterfall.",
+      "storyboard": [
+        {
+          "say": "A request enters at the Client and hits the API Gateway over HTTP — this is where the single trace_id is born.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The gateway calls the Checkout Service and injects the trace_id into the W3C traceparent header, so this sync hop propagates cleanly.",
+          "nodes": [
+            "gateway",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "checkout"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Checkout publishes an order to the queue — but no trace context is attached as a message attribute, so the carrier goes silent here.",
+          "nodes": [
+            "checkout",
+            "queue"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "queue"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Fulfilment Worker consumes the message and finds no parent to extract, so it starts a brand-new root instead of a child span.",
+          "nodes": [
+            "queue",
+            "worker"
+          ],
+          "edges": [
+            [
+              "queue",
+              "worker"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Both sides emit spans to the Trace Backend, but the worker's spans arrive as an orphan root — a separate tree, not the request's waterfall.",
+          "nodes": [
+            "gateway",
+            "worker",
+            "backend"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "backend"
+            ],
+            [
+              "worker",
+              "backend"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So when p99 crosses the SLO, on-call sees four disconnected roots — the async worker's real latency is invisible on the trace.",
+          "nodes": [
+            "checkout",
+            "queue",
+            "worker",
+            "backend"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "queue"
+            ],
+            [
+              "queue",
+              "worker"
+            ],
+            [
+              "worker",
+              "backend"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: one trace_id must survive every boundary. Inject it into every carrier — header AND message attribute — or the trace forks into orphans.",
+          "nodes": [
+            "gateway",
+            "checkout",
+            "queue",
+            "worker"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "checkout"
+            ],
+            [
+              "checkout",
+              "queue"
+            ],
+            [
+              "queue",
+              "worker"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2449,6 +3348,130 @@
         {
           "tone": "success",
           "label": "repair path — CI provisions, UI is read-only"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 2 a.m., latency is spiking, and the one dashboard that matters was hand-edited in the Grafana UI by an engineer who left.",
+          "nodes": [
+            "engineer",
+            "ui"
+          ],
+          "edges": [
+            [
+              "engineer",
+              "ui"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Those clicks get exported as a stale JSON blob — no author, no reason, no diff to interrogate.",
+          "nodes": [
+            "ui",
+            "export"
+          ],
+          "edges": [
+            [
+              "ui",
+              "export"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That blob quietly diverges from the SLO it claims to watch, so the graph everyone trusts is a black box.",
+          "nodes": [
+            "export",
+            "dash"
+          ],
+          "edges": [
+            [
+              "export",
+              "dash"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair path starts differently: the engineer edits the dashboard as version-controlled code in the repo.",
+          "nodes": [
+            "engineer",
+            "repo"
+          ],
+          "edges": [
+            [
+              "engineer",
+              "repo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That change opens a diff as a pull request — reviewable, attributable, and tied to a named author.",
+          "nodes": [
+            "repo",
+            "pr"
+          ],
+          "edges": [
+            [
+              "repo",
+              "pr"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On approval, CI applies and provisions the panel — the only sanctioned way it reaches production.",
+          "nodes": [
+            "pr",
+            "ci"
+          ],
+          "edges": [
+            [
+              "pr",
+              "ci"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "CI renders a provisioning-locked dashboard bound to the same SLO thresholds your alerts fire on.",
+          "nodes": [
+            "ci",
+            "dash"
+          ],
+          "edges": [
+            [
+              "ci",
+              "dash"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: change flows code, apply, UI — never UI to export — so the graph can always explain itself.",
+          "nodes": [
+            "repo",
+            "pr",
+            "ci",
+            "dash"
+          ],
+          "edges": [
+            [
+              "repo",
+              "pr"
+            ],
+            [
+              "pr",
+              "ci"
+            ],
+            [
+              "ci",
+              "dash"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2735,6 +3758,107 @@
         {
           "tone": "muted",
           "label": "cause metrics — dashboard-only, never a page"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a real user request. This is the only signal that ultimately justifies waking a human at 3 a.m.",
+          "nodes": [
+            "user",
+            "sli"
+          ],
+          "edges": [
+            [
+              "user",
+              "sli"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The SLI recorder observes that request and measures whether it succeeded fast enough, then draws down the error budget.",
+          "nodes": [
+            "sli",
+            "budget"
+          ],
+          "edges": [
+            [
+              "sli",
+              "budget"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The budget feeds a burn rate: how quickly you're spending the month's allowance of failures right now.",
+          "nodes": [
+            "budget",
+            "rule"
+          ],
+          "edges": [
+            [
+              "budget",
+              "rule"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The multi-window rule only fires when a fast window and a slow window both agree, catching real burn while ignoring blips.",
+          "nodes": [
+            "rule",
+            "page"
+          ],
+          "edges": [
+            [
+              "rule",
+              "page"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only then does it page on-call. The alert carries a runbook link, so the human starts with a symptom, not a mystery.",
+          "nodes": [
+            "page",
+            "query"
+          ],
+          "edges": [
+            [
+              "page",
+              "query"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The first query pulls up the cause dashboard: saturation, GC, per-service latency. These explain the failure but never trigger it.",
+          "nodes": [
+            "query",
+            "dash"
+          ],
+          "edges": [
+            [
+              "query",
+              "dash"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That's the invariant: cause metrics route straight to the dashboard and never page. Symptoms wake you, causes explain why.",
+          "nodes": [
+            "sli",
+            "dash",
+            "page"
+          ],
+          "edges": [
+            [
+              "sli",
+              "dash"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3025,6 +4149,134 @@
           "tone": "success",
           "label": "the SLI the whole thing measures"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one signal: the SLI metric — the raw stream of successes and failures that tells us how the service is actually doing.",
+          "nodes": [
+            "sli"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "That stream consumes the error budget — the finite slack your SLO allows. Every failure spends it; burn rate is how fast you're spending.",
+          "nodes": [
+            "sli",
+            "budget"
+          ],
+          "edges": [
+            [
+              "sli",
+              "budget"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The budget feeds three parallel burn-rate checks: a fast 1-hour rate, a fast 5-minute rate, and a slow 6-hour rate.",
+          "nodes": [
+            "budget",
+            "fastlong",
+            "fastshort",
+            "slow"
+          ],
+          "edges": [
+            [
+              "budget",
+              "fastlong"
+            ],
+            [
+              "budget",
+              "fastshort"
+            ],
+            [
+              "budget",
+              "slow"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The long window asks: is this burn real and sustained? A high 1-hour rate means the budget is genuinely draining, not just flickering.",
+          "nodes": [
+            "fastlong",
+            "budget"
+          ],
+          "edges": [
+            [
+              "budget",
+              "fastlong"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The short window asks: is it still happening right now? The 5-minute rate kills stale alerts once a blip recovers.",
+          "nodes": [
+            "fastshort",
+            "budget"
+          ],
+          "edges": [
+            [
+              "budget",
+              "fastshort"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only when BOTH fast windows agree does the pager fire — real AND ongoing. That's how the 3 a.m. 90-second blip never wakes you.",
+          "nodes": [
+            "fastlong",
+            "fastshort",
+            "page"
+          ],
+          "edges": [
+            [
+              "fastlong",
+              "page"
+            ],
+            [
+              "fastshort",
+              "page"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Meanwhile the slow 6-hour check fires alone into a ticket — no page — catching the quiet bleed eating 40% of the budget.",
+          "nodes": [
+            "slow",
+            "ticket"
+          ],
+          "edges": [
+            [
+              "slow",
+              "ticket"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The insight: tie the pager to burn rate, not a static threshold — page on fast confirmed burn, ticket on slow steady bleed.",
+          "nodes": [
+            "budget",
+            "page",
+            "ticket"
+          ],
+          "edges": [
+            [
+              "fastshort",
+              "page"
+            ],
+            [
+              "slow",
+              "ticket"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3310,6 +4562,104 @@
         {
           "tone": "success",
           "label": "repair: one page, threshold tied to the SLO"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "3:14 a.m. Eleven alerts hit in ninety seconds. Latency climbs, Slack fills with 'is it just me?' — this is the storm.",
+          "nodes": [
+            "storm"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Don't read eleven alerts. Fan them into the golden signals — latency, errors, traffic, saturation — one lens for the flood.",
+          "nodes": [
+            "storm",
+            "signals"
+          ],
+          "edges": [
+            [
+              "storm",
+              "signals"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Set severity by error-budget burn, not alert count. Budget's at forty percent — this is a SEV-2, not a five-alarm fire.",
+          "nodes": [
+            "signals",
+            "sev"
+          ],
+          "edges": [
+            [
+              "signals",
+              "sev"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now localize. Walk metric to trace: find the slowest span in the waterfall to name ONE causal node.",
+          "nodes": [
+            "sev",
+            "trace",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "sev",
+              "trace"
+            ],
+            [
+              "trace",
+              "gateway"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The trace lands on the payment gateway timing out. That's the story — checkout is fine, this is the root cause.",
+          "nodes": [
+            "gateway"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The stale-catalog and worker alerts are downstream echoes the gateway caused. They're noise — silence them.",
+          "nodes": [
+            "gateway",
+            "echoes",
+            "repair"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "echoes"
+            ],
+            [
+              "echoes",
+              "repair"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Repair path: raise the SLO-aligned threshold and page once. One incident, one story, one page.",
+          "nodes": [
+            "gateway",
+            "repair"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "repair"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -3612,6 +4962,141 @@
         {
           "tone": "success",
           "label": "SLO-anchored repair path → tiered updates"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The status page has said 'investigating' for 40 minutes. The work is happening, but nobody is communicating the incident, only fighting it.",
+          "nodes": [
+            "noisy",
+            "packet"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "Start with the anchor: the SLO and its error budget define impact, telling the packet who is hurt and how badly.",
+          "nodes": [
+            "slo",
+            "packet"
+          ],
+          "edges": [
+            [
+              "slo",
+              "packet"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Trace proves the cause, metric quantifies the damage, and one log sample makes it concrete. Together they become the evidence.",
+          "nodes": [
+            "trace",
+            "metric",
+            "log",
+            "packet"
+          ],
+          "edges": [
+            [
+              "trace",
+              "packet"
+            ],
+            [
+              "metric",
+              "packet"
+            ],
+            [
+              "log",
+              "packet"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the trap: a noisy alert screams for attention but does not measure user impact, so it must NOT drive the update.",
+          "nodes": [
+            "noisy",
+            "packet"
+          ],
+          "edges": [
+            [
+              "noisy",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The signals converge into one incident packet: user impact, blast boundary, evidence, and a promised next-update time.",
+          "nodes": [
+            "slo",
+            "trace",
+            "metric",
+            "log",
+            "packet"
+          ],
+          "edges": [
+            [
+              "slo",
+              "packet"
+            ],
+            [
+              "trace",
+              "packet"
+            ],
+            [
+              "metric",
+              "packet"
+            ],
+            [
+              "log",
+              "packet"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The same packet retunes for each audience: customers hear impact and ETA, execs hear scope and the decision they own.",
+          "nodes": [
+            "packet",
+            "cust",
+            "exec"
+          ],
+          "edges": [
+            [
+              "packet",
+              "cust"
+            ],
+            [
+              "packet",
+              "exec"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Responders get evidence and an owner. The invariant across all three: report impact, not your repair status.",
+          "nodes": [
+            "packet",
+            "resp",
+            "cust",
+            "exec"
+          ],
+          "edges": [
+            [
+              "packet",
+              "resp"
+            ],
+            [
+              "packet",
+              "cust"
+            ],
+            [
+              "packet",
+              "exec"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3919,6 +5404,114 @@
         {
           "tone": "muted",
           "label": "blame — kept out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts silently: a bad config ships to production, no alarm, no fanfare — just a routine deploy that will cost you the night.",
+          "nodes": [
+            "deploy"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The config triggers the failure — the index worker stalls, search goes stale, and conversions quietly begin to bleed.",
+          "nodes": [
+            "deploy",
+            "break"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "break"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Detection finally fires at 2 a.m. — but only after a five-hour dark window where a broken system stayed invisible until a customer noticed.",
+          "nodes": [
+            "break",
+            "detect"
+          ],
+          "edges": [
+            [
+              "break",
+              "detect"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The failure path completes: mitigate to stop the bleeding, then recover to restore the SLO. The outage is over — the lesson isn't.",
+          "nodes": [
+            "detect",
+            "mitigate",
+            "recover"
+          ],
+          "edges": [
+            [
+              "detect",
+              "mitigate"
+            ],
+            [
+              "mitigate",
+              "recover"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the review. A director asks 'who pushed the bad change?' — but blame must NOT anchor at the deploy; that's the wrong question.",
+          "nodes": [
+            "blame",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "blame",
+              "deploy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The right question runs the other way: from detection, ask why past the first answer until you reach system gaps, not names.",
+          "nodes": [
+            "detect",
+            "causes"
+          ],
+          "edges": [
+            [
+              "detect",
+              "causes"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Each contributing cause becomes an action item — every gap gets a fix that changes the system, converting one painful night into durable change.",
+          "nodes": [
+            "causes",
+            "actions"
+          ],
+          "edges": [
+            [
+              "causes",
+              "actions"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: if the person vanished, the incident must still be prevented. That's what makes a postmortem close the loop.",
+          "nodes": [
+            "actions",
+            "blame"
+          ],
+          "edges": [],
+          "ms": 4200
         }
       ]
     },
@@ -4231,6 +5824,105 @@
           "tone": "muted",
           "label": "blind scaling — burns budget, proves nothing"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a breach: checkout p99 is 4.2 seconds against a 1-second SLO, error budget 80 percent gone, alert fired 60 times overnight.",
+          "nodes": [
+            "slo"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path reads CPU and averages — a utilization gauge, not a profile — and can't say which span ate the four seconds.",
+          "nodes": [
+            "slo",
+            "avg"
+          ],
+          "edges": [
+            [
+              "slo",
+              "avg"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "So the room scales blindly: add more pods. It burns the last of the budget and attributes nothing.",
+          "nodes": [
+            "avg",
+            "scale"
+          ],
+          "edges": [
+            [
+              "avg",
+              "scale"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair path forks instead to the tail: pull one exemplar trace from the slow p99 requests, not the average one.",
+          "nodes": [
+            "slo",
+            "exemplar"
+          ],
+          "edges": [
+            [
+              "slo",
+              "exemplar"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Open that trace and decompose it span by span until a single span owns the time.",
+          "nodes": [
+            "exemplar",
+            "spans",
+            "hot"
+          ],
+          "edges": [
+            [
+              "exemplar",
+              "spans"
+            ],
+            [
+              "spans",
+              "hot"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "With the hot span named, set the alert threshold from the SLO it defends — so the channel becomes trustworthy again.",
+          "nodes": [
+            "hot",
+            "alert"
+          ],
+          "edges": [
+            [
+              "hot",
+              "alert"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The tuned alert and the span breakdown become evidence — Section 3 of the incident packet. Attribution beats intuition.",
+          "nodes": [
+            "alert",
+            "packet"
+          ],
+          "edges": [
+            [
+              "alert",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4525,6 +6217,126 @@
           "tone": "success",
           "label": "forecast → capacity decision"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Traffic hits the load balancer as requests per second — this is the load we push through the whole path.",
+          "nodes": [
+            "load",
+            "lb"
+          ],
+          "edges": [
+            [
+              "load",
+              "lb"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The balancer enqueues each request, so demand piles up in a bounded queue before any work starts.",
+          "nodes": [
+            "lb",
+            "queue"
+          ],
+          "edges": [
+            [
+              "lb",
+              "queue"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "To do real work each request must acquire a database connection from the pool — the first resource that saturates.",
+          "nodes": [
+            "queue",
+            "pool"
+          ],
+          "edges": [
+            [
+              "queue",
+              "pool"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "At the knee, wait time explodes as one over one minus utilization, so p99 latency crosses the SLO.",
+          "nodes": [
+            "pool",
+            "slo"
+          ],
+          "edges": [
+            [
+              "pool",
+              "slo"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Each SLO breach burns the error budget minute by minute — that is the blast radius of running past the knee.",
+          "nodes": [
+            "slo",
+            "budget"
+          ],
+          "edges": [
+            [
+              "slo",
+              "budget"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Meanwhile the demand forecast reads the growth trend from load and hands the scaler headroom to the knee.",
+          "nodes": [
+            "load",
+            "forecast",
+            "scaler"
+          ],
+          "edges": [
+            [
+              "load",
+              "forecast"
+            ],
+            [
+              "forecast",
+              "scaler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The saturating pool also drives the decision: raise the connection limit or add replicas before the knee arrives.",
+          "nodes": [
+            "pool",
+            "scaler"
+          ],
+          "edges": [
+            [
+              "pool",
+              "scaler"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: capacity is a tail-under-peak property. Averages stay green while the binding resource — the pool — is already saturated.",
+          "nodes": [
+            "pool",
+            "slo",
+            "scaler"
+          ],
+          "edges": [
+            [
+              "pool",
+              "slo"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4808,6 +6620,120 @@
         {
           "tone": "muted",
           "label": "unbounded buffer — kept out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Clients send requests to the API gateway, which enqueues each unit of work into a single bounded queue up front.",
+          "nodes": [
+            "client",
+            "gateway",
+            "queue"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "queue"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Workers dequeue at a paced rate and apply only a bounded load to the datastore, so downstream never gets overrun.",
+          "nodes": [
+            "queue",
+            "workers",
+            "db"
+          ],
+          "edges": [
+            [
+              "queue",
+              "workers"
+            ],
+            [
+              "workers",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The bound is the whole trick: cap the queue at a depth workers can drain inside the SLO, and depth bounds latency.",
+          "nodes": [
+            "queue"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "When arrivals reach the high-water mark, the queue is full and the shed valve decides: no room for more work.",
+          "nodes": [
+            "queue",
+            "shed"
+          ],
+          "edges": [
+            [
+              "queue",
+              "shed"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Instead of buffering, the valve fast-fails overflow back to the client as a 429 or 503 — a fast, visible rejection.",
+          "nodes": [
+            "shed",
+            "client"
+          ],
+          "edges": [
+            [
+              "shed",
+              "client"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The alternative is the unbounded buffer: it must never replace the bound, or overload becomes silent, ever-growing latency.",
+          "nodes": [
+            "unbounded",
+            "queue"
+          ],
+          "edges": [
+            [
+              "unbounded",
+              "queue"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "So bounded depth converts overload into an observable fast reject — accepted work stays inside the SLO, nothing silently piles up.",
+          "nodes": [
+            "queue",
+            "shed",
+            "workers",
+            "client"
+          ],
+          "edges": [
+            [
+              "queue",
+              "shed"
+            ],
+            [
+              "shed",
+              "client"
+            ],
+            [
+              "queue",
+              "workers"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5096,6 +7022,120 @@
           "tone": "muted",
           "label": "repair path — HALF-OPEN probe"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user hits Checkout to buy something — this is the entry point, and everything downstream depends on the Payments API answering.",
+          "nodes": [
+            "client",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "client",
+              "checkout"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Checkout never calls Payments directly. It routes the call through a circuit breaker — one guarded chokepoint where every failure decision is made.",
+          "nodes": [
+            "checkout",
+            "breaker"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "breaker"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "When the breaker is closed, it allows the attempt through a bounded step: a timeout caps one try, and jittered retry survives a transient blip without a herd.",
+          "nodes": [
+            "breaker",
+            "timeout"
+          ],
+          "edges": [
+            [
+              "breaker",
+              "timeout"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The bounded attempt reaches Payments. The timeout is the whole point — a 4-second Payments can never turn into a hung, thread-pool-eating call.",
+          "nodes": [
+            "timeout",
+            "payments"
+          ],
+          "edges": [
+            [
+              "timeout",
+              "payments"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When Payments returns errors, they count against the breaker's threshold. Enough failures and the breaker trips OPEN.",
+          "nodes": [
+            "payments",
+            "breaker"
+          ],
+          "edges": [
+            [
+              "payments",
+              "breaker"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now OPEN, the breaker stops calling the sick dependency. It fails fast to the fallback instead of hammering Payments and saturating itself.",
+          "nodes": [
+            "breaker",
+            "fallback"
+          ],
+          "edges": [
+            [
+              "breaker",
+              "fallback"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The fallback returns degraded success back to Checkout — the journey survives. One feature bends; search, cart, and login stay up.",
+          "nodes": [
+            "fallback",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "fallback",
+              "checkout"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "To recover, the breaker goes HALF-OPEN and sends one probe. If Payments answers, it closes; if not, it re-opens — bounded, observable, self-healing.",
+          "nodes": [
+            "breaker",
+            "payments"
+          ],
+          "edges": [
+            [
+              "breaker",
+              "payments"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5375,6 +7415,114 @@
         {
           "tone": "success",
           "label": "healthy budget → promote the release"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A release is a hypothesis. Here vN+1 deploys and activates the service — the moment we start owing users an answer about whether this version is safe.",
+          "nodes": [
+            "deploy",
+            "service"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "service"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The live service emits telemetry — metrics, traces, and logs stream into the pipeline as the raw evidence the release will be judged against.",
+          "nodes": [
+            "service",
+            "telemetry"
+          ],
+          "edges": [
+            [
+              "service",
+              "telemetry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The pipeline feeds an SLI into the SLO evaluator. This is where a wall of red spikes becomes one framed question instead of noise.",
+          "nodes": [
+            "telemetry",
+            "slo"
+          ],
+          "edges": [
+            [
+              "telemetry",
+              "slo"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The evaluator is the decision point: it watches error-budget burn against the SLO the release must not degrade, then branches one of two ways.",
+          "nodes": [
+            "slo"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "If the budget holds, we keep vN+1. The hypothesis is confirmed — this version is at least as good as the last one.",
+          "nodes": [
+            "slo",
+            "keep"
+          ],
+          "edges": [
+            [
+              "slo",
+              "keep"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "If the budget burns fast, the SLO evaluator fires a burn-rate alert — one threshold that pages, not five loud dashboards.",
+          "nodes": [
+            "slo",
+            "alert"
+          ],
+          "edges": [
+            [
+              "slo",
+              "alert"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That alert triggers the repair path: roll back to vN before users keep paying for a bad guess.",
+          "nodes": [
+            "alert",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "alert",
+              "rollback"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Rollback loops back to the next deploy, sharper for the evidence. The invariant: a signal that moves no decision is not observability.",
+          "nodes": [
+            "rollback",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "deploy"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5668,6 +7816,126 @@
         {
           "tone": "warning",
           "label": "burn-rate alert → incident → postmortem"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one real user request hitting the checkout service — that single call is the outcome every signal has to trace back to.",
+          "nodes": [
+            "user",
+            "service"
+          ],
+          "edges": [
+            [
+              "user",
+              "service"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "As it runs, the service emits three signals at once: RED metrics, a log line, and a distributed trace span.",
+          "nodes": [
+            "service",
+            "metrics",
+            "logs",
+            "traces"
+          ],
+          "edges": [
+            [
+              "service",
+              "metrics"
+            ],
+            [
+              "service",
+              "logs"
+            ],
+            [
+              "service",
+              "traces"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Metrics — latency and error rate — feed the SLO, which is the one place that knows whether users are actually being hurt.",
+          "nodes": [
+            "metrics",
+            "slo"
+          ],
+          "edges": [
+            [
+              "metrics",
+              "slo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the error budget starts burning, the SLO fires exactly one alert — tied to burn rate, not raw thresholds, so it stays trustworthy.",
+          "nodes": [
+            "slo",
+            "alert"
+          ],
+          "edges": [
+            [
+              "slo",
+              "alert"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That single burn-rate alert pages the on-call — one signal to trust instead of a wall of red from twelve services.",
+          "nodes": [
+            "alert",
+            "incident"
+          ],
+          "edges": [
+            [
+              "alert",
+              "incident"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The trace joins the incident replay and names the slow span, turning the page from a mystery into a specific cause.",
+          "nodes": [
+            "traces",
+            "incident"
+          ],
+          "edges": [
+            [
+              "traces",
+              "incident"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every signal chains back to a real request's outcome — that's the packet that proves you can operate a service.",
+          "nodes": [
+            "user",
+            "slo",
+            "alert",
+            "incident"
+          ],
+          "edges": [
+            [
+              "user",
+              "service"
+            ],
+            [
+              "metrics",
+              "slo"
+            ],
+            [
+              "alert",
+              "incident"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },

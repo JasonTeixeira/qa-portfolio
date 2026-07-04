@@ -123,6 +123,136 @@
           "tone": "muted",
           "label": "the architecture, kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The design review opens and someone already drew the boxes — a queue, three replicas, a cache. But nobody framed the requirement first.",
+          "nodes": [
+            "architecture",
+            "requirement"
+          ],
+          "edges": [
+            [
+              "architecture",
+              "requirement"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "State the driving requirement solution-free: what the system must do, with no technology named yet. It defines the whole decision.",
+          "nodes": [
+            "requirement",
+            "adr"
+          ],
+          "edges": [
+            [
+              "requirement",
+              "adr"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Attach a numeric capacity and latency budget — RPS times peak, and an SLO. This sizes the decision instead of hand-waving 'must scale'.",
+          "nodes": [
+            "capacity",
+            "adr"
+          ],
+          "edges": [
+            [
+              "capacity",
+              "adr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Name the one non-negotiable constraint — a consistency guarantee, a boundary, a dependency. It bounds which options are even legal.",
+          "nodes": [
+            "constraint",
+            "adr"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "adr"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "State the one unacceptable failure you fear most. That fear raises the proof bar the chosen design must clear.",
+          "nodes": [
+            "feared",
+            "adr"
+          ],
+          "edges": [
+            [
+              "feared",
+              "adr"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "These four inputs converge into Section 1 of the ADR — the requirement, the numbers, the constraint, and the risk.",
+          "nodes": [
+            "requirement",
+            "capacity",
+            "constraint",
+            "feared",
+            "adr"
+          ],
+          "edges": [
+            [
+              "requirement",
+              "adr"
+            ],
+            [
+              "capacity",
+              "adr"
+            ],
+            [
+              "constraint",
+              "adr"
+            ],
+            [
+              "feared",
+              "adr"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The chosen box stays OUT of the frame — it must not leak into the requirement line. Naming tech there means you pre-decided the tradeoff.",
+          "nodes": [
+            "architecture",
+            "requirement",
+            "adr"
+          ],
+          "edges": [
+            [
+              "architecture",
+              "requirement"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: the frame holds the load and the risk, never the architecture. Frame first, then compare options.",
+          "nodes": [
+            "adr",
+            "architecture"
+          ],
+          "edges": [
+            [
+              "architecture",
+              "requirement"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -424,6 +554,119 @@
           "tone": "success",
           "label": "the sizing decision the packet exists to make"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the stated assumptions: daily active users and per-user actions. Every downstream number must trace back here.",
+          "nodes": [
+            "assumptions"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "From those assumptions we derive two things in parallel: requests per second, and bytes per record rolled up to storage per year.",
+          "nodes": [
+            "assumptions",
+            "rps",
+            "storage"
+          ],
+          "edges": [
+            [
+              "assumptions",
+              "rps"
+            ],
+            [
+              "assumptions",
+              "storage"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Multiply RPS by the average payload to get peak bandwidth — the pipe you must actually provision.",
+          "nodes": [
+            "rps",
+            "bandwidth"
+          ],
+          "edges": [
+            [
+              "rps",
+              "bandwidth"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Now apply the peak factor: real traffic isn't flat, so size for the worst hour, not the daily average.",
+          "nodes": [
+            "bandwidth",
+            "peak",
+            "sizing"
+          ],
+          "edges": [
+            [
+              "bandwidth",
+              "peak"
+            ],
+            [
+              "peak",
+              "sizing"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the failure: skip the peak factor and feed average RPS straight to the cache — a hot key triggers a thundering herd.",
+          "nodes": [
+            "rps",
+            "herd"
+          ],
+          "edges": [
+            [
+              "rps",
+              "herd"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair is to re-derive with a peak multiplier of N, routing back through the peak factor instead of around it.",
+          "nodes": [
+            "herd",
+            "peak"
+          ],
+          "edges": [
+            [
+              "herd",
+              "peak"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Back on the correct path, the peak-adjusted numbers drive a sizing decision built for the worst hour, with headroom.",
+          "nodes": [
+            "peak",
+            "sizing"
+          ],
+          "edges": [
+            [
+              "peak",
+              "sizing"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The invariant: every estimate is re-derivable from a visible assumption — order of magnitude, not false-precision decimals.",
+          "nodes": [
+            "assumptions",
+            "sizing"
+          ],
+          "edges": [],
+          "ms": 3800
+        }
       ]
     },
     {
@@ -695,6 +938,131 @@
         {
           "tone": "warning",
           "label": "boundary violation + its blast radius (oversell)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a customer hits checkout, and the Client asks the Orders context to place an order.",
+          "nodes": [
+            "client",
+            "orders"
+          ],
+          "edges": [
+            [
+              "client",
+              "orders"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Orders owns its own invariant and writes to its own store — that part is clean and self-contained.",
+          "nodes": [
+            "orders",
+            "ordersdb"
+          ],
+          "edges": [
+            [
+              "orders",
+              "ordersdb"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "To hold stock, Orders should call the Inventory API's reserve contract — one explicit, one-directional dependency across the seam.",
+          "nodes": [
+            "orders",
+            "invapi",
+            "invdb"
+          ],
+          "edges": [
+            [
+              "orders",
+              "invapi"
+            ],
+            [
+              "invapi",
+              "invdb"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Pricing works the same honest way: Orders asks for a quote through Pricing's contract, knowing nothing of its internals.",
+          "nodes": [
+            "orders",
+            "pricing"
+          ],
+          "edges": [
+            [
+              "orders",
+              "pricing"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "But here's the suspect edge: Orders writes straight into Inventory's table, bypassing the API and the invariant that guards stock.",
+          "nodes": [
+            "orders",
+            "invdb",
+            "invapi"
+          ],
+          "edges": [
+            [
+              "orders",
+              "invdb"
+            ],
+            [
+              "invapi",
+              "invdb"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "At 3x traffic, concurrent checkouts race that raw write and oversell stock — the blast radius of a boundary nobody drew.",
+          "nodes": [
+            "client",
+            "orders",
+            "invdb"
+          ],
+          "edges": [
+            [
+              "client",
+              "orders"
+            ],
+            [
+              "orders",
+              "invdb"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The rule: one owner per invariant, one direction per edge, and every crossing goes through a contract — never a shared table.",
+          "nodes": [
+            "orders",
+            "invapi",
+            "invdb",
+            "pricing"
+          ],
+          "edges": [
+            [
+              "orders",
+              "invapi"
+            ],
+            [
+              "orders",
+              "pricing"
+            ],
+            [
+              "orders",
+              "invdb"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -983,6 +1351,131 @@
           "tone": "muted",
           "label": "kept out of scope on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters at the edge: the client hits the Orders service, the producer that owns this contract.",
+          "nodes": [
+            "client",
+            "orders"
+          ],
+          "edges": [
+            [
+              "client",
+              "orders"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Orders reads its data from Postgres, but that datastore is out of scope here — the boundary we care about is the response.",
+          "nodes": [
+            "orders",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "orders",
+              "postgres"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The real boundary is the response schema — where Orders serializes its promises into an explicit, testable contract.",
+          "nodes": [
+            "orders",
+            "schema"
+          ],
+          "edges": [
+            [
+              "orders",
+              "schema"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That one schema fans out to three consumers: Notifications, Analytics, and the Search Index all depend on its shape.",
+          "nodes": [
+            "schema",
+            "notify",
+            "analytics",
+            "search"
+          ],
+          "edges": [
+            [
+              "schema",
+              "notify"
+            ],
+            [
+              "schema",
+              "analytics"
+            ],
+            [
+              "schema",
+              "search"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Rename total_cents to amount and the blast radius is silent: Notifications emails $undefined, Analytics drops rows, nobody touched their code.",
+          "nodes": [
+            "schema",
+            "notify",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "schema",
+              "notify"
+            ],
+            [
+              "schema",
+              "analytics"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The rule: additive changes are safe, renames and removals are breaking — bump the version so yesterday's client keeps working.",
+          "nodes": [
+            "schema",
+            "search"
+          ],
+          "edges": [
+            [
+              "schema",
+              "search"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The contract is the foundation: every consumer inherits its drift, so silent breakage is the failure this skill exists to kill.",
+          "nodes": [
+            "schema",
+            "notify",
+            "analytics",
+            "search"
+          ],
+          "edges": [
+            [
+              "schema",
+              "notify"
+            ],
+            [
+              "schema",
+              "analytics"
+            ],
+            [
+              "schema",
+              "search"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1254,6 +1747,111 @@
         {
           "tone": "success",
           "label": "strong-read path (checkout must not lag)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A price write enters here: the client sends a new price to the Catalog API, the single front door for changes.",
+          "nodes": [
+            "client",
+            "api"
+          ],
+          "edges": [
+            [
+              "client",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The API commits that price to Postgres with a strong write, so the source of truth is instantly correct.",
+          "nodes": [
+            "api",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "api",
+              "postgres"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Postgres emits a change event onto the Event Bus, kicking off the asynchronous fan-out to downstream readers.",
+          "nodes": [
+            "postgres",
+            "bus"
+          ],
+          "edges": [
+            [
+              "postgres",
+              "bus"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the suspect edge: the bus projects into the Read Model, and this hop LAGS — eventual consistency enters the system.",
+          "nodes": [
+            "bus",
+            "readmodel"
+          ],
+          "edges": [
+            [
+              "bus",
+              "readmodel"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Browsing reads hit the lagging Read Model, which is fine because catalog listings are explicitly allowed to be stale.",
+          "nodes": [
+            "client",
+            "readmodel"
+          ],
+          "edges": [
+            [
+              "client",
+              "readmodel"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But Checkout reads price straight from Postgres — that path must be strong, because charging a stale price is unacceptable.",
+          "nodes": [
+            "checkout",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "postgres"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: staleness is a chosen contract per read path. Undocumented, that eleven-minute lag becomes an accident, not a decision.",
+          "nodes": [
+            "readmodel",
+            "postgres",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "bus",
+              "readmodel"
+            ],
+            [
+              "checkout",
+              "postgres"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1542,6 +2140,139 @@
         {
           "tone": "warning",
           "label": "eventual: the stale window you accept"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer places an order. The client hits the Order Service, which owns the write path and must answer one question: who may see stale data, and for how long.",
+          "nodes": [
+            "client",
+            "orders"
+          ],
+          "edges": [
+            [
+              "client",
+              "orders"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Inside Postgres, the order row and its outbox event commit in one ACID transaction. This is the strong-consistency core, where atomicity is real and free.",
+          "nodes": [
+            "orders",
+            "db"
+          ],
+          "edges": [
+            [
+              "orders",
+              "db"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That committed outbox event hands off to the Saga Coordinator. Crossing service edges, we lose the shared transaction, so we orchestrate steps instead.",
+          "nodes": [
+            "db",
+            "saga"
+          ],
+          "edges": [
+            [
+              "db",
+              "saga"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The saga charges the card in Payments, then reserves stock in Inventory. Two separate services, two separate writes, no single transaction spanning both.",
+          "nodes": [
+            "saga",
+            "pay",
+            "inv"
+          ],
+          "edges": [
+            [
+              "saga",
+              "pay"
+            ],
+            [
+              "saga",
+              "inv"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here is the naive-checkout failure: the card succeeds but inventory times out. Without compensation, you have sold money for nothing.",
+          "nodes": [
+            "pay",
+            "inv"
+          ],
+          "edges": [
+            [
+              "saga",
+              "pay"
+            ],
+            [
+              "saga",
+              "inv"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The saga fixes this with compensations. On inventory failure it releases the reservation and refunds the charge, walking the system back to a consistent state.",
+          "nodes": [
+            "inv",
+            "saga",
+            "pay"
+          ],
+          "edges": [
+            [
+              "inv",
+              "saga"
+            ],
+            [
+              "saga",
+              "pay"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Postgres also projects into the read model, which lags. That stale-read window is the anomaly we knowingly accept, not a bug we forgot.",
+          "nodes": [
+            "db",
+            "read"
+          ],
+          "edges": [
+            [
+              "db",
+              "read"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: name the invariant, use ACID inside one store, choose a saga across edges, and declare which anomaly you tolerate on purpose.",
+          "nodes": [
+            "db",
+            "saga",
+            "read"
+          ],
+          "edges": [
+            [
+              "db",
+              "saga"
+            ],
+            [
+              "db",
+              "read"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -1835,6 +2566,145 @@
           "tone": "success",
           "label": "repair path — write publishes invalidation"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer asks for a product. The request enters the App Service, which owns the read path from here.",
+          "nodes": [
+            "client",
+            "app"
+          ],
+          "edges": [
+            [
+              "client",
+              "app"
+            ]
+          ],
+          "ms": 3400
+        },
+        {
+          "say": "The service checks Redis first. This is cache-aside: ask the cache before you ever touch the database.",
+          "nodes": [
+            "app",
+            "cache"
+          ],
+          "edges": [
+            [
+              "app",
+              "cache"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "On a miss, the service reads Postgres, the source of truth, then sets the value in Redis with a TTL.",
+          "nodes": [
+            "cache",
+            "app",
+            "db"
+          ],
+          "edges": [
+            [
+              "cache",
+              "app"
+            ],
+            [
+              "app",
+              "db"
+            ],
+            [
+              "app",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Latency drops. Hot reads now hit Redis instead of the database, and the system breathes again under load.",
+          "nodes": [
+            "app",
+            "cache"
+          ],
+          "edges": [
+            [
+              "app",
+              "cache"
+            ]
+          ],
+          "ms": 3400
+        },
+        {
+          "say": "Now the trap: the Price Writer updates Postgres but never touches the cache, so Redis still holds the old price.",
+          "nodes": [
+            "writer",
+            "db",
+            "cache"
+          ],
+          "edges": [
+            [
+              "writer",
+              "db"
+            ],
+            [
+              "writer",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Reads keep serving that stale entry until the TTL expires. A customer sees a price that changed hours ago.",
+          "nodes": [
+            "cache",
+            "app",
+            "client"
+          ],
+          "edges": [
+            [
+              "app",
+              "cache"
+            ],
+            [
+              "client",
+              "app"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair: on every write, publish an invalidation. Invalidate deletes the key so the next read re-hydrates.",
+          "nodes": [
+            "writer",
+            "bust",
+            "cache"
+          ],
+          "edges": [
+            [
+              "writer",
+              "bust"
+            ],
+            [
+              "bust",
+              "cache"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant holds: the cache may lag the truth, but a bust-on-change rule keeps it from contradicting it.",
+          "nodes": [
+            "bust",
+            "cache",
+            "db"
+          ],
+          "edges": [
+            [
+              "bust",
+              "cache"
+            ]
+          ],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -2116,6 +2986,119 @@
         {
           "tone": "warning",
           "label": "dead-letter — poison-message escape"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer clicks buy. Their order lands at the checkout service, which owes them one thing: a fast, confident confirmation.",
+          "nodes": [
+            "client",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "client",
+              "checkout"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Instead of sending the email itself, checkout emits one event to a durable queue and returns immediately — the customer never waits.",
+          "nodes": [
+            "checkout",
+            "queue"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "queue"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On Black Friday, 8,000 orders a second hit this queue. It doesn't block; it just absorbs the burst as a growing backlog.",
+          "nodes": [
+            "queue"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "A separate email worker pulls from the queue at its own pace, draining the backlog steadily instead of all at once.",
+          "nodes": [
+            "queue",
+            "consumer"
+          ],
+          "edges": [
+            [
+              "queue",
+              "consumer"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Delivery is at-least-once, so the same event can arrive twice. The worker checks an idempotency store first to never send a duplicate receipt.",
+          "nodes": [
+            "consumer",
+            "idem"
+          ],
+          "edges": [
+            [
+              "consumer",
+              "idem"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only then does it call the slow email API. If that API rate-limits, the backlog grows — but the store keeps selling.",
+          "nodes": [
+            "consumer",
+            "email"
+          ],
+          "edges": [
+            [
+              "consumer",
+              "email"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A message that keeps failing after N tries falls to a dead-letter queue, so one poison event can't stall the whole line.",
+          "nodes": [
+            "consumer",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "consumer",
+              "dlq"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: the queue decouples arrival rate from work rate, turning a traffic spike from an outage into a temporary backlog.",
+          "nodes": [
+            "checkout",
+            "queue",
+            "consumer"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "queue"
+            ],
+            [
+              "queue",
+              "consumer"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -2402,6 +3385,127 @@
         {
           "tone": "success",
           "label": "source of truth"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters at the client, hits the API Gateway, and gets routed into the Orders Service — the monolith we need to cut.",
+          "nodes": [
+            "client",
+            "gateway",
+            "orders"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "orders"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Orders writes every placed order to the Orders DB, which it fully owns — this is the write side of the path.",
+          "nodes": [
+            "orders",
+            "ordersdb"
+          ],
+          "edges": [
+            [
+              "orders",
+              "ordersdb"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here is the seam: instead of a shared table, Orders emits an OrderPlaced event to the Index Worker — the least data, in one direction.",
+          "nodes": [
+            "orders",
+            "worker"
+          ],
+          "edges": [
+            [
+              "orders",
+              "worker"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Index Worker consumes those events and indexes them into the Search Service, which owns its own separate Search Index store.",
+          "nodes": [
+            "worker",
+            "search",
+            "searchdb"
+          ],
+          "edges": [
+            [
+              "worker",
+              "search"
+            ],
+            [
+              "search",
+              "searchdb"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now reads split cleanly: the Gateway queries the Search Service directly, and Search answers from the index it alone owns.",
+          "nodes": [
+            "gateway",
+            "search",
+            "searchdb"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "search"
+            ],
+            [
+              "search",
+              "searchdb"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The tempting shortcut — Search reaching back into the Orders DB — is the failed seam: a shared table is coupling, not a boundary.",
+          "nodes": [
+            "search",
+            "ordersdb"
+          ],
+          "edges": [
+            [
+              "search",
+              "ordersdb"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: split the data, not just the deploy unit. Each service owns its store and promises consistency only at its own edge.",
+          "nodes": [
+            "orders",
+            "ordersdb",
+            "search",
+            "searchdb"
+          ],
+          "edges": [
+            [
+              "orders",
+              "ordersdb"
+            ],
+            [
+              "search",
+              "searchdb"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2703,6 +3807,117 @@
           "tone": "muted",
           "label": "the retry storm — kept off the path on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every request starts here: a caller makes a synchronous call across a service boundary into something it doesn't control.",
+          "nodes": [
+            "client",
+            "timeout"
+          ],
+          "edges": [
+            [
+              "client",
+              "timeout"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The dependency slows from 40 milliseconds to 3 seconds. A timeout caps each attempt so we fail fast instead of hanging.",
+          "nodes": [
+            "timeout",
+            "dep"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "On a timeout or 5xx, we hand off to the retry budget: a fixed few tries with exponential backoff and jitter.",
+          "nodes": [
+            "timeout",
+            "retry"
+          ],
+          "edges": [
+            [
+              "timeout",
+              "retry"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Each bounded attempt reaches back into the slow dependency, giving it a chance to recover without piling on.",
+          "nodes": [
+            "retry",
+            "dep"
+          ],
+          "edges": [
+            [
+              "retry",
+              "dep"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is the failure the whole lesson exists to prevent: unbounded retries become a storm that amplifies the very outage they meant to survive.",
+          "nodes": [
+            "retry",
+            "storm",
+            "dep"
+          ],
+          "edges": [
+            [
+              "retry",
+              "storm"
+            ],
+            [
+              "storm",
+              "dep"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The circuit breaker guards the dependency: when the failure rate crosses a threshold, it trips and stops the hammering.",
+          "nodes": [
+            "breaker",
+            "dep"
+          ],
+          "edges": [
+            [
+              "breaker",
+              "dep"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Open, the breaker sheds load to a fallback so the caller still gets an answer while the dependency recovers.",
+          "nodes": [
+            "breaker",
+            "fallback"
+          ],
+          "edges": [
+            [
+              "breaker",
+              "fallback"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: timeouts, bounded retries, and breakers must protect an outage, never amplify it.",
+          "nodes": [
+            "timeout",
+            "retry",
+            "breaker",
+            "fallback"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2972,6 +4187,116 @@
         {
           "tone": "muted",
           "label": "downstream reader - out of scope this pass"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer export starts here: the client crosses the first trust boundary from the open internet to our edge, the API Gateway.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The gateway forwards an authenticated request inward to the Export Worker, the service that actually assembles the customer's data.",
+          "nodes": [
+            "gateway",
+            "export"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "export"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Crossing boundary two, the Export Worker reads confidential PII straight out of the Customer database.",
+          "nodes": [
+            "export",
+            "pgstore"
+          ],
+          "edges": [
+            [
+              "export",
+              "pgstore"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the suspect crossing: boundary three, where the worker writes that same PII into the shared Analytics bucket and it leaks.",
+          "nodes": [
+            "export",
+            "bucket"
+          ],
+          "edges": [
+            [
+              "export",
+              "bucket"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The bucket is the wrong home for it: any Analyst with broad read access can now see PII with no need-to-know.",
+          "nodes": [
+            "analyst",
+            "bucket"
+          ],
+          "edges": [
+            [
+              "analyst",
+              "bucket"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Run STRIDE on that write element: this is Information Disclosure, PII escaping its owning boundary into a lower-trust store.",
+          "nodes": [
+            "export",
+            "bucket",
+            "analyst"
+          ],
+          "edges": [
+            [
+              "export",
+              "bucket"
+            ],
+            [
+              "analyst",
+              "bucket"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: every control must trace to a threat crossing a boundary, so this crossing earns one falsifiable mitigation, not a vague best practice.",
+          "nodes": [
+            "export",
+            "pgstore",
+            "bucket"
+          ],
+          "edges": [
+            [
+              "export",
+              "pgstore"
+            ],
+            [
+              "export",
+              "bucket"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -3277,6 +4602,131 @@
           "tone": "success",
           "label": "the SLO that makes 'healthy' falsifiable"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts as a normal request: a customer hits the Client, which asks the Orders Service to do work.",
+          "nodes": [
+            "client",
+            "orders"
+          ],
+          "edges": [
+            [
+              "client",
+              "orders"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Orders hands off asynchronously — it emits an event for the Index Worker to consume and update the catalog.",
+          "nodes": [
+            "orders",
+            "worker"
+          ],
+          "edges": [
+            [
+              "orders",
+              "worker"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is the wound: the Worker indexes into the Search Index, but that write is lagging by five hours.",
+          "nodes": [
+            "worker",
+            "search"
+          ],
+          "edges": [
+            [
+              "worker",
+              "search"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Meanwhile the Client keeps querying Search directly, so every customer reads a stale catalog and quietly churns.",
+          "nodes": [
+            "client",
+            "search"
+          ],
+          "edges": [
+            [
+              "client",
+              "search"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the instrumentation earns its keep: Orders and the Worker both ship golden signals and a lag gauge to the OTel Collector.",
+          "nodes": [
+            "orders",
+            "worker",
+            "collector"
+          ],
+          "edges": [
+            [
+              "orders",
+              "collector"
+            ],
+            [
+              "worker",
+              "collector"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Collector rolls that lag into a freshness SLI, making the write-to-index delay visible as a real signal, not a green light.",
+          "nodes": [
+            "collector",
+            "slo"
+          ],
+          "edges": [
+            [
+              "collector",
+              "slo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The SLO's error budget burns down and fires the page — pointing at the lagging edge, not just a vague 'orders degraded.'",
+          "nodes": [
+            "slo",
+            "page"
+          ],
+          "edges": [
+            [
+              "slo",
+              "page"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: measure the pain and its cause. Instrument the lag, bind one SLO, and healthy becomes falsifiable at 3 a.m.",
+          "nodes": [
+            "worker",
+            "search",
+            "slo",
+            "page"
+          ],
+          "edges": [
+            [
+              "worker",
+              "search"
+            ],
+            [
+              "slo",
+              "page"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3549,6 +4999,110 @@
         {
           "tone": "warning",
           "label": "scatter-gather + hot shard (the cost you accept)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One box ran out of write throughput, so we split the orders table into three shards, partitioned by customer_id.",
+          "nodes": [
+            "router",
+            "s0",
+            "s1",
+            "s2"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "A client asks for one customer's history: cust=42. The request enters through the shard router.",
+          "nodes": [
+            "client",
+            "router"
+          ],
+          "edges": [
+            [
+              "client",
+              "router"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Because we sharded by customer_id, the router maps cust=42 to exactly one shard and reads it locally. This is the win.",
+          "nodes": [
+            "router",
+            "s0"
+          ],
+          "edges": [
+            [
+              "router",
+              "s0"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Now the fraud dashboard arrives asking to flag anomalies across all customers, not just one.",
+          "nodes": [
+            "fraud",
+            "router"
+          ],
+          "edges": [
+            [
+              "fraud",
+              "router"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That cross-customer scan has no single customer_id, so the router must scatter the query to every shard at once.",
+          "nodes": [
+            "router",
+            "s0",
+            "s1",
+            "s2"
+          ],
+          "edges": [
+            [
+              "router",
+              "s0"
+            ],
+            [
+              "router",
+              "s1"
+            ],
+            [
+              "router",
+              "s2"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "Then it waits to gather all partial results; the slowest shard sets the latency. The split made this pattern expensive.",
+          "nodes": [
+            "router",
+            "s2"
+          ],
+          "edges": [
+            [
+              "router",
+              "s2"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: pick the key so the dominant read lands on one partition. A key that scatters the hot read relocates the bottleneck, it doesn't remove it.",
+          "nodes": [
+            "router",
+            "s0",
+            "s1",
+            "s2"
+          ],
+          "edges": [],
+          "ms": 5200
         }
       ]
     },
@@ -3847,7 +5401,128 @@
           "label": "repair — flag flip back to legacy, no data loss"
         }
       ],
-      "caption": "The whole design is reversible: because both paths write to one source of truth and reads are flag-gated, rollback is 'set x = 0', not 'restore last night's backup.'"
+      "caption": "The whole design is reversible: because both paths write to one source of truth and reads are flag-gated, rollback is 'set x = 0', not 'restore last night's backup.'",
+      "storyboard": [
+        {
+          "say": "Every order starts here: the client fires a request, and it lands not on a service but on a routing facade that decides where it goes.",
+          "nodes": [
+            "client",
+            "facade"
+          ],
+          "edges": [
+            [
+              "client",
+              "facade"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The facade splits live traffic by a flag. Most requests still hit the proven legacy path; a small x-percent get routed to the new service.",
+          "nodes": [
+            "facade",
+            "legacy",
+            "newsvc"
+          ],
+          "edges": [
+            [
+              "facade",
+              "legacy"
+            ],
+            [
+              "facade",
+              "newsvc"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both services write through to the same Postgres in both shapes. The system now speaks old and new at once — this is the Expand step.",
+          "nodes": [
+            "legacy",
+            "newsvc",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "legacy",
+              "postgres"
+            ],
+            [
+              "newsvc",
+              "postgres"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "You never trust the new path blind. It emits sampled diffs to a parity check that compares its output against the old under real load.",
+          "nodes": [
+            "newsvc",
+            "parity"
+          ],
+          "edges": [
+            [
+              "newsvc",
+              "parity"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the risk: if the new path drifts from the old, parity trips and hands you the repair path instead of a 3am outage.",
+          "nodes": [
+            "parity",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "parity",
+              "rollback"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Rollback isn't a database restore — it's setting the flag back to zero percent, steering the facade fully to legacy in one move.",
+          "nodes": [
+            "rollback",
+            "facade"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "facade"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: at every step the old version still works and rollback is a flag, not a restore. Verify parity, then contract the old away.",
+          "nodes": [
+            "facade",
+            "legacy",
+            "newsvc",
+            "parity",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "facade",
+              "legacy"
+            ],
+            [
+              "parity",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "facade"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -4136,6 +5811,116 @@
         {
           "tone": "success",
           "label": "the repair path (standby failover)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A request enters here, hitting the load balancer first — the single front door every reliability dollar is measured against.",
+          "nodes": [
+            "client",
+            "lb"
+          ],
+          "edges": [
+            [
+              "client",
+              "lb"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The balancer fans out to replicas. Routing to a second replica removes single-node failure — this is the nine we actually needed.",
+          "nodes": [
+            "lb",
+            "r1",
+            "r2"
+          ],
+          "edges": [
+            [
+              "lb",
+              "r1"
+            ],
+            [
+              "lb",
+              "r2"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A third replica gets traffic too, but it overshoots the target — capacity nobody's failure model asked for, pure waste.",
+          "nodes": [
+            "lb",
+            "r3"
+          ],
+          "edges": [
+            [
+              "lb",
+              "r3"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Replicas read and write against one primary database — the single point that carries all state and all the real risk.",
+          "nodes": [
+            "r1",
+            "dbp"
+          ],
+          "edges": [
+            [
+              "r1",
+              "dbp"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The primary streams to a standby, so a hot copy of state always exists — this sync is what makes recovery possible.",
+          "nodes": [
+            "dbp",
+            "dbs"
+          ],
+          "edges": [
+            [
+              "dbp",
+              "dbs"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the primary dies, failover promotes the standby — the priced insurance that removes total data-tier outage.",
+          "nodes": [
+            "dbp",
+            "dbs"
+          ],
+          "edges": [
+            [
+              "dbp",
+              "dbs"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every added nine must name a target and a failure it removes. Redundancy past the target is just a bigger bill.",
+          "nodes": [
+            "r2",
+            "r3",
+            "dbs"
+          ],
+          "edges": [
+            [
+              "lb",
+              "r2"
+            ],
+            [
+              "lb",
+              "r3"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4429,6 +6214,114 @@
         {
           "tone": "warning",
           "label": "failure path — no exit, no rejected option"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A requirement enters carrying its constraint — the real context that will decide whether any option lives or dies.",
+          "nodes": [
+            "requirement"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "That constraint frames a comparison of options, forcing you to weigh tradeoffs instead of just picking a favorite.",
+          "nodes": [
+            "requirement",
+            "options"
+          ],
+          "edges": [
+            [
+              "requirement",
+              "options"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The winning choice becomes an ADR — but only if it records the rejected option and why the constraint killed it.",
+          "nodes": [
+            "options",
+            "adr"
+          ],
+          "edges": [
+            [
+              "options",
+              "adr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Watch the dashed path: skip the ADR and the requirement loops straight into a load-bearing mystery nobody can explain.",
+          "nodes": [
+            "requirement",
+            "mystery"
+          ],
+          "edges": [
+            [
+              "requirement",
+              "mystery"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The gold path instead backs the ADR with a proof packet, so the decision carries evidence, not just an opinion.",
+          "nodes": [
+            "adr",
+            "proof"
+          ],
+          "edges": [
+            [
+              "adr",
+              "proof"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "A reviewer inspects that proof and raises objections — the ADR survives review or gets sharpened by it.",
+          "nodes": [
+            "proof",
+            "review"
+          ],
+          "edges": [
+            [
+              "proof",
+              "review"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Review watches for the reversal condition; when the constraint that justified the choice finally flips, it fires.",
+          "nodes": [
+            "review",
+            "drift"
+          ],
+          "edges": [
+            [
+              "review",
+              "drift"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Then a superseding ADR reverses cleanly — the exit was written in advance, so the decision stays revisitable, never mysterious.",
+          "nodes": [
+            "drift",
+            "supersede"
+          ],
+          "edges": [
+            [
+              "drift",
+              "supersede"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4729,6 +6622,105 @@
           "tone": "success",
           "label": "reversible sign-off → evidence ledger"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A decision package enters review: the design doc, its constraints, and the approaches the author claims to have weighed.",
+          "nodes": [
+            "package"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First the critique traces every hard constraint to a choice — submit the package and bind each requirement to a selected and rejected approach.",
+          "nodes": [
+            "package",
+            "trace"
+          ],
+          "edges": [
+            [
+              "package",
+              "trace"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "For each bound constraint, probe capacity: at real load, which number breaks first — and is that break estimated, not assumed?",
+          "nodes": [
+            "trace",
+            "capacity"
+          ],
+          "edges": [
+            [
+              "trace",
+              "capacity"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The estimated break point becomes a reviewer objection — the pointed question that turns a nod into an actual critique.",
+          "nodes": [
+            "capacity",
+            "objection"
+          ],
+          "edges": [
+            [
+              "capacity",
+              "objection"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Happy path: if the objection is answered and the change is reversible, it earns sign-off — a defended verdict, not admiration.",
+          "nodes": [
+            "objection",
+            "signoff"
+          ],
+          "edges": [
+            [
+              "objection",
+              "signoff"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Repair path: no kill-number or no way back on a Tuesday afternoon routes to repair, which retests before any unlock.",
+          "nodes": [
+            "objection",
+            "repair",
+            "trace"
+          ],
+          "edges": [
+            [
+              "objection",
+              "repair"
+            ],
+            [
+              "repair",
+              "trace"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "Sign-off attaches its evidence to the ledger — the decision record and capacity packet your capstone reuses.",
+          "nodes": [
+            "signoff",
+            "ledger"
+          ],
+          "edges": [
+            [
+              "signoff",
+              "ledger"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -5024,6 +7016,124 @@
           "tone": "muted",
           "label": "async — kept off the p99 critical path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The interview starts here: a redirect request lands. Before drawing boxes, the strong candidate asks read-heavy or write-heavy, and what p99 are we held to.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Trace the write path first. A new link POSTs to the key generator, which mints a short code and persists the mapping in the KV store.",
+          "nodes": [
+            "gateway",
+            "keygen",
+            "kv"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "keygen"
+            ],
+            [
+              "keygen",
+              "kv"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the number that forces everything: 40k reads per second at a 100-to-1 read-to-write ratio. That estimate is why a cache is not optional.",
+          "nodes": [
+            "cache",
+            "kv"
+          ],
+          "edges": [
+            [
+              "cache",
+              "kv"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "So the hot path is read-through: the gateway hits the cache first, and roughly 99 percent of lookups never touch the store.",
+          "nodes": [
+            "gateway",
+            "cache"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "cache"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only the ~1 percent cache miss falls through to the KV store, then backfills the cache. This is the edge your p99 lives or dies on.",
+          "nodes": [
+            "cache",
+            "kv",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "cache",
+              "kv"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Analytics is deliberately off the critical path: the gateway emits a click event to an async queue, so counting never slows the redirect.",
+          "nodes": [
+            "gateway",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "analytics"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The insight: every box was forced by a number and names its rejected alternative. That decision package, not the diagram, is what passes the interview.",
+          "nodes": [
+            "client",
+            "gateway",
+            "cache",
+            "kv",
+            "keygen",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "cache"
+            ],
+            [
+              "cache",
+              "kv"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5312,6 +7422,106 @@
         {
           "tone": "warning",
           "label": "failure path + reversal signal"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the hard constraint — the immovable fact, like 1,200 writes per second, that bounds every choice the ADR can make.",
+          "nodes": [
+            "constraint",
+            "adr"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "adr"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The ADR names the selected path and must size it against the constraint with a real capacity estimate, not a hunch.",
+          "nodes": [
+            "adr",
+            "capacity"
+          ],
+          "edges": [
+            [
+              "adr",
+              "capacity"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the happy path — the hot-path sequence the ADR selected, laid out so a reviewer can trace it end to end.",
+          "nodes": [
+            "adr",
+            "happy"
+          ],
+          "edges": [
+            [
+              "adr",
+              "happy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But a packet that only shows the happy path is advocacy. The ADR must also expose the failure mode and its blast radius.",
+          "nodes": [
+            "adr",
+            "failure"
+          ],
+          "edges": [
+            [
+              "adr",
+              "failure"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Each failure mode triggers a reversal condition — the exact stated signal that says this decision is going wrong.",
+          "nodes": [
+            "failure",
+            "reversal"
+          ],
+          "edges": [
+            [
+              "failure",
+              "reversal"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That signal closes the loop: it reverses the choice back at the ADR, proving every decision is reversible, not permanent.",
+          "nodes": [
+            "reversal",
+            "adr"
+          ],
+          "edges": [
+            [
+              "reversal",
+              "adr"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the whole packet is inspectable — one page a reviewer can sign off, because every claim survives review instead of just sounding senior.",
+          "nodes": [
+            "adr",
+            "review"
+          ],
+          "edges": [
+            [
+              "adr",
+              "review"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -5640,7 +7850,133 @@
         }
       ],
       "rankdir": "LR",
-      "caption": "This is the course in one picture: boundary (gateway), context (Orders), consistency (strong write vs eventual read), events (bus), resilience (retry + DLQ), caching (TTL = staleness budget), security (authn at the edge), and a defended scope line to Payments."
+      "caption": "This is the course in one picture: boundary (gateway), context (Orders), consistency (strong write vs eventual read), events (bus), resilience (retry + DLQ), caching (TTL = staleness budget), security (authn at the edge), and a defended scope line to Payments.",
+      "storyboard": [
+        {
+          "say": "A client request enters through the API Gateway — the single authenticated boundary where every order begins.",
+          "nodes": [
+            "client",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "client",
+              "gateway"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The Gateway routes the authenticated call to the Orders Service, the one component that owns the write path.",
+          "nodes": [
+            "gateway",
+            "orders"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "orders"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Orders writes to Postgres with a strong, synchronous guarantee — this is the source of truth for the order.",
+          "nodes": [
+            "orders",
+            "pg"
+          ],
+          "edges": [
+            [
+              "orders",
+              "pg"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "After the write commits, Orders emits order.created onto the Event Bus — decoupling the write from everything downstream.",
+          "nodes": [
+            "orders",
+            "bus"
+          ],
+          "edges": [
+            [
+              "orders",
+              "bus"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The Projection Worker consumes those events with retries and a dead-letter queue, then projects into the Read Cache — eventually consistent.",
+          "nodes": [
+            "bus",
+            "worker",
+            "cache"
+          ],
+          "edges": [
+            [
+              "bus",
+              "worker"
+            ],
+            [
+              "worker",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The client reads straight from the cache on the hot path, hitting the latency budget — this is the trade we made for throughput.",
+          "nodes": [
+            "client",
+            "cache"
+          ],
+          "edges": [
+            [
+              "client",
+              "cache"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Payments is explicitly out of scope here — naming that boundary is what keeps the reviewers focused on the trade being defended.",
+          "nodes": [
+            "orders",
+            "payments"
+          ],
+          "edges": [
+            [
+              "orders",
+              "payments"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: strong on the write, eventual on the read — every choice states what it gives up, and each edge is a line another engineer can inspect.",
+          "nodes": [
+            "orders",
+            "pg",
+            "bus",
+            "worker",
+            "cache"
+          ],
+          "edges": [
+            [
+              "orders",
+              "pg"
+            ],
+            [
+              "worker",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",

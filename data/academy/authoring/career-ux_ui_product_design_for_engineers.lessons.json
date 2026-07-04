@@ -142,6 +142,102 @@
           "tone": "muted",
           "label": "the screen — kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The demo looks gorgeous and everyone nods. The Frame is what forces you to name failure before a real user does.",
+          "nodes": [
+            "decision"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Three inputs feed the design decision: the user's real problem stated solution-free defines what you're solving.",
+          "nodes": [
+            "problem",
+            "decision"
+          ],
+          "edges": [
+            [
+              "problem",
+              "decision"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The one non-negotiable constraint bounds the space, and the failure you fear raises the bar for what counts as done.",
+          "nodes": [
+            "constraint",
+            "feared",
+            "decision"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "decision"
+            ],
+            [
+              "feared",
+              "decision"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The fourth input is the state inventory: loading, empty, error, disabled, success. Every one must be designed, not just the happy path.",
+          "nodes": [
+            "states",
+            "decision"
+          ],
+          "edges": [
+            [
+              "states",
+              "decision"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Inspection hooks prove each state: the axe scan, keyboard walkthrough, and screen-reader pass catch what a polished mock skips.",
+          "nodes": [
+            "hooks",
+            "states"
+          ],
+          "edges": [
+            [
+              "hooks",
+              "states"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The critical invariant: the screen must NOT leak into the problem line. A layout there means you pre-decided the answer.",
+          "nodes": [
+            "screen",
+            "problem"
+          ],
+          "edges": [
+            [
+              "screen",
+              "problem"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The Frame holds the problem and its states, never the screen. That's what turns 'it feels off' into something you can prove.",
+          "nodes": [
+            "problem",
+            "states",
+            "screen",
+            "decision"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -417,6 +513,113 @@
         {
           "tone": "success",
           "label": "success state + the recovery path we must add"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every workflow starts at a trigger. Here the user selects a file — the entry point, resting in its default state before anything happens.",
+          "nodes": [
+            "start"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "The user drops the file and it begins to upload — a process step that must carry its own loading and error states, not just success.",
+          "nodes": [
+            "start",
+            "upload"
+          ],
+          "edges": [
+            [
+              "start",
+              "upload"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "On complete, we reach Validate — the decision point where the file is checked as valid or invalid. This is the suspect step.",
+          "nodes": [
+            "upload",
+            "validate"
+          ],
+          "edges": [
+            [
+              "upload",
+              "validate"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On the happy path validation passes, the file is processed, and we confirm success — every click lands, the confetti fires.",
+          "nodes": [
+            "validate",
+            "process",
+            "confirm"
+          ],
+          "edges": [
+            [
+              "validate",
+              "process"
+            ],
+            [
+              "process",
+              "confirm"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But watch the invalid branch: today this edge is missing. The error state has no recovery and no announced status, so the user just hangs.",
+          "nodes": [
+            "validate",
+            "recover"
+          ],
+          "edges": [
+            [
+              "validate",
+              "recover"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The map it needs: on invalid, route to a recovery path so the user can fix the file and retry — closing the loop back to Validate.",
+          "nodes": [
+            "recover",
+            "validate"
+          ],
+          "edges": [
+            [
+              "validate",
+              "recover"
+            ],
+            [
+              "recover",
+              "validate"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That gap is the lesson: a map that only shows success is a demo. Inventory every step's loading, empty, error, disabled, and success states.",
+          "nodes": [
+            "start",
+            "upload",
+            "validate",
+            "process",
+            "confirm",
+            "recover"
+          ],
+          "edges": [
+            [
+              "validate",
+              "recover"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -712,6 +915,131 @@
           "tone": "muted",
           "label": "junk drawers removed on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user arrives with one goal: cancel her subscription. The architecture's only job is to make her next step obvious.",
+          "nodes": [
+            "entry",
+            "nav"
+          ],
+          "edges": [
+            [
+              "entry",
+              "nav"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "She scans the top-level nav and predicts correctly. Every label is named in her words, so she doesn't have to click to find out where it leads.",
+          "nodes": [
+            "nav",
+            "account"
+          ],
+          "edges": [
+            [
+              "nav",
+              "account"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Inside Account, the task-scent holds: Billing is exactly where she expects to manage a subscription.",
+          "nodes": [
+            "account",
+            "billing"
+          ],
+          "edges": [
+            [
+              "account",
+              "billing"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Billing carries the single marked primary path straight to the cancel confirmation — no detours, no guessing.",
+          "nodes": [
+            "billing",
+            "confirm"
+          ],
+          "edges": [
+            [
+              "billing",
+              "confirm"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "This is the decision point. On confirm, she's cancelled and lands in a clear done state.",
+          "nodes": [
+            "confirm",
+            "done"
+          ],
+          "edges": [
+            [
+              "confirm",
+              "done"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If she hesitates, the recovery exit sends her back to Billing — a way out is designed in, not a dead end.",
+          "nodes": [
+            "confirm",
+            "billing"
+          ],
+          "edges": [
+            [
+              "confirm",
+              "billing"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The junk drawers 'Manage' and 'More' are deleted, not renamed. They must not reappear to poison the path.",
+          "nodes": [
+            "junk",
+            "account"
+          ],
+          "edges": [
+            [
+              "junk",
+              "account"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: group by decision, name in the user's words, mark one primary path. If she must click to find out, the structure is wrong.",
+          "nodes": [
+            "nav",
+            "account",
+            "billing",
+            "confirm",
+            "done"
+          ],
+          "edges": [
+            [
+              "nav",
+              "account"
+            ],
+            [
+              "account",
+              "billing"
+            ],
+            [
+              "billing",
+              "confirm"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -993,6 +1321,112 @@
           "tone": "warning",
           "label": "silent assumption → release failure"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start here: every capability a reasonable user or reviewer would expect enters your scope for a verdict.",
+          "nodes": [
+            "expected",
+            "decide"
+          ],
+          "edges": [
+            [
+              "expected",
+              "decide"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "At the fork you make one call per capability: is this a goal we'll build, or a non-goal we won't?",
+          "nodes": [
+            "decide",
+            "goal"
+          ],
+          "edges": [
+            [
+              "decide",
+              "goal"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Choose non-goal on purpose and you write it down: the capability, why it's out, and the risk that exclusion accepts.",
+          "nodes": [
+            "decide",
+            "nongoal"
+          ],
+          "edges": [
+            [
+              "decide",
+              "nongoal"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That written sentence routes the risk into the review packet, where a reviewer can see exactly what you chose to leave out.",
+          "nodes": [
+            "nongoal",
+            "packet"
+          ],
+          "edges": [
+            [
+              "nongoal",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But the dangerous branch is the one never decided: an assumption like 'accessible focus order' silently drops out of scope.",
+          "nodes": [
+            "decide",
+            "silent"
+          ],
+          "edges": [
+            [
+              "decide",
+              "silent"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Because nobody wrote it, it skips review entirely and detonates at release: Monday, screen-reader users can't buy.",
+          "nodes": [
+            "silent",
+            "release"
+          ],
+          "edges": [
+            [
+              "silent",
+              "release"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: unwritten scope isn't scope, it's a silent bet. The failure wasn't the missing work, it was the missing sentence.",
+          "nodes": [
+            "nongoal",
+            "packet",
+            "silent",
+            "release"
+          ],
+          "edges": [
+            [
+              "nongoal",
+              "packet"
+            ],
+            [
+              "silent",
+              "release"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1270,6 +1704,119 @@
         {
           "tone": "muted",
           "label": "state teams forget to design"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every checkout is a state machine. It starts empty, and the user's first keystroke moves it into the Editing state.",
+          "nodes": [
+            "empty",
+            "editing"
+          ],
+          "edges": [
+            [
+              "empty",
+              "editing"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "From Editing, the user hits submit and the flow transitions into Submitting — the request is now in flight.",
+          "nodes": [
+            "editing",
+            "submitting"
+          ],
+          "edges": [
+            [
+              "editing",
+              "submitting"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Here's the happy path everyone demos: Submitting confirms and lands on Success, the state the whole flow was designed to reach.",
+          "nodes": [
+            "submitting",
+            "success"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "success"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But a real request can fail. Submitting drops into Error — and in this bug it fails silently, with no signal to the user at all.",
+          "nodes": [
+            "submitting",
+            "error"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The screen reader is the accessibility spine. Success announces confirmation, and Error should fire an aria-live alert.",
+          "nodes": [
+            "success",
+            "error",
+            "sr"
+          ],
+          "edges": [
+            [
+              "success",
+              "sr"
+            ],
+            [
+              "error",
+              "sr"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair is the edge back to Editing: announce the failure, move focus to the field, so the user can actually recover.",
+          "nodes": [
+            "error",
+            "editing"
+          ],
+          "edges": [
+            [
+              "error",
+              "editing"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: no state is unreachable, unannounced, or a dead end. Draw the flow first, and every fix finally has somewhere to live.",
+          "nodes": [
+            "empty",
+            "editing",
+            "submitting",
+            "error",
+            "success",
+            "sr"
+          ],
+          "edges": [
+            [
+              "error",
+              "sr"
+            ],
+            [
+              "error",
+              "editing"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1579,6 +2126,135 @@
           "tone": "success",
           "label": "the recovery path back to success"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A field starts idle and does nothing until the user acts. Focus is the trigger that moves it into an active editing state.",
+          "nodes": [
+            "idle",
+            "editing"
+          ],
+          "edges": [
+            [
+              "idle",
+              "editing"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "On blur after touch or on submit, the field hands off to validation — the single decision point that judges the input.",
+          "nodes": [
+            "editing",
+            "validate"
+          ],
+          "edges": [
+            [
+              "editing",
+              "validate"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Validation forks two ways: if the rule passes it reaches success; if it fails it drops into the error state.",
+          "nodes": [
+            "validate",
+            "success",
+            "error"
+          ],
+          "edges": [
+            [
+              "validate",
+              "success"
+            ],
+            [
+              "validate",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Error is not a dead end. The recovery path sends it back to editing, re-validating on change so a fixed field can pass.",
+          "nodes": [
+            "error",
+            "editing"
+          ],
+          "edges": [
+            [
+              "error",
+              "editing"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The same error must speak: an aria-live region announces it to the screen reader, so assistive tech users aren't left scrolling for a red border.",
+          "nodes": [
+            "error",
+            "sr"
+          ],
+          "edges": [
+            [
+              "error",
+              "sr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only when everything is valid does submit fire, moving the form into submitting — the deliberate disabled gate that blocks broken data.",
+          "nodes": [
+            "success",
+            "submitting"
+          ],
+          "edges": [
+            [
+              "success",
+              "submitting"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Even the server can reject: submitting routes back to error, so an external failure re-enters the same announced, recoverable loop.",
+          "nodes": [
+            "submitting",
+            "error"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: every arrow into and out of error must exist — recovery, announcement, re-validate — or the form fails in a way a static mockup hides.",
+          "nodes": [
+            "error",
+            "editing",
+            "sr",
+            "validate"
+          ],
+          "edges": [
+            [
+              "error",
+              "editing"
+            ],
+            [
+              "error",
+              "sr"
+            ],
+            [
+              "validate",
+              "error"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1877,6 +2553,115 @@
           "tone": "muted",
           "label": "disabled / guidance — say why, don't just gray out"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a user action. Before firing, the screen checks preconditions — if they aren't met, the control sits disabled.",
+          "nodes": [
+            "trigger",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "disabled"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the request is valid, it fires and the screen enters loading — the state that must say it is working, not just spin.",
+          "nodes": [
+            "trigger",
+            "loading"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Loading resolves three ways: zero results become empty, a failure or timeout becomes error, resolved data becomes success.",
+          "nodes": [
+            "loading",
+            "empty",
+            "error",
+            "success"
+          ],
+          "edges": [
+            [
+              "loading",
+              "empty"
+            ],
+            [
+              "loading",
+              "error"
+            ],
+            [
+              "loading",
+              "success"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "This is the rule that gets skipped: error is never a dead end. It must offer a recovery — a visible, actionable next move.",
+          "nodes": [
+            "error",
+            "recover"
+          ],
+          "edges": [
+            [
+              "error",
+              "recover"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Recovery routes retry straight back into loading, closing the loop so a failed request can try again without losing the form.",
+          "nodes": [
+            "recover",
+            "loading"
+          ],
+          "edges": [
+            [
+              "recover",
+              "loading"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Empty isn't a dead end either — it guides the user back to a next action instead of leaving a blank, silent screen.",
+          "nodes": [
+            "empty",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "empty",
+              "trigger"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant across all five: no state without a visible status and a next move. That's what turns a mockup into a real interface.",
+          "nodes": [
+            "disabled",
+            "loading",
+            "empty",
+            "error",
+            "success",
+            "recover"
+          ],
+          "edges": [],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2167,6 +2952,109 @@
         {
           "tone": "muted",
           "label": "empty / disabled — designed, not blank"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A checkout form is a state machine. It starts Empty, and the moment a user types their first character it enters Idle, ready to submit.",
+          "nodes": [
+            "empty",
+            "idle"
+          ],
+          "edges": [
+            [
+              "empty",
+              "idle"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "From Idle, hitting Save fires the transition into Submitting. This is the happy path everyone demos and everyone designs.",
+          "nodes": [
+            "idle",
+            "submitting"
+          ],
+          "edges": [
+            [
+              "idle",
+              "submitting"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "On a 200, Submitting resolves to Success — the green check. On a fast local network this is the only outcome the demo ever shows.",
+          "nodes": [
+            "submitting",
+            "success"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "success"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But a slow network and an expired session take a different edge: Submitting to a dead spinner that never resolves — no error, no focus, no way out.",
+          "nodes": [
+            "submitting",
+            "deadspinner"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "deadspinner"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair is to design the failure. On failure, route to a recoverable Error state that announces what happened and moves focus to it.",
+          "nodes": [
+            "submitting",
+            "error"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "From Error, Retry returns to Idle with focus restored, so a keyboard and screen-reader user can predict, recover, and finish.",
+          "nodes": [
+            "error",
+            "idle"
+          ],
+          "edges": [
+            [
+              "error",
+              "idle"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Inventory every reachable state — Empty, Disabled on invalid input, all of them. The invariant: no state without a way out.",
+          "nodes": [
+            "empty",
+            "disabled",
+            "idle",
+            "deadspinner",
+            "error"
+          ],
+          "edges": [
+            [
+              "idle",
+              "disabled"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -2468,6 +3356,114 @@
           "tone": "muted",
           "label": "deliberately recessed, not deleted"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The eye lands somewhere first. Where it lands is decided by the layout, before the user reads a single word.",
+          "nodes": [
+            "entry"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "In the flat layout, every element weighs the same, so the eye gets no signal to follow and no starting point.",
+          "nodes": [
+            "entry",
+            "flat"
+          ],
+          "edges": [
+            [
+              "entry",
+              "flat"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "With nothing ranked, the user stalls, asking which button is which, and can click Cancel when they meant Pay.",
+          "nodes": [
+            "flat",
+            "confuse"
+          ],
+          "edges": [
+            [
+              "flat",
+              "confuse"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the repair path. When one element is biggest, boldest, and highest, the strongest signal wins and pulls the eye in.",
+          "nodes": [
+            "entry",
+            "ranked"
+          ],
+          "edges": [
+            [
+              "entry",
+              "ranked"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The ranked layout routes to rank one, the primary action, the single thing that must win this view.",
+          "nodes": [
+            "ranked",
+            "primary"
+          ],
+          "edges": [
+            [
+              "ranked",
+              "primary"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Everything else recedes: the secondary path is rank two, deliberately quieter, never competing with the primary.",
+          "nodes": [
+            "primary",
+            "secondary"
+          ],
+          "edges": [
+            [
+              "primary",
+              "secondary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On submit, the primary hands off to system state and error, so the user sees status right where they acted.",
+          "nodes": [
+            "primary",
+            "state"
+          ],
+          "edges": [
+            [
+              "primary",
+              "state"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Legal fine print ranks last, present and readable but never first. Rank every element, and exactly one thing wins.",
+          "nodes": [
+            "secondary",
+            "fine"
+          ],
+          "edges": [
+            [
+              "secondary",
+              "fine"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2744,6 +3740,121 @@
           "tone": "success",
           "label": "accessibility state resolved from a token"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A primitive names a raw value, like gray.700 or a specific hex. It knows nothing about intent, it is just the number.",
+          "nodes": [
+            "primitive"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The semantic tier references primitives and names intent instead, like color.text.error, turning a value into a decision the whole system can point at.",
+          "nodes": [
+            "primitive",
+            "semantic"
+          ],
+          "edges": [
+            [
+              "primitive",
+              "semantic"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Components consume only the semantic tier, so a button asks for the intent, never the raw hex underneath it.",
+          "nodes": [
+            "semantic",
+            "component"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "component"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "User-facing states all resolve through semantics: the error message, the disabled Pay button, and the focus ring each read one source of truth.",
+          "nodes": [
+            "semantic",
+            "error",
+            "disabled",
+            "focus"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "error"
+            ],
+            [
+              "semantic",
+              "disabled"
+            ],
+            [
+              "semantic",
+              "focus"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the break: a hardcoded hex bypasses the semantic tier and gets pasted straight into the component.",
+          "nodes": [
+            "hardcode",
+            "component"
+          ],
+          "edges": [
+            [
+              "hardcode",
+              "component"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When design ships a new error red, semantic paths update everywhere at once, but this component was hardcoded, so it silently keeps the old gray.",
+          "nodes": [
+            "semantic",
+            "error",
+            "hardcode",
+            "component"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "error"
+            ],
+            [
+              "hardcode",
+              "component"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Naming the value is just a lookup; naming the intent is the system, so error means error everywhere and contrast becomes a property you can inspect.",
+          "nodes": [
+            "primitive",
+            "semantic",
+            "component"
+          ],
+          "edges": [
+            [
+              "primitive",
+              "semantic"
+            ],
+            [
+              "semantic",
+              "component"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3017,6 +4128,105 @@
         {
           "tone": "muted",
           "label": "empty & disabled — silent by default"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A form starts empty. The first keystroke moves it from Empty to Default — the component is now live and ready to act.",
+          "nodes": [
+            "empty",
+            "default"
+          ],
+          "edges": [
+            [
+              "empty",
+              "default"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "If the input is invalid, Default drops into Disabled — the submit button locks so the user cannot fire a bad or duplicate request.",
+          "nodes": [
+            "default",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "default",
+              "disabled"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When input is valid and the user hits submit, Default transitions to Loading — and this state must be visible, not silent.",
+          "nodes": [
+            "default",
+            "loading"
+          ],
+          "edges": [
+            [
+              "default",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a 200 OK, Loading resolves to Success. The user sees confirmation and knows the request landed exactly once.",
+          "nodes": [
+            "loading",
+            "success"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But requests fail. On timeout or error, Loading must land in Error — the path teams skip, where users get stranded and resubmit.",
+          "nodes": [
+            "loading",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Error is not a dead end. A retry carries it back to Default, closing the recovery loop instead of trapping the user.",
+          "nodes": [
+            "error",
+            "default"
+          ],
+          "edges": [
+            [
+              "error",
+              "default"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant across all six states: no reachable state is silent. If the user can get there, they must be able to tell they're there.",
+          "nodes": [
+            "empty",
+            "default",
+            "disabled",
+            "loading",
+            "error",
+            "success"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -3307,6 +4517,134 @@
         {
           "tone": "success",
           "label": "the repair path — recoverable, announced"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The user submits the form. That single action fans out into six possible states — and only one of them was actually designed.",
+          "nodes": [
+            "user",
+            "loading"
+          ],
+          "edges": [
+            [
+              "user",
+              "loading"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The happy path is gorgeous: loading resolves to success, the data lands, the user knows their action worked.",
+          "nodes": [
+            "loading",
+            "success"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But loading forks three ways — it can resolve, it can fail, or the query can come back with no data at all.",
+          "nodes": [
+            "loading",
+            "error",
+            "empty"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ],
+            [
+              "loading",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the blast radius: a bad ZIP fails silently, the spinner never resolves, and the screen reader announces nothing.",
+          "nodes": [
+            "loading",
+            "deadend"
+          ],
+          "edges": [
+            [
+              "loading",
+              "deadend"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The error state has the same trap — no message, no retry, no aria-live — so the user hits a dead end with no idea what happened.",
+          "nodes": [
+            "error",
+            "deadend"
+          ],
+          "edges": [
+            [
+              "error",
+              "deadend"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The gold standard: every error carries a clear message plus a retry, an announced next action the user can take.",
+          "nodes": [
+            "error",
+            "recovery"
+          ],
+          "edges": [
+            [
+              "error",
+              "recovery"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Recovery loops the user back into loading — they retry, and the flow becomes a cycle instead of a trap.",
+          "nodes": [
+            "recovery",
+            "loading"
+          ],
+          "edges": [
+            [
+              "recovery",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: inventory every state a user can land in and give each a next move. No state is a dead end.",
+          "nodes": [
+            "user",
+            "loading",
+            "empty",
+            "error",
+            "recovery",
+            "success",
+            "deadend"
+          ],
+          "edges": [
+            [
+              "error",
+              "recovery"
+            ],
+            [
+              "error",
+              "deadend"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3605,6 +4943,105 @@
           "tone": "success",
           "label": "user completes + can recover"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A user with assistive tech arrives at the signup form. The question every screen must answer: can they actually sense its state?",
+          "nodes": [
+            "user",
+            "perceivable"
+          ],
+          "edges": [
+            [
+              "user",
+              "perceivable"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "First gate: Perceivable. Contrast holds, text alternatives exist, nothing rides on color alone here — so far it passes.",
+          "nodes": [
+            "perceivable",
+            "operable"
+          ],
+          "edges": [
+            [
+              "perceivable",
+              "operable"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Second gate: Operable. Keyboard reaches every control, focus stays visible, no traps swallow the user — pass.",
+          "nodes": [
+            "operable",
+            "understandable"
+          ],
+          "edges": [
+            [
+              "operable",
+              "understandable"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Third gate: Understandable. Labels are predictable, but this is where the inline error lives — the suspect edge.",
+          "nodes": [
+            "understandable"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The error shows as red text only, with no suggestion. A screen reader never announces it, so the user can't fix what they can't perceive.",
+          "nodes": [
+            "understandable",
+            "excluded"
+          ],
+          "edges": [
+            [
+              "understandable",
+              "excluded"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Had it passed, Robust would confirm semantic HTML and valid ARIA, and all four principles would hold for completion.",
+          "nodes": [
+            "robust",
+            "success"
+          ],
+          "edges": [
+            [
+              "understandable",
+              "robust"
+            ],
+            [
+              "robust",
+              "success"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A screen fails at its weakest principle, not its average. One color-only error legally locks a real customer out.",
+          "nodes": [
+            "understandable",
+            "excluded",
+            "success"
+          ],
+          "edges": [
+            [
+              "understandable",
+              "excluded"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -3878,6 +5315,111 @@
         {
           "tone": "muted",
           "label": "read-only, kept out of the tab loop on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the entry: focus lands on the email field, and the cart summary sits deliberately outside the tab loop.",
+          "nodes": [
+            "field",
+            "summary"
+          ],
+          "edges": [
+            [
+              "summary",
+              "field"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Tab moves focus forward: email to the add-coupon button, then onward to the pay button. Every stop is reachable and visible.",
+          "nodes": [
+            "field",
+            "coupon",
+            "submit"
+          ],
+          "edges": [
+            [
+              "field",
+              "coupon"
+            ],
+            [
+              "coupon",
+              "submit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The pay button is the decision point. Submit branches two ways, and both branches must force focus somewhere and announce it.",
+          "nodes": [
+            "submit"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "On invalid, code must MOVE focus to the error summary and announce it — name, role, state — so a screen reader user hears the failure.",
+          "nodes": [
+            "submit",
+            "error"
+          ],
+          "edges": [
+            [
+              "submit",
+              "error"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Recovery: the error summary links straight to the offending field, so the user jumps back and fixes it instead of hunting.",
+          "nodes": [
+            "error",
+            "field"
+          ],
+          "edges": [
+            [
+              "error",
+              "field"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On valid, code MOVES focus to the confirmation and announces success — the repair path that completes the flow.",
+          "nodes": [
+            "submit",
+            "success"
+          ],
+          "edges": [
+            [
+              "submit",
+              "success"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: for every state change, name where focus goes and what is announced. No state may leave focus lost.",
+          "nodes": [
+            "field",
+            "submit",
+            "error",
+            "success"
+          ],
+          "edges": [
+            [
+              "submit",
+              "error"
+            ],
+            [
+              "submit",
+              "success"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4164,6 +5706,106 @@
         {
           "tone": "success",
           "label": "recovery path — proof completion improved"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A usability test starts here: a single task prompt you read once, then stay silent. Naming the UI would be narration, not a test.",
+          "nodes": [
+            "prompt",
+            "attempt"
+          ],
+          "edges": [
+            [
+              "prompt",
+              "attempt"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The participant attempts the real workflow while you record behavior, not opinions. You watch what their hands actually do.",
+          "nodes": [
+            "attempt",
+            "observe"
+          ],
+          "edges": [
+            [
+              "attempt",
+              "observe"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Every action is judged against the state matrix. This is the decision point where the test either passes or exposes a gap.",
+          "nodes": [
+            "observe"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The failure path: the user hits an ambiguous state, freezes on checkout whispering 'did that save?', and the task stalls.",
+          "nodes": [
+            "observe",
+            "trap",
+            "metric"
+          ],
+          "edges": [
+            [
+              "observe",
+              "trap"
+            ],
+            [
+              "trap",
+              "metric"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The recovered path: status is visible, feedback is clear, and the participant finishes. Completion gets logged as proof.",
+          "nodes": [
+            "observe",
+            "recover",
+            "proof"
+          ],
+          "edges": [
+            [
+              "observe",
+              "recover"
+            ],
+            [
+              "recover",
+              "proof"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Both branches converge on the evidence packet. Even a stalled task fires a metric that logs the failure for review.",
+          "nodes": [
+            "metric",
+            "proof"
+          ],
+          "edges": [
+            [
+              "metric",
+              "proof"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The insight: this flow turns polished but untested confidence into observable proof another reviewer can inspect.",
+          "nodes": [
+            "prompt",
+            "observe",
+            "proof"
+          ],
+          "edges": [],
+          "ms": 4400
         }
       ]
     },
@@ -4453,6 +6095,114 @@
         {
           "tone": "success",
           "label": "repair + a replayable pass"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A polished-looking flow enters the review circuit — crisp cards, tasteful spacing, a confident CTA. But looks are not proof.",
+          "nodes": [
+            "flow"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First, name the constraint. Before any fix, the review is bounded by what a real user must be able to do.",
+          "nodes": [
+            "flow",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "flow",
+              "constraint"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The constraint feeds the inspection hooks — each hook is a kill-test: keyboard focus, visible status, recoverable errors.",
+          "nodes": [
+            "constraint",
+            "hooks"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "hooks"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When a hook says 'no' — focus vanishes into a modal, a form rejects input silently — the flow drops onto the failure path.",
+          "nodes": [
+            "hooks",
+            "fail"
+          ],
+          "edges": [
+            [
+              "hooks",
+              "fail"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The failure isn't a dead end; it's a diagnosis. The broken case routes into repair to fix the weak version.",
+          "nodes": [
+            "fail",
+            "repair"
+          ],
+          "edges": [
+            [
+              "fail",
+              "repair"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Repair doesn't get to self-certify. It must PROVE the fix by re-running the exact same hooks.",
+          "nodes": [
+            "repair",
+            "prove"
+          ],
+          "edges": [
+            [
+              "repair",
+              "prove"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Still failing? Prove loops straight back to the hooks — no escaping the gate until the evidence holds.",
+          "nodes": [
+            "prove",
+            "hooks"
+          ],
+          "edges": [
+            [
+              "prove",
+              "hooks"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only a replayable pass exits to release. The invariant: proof is replayable, or it never happened.",
+          "nodes": [
+            "prove",
+            "release"
+          ],
+          "edges": [
+            [
+              "prove",
+              "release"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4756,6 +6506,124 @@
         {
           "tone": "warning",
           "label": "undefined state → engineer invents it wrong"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one perfect prototype frame — flawless in review, everyone claps. But a frame is a single moment, not a living product.",
+          "nodes": [
+            "proto"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The real handoff expands that one frame into an inventory of every state the product can actually enter.",
+          "nodes": [
+            "proto",
+            "inventory"
+          ],
+          "edges": [
+            [
+              "proto",
+              "inventory"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Enumerate them all: loading, empty, error, disabled, success — five interaction states the frame never showed you.",
+          "nodes": [
+            "inventory",
+            "states"
+          ],
+          "edges": [
+            [
+              "inventory",
+              "states"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Each state binds to an accessibility contract: focus order, labels, contrast, and what the screen reader announces.",
+          "nodes": [
+            "states",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "states",
+              "a11y"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now it's a buildable spec — the engineer codes the screen from explicit contracts, then instruments a metric to prove it works.",
+          "nodes": [
+            "a11y",
+            "code",
+            "metric"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "code"
+            ],
+            [
+              "code",
+              "metric"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here is the failure path: any state left undefined doesn't vanish — it becomes the engineer's guess under deadline.",
+          "nodes": [
+            "states",
+            "guess"
+          ],
+          "edges": [
+            [
+              "states",
+              "guess"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That guess leaks straight into what ships: no disabled state, a blank empty screen, a form a screen reader can't announce.",
+          "nodes": [
+            "guess",
+            "code"
+          ],
+          "edges": [
+            [
+              "guess",
+              "code"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: an undefined state is a state the engineer invents — so specify every state, or delegate the design by accident.",
+          "nodes": [
+            "states",
+            "a11y",
+            "guess"
+          ],
+          "edges": [
+            [
+              "states",
+              "a11y"
+            ],
+            [
+              "states",
+              "guess"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5068,6 +6936,134 @@
         {
           "tone": "muted",
           "label": "schema sink — versioned, out-of-scope noise excluded"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The flow starts here, and the very first thing it does is emit an event to the analytics sink — instrumentation begins before the user even types.",
+          "nodes": [
+            "start",
+            "input",
+            "sink"
+          ],
+          "edges": [
+            [
+              "start",
+              "input"
+            ],
+            [
+              "start",
+              "sink"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The user fills the form and submits, handing their input to the validation gate that decides what happens next.",
+          "nodes": [
+            "input",
+            "validate"
+          ],
+          "edges": [
+            [
+              "input",
+              "validate"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "This is the fork the whole lesson turns on: validation either passes to success or fails into an error state.",
+          "nodes": [
+            "validate",
+            "success",
+            "error"
+          ],
+          "edges": [
+            [
+              "validate",
+              "success"
+            ],
+            [
+              "validate",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both outcomes are named and measured — success emits to the sink, and crucially, so does the error state.",
+          "nodes": [
+            "success",
+            "error",
+            "sink"
+          ],
+          "edges": [
+            [
+              "success",
+              "sink"
+            ],
+            [
+              "error",
+              "sink"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "From the error, two human paths open: the user recovers back to input, or they give up and abandon the flow entirely.",
+          "nodes": [
+            "error",
+            "input",
+            "abandon"
+          ],
+          "edges": [
+            [
+              "error",
+              "input"
+            ],
+            [
+              "error",
+              "abandon"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The error event is the key signal — if the plan cannot fire this, the failure has no number and stays invisible for weeks.",
+          "nodes": [
+            "error",
+            "sink",
+            "abandon"
+          ],
+          "edges": [
+            [
+              "error",
+              "sink"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That is the skill: instrument every state, guard the one that must not regress, and prove the failure so you can prove the fix.",
+          "nodes": [
+            "start",
+            "validate",
+            "error",
+            "success",
+            "sink"
+          ],
+          "edges": [
+            [
+              "error",
+              "sink"
+            ],
+            [
+              "validate",
+              "error"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5383,6 +7379,120 @@
           "tone": "muted",
           "label": "correlated but off-tree (no defended edge)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the root: checkout completion rate is the one outcome we care about, the north star the whole tree exists to answer for.",
+          "nodes": [
+            "outcome"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "One level down, three drivers mechanically feed that outcome: step-1 activation, field progression, and error recovery.",
+          "nodes": [
+            "activation",
+            "progression",
+            "recovery",
+            "outcome"
+          ],
+          "edges": [
+            [
+              "activation",
+              "outcome"
+            ],
+            [
+              "progression",
+              "outcome"
+            ],
+            [
+              "recovery",
+              "outcome"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Each driver bottoms out in leaf events we actually instrument. form_first_focus measures whether users even start, feeding activation.",
+          "nodes": [
+            "focus_event",
+            "activation"
+          ],
+          "edges": [
+            [
+              "focus_event",
+              "activation"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "field_valid_on_blur measures whether users move cleanly through the form, feeding field progression.",
+          "nodes": [
+            "blur_valid",
+            "progression"
+          ],
+          "edges": [
+            [
+              "blur_valid",
+              "progression"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Error recovery draws from two events: inline_error_shown when a problem surfaces, and error_corrected when the user fixes it.",
+          "nodes": [
+            "err_shown",
+            "err_cleared",
+            "recovery"
+          ],
+          "edges": [
+            [
+              "err_shown",
+              "recovery"
+            ],
+            [
+              "err_cleared",
+              "recovery"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Support tickets sit off the tree — correlated with checkout, but no causal edge the redesign can defend, so it stays disconnected.",
+          "nodes": [
+            "offtree",
+            "outcome"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every edge is a causal claim. A child must move its parent or it's off-tree — that's what turns 'did it work?' into something inspectable.",
+          "nodes": [
+            "outcome",
+            "activation",
+            "progression",
+            "recovery"
+          ],
+          "edges": [
+            [
+              "activation",
+              "outcome"
+            ],
+            [
+              "progression",
+              "outcome"
+            ],
+            [
+              "recovery",
+              "outcome"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5677,6 +7787,129 @@
         {
           "tone": "accent",
           "label": "accessibility layer — crosses all states"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "One task drives everything: a user hits submit to file a claim, and the whole interaction begins.",
+          "nodes": [
+            "task",
+            "loading"
+          ],
+          "edges": [
+            [
+              "task",
+              "loading"
+            ]
+          ],
+          "ms": 3400
+        },
+        {
+          "say": "That submit fans into three outcomes from loading — it resolves to success, returns no data, or fails outright.",
+          "nodes": [
+            "loading",
+            "success",
+            "empty",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ],
+            [
+              "loading",
+              "empty"
+            ],
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The demo only ever shows the green success node — the clean happy path everyone signs off on.",
+          "nodes": [
+            "success"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "But the packet forces the warning states into view: empty and error are real states a reviewer must be able to replay.",
+          "nodes": [
+            "empty",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "empty"
+            ],
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Error is the decision point — the interface must offer a way out, not strand the user with focus lost.",
+          "nodes": [
+            "error",
+            "recover"
+          ],
+          "edges": [
+            [
+              "error",
+              "recover"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Recovery loops back to the task with context intact, so retry doesn't mean starting over.",
+          "nodes": [
+            "recover",
+            "task"
+          ],
+          "edges": [
+            [
+              "recover",
+              "task"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The accessibility layer spans every state — keyboard, focus, and screen reader must hold across all of them.",
+          "nodes": [
+            "a11y",
+            "task"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "task"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: package the flow so it fails visibly under review, not silently in production.",
+          "nodes": [
+            "error",
+            "recover",
+            "a11y"
+          ],
+          "edges": [
+            [
+              "error",
+              "recover"
+            ]
+          ],
+          "ms": 4200
         }
       ]
     },

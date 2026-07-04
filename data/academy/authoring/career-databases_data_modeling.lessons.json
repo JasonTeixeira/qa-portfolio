@@ -4137,7 +4137,7 @@
       ],
       "storyboard": [
         {
-          "say": "Three callers all need the same orders table: the API reads and writes, checkout saves inside a transaction, and a background job queries by status.",
+          "say": "Three callers — the Order API, Checkout, and a Fulfillment Job — all reach the Order entity, but only through one door.",
           "nodes": [
             "api",
             "checkout",
@@ -4158,107 +4158,46 @@
               "repo"
             ]
           ],
-          "ms": 4600
+          "ms": 5000
         },
         {
-          "say": "None of them touch the table directly. They all go through one door: the OrderRepository interface, calling findById, save, and findByStatus.",
+          "say": "That door is the OrderRepository: findById, save, query-by-intent — one interface every caller depends on, never the schema.",
           "nodes": [
-            "repo",
-            "api",
-            "checkout",
-            "jobs"
-          ],
-          "edges": [
-            [
-              "api",
-              "repo"
-            ],
-            [
-              "checkout",
-              "repo"
-            ],
-            [
-              "jobs",
-              "repo"
-            ]
-          ],
-          "ms": 4400
-        },
-        {
-          "say": "Behind that interface, the repository delegates to the SQL and mapping layer, which turns intent into parameterized queries against Postgres.",
-          "nodes": [
-            "repo",
-            "sql",
-            "pg"
-          ],
-          "edges": [
-            [
-              "repo",
-              "sql"
-            ],
-            [
-              "sql",
-              "pg"
-            ]
-          ],
-          "ms": 4400
-        },
-        {
-          "say": "Every SELECT, every index assumption, every column name lives here, on one side of the seam. Callers get domain objects back, never raw rows.",
-          "nodes": [
-            "sql",
-            "pg",
             "repo"
           ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "The repository delegates the actual SQL and row-to-object mapping to one place, hidden behind the seam.",
+          "nodes": [
+            "repo",
+            "sql"
+          ],
           "edges": [
-            [
-              "sql",
-              "pg"
-            ],
             [
               "repo",
               "sql"
             ]
           ],
-          "ms": 4800
+          "ms": 4400
         },
         {
-          "say": "Now rename orders.total to total_cents. Without this seam, forty-seven hand-written queries break across three services.",
-          "nodes": [
-            "api",
-            "checkout",
-            "jobs",
-            "pg"
-          ],
-          "edges": [
-            [
-              "sql",
-              "pg"
-            ]
-          ],
-          "ms": 4600
-        },
-        {
-          "say": "With the seam, the change is local: edit the SQL and mapping behind the interface, ship, and the diff touches a single file.",
+          "say": "That mapping issues parameterized SQL against Postgres — the single source of truth for orders.",
           "nodes": [
             "sql",
-            "repo",
             "pg"
           ],
           "edges": [
-            [
-              "repo",
-              "sql"
-            ],
             [
               "sql",
               "pg"
             ]
           ],
-          "ms": 4600
+          "ms": 4400
         },
         {
-          "say": "Reporting is deliberately outside the door: it reads Postgres through its own model, bypassing the repository entirely.",
+          "say": "Reporting sits deliberately outside the seam: it reads its own model straight from Postgres, bypassing the repository.",
           "nodes": [
             "report",
             "pg"
@@ -4269,31 +4208,23 @@
               "pg"
             ]
           ],
-          "ms": 4200
+          "ms": 4800
         },
         {
-          "say": "The invariant holds: callers depend on the interface, never the schema. Change the table, the index, the SQL, and callers never know.",
+          "say": "The invariant: callers depend on the interface, never the table — so a column rename touches one file, not 47 call sites.",
           "nodes": [
-            "repo",
             "api",
             "checkout",
-            "jobs"
+            "jobs",
+            "repo"
           ],
           "edges": [
             [
               "api",
               "repo"
-            ],
-            [
-              "checkout",
-              "repo"
-            ],
-            [
-              "jobs",
-              "repo"
             ]
           ],
-          "ms": 4800
+          "ms": 5200
         }
       ]
     },

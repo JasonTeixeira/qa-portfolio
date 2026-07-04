@@ -1,0 +1,146 @@
+import Link from 'next/link'
+
+type ActiveLink = 'how-it-works' | 'courses' | 'why-proof' | 'pricing'
+
+type AcademyNavProps = {
+  active?: ActiveLink
+}
+
+type NavLink = {
+  key: ActiveLink
+  label: string
+  href: string
+}
+
+const NAV_LINKS: NavLink[] = [
+  { key: 'how-it-works', label: 'How it works', href: '/how-it-works' },
+  { key: 'courses', label: 'Courses', href: '/academy/catalog' },
+  { key: 'why-proof', label: 'Why proof', href: '/academy/why-proof' },
+  { key: 'pricing', label: 'Pricing', href: '/academy/catalog#pricing' },
+]
+
+const LINE = '#1E1E24'
+const TEXT = '#F2EFE9'
+const MUTED = '#9598A2'
+const ACCENT = '#3D5AFE'
+
+/**
+ * Shared top navigation for Sage Academy marketing pages.
+ * Server component — links only, no client state.
+ * Matches the inline-style visual language used across the marketing surface.
+ */
+export function AcademyNav({ active }: AcademyNavProps) {
+  return (
+    <nav
+      aria-label="Sage Academy"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 16,
+        padding: '12px clamp(16px, 3vw, 28px)',
+        borderBottom: `1px solid ${LINE}`,
+      }}
+    >
+      {/* Logo */}
+      <Link
+        href="/academy"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 9,
+          textDecoration: 'none',
+          color: 'inherit',
+        }}
+      >
+        <span
+          style={{
+            display: 'grid',
+            placeItems: 'center',
+            width: 24,
+            height: 24,
+            borderRadius: 7,
+            background: ACCENT,
+            color: '#fff',
+            fontSize: 11,
+          }}
+        >
+          ◆
+        </span>
+        <span style={{ fontSize: 14, fontWeight: 700 }}>Sage Academy</span>
+      </Link>
+
+      {/* Middle links — hidden below a narrow min-width, no JS */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'clamp(14px, 2.4vw, 26px)',
+          flexWrap: 'wrap',
+        }}
+      >
+        {NAV_LINKS.map((link) => {
+          const isActive = active === link.key
+          return (
+            <Link
+              key={link.key}
+              href={link.href}
+              aria-current={isActive ? 'page' : undefined}
+              style={{
+                textDecoration: 'none',
+                fontSize: 13.5,
+                fontWeight: isActive ? 600 : 500,
+                color: isActive ? TEXT : MUTED,
+                borderBottom: isActive
+                  ? `1px solid ${ACCENT}`
+                  : '1px solid transparent',
+                paddingBottom: 2,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {link.label}
+            </Link>
+          )
+        })}
+      </div>
+
+      {/* Right-side CTAs */}
+      <div
+        style={{
+          marginLeft: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 14,
+        }}
+      >
+        <Link
+          href="/login?audience=academy"
+          style={{
+            color: MUTED,
+            textDecoration: 'none',
+            fontSize: 13.5,
+            fontWeight: 500,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Log in
+        </Link>
+        <Link
+          href="/academy/signup"
+          style={{
+            color: '#fff',
+            background: ACCENT,
+            textDecoration: 'none',
+            fontSize: 13.5,
+            fontWeight: 600,
+            padding: '10px 18px',
+            borderRadius: 22,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Start learning
+        </Link>
+      </div>
+    </nav>
+  )
+}

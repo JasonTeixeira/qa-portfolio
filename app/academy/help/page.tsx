@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
 import { HelpContent } from './HelpContent'
 
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -26,52 +26,7 @@ export default function HelpPage() {
       }}
     >
       {/* Nav */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 16,
-          padding: '12px clamp(16px, 3vw, 28px)',
-          borderBottom: '1px solid #1E1E24',
-        }}
-      >
-        <Link
-          href="/academy"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 9,
-            textDecoration: 'none',
-            color: 'inherit',
-          }}
-        >
-          <span
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              width: 24,
-              height: 24,
-              borderRadius: 7,
-              background: '#3D5AFE',
-              color: '#fff',
-              fontSize: 11,
-            }}
-          >
-            ◆
-          </span>
-          <span style={{ fontSize: 14, fontWeight: 700 }}>Sage Academy</span>
-        </Link>
-        <span
-          style={{
-            marginLeft: 'auto',
-            fontFamily: MONO,
-            fontSize: 10.5,
-            color: '#18B663',
-          }}
-        >
-          a human reads every email
-        </span>
-      </div>
+      <AcademyNav />
 
       <main
         style={{

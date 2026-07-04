@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -142,59 +143,8 @@ export default function ProofNotPaperPage() {
         overflowX: 'hidden',
       }}
     >
-      {/* Nav — matched to the sibling why-proof page treatment */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 16,
-          padding: '12px clamp(16px, 3vw, 28px)',
-          borderBottom: '1px solid #1E1E24',
-        }}
-      >
-        <Link
-          href="/academy"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 9,
-            textDecoration: 'none',
-            color: 'inherit',
-          }}
-        >
-          <span
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              width: 24,
-              height: 24,
-              borderRadius: 7,
-              background: '#3D5AFE',
-              color: '#fff',
-              fontSize: 11,
-            }}
-          >
-            ◆
-          </span>
-          <span style={{ fontSize: 14, fontWeight: 700 }}>Sage Academy</span>
-        </Link>
-        <Link
-          href="/academy"
-          style={{
-            marginLeft: 'auto',
-            color: '#fff',
-            background: '#3D5AFE',
-            textDecoration: 'none',
-            fontSize: 13.5,
-            fontWeight: 600,
-            padding: '10px 18px',
-            borderRadius: 22,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Start learning
-        </Link>
-      </div>
+      {/* Nav */}
+      <AcademyNav />
 
       <article
         style={{

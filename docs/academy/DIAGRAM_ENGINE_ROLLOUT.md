@@ -11,7 +11,7 @@ tsc clean · route compiles/gates · screenshot-verified live on :3040 (auth-gat
 | | Unit | State | Notes |
 |---|---|---|---|
 | C0 | Colorful-pop + icons + dataflow on all 449 diagrams | **DONE** | shipped in the engine commit; SageDiagram/DiagramNode changes are live for every diagram |
-| C4 | **Design-system page** (real committed route) documenting the engine + bank + narration; retire the mock | queued | promote `/proto/design-system` → a real reference page; match exports-4 "Sage Academy Design System" |
+| C4 | **Design-system page** documenting the engine + bank + narration | **DONE** (53b65711) | /proto/design-system now = header + Color (ramps + 5 semantic tones w/ hex+meaning) + Type (Fraunces/Hanken/JetBrains) + 5 signature visuals LIVE (SageDiagram, NarratedDiagram, SageCodeWalkthrough, SageCompare, SageViz) + part gallery + 38-icon bank. Matches exports-4 reference. tsc clean. |
 | C1 | **Auto-storyboard generator** — per lesson, read the diagram + narrative (concept/walkthrough/mission) → generate a `DiagramStoryboard`; store on the diagram block; verify a beat maps to real node/edge ids | queued | the multiplier; batch via agents like the sourcing/lab harnesses; start on one course, verify, then scale |
 | C2 | **Wire NarratedDiagram into the lesson player** — when a diagram block has a storyboard, render narrated; else normal | queued | additive; needs C1 storyboards to show |
 | C3 | **Re-baseline screens to exports 4** — new/updated: Home (+menu), Dashboard Cockpit, Emails, Checkout, Field Note Article, + refresh About/Help/Pricing/etc.; align AcademyNav to the new Home menu | queued (big) | design-source/sage-academy-v4; palette consistent; per-screen units like the reskin loop |

@@ -3832,5 +3832,167 @@
     "moduleSort": 3,
     "sort": 3,
     "sourceMdPath": "supabase:career-engineering_judgment_foundation/16-capstone-rehearsal"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "your-first-program",
+    "title": "Your First Program",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "supabase:programming-fundamentals/your-first-program"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "variables-and-values",
+    "title": "Variables: Names for Values",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "supabase:programming-fundamentals/variables-and-values"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "numbers-and-strings",
+    "title": "Numbers & Strings: The Everyday Types",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "supabase:programming-fundamentals/numbers-and-strings"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "reading-input",
+    "title": "Reading Input: Make the Program Listen",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "supabase:programming-fundamentals/reading-input"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "booleans-and-logic",
+    "title": "Booleans & Decisions: Make the Program Choose",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 4,
+    "sourceMdPath": "supabase:programming-fundamentals/booleans-and-logic"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "lists",
+    "title": "Lists: Hold Many Values at Once",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 5,
+    "sourceMdPath": "supabase:programming-fundamentals/lists"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "loops",
+    "title": "Loops: Do Something for Every Item",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 6,
+    "sourceMdPath": "supabase:programming-fundamentals/loops"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "functions-basics",
+    "title": "Functions: Name and Reuse a Block of Code",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 7,
+    "sourceMdPath": "supabase:programming-fundamentals/functions-basics"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "build-a-tiny-program",
+    "title": "Build & Ship a Tiny Program",
+    "moduleTitle": "Module 1 · First Steps",
+    "moduleSort": 0,
+    "sort": 8,
+    "sourceMdPath": "supabase:programming-fundamentals/build-a-tiny-program"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "input-validation",
+    "title": "Input Validation: Trust Nothing at the Boundary",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "supabase:programming-fundamentals/input-validation"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "error-handling",
+    "title": "Error Handling: Make Failures Loud, Safe, and Diagnosable",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "supabase:programming-fundamentals/error-handling"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "functions-and-modules",
+    "title": "Functions & Modules: Build Small, Testable Units",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "supabase:programming-fundamentals/functions-and-modules"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "types-and-data",
+    "title": "Types & Data: Know What a Value Really Is",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "supabase:programming-fundamentals/types-and-data"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "control-flow",
+    "title": "Control Flow: Guard Clauses & Clean Loops",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 4,
+    "sourceMdPath": "supabase:programming-fundamentals/control-flow"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "files-and-io",
+    "title": "Files & I/O: Read Safely, Close Always",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 5,
+    "sourceMdPath": "supabase:programming-fundamentals/files-and-io"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "testing-and-debugging",
+    "title": "Testing & Debugging: Catch the Bug Before Prod",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 6,
+    "sourceMdPath": "supabase:programming-fundamentals/testing-and-debugging"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "cli-workflow",
+    "title": "CLI Safety: Safe Defaults & Dry Runs",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 7,
+    "sourceMdPath": "supabase:programming-fundamentals/cli-workflow"
+  },
+  {
+    "courseSlug": "programming-fundamentals",
+    "slug": "git-fundamentals",
+    "title": "Git Fundamentals: Atomic Commits You Can Trust",
+    "moduleTitle": "Module 2 · Foundations",
+    "moduleSort": 1,
+    "sort": 8,
+    "sourceMdPath": "supabase:programming-fundamentals/git-fundamentals"
   }
 ]

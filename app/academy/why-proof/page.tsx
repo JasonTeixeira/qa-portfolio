@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
+import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -606,28 +607,7 @@ export default function WhyProofPage() {
         </div>
       </article>
 
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid #1E1E24' }}>
-        <div
-          style={{
-            maxWidth: 1240,
-            margin: '0 auto',
-            padding: '30px clamp(20px, 4vw, 48px)',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 16,
-          }}
-        >
-          <span style={{ fontFamily: MONO, fontSize: 11, color: '#9598A2' }}>
-            Sage Academy · frame → route → map → decide → prove
-          </span>
-          <span style={{ fontFamily: MONO, fontSize: 11, color: '#4A4A54' }}>
-            © 2026 Sage Ideas LLC
-          </span>
-        </div>
-      </footer>
+      <AcademyFooter tagline="frame → route → map → decide → prove" />
     </div>
   )
 }

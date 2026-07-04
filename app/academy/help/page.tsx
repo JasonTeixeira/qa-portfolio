@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
+import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
 import { HelpContent } from './HelpContent'
 
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -66,6 +67,8 @@ export default function HelpPage() {
 
         <HelpContent />
       </main>
+
+      <AcademyFooter />
     </div>
   )
 }

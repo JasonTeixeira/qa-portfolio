@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
+import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -258,6 +259,8 @@ export default function AboutPage() {
           </Link>
         </div>
       </article>
+
+      <AcademyFooter />
     </div>
   )
 }

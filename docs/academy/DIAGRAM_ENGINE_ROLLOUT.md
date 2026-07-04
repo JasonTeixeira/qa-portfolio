@@ -12,7 +12,7 @@ tsc clean · route compiles/gates · screenshot-verified live on :3040 (auth-gat
 |---|---|---|---|
 | C0 | Colorful-pop + icons + dataflow on all 449 diagrams | **DONE** | shipped in the engine commit; SageDiagram/DiagramNode changes are live for every diagram |
 | C4 | **Design-system page** documenting the engine + bank + narration | **DONE** (53b65711) | /proto/design-system now = header + Color (ramps + 5 semantic tones w/ hex+meaning) + Type (Fraunces/Hanken/JetBrains) + 5 signature visuals LIVE (SageDiagram, NarratedDiagram, SageCodeWalkthrough, SageCompare, SageViz) + part gallery + 38-icon bank. Matches exports-4 reference. tsc clean. |
-| C1 | **Auto-storyboard generator** — per lesson, read the diagram + narrative → generate a `DiagramStoryboard`; store on the diagram block; every ref validated real | **BUILT + scaling (22/23 courses)** | gen-storyboards.mjs + collect-storyboards.mjs + validate-blocks fail-closed check. **career-backend_engineering: 20/20 narrated, 0 bad refs, live in Supabase, verified coherent** (d3be6fa1). Remaining: ai_engineering, then the rest — ONE workflow at a time. |
+| C1 | **Auto-storyboard generator** — narrate every diagram from lesson content | **DONE — 449/449 diagrams narrated across 23 courses, 0 fabricated refs** | gen-storyboards.mjs + collect-storyboards.mjs + validate-blocks fail-closed + export-course-json.mjs (Supabase→JSON+manifest for courses lacking a local copy). Every apply 0 validation failures. Voice-sync-ready. Live in Supabase. |
 | C2 | **Wire NarratedDiagram into the lesson player** — storyboard present → narrated, else normal | **DONE** (f6a431c0) | additive; diagram block type gained `storyboard`; lesson route compiles+gates; all 20 backend lessons narrate in-lesson |
 | C3 | **Re-baseline screens to exports 4** — new/updated: Home (+menu), Dashboard Cockpit, Emails, Checkout, Field Note Article, + refresh About/Help/Pricing/etc.; align AcademyNav to the new Home menu | queued (big) | design-source/sage-academy-v4; palette consistent; per-screen units like the reskin loop |
 | C5 | Voice-engine TTS sync — swap the beat timer for audio-segment boundaries | **DEFERRED (gate)** | voice engine not built yet; engine is already voice-sync-ready |
@@ -25,3 +25,5 @@ tsc clean · route compiles/gates · screenshot-verified live on :3040 (auth-gat
 
 ## Progress log
 - 2026-07-04: engine + bank + narration committed (94dba21a); exports 4 re-baselined to design-source/sage-academy-v4; program opened.
+
+- 2026-07-04: **C1 COMPLETE** — 449/449 diagrams narrated (23 courses), 0 bad refs academy-wide, all live in Supabase. C0/C1/C2/C4 done. Next: C3 screens.

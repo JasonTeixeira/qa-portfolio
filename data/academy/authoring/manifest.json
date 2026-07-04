@@ -3688,5 +3688,149 @@
     "moduleSort": 4,
     "sort": 3,
     "sourceMdPath": "/Users/Sage/AI_CAREER_OPERATING_SYSTEM/courses/19_enterprise_it_saas_admin_business_systems/modules/05_governance_operations_and_vendor_risk/lessons/04_operating_review.md"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "01-problem-frame",
+    "title": "The Problem Frame",
+    "moduleTitle": "Module 1 · Framing & Diagnosis",
+    "moduleSort": 0,
+    "sort": 0,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/01-problem-frame"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "02-diagnostic-route",
+    "title": "The Diagnostic Route",
+    "moduleTitle": "Module 1 · Framing & Diagnosis",
+    "moduleSort": 0,
+    "sort": 1,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/02-diagnostic-route"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "03-system-map",
+    "title": "The System Map",
+    "moduleTitle": "Module 1 · Framing & Diagnosis",
+    "moduleSort": 0,
+    "sort": 2,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/03-system-map"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "04-retrieval-protocol",
+    "title": "The Retrieval Protocol",
+    "moduleTitle": "Module 1 · Framing & Diagnosis",
+    "moduleSort": 0,
+    "sort": 3,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/04-retrieval-protocol"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "05-tiny-artifact",
+    "title": "Tiny Artifact: Make the Decision Inspectable",
+    "moduleTitle": "Module 2 · Build & Prove",
+    "moduleSort": 1,
+    "sort": 0,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/05-tiny-artifact"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "06-failure-injection",
+    "title": "Failure Injection: Break Your Own Decision First",
+    "moduleTitle": "Module 2 · Build & Prove",
+    "moduleSort": 1,
+    "sort": 1,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/06-failure-injection"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "07-tradeoff-decision",
+    "title": "Tradeoff Decision: Defend the Call Under Pressure",
+    "moduleTitle": "Module 2 · Build & Prove",
+    "moduleSort": 1,
+    "sort": 2,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/07-tradeoff-decision"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "08-testa-proof",
+    "title": "Testa Proof: Prove It With the Strongest Evidence",
+    "moduleTitle": "Module 2 · Build & Prove",
+    "moduleSort": 1,
+    "sort": 3,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/08-testa-proof"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "09-explain-back",
+    "title": "Explain It Back: The Feynman Gate",
+    "moduleTitle": "Module 3 · Review & Repair",
+    "moduleSort": 2,
+    "sort": 0,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/09-explain-back"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "10-review-rubric",
+    "title": "The Review Rubric: Score Your Own Work",
+    "moduleTitle": "Module 3 · Review & Repair",
+    "moduleSort": 2,
+    "sort": 1,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/10-review-rubric"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "11-repair-loop",
+    "title": "The Repair Loop: Fix the Weakest Part",
+    "moduleTitle": "Module 3 · Review & Repair",
+    "moduleSort": 2,
+    "sort": 2,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/11-repair-loop"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "12-spacing-queue",
+    "title": "The Spacing Queue: Make It Stick",
+    "moduleTitle": "Module 3 · Review & Repair",
+    "moduleSort": 2,
+    "sort": 3,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/12-spacing-queue"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "13-transfer-challenge",
+    "title": "Transfer Challenge",
+    "moduleTitle": "Module 4 · Transfer & Gate",
+    "moduleSort": 3,
+    "sort": 0,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/13-transfer-challenge"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "14-package-evidence",
+    "title": "Package Evidence",
+    "moduleTitle": "Module 4 · Transfer & Gate",
+    "moduleSort": 3,
+    "sort": 1,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/14-package-evidence"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "15-unlock-gate",
+    "title": "Unlock Gate",
+    "moduleTitle": "Module 4 · Transfer & Gate",
+    "moduleSort": 3,
+    "sort": 2,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/15-unlock-gate"
+  },
+  {
+    "courseSlug": "career-engineering_judgment_foundation",
+    "slug": "16-capstone-rehearsal",
+    "title": "Capstone Rehearsal",
+    "moduleTitle": "Module 4 · Transfer & Gate",
+    "moduleSort": 3,
+    "sort": 3,
+    "sourceMdPath": "supabase:career-engineering_judgment_foundation/16-capstone-rehearsal"
   }
 ]

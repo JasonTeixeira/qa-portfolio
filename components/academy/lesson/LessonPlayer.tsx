@@ -18,6 +18,7 @@ import type { LessonNote } from '@/lib/academy/notes'
 import { Icon } from '@/components/academy/ui/Icon'
 import { CourseRail } from './CourseRail'
 import { SageDiagram } from '@/components/academy/visuals/SageDiagram'
+import { NarratedDiagram } from '@/components/academy/visuals/NarratedDiagram'
 import { SageViz } from '@/components/academy/visuals/SageViz'
 import { SageCodeWalkthrough } from '@/components/academy/visuals/SageCodeWalkthrough'
 import { SageCompare } from '@/components/academy/visuals/SageCompare'
@@ -164,26 +165,45 @@ function Block({
       )
     case 'quiz':
       return <QuizBlock block={block} />
-    case 'diagram':
+    case 'diagram': {
       // Branded system-map renderer; the reveal wrapper fades the figure up in
       // the house motion language (reduced-motion → final state instantly).
       // visualBleed widens it past the 680px prose column (node labels stay legible).
+      // When the diagram carries a NARRATION storyboard, render the NarratedDiagram
+      // engine so the figure explains itself beat-by-beat (voice-sync-ready); else
+      // the standard SageDiagram.
+      const storyboard = Array.isArray(block.storyboard) && block.storyboard.length > 0 ? block.storyboard : null
       return (
         <div className={styles.visualBleed}>
           <RevealStagger>
-            <SageDiagram
-              title={block.title}
-              subtitle={block.subtitle}
-              nodes={block.nodes}
-              edges={block.edges}
-              legend={block.legend}
-              rankdir={block.rankdir}
-              caption={block.caption}
-              height={block.height}
-            />
+            {storyboard ? (
+              <NarratedDiagram
+                title={block.title}
+                subtitle={block.subtitle}
+                nodes={block.nodes}
+                edges={block.edges}
+                legend={block.legend}
+                rankdir={block.rankdir}
+                caption={block.caption}
+                height={block.height}
+                storyboard={storyboard}
+              />
+            ) : (
+              <SageDiagram
+                title={block.title}
+                subtitle={block.subtitle}
+                nodes={block.nodes}
+                edges={block.edges}
+                legend={block.legend}
+                rankdir={block.rankdir}
+                caption={block.caption}
+                height={block.height}
+              />
+            )}
           </RevealStagger>
         </div>
       )
+    }
     case 'viz':
       return (
         <div className={styles.visualBleed}>

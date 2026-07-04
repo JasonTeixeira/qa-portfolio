@@ -55,6 +55,17 @@ export type LessonBlock =
       rankdir?: 'LR' | 'TB' | 'RL' | 'BT'
       caption?: string
       height?: number
+      /**
+       * Optional NARRATION storyboard — makes the figure explain itself beat by
+       * beat (NarratedDiagram engine, voice-sync-ready). Each beat's node/edge refs
+       * are validated against the diagram at authoring time (validate-blocks).
+       */
+      storyboard?: {
+        say: string
+        nodes?: string[]
+        edges?: [string, string][]
+        ms?: number
+      }[]
     }
   | {
       type: 'viz'

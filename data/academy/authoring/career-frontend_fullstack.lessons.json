@@ -132,6 +132,105 @@
           "tone": "success",
           "label": "success — the only state demos usually show"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every async component starts at idle — the resting state, waiting for the user to act.",
+          "nodes": [
+            "idle"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "Validate first: bad input never leaves idle, it moves to disabled so the action is gated before any request fires.",
+          "nodes": [
+            "idle",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "idle",
+              "disabled"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On submit we transition to loading and immediately disable the trigger — this is the missing state that stops the double-book.",
+          "nodes": [
+            "idle",
+            "loading",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "idle",
+              "loading"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Loading resolves three ways: a 200 with rows becomes success, a 200 with zero rows becomes empty.",
+          "nodes": [
+            "loading",
+            "success",
+            "empty"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ],
+            [
+              "loading",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The third exit is failure — any 4xx, 5xx, or timeout lands in error, a first-class state, not a crash.",
+          "nodes": [
+            "loading",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Error is repairable: retry sends the user back through loading, closing the loop instead of dead-ending.",
+          "nodes": [
+            "error",
+            "loading"
+          ],
+          "edges": [
+            [
+              "error",
+              "loading"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every reachable state — loading, empty, error, disabled, success — needs a defined render and an accessible cue, or it's a silent failure.",
+          "nodes": [
+            "idle",
+            "disabled",
+            "loading",
+            "success",
+            "empty",
+            "error"
+          ],
+          "edges": [],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -435,6 +534,114 @@
           "tone": "success",
           "label": "semantic tags + the tag-swap repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Two source files enter here: one built from semantic tags, one from styled divs. Both look identical on screen.",
+          "nodes": [
+            "semantic",
+            "divsoup"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The browser parses both into the same DOM, then a render tree — pixels come out identical for either path.",
+          "nodes": [
+            "dom",
+            "render"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "dom"
+            ],
+            [
+              "divsoup",
+              "dom"
+            ],
+            [
+              "dom",
+              "render"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But a second tree is built too: the semantic path carries real names and roles into the accessibility tree.",
+          "nodes": [
+            "semantic",
+            "a11ytree"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "a11ytree"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On the div path the control simply vanishes — no role, no name, nothing for assistive tech to find.",
+          "nodes": [
+            "divsoup",
+            "a11ytree"
+          ],
+          "edges": [
+            [
+              "divsoup",
+              "a11ytree"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The screen reader and keyboard read only the accessibility tree, so div-soup buttons are invisible to focus.",
+          "nodes": [
+            "a11ytree",
+            "sr"
+          ],
+          "edges": [
+            [
+              "a11ytree",
+              "sr"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix is one swap: replace the styled div with the real tag, restoring names, roles, and free focus.",
+          "nodes": [
+            "repair",
+            "semantic"
+          ],
+          "edges": [
+            [
+              "repair",
+              "semantic"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Choose the tag for what content means, not how it looks — the accessibility tree is built from your tags.",
+          "nodes": [
+            "semantic",
+            "a11ytree",
+            "sr"
+          ],
+          "edges": [
+            [
+              "semantic",
+              "a11ytree"
+            ],
+            [
+              "a11ytree",
+              "sr"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -723,6 +930,108 @@
           "tone": "warning",
           "label": "the 320px overflow failure path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one file: semantic HTML that renders into a single grid container. No breakpoint forks, no duplicate markup.",
+          "nodes": [
+            "markup",
+            "grid"
+          ],
+          "edges": [
+            [
+              "markup",
+              "grid"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The one input that changes is the viewport width. The browser feeds it straight into the grid — this is the variable everything reacts to.",
+          "nodes": [
+            "viewport",
+            "grid"
+          ],
+          "edges": [
+            [
+              "viewport",
+              "grid"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a 320px phone the grid computes one column. Same CSS, it just fits fewer columns of the declared minimum width.",
+          "nodes": [
+            "grid",
+            "mobile"
+          ],
+          "edges": [
+            [
+              "grid",
+              "mobile"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "At 768px it computes two or three columns; at 1440px, four or more. Nobody wrote those numbers — auto-fit and minmax did.",
+          "nodes": [
+            "grid",
+            "tablet",
+            "desktop"
+          ],
+          "edges": [
+            [
+              "grid",
+              "tablet"
+            ],
+            [
+              "grid",
+              "desktop"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here is the failure this lesson kills: fixed-pixel columns don't reflow, so a third column hangs off the 320px edge with a hidden scrollbar.",
+          "nodes": [
+            "grid",
+            "overflow"
+          ],
+          "edges": [
+            [
+              "grid",
+              "overflow"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: intrinsic sizing reflows continuously across every viewport. A media query is a deliberate exception, never the mechanism.",
+          "nodes": [
+            "viewport",
+            "grid",
+            "mobile",
+            "tablet",
+            "desktop"
+          ],
+          "edges": [
+            [
+              "viewport",
+              "grid"
+            ],
+            [
+              "grid",
+              "mobile"
+            ],
+            [
+              "grid",
+              "desktop"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -994,7 +1303,105 @@
           "label": "easy-to-forget states (empty, disabled)"
         }
       ],
-      "caption": "Empty and disabled are the two states beginners drop. The dashed edge is what happens when a state is reachable in the app but absent from the type: the component renders nothing."
+      "caption": "Empty and disabled are the two states beginners drop. The dashed edge is what happens when a state is reachable in the app but absent from the type: the component renders nothing.",
+      "storyboard": [
+        {
+          "say": "Every fetch-backed component starts here, in idle, the moment the request goes out and the component waits for an answer.",
+          "nodes": [
+            "idle"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The happy path: data arrives, the component moves into success and renders the rows it was asked to show.",
+          "nodes": [
+            "idle",
+            "success"
+          ],
+          "edges": [
+            [
+              "idle",
+              "success"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But a 200 with zero rows is not success. That transition lands in empty, a distinct state deserving its own message.",
+          "nodes": [
+            "idle",
+            "empty"
+          ],
+          "edges": [
+            [
+              "idle",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "And when the fetch rejects, the machine must route to error, carrying a message so the user sees what broke and can retry.",
+          "nodes": [
+            "idle",
+            "error"
+          ],
+          "edges": [
+            [
+              "idle",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Even from success a guard can fail, dropping the component into disabled, a valid state a user can tab into but not act on.",
+          "nodes": [
+            "success",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "success",
+              "disabled"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the failure: a state the type never named. There is no node to land on, so the render falls through to a blank screen.",
+          "nodes": [
+            "idle",
+            "blank"
+          ],
+          "edges": [
+            [
+              "idle",
+              "blank"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Model state as one tagged union and this edge disappears. The compiler forbids the unhandled case, so the blank screen cannot ship.",
+          "nodes": [
+            "idle",
+            "success",
+            "empty",
+            "error",
+            "disabled",
+            "blank"
+          ],
+          "edges": [
+            [
+              "idle",
+              "blank"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -1296,6 +1703,103 @@
           "tone": "muted",
           "label": "non-success states, each owned by one part"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "This is CheckoutPanel: not one god-component with 22 props, but a router that hands each UI state to a part that owns it.",
+          "nodes": [
+            "panel"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "While the fetch is pending, the panel renders LoadingState. That is its one and only job.",
+          "nodes": [
+            "panel",
+            "loading"
+          ],
+          "edges": [
+            [
+              "panel",
+              "loading"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "If the data comes back empty, EmptyState owns that screen; if it has items, CartList takes over.",
+          "nodes": [
+            "panel",
+            "empty",
+            "list"
+          ],
+          "edges": [
+            [
+              "panel",
+              "empty"
+            ],
+            [
+              "panel",
+              "list"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the risk: if a child throws and there is no boundary above it, the failure propagates to a white screen.",
+          "nodes": [
+            "panel",
+            "crash"
+          ],
+          "edges": [
+            [
+              "panel",
+              "crash"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The repair path: wrap it in an ErrorBoundary, and the same throw is caught instead of crashing.",
+          "nodes": [
+            "panel",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "panel",
+              "boundary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The boundary then renders its fallback, ErrorState, so the failure becomes just another owned state.",
+          "nodes": [
+            "boundary",
+            "error"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "error"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant holds: every state has one part that owns it, so anyone can answer what shows and when.",
+          "nodes": [
+            "panel",
+            "loading",
+            "empty",
+            "list",
+            "error"
+          ],
+          "edges": [],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -1584,6 +2088,117 @@
         {
           "tone": "muted",
           "label": "disabled — a real modeled state, not a flag"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The user taps Submit. The component starts at idle, the neutral resting state before anything happens.",
+          "nodes": [
+            "idle"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "Before submit is even allowed, validation gates it: idle can flip to disabled and back, so you cannot submit garbage.",
+          "nodes": [
+            "idle",
+            "disabled"
+          ],
+          "edges": [
+            [
+              "idle",
+              "disabled"
+            ],
+            [
+              "disabled",
+              "idle"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On a valid form, the SUBMIT event moves us into loading — one state, one spinner, no drifting booleans.",
+          "nodes": [
+            "idle",
+            "loading"
+          ],
+          "edges": [
+            [
+              "idle",
+              "loading"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The network resolves with data, so loading transitions to success — the happy path renders exactly one thing.",
+          "nodes": [
+            "loading",
+            "success"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But resolve can also return nothing: empty is a real state, not a blank success, so you show 'no results' honestly.",
+          "nodes": [
+            "loading",
+            "empty"
+          ],
+          "edges": [
+            [
+              "loading",
+              "empty"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The failure path: REJECT moves loading to error. Because status is one enum, the spinner and old toast cannot linger.",
+          "nodes": [
+            "loading",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The repair path: RETRY sends error straight back to loading — recovery is a modeled edge, not a hopeful reset.",
+          "nodes": [
+            "error",
+            "loading"
+          ],
+          "edges": [
+            [
+              "error",
+              "loading"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "One status value drives the render, so two contradictory states can never coexist. Model the transitions, not the flags.",
+          "nodes": [
+            "idle",
+            "disabled",
+            "loading",
+            "empty",
+            "error",
+            "success"
+          ],
+          "edges": [],
+          "ms": 5000
         }
       ]
     },
@@ -1877,6 +2492,105 @@
           "tone": "success",
           "label": "repair + success path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "One form, six states. It sits Idle until the user blurs a field or hits Submit, which kicks off Validating.",
+          "nodes": [
+            "idle",
+            "validating"
+          ],
+          "edges": [
+            [
+              "idle",
+              "validating"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Validating is the decision point: it runs every rule and branches. If a field breaks a rule, we drop into the Invalid state.",
+          "nodes": [
+            "validating",
+            "invalid"
+          ],
+          "edges": [
+            [
+              "validating",
+              "invalid"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Invalid is where accessibility lives: aria-invalid flags the input, aria-describedby links its message, and role='alert' speaks the change.",
+          "nodes": [
+            "invalid"
+          ],
+          "edges": [],
+          "ms": 5000
+        },
+        {
+          "say": "The repair path matters as much as the failure. The user fixes the field, and we re-enter Validating to re-check.",
+          "nodes": [
+            "invalid",
+            "validating"
+          ],
+          "edges": [
+            [
+              "invalid",
+              "validating"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When all rules pass, Validating hands off to Submitting, and the request goes to the server.",
+          "nodes": [
+            "validating",
+            "submitting"
+          ],
+          "edges": [
+            [
+              "validating",
+              "submitting"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The server can reject: Server error carries the same aria wiring so failures stay perceivable, then retry loops back into Validating.",
+          "nodes": [
+            "submitting",
+            "error",
+            "validating"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "error"
+            ],
+            [
+              "error",
+              "validating"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Or the server accepts and we reach Success. The invariant throughout: every error is bound to its field, or it is not validation.",
+          "nodes": [
+            "submitting",
+            "success"
+          ],
+          "edges": [
+            [
+              "submitting",
+              "success"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -2167,7 +2881,117 @@
           "label": "data present, rendered"
         }
       ],
-      "caption": "The bug class lives on the resolve edge: most code splits reject vs resolve but forgets resolve splits AGAIN into empty vs success. Two edges out of Response is the amateur mistake; three is the contract."
+      "caption": "The bug class lives on the resolve edge: most code splits reject vs resolve but forgets resolve splits AGAIN into empty vs success. Two edges out of Response is the amateur mistake; three is the contract.",
+      "storyboard": [
+        {
+          "say": "It starts at rest. Idle is the component before anything happens, until a user action fires fetch and kicks the machine into motion.",
+          "nodes": [
+            "idle",
+            "loading"
+          ],
+          "edges": [
+            [
+              "idle",
+              "loading"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Now we're Loading, awaiting the promise. This is the blank-screen state the demo skipped when the API answered instantly.",
+          "nodes": [
+            "loading",
+            "fetch"
+          ],
+          "edges": [
+            [
+              "loading",
+              "fetch"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The response is the fork in the road. Exactly one outcome fires per render, and this decision is where the happy path stopped looking.",
+          "nodes": [
+            "fetch"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Reject or a 4xx-5xx routes to Error. That's the single 500 painting a red stack trace instead of a designed failure surface.",
+          "nodes": [
+            "fetch",
+            "error"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "error"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Resolve with zero rows is Empty, a first-class destination. A new user with no data must never see the same nothing as a crash.",
+          "nodes": [
+            "fetch",
+            "empty"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "empty"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Only resolve with actual rows reaches Success. This is the one state the demo ever rendered, one branch of four.",
+          "nodes": [
+            "fetch",
+            "success"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "success"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Error and Empty aren't dead ends. Retry and broaden-query refire the loop, giving every failure a designed recovery path.",
+          "nodes": [
+            "error",
+            "empty",
+            "loading"
+          ],
+          "edges": [
+            [
+              "error",
+              "loading"
+            ],
+            [
+              "empty",
+              "loading"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every async surface is four components in one, and no state may render as nothing.",
+          "nodes": [
+            "loading",
+            "empty",
+            "error",
+            "success"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2464,6 +3288,131 @@
           "tone": "muted",
           "label": "untrusted / out of scope"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: the component needs data, so it calls the typed API client instead of fetching raw JSON itself.",
+          "nodes": [
+            "component",
+            "client"
+          ],
+          "edges": [
+            [
+              "component",
+              "client"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The client reaches out over the network, fetching the response from the backend API.",
+          "nodes": [
+            "client",
+            "api"
+          ],
+          "edges": [
+            [
+              "client",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The backend hands back raw JSON — untrusted, unshaped, exactly the thing that can silently rename a field.",
+          "nodes": [
+            "api",
+            "schema"
+          ],
+          "edges": [
+            [
+              "api",
+              "schema"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "At the edge, the response schema parses that JSON. This is the guardrail: shape is checked before anything reaches render.",
+          "nodes": [
+            "schema",
+            "api"
+          ],
+          "edges": [
+            [
+              "api",
+              "schema"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When it matches, valid typed data flows back into the component and drives the success state.",
+          "nodes": [
+            "schema",
+            "component"
+          ],
+          "edges": [
+            [
+              "schema",
+              "component"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "When it doesn't match, the schema throws right there, routing into a designed, accessible error state that renders real error UI.",
+          "nodes": [
+            "schema",
+            "errstate",
+            "component"
+          ],
+          "edges": [
+            [
+              "schema",
+              "errstate"
+            ],
+            [
+              "errstate",
+              "component"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "And if anything still slips through during render, the error boundary catches the uncaught throw — a blank white screen never ships.",
+          "nodes": [
+            "component",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "component",
+              "boundary"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: typed data in, typed failure out — parse at the edge and every downstream screen inherits designed failure instead of hope.",
+          "nodes": [
+            "client",
+            "schema",
+            "errstate",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "api",
+              "schema"
+            ],
+            [
+              "schema",
+              "errstate"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -2742,6 +3691,109 @@
         {
           "tone": "success",
           "label": "aria-live announces the transition"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A user filters 40,000 orders and clicks page 4 — the Filter and Pager UI is where the request begins.",
+          "nodes": [
+            "filter"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "The critical move: filter and page write into the URL query string, not component state — so the address bar becomes the source of truth.",
+          "nodes": [
+            "filter",
+            "url"
+          ],
+          "edges": [
+            [
+              "filter",
+              "url"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The URL is the cache key: it fully determines the fetch, so a refresh reproduces the exact same request.",
+          "nodes": [
+            "url",
+            "fetch"
+          ],
+          "edges": [
+            [
+              "url",
+              "fetch"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The fetch fires a GET to the List API — the only async boundary in the whole loop.",
+          "nodes": [
+            "fetch",
+            "api"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The API returns one of three shapes — data, empty array, or error — and that choice selects a cell of the render-state matrix.",
+          "nodes": [
+            "api",
+            "state"
+          ],
+          "edges": [
+            [
+              "api",
+              "state"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The table is never one view: it is loading times empty times error times success, and state picks exactly one cell to render.",
+          "nodes": [
+            "state",
+            "table"
+          ],
+          "edges": [
+            [
+              "state",
+              "table"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The table renders with aria-live, announcing the transition so a screen-reader user is never left stranded.",
+          "nodes": [
+            "table"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The user refines again, and because the URL held everything, the whole loop is reproducible — refresh-safe and shareable.",
+          "nodes": [
+            "table",
+            "filter",
+            "url"
+          ],
+          "edges": [
+            [
+              "table",
+              "filter"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -3049,6 +4101,123 @@
         {
           "tone": "warning",
           "label": "error/empty collapsing into a blank chart — the lie"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The panel mounts and immediately fires one request, entering the loading state before any data exists.",
+          "nodes": [
+            "mount",
+            "loading"
+          ],
+          "edges": [
+            [
+              "mount",
+              "loading"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Loading awaits the metrics API — a single fetch that will fan out into distinct outcomes.",
+          "nodes": [
+            "loading",
+            "api"
+          ],
+          "edges": [
+            [
+              "loading",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "One response, three honest branches: rows over zero is success, rows equal zero is empty, and any 4xx, 5xx, or timeout is error.",
+          "nodes": [
+            "api",
+            "success",
+            "empty",
+            "error"
+          ],
+          "edges": [
+            [
+              "api",
+              "success"
+            ],
+            [
+              "api",
+              "empty"
+            ],
+            [
+              "api",
+              "error"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Error is a decision, not a dead end — it offers Retry, looping back into loading to try the fetch again.",
+          "nodes": [
+            "error",
+            "loading"
+          ],
+          "edges": [
+            [
+              "error",
+              "loading"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is the production lie: if empty collapses into the chart, a healthy zero-row response looks like a broken canvas.",
+          "nodes": [
+            "empty",
+            "blank"
+          ],
+          "edges": [
+            [
+              "empty",
+              "blank"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "And if the error is swallowed, a rate-limited API renders the same blank chart — the room reads revenue as zero.",
+          "nodes": [
+            "error",
+            "blank"
+          ],
+          "edges": [
+            [
+              "error",
+              "blank"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The fix: every state renders a distinct, honest surface. Never reuse the empty chart for loading or error — that is the whole machine.",
+          "nodes": [
+            "loading",
+            "success",
+            "empty",
+            "error",
+            "blank"
+          ],
+          "edges": [
+            [
+              "empty",
+              "blank"
+            ],
+            [
+              "error",
+              "blank"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3376,6 +4545,140 @@
           "tone": "success",
           "label": "the only state most demos show"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts in the list. Click a row and the only thing that happens is the id gets written into the URL.",
+          "nodes": [
+            "list",
+            "url"
+          ],
+          "edges": [
+            [
+              "list",
+              "url"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The detail surface has one job at mount: read that id straight back out of the URL.",
+          "nodes": [
+            "url",
+            "surface"
+          ],
+          "edges": [
+            [
+              "url",
+              "surface"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "With the id in hand, the surface fires a fetch by id — it never trusts leftover list state in memory.",
+          "nodes": [
+            "surface",
+            "fetch"
+          ],
+          "edges": [
+            [
+              "surface",
+              "fetch"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That one fetch resolves into exactly one of four states: loading while pending, then empty, error, or success.",
+          "nodes": [
+            "fetch",
+            "loading",
+            "empty",
+            "error",
+            "success"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "loading"
+            ],
+            [
+              "fetch",
+              "empty"
+            ],
+            [
+              "fetch",
+              "error"
+            ],
+            [
+              "fetch",
+              "success"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "Empty and error aren't afterthoughts — a 404 or a rejection is a first-class render, not a blank drawer.",
+          "nodes": [
+            "empty",
+            "error"
+          ],
+          "edges": [
+            [
+              "fetch",
+              "empty"
+            ],
+            [
+              "fetch",
+              "error"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the proof it's real: a deep link or refresh re-enters at the URL, with no list ever loaded.",
+          "nodes": [
+            "deeplink",
+            "url"
+          ],
+          "edges": [
+            [
+              "deeplink",
+              "url"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Because identity lives in the URL, that pasted link runs the same read-fetch-render path and lands on success.",
+          "nodes": [
+            "deeplink",
+            "url",
+            "surface",
+            "fetch",
+            "success"
+          ],
+          "edges": [
+            [
+              "deeplink",
+              "url"
+            ],
+            [
+              "url",
+              "surface"
+            ],
+            [
+              "surface",
+              "fetch"
+            ],
+            [
+              "fetch",
+              "success"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -3666,6 +4969,110 @@
         {
           "tone": "warning",
           "label": "rollback path — the safety beginners skip"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one user action — a tap on Follow. Everything downstream hangs on this single intent.",
+          "nodes": [
+            "click"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "Before touching anything, snapshot the prior state. This copy is your undo button, taken first so nothing is lost.",
+          "nodes": [
+            "click",
+            "snapshot"
+          ],
+          "edges": [
+            [
+              "click",
+              "snapshot"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now apply the change optimistically — the button flips instantly. The user feels speed before the server has said a word.",
+          "nodes": [
+            "snapshot",
+            "apply"
+          ],
+          "edges": [
+            [
+              "snapshot",
+              "apply"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "In parallel, fire the request to the server. This is where reality intrudes: it can be fast, slow, or silently fail.",
+          "nodes": [
+            "apply",
+            "request"
+          ],
+          "edges": [
+            [
+              "apply",
+              "request"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On a 2xx, commit. The optimistic guess is now confirmed truth — no visible change, because you already showed the answer.",
+          "nodes": [
+            "request",
+            "commit"
+          ],
+          "edges": [
+            [
+              "request",
+              "commit"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But on a 4xx, 5xx, or timeout, take the dashed path — roll back. This edge is what beginners skip, and it makes the whole thing safe.",
+          "nodes": [
+            "request",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "request",
+              "rollback"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Rollback restores the snapshot AND announces the error via aria-live. Restore the state, then tell the user — never leave them wrong and silent.",
+          "nodes": [
+            "rollback",
+            "announce"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "announce"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That's the lesson: fast without a rollback path isn't optimism, it's unverified hope — worse than slow and honest.",
+          "nodes": [
+            "snapshot",
+            "rollback",
+            "announce"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -3963,7 +5370,112 @@
           "label": "authorized path — private data flows here only"
         }
       ],
-      "caption": "Defense in depth: middleware redirects cheaply at the edge; the page re-verifies because a cookie's presence is not proof it is valid. The browser never receives private HTML on the redirect path."
+      "caption": "Defense in depth: middleware redirects cheaply at the edge; the page re-verifies because a cookie's presence is not proof it is valid. The browser never receives private HTML on the redirect path.",
+      "storyboard": [
+        {
+          "say": "A browser opens /dashboard. Every request first hits the server's edge gate — middleware — before any page code or private data is touched.",
+          "nodes": [
+            "client",
+            "mw"
+          ],
+          "edges": [
+            [
+              "client",
+              "mw"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Middleware checks for a session. No session means the request is turned away at the edge with a 307 redirect to /login — nothing private ever loads.",
+          "nodes": [
+            "mw",
+            "login"
+          ],
+          "edges": [
+            [
+              "mw",
+              "login"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "If a session is present, middleware lets the request through to the Server Component that renders the dashboard page.",
+          "nodes": [
+            "mw",
+            "page"
+          ],
+          "edges": [
+            [
+              "mw",
+              "page"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The Server Component re-checks the session server-side. A stale or invalid token is redirected here too — the page never trusts the edge blindly.",
+          "nodes": [
+            "page",
+            "login"
+          ],
+          "edges": [
+            [
+              "page",
+              "login"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only on the authorized path does the Server Component fetch user-scoped private data — the query is bound to this specific user.",
+          "nodes": [
+            "page",
+            "db"
+          ],
+          "edges": [
+            [
+              "page",
+              "db"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That private data renders into HTML on the server, so private bytes leave only after both gates have cleared the request.",
+          "nodes": [
+            "db",
+            "html"
+          ],
+          "edges": [
+            [
+              "db",
+              "html"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: private bytes never reach an unauthorized browser. Client-side guards polish UX, but the server gate is what actually protects the data.",
+          "nodes": [
+            "mw",
+            "page",
+            "db"
+          ],
+          "edges": [
+            [
+              "mw",
+              "page"
+            ],
+            [
+              "page",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -4239,6 +5751,117 @@
         {
           "tone": "warning",
           "label": "failure path (leak / lost focus)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the trigger button. A keyboard user presses Enter or Space to open the dialog, no mouse required.",
+          "nodes": [
+            "trigger",
+            "open"
+          ],
+          "edges": [
+            [
+              "trigger",
+              "open"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "When the dialog opens, focus must move IN and be contained inside it by a focus trap.",
+          "nodes": [
+            "open",
+            "trap"
+          ],
+          "edges": [
+            [
+              "open",
+              "trap"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "With the trap in place, Escape dismisses the dialog and restores focus back to the trigger the user came from.",
+          "nodes": [
+            "trap",
+            "escape",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "trap",
+              "escape"
+            ],
+            [
+              "escape",
+              "trigger"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Now the failure path. Skip the trap and Tab leaks past the dialog onto the page behind it.",
+          "nodes": [
+            "trap",
+            "leak"
+          ],
+          "edges": [
+            [
+              "trap",
+              "leak"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And if Escape never restores focus, it falls to the bare body element, stranding the keyboard user on a screen they cannot leave.",
+          "nodes": [
+            "escape",
+            "lost"
+          ],
+          "edges": [
+            [
+              "escape",
+              "lost"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair is the contained loop: focus in, trapped, Escape out, restored. Every control reachable, operable, and never a trap.",
+          "nodes": [
+            "open",
+            "trap",
+            "escape",
+            "trigger"
+          ],
+          "edges": [
+            [
+              "open",
+              "trap"
+            ],
+            [
+              "trap",
+              "escape"
+            ],
+            [
+              "escape",
+              "trigger"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: prefer native elements. They grant logical Tab order, expected keys, and clean dismissal by default.",
+          "nodes": [
+            "trigger",
+            "trap",
+            "escape"
+          ],
+          "edges": [],
+          "ms": 4200
         }
       ]
     },
@@ -4539,6 +6162,116 @@
           "tone": "success",
           "label": "the proof packet — re-runnable evidence"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The PR says 'responsive — see screenshot.' But a component is never one thing: it's a grid of states crossed with viewports.",
+          "nodes": [
+            "component",
+            "states",
+            "viewports"
+          ],
+          "edges": [
+            [
+              "states",
+              "component"
+            ],
+            [
+              "viewports",
+              "component"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "States run down as rows, viewports run across as columns. Every cell in that matrix is a separate claim about how the component behaves.",
+          "nodes": [
+            "states",
+            "viewports",
+            "component"
+          ],
+          "edges": [
+            [
+              "states",
+              "component"
+            ],
+            [
+              "viewports",
+              "component"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The happy path is easy to prove: success at 1440 is the cell that gets screenshotted and pasted into the PR.",
+          "nodes": [
+            "component",
+            "happy"
+          ],
+          "edges": [
+            [
+              "component",
+              "happy"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But the failure hides in error at 320: the toast overflows the viewport and focus vanishes into a hidden node. Four failures, one desktop screenshot missed them.",
+          "nodes": [
+            "component",
+            "failcell"
+          ],
+          "edges": [
+            [
+              "component",
+              "failcell"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The repair is to walk all cells: Playwright drives the real browser through every state and every breakpoint.",
+          "nodes": [
+            "component",
+            "runner"
+          ],
+          "edges": [
+            [
+              "component",
+              "runner"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Each cell captured becomes evidence in the proof packet — a matrix of browser-captured screenshots a reviewer can re-run.",
+          "nodes": [
+            "runner",
+            "packet"
+          ],
+          "edges": [
+            [
+              "runner",
+              "packet"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And the failing cell doesn't just get flagged — it's re-proven and folded back into the packet. The invariant: no cell unproven, no claim without a screenshot.",
+          "nodes": [
+            "failcell",
+            "packet"
+          ],
+          "edges": [
+            [
+              "failcell",
+              "packet"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4827,6 +6560,116 @@
         {
           "tone": "muted",
           "label": "free layers — run them before writing one assertion"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The trophy is widest where testing is cheapest. Static types and lint catch typos and shape errors before a single test runs.",
+          "nodes": [
+            "static",
+            "unit"
+          ],
+          "edges": [
+            [
+              "static",
+              "unit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Climb up: unit tests pin pure logic, component tests prove rendered states, and E2E walks the real user journey.",
+          "nodes": [
+            "unit",
+            "component",
+            "e2e"
+          ],
+          "edges": [
+            [
+              "unit",
+              "component"
+            ],
+            [
+              "component",
+              "e2e"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The state matrix is the brain here. It lists every UI state and routes each to the cheapest layer that can fail honestly.",
+          "nodes": [
+            "matrix",
+            "component"
+          ],
+          "edges": [
+            [
+              "matrix",
+              "component"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Four of five states land on the component layer: loading, disabled, success, and the ones you actually render.",
+          "nodes": [
+            "matrix",
+            "component"
+          ],
+          "edges": [
+            [
+              "matrix",
+              "component"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here is where production breaks: error and empty states get skipped, so the app renders a blank box with a spinner that never stops.",
+          "nodes": [
+            "matrix",
+            "gap"
+          ],
+          "edges": [
+            [
+              "matrix",
+              "gap"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Visual regression and accessibility wrap every state, verifying keyboard and viewport behavior across the whole component.",
+          "nodes": [
+            "a11y",
+            "component"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "component"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every UI state owns a test that can turn red. Untested is not passing, it is unknown until it breaks in prod.",
+          "nodes": [
+            "matrix",
+            "gap",
+            "component"
+          ],
+          "edges": [
+            [
+              "matrix",
+              "gap"
+            ],
+            [
+              "matrix",
+              "component"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -5129,6 +6972,121 @@
           "tone": "success",
           "label": "success — the only path most demos handle"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The workflow begins in idle: the form is valid, the button armed, waiting for a keyboard-reachable submit.",
+          "nodes": [
+            "idle"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "A valid submit fires POST /api/subscribe. This single request is the fork where five distinct outcomes are born.",
+          "nodes": [
+            "idle",
+            "submit"
+          ],
+          "edges": [
+            [
+              "idle",
+              "submit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The request goes in-flight. We enter Loading and immediately disable the button so a double-post is impossible.",
+          "nodes": [
+            "submit",
+            "loading"
+          ],
+          "edges": [
+            [
+              "submit",
+              "loading"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The demo path: a 201 lands, Loading resolves to Success, the green checkmark the stage saw.",
+          "nodes": [
+            "loading",
+            "success"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But the API can answer 200 with no result. Empty is a real state, not a blank Success screen.",
+          "nodes": [
+            "loading",
+            "empty"
+          ],
+          "edges": [
+            [
+              "loading",
+              "empty"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And on 5xx or timeout we reach Error, then return to idle: re-enable the button, focus the message so it can't spin forever.",
+          "nodes": [
+            "loading",
+            "error",
+            "idle"
+          ],
+          "edges": [
+            [
+              "loading",
+              "error"
+            ],
+            [
+              "error",
+              "idle"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Every resolution flows to the aria-live region: Success announces politely, Error assertively, so a screen-reader user always hears the outcome.",
+          "nodes": [
+            "success",
+            "error",
+            "live"
+          ],
+          "edges": [
+            [
+              "success",
+              "live"
+            ],
+            [
+              "error",
+              "live"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: no state is unhandled. The happy path was never the workflow, the other four states are.",
+          "nodes": [
+            "loading",
+            "success",
+            "empty",
+            "error"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -5428,6 +7386,108 @@
         {
           "tone": "warning",
           "label": "failure + repair path — boundary catches, rollback fixes"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: CI is green, so Build promotes the artifact to a real prod deploy — a prod-shaped environment, not your laptop.",
+          "nodes": [
+            "build",
+            "prod"
+          ],
+          "edges": [
+            [
+              "build",
+              "prod"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The trick is config lives per-environment and gets injected here — never hardcode the API origin, because that's the var that only existed on your machine.",
+          "nodes": [
+            "config",
+            "prod"
+          ],
+          "edges": [
+            [
+              "config",
+              "prod"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The live deploy fetches from the API origin, showing a loading state while the real request goes out against the deployed url.",
+          "nodes": [
+            "prod",
+            "api"
+          ],
+          "edges": [
+            [
+              "prod",
+              "api"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "In parallel we expose one health signal: smoke the live url to prove a real user flow actually completes in the environment.",
+          "nodes": [
+            "prod",
+            "health"
+          ],
+          "edges": [
+            [
+              "prod",
+              "health"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the risk: if the origin is unreachable or throws a 500, the error boundary catches it instead of white-screening every user.",
+          "nodes": [
+            "api",
+            "boundary"
+          ],
+          "edges": [
+            [
+              "api",
+              "boundary"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The boundary trips on prod failure and routes to rollback — you can see it broke, and you're not blind while support catches fire.",
+          "nodes": [
+            "boundary",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "boundary",
+              "rollback"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Repair closes the dashed loop: fix the env config, redeploy, and re-prove — the invariant is the proof runs in the environment, not on your machine.",
+          "nodes": [
+            "rollback",
+            "config",
+            "prod",
+            "health"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "config"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5750,6 +7810,121 @@
         {
           "tone": "warning",
           "label": "the failure + repair path most demos skip"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts in the client: semantic UI renders a validated form the user can actually understand and operate.",
+          "nodes": [
+            "client",
+            "form"
+          ],
+          "edges": [
+            [
+              "client",
+              "form"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The form only submits when valid, handing clean data to the API layer instead of trusting whatever was typed.",
+          "nodes": [
+            "form",
+            "api"
+          ],
+          "edges": [
+            [
+              "form",
+              "api"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The call goes in flight and the UI enters a loading state, so the interface never sits silent while the network works.",
+          "nodes": [
+            "api",
+            "loading"
+          ],
+          "edges": [
+            [
+              "api",
+              "loading"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here the path forks: a 200 resolves to success, but a 4xx, 5xx, or timeout must resolve to a designed error state.",
+          "nodes": [
+            "loading",
+            "success",
+            "error"
+          ],
+          "edges": [
+            [
+              "loading",
+              "success"
+            ],
+            [
+              "loading",
+              "error"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "This dashed loop is the moment the demo forgets: error routes back to the form, keeping the user's input so they can recover.",
+          "nodes": [
+            "error",
+            "form"
+          ],
+          "edges": [
+            [
+              "error",
+              "form"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Accessibility and responsiveness aren't a final coat of paint; they audit every state, success and error alike.",
+          "nodes": [
+            "a11y",
+            "success",
+            "error"
+          ],
+          "edges": [
+            [
+              "a11y",
+              "success"
+            ],
+            [
+              "a11y",
+              "error"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Both terminal states are asserted in browser proof: a surface that only renders success is unfinished, not minimal.",
+          "nodes": [
+            "success",
+            "error",
+            "proof"
+          ],
+          "edges": [
+            [
+              "success",
+              "proof"
+            ],
+            [
+              "error",
+              "proof"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

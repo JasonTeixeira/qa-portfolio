@@ -21,3 +21,24 @@ export const EDGE_DRAW_DURATION = 0.7
 export const NODE_RISE_DURATION = 0.55
 /** Edge label pill fade duration. */
 export const LABEL_FADE_DURATION = 0.4
+
+/**
+ * DATAFLOW — the signature Sage motion. After a wire draws in, a bright,
+ * tone-colored pulse of light travels ALONG it from source→target, looping.
+ * It always follows the authored flow direction (the path is built from→to),
+ * so data reads as moving through the system regardless of screen direction.
+ * Implemented as a short dash + full-length gap whose stroke-dashoffset loops
+ * at constant velocity → longer wires take proportionally longer (real speed,
+ * not a fixed beat). Compositor-only (stroke-dashoffset); under reduced-motion
+ * the pulse is not rendered — the static wire + arrowhead carry direction.
+ */
+export const FLOW_PULSE_LEN = 30 // px — length of the traveling light segment
+export const FLOW_SPEED = 165 // px/sec — constant velocity across every edge
+export const FLOW_MIN_DURATION = 1.1 // s — floor so short edges don't strobe
+export const FLOW_MAX_DURATION = 3.6 // s — cap so long edges still feel alive
+
+/** Loop duration for a pulse crossing a path of on-screen length `len` (px). */
+export function flowDuration(len: number): number {
+  const raw = (len + FLOW_PULSE_LEN) / FLOW_SPEED
+  return Math.min(FLOW_MAX_DURATION, Math.max(FLOW_MIN_DURATION, raw))
+}

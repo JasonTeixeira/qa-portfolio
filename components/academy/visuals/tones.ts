@@ -40,7 +40,7 @@ export const TONES: Record<Tone, ToneTreatment> = {
     edgeWidth: 2,
   },
   accent: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 82%, var(--ac-accent) 18%)',
+    fill: 'color-mix(in oklch, var(--ac-surface) 74%, var(--ac-accent) 26%)',
     // FIX 2 — SUSPECT-PATH DOMINANCE. The accent edge is the single most
     // important diagnostic signal, so brighten the hue further (more white mix)
     // so it pops hardest off the near-black canvas — clearly above every other
@@ -69,7 +69,7 @@ export const TONES: Record<Tone, ToneTreatment> = {
     edgeWidth: 4,
   },
   success: {
-    fill: 'color-mix(in oklch, var(--ac-surface) 84%, var(--ac-mastery) 16%)',
+    fill: 'color-mix(in oklch, var(--ac-surface) 76%, var(--ac-mastery) 24%)',
     stroke: 'var(--ac-mastery)',
     text: 'var(--ac-mastery)',
     edgeWidth: 3.5,

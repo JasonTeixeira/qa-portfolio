@@ -14,7 +14,31 @@ import {
   EDGE_DRAW_DURATION,
   NODE_RISE_DURATION,
   LABEL_FADE_DURATION,
+  FLOW_PULSE_LEN,
+  flowDuration,
 } from './motion'
+
+/**
+ * Dataflow pulse color + intensity per tone. The pulse is a BRIGHT reading of the
+ * edge's semantic tone (a lighter, glowing version of its stroke), so the moving
+ * light reinforces meaning: blue data on the primary path, red on the attack/
+ * blast path, green on the healthy/source-of-truth path. Default supporting wires
+ * get a soft accent shimmer so the whole system feels alive without competing.
+ */
+const FLOW_COLOR: Record<Tone, string> = {
+  default: 'var(--ac-accent-text)',
+  accent: 'var(--ac-accent-text)',
+  warning: 'var(--ac-danger)',
+  success: 'var(--ac-mastery)',
+  muted: 'var(--ac-ink-faint)',
+}
+const FLOW_OPACITY: Record<Tone, number> = {
+  default: 0.45,
+  accent: 0.95,
+  warning: 0.95,
+  success: 0.9,
+  muted: 0.4,
+}
 
 /**
  * SageDiagram — the AUTO-LAYOUT system-map renderer for the academy.
@@ -54,7 +78,24 @@ export type SageDiagramProps = {
   className?: string
   /** Optional rendered height cap; the viewBox aspect is owned by dagre. */
   height?: number
+  /**
+   * NARRATION ENGINE hook. When set, the diagram is spotlight-controlled: nodes/
+   * edges named here are emphasized (full opacity + their dataflow pulse), all
+   * others dim back. Edge keys are `from->to`. Drive it from NarratedDiagram to
+   * make the figure explain itself beat-by-beat. Null/undefined = normal mode.
+   */
+  spotlight?: SpotlightSpec | null
+  /**
+   * Narrated mode: skip the on-scroll draw-in and render the whole figure at once
+   * (the spotlight then carries emphasis, not the reveal). Set by NarratedDiagram.
+   */
+  instant?: boolean
 }
+
+/** What the narration engine emphasizes on a given beat. */
+export type SpotlightSpec = { nodes: string[]; edges: string[] }
+/** Canonical edge key used by the spotlight (matches `from->to`). */
+export const edgeKey = (from: string, to: string) => `${from}->${to}`
 
 // Human-readable role names for the accessible description.
 const KIND_ROLE: Record<NodeKind, string> = {
@@ -77,8 +118,14 @@ export function SageDiagram({
   caption,
   className,
   height,
+  spotlight = null,
+  instant = false,
 }: SageDiagramProps) {
   const reduce = useReducedMotion()
+  // Spotlight sets for O(1) membership per element (null = normal, no dimming).
+  const spotNodes = React.useMemo(() => (spotlight ? new Set(spotlight.nodes) : null), [spotlight])
+  const spotEdges = React.useMemo(() => (spotlight ? new Set(spotlight.edges) : null), [spotlight])
+  const DIM = 0.13 // opacity of de-emphasized elements while a spotlight is active
   const titleId = React.useId()
   const descId = React.useId()
   const uid = React.useId().replace(/[^a-zA-Z0-9_-]/g, '')
@@ -157,6 +204,12 @@ export function SageDiagram({
           const len = pathLength(edge.points)
           const delay = edgeIndex * EDGE_STAGGER
           const animate = !reduce && !dash
+          // Narration engine: dim edges outside the current spotlight; only spotlit
+          // (or, in normal mode, all) edges carry their dataflow pulse.
+          const ek = edgeKey(edge.from, edge.to)
+          const edgeDim = spotEdges ? !spotEdges.has(ek) : false
+          const pulseOn = !reduce && !edgeDim
+          const pulseDelay = instant ? 0 : EDGE_DRAW_DURATION + delay
 
           return (
             <g key={`${edge.from}-${edge.to}-${edge.label ?? edgeIndex}`}>
@@ -167,18 +220,55 @@ export function SageDiagram({
                 strokeWidth={width}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeDasharray={dash ?? (animate ? len : undefined)}
+                strokeDasharray={dash ?? (animate && !instant ? len : undefined)}
                 markerEnd={`url(#${arrowId(toneKey, uid)})`}
-                opacity={opacity}
-                initial={animate ? { strokeDashoffset: len, opacity: 0 } : false}
-                whileInView={animate ? { strokeDashoffset: 0, opacity } : undefined}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{
-                  duration: reduce ? 0 : EDGE_DRAW_DURATION,
-                  delay: reduce ? 0 : delay,
-                  ease: EASE_OUT_EXPO,
-                }}
+                {...(instant
+                  ? {
+                      initial: false as const,
+                      animate: { opacity: edgeDim ? DIM : opacity },
+                      transition: { duration: 0.4, ease: EASE_OUT_EXPO },
+                    }
+                  : {
+                      opacity,
+                      initial: animate ? { strokeDashoffset: len, opacity: 0 } : false,
+                      whileInView: animate ? { strokeDashoffset: 0, opacity } : undefined,
+                      viewport: { once: true, amount: 0.4 },
+                      transition: {
+                        duration: reduce ? 0 : EDGE_DRAW_DURATION,
+                        delay: reduce ? 0 : delay,
+                        ease: EASE_OUT_EXPO,
+                      },
+                    })}
               />
+              {/* Dataflow — after the wire draws in, a bright tone-colored pulse of
+                  light travels from source→target along it, looping at constant
+                  velocity. Signature Sage motion; skipped under reduced-motion (the
+                  static wire + arrowhead already carry direction + meaning). */}
+              {pulseOn ? (
+                <motion.path
+                  d={d}
+                  fill="none"
+                  stroke={FLOW_COLOR[toneKey]}
+                  strokeWidth={Math.max(2, width - 0.5)}
+                  strokeLinecap="round"
+                  strokeDasharray={`${FLOW_PULSE_LEN} ${len}`}
+                  style={{ filter: `drop-shadow(0 0 4px ${FLOW_COLOR[toneKey]})` }}
+                  pointerEvents="none"
+                  aria-hidden
+                  initial={{ strokeDashoffset: FLOW_PULSE_LEN + len, opacity: 0 }}
+                  whileInView={{ strokeDashoffset: 0, opacity: FLOW_OPACITY[toneKey] }}
+                  viewport={{ once: false, amount: 0.25 }}
+                  transition={{
+                    strokeDashoffset: {
+                      duration: flowDuration(len),
+                      repeat: Infinity,
+                      ease: 'linear',
+                      delay: pulseDelay,
+                    },
+                    opacity: { duration: 0.5, delay: pulseDelay },
+                  }}
+                />
+              ) : null}
               {edge.label ? (
                 <motion.g
                   initial={reduce ? false : { opacity: 0 }}
@@ -226,17 +316,27 @@ export function SageDiagram({
         {/* Nodes — fade up in rank order (opacity + translateY). */}
         {layout.nodes.map((node, nodeIndex) => {
           const delay = nodeIndex * NODE_STAGGER
+          // Narration engine: nodes outside the spotlight recede.
+          const nodeDim = spotNodes ? !spotNodes.has(node.id) : false
           return (
             <motion.g
               key={node.id}
-              initial={reduce ? false : { opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{
-                duration: reduce ? 0 : NODE_RISE_DURATION,
-                delay: reduce ? 0 : delay,
-                ease: EASE_OUT_EXPO,
-              }}
+              {...(instant
+                ? {
+                    initial: false as const,
+                    animate: { opacity: nodeDim ? DIM : 1, y: 0, scale: nodeDim ? 1 : spotNodes ? 1.03 : 1 },
+                    transition: { duration: 0.4, ease: EASE_OUT_EXPO },
+                  }
+                : {
+                    initial: reduce ? false : { opacity: 0, y: 14 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, amount: 0.4 },
+                    transition: {
+                      duration: reduce ? 0 : NODE_RISE_DURATION,
+                      delay: reduce ? 0 : delay,
+                      ease: EASE_OUT_EXPO,
+                    },
+                  })}
               style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             >
               <g transform={`translate(${node.x}, ${node.y})`}>

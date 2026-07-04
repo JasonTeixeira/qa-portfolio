@@ -18,6 +18,7 @@
 
 import * as React from 'react'
 import { TONES, type Tone } from './tones'
+import { ArchIcon, type ArchIconKind } from './arch-icons'
 
 export type NodeKind =
   | 'service'
@@ -27,6 +28,25 @@ export type NodeKind =
   | 'client'
   | 'decision'
   | 'process'
+
+/** Node kind → proprietary Sage glyph. Every card leads with its component icon. */
+const NODE_ICON: Record<NodeKind, ArchIconKind> = {
+  service: 'service',
+  store: 'store',
+  queue: 'queue',
+  external: 'external',
+  client: 'client',
+  decision: 'decision',
+  process: 'process',
+}
+
+/** Concrete outer-glow per tone so a semantic node POPS off the near-black canvas
+ *  (drop-shadow needs a concrete color; these track the --ac state hues). */
+const TONE_GLOW: Partial<Record<Tone, string>> = {
+  accent: 'rgba(61, 90, 254, 0.45)',
+  warning: 'rgba(229, 72, 77, 0.42)',
+  success: 'rgba(24, 182, 99, 0.40)',
+}
 
 export type DiagramNodeSpec = {
   id: string
@@ -58,7 +78,11 @@ export type DiagramEdgeSpec = {
 // the box still fully contains the (now wider) text run, so nothing overflows.
 const MIN_W = 180
 const MAX_W = 280
-const BASE_H = 90
+// Taller so every node carries its proprietary glyph on top + label (+ description)
+// with comfortable rhythm. measureNode drives dagre, so spacing adapts.
+const BASE_H = 108
+// Leading component glyph, centered on top of the label.
+const NODE_ICON_SIZE = 30
 const LABEL_CHAR_W = 11.0 // ~19px display label advance (font 16→19, ×1.19)
 const DESC_CHAR_W = 8.4 // ~15px mono description advance (font 13→15, ×1.15)
 const PAD_X = 30
@@ -261,9 +285,19 @@ export function DiagramNode({
   // bleeds past the shell stroke. Static fill → no motion, print/RM identical.
   const showGlow = tone === 'warning' && Boolean(glowId)
   const glowInset = 4
+  // The diamond IS its own glyph; every other kind leads with its component icon
+  // centered on top of the label.
+  const showIcon = kind !== 'decision'
+  const iconY = -hh + 14
+  const labelY = (showIcon ? (description ? 12 : 18) : description ? -6 : 6) + labelDy
+  const descY = (showIcon ? 34 : 20) + labelDy
+  // Concrete outer glow so a semantic node pops off the canvas (toned only).
+  const glow = TONE_GLOW[tone]
   return (
     <g>
-      <NodeShell kind={kind} hw={hw} hh={hh} fill={t.fill} stroke={t.stroke} />
+      <g style={glow ? { filter: `drop-shadow(0 0 9px ${glow})` } : undefined}>
+        <NodeShell kind={kind} hw={hw} hh={hh} fill={t.fill} stroke={t.stroke} />
+      </g>
       {showGlow ? (
         <rect
           x={-hw + glowInset}
@@ -275,9 +309,14 @@ export function DiagramNode({
           pointerEvents="none"
         />
       ) : null}
+      {showIcon ? (
+        <g transform={`translate(${-NODE_ICON_SIZE / 2} ${iconY})`} style={{ color: t.stroke }}>
+          <ArchIcon kind={NODE_ICON[kind]} size={NODE_ICON_SIZE} strokeWidth={1.6} />
+        </g>
+      ) : null}
       <text
         x={0}
-        y={(description ? -6 : 6) + labelDy}
+        y={labelY}
         fill={t.text}
         fontSize={19}
         fontWeight={700}
@@ -289,11 +328,8 @@ export function DiagramNode({
       {description ? (
         <text
           x={0}
-          /* Pushed 17→20 so the larger label (19px) and description (15px) keep
-             ≥5px of line gap and the two rows stay centered in the taller box. */
-          y={20 + labelDy}
-          /* AA on the tinted card / dark bg — --ac-ink-soft (oklch 80%), not
-             --ac-ink-faint (oklch 64%, fails small-text AA). */
+          y={descY}
+          /* AA on the tinted card / dark bg — --ac-ink-soft (oklch 80%). */
           fill="var(--ac-ink-soft)"
           fontSize={15}
           fontFamily="var(--ac-font-mono, ui-monospace, monospace)"

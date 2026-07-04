@@ -148,6 +148,116 @@
           "tone": "success",
           "label": "inspectable proof path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts at the browser: a customer, unsure the first attempt worked, fires the same checkout again as a retry request.",
+          "nodes": [
+            "checkout",
+            "api"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "api"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Payment API is supposed to catch that retry — it looks up the request's key in the idempotency store before doing anything.",
+          "nodes": [
+            "api",
+            "idem"
+          ],
+          "edges": [
+            [
+              "api",
+              "idem"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the suspect edge: the store lets the call through to the provider, which authorizes again — the same money moves twice.",
+          "nodes": [
+            "idem",
+            "provider"
+          ],
+          "edges": [
+            [
+              "idem",
+              "provider"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The duplicate authorization writes into the order database, and from there it surfaces on the support dashboard as an angry customer.",
+          "nodes": [
+            "provider",
+            "orders",
+            "support"
+          ],
+          "edges": [
+            [
+              "provider",
+              "orders"
+            ],
+            [
+              "orders",
+              "support"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Now draw the hidden branch: what if the retry arrives with a mismatched key, so the store never recognizes it as a duplicate?",
+          "nodes": [
+            "idem",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "idem",
+              "hidden"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That branch is not a guess — it forces the proof: one test that either reproduces the mismatch or clears it, letting a single cause win.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That is the invariant: the map is only senior if it changes your next action — here it sends you to test the key, not blame the provider.",
+          "nodes": [
+            "idem",
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "idem",
+              "hidden"
+            ],
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -434,6 +544,121 @@
         {
           "tone": "success",
           "label": "source of truth"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the user. They type into the form on screen — that keystroke is the trigger that sets everything below it in motion.",
+          "nodes": [
+            "user",
+            "form"
+          ],
+          "edges": [
+            [
+              "user",
+              "form"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The React form holds that input as state until submit fires, handing the collected data off to the backend API route.",
+          "nodes": [
+            "form",
+            "api"
+          ],
+          "edges": [
+            [
+              "form",
+              "api"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The API route is a crossroads. Before it trusts anything, it sends the payload through the validation layer to check the data.",
+          "nodes": [
+            "api",
+            "validation"
+          ],
+          "edges": [
+            [
+              "api",
+              "validation"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Only if validation passes does the request cross the boundary into storage — persisting a real row in Postgres.",
+          "nodes": [
+            "validation",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "validation",
+              "postgres"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "From that saved row, two things branch: an email job is enqueued for the user, and an entry is written to the audit log.",
+          "nodes": [
+            "postgres",
+            "email",
+            "audit"
+          ],
+          "edges": [
+            [
+              "postgres",
+              "email"
+            ],
+            [
+              "postgres",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the dashed branch off the API — the path your topic-grouped notes hid. Notes never told you what happens next.",
+          "nodes": [
+            "api",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "api",
+              "hidden"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That's the lesson: a map answers 'what happens next' by tracing cause across a boundary — a list of topics never can.",
+          "nodes": [
+            "user",
+            "api",
+            "validation",
+            "postgres"
+          ],
+          "edges": [
+            [
+              "user",
+              "form"
+            ],
+            [
+              "api",
+              "validation"
+            ],
+            [
+              "validation",
+              "postgres"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -735,6 +960,116 @@
           "tone": "muted",
           "label": "decoy / out of focus"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start where the customer starts: the journey loads through the edge cache before any of our services ever see the request.",
+          "nodes": [
+            "journey",
+            "edge"
+          ],
+          "edges": [
+            [
+              "journey",
+              "edge"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The edge cache renders the frontend shell. This is the happy path everyone assumes is fine, so nobody looks here first.",
+          "nodes": [
+            "edge",
+            "shell"
+          ],
+          "edges": [
+            [
+              "edge",
+              "shell"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The shell checks status against the Billing API, which should trigger the entitlement service to refresh after a payment change.",
+          "nodes": [
+            "shell",
+            "billing",
+            "entitlement"
+          ],
+          "edges": [
+            [
+              "shell",
+              "billing"
+            ],
+            [
+              "billing",
+              "entitlement"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Entitlement reports into the metrics dashboard. Ops watches these numbers, but green metrics can hide a customer who still can't get in.",
+          "nodes": [
+            "entitlement",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "entitlement",
+              "metrics"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the first place the system becomes wrong: a hidden branch leaves the shell with a stale entitlement cache after payment status changes.",
+          "nodes": [
+            "shell",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "shell",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This map is a hypothesis, not a verdict. The proof path tests the hidden branch by correlating four signals before anyone assigns blame.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The senior move: name the path, name the first wrong point, name the evidence. Then triage argues over one map instead of three theories.",
+          "nodes": [
+            "journey",
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "shell",
+              "hidden"
+            ],
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -1023,7 +1358,127 @@
           "label": "happy path the weak map stops at"
         }
       ],
-      "rankdir": "LR"
+      "rankdir": "LR",
+      "storyboard": [
+        {
+          "say": "It starts here: the event producer emits a notification and hands it to the queue, which buffers work for the worker to pull.",
+          "nodes": [
+            "producer",
+            "queue",
+            "worker"
+          ],
+          "edges": [
+            [
+              "producer",
+              "queue"
+            ],
+            [
+              "queue",
+              "worker"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The worker renders the message through the template service, then sends it to the email provider for delivery.",
+          "nodes": [
+            "worker",
+            "template",
+            "provider"
+          ],
+          "edges": [
+            [
+              "worker",
+              "template"
+            ],
+            [
+              "template",
+              "provider"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The happy path ends clean: the provider delivers to the user inbox. This is where the weak, decorative map stops.",
+          "nodes": [
+            "provider",
+            "inbox"
+          ],
+          "edges": [
+            [
+              "provider",
+              "inbox"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But the strong map draws the hidden branch: when the provider errors, it bounces back to the worker, which asks whether to retry.",
+          "nodes": [
+            "provider",
+            "worker"
+          ],
+          "edges": [
+            [
+              "provider",
+              "worker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the suspect edge. Once retries are exhausted, the worker routes the message to the dead-letter queue instead of the inbox.",
+          "nodes": [
+            "worker",
+            "dlq"
+          ],
+          "edges": [
+            [
+              "worker",
+              "dlq"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The dead-letter queue is where messages die silently unless someone is alerted. Who owns that alert? Unanswered, it is user-visible loss.",
+          "nodes": [
+            "dlq",
+            "owner"
+          ],
+          "edges": [
+            [
+              "dlq",
+              "owner"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The insight: a map is only senior when it names the failure branch, marks the suspect edge, and forces an owner. Boxes alone pass review while hiding loss.",
+          "nodes": [
+            "provider",
+            "worker",
+            "dlq",
+            "owner"
+          ],
+          "edges": [
+            [
+              "provider",
+              "worker"
+            ],
+            [
+              "worker",
+              "dlq"
+            ],
+            [
+              "dlq",
+              "owner"
+            ]
+          ],
+          "ms": 5200
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -1298,6 +1753,111 @@
         {
           "tone": "success",
           "label": "rollback — timing is gated by the cache"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the trigger: an admin flips a rollout flag, and that instruction lands on the flag service that owns the decision.",
+          "nodes": [
+            "toggle",
+            "flag"
+          ],
+          "edges": [
+            [
+              "toggle",
+              "flag"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The flag service writes the new config into the cache. Note what is missing here: it writes, but it never invalidates the old value.",
+          "nodes": [
+            "flag",
+            "cache"
+          ],
+          "edges": [
+            [
+              "flag",
+              "cache"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Downstream, the client SDK reads whatever the cache holds. Because nothing purged it, the SDK is handed a stale flag.",
+          "nodes": [
+            "cache",
+            "sdk"
+          ],
+          "edges": [
+            [
+              "cache",
+              "sdk"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The SDK emits exposure events to experiment metrics, so your dashboards now record the stale flag as if it were live truth.",
+          "nodes": [
+            "sdk",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "sdk",
+              "metrics"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "This is the branch the happy path hides: the cache keeps serving stale to half your clients until something invalidates it.",
+          "nodes": [
+            "cache",
+            "flag"
+          ],
+          "edges": [
+            [
+              "cache",
+              "flag"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Even rollback fails to fix it unless it purges the cache first; a toggle-off means nothing while the stale entry survives.",
+          "nodes": [
+            "rollback",
+            "cache"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "cache"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lesson: your first map is a hypothesis. If the redraw reveals no missing dependency, like this forgotten invalidation, it hasn't earned the gate.",
+          "nodes": [
+            "flag",
+            "cache",
+            "sdk"
+          ],
+          "edges": [
+            [
+              "flag",
+              "cache"
+            ],
+            [
+              "cache",
+              "sdk"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1580,6 +2140,115 @@
           "tone": "success",
           "label": "the only durable truth (DB)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A loan applicant clicks Submit. This click is the entry point of the whole write path.",
+          "nodes": [
+            "submit"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "The click first hits the Optimistic UI, which stands ready to declare success the moment the request is accepted.",
+          "nodes": [
+            "submit",
+            "optimistic"
+          ],
+          "edges": [
+            [
+              "submit",
+              "optimistic"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The UI fires a POST to the API route, sending the application into the system.",
+          "nodes": [
+            "optimistic",
+            "api"
+          ],
+          "edges": [
+            [
+              "optimistic",
+              "api"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The API hands the payload to the Validation service, which checks it before anything touches the database.",
+          "nodes": [
+            "api",
+            "validation"
+          ],
+          "edges": [
+            [
+              "api",
+              "validation"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Validation attempts the DB transaction to commit the row — and this commit may reject. Only here does durable state land.",
+          "nodes": [
+            "validation",
+            "db"
+          ],
+          "edges": [
+            [
+              "validation",
+              "db"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The confirmation email fires only on a real commit. It is downstream proof that the outcome was durable, not merely accepted.",
+          "nodes": [
+            "db",
+            "email"
+          ],
+          "edges": [
+            [
+              "db",
+              "email"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the hidden branch: the API returns 200 meaning accepted, not committed — a signal that says nothing about the database.",
+          "nodes": [
+            "api",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "api",
+              "hidden"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The gap closes here: the UI trusts that 200 and declares victory while the row was rejected. Accepted is not committed.",
+          "nodes": [
+            "hidden",
+            "optimistic",
+            "db"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "optimistic"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -1842,7 +2511,113 @@
           "label": "tenant source of truth"
         }
       ],
-      "caption": "The boundary that bites is membership → worker → audit: authorization crossed a trust edge asynchronously and was never re-established."
+      "caption": "The boundary that bites is membership → worker → audit: authorization crossed a trust edge asynchronously and was never re-established.",
+      "storyboard": [
+        {
+          "say": "A teammate submits an invite. The form hands the request across its first boundary into the API controller — client state becomes a server request.",
+          "nodes": [
+            "form",
+            "api"
+          ],
+          "edges": [
+            [
+              "form",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The controller doesn't decide who's allowed in. It asks the policy check: is this caller authorized to invite into this tenant?",
+          "nodes": [
+            "api",
+            "policy"
+          ],
+          "edges": [
+            [
+              "api",
+              "policy"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Policy authorizes and writes a pending row to the membership table. Right here, at create time, trust is established and ownership hands to storage.",
+          "nodes": [
+            "policy",
+            "membership"
+          ],
+          "edges": [
+            [
+              "policy",
+              "membership"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The membership write enqueues an event for the email worker. This is the async boundary — the request thread ends and its authorization context does not travel with it.",
+          "nodes": [
+            "membership",
+            "worker"
+          ],
+          "edges": [
+            [
+              "membership",
+              "worker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The worker sends the invite, but auth is never re-checked on this edge. If the enqueued target drifted, it emails the wrong user or leaks tenant membership.",
+          "nodes": [
+            "worker",
+            "audit"
+          ],
+          "edges": [
+            [
+              "worker",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The audit trail only logs the create decision — not the send. So the leak leaves no fingerprint where it actually happens.",
+          "nodes": [
+            "policy",
+            "audit"
+          ],
+          "edges": [
+            [
+              "policy",
+              "audit"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: every boundary where responsibility hands off must re-establish trust. An unmarked async hand-off is exactly where authorization silently lapses.",
+          "nodes": [
+            "policy",
+            "membership",
+            "worker",
+            "audit"
+          ],
+          "edges": [
+            [
+              "membership",
+              "worker"
+            ],
+            [
+              "worker",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2115,7 +2890,128 @@
           "label": "source of truth (order table)"
         }
       ],
-      "rankdir": "LR"
+      "rankdir": "LR",
+      "storyboard": [
+        {
+          "say": "A customer opens the product page. It reads the inventory cache to show a count — and that count is already stale.",
+          "nodes": [
+            "page",
+            "cache"
+          ],
+          "edges": [
+            [
+              "page",
+              "cache"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "They click buy. The page calls the reservation API on the fast path — this hop commits in real time.",
+          "nodes": [
+            "page",
+            "api"
+          ],
+          "edges": [
+            [
+              "page",
+              "api"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The API writes the order to the order table. Right now, this is the freshest truth in the system.",
+          "nodes": [
+            "api",
+            "orders"
+          ],
+          "edges": [
+            [
+              "api",
+              "orders"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "But the cache still shows the old count. Three copies of state now disagree: order table fresh, cache stale, page optimistic.",
+          "nodes": [
+            "orders",
+            "cache",
+            "page"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "The order table emits to the reconciliation job asynchronously — and this emit lags behind the commit.",
+          "nodes": [
+            "orders",
+            "job"
+          ],
+          "edges": [
+            [
+              "orders",
+              "job"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The job also folds in the warehouse feed, then refreshes the cache late — seconds after the sale already happened.",
+          "nodes": [
+            "job",
+            "warehouse",
+            "cache"
+          ],
+          "edges": [
+            [
+              "warehouse",
+              "job"
+            ],
+            [
+              "job",
+              "cache"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That gap is the bug: in the window before the late refresh, the next customer's stale read beats the fresh write — and oversells the last unit.",
+          "nodes": [
+            "page",
+            "cache",
+            "orders"
+          ],
+          "edges": [
+            [
+              "page",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The fix isn't picking who to trust — it's naming when each copy lies, so the stale-read-beats-fresh-write interval becomes visible.",
+          "nodes": [
+            "cache",
+            "orders",
+            "job"
+          ],
+          "edges": [
+            [
+              "orders",
+              "job"
+            ],
+            [
+              "job",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -2382,6 +3278,111 @@
         {
           "tone": "success",
           "label": "the proof surface (audit log)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the entry: OAuth consent is where a customer grants access, and where they can later revoke it.",
+          "nodes": [
+            "consent",
+            "vault"
+          ],
+          "edges": [
+            [
+              "consent",
+              "vault"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Consent crosses the AUTH boundary into the token vault, which stores the live credential the sync depends on.",
+          "nodes": [
+            "consent",
+            "vault"
+          ],
+          "edges": [
+            [
+              "consent",
+              "vault"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The vault hands that token to a queued sync job — and this is the seam where the whole failure hides.",
+          "nodes": [
+            "vault",
+            "worker"
+          ],
+          "edges": [
+            [
+              "vault",
+              "worker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The worker crosses the VENDOR boundary: trust leaves us and customer data flows to a system another company owns.",
+          "nodes": [
+            "worker",
+            "vendor"
+          ],
+          "edges": [
+            [
+              "worker",
+              "vendor"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Data returns and the tenant mapper crosses the TENANT boundary, binding records to the right tenant and recording it in the audit log.",
+          "nodes": [
+            "vendor",
+            "mapper",
+            "audit"
+          ],
+          "edges": [
+            [
+              "vendor",
+              "mapper"
+            ],
+            [
+              "mapper",
+              "audit"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the bug: revoke reaches the vault, but it never reaches the in-flight job already holding a live token.",
+          "nodes": [
+            "vault",
+            "worker"
+          ],
+          "edges": [
+            [
+              "vault",
+              "worker"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The lesson: trust does not flow through a boundary, it must be re-checked at it — so the worker must recheck the token before every vendor call.",
+          "nodes": [
+            "worker",
+            "vendor"
+          ],
+          "edges": [
+            [
+              "worker",
+              "vendor"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -2666,6 +3667,106 @@
         {
           "tone": "muted",
           "label": "deletion / retention governance"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "An export begins as a request from the client, which first has to pass an authorization gate before anything else runs.",
+          "nodes": [
+            "request",
+            "permission"
+          ],
+          "edges": [
+            [
+              "request",
+              "permission"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Once authorized, permission enqueues a job onto the queue, decoupling the slow file work from the caller.",
+          "nodes": [
+            "permission",
+            "queue"
+          ],
+          "edges": [
+            [
+              "permission",
+              "queue"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The queue drives object storage to write the export file. So far everything is internal and feels safe.",
+          "nodes": [
+            "queue",
+            "storage"
+          ],
+          "edges": [
+            [
+              "queue",
+              "storage"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here the reviewer stops you: storage mints a signed URL, and that link crosses the trust boundary out to the customer's browser.",
+          "nodes": [
+            "storage",
+            "signed"
+          ],
+          "edges": [
+            [
+              "storage",
+              "signed"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That's the hidden branch: permission must also scope the URL's expiry and access, or the boundary check happened too early to matter.",
+          "nodes": [
+            "permission",
+            "signed"
+          ],
+          "edges": [
+            [
+              "permission",
+              "signed"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The signed URL logs an audit event, giving inspectable proof of who exported what and when.",
+          "nodes": [
+            "signed",
+            "audit"
+          ],
+          "edges": [
+            [
+              "signed",
+              "audit"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Finally, retention policy governs the stored file, so data that left the zone doesn't linger inside it forever.",
+          "nodes": [
+            "storage",
+            "retention"
+          ],
+          "edges": [
+            [
+              "storage",
+              "retention"
+            ]
+          ],
+          "ms": 3800
         }
       ]
     },
@@ -2959,7 +4060,108 @@
           "label": "the box a beginner over-blames"
         }
       ],
-      "caption": "Follow the question 'fires for whom?' from alert down to the split-by-journey branch — not from alert straight to the nearest box."
+      "caption": "Follow the question 'fires for whom?' from alert down to the split-by-journey branch — not from alert straight to the nearest box.",
+      "storyboard": [
+        {
+          "say": "It starts with noise: a p95 latency alert is screaming, but the first senior question is 'this fires for WHOM?'",
+          "nodes": [
+            "alert",
+            "journey"
+          ],
+          "edges": [
+            [
+              "alert",
+              "journey"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Every alert is a symptom aggregated over real user journeys — anonymous and easy to misread until you trace one.",
+          "nodes": [
+            "journey",
+            "gateway"
+          ],
+          "edges": [
+            [
+              "journey",
+              "gateway"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The request enters through the API Gateway and gets routed onward. This is the box three engineers are already blaming.",
+          "nodes": [
+            "gateway",
+            "search"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "search"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The gateway routes to the Search Service, which queries a slow database index — the first place the system actually becomes wrong.",
+          "nodes": [
+            "search",
+            "index"
+          ],
+          "edges": [
+            [
+              "search",
+              "index"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Instead of patching the loudest box, the senior move: the search service emits spans, so every request leaves a trace sample.",
+          "nodes": [
+            "search",
+            "trace"
+          ],
+          "edges": [
+            [
+              "search",
+              "trace"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Split those traces by journey. The hidden branch appears: anonymous search dominates p95 — that's the falsifiable proof.",
+          "nodes": [
+            "trace",
+            "signal"
+          ],
+          "edges": [
+            [
+              "trace",
+              "signal"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "So do NOT over-blame the gateway. The map names the real branch, and the 'emergency' turns out to be anonymous search traffic.",
+          "nodes": [
+            "gateway",
+            "signal",
+            "alert"
+          ],
+          "edges": [
+            [
+              "gateway",
+              "signal"
+            ]
+          ],
+          "ms": 4600
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -3240,6 +4442,113 @@
         {
           "tone": "success",
           "label": "evidence that eliminates a branch"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Uploads fail at random. Before anyone fixes anything, we branch the symptom across every component on the upload path.",
+          "nodes": [
+            "symptom"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Five branches: edge proxy, upload API, object store, metadata DB, and the virus-scan queue. Each is a suspect, not yet a verdict.",
+          "nodes": [
+            "symptom",
+            "proxy",
+            "api",
+            "store",
+            "db",
+            "queue"
+          ],
+          "edges": [
+            [
+              "symptom",
+              "proxy"
+            ],
+            [
+              "symptom",
+              "api"
+            ],
+            [
+              "symptom",
+              "store"
+            ],
+            [
+              "symptom",
+              "db"
+            ],
+            [
+              "symptom",
+              "queue"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "The edge proxy is the beginner's trap: it's visible, so it draws the first confident fix that extends the outage.",
+          "nodes": [
+            "proxy"
+          ],
+          "edges": [
+            [
+              "symptom",
+              "proxy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The real branch hides under the queue: a timing race where scan-queue delay outruns the client's retry timeout.",
+          "nodes": [
+            "queue",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "queue",
+              "hidden"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "No component-only view shows this. It lives at the boundary between queue age and the retry deadline.",
+          "nodes": [
+            "hidden"
+          ],
+          "edges": [],
+          "ms": 3800
+        },
+        {
+          "say": "Force it into the open with evidence: test queue age against the timeout to eliminate or confirm the race.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Every branch attaches evidence that eliminates it. The proxy dies on a 'no', and the tree changes your next action.",
+          "nodes": [
+            "proxy",
+            "proof"
+          ],
+          "edges": [
+            [
+              "proxy",
+              "proof"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -3538,6 +4847,121 @@
           "tone": "success",
           "label": "rollback / source of truth"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the trigger: the Migration Runner alters the Profiles Table schema. This is the happy path — clean, expected, done.",
+          "nodes": [
+            "runner",
+            "profiles"
+          ],
+          "edges": [
+            [
+              "runner",
+              "profiles"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "But the same runner takes a hidden branch: it backfills rows and, doing so, grabs locks on the hot profile rows.",
+          "nodes": [
+            "runner",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "runner",
+              "hidden"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That branch is where it goes wrong. The Write API tries to write to Profiles and stalls, waiting on a lock it can't get.",
+          "nodes": [
+            "hidden",
+            "writeapi",
+            "profiles"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "writeapi"
+            ],
+            [
+              "writeapi",
+              "profiles"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the detection point: the Lock Monitor fires when a lock is held past one second. That's how you notice, not by guessing.",
+          "nodes": [
+            "hidden",
+            "monitor"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "monitor"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And here's the way out: the monitor trips the Rollback Script, which aborts the migration and releases the locks on Profiles.",
+          "nodes": [
+            "monitor",
+            "rollback",
+            "profiles"
+          ],
+          "edges": [
+            [
+              "monitor",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "profiles"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The Release Checklist should have gated the runner and caught the synchronous backfill — but that check was missed.",
+          "nodes": [
+            "checklist",
+            "runner"
+          ],
+          "edges": [
+            [
+              "checklist",
+              "runner"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The map earns its keep because it changes your next action: it names the branch, the proof that it broke, and the edge that reverses it.",
+          "nodes": [
+            "hidden",
+            "monitor",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "monitor"
+            ],
+            [
+              "monitor",
+              "rollback"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -3813,6 +5237,124 @@
         {
           "tone": "success",
           "label": "the state the patch should have read first"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A refund starts at the UI: a customer clicks refund and the request lands on the Refund API.",
+          "nodes": [
+            "ui",
+            "api"
+          ],
+          "edges": [
+            [
+              "ui",
+              "api"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "On the happy path the API does two things: write state to the Ledger, then call the payment provider.",
+          "nodes": [
+            "api",
+            "ledger",
+            "provider"
+          ],
+          "edges": [
+            [
+              "api",
+              "ledger"
+            ],
+            [
+              "api",
+              "provider"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The provider is supposed to record an idempotency key, so a repeat of the same refund is recognized and refused.",
+          "nodes": [
+            "provider",
+            "idem"
+          ],
+          "edges": [
+            [
+              "provider",
+              "idem"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The Ledger is the source of truth; audit review inspects its events to prove each refund happened exactly once.",
+          "nodes": [
+            "ledger",
+            "audit"
+          ],
+          "edges": [
+            [
+              "audit",
+              "ledger"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The provider call timed out at 11pm, throwing an error. The patch's fix: retry the provider directly.",
+          "nodes": [
+            "api",
+            "provider",
+            "patch"
+          ],
+          "edges": [
+            [
+              "api",
+              "provider"
+            ],
+            [
+              "patch",
+              "provider"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "But that dashed retry skips the Ledger and the idempotency check, so a refund that already succeeded fires again.",
+          "nodes": [
+            "patch",
+            "provider",
+            "ledger",
+            "idem"
+          ],
+          "edges": [
+            [
+              "patch",
+              "provider"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The lesson: a bad fix patches the visible symptom while skipping the boundary where state changes hands, moving the failure instead of killing it.",
+          "nodes": [
+            "patch",
+            "provider",
+            "idem",
+            "ledger"
+          ],
+          "edges": [
+            [
+              "patch",
+              "provider"
+            ],
+            [
+              "provider",
+              "idem"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -4106,7 +5648,116 @@
           "label": "the box a beginner over-blames"
         }
       ],
-      "caption": "The repair is not the boxes — it is the two dashed control edges (delay vs expiry) meeting at the branch a reviewer can now inspect."
+      "caption": "The repair is not the boxes — it is the two dashed control edges (delay vs expiry) meeting at the branch a reviewer can now inspect.",
+      "storyboard": [
+        {
+          "say": "Start at the trigger: a user asks to reset their password, and the request mints a fresh token to authorize the reset.",
+          "nodes": [
+            "request",
+            "token"
+          ],
+          "edges": [
+            [
+              "request",
+              "token"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The happy path the first map showed: the token enqueues an email, a worker consumes the queue, and the provider sends it.",
+          "nodes": [
+            "token",
+            "queue",
+            "worker",
+            "provider"
+          ],
+          "edges": [
+            [
+              "token",
+              "queue"
+            ],
+            [
+              "queue",
+              "worker"
+            ],
+            [
+              "worker",
+              "provider"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here's the hidden branch the review missed: the queue lags before the worker consumes, so delay is really measured at the queue.",
+          "nodes": [
+            "queue",
+            "worker",
+            "branch"
+          ],
+          "edges": [
+            [
+              "queue",
+              "worker"
+            ],
+            [
+              "queue",
+              "branch"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The token carries an expiry, and that expiry is the other input to the branch — expiry raced against worst-case queue delay.",
+          "nodes": [
+            "token",
+            "branch"
+          ],
+          "edges": [
+            [
+              "token",
+              "branch"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "When expiry is shorter than delay, the token dies before delivery — that's the branch that lies, and the user is locked out.",
+          "nodes": [
+            "branch",
+            "symptom"
+          ],
+          "edges": [
+            [
+              "branch",
+              "symptom"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The support ticket is only the surface symptom; auth and billing are out of scope, so don't chase them.",
+          "nodes": [
+            "symptom"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "A senior map ends on proof: the branch forces a test that expiry must exceed worst-case queue delay. No hidden branch, no test — not senior yet.",
+          "nodes": [
+            "branch",
+            "proof"
+          ],
+          "edges": [
+            [
+              "branch",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        }
+      ]
     },
     {
       "type": "code-walkthrough",
@@ -4428,6 +6079,136 @@
           "tone": "success",
           "label": "proof path + reversible exit"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The clock is running: leadership wants the beta dashboard live, and you, the senior engineer, are negotiating scope at the UI.",
+          "nodes": [
+            "actor",
+            "ui"
+          ],
+          "edges": [
+            [
+              "actor",
+              "ui"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "You feel one number is wrong, so trace the real path — the UI queries the Metrics API for that suspect figure.",
+          "nodes": [
+            "ui",
+            "api"
+          ],
+          "edges": [
+            [
+              "ui",
+              "api"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The tempting answer is patch the API, but the API only reads a computed metric — the number is born upstream in the ETL job.",
+          "nodes": [
+            "api",
+            "etl"
+          ],
+          "edges": [
+            [
+              "api",
+              "etl"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The honest path feeds the ETL output into a data-quality check, and that check is what gates the feature flag.",
+          "nodes": [
+            "etl",
+            "dq",
+            "flag"
+          ],
+          "edges": [
+            [
+              "etl",
+              "dq"
+            ],
+            [
+              "dq",
+              "flag"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "But the ETL definition is unstable — a hidden branch where ownership and state quietly change, the real source of the wrong number.",
+          "nodes": [
+            "etl",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "etl",
+              "hidden"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That hidden branch forces a proof path: an inspectable, memo-backed launch rather than a confident guess winning by default.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Two reversible exits stay open — the flag defaults to off, and if the proof fails the rollback plan catches it.",
+          "nodes": [
+            "flag",
+            "proof",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "flag",
+              "rollback"
+            ],
+            [
+              "proof",
+              "rollback"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: the map must change your next action — flag it, check it, back it with proof — or it is just decoration.",
+          "nodes": [
+            "flag",
+            "dq",
+            "proof",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "dq",
+              "flag"
+            ],
+            [
+              "proof",
+              "rollback"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -4730,6 +6511,132 @@
           "tone": "muted",
           "label": "paths the evidence would unlock"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts as an ADR: pick the segmentation engine. This one decision is the most expensive signature a tech lead gives.",
+          "nodes": [
+            "decision"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Three people argue three visible options: build it in-house, buy a vendor CDP, or simplify down to a rules engine.",
+          "nodes": [
+            "build",
+            "buy",
+            "simplify"
+          ],
+          "edges": [
+            [
+              "decision",
+              "build"
+            ],
+            [
+              "decision",
+              "buy"
+            ],
+            [
+              "decision",
+              "simplify"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Each option carries a cost and a reversibility. Build is months of maintenance; buy is a one-way door into vendor lock-in.",
+          "nodes": [
+            "build",
+            "buy"
+          ],
+          "edges": [
+            [
+              "decision",
+              "buy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But the argument skipped a branch nobody priced: there is no usage evidence that real demand for segmentation exists.",
+          "nodes": [
+            "hidden"
+          ],
+          "edges": [
+            [
+              "decision",
+              "hidden"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That hidden branch feeds an instrument-first pilot: ship instrumentation, resolve the question with proof instead of opinion.",
+          "nodes": [
+            "hidden",
+            "pilot"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "pilot"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The pilot measures demand and hands back an evidence-led choice — a cheap, two-way door you can walk back through.",
+          "nodes": [
+            "pilot",
+            "verdict"
+          ],
+          "edges": [
+            [
+              "pilot",
+              "verdict"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the measured demand picks the path: build if demand is real, simplify if it is thin — buy stays parked behind lock-in.",
+          "nodes": [
+            "verdict",
+            "build",
+            "simplify"
+          ],
+          "edges": [
+            [
+              "verdict",
+              "build"
+            ],
+            [
+              "verdict",
+              "simplify"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: proof picks the option, the option never picks its proof. Instrument the hidden branch before you sign.",
+          "nodes": [
+            "hidden",
+            "pilot",
+            "verdict"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "pilot"
+            ],
+            [
+              "pilot",
+              "verdict"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -5026,6 +6933,121 @@
           "tone": "success",
           "label": "the proof that closes it"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "An operator opens the Admin UI and submits a permission edit — that request is the trigger for everything downstream.",
+          "nodes": [
+            "admin",
+            "policy"
+          ],
+          "edges": [
+            [
+              "admin",
+              "policy"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The policy engine reads and writes grants in the role table, and emits every decision it makes into the audit log.",
+          "nodes": [
+            "policy",
+            "roles",
+            "audit"
+          ],
+          "edges": [
+            [
+              "policy",
+              "roles"
+            ],
+            [
+              "policy",
+              "audit"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The happy path flows to the E2E test, which covers the allow case and reports green — the demo looks clean.",
+          "nodes": [
+            "roles",
+            "e2e",
+            "metric"
+          ],
+          "edges": [
+            [
+              "roles",
+              "e2e"
+            ],
+            [
+              "e2e",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But the role table proves grants, not denials — this hidden branch means a denied operator was never actually tested.",
+          "nodes": [
+            "roles",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "roles",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Close it by attaching a proof path: a denied-action test, an audit screenshot of the rejection, a policy-eval log.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That evidence feeds the permission metric — wrong-tenant equals zero, proven, not just asserted in a demo.",
+          "nodes": [
+            "proof",
+            "metric"
+          ],
+          "edges": [
+            [
+              "proof",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: for every authorization claim, attach an artifact a stranger can inspect — proof of denial before done.",
+          "nodes": [
+            "hidden",
+            "proof",
+            "metric"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ],
+            [
+              "proof",
+              "metric"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -5294,6 +7316,132 @@
         {
           "tone": "warning",
           "label": "the rejected shortcut + its corruption edge"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Tonight's migration starts here: the migration script is the one safe entry point that writes the new plan rows.",
+          "nodes": [
+            "script",
+            "plan"
+          ],
+          "edges": [
+            [
+              "script",
+              "plan"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Before it touches anything, the script snapshots the affected cohort into the rollback table, so a bad run can be undone.",
+          "nodes": [
+            "script",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "script",
+              "rollback"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Writing a plan triggers the entitlement service to recalculate what each customer is actually owed.",
+          "nodes": [
+            "plan",
+            "entitlement"
+          ],
+          "edges": [
+            [
+              "plan",
+              "entitlement"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Recalculated entitlements feed the invoice generator, which builds the preview a human can inspect before charging.",
+          "nodes": [
+            "entitlement",
+            "invoice"
+          ],
+          "edges": [
+            [
+              "entitlement",
+              "invoice"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That preview renders in the customer support view — the proof surface where corrupted entitlements would become visible.",
+          "nodes": [
+            "invoice",
+            "support"
+          ],
+          "edges": [
+            [
+              "invoice",
+              "support"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the shortcut the VP wants: a one-line bulk UPDATE that writes plan rows directly.",
+          "nodes": [
+            "shortcut",
+            "plan"
+          ],
+          "edges": [
+            [
+              "shortcut",
+              "plan"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "But it never triggers recalc — entitlements go stale, invoices look fine, and support sees nothing wrong.",
+          "nodes": [
+            "shortcut",
+            "plan",
+            "entitlement",
+            "invoice",
+            "support"
+          ],
+          "edges": [
+            [
+              "shortcut",
+              "plan"
+            ],
+            [
+              "plan",
+              "entitlement"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That's the rule: a rejection is only inspectable when the skipped branch and its proof path are drawn where a reviewer can argue with it.",
+          "nodes": [
+            "shortcut",
+            "entitlement",
+            "support"
+          ],
+          "edges": [
+            [
+              "entitlement",
+              "invoice"
+            ],
+            [
+              "invoice",
+              "support"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -5582,6 +7730,121 @@
           "tone": "success",
           "label": "ownership + the reviewable record"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A search-ranking change starts at the Ranking service — the thing we actually want to release into production.",
+          "nodes": [
+            "ranking"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "It doesn't ship on a hunch: the ranking change is tested by the Experiment framework, which runs it against controlled traffic.",
+          "nodes": [
+            "ranking",
+            "experiment"
+          ],
+          "edges": [
+            [
+              "ranking",
+              "experiment"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The experiment is measured by a Guardrail metric — the number that says whether search quality held or degraded.",
+          "nodes": [
+            "experiment",
+            "guardrail"
+          ],
+          "edges": [
+            [
+              "experiment",
+              "guardrail"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That guardrail gates the Rollout flag, which is owned by a named Rollback owner who can pull it if things go wrong.",
+          "nodes": [
+            "guardrail",
+            "flag",
+            "owner"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "flag"
+            ],
+            [
+              "flag",
+              "owner"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The owner signs the Decision memo — the reviewable record that turns the whole map into a decision future engineers can trust.",
+          "nodes": [
+            "owner",
+            "memo"
+          ],
+          "edges": [
+            [
+              "owner",
+              "memo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here's the trap: the guardrail can hide weak evidence, letting the memo sound confident while no metric actually proves the guardrail held.",
+          "nodes": [
+            "guardrail",
+            "hidden",
+            "memo"
+          ],
+          "edges": [
+            [
+              "guardrail",
+              "hidden"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The proof path forces the link: every memo claim must cite its map node, its metric, the option it beat, and the rollback rule.",
+          "nodes": [
+            "hidden",
+            "memo"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "memo"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: no claim stands alone. Unlinked confidence does not pass the gate — a reviewer must be able to inspect every line.",
+          "nodes": [
+            "memo",
+            "guardrail",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "memo"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -5865,6 +8128,131 @@
         {
           "tone": "muted",
           "label": "you, redrawing closed-note"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's a live incident: webhooks are silently failing, and you have to redraw last week's map from memory while the clock runs.",
+          "nodes": [
+            "learner",
+            "event"
+          ],
+          "edges": [
+            [
+              "learner",
+              "event"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Start at the trigger. A webhook event fires and gets enqueued into the retry scheduler — the heart of the whole map.",
+          "nodes": [
+            "event",
+            "scheduler"
+          ],
+          "edges": [
+            [
+              "event",
+              "scheduler"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The scheduler delivers the payload to the customer endpoint. On the happy path this succeeds and you're done.",
+          "nodes": [
+            "scheduler",
+            "endpoint"
+          ],
+          "edges": [
+            [
+              "scheduler",
+              "endpoint"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "When delivery fails, the backoff policy kicks in — it waits, then re-enqueues the retry back through the scheduler.",
+          "nodes": [
+            "endpoint",
+            "backoff",
+            "scheduler"
+          ],
+          "edges": [
+            [
+              "endpoint",
+              "backoff"
+            ],
+            [
+              "backoff",
+              "scheduler"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "You remember this retry loop perfectly. It's the visible, timing-obvious part of the map — so it decays last.",
+          "nodes": [
+            "backoff",
+            "scheduler",
+            "endpoint"
+          ],
+          "edges": [
+            [
+              "backoff",
+              "scheduler"
+            ],
+            [
+              "endpoint",
+              "backoff"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Retries eventually exhaust, and the event drops into the dead-letter store. Here the solid line goes dashed in your memory.",
+          "nodes": [
+            "backoff",
+            "deadletter"
+          ],
+          "edges": [
+            [
+              "backoff",
+              "deadletter"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The decayed edge: dead-letter to alert. Who gets paged for the dead-letter store? That's the ownership you forgot.",
+          "nodes": [
+            "deadletter",
+            "alert"
+          ],
+          "edges": [
+            [
+              "deadletter",
+              "alert"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The find isn't the redraw — it's the node that decayed. Maps rot at ownership and timing first, never at the visible boxes.",
+          "nodes": [
+            "deadletter",
+            "alert",
+            "scheduler"
+          ],
+          "edges": [
+            [
+              "deadletter",
+              "alert"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -6150,6 +8538,121 @@
         {
           "tone": "success",
           "label": "proof that the port is real, not cosmetic"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the checkout map you already know cold. Before you can port it, you strip it down to the stable causal pattern underneath.",
+          "nodes": [
+            "orig",
+            "pattern"
+          ],
+          "edges": [
+            [
+              "orig",
+              "pattern"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That pattern is the payload. It survives the domain swap, so re-anchor it to the new boundary: mobile offline sync, where state changes owner.",
+          "nodes": [
+            "pattern",
+            "constraint"
+          ],
+          "edges": [
+            [
+              "pattern",
+              "constraint"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The new constraint doesn't just relabel the risk, it demands new proof. Ask what evidence would force the answer here.",
+          "nodes": [
+            "constraint",
+            "proof"
+          ],
+          "edges": [
+            [
+              "constraint",
+              "proof"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That fresh proof method is what verifies the port and surfaces the stale-write race the confident guess would have shipped.",
+          "nodes": [
+            "proof",
+            "newdomain"
+          ],
+          "edges": [
+            [
+              "proof",
+              "newdomain"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the hidden branch: skip the re-anchoring, copy the old labels onto new boxes, and the transfer quietly collapses.",
+          "nodes": [
+            "pattern",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "pattern",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "A map that ported once ports again. The same structure, with fresh proof, pays off across AI retrieval and data pipelines next.",
+          "nodes": [
+            "newdomain",
+            "transfer2"
+          ],
+          "edges": [
+            [
+              "newdomain",
+              "transfer2"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Copy the causal structure, rewrite everything attached: labels, risk, proof, and the reviewer's objection. That's what proves you hold the pattern.",
+          "nodes": [
+            "orig",
+            "pattern",
+            "constraint",
+            "proof",
+            "newdomain"
+          ],
+          "edges": [
+            [
+              "orig",
+              "pattern"
+            ],
+            [
+              "pattern",
+              "constraint"
+            ],
+            [
+              "constraint",
+              "proof"
+            ],
+            [
+              "proof",
+              "newdomain"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -6444,6 +8947,111 @@
         {
           "tone": "success",
           "label": "proof path → repaired map"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a learner who draws a map of the system — the actors, the path, what they think the boundaries are.",
+          "nodes": [
+            "learner",
+            "map"
+          ],
+          "edges": [
+            [
+              "learner",
+              "map"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The map looks finished, so it gets submitted to a reviewer who reads it and asks one question.",
+          "nodes": [
+            "map",
+            "question"
+          ],
+          "edges": [
+            [
+              "map",
+              "question"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "That single question exposes an unstated assumption — the confident guess the map was silently resting on.",
+          "nodes": [
+            "question",
+            "assumption"
+          ],
+          "edges": [
+            [
+              "question",
+              "assumption"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The assumption forks two ways: openly it demands evidence to back the claim.",
+          "nodes": [
+            "assumption",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "evidence"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But a hidden branch also fires — you cannot justify why one proof artifact is enough, a failure the map never surfaced.",
+          "nodes": [
+            "assumption",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "assumption",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The hidden branch forces the proof path, and the evidence request feeds into it — now the decision must be defended, not trusted.",
+          "nodes": [
+            "hidden",
+            "proof",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ],
+            [
+              "evidence",
+              "proof"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "You revise on your weakest answer, and the map is repaired — a senior map that names its hidden branch and its proof.",
+          "nodes": [
+            "proof",
+            "repair"
+          ],
+          "edges": [
+            [
+              "proof",
+              "repair"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -6766,6 +9374,132 @@
           "tone": "success",
           "label": "proof — one objection handled per format"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the source concept map: one artifact naming actors, state, timing, ownership, failure, and proof. This is what stays fixed.",
+          "nodes": [
+            "map"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The panel changes the format five times: code this, design this, debug this, tell me about a time, set technical direction.",
+          "nodes": [
+            "map",
+            "coding",
+            "design",
+            "debug",
+            "behavioral",
+            "staff"
+          ],
+          "edges": [
+            [
+              "map",
+              "coding"
+            ],
+            [
+              "map",
+              "design"
+            ],
+            [
+              "map",
+              "debug"
+            ],
+            [
+              "map",
+              "behavioral"
+            ],
+            [
+              "map",
+              "staff"
+            ]
+          ],
+          "ms": 5200
+        },
+        {
+          "say": "Each format is just an entry edge into the same map at a different node. You rotate the map instead of memorizing five frameworks.",
+          "nodes": [
+            "map",
+            "coding",
+            "staff"
+          ],
+          "edges": [
+            [
+              "map",
+              "coding"
+            ],
+            [
+              "map",
+              "staff"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here's the trap: if a format enters and shows no visible decision, the map slides straight into hidden failure.",
+          "nodes": [
+            "map",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "map",
+              "hidden"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The reviewer's objection is always the same: every format must expose your decision structure, not ask them to trust it.",
+          "nodes": [
+            "coding",
+            "design",
+            "debug",
+            "behavioral",
+            "staff",
+            "proof"
+          ],
+          "edges": [
+            [
+              "coding",
+              "proof"
+            ],
+            [
+              "design",
+              "proof"
+            ],
+            [
+              "debug",
+              "proof"
+            ],
+            [
+              "behavioral",
+              "proof"
+            ],
+            [
+              "staff",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "So every path lands on the proof node — the visible decision a panelist can inspect. Same structure, five surfaces.",
+          "nodes": [
+            "proof",
+            "map",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "map",
+              "hidden"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -7075,6 +9809,120 @@
         {
           "tone": "success",
           "label": "proof and repair — what wins the gate"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the learner, who draws the map — the diagram alone is just the entry ticket, not the defense.",
+          "nodes": [
+            "learner",
+            "map"
+          ],
+          "edges": [
+            [
+              "learner",
+              "map"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Now narrate: walk the map into a spoken path, actor to repair, marking every boundary where state or ownership changes hands.",
+          "nodes": [
+            "map",
+            "narration"
+          ],
+          "edges": [
+            [
+              "map",
+              "narration"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That narration invites the reviewer to lean in and fire an objection — why should I believe that?",
+          "nodes": [
+            "narration",
+            "objection"
+          ],
+          "edges": [
+            [
+              "narration",
+              "objection"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The objection exposes the hidden branch — the case the happy path quietly skipped, where you can draw it but can't yet justify it.",
+          "nodes": [
+            "objection",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "objection",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "You answer the branch with evidence — inspectable proof on the table, not a confident guess the reviewer has to trust.",
+          "nodes": [
+            "hidden",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "evidence"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That evidence forces an update: repair the map so it now reflects what the objection surfaced.",
+          "nodes": [
+            "evidence",
+            "repair"
+          ],
+          "edges": [
+            [
+              "evidence",
+              "repair"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Repair feeds two ways — it sharpens the map for the next defense, and it gates the retake: did you survive the objection?",
+          "nodes": [
+            "repair",
+            "map",
+            "retake"
+          ],
+          "edges": [
+            [
+              "repair",
+              "map"
+            ],
+            [
+              "repair",
+              "retake"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The retake rule holds the unlock: proof must come before the claim. If evidence lands after the decision, it's decoration.",
+          "nodes": [
+            "retake",
+            "evidence"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -7399,6 +10247,112 @@
           "tone": "muted",
           "label": "actor / kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "This is the live fire. A capstone learner owns the map, tracing one enterprise signup from the UI all the way to the activation metric.",
+          "nodes": [
+            "learner",
+            "signup"
+          ],
+          "edges": [
+            [
+              "learner",
+              "signup"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The signup UI submits the new org to the creation API. This is the first boundary: client state hands off to backend ownership.",
+          "nodes": [
+            "signup",
+            "orgapi"
+          ],
+          "edges": [
+            [
+              "signup",
+              "orgapi"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The happy path continues: the org API assigns role policy, which starts the billing trial as the enterprise expects.",
+          "nodes": [
+            "orgapi",
+            "roles",
+            "billing"
+          ],
+          "edges": [
+            [
+              "orgapi",
+              "roles"
+            ],
+            [
+              "roles",
+              "billing"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Billing triggers the welcome email, and that email drives the activation metric the room is watching.",
+          "nodes": [
+            "billing",
+            "email",
+            "activation"
+          ],
+          "edges": [
+            [
+              "billing",
+              "email"
+            ],
+            [
+              "email",
+              "activation"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But the org API also forks a hidden branch: a partial commit where the org exists yet roles and billing quietly disagree.",
+          "nodes": [
+            "orgapi",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "orgapi",
+              "hidden"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Partial success looks like full success, and the welcome email already promised everything works. That is the trap.",
+          "nodes": [
+            "hidden",
+            "billing",
+            "email"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "So the hidden branch must be proven. The capstone dossier attaches the evidence that forces one hypothesis to beat the guesses.",
+          "nodes": [
+            "hidden",
+            "proof"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -7698,6 +10652,131 @@
           "tone": "muted",
           "label": "loudest symptom, kept in its place"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Onboarding starts here: the user hits the Frontend, which submits into the API. This is the happy path everyone assumes is fine.",
+          "nodes": [
+            "user",
+            "frontend",
+            "api"
+          ],
+          "edges": [
+            [
+              "user",
+              "frontend"
+            ],
+            [
+              "frontend",
+              "api"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The API is the real hub. It writes onboarding state to the Database as the single source of truth for the account.",
+          "nodes": [
+            "api",
+            "db"
+          ],
+          "edges": [
+            [
+              "api",
+              "db"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "But the API also reaches outward: it verifies identity with the Auth provider and provisions the account with Billing.",
+          "nodes": [
+            "api",
+            "auth",
+            "billing"
+          ],
+          "edges": [
+            [
+              "api",
+              "auth"
+            ],
+            [
+              "api",
+              "billing"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the trust boundary. Both Auth and Billing calls cross from systems we own into vendor territory we do not.",
+          "nodes": [
+            "auth",
+            "billing"
+          ],
+          "edges": [
+            [
+              "api",
+              "auth"
+            ],
+            [
+              "api",
+              "billing"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "And the hidden branch: Auth hands off to Billing, but who owns that link is UNCLEAR — that is where onboarding silently stalls.",
+          "nodes": [
+            "auth",
+            "billing"
+          ],
+          "edges": [
+            [
+              "auth",
+              "billing"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Downstream, the Database emits to the Email worker and Metrics pipeline. They read the same state, so a bad write poisons both.",
+          "nodes": [
+            "db",
+            "email",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "db",
+              "email"
+            ],
+            [
+              "db",
+              "metrics"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The lesson: mapping component, data, trust, and failure together names the unowned boundary — and that changes the next action.",
+          "nodes": [
+            "api",
+            "auth",
+            "billing",
+            "db"
+          ],
+          "edges": [
+            [
+              "api",
+              "auth"
+            ],
+            [
+              "auth",
+              "billing"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -7990,6 +11069,107 @@
           "tone": "accent",
           "label": "missed node forced into view by the proof path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start at the trigger: a user signs up and registers with the Onboarding Service. Everything downstream fans out from here.",
+          "nodes": [
+            "signup",
+            "onboarding"
+          ],
+          "edges": [
+            [
+              "signup",
+              "onboarding"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Onboarding fans into two async paths. First, it emits a welcome event to the Email Worker — the happy path the first map drew.",
+          "nodes": [
+            "onboarding",
+            "email"
+          ],
+          "edges": [
+            [
+              "onboarding",
+              "email"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the autopsy adds the hidden branch: Onboarding also emits an activation event to the Activation Worker — but that path LAGS.",
+          "nodes": [
+            "onboarding",
+            "metricworker"
+          ],
+          "edges": [
+            [
+              "onboarding",
+              "metricworker"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The lagging worker updates the Activation Metric late, so the stored metric goes stale — this is where state and ownership cross the boundary.",
+          "nodes": [
+            "metricworker",
+            "metric"
+          ],
+          "edges": [
+            [
+              "metricworker",
+              "metric"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The stale metric drives the user symptom the room sees: activation looks flat, and someone wants to restart a service.",
+          "nodes": [
+            "metric",
+            "symptom"
+          ],
+          "edges": [
+            [
+              "metric",
+              "symptom"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Follow the proof path from symptom to root cause — the map forces you to name the actual failing actor, not guess.",
+          "nodes": [
+            "symptom",
+            "rootcause"
+          ],
+          "edges": [
+            [
+              "symptom",
+              "rootcause"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The insight: emails succeed, so the Email Worker is NOT the cause. The lagging activation path is — the map changed the next action.",
+          "nodes": [
+            "email",
+            "rootcause",
+            "metricworker"
+          ],
+          "edges": [
+            [
+              "email",
+              "rootcause"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -8277,6 +11457,110 @@
         {
           "tone": "success",
           "label": "the decision the packet exists to defend"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every capstone starts with a test result — the raw claim that something works, sitting on its own until you attach proof.",
+          "nodes": [
+            "test"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The test feeds a metric screenshot: the first inspectable artifact a stranger can actually look at, not just take on faith.",
+          "nodes": [
+            "test",
+            "metric"
+          ],
+          "edges": [
+            [
+              "test",
+              "metric"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "From the metric you trace to a log sample — the drill-down to where behavior first went wrong.",
+          "nodes": [
+            "metric",
+            "log"
+          ],
+          "edges": [
+            [
+              "metric",
+              "log"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That evidence becomes a decision memo, and the memo produces a runbook repair note — the story arm of the packet.",
+          "nodes": [
+            "log",
+            "memo",
+            "runbook"
+          ],
+          "edges": [
+            [
+              "log",
+              "memo"
+            ],
+            [
+              "memo",
+              "runbook"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Here is the load-bearing move: the log branches into the claim-to-evidence mapping — the hidden edge that binds every claim to a node and an artifact.",
+          "nodes": [
+            "log",
+            "mapping"
+          ],
+          "edges": [
+            [
+              "log",
+              "mapping"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The mapping feeds the transfer table: pick any claim, follow the arrow to its artifact, and the structure survives relabeling.",
+          "nodes": [
+            "mapping",
+            "transfer"
+          ],
+          "edges": [
+            [
+              "mapping",
+              "transfer"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Without that mapping the packet is a story; with it, no claim floats — a stranger can audit every one. That is the invariant.",
+          "nodes": [
+            "mapping",
+            "transfer",
+            "test"
+          ],
+          "edges": [
+            [
+              "log",
+              "mapping"
+            ],
+            [
+              "mapping",
+              "transfer"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -8583,6 +11867,111 @@
         {
           "tone": "muted",
           "label": "the node a beginner over-blames"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Your packet enters the board and goes to the reviewer — this is the submission, the polished artifact you are staking mastery on.",
+          "nodes": [
+            "submission",
+            "reviewer"
+          ],
+          "edges": [
+            [
+              "submission",
+              "reviewer"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The reviewer raises the first objection and routes you straight to map defense — the gate where a diagram must survive live reasoning.",
+          "nodes": [
+            "reviewer",
+            "mapdefense"
+          ],
+          "edges": [
+            [
+              "reviewer",
+              "mapdefense"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Map defense fires the demand: prove it. This opens the evidence challenge, where your claims meet partial, messy proof.",
+          "nodes": [
+            "mapdefense",
+            "evidence"
+          ],
+          "edges": [
+            [
+              "mapdefense",
+              "evidence"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The evidence challenge finds a weak answer and sends back a repair request — your first plausible hypothesis was incomplete.",
+          "nodes": [
+            "evidence",
+            "repair"
+          ],
+          "edges": [
+            [
+              "evidence",
+              "repair"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "This is the suspect edge: map defense also exposes a hidden branch, the failure your polished packet quietly skipped over.",
+          "nodes": [
+            "mapdefense",
+            "hidden"
+          ],
+          "edges": [
+            [
+              "mapdefense",
+              "hidden"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Both roads converge on the proof path: the hidden branch forces it, and the repair produces it — one hypothesis must now beat the others.",
+          "nodes": [
+            "hidden",
+            "proof",
+            "repair"
+          ],
+          "edges": [
+            [
+              "hidden",
+              "proof"
+            ],
+            [
+              "repair",
+              "proof"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Only a map used as an instrument reaches proof, and proof unlocks the transfer challenge — staff-engineer architecture review earned, not memorized.",
+          "nodes": [
+            "proof",
+            "transfer"
+          ],
+          "edges": [
+            [
+              "proof",
+              "transfer"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

@@ -1,0 +1,387 @@
+[
+  {
+    "lesson": "Object Level Authorization",
+    "type": "diagram",
+    "edges": [
+      {
+        "to": "gateway",
+        "from": "attacker",
+        "kind": "sync",
+        "tone": "warning",
+        "label": "GET /invoices/8843"
+      },
+      {
+        "to": "authn",
+        "from": "gateway",
+        "kind": "sync",
+        "label": "route"
+      },
+      {
+        "to": "handler",
+        "from": "authn",
+        "kind": "sync",
+        "tone": "muted",
+        "label": "caller id resolved"
+      },
+      {
+        "to": "authz",
+        "from": "handler",
+        "kind": "data",
+        "tone": "accent",
+        "label": "load owner_id for object"
+      },
+      {
+        "to": "db",
+        "from": "authz",
+        "kind": "data",
+        "tone": "success",
+        "label": "on match: SELECT"
+      },
+      {
+        "to": "audit",
+        "from": "authz",
+        "kind": "async",
+        "tone": "warning",
+        "label": "on mismatch: 404 + DENY"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "attacker",
+        "kind": "client",
+        "tone": "warning",
+        "label": "Attacker",
+        "description": "valid token · victim's object id"
+      },
+      {
+        "id": "gateway",
+        "kind": "external",
+        "label": "API Gateway",
+        "description": "TLS · routing"
+      },
+      {
+        "id": "authn",
+        "kind": "service",
+        "tone": "muted",
+        "label": "AuthN middleware",
+        "description": "verifies token → caller id"
+      },
+      {
+        "id": "handler",
+        "kind": "service",
+        "tone": "accent",
+        "label": "Invoice handler",
+        "description": "GET /invoices/:id"
+      },
+      {
+        "id": "authz",
+        "kind": "decision",
+        "tone": "accent",
+        "label": "Object authZ check",
+        "description": "owner_id == caller?"
+      },
+      {
+        "id": "db",
+        "kind": "store",
+        "tone": "success",
+        "label": "Postgres",
+        "description": "invoices (source of truth)"
+      },
+      {
+        "id": "audit",
+        "kind": "store",
+        "tone": "warning",
+        "label": "Audit log",
+        "description": "who · object · allow|deny"
+      }
+    ],
+    "title": "Where BOLA lives: the ownership check on the request path",
+    "legend": [
+      {
+        "tone": "accent",
+        "label": "the object-level authorization gate (the whole skill)"
+      },
+      {
+        "tone": "warning",
+        "label": "attack path + the deny that stops it"
+      },
+      {
+        "tone": "muted",
+        "label": "authentication — proves WHO, not WHICH object"
+      }
+    ],
+    "rankdir": "LR",
+    "subtitle": "Attacker holds a valid token but swaps the object id. The gate that must catch it is the per-object ownership check between the handler and the datastore — not the auth middleware."
+  },
+  {
+    "lesson": "Idempotency Retry Safety",
+    "type": "diagram",
+    "edges": [
+      {
+        "to": "handler",
+        "from": "client",
+        "kind": "sync",
+        "label": "POST + Idempotency-Key"
+      },
+      {
+        "to": "keys",
+        "from": "handler",
+        "kind": "data",
+        "tone": "accent",
+        "label": "reserve key (same txn)"
+      },
+      {
+        "to": "charges",
+        "from": "handler",
+        "kind": "data",
+        "tone": "accent",
+        "label": "write charge (same txn)"
+      },
+      {
+        "to": "gateway",
+        "from": "handler",
+        "kind": "sync",
+        "tone": "warning",
+        "label": "charge once"
+      },
+      {
+        "to": "keys",
+        "from": "replay",
+        "kind": "control",
+        "tone": "muted",
+        "label": "key exists → return stored result",
+        "dashed": true
+      },
+      {
+        "to": "client",
+        "from": "keys",
+        "kind": "data",
+        "tone": "success",
+        "label": "first response, no re-charge"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "client",
+        "kind": "client",
+        "label": "Client",
+        "description": "retries on timeout"
+      },
+      {
+        "id": "handler",
+        "kind": "service",
+        "tone": "accent",
+        "label": "Charge Handler",
+        "description": "API endpoint"
+      },
+      {
+        "id": "keys",
+        "kind": "store",
+        "tone": "success",
+        "label": "Idempotency Keys",
+        "description": "key → result, UNIQUE"
+      },
+      {
+        "id": "charges",
+        "kind": "store",
+        "label": "Charges Table",
+        "description": "the side effect"
+      },
+      {
+        "id": "gateway",
+        "kind": "external",
+        "tone": "warning",
+        "label": "Payment Gateway",
+        "description": "external, charges once"
+      },
+      {
+        "id": "replay",
+        "kind": "decision",
+        "tone": "muted",
+        "label": "Replay arrives",
+        "description": "same key, second time"
+      }
+    ],
+    "title": "The idempotent charge path — first request vs replay",
+    "legend": [
+      {
+        "tone": "accent",
+        "label": "atomic: key reserve + effect in one transaction"
+      },
+      {
+        "tone": "success",
+        "label": "the keys store — enforces exactly-once"
+      },
+      {
+        "tone": "warning",
+        "label": "external effect that must run only once"
+      },
+      {
+        "tone": "muted",
+        "label": "the replay path — short-circuits to stored result"
+      }
+    ],
+    "subtitle": "Client sends Idempotency-Key. The handler reserves the key and writes the charge in ONE transaction; the unique constraint on the keys store is what enforces exactly-once. A replay hits the stored result and skips the gateway entirely. The failure path is the dashed retry; the repair is the keys store."
+  },
+  {
+    "lesson": "Rag Answer Grounding",
+    "type": "diagram",
+    "edges": [
+      {
+        "to": "retriever",
+        "from": "user",
+        "kind": "sync",
+        "label": "embed + search"
+      },
+      {
+        "to": "chunks",
+        "from": "retriever",
+        "kind": "data",
+        "tone": "accent",
+        "label": "top-k"
+      },
+      {
+        "to": "contract",
+        "from": "chunks",
+        "kind": "data",
+        "tone": "success",
+        "label": "sole evidence"
+      },
+      {
+        "to": "guard",
+        "from": "contract",
+        "kind": "control",
+        "tone": "accent",
+        "label": "per claim"
+      },
+      {
+        "to": "grounded",
+        "from": "guard",
+        "kind": "sync",
+        "tone": "success",
+        "label": "chunk supports it"
+      },
+      {
+        "to": "refuse",
+        "from": "guard",
+        "kind": "sync",
+        "tone": "muted",
+        "label": "nothing supports it"
+      },
+      {
+        "to": "hallucination",
+        "from": "guard",
+        "kind": "async",
+        "tone": "warning",
+        "label": "guardrail missing",
+        "dashed": true
+      },
+      {
+        "to": "judge",
+        "from": "grounded",
+        "kind": "data",
+        "label": "score groundedness"
+      },
+      {
+        "to": "judge",
+        "from": "hallucination",
+        "kind": "data",
+        "tone": "warning",
+        "label": "eval must catch this"
+      },
+      {
+        "to": "contract",
+        "from": "judge",
+        "kind": "control",
+        "tone": "muted",
+        "label": "fails → tighten contract",
+        "dashed": true
+      }
+    ],
+    "nodes": [
+      {
+        "id": "user",
+        "kind": "client",
+        "label": "User query",
+        "description": "\"What's the refund window?\""
+      },
+      {
+        "id": "retriever",
+        "kind": "service",
+        "tone": "accent",
+        "label": "Retriever",
+        "description": "top-k chunks + scores"
+      },
+      {
+        "id": "chunks",
+        "kind": "store",
+        "tone": "success",
+        "label": "Retrieved chunks",
+        "description": "the ONLY allowed evidence"
+      },
+      {
+        "id": "contract",
+        "kind": "process",
+        "tone": "accent",
+        "label": "Prompt contract",
+        "description": "answer from sources · cite each claim · refuse if unsupported"
+      },
+      {
+        "id": "guard",
+        "kind": "decision",
+        "tone": "warning",
+        "label": "Grounding guardrail",
+        "description": "is this claim in a chunk?"
+      },
+      {
+        "id": "grounded",
+        "kind": "process",
+        "tone": "success",
+        "label": "Grounded answer",
+        "description": "claim + [chunk id]"
+      },
+      {
+        "id": "refuse",
+        "kind": "process",
+        "tone": "muted",
+        "label": "Refusal",
+        "description": "\"not in these sources\""
+      },
+      {
+        "id": "hallucination",
+        "kind": "external",
+        "tone": "warning",
+        "label": "Ungrounded claim",
+        "description": "fluent, cited, WRONG"
+      },
+      {
+        "id": "judge",
+        "kind": "service",
+        "tone": "accent",
+        "label": "Groundedness judge + eval set",
+        "description": "scores support; a refusal case is gold"
+      }
+    ],
+    "title": "The grounding path — with the failure and repair branches",
+    "legend": [
+      {
+        "tone": "accent",
+        "label": "retrieval + contract + judge (the machinery)"
+      },
+      {
+        "tone": "success",
+        "label": "the only allowed evidence + a grounded claim"
+      },
+      {
+        "tone": "warning",
+        "label": "the failure the guardrail and eval exist to catch"
+      },
+      {
+        "tone": "muted",
+        "label": "refusal — the safe branch when nothing supports the claim"
+      }
+    ],
+    "rankdir": "LR",
+    "subtitle": "Query → retrieve → the grounding guardrail decides per claim: cited chunk supports it (ground), or nothing supports it (refuse). The ungrounded branch is where hallucinations escape; the judge + eval set is the repair loop."
+  }
+]

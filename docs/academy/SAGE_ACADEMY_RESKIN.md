@@ -52,7 +52,7 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 
 **Phase 2 progress (in flight):**
 - [x] **Shared AcademyNav** — `components/academy/marketing/AcademyNav.tsx` (server, exact palette, `active` prop + aria-current) adopted across About/Help/Why-Proof/proof-not-paper, replacing 4 hand-rolled navs. Real routes: How-it-works→/how-it-works, Courses→/academy/catalog, Why proof→/academy/why-proof, Pricing→/academy/catalog#pricing, Log in→/login?audience=academy, Start learning→/academy/signup. RESOLVED: How-It-Works lives at top-level `/how-it-works` (academy content), not /academy/how-it-works. tsc clean.
-- [ ] Shared AcademyFooter across academy marketing pages.
+- [x] **Shared AcademyFooter** — `components/academy/marketing/AcademyFooter.tsx` (server, `tagline` prop) adopted across About/Help/Why-Proof/proof-not-paper; real links only (no Legal/Terms dead links); About/Help gained a footer, why-proof/proof-not-paper keep signature taglines. tsc clean.
 - [ ] Align --ac-* token VALUES to exact design hex (one token source-of-truth).
 - [ ] Componentize Home — retire app/home-v2 dangerouslySetInnerHTML blob (NEVER touch app/page.tsx or components/academy/landing/*).
 - OPERATOR DECISION 2026-07-03: team plans CUT (individual-only) → Team Admin cut; drop team clauses from Legal/Cancel. Brand stance added: /academy/proof-not-paper ("Forget the certificate. Ship the proof.").

@@ -50,6 +50,13 @@ render-verified + scoped-committed), and STOPS at the 3 operator gates below.
 
 **3 operator gates only:** (3) production root-repoint + agency domain, (4) live Stripe secrets, (7) production deploy. Everything else runs autonomously.
 
+**Phase 2 progress (in flight):**
+- [x] **Shared AcademyNav** — `components/academy/marketing/AcademyNav.tsx` (server, exact palette, `active` prop + aria-current) adopted across About/Help/Why-Proof/proof-not-paper, replacing 4 hand-rolled navs. Real routes: How-it-works→/how-it-works, Courses→/academy/catalog, Why proof→/academy/why-proof, Pricing→/academy/catalog#pricing, Log in→/login?audience=academy, Start learning→/academy/signup. RESOLVED: How-It-Works lives at top-level `/how-it-works` (academy content), not /academy/how-it-works. tsc clean.
+- [ ] Shared AcademyFooter across academy marketing pages.
+- [ ] Align --ac-* token VALUES to exact design hex (one token source-of-truth).
+- [ ] Componentize Home — retire app/home-v2 dangerouslySetInnerHTML blob (NEVER touch app/page.tsx or components/academy/landing/*).
+- OPERATOR DECISION 2026-07-03: team plans CUT (individual-only) → Team Admin cut; drop team clauses from Legal/Cancel. Brand stance added: /academy/proof-not-paper ("Forget the certificate. Ship the proof.").
+
 ## Legacy phase plan (subsumed by the 7-phase program above)
 - **P0 Foundation** — align `--ac-*` token values to the exact design hex; confirm fonts wired.
 - **P1 Home (proof surface)** — port `Sage Home.dc.html` one-for-one to a real route

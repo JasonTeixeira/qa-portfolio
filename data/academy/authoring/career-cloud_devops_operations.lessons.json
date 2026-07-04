@@ -141,6 +141,125 @@
           "tone": "success",
           "label": "the proven reversal path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a git push. Your change gets built into an immutable image and stored in the registry, ready to ship.",
+          "nodes": [
+            "push",
+            "registry"
+          ],
+          "edges": [
+            [
+              "push",
+              "registry"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The registry tag triggers a rolling deploy, replacing pods gradually instead of all at once so failure stays contained.",
+          "nodes": [
+            "registry",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "registry",
+              "deploy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here's the first gate: each new pod must pass its readiness probe before the deploy shifts traffic onto it.",
+          "nodes": [
+            "deploy",
+            "probe",
+            "live"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "probe"
+            ],
+            [
+              "probe",
+              "live"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now it's live, serving real traffic and emitting metrics. But readiness only proves a pod started, not that the release is healthy.",
+          "nodes": [
+            "live",
+            "obs"
+          ],
+          "edges": [
+            [
+              "live",
+              "obs"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Telemetry ties those metrics to an SLO. This is the decision point: error rate climbs 0.2% to 6% and the budget burns.",
+          "nodes": [
+            "obs",
+            "probe"
+          ],
+          "edges": [],
+          "ms": 4800
+        },
+        {
+          "say": "The SLO breach is the named trigger that pulls the cord, firing an automatic rollback nobody has to argue about at 16:50 on a Friday.",
+          "nodes": [
+            "obs",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "obs",
+              "rollback"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Rollback restores the last-good version to live service, closing the loop and returning error rates to baseline.",
+          "nodes": [
+            "rollback",
+            "live"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "live"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: every deploy has a reversal path proven before you need it. Rollout, an SLO to see it, and a trigger to undo it.",
+          "nodes": [
+            "deploy",
+            "obs",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "obs",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "live"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -404,6 +523,121 @@
         {
           "tone": "success",
           "label": "the kernel: one socket, one owner"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Traffic enters through the load balancer, which fans every request at the single service socket on port 8080.",
+          "nodes": [
+            "lb",
+            "port"
+          ],
+          "edges": [
+            [
+              "lb",
+              "port"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "One socket has one owner. Right now port 8080 is held by the old rollout, PID 812, from the previous deploy.",
+          "nodes": [
+            "port",
+            "old"
+          ],
+          "edges": [
+            [
+              "port",
+              "old"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The new rollout, PID 991, comes up and asks the Linux kernel to bind the same port with a bind() syscall.",
+          "nodes": [
+            "new",
+            "kernel"
+          ],
+          "edges": [
+            [
+              "new",
+              "kernel"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The kernel refuses: the socket is taken, so it returns EADDRINUSE and PID 991 crash-loops instead of serving.",
+          "nodes": [
+            "kernel",
+            "new"
+          ],
+          "edges": [
+            [
+              "kernel",
+              "new"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Because 812 never let go, traffic still lands on it, and the stale build keeps answering — that is the blast radius.",
+          "nodes": [
+            "old",
+            "log",
+            "port"
+          ],
+          "edges": [
+            [
+              "port",
+              "old"
+            ],
+            [
+              "old",
+              "log"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The fix is never a guess: map port to PID to process with ss -ltnp and ps before you kill anything.",
+          "nodes": [
+            "port",
+            "old",
+            "new"
+          ],
+          "edges": [
+            [
+              "port",
+              "old"
+            ],
+            [
+              "new",
+              "kernel"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant to carry away: one socket, one owning process — resolve the owner first, then act.",
+          "nodes": [
+            "port",
+            "old",
+            "kernel"
+          ],
+          "edges": [
+            [
+              "port",
+              "old"
+            ],
+            [
+              "kernel",
+              "new"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -691,6 +925,121 @@
         {
           "tone": "warning",
           "label": "the leak path — never bake a secret in"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts in the source repo. CI builds your code into one container image, meant to run unchanged in dev, staging, and prod.",
+          "nodes": [
+            "repo",
+            "ci",
+            "image"
+          ],
+          "edges": [
+            [
+              "repo",
+              "ci"
+            ],
+            [
+              "ci",
+              "image"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Here is the leak. Someone commits a secret into the repo, so it gets baked in as a config value the build carries along.",
+          "nodes": [
+            "repo",
+            "baked"
+          ],
+          "edges": [
+            [
+              "repo",
+              "baked"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That baked-in secret leaks straight into the artifact. Now the credential lives inside the image itself, and in git history forever.",
+          "nodes": [
+            "baked",
+            "image"
+          ],
+          "edges": [
+            [
+              "baked",
+              "image"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Deploy that image per environment and the staging password rides into prod. On-call greps the logs and finds the DATABASE_URL in plaintext.",
+          "nodes": [
+            "image",
+            "pod"
+          ],
+          "edges": [
+            [
+              "image",
+              "pod"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The fix, part one: build the image with zero environment values, then read config from env vars at boot.",
+          "nodes": [
+            "env",
+            "pod"
+          ],
+          "edges": [
+            [
+              "env",
+              "pod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Part two: pull secrets from a secret store at runtime, injected only into the container's memory, never into the image or repo.",
+          "nodes": [
+            "store",
+            "pod"
+          ],
+          "edges": [
+            [
+              "store",
+              "pod"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: one image runs everywhere, config comes from env vars, secrets come from the store, and no credential ever exists in the artifact.",
+          "nodes": [
+            "image",
+            "env",
+            "store",
+            "pod"
+          ],
+          "edges": [
+            [
+              "image",
+              "pod"
+            ],
+            [
+              "env",
+              "pod"
+            ],
+            [
+              "store",
+              "pod"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1050,6 +1399,94 @@
           "tone": "muted",
           "label": "the toolchain kept OUT on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 3 a.m.: a deploy blew past the SLO and on-call wants rollback — but the last image was tagged :latest, so there's nothing to roll back to.",
+          "nodes": [
+            "fat"
+          ],
+          "edges": [],
+          "ms": 4600
+        },
+        {
+          "say": "Design fixes this. Everything starts from a pinned base digest, so the build is reproducible byte-for-byte, not whatever :latest meant today.",
+          "nodes": [
+            "base",
+            "deps"
+          ],
+          "edges": [
+            [
+              "base",
+              "deps"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Dependencies install as their own layer first. Because they sit below your source, editing code doesn't invalidate them — the dep cache stays warm.",
+          "nodes": [
+            "deps"
+          ],
+          "edges": [],
+          "ms": 4400
+        },
+        {
+          "say": "The builder stage copies your source on top and compiles. This is where the heavy toolchain lives — compilers, dev headers, build junk.",
+          "nodes": [
+            "deps",
+            "builder"
+          ],
+          "edges": [
+            [
+              "deps",
+              "builder"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The whole builder stage is discarded. Its toolchain never ships — that fat, root, :latest image is drawn out because it's the failure we refuse.",
+          "nodes": [
+            "builder",
+            "fat"
+          ],
+          "edges": [
+            [
+              "builder",
+              "fat"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only the built artifact crosses over: COPY --from=builder dist lands in a lean runtime stage carrying nothing you don't run in production.",
+          "nodes": [
+            "builder",
+            "runtime"
+          ],
+          "edges": [
+            [
+              "builder",
+              "runtime"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That image pushes to the registry by digest, giving you an immutable, non-root, rollback-able unit. The invariant: runtime holds only what runs.",
+          "nodes": [
+            "runtime",
+            "registry"
+          ],
+          "edges": [
+            [
+              "runtime",
+              "registry"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -1227,6 +1664,122 @@
         {
           "tone": "warning",
           "label": "the race a health check closes"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "You run one command: docker compose up. This reads compose.yaml and builds the entire local stack — no hand-started containers, nothing undocumented.",
+          "nodes": [
+            "cli",
+            "app"
+          ],
+          "edges": [
+            [
+              "cli",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The app service comes up needing two backends: a Postgres store and a Redis cache, all wired on one shared bridge network.",
+          "nodes": [
+            "app",
+            "db",
+            "cache"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "Postgres persists its data to a named pgdata volume, so state survives container restarts and rebuilds.",
+          "nodes": [
+            "db",
+            "vol"
+          ],
+          "edges": [
+            [
+              "db",
+              "vol"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Here is the naive path: if compose only ordered by start, the app boots the instant the DB container starts — but before it can accept connections.",
+          "nodes": [
+            "app",
+            "race"
+          ],
+          "edges": [
+            [
+              "app",
+              "race"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "That race is the classic works-on-my-machine failure: the app connects too early and gets connection refused from a database that isn't ready.",
+          "nodes": [
+            "race",
+            "db"
+          ],
+          "edges": [
+            [
+              "app",
+              "race"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The fix is depends_on with service_healthy. The app waits until Postgres and Redis pass their health checks, not merely until they've started.",
+          "nodes": [
+            "app",
+            "db",
+            "cache"
+          ],
+          "edges": [
+            [
+              "app",
+              "db"
+            ],
+            [
+              "app",
+              "cache"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "That's the invariant: one file, one command rebuilds the whole world — stores, cache, network, and startup order — and nothing reaches outside it.",
+          "nodes": [
+            "cli",
+            "app",
+            "db",
+            "cache",
+            "vol"
+          ],
+          "edges": [
+            [
+              "cli",
+              "app"
+            ],
+            [
+              "app",
+              "db"
+            ],
+            [
+              "app",
+              "cache"
+            ],
+            [
+              "db",
+              "vol"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -1503,6 +2056,106 @@
         {
           "tone": "success",
           "label": "pods healthy — not the failure"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 3 a.m. Every browser shows a cert error, yet every pod is Running. The service was never down — the path to it broke.",
+          "nodes": [
+            "client",
+            "pods"
+          ],
+          "edges": [],
+          "ms": 4200
+        },
+        {
+          "say": "The request starts at the Client, which first asks DNS to resolve the name into an address it can actually connect to.",
+          "nodes": [
+            "client",
+            "dns"
+          ],
+          "edges": [
+            [
+              "client",
+              "dns"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "DNS hands back an IP, and the client connects to the Ingress load balancer sitting at that address.",
+          "nodes": [
+            "dns",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "dns",
+              "ingress"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "At the Ingress, TLS terminates. The server presents its cert chain for the requested name via SNI — this is where the invalid-cert error fires.",
+          "nodes": [
+            "cert",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "cert",
+              "ingress"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "If the cert clears, the Ingress routes by host header to the matching Service — the internal entry point for that name.",
+          "nodes": [
+            "ingress",
+            "svc"
+          ],
+          "edges": [
+            [
+              "ingress",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The Service uses its label selector to pick healthy Pods and load-balances across them. The pods here are fine and out of the blast path.",
+          "nodes": [
+            "svc",
+            "pods"
+          ],
+          "edges": [
+            [
+              "svc",
+              "pods"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The two suspect edges are the DNS record and the cert. One name mismatch anywhere is a total outage — even with perfectly healthy pods.",
+          "nodes": [
+            "dns",
+            "cert",
+            "pods"
+          ],
+          "edges": [
+            [
+              "dns",
+              "ingress"
+            ],
+            [
+              "cert",
+              "ingress"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1786,6 +2439,106 @@
         {
           "tone": "warning",
           "label": "FAIL-CLOSED path: quarantine → repair packet"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a commit or PR. That's the entry point — a change that wants to reach production.",
+          "nodes": [
+            "commit"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "The commit triggers a build. The artifact gets compiled and packaged, then handed forward for inspection.",
+          "nodes": [
+            "commit",
+            "build"
+          ],
+          "edges": [
+            [
+              "commit",
+              "build"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The artifact flows into the quality gate — the one decision node that decides whether this change is allowed to proceed.",
+          "nodes": [
+            "build",
+            "gate"
+          ],
+          "edges": [
+            [
+              "build",
+              "gate"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On pass — tests green, coverage above floor, no criticals — the gate promotes the artifact into the registry, then it rolls out to prod.",
+          "nodes": [
+            "gate",
+            "registry",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "gate",
+              "registry"
+            ],
+            [
+              "registry",
+              "deploy"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On fail, the gate exits non-zero and routes the artifact to quarantine. Red means no ship — no silent override to prod.",
+          "nodes": [
+            "gate",
+            "quarantine"
+          ],
+          "edges": [
+            [
+              "gate",
+              "quarantine"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Quarantine captures the evidence into a repair packet, so the failure comes with the context needed to fix it.",
+          "nodes": [
+            "quarantine",
+            "incident"
+          ],
+          "edges": [
+            [
+              "quarantine",
+              "incident"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The repair packet loops back to a new commit that fixes and re-runs. The gate is the smallest place where 'should test' becomes 'cannot ship untested.'",
+          "nodes": [
+            "incident",
+            "commit",
+            "gate"
+          ],
+          "edges": [
+            [
+              "incident",
+              "commit"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2072,6 +2825,112 @@
         {
           "tone": "success",
           "label": "immutable registry + pinned rollback target (repair path)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "CI builds the code once into a single immutable artifact and pushes it to the registry, addressed by its sha256 digest.",
+          "nodes": [
+            "build",
+            "registry"
+          ],
+          "edges": [
+            [
+              "build",
+              "registry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That exact digest is pulled into staging — not rebuilt, promoted. What you test is the literal bytes that shipped.",
+          "nodes": [
+            "registry",
+            "staging"
+          ],
+          "edges": [
+            [
+              "registry",
+              "staging"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The same digest advances to canary, then to prod — one object walking the pipeline, never a fresh build per stage.",
+          "nodes": [
+            "staging",
+            "canary",
+            "prod"
+          ],
+          "edges": [
+            [
+              "staging",
+              "canary"
+            ],
+            [
+              "canary",
+              "prod"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Prod emits its error rate to the SLO monitor — the release v2.4.1 crosses the threshold and trips the breach.",
+          "nodes": [
+            "prod",
+            "slo"
+          ],
+          "edges": [
+            [
+              "prod",
+              "slo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "On breach, rollback targets the prior release v2.4.0 — still retained in the registry by its own pinned digest.",
+          "nodes": [
+            "slo",
+            "prior",
+            "registry"
+          ],
+          "edges": [
+            [
+              "slo",
+              "prior"
+            ],
+            [
+              "registry",
+              "prior"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Prod re-points at that pinned prior digest — no rebuild, no patched base image, just the last known-good bytes back in seconds.",
+          "nodes": [
+            "prior",
+            "prod"
+          ],
+          "edges": [
+            [
+              "prior",
+              "prod"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: tested, shipped, and rolled-back-to are the same immutable object — so rollout, rollback, and forensics never guess.",
+          "nodes": [
+            "registry",
+            "prod",
+            "prior"
+          ],
+          "edges": [],
+          "ms": 4400
         }
       ]
     },
@@ -2360,6 +3219,125 @@
           "tone": "success",
           "label": "known-good stable version"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It's 4:58 Friday and you ship. All live requests still arrive at one front door: the traffic split router.",
+          "nodes": [
+            "client",
+            "router"
+          ],
+          "edges": [
+            [
+              "client",
+              "router"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Canary is the safety choice: the router keeps 95% of traffic on the proven v1 stable version.",
+          "nodes": [
+            "router",
+            "stable"
+          ],
+          "edges": [
+            [
+              "router",
+              "stable"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Only 5% of traffic touches the new v2 canary — so a bad build's blast radius starts small, not global.",
+          "nodes": [
+            "router",
+            "canary"
+          ],
+          "edges": [
+            [
+              "router",
+              "canary"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The canary emits live metrics; the SLO watcher reads them as the health signal that gates the rollout forward.",
+          "nodes": [
+            "canary",
+            "slo"
+          ],
+          "edges": [
+            [
+              "canary",
+              "slo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If the canary stays green with error rate under 1%, the watcher promotes it to 100% of traffic.",
+          "nodes": [
+            "slo",
+            "promote"
+          ],
+          "edges": [
+            [
+              "slo",
+              "promote"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But errors triple: over 1% for two minutes trips the burn trigger, so the watcher halts and calls rollback.",
+          "nodes": [
+            "slo",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "slo",
+              "rollback"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Rollback restores the known-good v1, and traffic reverts to stable — automatically, before anyone opens Slack.",
+          "nodes": [
+            "rollback",
+            "stable"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "stable"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: a bad version must halt and reverse on measurable evidence before it reaches all users.",
+          "nodes": [
+            "slo",
+            "rollback",
+            "promote"
+          ],
+          "edges": [
+            [
+              "slo",
+              "rollback"
+            ],
+            [
+              "slo",
+              "promote"
+            ]
+          ],
+          "ms": 4400
+        }
       ]
     },
     {
@@ -2636,6 +3614,111 @@
           "tone": "success",
           "label": "Service endpoints (the load-balancer view)"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the kubelet: the only thing outside your container asking, in three separate questions, whether this pod is alive and should get traffic.",
+          "nodes": [
+            "kubelet"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "First the kubelet runs the startupProbe, which gates the other two so a slow boot is never mistaken for a hang.",
+          "nodes": [
+            "kubelet",
+            "startup"
+          ],
+          "edges": [
+            [
+              "kubelet",
+              "startup"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Only once startup succeeds does the kubelet enable readiness and liveness — nothing routes traffic or restarts before boot completes.",
+          "nodes": [
+            "startup",
+            "readiness",
+            "liveness"
+          ],
+          "edges": [
+            [
+              "startup",
+              "readiness"
+            ],
+            [
+              "startup",
+              "liveness"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "readinessProbe asks 'can it serve right now?' — pass, and the pod stays in the Service endpoints taking live traffic.",
+          "nodes": [
+            "readiness",
+            "endpoints"
+          ],
+          "edges": [
+            [
+              "readiness",
+              "endpoints"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Fail readiness and the pod is REMOVED from endpoints — traffic drains away, but the pod survives to recover.",
+          "nodes": [
+            "readiness",
+            "endpoints"
+          ],
+          "edges": [
+            [
+              "readiness",
+              "endpoints"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "livenessProbe asks a different question: 'is it permanently stuck?' — fail, and the kubelet kills and restarts the container.",
+          "nodes": [
+            "liveness",
+            "restart"
+          ],
+          "edges": [
+            [
+              "liveness",
+              "restart"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The 4:55 outage: a single /health check went green at process start, so cold pods got traffic. Readiness drains, liveness restarts — check different things.",
+          "nodes": [
+            "readiness",
+            "endpoints",
+            "liveness",
+            "restart"
+          ],
+          "edges": [
+            [
+              "readiness",
+              "endpoints"
+            ],
+            [
+              "liveness",
+              "restart"
+            ]
+          ],
+          "ms": 5200
+        }
       ]
     },
     {
@@ -2905,6 +3988,117 @@
         {
           "tone": "warning",
           "label": "the bad revision the probe is meant to catch"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with kubectl apply — you hand the cluster a manifest, the desired end state it will work to make true.",
+          "nodes": [
+            "kubectl",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "kubectl",
+              "deploy"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The Deployment reads that spec and creates a new ReplicaSet — the controller responsible for holding your target replica count.",
+          "nodes": [
+            "deploy",
+            "rs"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "rs"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The ReplicaSet schedules Pods onto nodes. They flip to Running fast — but Running only means the process started, not that it's healthy.",
+          "nodes": [
+            "rs",
+            "pod"
+          ],
+          "edges": [
+            [
+              "rs",
+              "pod"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The readiness probe is the gate: a Pod joins the Service's Endpoints and takes live traffic only once it actually reports Ready.",
+          "nodes": [
+            "pod",
+            "svc"
+          ],
+          "edges": [
+            [
+              "pod",
+              "svc"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the risk. Roll a bad revision and the strategy's surge exposes it — replacing old pods with new ones that shouldn't be trusted yet.",
+          "nodes": [
+            "deploy",
+            "bad"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "bad"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "With a readiness probe, failing pods never gate into the Service, the rollout halts, and rollout undo reverts to the last good revision.",
+          "nodes": [
+            "bad",
+            "undo",
+            "svc"
+          ],
+          "edges": [
+            [
+              "bad",
+              "undo"
+            ],
+            [
+              "pod",
+              "svc"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Without those fields, Running pods serve 500s and there's nothing to revert to. Every field the SLO needs must be declared, or Kubernetes picks a worse default.",
+          "nodes": [
+            "bad",
+            "pod",
+            "svc",
+            "undo"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "bad"
+            ],
+            [
+              "bad",
+              "undo"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -3206,6 +4400,138 @@
         {
           "tone": "success",
           "label": "reconcile / repair back into code"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "IaC keeps three things in sync: your Terraform code declares what you want, and it flows toward the live cloud.",
+          "nodes": [
+            "code",
+            "cloud"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "terraform plan is the referee. It reads three inputs to decide what changes.",
+          "nodes": [
+            "plan",
+            "code",
+            "state",
+            "cloud"
+          ],
+          "edges": [
+            [
+              "code",
+              "plan"
+            ],
+            [
+              "state",
+              "plan"
+            ],
+            [
+              "cloud",
+              "plan"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Code says desired, the state file says what was last recorded, and a refresh reads the actual live cloud.",
+          "nodes": [
+            "code",
+            "state",
+            "cloud",
+            "plan"
+          ],
+          "edges": [
+            [
+              "code",
+              "plan"
+            ],
+            [
+              "state",
+              "plan"
+            ],
+            [
+              "cloud",
+              "plan"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When they match, apply reconciles: plan pushes the desired shape into the cloud and updates state.",
+          "nodes": [
+            "plan",
+            "cloud"
+          ],
+          "edges": [
+            [
+              "plan",
+              "cloud"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now the 3 a.m. failure: on-call opens the console and bumps instance count, bypassing the code entirely.",
+          "nodes": [
+            "console",
+            "cloud",
+            "code"
+          ],
+          "edges": [
+            [
+              "console",
+              "cloud"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "That out-of-band edit forks actual away from code and creates drift the code never knows about.",
+          "nodes": [
+            "console",
+            "drift"
+          ],
+          "edges": [
+            [
+              "console",
+              "drift"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The next unrelated apply overwrites the console fix, because plan sees code, not the manual change.",
+          "nodes": [
+            "plan",
+            "cloud",
+            "drift"
+          ],
+          "edges": [
+            [
+              "plan",
+              "cloud"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair: plan detects the drift, then import plus re-apply pulls it back into code. Invariant: no out-of-band changes.",
+          "nodes": [
+            "drift",
+            "repair",
+            "plan"
+          ],
+          "edges": [
+            [
+              "drift",
+              "repair"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },
@@ -3520,6 +4846,134 @@
           "tone": "muted",
           "label": "billing-batch: out of scope on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "A customer clicks buy. The request enters at the front door — ingress and gateway — the one place every checkout call must pass through.",
+          "nodes": [
+            "client",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "client",
+              "ingress"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The gateway mints a trace_id and hands off to checkout, stamping that same id onto every hop that follows.",
+          "nodes": [
+            "ingress",
+            "checkout"
+          ],
+          "edges": [
+            [
+              "ingress",
+              "checkout"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Checkout fans out: it verifies the user against auth — healthy — then calls payment to charge the card.",
+          "nodes": [
+            "checkout",
+            "auth",
+            "payment"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "auth"
+            ],
+            [
+              "checkout",
+              "payment"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Payment is throwing 500s. This is the break — the exact span, in the exact service, that the v2.3 deploy poisoned.",
+          "nodes": [
+            "payment"
+          ],
+          "edges": [
+            [
+              "checkout",
+              "payment"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every service emits its telemetry into one OTel collector — payment's failing span and checkout's spans and logs all funnel here.",
+          "nodes": [
+            "payment",
+            "checkout",
+            "otel"
+          ],
+          "edges": [
+            [
+              "payment",
+              "otel"
+            ],
+            [
+              "checkout",
+              "otel"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Metrics detect WHEN: the error-rate aggregate spikes 8x and crosses the SLO, firing the page — but it can't say where.",
+          "nodes": [
+            "otel",
+            "metrics"
+          ],
+          "edges": [
+            [
+              "otel",
+              "metrics"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Traces locate WHERE: follow the trace_id from gateway to checkout to the failing payment span, six services deep, in one view.",
+          "nodes": [
+            "otel",
+            "traces",
+            "ingress",
+            "checkout",
+            "payment"
+          ],
+          "edges": [
+            [
+              "otel",
+              "traces"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Logs explain WHY: the failing span emits the line that names the cause. Same trace_id links all three — that pivot is observability.",
+          "nodes": [
+            "otel",
+            "logs",
+            "metrics",
+            "traces"
+          ],
+          "edges": [
+            [
+              "otel",
+              "logs"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -3813,6 +5267,124 @@
         {
           "tone": "muted",
           "label": "budget + spikes we swallow on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with the SLI — the live signal measuring what fraction of requests are actually succeeding right now.",
+          "nodes": [
+            "sli"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "The SLI is compared against the SLO target: 99.9% success over 30 days is the promise you've made.",
+          "nodes": [
+            "sli",
+            "slo"
+          ],
+          "edges": [
+            [
+              "sli",
+              "slo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "One minus that target defines the error budget — the roughly 43 minutes of failure you're allowed to spend each month.",
+          "nodes": [
+            "slo",
+            "budget"
+          ],
+          "edges": [
+            [
+              "slo",
+              "budget"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The burn-rate evaluator divides the live error ratio by the budget: actual failure over budgeted failure equals how fast you're burning.",
+          "nodes": [
+            "sli",
+            "budget",
+            "burn"
+          ],
+          "edges": [
+            [
+              "budget",
+              "burn"
+            ],
+            [
+              "sli",
+              "burn"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "When a short window AND a long window both show fast burn, the outage is real and sustained — page a human immediately.",
+          "nodes": [
+            "burn",
+            "page"
+          ],
+          "edges": [
+            [
+              "burn",
+              "page"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A slow, steady bleed won't drain the budget tonight, so it files a ticket instead of waking anyone.",
+          "nodes": [
+            "burn",
+            "ticket"
+          ],
+          "edges": [
+            [
+              "burn",
+              "ticket"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "A brief spike lights the short window but leaves the long window cold — it's deliberately swallowed, no alert.",
+          "nodes": [
+            "burn",
+            "swallow"
+          ],
+          "edges": [
+            [
+              "burn",
+              "swallow"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That two-window test is the whole point: static thresholds missed the slow 0.9% creep, but burn rate against the budget catches it.",
+          "nodes": [
+            "burn",
+            "budget",
+            "page"
+          ],
+          "edges": [
+            [
+              "budget",
+              "burn"
+            ],
+            [
+              "burn",
+              "page"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4120,6 +5692,135 @@
           "tone": "accent",
           "label": "detection + the instrumentation left behind"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "2:14 a.m. A new deploy rolls out to the Service pods, and ingress keeps sending real checkout traffic straight at it.",
+          "nodes": [
+            "deploy",
+            "svc",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "svc"
+            ],
+            [
+              "ingress",
+              "svc"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The pods emit climbing 5xx into Observability — checkout errors race from 0.2% to 9% and the SLO burn alert fires.",
+          "nodes": [
+            "svc",
+            "obs",
+            "decide"
+          ],
+          "edges": [
+            [
+              "svc",
+              "obs"
+            ],
+            [
+              "obs",
+              "decide"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the fork: read the new code line by line, or restore service first. The reversible move wins — decide to revert.",
+          "nodes": [
+            "decide",
+            "undo"
+          ],
+          "edges": [
+            [
+              "decide",
+              "undo"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "kubectl rollout undo swaps the bad revision back to the last known-good one — traffic is healthy again in ninety seconds.",
+          "nodes": [
+            "undo",
+            "good"
+          ],
+          "edges": [
+            [
+              "undo",
+              "good"
+            ],
+            [
+              "good",
+              "obs"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Only after service is restored do you go hunting: the autopsy asks why the alert didn't catch this sooner.",
+          "nodes": [
+            "decide",
+            "autopsy"
+          ],
+          "edges": [
+            [
+              "decide",
+              "autopsy"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The autopsy leaves a louder signal behind in Observability, so the next bad deploy trips a sharper wire.",
+          "nodes": [
+            "autopsy",
+            "obs"
+          ],
+          "edges": [
+            [
+              "autopsy",
+              "obs"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The invariant: recovery before understanding, and every rollback leaves a new alarm — that closed loop is incident response.",
+          "nodes": [
+            "decide",
+            "undo",
+            "good",
+            "autopsy",
+            "obs"
+          ],
+          "edges": [
+            [
+              "decide",
+              "undo"
+            ],
+            [
+              "undo",
+              "good"
+            ],
+            [
+              "good",
+              "obs"
+            ],
+            [
+              "autopsy",
+              "obs"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4395,6 +6096,122 @@
         {
           "tone": "accent",
           "label": "the enforcement points (build + admission)"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts here: a commit in your source repo triggers the CI build. This is the entry to the supply chain.",
+          "nodes": [
+            "source",
+            "ci"
+          ],
+          "edges": [
+            [
+              "source",
+              "ci"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "But CI also pulls dependencies. Five levels deep, a transitive npm install drags in a poisoned package you never chose.",
+          "nodes": [
+            "deps",
+            "ci"
+          ],
+          "edges": [
+            [
+              "deps",
+              "ci"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "CI does its job right: it pushes a signed image plus an SBOM inventory into the registry.",
+          "nodes": [
+            "ci",
+            "registry"
+          ],
+          "edges": [
+            [
+              "ci",
+              "registry"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Second attack path: an attacker swaps the image in the registry under the same tag, so the digest changes but the name looks identical.",
+          "nodes": [
+            "attacker",
+            "registry"
+          ],
+          "edges": [
+            [
+              "attacker",
+              "registry"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On deploy, the registry hands the image to the admission gate as a pull request. This is the last checkpoint.",
+          "nodes": [
+            "registry",
+            "gate"
+          ],
+          "edges": [
+            [
+              "registry",
+              "gate"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "The Kyverno and Sigstore gate verifies the signature and scans the SBOM. Signature valid, no critical CVE, so the pod is admitted.",
+          "nodes": [
+            "gate",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "gate",
+              "cluster"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "A swapped or unsigned image fails signature check; a critical CVE fails the scan. Either way the gate rejects it back at the registry.",
+          "nodes": [
+            "gate",
+            "registry",
+            "attacker",
+            "deps"
+          ],
+          "edges": [
+            [
+              "gate",
+              "registry"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: an unverifiable artifact cannot run. Detection without enforcement is theater; the gate is what makes proof binding.",
+          "nodes": [
+            "gate",
+            "cluster"
+          ],
+          "edges": [
+            [
+              "gate",
+              "cluster"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -4691,6 +6508,119 @@
           "tone": "warning",
           "label": "SLO guard — the cut's failure + repair path"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The cloud bill lands: this service costs $9,400 a month. Before anyone touches replicas, we turn that dollar figure into a rate.",
+          "nodes": [
+            "bill",
+            "metrics",
+            "cpr"
+          ],
+          "edges": [
+            [
+              "bill",
+              "cpr"
+            ],
+            [
+              "metrics",
+              "cpr"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Cost-per-request fuses the bill as numerator with usage metrics as denominator — spend per unit of work, the only number that survives scrutiny.",
+          "nodes": [
+            "cpr"
+          ],
+          "edges": [
+            [
+              "bill",
+              "cpr"
+            ],
+            [
+              "metrics",
+              "cpr"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now attribute the idle: where is the waste? Traffic is flat, so we find the capacity we're paying for but not using.",
+          "nodes": [
+            "cpr",
+            "idle"
+          ],
+          "edges": [
+            [
+              "cpr",
+              "idle"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Right-size cuts the idle, not the throughput — we trim the slack we proved was there, not the headroom that serves real load.",
+          "nodes": [
+            "idle",
+            "rightsize"
+          ],
+          "edges": [
+            [
+              "idle",
+              "rightsize"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The trimmed footprint is handed to the autoscaler, which now runs the service under real production load.",
+          "nodes": [
+            "rightsize",
+            "hpa"
+          ],
+          "edges": [
+            [
+              "rightsize",
+              "hpa"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The SLO guard watches under load. The reliability floor is fixed first — if the cut breaches p99, the guard vetoes it.",
+          "nodes": [
+            "hpa",
+            "slo"
+          ],
+          "edges": [
+            [
+              "hpa",
+              "slo"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "On breach we roll back and raise the floor, then retry the right-size. A cut that breaks the SLO is not a saving.",
+          "nodes": [
+            "slo",
+            "rollback",
+            "rightsize"
+          ],
+          "edges": [
+            [
+              "slo",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "rightsize"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -4985,6 +6915,131 @@
           "tone": "success",
           "label": "gate passed / known-good state"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one build. CI compiles the code once and pushes an immutable image, pinned by its content digest, into the registry.",
+          "nodes": [
+            "build",
+            "registry"
+          ],
+          "edges": [
+            [
+              "build",
+              "registry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That exact digest promotes into dev. Not a rebuild — the same bytes, so what you test is literally what shipped.",
+          "nodes": [
+            "registry",
+            "dev"
+          ],
+          "edges": [
+            [
+              "registry",
+              "dev"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The same artifact moves to the staging gate, which runs a health and SLO check that must pass or promotion simply halts.",
+          "nodes": [
+            "dev",
+            "staging"
+          ],
+          "edges": [
+            [
+              "dev",
+              "staging"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "On pass, the identical digest reaches the prod canary gate — the last checkpoint before real traffic, watching error rates and SLOs.",
+          "nodes": [
+            "staging",
+            "canary"
+          ],
+          "edges": [
+            [
+              "staging",
+              "canary"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "If the canary's SLOs hold, promotion completes and the digest ramps to one hundred percent of prod traffic.",
+          "nodes": [
+            "canary",
+            "prod"
+          ],
+          "edges": [
+            [
+              "canary",
+              "prod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "But an error-rate breach never routes forward. The canary trips and hands off to automatic rollback.",
+          "nodes": [
+            "canary",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "canary",
+              "rollback"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Rollback restores the previous known-good revision in prod — no 2 a.m. page, no scramble, just the last artifact that passed.",
+          "nodes": [
+            "rollback",
+            "prod"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "prod"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The insight: build once, pin by digest, promote THAT through gates. Config changes per env; the artifact never does.",
+          "nodes": [
+            "build",
+            "registry",
+            "staging",
+            "canary",
+            "prod"
+          ],
+          "edges": [
+            [
+              "build",
+              "registry"
+            ],
+            [
+              "staging",
+              "canary"
+            ],
+            [
+              "canary",
+              "prod"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5267,6 +7322,135 @@
         {
           "tone": "success",
           "label": "the safe state the review must prove reachable"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "The gate starts in CI: a passing pipeline applies the manifest that tells Kubernetes to roll out the new revision.",
+          "nodes": [
+            "ci",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "ci",
+              "deploy"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "The rollout doesn't get to serve on trust — every new pod must clear a health probe before it counts as ready.",
+          "nodes": [
+            "deploy",
+            "probe"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "probe"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "On the happy path the probe passes, so ready pods take live traffic. This is the green route that ships.",
+          "nodes": [
+            "probe",
+            "traffic"
+          ],
+          "edges": [
+            [
+              "probe",
+              "traffic"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "But the review certifies the failure path: an unready pod is blocked at the probe and never reaches a customer.",
+          "nodes": [
+            "probe",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "probe",
+              "rollback"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Even good pods can go bad live — traffic emits telemetry, and the SLO monitor watches error rate against a real budget.",
+          "nodes": [
+            "traffic",
+            "slo"
+          ],
+          "edges": [
+            [
+              "traffic",
+              "slo"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "When the SLO breaches, two things fire at once: rollback triggers automatically, and the runbook pages the on-call.",
+          "nodes": [
+            "slo",
+            "rollback",
+            "runbook"
+          ],
+          "edges": [
+            [
+              "slo",
+              "rollback"
+            ],
+            [
+              "slo",
+              "runbook"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Rollback restores the last-good revision through deploy — the loop closes and traffic is safe again.",
+          "nodes": [
+            "rollback",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "deploy"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The invariant: every control must have proof it FIRED — probe, SLO, rollback, runbook — not just a promise it exists.",
+          "nodes": [
+            "probe",
+            "slo",
+            "rollback",
+            "runbook"
+          ],
+          "edges": [
+            [
+              "probe",
+              "rollback"
+            ],
+            [
+              "slo",
+              "rollback"
+            ],
+            [
+              "slo",
+              "runbook"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -5584,6 +7768,121 @@
         {
           "tone": "success",
           "label": "the repair path — the capstone proof"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one push. A commit hits the CI/CD gate — the last automated line of defense before anything reaches production.",
+          "nodes": [
+            "commit",
+            "ci"
+          ],
+          "edges": [
+            [
+              "commit",
+              "ci"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The gate passes, publishes the image to the registry, and sets the deployment to v2.4 — Friday, 4:58 p.m.",
+          "nodes": [
+            "ci",
+            "registry",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "ci",
+              "registry"
+            ],
+            [
+              "registry",
+              "deploy"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Kubernetes gates pods on health checks, then the Ingress opens the door and starts serving live traffic.",
+          "nodes": [
+            "deploy",
+            "probe",
+            "ingress"
+          ],
+          "edges": [
+            [
+              "deploy",
+              "probe"
+            ],
+            [
+              "probe",
+              "ingress"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every request now emits signals into observability. This is where the story stops being a deploy and becomes an incident.",
+          "nodes": [
+            "ingress",
+            "telemetry"
+          ],
+          "edges": [
+            [
+              "ingress",
+              "telemetry"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "By 5:03 the error rate is 12x baseline. Telemetry crosses the SLO burn threshold and the alert triggers the rollback.",
+          "nodes": [
+            "telemetry",
+            "rollback"
+          ],
+          "edges": [
+            [
+              "telemetry",
+              "rollback"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "One command. Rollback undoes the deployment back to v2.3, the pods flip, and the error graph falls to the floor.",
+          "nodes": [
+            "rollback",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "rollback",
+              "deploy"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Operability is the invariant: the proof isn't the deploy — it's that a bad revision was detected by a signal and reversed by a command.",
+          "nodes": [
+            "telemetry",
+            "rollback",
+            "deploy"
+          ],
+          "edges": [
+            [
+              "telemetry",
+              "rollback"
+            ],
+            [
+              "rollback",
+              "deploy"
+            ]
+          ],
+          "ms": 5200
         }
       ]
     },

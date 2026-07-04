@@ -124,6 +124,108 @@
           "tone": "warning",
           "label": "the unproven gap — name it, do not hide it"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with one job posting. Not every job — one. This is the single hiring bar you're aiming at.",
+          "nodes": [
+            "posting"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "Decompose that posting into its must-have requirements — the concrete things the role actually demands.",
+          "nodes": [
+            "posting",
+            "req"
+          ],
+          "edges": [
+            [
+              "posting",
+              "req"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Each requirement enters the proof map carrying one question: what evidence proves you meet it?",
+          "nodes": [
+            "req",
+            "map"
+          ],
+          "edges": [
+            [
+              "req",
+              "map"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now pull in your artifacts — shipped work, not adjectives — and match each one to a requirement it proves.",
+          "nodes": [
+            "artifacts",
+            "map"
+          ],
+          "edges": [
+            [
+              "artifacts",
+              "map"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Any requirement with no matching artifact gets flagged: this is the unproven gap the packet must name honestly.",
+          "nodes": [
+            "map",
+            "gap"
+          ],
+          "edges": [
+            [
+              "map",
+              "gap"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The recruiter screen and panel read the matched proof — six seconds against evidence, not against your intentions.",
+          "nodes": [
+            "map",
+            "screen"
+          ],
+          "edges": [
+            [
+              "map",
+              "screen"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: every claim points at one hiring bar. A target, backed by artifacts — never a spray of adjectives.",
+          "nodes": [
+            "posting",
+            "req",
+            "artifacts",
+            "map",
+            "gap",
+            "screen"
+          ],
+          "edges": [
+            [
+              "artifacts",
+              "map"
+            ],
+            [
+              "map",
+              "screen"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -404,6 +506,109 @@
         {
           "tone": "warning",
           "label": "gap — routes to repair, never to a claim"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Start with eight to twelve real, live postings for the same role — not your memory of what the job wants.",
+          "nodes": [
+            "postings"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Read across the postings, not down any single one, and extract the must-haves each role actually screens for.",
+          "nodes": [
+            "postings",
+            "extract"
+          ],
+          "edges": [
+            [
+              "postings",
+              "extract"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Count how often each requirement repeats across postings — that frequency becomes the demand signal.",
+          "nodes": [
+            "extract",
+            "signal"
+          ],
+          "edges": [
+            [
+              "extract",
+              "signal"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Salary and perks stay out: they inform your choice, but they must not drive how requirements get ranked.",
+          "nodes": [
+            "perks",
+            "signal"
+          ],
+          "edges": [
+            [
+              "perks",
+              "signal"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now rank requirements top-down by frequency and map each one to a named artifact or story you own.",
+          "nodes": [
+            "signal",
+            "map"
+          ],
+          "edges": [
+            [
+              "signal",
+              "map"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On a match, the requirement joins your evidence packet — every claim pointing to something inspectable.",
+          "nodes": [
+            "map",
+            "packet"
+          ],
+          "edges": [
+            [
+              "map",
+              "packet"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "On no match, it becomes a gap — routed to skill repair, never faked onto the resume.",
+          "nodes": [
+            "map",
+            "gap"
+          ],
+          "edges": [
+            [
+              "map",
+              "gap"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The result: not everything you've done, but the exact evidence this role is screening for — Section 1 of your packet.",
+          "nodes": [
+            "packet",
+            "gap"
+          ],
+          "edges": [],
+          "ms": 4600
         }
       ]
     },
@@ -692,6 +897,105 @@
           "tone": "warning",
           "label": "the screen — and the claim it kills"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with raw project work — real effort, but shapeless, nobody can tell what it proves yet.",
+          "nodes": [
+            "work"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "You aim it at a specific role, and that target tunes which result the claim should emphasize.",
+          "nodes": [
+            "target",
+            "claim"
+          ],
+          "edges": [
+            [
+              "target",
+              "claim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The raw work gets rewritten as a result — a numbered outcome — and becomes your portfolio claim.",
+          "nodes": [
+            "work",
+            "claim"
+          ],
+          "edges": [
+            [
+              "work",
+              "claim"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: that claim must link to an evidence artifact — a load-test report a reader can actually open.",
+          "nodes": [
+            "claim",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "claim",
+              "artifact"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The same claim compresses into a resume bullet and expands into an interview story — all three point at one proof.",
+          "nodes": [
+            "claim",
+            "bullet",
+            "story"
+          ],
+          "edges": [
+            [
+              "claim",
+              "bullet"
+            ],
+            [
+              "claim",
+              "story"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The recruiter skims the bullet; when it carries a number and a link, it survives the six-second screen.",
+          "nodes": [
+            "bullet",
+            "screen"
+          ],
+          "edges": [
+            [
+              "bullet",
+              "screen"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The dashed path is the failure: an unverifiable claim, a topic you named with no artifact, gets cut in six seconds.",
+          "nodes": [
+            "vague",
+            "screen"
+          ],
+          "edges": [
+            [
+              "vague",
+              "screen"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -966,6 +1270,126 @@
         {
           "tone": "success",
           "label": "repair path — into the shortlist"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A recruiter with 40 tabs open lands on your profile. She has six seconds, and her eye goes straight to the headline.",
+          "nodes": [
+            "recruiter",
+            "headline"
+          ],
+          "edges": [
+            [
+              "recruiter",
+              "headline"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If it reads 'aspiring developer passionate about tech', she learns nothing about your role. Tab closed before your best work loads.",
+          "nodes": [
+            "headline",
+            "bounce"
+          ],
+          "edges": [
+            [
+              "headline",
+              "bounce"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair: make the role unmistakable. A clear headline earns the next glance instead of the close button.",
+          "nodes": [
+            "headline",
+            "pinned"
+          ],
+          "edges": [
+            [
+              "headline",
+              "pinned"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Her eye drops to pinned repos. If your top repo is a course fork, the signal dies and she bounces again.",
+          "nodes": [
+            "pinned",
+            "bounce"
+          ],
+          "edges": [
+            [
+              "pinned",
+              "bounce"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Curated pinned repos survive: she opens pinned number one, the piece of proof you chose to put first.",
+          "nodes": [
+            "pinned",
+            "readme"
+          ],
+          "edges": [
+            [
+              "pinned",
+              "readme"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Inside, a claim with no README, no demo, no commit is a dead claim. No artifact means the tab closes.",
+          "nodes": [
+            "readme",
+            "bounce"
+          ],
+          "edges": [
+            [
+              "readme",
+              "bounce"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But when the claim points at an artifact she can open, it holds under inspection and you pass the screen.",
+          "nodes": [
+            "readme",
+            "screen"
+          ],
+          "edges": [
+            [
+              "readme",
+              "screen"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: no claim without an artifact. A skill you cannot show is a skill you cannot claim.",
+          "nodes": [
+            "headline",
+            "pinned",
+            "readme",
+            "screen"
+          ],
+          "edges": [
+            [
+              "pinned",
+              "readme"
+            ],
+            [
+              "readme",
+              "screen"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1253,6 +1677,125 @@
         {
           "tone": "warning",
           "label": "failure path — unbonded claim collapses"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts with the role you're targeting — the role sets the bar for what your portfolio claims have to clear.",
+          "nodes": [
+            "role",
+            "claim"
+          ],
+          "edges": [
+            [
+              "role",
+              "claim"
+            ]
+          ],
+          "ms": 3600
+        },
+        {
+          "say": "Each portfolio claim is a load-bearing promise, and the rule is simple: it must bond to an inspectable artifact.",
+          "nodes": [
+            "claim",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "claim",
+              "artifact"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That artifact is what backs your résumé bullet — the line a recruiter skims now has a clickable thing behind it.",
+          "nodes": [
+            "artifact",
+            "resume"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "resume"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The same artifact backs the recruiter screen, so when they ask 'show me,' you reach for a link that actually exists.",
+          "nodes": [
+            "artifact",
+            "screen"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "screen"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Every claim is also defended by an interview story — the result, and how you'd tell it under questioning.",
+          "nodes": [
+            "claim",
+            "story"
+          ],
+          "edges": [
+            [
+              "claim",
+              "story"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That story is what holds under pressure in the technical walkthrough, where a stranger probes exactly what you did.",
+          "nodes": [
+            "story",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "story",
+              "walkthrough"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The dashed path is the failure: a claim with no artifact goes straight into the walkthrough and collapses.",
+          "nodes": [
+            "claim",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "claim",
+              "walkthrough"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: no claim without a clickable artifact. A claim a reviewer can't inspect is a topic, not proof.",
+          "nodes": [
+            "claim",
+            "artifact",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "claim",
+              "artifact"
+            ],
+            [
+              "claim",
+              "walkthrough"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -1559,6 +2102,115 @@
           "tone": "success",
           "label": "repair path — every claim survives inspection"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "One shipped project can take two fates in an interview. Everything starts here, with real work you actually did.",
+          "nodes": [
+            "project"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Take the top path first: the project becomes a bare claim, a single resume bullet with nothing under it.",
+          "nodes": [
+            "project",
+            "claim"
+          ],
+          "edges": [
+            [
+              "project",
+              "claim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The claim reads fine, so it sails through the recruiter screen and advances toward the deep dive.",
+          "nodes": [
+            "claim",
+            "screen",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "claim",
+              "screen"
+            ],
+            [
+              "screen",
+              "walkthrough"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Then the technical walkthrough asks: walk me through it. With no evidence under the sentence, it collapses.",
+          "nodes": [
+            "walkthrough",
+            "collapse"
+          ],
+          "edges": [
+            [
+              "walkthrough",
+              "collapse"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Now the repair path. From the same project, build the case study, a defense packet where every claim binds to an artifact.",
+          "nodes": [
+            "project",
+            "packet"
+          ],
+          "edges": [
+            [
+              "project",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When an objection comes, the packet answers it: each claim maps to a commit, PR, dashboard, or decision record.",
+          "nodes": [
+            "packet",
+            "defend"
+          ],
+          "edges": [
+            [
+              "packet",
+              "defend"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The artifact holds under pressure, and the objection turns into credible evidence you can defend all the way through.",
+          "nodes": [
+            "defend",
+            "offer"
+          ],
+          "edges": [
+            [
+              "defend",
+              "offer"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Same project, two fates. A claim floats free and collapses; a claim bound to evidence survives every round.",
+          "nodes": [
+            "claim",
+            "collapse",
+            "offer"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -1854,6 +2506,129 @@
         {
           "tone": "warning",
           "label": "the objection every strong story must survive"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every bank entry starts with Situation: the context you were dropped into, the stakes that made this worth telling.",
+          "nodes": [
+            "situation"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Situation sets up the Task — your specific charge — which in turn drives the Action, the concrete moves only you can claim.",
+          "nodes": [
+            "situation",
+            "task",
+            "action"
+          ],
+          "edges": [
+            [
+              "situation",
+              "task"
+            ],
+            [
+              "task",
+              "action"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Action produces the Result — and this is a decision point: a strong Result carries a number, a weak one is just a feeling.",
+          "nodes": [
+            "action",
+            "result"
+          ],
+          "edges": [
+            [
+              "action",
+              "result"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "One entry, one spine: Situation, Task, Action, Result — the same story feeds your interview answer, resume bullet, and screen.",
+          "nodes": [
+            "situation",
+            "task",
+            "action",
+            "result"
+          ],
+          "edges": [
+            [
+              "situation",
+              "task"
+            ],
+            [
+              "task",
+              "action"
+            ],
+            [
+              "action",
+              "result"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The Result must be verified by an Artifact — a PR, dashboard, or doc a reviewer can open. No artifact means unverifiable.",
+          "nodes": [
+            "result",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "result",
+              "artifact"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Under pressure the interviewer raises an Objection that attacks the Result — 'was that really your impact, or the team's?'",
+          "nodes": [
+            "objection",
+            "result"
+          ],
+          "edges": [
+            [
+              "objection",
+              "result"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The Artifact answers the Objection: the link is the evidence that settles the doubt on the spot.",
+          "nodes": [
+            "artifact",
+            "objection"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "objection"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "If the Result can't survive the objection, route it back for repair — re-quantify or re-anchor before the story earns its slot.",
+          "nodes": [
+            "objection",
+            "result"
+          ],
+          "edges": [
+            [
+              "objection",
+              "result"
+            ]
+          ],
+          "ms": 4400
         }
       ]
     },
@@ -2154,6 +2929,121 @@
           "tone": "warning",
           "label": "failure path (floating claim) + its repair"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with the project — real work you did that a stranger has never seen.",
+          "nodes": [
+            "project"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "You distill that project into a defense packet: the single source of truth you can stand behind under pressure.",
+          "nodes": [
+            "project",
+            "packet"
+          ],
+          "edges": [
+            [
+              "project",
+              "packet"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "From that one packet you derive three artifacts: one resume line, one STAR story, one portfolio claim.",
+          "nodes": [
+            "packet",
+            "resume",
+            "star",
+            "portfolio"
+          ],
+          "edges": [
+            [
+              "packet",
+              "resume"
+            ],
+            [
+              "packet",
+              "star"
+            ],
+            [
+              "packet",
+              "portfolio"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: each of those three must point back at the same artifact — the evidence a reviewer can open.",
+          "nodes": [
+            "resume",
+            "star",
+            "portfolio",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "resume",
+              "artifact"
+            ],
+            [
+              "star",
+              "artifact"
+            ],
+            [
+              "portfolio",
+              "artifact"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Here is the failure path: a claim ships with no link, and it drifts off as a floating claim.",
+          "nodes": [
+            "portfolio",
+            "floating"
+          ],
+          "edges": [
+            [
+              "portfolio",
+              "floating"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The repair is simple — attach the proof, and the floating claim reconnects to the artifact.",
+          "nodes": [
+            "floating",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "floating",
+              "artifact"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The lesson: no claim without an artifact. A claim with a link is proof; a claim without one is just a story.",
+          "nodes": [
+            "packet",
+            "artifact",
+            "floating"
+          ],
+          "edges": [
+            [
+              "floating",
+              "artifact"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -2428,6 +3318,112 @@
         {
           "tone": "muted",
           "label": "out of scope — defended, not forgotten"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "A redirect request enters here: the client asks GET /abc123, and the load balancer routes it to an app server.",
+          "nodes": [
+            "client",
+            "lb",
+            "app"
+          ],
+          "edges": [
+            [
+              "client",
+              "lb"
+            ],
+            [
+              "lb",
+              "app"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The app server takes the hot path first, checking the cache for the short code before it ever touches durable storage.",
+          "nodes": [
+            "app",
+            "cache"
+          ],
+          "edges": [
+            [
+              "app",
+              "cache"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "On a cache miss it loads the mapping from the KV store, the source of truth for every short-code-to-URL pair.",
+          "nodes": [
+            "cache",
+            "kv",
+            "app"
+          ],
+          "edges": [
+            [
+              "cache",
+              "kv"
+            ],
+            [
+              "app",
+              "kv"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Here is the suspect edge: at ten times traffic a miss storm floods App to Cache to KV, and the key-value store buckles.",
+          "nodes": [
+            "app",
+            "cache",
+            "kv"
+          ],
+          "edges": [
+            [
+              "app",
+              "cache"
+            ],
+            [
+              "cache",
+              "kv"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The app returns a 301 straight from the KV truth, then fires analytics fire-and-forget so logging never blocks the redirect.",
+          "nodes": [
+            "app",
+            "kv",
+            "analytics"
+          ],
+          "edges": [
+            [
+              "app",
+              "kv"
+            ],
+            [
+              "app",
+              "analytics"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The insight: don't tour components, defend one arrow. Name the miss-storm failure, cite the metric, say how you'd know.",
+          "nodes": [
+            "cache",
+            "kv"
+          ],
+          "edges": [
+            [
+              "cache",
+              "kv"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -2725,6 +3721,121 @@
           "tone": "muted",
           "label": "spin kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Your shipped project enters the loop on the left. Right now it is just work you did, not yet a claim anyone can inspect.",
+          "nodes": [
+            "project",
+            "frame"
+          ],
+          "edges": [
+            [
+              "project",
+              "frame"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Role targeting shapes the raw project into a specific claim, then packs it into an evidence packet a reviewer can actually open.",
+          "nodes": [
+            "frame",
+            "packet"
+          ],
+          "edges": [
+            [
+              "frame",
+              "packet"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The recruiter screen only needs the surface: the packet hands it a single resume bullet, and that gate passes easily.",
+          "nodes": [
+            "packet",
+            "screen"
+          ],
+          "edges": [
+            [
+              "packet",
+              "screen"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The technical walkthrough goes deeper. The packet opens its artifact link map: the build, the tradeoff you rejected, the failure you feared.",
+          "nodes": [
+            "packet",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "packet",
+              "walkthrough"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "This is where summaries die. The reviewer probes the walkthrough, asking to see the exact decision and what would have broken.",
+          "nodes": [
+            "walkthrough",
+            "objection"
+          ],
+          "edges": [
+            [
+              "walkthrough",
+              "objection"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Every objection routes back to the packet. You do not argue; you point to the artifact, the rejected option, and the proof it works.",
+          "nodes": [
+            "objection",
+            "packet"
+          ],
+          "edges": [
+            [
+              "objection",
+              "packet"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Unbacked spin is deliberately blocked. Marketing language must not leak into the packet, because it cannot survive inspection.",
+          "nodes": [
+            "spin",
+            "packet"
+          ],
+          "edges": [
+            [
+              "spin",
+              "packet"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant: every portfolio claim points to an artifact, never to a topic. That is what turns a summary into a defense.",
+          "nodes": [
+            "packet",
+            "walkthrough",
+            "objection"
+          ],
+          "edges": [
+            [
+              "objection",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        }
       ]
     },
     {
@@ -3008,6 +4119,105 @@
         {
           "tone": "success",
           "label": "proof + the surfaces it feeds"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a real incident you actually lived. On its own it's just a war story with no evidence a stranger could check.",
+          "nodes": [
+            "incident"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Quantify it first: turn the incident into a measured failing signal, a number you saw, not an adjective you felt.",
+          "nodes": [
+            "incident",
+            "signal"
+          ],
+          "edges": [
+            [
+              "incident",
+              "signal"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Route that signal into the isolation step, where you ruled causes out. This is the seam where hero stories break.",
+          "nodes": [
+            "signal",
+            "isolation"
+          ],
+          "edges": [
+            [
+              "signal",
+              "isolation"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Isolation feeds the fix, then verification: you name what you changed and show the signal actually recovered.",
+          "nodes": [
+            "isolation",
+            "proof"
+          ],
+          "edges": [
+            [
+              "isolation",
+              "proof"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Now link every claim to an artifact a stranger could open. That bundle becomes your defense packet.",
+          "nodes": [
+            "proof",
+            "packet"
+          ],
+          "edges": [
+            [
+              "proof",
+              "packet"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The reviewer probes exactly the isolation seam: how did you know it was the cache and not the query? The packet must survive it.",
+          "nodes": [
+            "packet",
+            "reviewer",
+            "isolation"
+          ],
+          "edges": [
+            [
+              "packet",
+              "reviewer"
+            ],
+            [
+              "reviewer",
+              "isolation"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "Because it held, one source feeds every market surface: the recruiter screen, the walkthrough, and the resume bullet all draw from it.",
+          "nodes": [
+            "packet",
+            "surfaces"
+          ],
+          "edges": [
+            [
+              "packet",
+              "surfaces"
+            ]
+          ],
+          "ms": 4600
         }
       ]
     },
@@ -3297,6 +4507,119 @@
         {
           "tone": "warning",
           "label": "failure path: bare claim, no rejected option"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Every claim on your resume starts here: a real tradeoff you actually made under a hard constraint.",
+          "nodes": [
+            "decision"
+          ],
+          "edges": [],
+          "ms": 3400
+        },
+        {
+          "say": "The right move is to capture that decision into a defense packet — the artifact a reviewer can inspect.",
+          "nodes": [
+            "decision",
+            "packet"
+          ],
+          "edges": [
+            [
+              "decision",
+              "packet"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The packet grounds your portfolio claim, so the resume bullet is backed by evidence, not just words.",
+          "nodes": [
+            "packet",
+            "claim"
+          ],
+          "edges": [
+            [
+              "packet",
+              "claim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Grounded that way, the claim survives the screen and holds up as an interview defense on-site.",
+          "nodes": [
+            "claim",
+            "defense"
+          ],
+          "edges": [
+            [
+              "claim",
+              "defense"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "Now the failure path: skip the packet and you carry only a bare claim with no rejected option, no proof.",
+          "nodes": [
+            "decision",
+            "bare"
+          ],
+          "edges": [
+            [
+              "decision",
+              "bare"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "One hostile question — 'what did you almost choose instead?' — and the bare claim collapses under follow-up.",
+          "nodes": [
+            "bare",
+            "collapse"
+          ],
+          "edges": [
+            [
+              "bare",
+              "collapse"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The repair routes the collapse back to the packet: write the road-not-taken, the option you rejected and why.",
+          "nodes": [
+            "collapse",
+            "packet"
+          ],
+          "edges": [
+            [
+              "collapse",
+              "packet"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: your evidence is the rejected alternative. No defensible road-not-taken means the decision wasn't yours.",
+          "nodes": [
+            "packet",
+            "claim",
+            "defense"
+          ],
+          "edges": [
+            [
+              "packet",
+              "claim"
+            ],
+            [
+              "claim",
+              "defense"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -3592,6 +4915,114 @@
           "tone": "success",
           "label": "attribution proven → trust"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Everything starts here: one AI-assisted project. The only variable is how you frame it — the same work can be an asset or a liability.",
+          "nodes": [
+            "project"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Frame the tool as the accomplishment and you build a tool-worship claim — 'the AI did this' — which routes straight to rejection.",
+          "nodes": [
+            "project",
+            "worship",
+            "reject"
+          ],
+          "edges": [
+            [
+              "project",
+              "worship"
+            ],
+            [
+              "worship",
+              "reject"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Frame it as judgment instead — what you decided on top of the model — and the project becomes a portfolio claim you can defend.",
+          "nodes": [
+            "project",
+            "claim"
+          ],
+          "edges": [
+            [
+              "project",
+              "claim"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "That claim becomes a resume bullet that clears the recruiter screen, because AI use is now assumed, not impressive.",
+          "nodes": [
+            "claim",
+            "screen"
+          ],
+          "edges": [
+            [
+              "claim",
+              "screen"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The screen passes you to round two: the technical walkthrough, where a staff engineer asks what YOU actually did.",
+          "nodes": [
+            "screen",
+            "panel"
+          ],
+          "edges": [
+            [
+              "screen",
+              "panel"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "Here the paths converge. Fail to attribute your decisions and even a judgment-framed claim gets cut on that one sentence.",
+          "nodes": [
+            "panel",
+            "reject"
+          ],
+          "edges": [
+            [
+              "panel",
+              "reject"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Name what you accepted, rejected, verified, and corrected — that attribution earns trust and the offer.",
+          "nodes": [
+            "panel",
+            "offer"
+          ],
+          "edges": [
+            [
+              "panel",
+              "offer"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The invariant is attribution: judgment over output is the proof, and tool-worship is the only real failure mode.",
+          "nodes": [
+            "worship",
+            "offer"
+          ],
+          "edges": [],
+          "ms": 4200
+        }
       ]
     },
     {
@@ -3869,6 +5300,120 @@
         {
           "tone": "muted",
           "label": "adjective-only — no evidence to stand on"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with a portfolio claim: 'I built a data pipeline on the cloud.' On its own, that sentence earns nothing yet.",
+          "nodes": [
+            "claim"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "You frame the claim as a STAR story so the reviewer hears the situation, the task, and the concrete action you took.",
+          "nodes": [
+            "claim",
+            "star"
+          ],
+          "edges": [
+            [
+              "claim",
+              "star"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "But a story needs receipts. The STAR points at an inspectable artifact: a diagram, a query, a test result, a dashboard.",
+          "nodes": [
+            "star",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "star",
+              "artifact"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The claim also defends via a rejected option, showing the tradeoff you weighed and why you chose this path over the alternative.",
+          "nodes": [
+            "claim",
+            "tradeoff"
+          ],
+          "edges": [
+            [
+              "claim",
+              "tradeoff"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The artifact is verified by a proof: the test passed, the row counts matched, the run is reproducible on demand.",
+          "nodes": [
+            "artifact",
+            "proof"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "proof"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Now the proof answers the reviewer's objection head-on: 'what broke, and how did you know it was fixed?' You show, not tell.",
+          "nodes": [
+            "proof",
+            "objection"
+          ],
+          "edges": [
+            [
+              "proof",
+              "objection"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The dashed failure mode: an adjective-only answer feeds a claim that collapses under probing, because nothing inspectable sits behind it.",
+          "nodes": [
+            "adjective",
+            "claim"
+          ],
+          "edges": [
+            [
+              "adjective",
+              "claim"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The invariant: if a reviewer can't inspect the proof, it isn't a portfolio claim, it's marketing. Carry the packet, not a paragraph.",
+          "nodes": [
+            "claim",
+            "artifact",
+            "tradeoff",
+            "proof"
+          ],
+          "edges": [
+            [
+              "claim",
+              "tradeoff"
+            ],
+            [
+              "artifact",
+              "proof"
+            ]
+          ],
+          "ms": 5000
         }
       ]
     },
@@ -4175,6 +5720,119 @@
         {
           "tone": "muted",
           "label": "unlinked claims kept out"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with your take-home submission. But the raw submission isn't the deliverable — it's only the raw material for what you actually defend.",
+          "nodes": [
+            "submission"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "First, extract the portfolio claims: every assertion your project makes about your judgment, your design, and your results.",
+          "nodes": [
+            "submission",
+            "claims"
+          ],
+          "edges": [
+            [
+              "submission",
+              "claims"
+            ]
+          ],
+          "ms": 3800
+        },
+        {
+          "say": "Now attach evidence. The claim-to-evidence map binds each claim to the exact inspectable artifact that proves it — an unlinked claim is just a vibe.",
+          "nodes": [
+            "claims",
+            "linkmap"
+          ],
+          "edges": [
+            [
+              "claims",
+              "linkmap"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Recruiter-screen fluff — the unlinked claim with nothing behind it — must never pass through the map into the technical walkthrough.",
+          "nodes": [
+            "fluff",
+            "linkmap"
+          ],
+          "edges": [
+            [
+              "fluff",
+              "linkmap"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "With claims linked, probe the gaps. The failure autopsy is the decision point: does each claim survive hard questioning, or does it break?",
+          "nodes": [
+            "linkmap",
+            "failure"
+          ],
+          "edges": [
+            [
+              "linkmap",
+              "failure"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "When a claim fails, the answer is 'no' — you don't hide it. You write a repair note: the failure you expected and how you verified the fix.",
+          "nodes": [
+            "failure",
+            "repair"
+          ],
+          "edges": [
+            [
+              "failure",
+              "repair"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "Two paths reach the walkthrough: the link map traces every claim to evidence, and the repair note defends the ones that once broke.",
+          "nodes": [
+            "linkmap",
+            "repair",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "repair",
+              "walkthrough"
+            ],
+            [
+              "linkmap",
+              "walkthrough"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The invariant: every claim is traceable to inspectable evidence. That's the packet that survives 'walk me through why you built it this way.'",
+          "nodes": [
+            "walkthrough",
+            "linkmap"
+          ],
+          "edges": [
+            [
+              "linkmap",
+              "walkthrough"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -4485,6 +6143,114 @@
           "tone": "success",
           "label": "reply path — evidence travels, claim holds"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "Every artifact you built — the memo, the number, the link — starts as one evidence packet waiting to travel.",
+          "nodes": [
+            "packet"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "You pull one claim and its link out of the packet and turn it into a draft message aimed at a named person.",
+          "nodes": [
+            "packet",
+            "draft"
+          ],
+          "edges": [
+            [
+              "packet",
+              "draft"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Before you send, one decision gates everything: is the proof actually attached to this message?",
+          "nodes": [
+            "draft",
+            "check"
+          ],
+          "edges": [
+            [
+              "draft",
+              "check"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Say no — no proof — and you default to portal spray, dropping a resume in with four hundred others.",
+          "nodes": [
+            "check",
+            "spray"
+          ],
+          "edges": [
+            [
+              "check",
+              "spray"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That path dead-ends in silence. Noise with your name on it gets ghosted every time.",
+          "nodes": [
+            "spray",
+            "ghost"
+          ],
+          "edges": [
+            [
+              "spray",
+              "ghost"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The repair edge is the whole skill: go back, attach the artifact, and re-enter the flow with proof in hand.",
+          "nodes": [
+            "ghost",
+            "packet"
+          ],
+          "edges": [
+            [
+              "ghost",
+              "packet"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Say yes — proof travels — and the message clears the recruiter screen instead of the spam pile.",
+          "nodes": [
+            "check",
+            "screen"
+          ],
+          "edges": [
+            [
+              "check",
+              "screen"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The claim holds under scrutiny, so you get the reply and the intro. Evidence traveling with the message is the invariant.",
+          "nodes": [
+            "screen",
+            "reply"
+          ],
+          "edges": [
+            [
+              "screen",
+              "reply"
+            ]
+          ],
+          "ms": 4800
+        }
       ]
     },
     {
@@ -4776,6 +6542,114 @@
         {
           "tone": "muted",
           "label": "the failure path: a claim with no artifact"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with something real: a shipped project. Not a wish, an artifact you actually built and can open.",
+          "nodes": [
+            "project"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "Distill that project into one evidence packet — the specific artifact plus the metric that proves it moved.",
+          "nodes": [
+            "project",
+            "packet"
+          ],
+          "edges": [
+            [
+              "project",
+              "packet"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The packet targets the role as a resume bullet, then faces the recruiter screen — a brutal seven-second test.",
+          "nodes": [
+            "packet",
+            "bullet",
+            "screen"
+          ],
+          "edges": [
+            [
+              "packet",
+              "bullet"
+            ],
+            [
+              "bullet",
+              "screen"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "Here's the failure mode: an unbacked claim hits that same screen with no link, and the recruiter's answer is just no.",
+          "nodes": [
+            "vibe",
+            "screen"
+          ],
+          "edges": [
+            [
+              "vibe",
+              "screen"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "But a backed claim earns a maybe, which pulls you into a STAR story — situation, task, action, result.",
+          "nodes": [
+            "screen",
+            "star"
+          ],
+          "edges": [
+            [
+              "screen",
+              "star"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Then prove it: the STAR story opens into a technical walkthrough where you defend the work at the whiteboard.",
+          "nodes": [
+            "star",
+            "walk"
+          ],
+          "edges": [
+            [
+              "star",
+              "walk"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The loop closes — the walkthrough points back to the same packet. One artifact carried every stage, evidence never lost.",
+          "nodes": [
+            "walk",
+            "packet"
+          ],
+          "edges": [
+            [
+              "walk",
+              "packet"
+            ]
+          ],
+          "ms": 4800
+        },
+        {
+          "say": "The invariant: a claim you cannot open is a claim you cannot defend. Every bullet names an inspectable artifact.",
+          "nodes": [
+            "packet",
+            "vibe"
+          ],
+          "edges": [],
+          "ms": 4200
         }
       ]
     },
@@ -5074,6 +6948,100 @@
           "tone": "muted",
           "label": "pressure kept out on purpose"
         }
+      ],
+      "storyboard": [
+        {
+          "say": "The initial offer lands. It looks fine on its face, but 'fine' is not the test. You compare it against your evidence anchor.",
+          "nodes": [
+            "offer",
+            "anchor"
+          ],
+          "edges": [
+            [
+              "offer",
+              "anchor"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "The anchor is a market range you can actually cite. It sets your target and the one constraint you will not cross.",
+          "nodes": [
+            "anchor",
+            "target"
+          ],
+          "edges": [
+            [
+              "anchor",
+              "target"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "That target drives the counter. Every ask is backed by proof and paired with a concession you would trade.",
+          "nodes": [
+            "target",
+            "counter"
+          ],
+          "edges": [
+            [
+              "target",
+              "counter"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The counter is the decision point. From here the loop resolves one of two ways.",
+          "nodes": [
+            "counter"
+          ],
+          "edges": [],
+          "ms": 3600
+        },
+        {
+          "say": "If the gap closes, you trade your concession for the number and accept. Proof became compensation.",
+          "nodes": [
+            "counter",
+            "trade"
+          ],
+          "edges": [
+            [
+              "counter",
+              "trade"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "If it lands below your line, you walk away. Your BATNA is the line, and it holds firm.",
+          "nodes": [
+            "counter",
+            "walkaway"
+          ],
+          "edges": [
+            [
+              "counter",
+              "walkaway"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The recruiter's exploding deadline is routed out on purpose. Pressure informs the counter but must never drive the decision.",
+          "nodes": [
+            "deadline",
+            "counter"
+          ],
+          "edges": [
+            [
+              "deadline",
+              "counter"
+            ]
+          ],
+          "ms": 5000
+        }
       ]
     },
     {
@@ -5367,6 +7335,116 @@
         {
           "tone": "success",
           "label": "defense packet the capstone reuses"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "Raw feedback enters the loop — a recruiter note, a mock-interview line, a rejection. It's the cheapest signal you'll ever get about your evidence.",
+          "nodes": [
+            "feedback",
+            "triage"
+          ],
+          "edges": [
+            [
+              "feedback",
+              "triage"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Everything hinges on this decision: do you diagnose the actual gap, or do you just react to how the feedback made you feel?",
+          "nodes": [
+            "triage"
+          ],
+          "edges": [],
+          "ms": 4000
+        },
+        {
+          "say": "The feelings path grabs a vague patch — you add more words to the same weak bullet without adding any new proof.",
+          "nodes": [
+            "patch"
+          ],
+          "edges": [
+            [
+              "triage",
+              "patch"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "No new evidence means the same rejection. Nothing about the artifact changed, so the objection lands again.",
+          "nodes": [
+            "patch",
+            "reject"
+          ],
+          "edges": [
+            [
+              "patch",
+              "reject"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "And it loops — wasted. The feedback re-enters, you feel it again, and burn the cheapest signal you had.",
+          "nodes": [
+            "reject",
+            "feedback"
+          ],
+          "edges": [
+            [
+              "reject",
+              "feedback"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The retro path breaks the cycle: diagnose the gap, then rewrite the weak claim so it ties to a named artifact.",
+          "nodes": [
+            "triage",
+            "rewrite"
+          ],
+          "edges": [
+            [
+              "triage",
+              "rewrite"
+            ],
+            [
+              "rewrite",
+              "defend"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "You defend the rewrite against the very objection that caused the feedback — pressure-testing the claim, not your intentions.",
+          "nodes": [
+            "defend"
+          ],
+          "edges": [
+            [
+              "rewrite",
+              "defend"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "The output is a reusable defense packet the capstone draws from. The invariant: the retro must change the artifact.",
+          "nodes": [
+            "defend",
+            "packet"
+          ],
+          "edges": [
+            [
+              "defend",
+              "packet"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },
@@ -5671,6 +7749,124 @@
         {
           "tone": "muted",
           "label": "unbacked adjectives, kept out on purpose"
+        }
+      ],
+      "storyboard": [
+        {
+          "say": "It starts with one thing that is real: a shipped project. That single artifact is what every claim in your packet will trace back to.",
+          "nodes": [
+            "project",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "project",
+              "artifact"
+            ]
+          ],
+          "ms": 4000
+        },
+        {
+          "say": "The shipped project produces an artifact ledger — the commits, dashboards, and metrics a reviewer could actually open and check.",
+          "nodes": [
+            "project",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "project",
+              "artifact"
+            ]
+          ],
+          "ms": 4200
+        },
+        {
+          "say": "Role targeting sits above the ledger, selecting which claims to surface — you don't show everything, you show what this specific role rewards.",
+          "nodes": [
+            "target",
+            "artifact"
+          ],
+          "edges": [
+            [
+              "target",
+              "artifact"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "From that one ledger, three writing surfaces get backed at once: the quantified resume bullet, the STAR story, and the technical walkthrough.",
+          "nodes": [
+            "artifact",
+            "resume",
+            "story",
+            "walkthrough"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "resume"
+            ],
+            [
+              "artifact",
+              "story"
+            ],
+            [
+              "artifact",
+              "walkthrough"
+            ]
+          ],
+          "ms": 5000
+        },
+        {
+          "say": "The fourth face is the ledger answering 'how do you know?' — objection defense, so the panel's hardest question has a link you can open.",
+          "nodes": [
+            "artifact",
+            "defense"
+          ],
+          "edges": [
+            [
+              "artifact",
+              "defense"
+            ]
+          ],
+          "ms": 4600
+        },
+        {
+          "say": "The guardrail: adjectives alone must not leak into the resume. A recruiter screens on evidence a reviewer could open, not on vibes.",
+          "nodes": [
+            "vibes",
+            "resume"
+          ],
+          "edges": [
+            [
+              "vibes",
+              "resume"
+            ]
+          ],
+          "ms": 4400
+        },
+        {
+          "say": "One project, five faces, one ledger underneath. The invariant holds: no claim without evidence — that's the packet you carry into the room.",
+          "nodes": [
+            "project",
+            "artifact",
+            "resume",
+            "story",
+            "walkthrough",
+            "defense"
+          ],
+          "edges": [
+            [
+              "project",
+              "artifact"
+            ],
+            [
+              "artifact",
+              "defense"
+            ]
+          ],
+          "ms": 4800
         }
       ]
     },

@@ -5,6 +5,13 @@ import { Reveal } from '@/components/agency/core'
 import { SystemDiagram } from '@/components/agency/diagrams/system-diagram'
 import { SectionShell } from '@/components/agency/section-shell'
 
+const OPEN_REPO_NAMES: readonly string[] = [
+  'playwright-sdet-regression-suite',
+  'Nexural_Automation',
+  'nexural-automation-starter',
+  'graphify',
+]
+
 /**
  * Section 03 — Featured case studies. Server component. Diagram-first:
  * each study leads with a full SystemDiagram topology, the title row overlaps
@@ -126,6 +133,16 @@ function CaseStudyCard({
                   {item}
                 </span>
               ))}
+              {study.repoUrl ? (
+                <a
+                  href={study.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ag-chip ag-cs-repo-chip"
+                >
+                  INSPECT THE REPO ↗
+                </a>
+              ) : null}
             </div>
             <p className="ag-cs-improve">
               <strong>IMPROVE NEXT:</strong> {study.improveNext}
@@ -151,6 +168,32 @@ export function CaseStudiesSection({ demos = {} }: { demos?: Record<string, Reac
           <CaseStudyCard key={study.id} study={study} index={index} demo={demos[study.id]} />
         ))}
       </div>
+
+      <Reveal>
+        <aside className="ag-cs-openband" aria-label="More open-source repositories">
+          <a
+            href="https://github.com/JasonTeixeira?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ag-cs-openband-lead"
+          >
+            More code in the open — github.com/JasonTeixeira
+          </a>
+          <div className="ag-cs-openband-chips">
+            {OPEN_REPO_NAMES.map((name) => (
+              <a
+                key={name}
+                href={`https://github.com/JasonTeixeira/${name}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ag-chip ag-cs-openband-chip"
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        </aside>
+      </Reveal>
     </SectionShell>
   )
 }

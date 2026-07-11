@@ -1,13 +1,16 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
+// Anchor links are root-absolute so they resolve to the homepage sections
+// from subpages (/blog, /audit) as well as from the homepage itself.
 const NAV_LINKS = [
-  { href: '#proof', label: 'PROOF' },
-  { href: '#case-studies', label: 'CASE STUDIES' },
-  { href: '#ledger', label: 'LEDGER' },
+  { href: '/#proof', label: 'PROOF' },
+  { href: '/#case-studies', label: 'CASE STUDIES' },
+  { href: '/#ledger', label: 'LEDGER' },
   { href: '/audit', label: 'AUDIT' },
-  { href: '#writing', label: 'WRITING' },
+  { href: '/blog', label: 'WRITING' },
 ] as const
 
 /**
@@ -47,19 +50,19 @@ export function AgencyNav() {
   return (
     <header className="ag-nav">
       <nav className="ag-nav-inner" aria-label="Main navigation">
-        <a href="#top" className="ag-nav-mark">
+        <Link href="/#top" className="ag-nav-mark">
           JASON TEIXEIRA <span className="ag-nav-mark-diamond" aria-hidden="true">◆</span>
-        </a>
+        </Link>
         <div className="ag-nav-links">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="ag-nav-link ag-nav-link--underline">
+            <Link key={link.href} href={link.href} className="ag-nav-link ag-nav-link--underline">
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
-        <a href="#contact" className="ag-nav-cta">
+        <Link href="/#contact" className="ag-nav-cta">
           CONTACT
-        </a>
+        </Link>
       </nav>
       <div ref={barRef} className="ag-nav-progress" aria-hidden="true" />
     </header>

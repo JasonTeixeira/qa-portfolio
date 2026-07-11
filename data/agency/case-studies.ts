@@ -41,6 +41,8 @@ export interface CaseStudy {
   evidenceSlots: EvidenceSlot[]
   stack: string[]
   improveNext: string
+  /** Public GitHub repo — set only when the repo is actually public. */
+  repoUrl?: string
 }
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -245,6 +247,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { caption: 'AUDIT_BASELINE sourcing-priority ranking table', tier: 'T2' },
     ],
     stack: ['Node.js', 'MCP (stdio)', 'Python', 'pytest', 'HMAC-anchored ledger', 'AST analysis'],
+    repoUrl: 'https://github.com/JasonTeixeira/sage-kernel',
     improveNext:
       'Stand up a public, sanitized demo of the proof ledger and terminal cockpit so the 68/68 gate output is verifiable outside my machine.',
   },

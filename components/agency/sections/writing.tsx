@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Reveal } from '@/components/agency/core'
 import { SectionShell } from '@/components/agency/section-shell'
 
@@ -8,7 +10,7 @@ interface WritingPiece {
   isPublished: boolean
 }
 
-const BLOG_URL = 'https://sageideas.dev/blog'
+const PUBLISHED_POST_URL = '/blog/testing-probabilistic-ai'
 
 const WRITING_PIECES: readonly WritingPiece[] = [
   {
@@ -73,9 +75,9 @@ export function WritingSection() {
         {WRITING_PIECES.map((piece, index) => (
           <Reveal key={piece.title} as="li" delay={index * 70}>
             {piece.isPublished ? (
-              <a href={BLOG_URL} className="ag-writing-row">
+              <Link href={PUBLISHED_POST_URL} className="ag-writing-row">
                 <WritingRowBody piece={piece} />
-              </a>
+              </Link>
             ) : (
               <div className="ag-writing-row">
                 <WritingRowBody piece={piece} />
@@ -84,6 +86,13 @@ export function WritingSection() {
           </Reveal>
         ))}
       </ul>
+      <Reveal delay={WRITING_PIECES.length * 70}>
+        <p className="ag-writing-all-posts">
+          <Link href="/blog" className="ag-writing-all-posts-link">
+            ALL POSTS — THE PROOF LOG →
+          </Link>
+        </p>
+      </Reveal>
     </SectionShell>
   )
 }

@@ -121,6 +121,20 @@ export function ContactSection() {
           </div>
         </Reveal>
 
+        <Reveal delay={270}>
+          <p className="ag-contact-dual">
+            Hiring for a full-time team instead? Same proof applies —{' '}
+            <a href="/resume.pdf" target="_blank" rel="noopener" className="ag-contact-dual-link">
+              grab the resume
+            </a>{' '}
+            or{' '}
+            <a href="mailto:sage@sageideas.dev" className="ag-contact-dual-link">
+              email me
+            </a>
+            .
+          </p>
+        </Reveal>
+
         <Reveal delay={300}>
           <blockquote className="ag-contact-quote">
             AI / QA / Automation engineer focused on building tested AI workflows, browser

@@ -43,12 +43,12 @@ export function Hero({ instrument }: HeroProps) {
               </Magnetic>
               <Magnetic>
                 <a href="#contact" className="ag-btn">
-                  RESUME / CONTACT
+                  HIRE ME / CONTACT
                 </a>
               </Magnetic>
               <span className="ag-hero-status">
                 <span className="ag-hero-status-dot ag-pulse" aria-hidden="true" />
-                OPEN TO ROLES + CONSULTING
+                AVAILABLE FOR CONTRACT WORK + SELECT ROLES
               </span>
           </div>
         </div>

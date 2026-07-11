@@ -535,6 +535,25 @@ a.ag-writing-row:focus-visible .ag-writing-title {
   color: var(--acc-pass);
 }
 
+.ag-writing-all-posts {
+  margin: 28px 0 0;
+}
+
+.ag-writing-all-posts-link {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--acc-primary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-writing-all-posts-link:hover,
+.ag-writing-all-posts-link:focus-visible {
+  color: var(--acc-primary-hi);
+}
+
 @media (min-width: 1024px) {
   .ag-writing-row {
     grid-template-columns: 2fr 2fr 1.2fr;
@@ -758,4 +777,103 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 }
 @media (min-width: 1024px) {
   .ag-ws-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* repositioning */
+
+/* Scan — open-source repo links (column d) */
+.ag-scan-repo-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ag-scan-repo-name {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--acc-primary);
+}
+.ag-scan-repo-link:hover .ag-scan-repo-name {
+  color: var(--acc-primary-hi);
+}
+.ag-scan-repo-proves {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--tx-3);
+}
+
+/* Scan — quiet dual-audience note above the quicklinks */
+.ag-scan-dual-note {
+  margin: 16px 0 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--tx-3);
+}
+
+/* Case studies — public-repo chip in the footer stack row */
+.ag-cs-repo-chip {
+  border-color: var(--acc-pass);
+  color: var(--acc-pass);
+  font-family: var(--f-mono);
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.ag-cs-repo-chip:hover {
+  background-color: color-mix(in srgb, var(--acc-pass) 14%, transparent);
+}
+
+/* Case studies — slim closing band pointing at the public GitHub */
+.ag-cs-openband {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ag-border-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.ag-cs-openband-lead {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--tx-3);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.ag-cs-openband-lead:hover {
+  color: var(--acc-primary-hi);
+}
+.ag-cs-openband-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ag-cs-openband-chip {
+  font-family: var(--f-mono);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.ag-cs-openband-chip:hover {
+  color: var(--acc-primary-hi);
+  border-color: var(--acc-primary);
+}
+
+/* Contact — quiet dual-audience row under the offers grid */
+.ag-contact-dual {
+  margin: 20px 0 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  color: var(--tx-3);
+}
+.ag-contact-dual-link {
+  color: var(--acc-primary);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.ag-contact-dual-link:hover {
+  color: var(--acc-primary-hi);
 }

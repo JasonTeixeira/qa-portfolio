@@ -1,20 +1,20 @@
 import { Reveal } from '@/components/agency/core'
 import { SectionShell } from '@/components/agency/section-shell'
 
-const TARGET_ROLES = [
-  'AI Automation Engineer',
-  'QA Automation Engineer / SDET',
-  'AI Evaluation Engineer',
-  'Test Infrastructure Engineer',
-  'Workflow Automation Engineer',
+const AUTOMATION_I_SHIP = [
+  'CI/CD release gates & readiness reports',
+  'Browser + E2E test fleets',
+  'AI workflow evals & guardrails',
+  'Ops automation — webhooks, queues, integrations',
+  'Agent/MCP systems & internal tools',
+  'Data pipelines with integrity checks',
 ] as const
 
-const BEST_FIT_WORK = [
-  'AI workflows with evals + source checks',
-  'Playwright & API test coverage',
-  'Manual ops → repeatable systems',
-  'Release readiness & QA reporting loops',
-  'Debugging brittle workflows',
+const HOW_ENGAGEMENTS_WORK = [
+  'Fixed-scope builds with proof included',
+  'Audit → build → verify → handoff',
+  'Runbooks + docs so your team owns it',
+  'Remote, async-first, evidence over meetings',
 ] as const
 
 const STRONGEST_TOOLS = [
@@ -29,39 +29,44 @@ const STRONGEST_TOOLS = [
   'Supabase',
 ] as const
 
-const STRONGEST_PROOF = [
-  { href: '#case-studies', label: 'RAG eval harnesses →' },
-  { href: '#case-studies', label: 'Browser automation proof →' },
-  { href: '#case-studies', label: 'Readiness reports →' },
-  { href: '#case-studies', label: 'Workflow run logs →' },
-  { href: '#ledger', label: 'Evidence ledger →' },
+interface OpenSourceRepo {
+  name: string
+  proves: string
+}
+
+const OPEN_SOURCE_REPOS: readonly OpenSourceRepo[] = [
+  { name: 'playwright-sdet-regression-suite', proves: 'Release-style QA evidence, SDET-grade' },
+  { name: 'sage-kernel', proves: 'Proof-first engineering OS, 140 MCP tools' },
+  { name: 'Nexural_Automation', proves: 'Local-first automation lab, MCP server' },
+  { name: 'nexural-automation-starter', proves: 'Paper-money-safe webhook automation starter' },
+  { name: 'graphify', proves: 'Any input → knowledge graph' },
 ] as const
 
-/** Section 01 — the hiring-manager fast scan. */
+/** Section 01 — the 30-second scan: what I build, how engagements run, where the proof lives. */
 export function ScanSection() {
   return (
     <SectionShell
       id="scan"
       num="01"
       kicker="THE 30-SECOND SCAN"
-      annotation="FOR HIRING MANAGERS & TECHNICAL LEADS"
+      annotation="WHAT I BUILD, WHAT IT RUNS ON, WHERE THE PROOF IS"
       ghost="01"
     >
       <Reveal>
         <div className="ag-grid ag-scan-grid">
           <article className="ag-cell ag-scan-cell">
-            <h3 className="ag-scan-label">TARGET ROLES</h3>
+            <h3 className="ag-scan-label">AUTOMATION I SHIP</h3>
             <ul className="ag-scan-list">
-              {TARGET_ROLES.map((role) => (
-                <li key={role}>{role}</li>
+              {AUTOMATION_I_SHIP.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
 
           <article className="ag-cell ag-scan-cell">
-            <h3 className="ag-scan-label">BEST-FIT WORK</h3>
+            <h3 className="ag-scan-label">HOW ENGAGEMENTS WORK</h3>
             <ul className="ag-scan-list">
-              {BEST_FIT_WORK.map((item) => (
+              {HOW_ENGAGEMENTS_WORK.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -79,16 +84,25 @@ export function ScanSection() {
           </article>
 
           <article className="ag-cell ag-scan-cell">
-            <h3 className="ag-scan-label">STRONGEST PROOF</h3>
+            <h3 className="ag-scan-label">OPEN SOURCE — INSPECT THE CODE</h3>
             <ul className="ag-scan-list">
-              {STRONGEST_PROOF.map((proof) => (
-                <li key={proof.label}>
-                  <a href={proof.href} className="ag-scan-proof-link">
-                    {proof.label}
+              {OPEN_SOURCE_REPOS.map((repo) => (
+                <li key={repo.name}>
+                  <a
+                    href={`https://github.com/JasonTeixeira/${repo.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ag-scan-proof-link ag-scan-repo-link"
+                  >
+                    <span className="ag-scan-repo-name">{repo.name}</span>
+                    <span className="ag-scan-repo-proves">{repo.proves} →</span>
                   </a>
                 </li>
               ))}
             </ul>
+            <p className="ag-scan-dual-note">
+              Contract-first. Also open to senior full-time roles — resume above.
+            </p>
             <div className="ag-scan-quicklinks">
               {/* TODO(assembly): point at the real resume PDF once it lands in /public */}
               <a href="/resume.pdf" target="_blank" rel="noopener">↓ RESUME.PDF</a>

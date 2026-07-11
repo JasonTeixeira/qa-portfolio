@@ -15,20 +15,43 @@ const SIGNAL_ROWS: ReadonlyArray<[string, string]> = [
   ['standard', 'production > prototype'],
 ]
 
-const NETWORK = [
-  { name: 'SAGE IDEAS', href: 'https://www.sageideas.dev/', note: 'AI-native studio' },
-  { name: 'NEXURAL', href: 'https://www.nexural.io', note: 'trading infrastructure' },
-  { name: 'SAGE AFTER DARK', href: 'https://www.sageafterdark.com', note: 'creative lab' },
-] as const
+interface NetworkItem {
+  name: string
+  href: string
+  note: string
+  /** Live-site screenshot under /agency/surfaces. Omitted when no capture exists. */
+  surface?: string
+}
+
+const NETWORK: readonly NetworkItem[] = [
+  {
+    name: 'SAGE IDEAS',
+    href: 'https://www.sageideas.dev/',
+    note: 'AI-native studio',
+    surface: '/agency/surfaces/sageideas.png',
+  },
+  {
+    name: 'NEXURAL',
+    href: 'https://www.nexural.io',
+    note: 'trading infrastructure',
+    surface: '/agency/surfaces/nexural.png',
+  },
+  {
+    name: 'SAGE AFTER DARK',
+    href: 'https://www.sageafterdark.com',
+    note: 'creative lab',
+    surface: '/agency/surfaces/sageafterdark.png',
+  },
+]
 
 export function AboutSection() {
   return (
     <SectionShell
       id="about"
-      num="08"
+      num="07"
       kicker="THE OPERATOR"
       annotation="PRODUCTION SYSTEMS, NOT PORTFOLIO THEATER"
-      ghost="08"
+      ghost="07"
     >
       <div className="ag-about">
         <Reveal className="ag-about-id">
@@ -97,6 +120,17 @@ export function AboutSection() {
                 rel="noopener noreferrer"
                 className="ag-about-network-link"
               >
+                {item.surface ? (
+                  <span className="ag-about-network-shot" aria-hidden="true">
+                    <img
+                      src={item.surface}
+                      alt=""
+                      width={1280}
+                      height={800}
+                      loading="lazy"
+                    />
+                  </span>
+                ) : null}
                 <span className="ag-about-network-name">{item.name}</span>
                 <span className="ag-about-network-note">{item.note}</span>
               </a>

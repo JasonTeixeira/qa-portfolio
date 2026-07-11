@@ -61,10 +61,10 @@ export function WorkSamplesSection() {
   return (
     <SectionShell
       id="work-samples"
-      num="06"
+      num="05"
       kicker="WORK SAMPLES"
       annotation="EACH FRAME IS A LABELED SLOT FOR A SPECIFIC ARTIFACT"
-      ghost="06"
+      ghost="05"
     >
       <div className="ag-ws-grid">
         {WORK_SAMPLES.map((sample, i) => (

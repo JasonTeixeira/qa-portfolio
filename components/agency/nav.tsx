@@ -1,7 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+
+import { PipelineThread } from '@/components/agency/pipeline-thread'
 
 // Anchor links are root-absolute so they resolve to the homepage sections
 // from subpages (/blog, /audit) as well as from the homepage itself.
@@ -19,6 +22,9 @@ const NAV_LINKS = [
  */
 export function AgencyNav() {
   const barRef = useRef<HTMLDivElement | null>(null)
+  const pathname = usePathname()
+  // PipelineThread is homepage-only — its stage dots map to home sections.
+  const isHome = pathname === '/agency' || pathname === '/'
 
   useEffect(() => {
     let rafId = 0
@@ -48,6 +54,7 @@ export function AgencyNav() {
   }, [])
 
   return (
+    <>
     <header className="ag-nav">
       <nav className="ag-nav-inner" aria-label="Main navigation">
         <Link href="/#top" className="ag-nav-mark">
@@ -66,5 +73,9 @@ export function AgencyNav() {
       </nav>
       <div ref={barRef} className="ag-nav-progress" aria-hidden="true" />
     </header>
+    {/* Sibling of the fixed header: .ag-nav's backdrop-filter creates a
+        containing block that would trap a fixed descendant. */}
+    {isHome ? <PipelineThread /> : null}
+    </>
   )
 }

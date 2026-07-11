@@ -1,0 +1,123 @@
+/* ============================================================
+   statement.css — career numbers strip + manifesto break
+   ============================================================ */
+
+/* ── Career numbers strip ──────────────────────────────────── */
+
+.ag-numbers {
+  background: var(--ag-bg-deep);
+  border-top: 1px solid var(--ag-border-soft);
+  border-bottom: 1px solid var(--ag-border-soft);
+  padding: clamp(20px, 2.8vw, 34px) var(--sect-x);
+}
+
+.ag-numbers-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.ag-numbers-item {
+  min-width: 0;
+}
+
+.ag-numbers-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  outline-offset: 4px;
+}
+
+.ag-numbers-link:focus-visible {
+  outline: 2px solid var(--acc-primary);
+}
+
+.ag-numbers-value {
+  font-family: var(--f-mono);
+  font-size: clamp(26px, 2.6vw, 40px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  transform: translateZ(0);
+  transition: opacity 160ms ease;
+}
+
+.ag-numbers-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  color: var(--tx-3);
+  transition: color 160ms ease;
+}
+
+.ag-numbers-link:hover .ag-numbers-value,
+.ag-numbers-link:focus-visible .ag-numbers-value {
+  opacity: 0.82;
+}
+
+.ag-numbers-link:hover .ag-numbers-label,
+.ag-numbers-link:focus-visible .ag-numbers-label {
+  color: var(--tx-2);
+}
+
+@media (max-width: 1024px) {
+  .ag-numbers-row {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: clamp(20px, 4vw, 28px);
+  }
+}
+
+@media (max-width: 560px) {
+  .ag-numbers-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Manifesto break ───────────────────────────────────────── */
+
+.ag-manifesto {
+  background: var(--ag-bg-deep);
+  padding: calc(var(--sect-y) * 1.2) var(--sect-x);
+}
+
+.ag-manifesto-kicker {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--acc-primary);
+  margin: 0 0 clamp(20px, 3vw, 32px);
+}
+
+.ag-manifesto-statement {
+  font-family: var(--f-sans);
+  font-variation-settings: 'wdth' 118;
+  font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 56px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--tx);
+  max-width: 980px;
+  margin: 0 0 clamp(28px, 4vw, 44px);
+}
+
+.ag-manifesto-support {
+  font-size: clamp(18px, 1.4vw, 20px);
+  line-height: 1.6;
+  color: var(--tx-2);
+  max-width: 640px;
+  margin: 0 0 18px;
+}
+
+.ag-manifesto-close {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--acc-primary);
+  margin: clamp(24px, 3vw, 36px) 0 0;
+}

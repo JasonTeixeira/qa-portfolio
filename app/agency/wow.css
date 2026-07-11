@@ -201,3 +201,182 @@
 .ag-hero-h1-rise {
   animation: ag-h1-rise 0.8s var(--ease-out) both;
 }
+
+/* ============ 8. PIPELINE THREAD (signature scroll moment) ============ */
+
+/* Fixed dashed rail down the left edge, desktop-only. Decorative:
+   aria-hidden, pointer-events none, z-index 40 < nav's 50. The accent fill
+   grows via scaleY (compositor-only, rAF-written from pipeline-thread.tsx);
+   dots light via an opacity-only inner layer. */
+.ag-thread {
+  display: none;
+  position: fixed;
+  inset: 0 auto 0 clamp(10px, 2vw, 28px);
+  width: 120px; /* room for labels; never intercepts — pointer-events none */
+  z-index: 40;
+  pointer-events: none;
+}
+
+@media (min-width: 1280px) {
+  .ag-thread {
+    display: block;
+  }
+}
+
+/* Rail clears the 64px nav at top and breathes at the bottom; dot `top`
+   percentages (scroll fractions) resolve against this box. */
+.ag-thread-rail {
+  position: absolute;
+  top: 88px;
+  bottom: 36px;
+  left: 0;
+  width: 2px;
+}
+
+.ag-thread-track {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    var(--ag-border-strong) 0 5px,
+    transparent 5px 11px
+  );
+}
+
+.ag-thread-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--acc-primary);
+  transform: scaleY(0);
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.ag-thread-stage {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(-50%);
+}
+
+/* 9px dot centered on the 2px line: -3.5px pulls its center to x = 1px. */
+.ag-thread-dot {
+  position: relative;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  border: 1px solid var(--ag-border-strong);
+  background: var(--ag-bg);
+}
+
+/* Accent fill + glow as an opacity-only layer (compositor-friendly). */
+.ag-thread-dot::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: var(--acc-primary);
+  box-shadow: 0 0 10px rgba(77, 159, 255, 0.55);
+  opacity: 0;
+  transition: opacity 240ms var(--ease-out);
+}
+
+.ag-thread-stage--lit .ag-thread-dot::after {
+  opacity: 1;
+}
+
+/* Labels: 10.5px mono. Base opacity 0.62 on --tx ≈ --tx-3 (the dimmed
+   floor); the current stage's label reads at full strength. Opacity-only
+   transition keeps this on the compositor. */
+.ag-thread-label {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  color: var(--tx);
+  opacity: 0.62;
+  transition: opacity 240ms var(--ease-out);
+}
+
+.ag-thread-stage--current .ag-thread-label {
+  opacity: 1;
+}
+
+/* Reduced motion: pipeline-thread.tsx renders the static end state (full
+   fill, all dots lit); the global guard in agency.css zeroes transitions. */
+
+/* ============ 9. GATE RE-RUN BUTTON ============ */
+
+.ag-gate-headrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+/* proof.css gives the header its own bottom margin — the row owns it now. */
+.ag-gate-headrow .ag-gate-header {
+  margin: 0;
+}
+
+.ag-gate-rerun {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--tx-3);
+  background: none;
+  border: 1px solid var(--ag-border);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.ag-gate-rerun:hover {
+  color: var(--acc-primary-hi);
+  border-color: var(--acc-primary);
+}
+
+.ag-gate-rerun:focus-visible {
+  outline: 2px solid var(--acc-primary);
+  outline-offset: 2px;
+  color: var(--acc-primary-hi);
+}
+
+/* ============ 10. MOBILE GATE STRIP ============ */
+
+/* Compact honesty strip under the hero CTAs — shown only below 1024px,
+   where the full GateRunner instrument is hidden. Values are computed
+   server-side in hero.tsx from proof/site-proof.json. */
+.ag-gate-strip {
+  margin: 0;
+  align-self: flex-start;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  color: var(--tx-2);
+  border: 1px solid var(--ag-border);
+  background: var(--ag-bg-deep);
+  padding: 8px 12px;
+}
+
+.ag-gate-strip-check {
+  color: var(--acc-pass);
+  font-weight: 700;
+}
+
+@media (min-width: 1024px) {
+  .ag-gate-strip {
+    display: none;
+  }
+}

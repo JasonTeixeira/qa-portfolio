@@ -10,7 +10,8 @@ import { GroundingDemo } from '@/components/agency/islands/grounding-demo'
 import { TestPyramid } from '@/components/agency/islands/test-pyramid'
 import { BeforeAfterToggle } from '@/components/agency/islands/before-after'
 import { LedgerSection } from '@/components/agency/sections/ledger'
-import { SkillsSection } from '@/components/agency/sections/skills'
+import { CareerNumbers } from '@/components/agency/career-numbers'
+import { Manifesto } from '@/components/agency/manifesto'
 import { WorkSamplesSection } from '@/components/agency/sections/work-samples'
 import { WritingSection } from '@/components/agency/sections/writing'
 import { AboutSection } from '@/components/agency/sections/about'
@@ -24,6 +25,7 @@ export default function AgencyPage() {
       <main>
         <Hero instrument={<GateRunner />} />
         <Marquee />
+        <CareerNumbers />
         <ScanSection />
         <ProofGridSection />
         <AnatomySelector />
@@ -35,7 +37,7 @@ export default function AgencyPage() {
           }}
         />
         <LedgerSection />
-        <SkillsSection />
+        <Manifesto />
         <WorkSamplesSection />
         <WritingSection />
         <AboutSection />

@@ -2,6 +2,19 @@ import type { ReactNode } from 'react'
 
 import { HeroSchematic } from '@/components/agency/hero-schematic'
 import { Magnetic } from '@/components/agency/islands/magnetic'
+import siteProof from '@/proof/site-proof.json'
+
+// Mobile gate strip (<1024px, where the GateRunner instrument is hidden).
+// Same honesty contract as GateRunner: values render only if every check in
+// proof/site-proof.json passes — otherwise the strip says so. Computed at
+// module level so the hero stays a server component.
+const GATE_ALL_PASS: boolean = siteProof.checks.every((check) => check.status === 'pass')
+const GATE_LIGHTHOUSE: string = [
+  siteProof.lighthouse.performance,
+  siteProof.lighthouse.accessibility,
+  siteProof.lighthouse.bestPractices,
+  siteProof.lighthouse.seo,
+].join('/')
 
 interface HeroProps {
   /** Optional live instrument (e.g. GateRunner) rendered in the right-side background layer. */
@@ -51,6 +64,16 @@ export function Hero({ instrument }: HeroProps) {
                 AVAILABLE FOR CONTRACT WORK + SELECT ROLES
               </span>
           </div>
+          <p className="ag-gate-strip ag-hero-enter" style={{ animationDelay: '480ms' }}>
+            {GATE_ALL_PASS ? (
+              <>
+                GATE: SHIP <span className="ag-gate-strip-check">✓</span> · LIGHTHOUSE{' '}
+                {GATE_LIGHTHOUSE} · AXE 0
+              </>
+            ) : (
+              <>GATE: VERIFICATION IN PROGRESS</>
+            )}
+          </p>
         </div>
 
         {instrument ? (

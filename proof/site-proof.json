@@ -23,17 +23,17 @@
     },
     {
       "id": "lighthouse",
-      "label": "lighthouse desktop 96 / 100 / 96 / 100",
+      "label": "lighthouse desktop 97 / 100 / 96 / 100",
       "status": "pass"
     }
   ],
   "lighthouse": {
     "strategy": "desktop",
-    "performance": 96,
+    "performance": 97,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 100,
     "mobileNote": "mobile a11y/seo 100; mobile perf simulated 74 (observed LCP 201ms) — shared-layout font preloads, fix tracked"
   },
-  "commit": "485bd670"
+  "commit": "f58b43c3"
 }

@@ -50,7 +50,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 'nexural-qa-os',
     title: 'Nexural QA OS — Signed-Evidence Runner Fleet',
     subtitle:
-      'An 85-runner QA fleet that signs its own evidence and refuses to report a green it did not earn.',
+      'QA infrastructure for a 39-repo product federation — an 85-runner fleet that signs its evidence and refuses unearned greens.',
     badge: { label: 'LIVE REPO + CI', variant: 'live' },
     pipeline: [
       { label: 'RUNNER FLEET', accent: 'browser' },
@@ -122,7 +122,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 'voza-verification',
     title: 'Voza — 256-Screen Verification System',
     subtitle:
-      'A machine-computed, 4-tier proof report for a native Expo app (repo: Voza-e2e-stabilization).',
+      'Verification system for a 256-screen consumer language-learning app — a machine-computed, 4-tier proof report (repo: Voza-e2e-stabilization).',
     badge: { label: 'LOCAL PROOF', variant: 'local' },
     pipeline: [
       { label: 'SCREEN REGISTRY', accent: 'primary' },
@@ -189,7 +189,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 'sage-kernel-course-auditor',
     title: 'sage-kernel + Course Auditor',
     subtitle:
-      'A proof-first, 140-tool MCP SDLC server paired with a content claim/source integrity harness.',
+      'Internal SDLC platform + content-audit harness behind my own products — a proof-first, 140-tool MCP server with claim/source integrity checks.',
     badge: { label: 'INTERNAL TOOLING', variant: 'internal' },
     pipeline: [
       { label: 'CLAIM', accent: 'primary' },
@@ -255,7 +255,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 'dashboard-audit-loop',
     title: 'Headless Dashboard Audit Loop',
     subtitle:
-      'A Playwright audit → fix → re-audit SDLC loop across ~55 authenticated production routes.',
+      "Hardening loop for a live quant trading platform's ~55 production routes — a Playwright audit → fix → re-audit SDLC cycle.",
     badge: { label: 'LIVE PRODUCT', variant: 'live' },
     pipeline: [
       { label: 'MINT SESSION', accent: 'primary' },
@@ -319,7 +319,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: 'giggl-release-lane',
     title: 'GIGGL — Headless iOS Release Lane',
     subtitle:
-      'Device E2E verification and 2FA-free EAS → TestFlight delivery for a live AI consumer app.',
+      'Release pipeline for a consumer social iOS app — device E2E verification and 2FA-free EAS → TestFlight delivery.',
     badge: { label: 'LIVE BACKEND', variant: 'live' },
     pipeline: [
       { label: 'REPO', accent: 'primary' },

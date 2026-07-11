@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import siteProof from '@/proof/site-proof.json'
 
 /**
@@ -53,24 +53,33 @@ function readiness(): { text: string; tone: ReadinessTone } {
 
 export function GateRunner() {
   const ref = useRef<HTMLDivElement | null>(null)
+  const timersRef = useRef<number[]>([])
   const [step, setStep] = useState<number>(0)
+
+  // Plays (or replays) the type-out sequence. Reduced motion: instant full
+  // render — the button still "works", there is just no animation.
+  const play = useCallback(() => {
+    timersRef.current.forEach((timer) => window.clearTimeout(timer))
+    timersRef.current = []
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setStep(TOTAL_STEPS)
+      return
+    }
+    setStep(0)
+    for (let i = 1; i <= TOTAL_STEPS; i += 1) {
+      timersRef.current.push(window.setTimeout(() => setStep(i), i * LINE_DELAY_MS))
+    }
+  }, [])
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const timers: number[] = []
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return
           io.disconnect()
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setStep(TOTAL_STEPS)
-            return
-          }
-          for (let i = 1; i <= TOTAL_STEPS; i += 1) {
-            timers.push(window.setTimeout(() => setStep(i), i * LINE_DELAY_MS))
-          }
+          play()
         })
       },
       { threshold: 0.35 },
@@ -78,9 +87,9 @@ export function GateRunner() {
     io.observe(el)
     return () => {
       io.disconnect()
-      timers.forEach((timer) => window.clearTimeout(timer))
+      timersRef.current.forEach((timer) => window.clearTimeout(timer))
     }
-  }, [])
+  }, [play])
 
   const gate = readiness()
   const done = step >= TOTAL_STEPS
@@ -88,10 +97,20 @@ export function GateRunner() {
 
   return (
     <div ref={ref} className="ag-gate" aria-live="polite">
-      <p className="ag-gate-header">
-        <span className="ag-gate-prompt">$</span> verify agency.sageideas.dev
-        {step === 0 ? cursor : null}
-      </p>
+      <div className="ag-gate-headrow">
+        <p className="ag-gate-header">
+          <span className="ag-gate-prompt">$</span> verify agency.sageideas.dev
+          {step === 0 ? cursor : null}
+        </p>
+        <button
+          type="button"
+          className="ag-gate-rerun"
+          onClick={play}
+          aria-label="Replay the gate check sequence"
+        >
+          RE-RUN <span aria-hidden="true">▸</span>
+        </button>
+      </div>
       <ul className="ag-gate-lines">
         {CHECKS.slice(0, step).map((check, index) => (
           <li key={check.id} className="ag-gate-line">

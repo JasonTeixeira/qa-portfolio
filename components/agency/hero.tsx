@@ -19,14 +19,6 @@ export function Hero({ instrument }: HeroProps) {
       <div className="ag-hero-gridlines" aria-hidden="true" />
       <HeroSchematic />
       <div className="ag-hero-glow" aria-hidden="true" />
-      <svg className="ag-hero-lines" aria-hidden="true" focusable="false">
-        <line x1="64%" y1="12%" x2="100%" y2="12%" stroke="var(--acc-primary)" strokeWidth="1.5" className="ag-dashflow" />
-        <line x1="70%" y1="19%" x2="100%" y2="19%" stroke="var(--acc-ai)" strokeWidth="1.5" className="ag-dashflow" />
-        <line x1="67%" y1="26%" x2="100%" y2="26%" stroke="var(--acc-pass)" strokeWidth="1.5" className="ag-dashflow" />
-        <circle cx="64%" cy="12%" r="5" fill="var(--acc-primary)" className="ag-pulse" />
-        <circle cx="70%" cy="19%" r="5" fill="var(--acc-ai)" className="ag-pulse" />
-        <circle cx="67%" cy="26%" r="5" fill="var(--acc-pass)" className="ag-pulse" />
-      </svg>
       <div className="ag-grain" aria-hidden="true" />
 
       <div className="ag-hero-inner">

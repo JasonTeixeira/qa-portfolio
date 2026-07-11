@@ -13,11 +13,15 @@
    bottom-anchored headline block so nothing bright sits behind the H1. */
 .ag-hero-schematic {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 40%;
+  height: 54%;
+  opacity: 0.5;
   pointer-events: none;
   user-select: none;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 48%, transparent 78%);
-  mask-image: linear-gradient(180deg, #000 0%, #000 48%, transparent 78%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 100%);
 }
 
 .ag-hero-schematic svg {

@@ -8,7 +8,7 @@
     },
     {
       "id": "build",
-      "label": "next build",
+      "label": "next build (reused existing build)",
       "status": "pass"
     },
     {
@@ -35,5 +35,5 @@
     "seo": 100,
     "mobileNote": "mobile a11y/seo 100; mobile perf simulated 74 (observed LCP 201ms) — shared-layout font preloads, fix tracked"
   },
-  "commit": "f6c971df"
+  "commit": "485bd670"
 }

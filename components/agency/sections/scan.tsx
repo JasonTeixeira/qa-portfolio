@@ -13,8 +13,10 @@ const AUTOMATION_I_SHIP = [
 const HOW_ENGAGEMENTS_WORK = [
   'Fixed-scope builds with proof included',
   'Audit → build → verify → handoff',
+  'Every claim ships with its artifact',
   'Runbooks + docs so your team owns it',
   'Remote, async-first, evidence over meetings',
+  'No invented metrics — here or in your build',
 ] as const
 
 interface ToolGroup {
@@ -90,24 +92,6 @@ export function ScanSection() {
           </article>
 
           <article className="ag-cell ag-scan-cell">
-            <h3 className="ag-scan-label">THE TOOLBOX</h3>
-            <div className="ag-scan-toolgroups">
-              {TOOL_GROUPS.map((group) => (
-                <div key={group.label} className="ag-scan-toolgroup">
-                  <p className="ag-scan-toolgroup-label">{group.label}</p>
-                  <div className="ag-scan-chips">
-                    {group.tools.map((tool) => (
-                      <span key={tool} className="ag-chip ag-chip--sm">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </article>
-
-          <article className="ag-cell ag-scan-cell">
             <h3 className="ag-scan-label">OPEN SOURCE — INSPECT THE CODE</h3>
             <ul className="ag-scan-list">
               {OPEN_SOURCE_REPOS.map((repo) => (
@@ -136,6 +120,27 @@ export function ScanSection() {
               <a href="mailto:sage@sageideas.dev">✉ EMAIL</a>
             </div>
           </article>
+        </div>
+      </Reveal>
+
+      {/* Full-width toolbox band — five taxonomies as a spec sheet, no dead columns */}
+      <Reveal delay={120}>
+        <div className="ag-scan-toolband-wrap">
+          <p className="ag-scan-label ag-scan-toolband-label">THE TOOLBOX — ALL IN ACTIVE USE</p>
+          <div className="ag-grid ag-scan-toolband">
+            {TOOL_GROUPS.map((group) => (
+              <div key={group.label} className="ag-cell ag-scan-toolgroup">
+                <p className="ag-scan-toolgroup-label">{group.label}</p>
+                <div className="ag-scan-chips">
+                  {group.tools.map((tool) => (
+                    <span key={tool} className="ag-chip ag-chip--sm">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </Reveal>
     </SectionShell>

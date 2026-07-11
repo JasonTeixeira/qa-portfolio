@@ -359,7 +359,7 @@
 
 @media (min-width: 1024px) {
   .ag-scan-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -1077,5 +1077,37 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 @media (min-width: 900px) {
   .ag-about {
     grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  }
+}
+
+/* toolbox band — full-width spec sheet under the scan grid */
+.ag-scan-toolband-wrap {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ag-scan-toolband-label {
+  letter-spacing: 0.2em;
+}
+
+.ag-scan-toolband {
+  grid-template-columns: 1fr;
+}
+
+.ag-scan-toolband .ag-scan-toolgroup {
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .ag-scan-toolband {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ag-scan-toolband {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

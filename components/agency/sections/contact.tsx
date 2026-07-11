@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 
 import { Reveal } from '@/components/agency/core'
 import { SectionShell } from '@/components/agency/section-shell'
+import '@/app/agency/audit/audit.css'
 
 interface Offer {
   kicker: string
@@ -74,6 +75,19 @@ export function ContactSection() {
               className="ag-btn"
             >
               ↗ LINKEDIN
+            </a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={240}>
+          <div className="ag-audit-band">
+            <p className="ag-kicker">FREE — SITE TEARDOWN</p>
+            <p className="ag-audit-band-copy">
+              Paste your URL, get four Lighthouse scores and your six worst findings in ~20
+              seconds.
+            </p>
+            <a href="/audit" className="ag-audit-band-link">
+              RUN THE FREE TEARDOWN →
             </a>
           </div>
         </Reveal>

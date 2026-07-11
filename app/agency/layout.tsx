@@ -9,11 +9,15 @@ import './visual-upgrades.css'
 import './wow.css'
 
 // Archivo variable — width axis is part of the design language (kicker→display contrast).
+// preload: false — the wdth-axis variable file is ~147KB and Lighthouse's simulated
+// slow-4G puts every preloaded font ahead of LCP. With swap + size-adjusted fallback,
+// the headline paints instantly in the fallback and upgrades when Archivo arrives.
 const archivo = Archivo({
   subsets: ['latin'],
   axes: ['wdth'],
   variable: '--font-agency-sans',
   display: 'swap',
+  preload: false,
 })
 
 const SITE_URL = 'https://agency.sageideas.dev'

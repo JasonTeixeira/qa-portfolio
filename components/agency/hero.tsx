@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 
-import { Reveal } from '@/components/agency/core'
 import { HeroSchematic } from '@/components/agency/hero-schematic'
 import { Magnetic } from '@/components/agency/islands/magnetic'
 
@@ -8,22 +7,6 @@ interface HeroProps {
   /** Optional live instrument (e.g. GateRunner) rendered in the right-side background layer. */
   instrument?: ReactNode
 }
-
-interface H1Word {
-  text: string
-  em: boolean
-}
-
-/* H1 copy split into words for the staggered rise-in — copy is unchanged;
-   the trailing clause keeps its accent via the existing .ag-hero-h1-em. */
-const H1_WORDS: readonly H1Word[] = [
-  ...'I build AI systems, QA infrastructure, and automation workflows'
-    .split(' ')
-    .map((text) => ({ text, em: false })),
-  ...'that prove they work.'.split(' ').map((text) => ({ text, em: true })),
-]
-
-const H1_STAGGER_MS = 40
 
 /**
  * Full-viewport hero, content bottom-anchored. Server component —
@@ -48,37 +31,19 @@ export function Hero({ instrument }: HeroProps) {
 
       <div className="ag-hero-inner">
         <div className="ag-hero-content">
-          <Reveal>
-            <p className="ag-kicker ag-hero-kicker">
-              <span className="ag-hero-kicker-rule" aria-hidden="true" />
-              AI / QA / AUTOMATION ENGINEER
-            </p>
-          </Reveal>
-          <Reveal delay={90}>
-            <h1 id="hero-heading" className="ag-hero-h1">
-              {H1_WORDS.map((word, index) => (
-                <span key={`${word.text}-${index}`}>
-                  <span className="ag-h1-word">
-                    <span
-                      className="ag-h1-word-inner"
-                      style={{ animationDelay: `${index * H1_STAGGER_MS}ms` }}
-                    >
-                      {word.em ? <em className="ag-hero-h1-em">{word.text}</em> : word.text}
-                    </span>
-                  </span>
-                  {index < H1_WORDS.length - 1 ? ' ' : null}
-                </span>
-              ))}
-            </h1>
-          </Reveal>
-          <Reveal delay={180}>
-            <p className="ag-hero-sub">
+          <p className="ag-kicker ag-hero-kicker ag-hero-enter">
+            <span className="ag-hero-kicker-rule" aria-hidden="true" />
+            AI / QA / AUTOMATION ENGINEER
+          </p>
+          <h1 id="hero-heading" className="ag-hero-h1 ag-hero-h1-rise">
+            I build AI systems, QA infrastructure, and automation workflows{' '}
+            <em className="ag-hero-h1-em">that prove they work.</em>
+          </h1>
+          <p className="ag-hero-sub ag-hero-enter" style={{ animationDelay: '280ms' }}>
               Tested automation systems, AI workflows, eval harnesses, and QA pipelines — for
               teams that need reliable software, not fragile demos.
-            </p>
-          </Reveal>
-          <Reveal delay={270}>
-            <div className="ag-hero-ctas">
+          </p>
+          <div className="ag-hero-ctas ag-hero-enter" style={{ animationDelay: '400ms' }}>
               <Magnetic>
                 <a href="#proof" className="ag-btn ag-btn--solid">
                   VIEW PROOF <span aria-hidden="true">↓</span>
@@ -93,16 +58,15 @@ export function Hero({ instrument }: HeroProps) {
                 <span className="ag-hero-status-dot ag-pulse" aria-hidden="true" />
                 OPEN TO ROLES + CONSULTING
               </span>
-            </div>
-          </Reveal>
+          </div>
         </div>
 
         {instrument ? (
-          <Reveal delay={360} className="ag-hero-instrument-reveal">
+          <div className="ag-hero-instrument-reveal ag-hero-enter" style={{ animationDelay: '480ms' }}>
             <aside className="ag-hero-instrument" aria-label="Live release gate for this site">
               {instrument}
             </aside>
-          </Reveal>
+          </div>
         ) : null}
       </div>
     </section>

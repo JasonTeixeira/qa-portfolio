@@ -91,7 +91,7 @@ export function ScanSection() {
             </ul>
             <div className="ag-scan-quicklinks">
               {/* TODO(assembly): point at the real resume PDF once it lands in /public */}
-              <a href="#">↓ RESUME.PDF</a>
+              <a href="/resume.pdf" target="_blank" rel="noopener">↓ RESUME.PDF</a>
               <a href="https://github.com/JasonTeixeira" target="_blank" rel="noopener noreferrer">
                 ↗ GITHUB
               </a>

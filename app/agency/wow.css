@@ -172,3 +172,28 @@
 .ag-ws-slot--filled:hover img {
   transform: scale(1.03);
 }
+
+/* CSS-only hero entrance — visible without JS, so LCP never waits for hydration */
+@keyframes ag-hero-enter {
+  from { opacity: 0.35; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+.ag-hero-enter {
+  animation: ag-hero-enter 0.7s var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-hero-enter { animation: none; opacity: 1; transform: none; }
+}
+
+/* LCP-safe H1 entrance: transform only, opacity never below 1 —
+   the headline must count as first largest paint, not wait for animation. */
+@keyframes ag-h1-rise {
+  from { transform: translateY(16px); }
+  to { transform: none; }
+}
+
+.ag-hero-h1-rise {
+  animation: ag-h1-rise 0.8s var(--ease-out) both;
+}

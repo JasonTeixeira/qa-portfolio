@@ -33,6 +33,8 @@ export function SectionShell({
           {ghost}
         </span>
       ) : null}
+      {/* Keeps heading order valid (h1 → h2 → h3): the visible kicker is a <p>. */}
+      <h2 className="ag-vh">{kicker}</h2>
       <header
         style={{
           display: 'flex',

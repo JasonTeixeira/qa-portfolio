@@ -213,6 +213,7 @@ export default async function RootLayout({
   const isLivingHomepage = pathname === '/'
   const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn') || pathname.startsWith('/proto') || pathname.startsWith('/agency')
   const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
+  const isAgencyPath = pathname.startsWith('/agency')
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html
@@ -240,7 +241,7 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{if(location.pathname!=='/')return;var p=new URLSearchParams(location.search);if(p.get('intent')==='hire'||p.has('source')||p.has('utm_source')||p.has('utm_campaign'))return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
+              "(function(){try{if(location.pathname!=='/')return;if(location.hostname.indexOf('agency.')===0)return;var p=new URLSearchParams(location.search);if(p.get('intent')==='hire'||p.has('source')||p.has('utm_source')||p.has('utm_campaign'))return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
           }}
         />
         <script
@@ -252,23 +253,29 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
         />
         <LocaleProvider locale={locale} messages={messages}>
-          <PostHogProvider>
-            {!isPortal && <AttributionCapture />}
-            {!isCinematicPath && <MarketingChrome position="top" />}
-            {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
-            {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
-            {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
-            {!isPortal && !isPremiumLanding && <ExitIntentModal />}
-            <WebVitalsReporter />
-            <ClientErrorReporter />
-            <ServiceWorkerRegistration />
-            {!isPortal && !isPremiumLanding && <InstallPrompt />}
-            <UpdateToast />
-          </PostHogProvider>
+          {isAgencyPath ? (
+            /* agency.sageideas.dev — lean shell: no analytics/SW/marketing chrome.
+               Keeps the subdomain's JS budget tight for its own Lighthouse gate. */
+            <>{children}</>
+          ) : (
+            <PostHogProvider>
+              {!isPortal && <AttributionCapture />}
+              {!isCinematicPath && <MarketingChrome position="top" />}
+              {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
+              {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+              {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+              {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
+              {!isPortal && !isPremiumLanding && <ExitIntentModal />}
+              <WebVitalsReporter />
+              <ClientErrorReporter />
+              <ServiceWorkerRegistration />
+              {!isPortal && !isPremiumLanding && <InstallPrompt />}
+              <UpdateToast />
+            </PostHogProvider>
+          )}
         </LocaleProvider>
-        <GoogleAnalytics />
-        {process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
+        {!isAgencyPath && <GoogleAnalytics />}
+        {!isAgencyPath && process.env.NODE_ENV === 'production' && process.env.VERCEL === '1' && <Analytics />}
       </body>
     </html>
   )

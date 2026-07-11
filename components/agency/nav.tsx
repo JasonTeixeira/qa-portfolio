@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { href: '#proof', label: 'PROOF' },
   { href: '#case-studies', label: 'CASE STUDIES' },
   { href: '#ledger', label: 'LEDGER' },
+  { href: '/audit', label: 'AUDIT' },
   { href: '#writing', label: 'WRITING' },
 ] as const
 

@@ -1,0 +1,274 @@
+/* /audit — free automated teardown. Tokens only; extends app/agency/agency.css. */
+
+/* ---------- hero-lite ---------- */
+
+.ag-audit-hero {
+  padding-top: calc(64px + clamp(48px, 8vw, 96px));
+  max-width: 1080px;
+}
+
+.ag-audit-h1 {
+  font-size: var(--h2);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 18px 0 0;
+  font-variation-settings: 'wdth' 118;
+}
+
+.ag-audit-sub {
+  max-width: 60ch;
+  margin: 18px 0 0;
+  color: var(--tx-2);
+  font-size: 16px;
+}
+
+/* ---------- tool ---------- */
+
+.ag-audit-tool {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+.ag-audit-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.ag-audit-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ag-audit-input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--f-mono);
+  font-size: 15px;
+  color: var(--tx);
+  background: var(--ag-card);
+  border: 1px solid var(--ag-border-strong);
+  padding: 14px 16px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.ag-audit-input::placeholder {
+  color: var(--tx-3);
+}
+
+.ag-audit-input:focus-visible {
+  outline: 2px solid var(--acc-primary);
+  outline-offset: 2px;
+  border-color: var(--acc-primary);
+}
+
+.ag-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (min-width: 640px) {
+  .ag-audit-form-row {
+    flex-direction: row;
+  }
+}
+
+/* ---------- running / error status ---------- */
+
+.ag-audit-status {
+  margin-top: 20px;
+}
+
+.ag-audit-terminal {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--tx-2);
+  background: var(--ag-bg-deep);
+  border: 1px solid var(--ag-border);
+  padding: 16px 18px;
+}
+
+.ag-audit-line {
+  margin: 0 0 6px;
+}
+
+.ag-audit-line--tick {
+  margin-bottom: 0;
+  color: var(--tx-3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ag-audit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--acc-primary);
+  flex: none;
+}
+
+.ag-audit-error {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--acc-fail);
+  border: 1px solid var(--acc-fail);
+  padding: 14px 16px;
+  margin: 0;
+}
+
+/* ---------- results ---------- */
+
+.ag-audit-results {
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+.ag-audit-finalurl {
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+
+.ag-audit-scores {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 760px) {
+  .ag-audit-scores {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.ag-audit-score-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ag-audit-score-num {
+  font-family: var(--f-mono);
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ag-audit-score-label {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--tx-3);
+}
+
+.ag-audit-cwv {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* ---------- findings — ledger rows ---------- */
+
+.ag-audit-findings {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.ag-audit-findings-label {
+  margin: 0 0 12px;
+}
+
+.ag-audit-findings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ag-border-soft);
+}
+
+.ag-audit-finding {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px 16px;
+  padding: 14px 18px;
+  background: var(--ag-card);
+  border-bottom: 1px solid var(--ag-border-soft);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.ag-audit-finding:last-child {
+  border-bottom: none;
+}
+
+.ag-audit-finding:hover {
+  background: var(--ag-raised);
+}
+
+.ag-audit-finding-title {
+  font-size: 15px;
+  color: var(--tx);
+}
+
+.ag-audit-finding-value {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  color: var(--acc-fail);
+  white-space: nowrap;
+}
+
+.ag-audit-clean {
+  margin-top: 28px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--acc-pass);
+}
+
+/* ---------- honesty + CTAs ---------- */
+
+.ag-audit-honesty {
+  margin: 28px 0 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--tx-3);
+}
+
+.ag-audit-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+/* ---------- home-page promo band (rendered by sections/contact.tsx) ---------- */
+
+.ag-audit-band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 22px;
+  border: 1px solid var(--ag-border-strong);
+  background: var(--ag-card);
+  padding: 18px 22px;
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.ag-audit-band-copy {
+  margin: 0;
+  color: var(--tx-2);
+  font-size: 15px;
+}
+
+.ag-audit-band-link {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--acc-primary-hi);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ag-audit-band-link:hover {
+  color: var(--acc-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

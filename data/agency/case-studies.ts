@@ -304,8 +304,8 @@ export const CASE_STUDIES: CaseStudy[] = [
       ],
     },
     evidenceSlots: [
-      { caption: 'Authenticated production dashboard route, live', tier: 'T1' },
-      { caption: 'No-fake-data ratchet failing on an injected violation', tier: 'T1' },
+      { caption: 'Data-integrity triage from the research lake', tier: 'T2' },
+      { caption: 'No-fake-data CI ratchet script', tier: 'T1' },
       { caption: 'axe-core 0-violations output (requires harness rebuild to re-run)', tier: 'T3' },
     ],
     stack: ['Playwright', 'TypeScript', 'axe-core', 'JWT session minting', 'GitHub Actions'],

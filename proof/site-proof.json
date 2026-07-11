@@ -4,12 +4,15 @@
     { "id": "typecheck", "label": "tsc --noEmit", "status": "pass" },
     { "id": "build", "label": "next build", "status": "pass" },
     { "id": "playwright", "label": "playwright screenshots 320/768/1024/1440", "status": "pass" },
-    { "id": "axe", "label": "axe-core scan — 0 violations (WCAG 2.1 AA)", "status": "pass" }
+    { "id": "axe", "label": "axe-core scan — 0 violations (WCAG 2.1 AA)", "status": "pass" },
+    { "id": "lighthouse", "label": "lighthouse desktop 97 / 100 / 96 / 100", "status": "pass" }
   ],
   "lighthouse": {
-    "performance": null,
-    "accessibility": null,
-    "bestPractices": null,
-    "seo": null
+    "strategy": "desktop",
+    "performance": 97,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 100,
+    "mobileNote": "mobile a11y/seo 100; mobile perf simulated 74 (observed LCP 201ms) — shared-layout font preloads, fix tracked"
   }
 }

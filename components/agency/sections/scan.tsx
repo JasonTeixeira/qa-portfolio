@@ -17,16 +17,33 @@ const HOW_ENGAGEMENTS_WORK = [
   'Remote, async-first, evidence over meetings',
 ] as const
 
-const STRONGEST_TOOLS = [
-  'Playwright',
-  'TypeScript',
-  'Node.js',
-  'Python',
-  'Claude / OpenAI APIs',
-  'RAG pipelines',
-  'CI gates',
-  'Webhooks',
-  'Supabase',
+interface ToolGroup {
+  label: string
+  tools: readonly string[]
+}
+
+/* Every tool here is in active use across the linked repos — no résumé padding. */
+const TOOL_GROUPS: readonly ToolGroup[] = [
+  {
+    label: 'TESTING & QA',
+    tools: ['Playwright', 'Maestro (mobile E2E)', 'Vitest / Jest', 'axe-core', 'Lighthouse CI', 'visual regression'],
+  },
+  {
+    label: 'AI SYSTEMS',
+    tools: ['Claude / OpenAI / DeepSeek APIs', 'RAG + embeddings', 'eval harnesses', 'LLM-as-judge', 'MCP servers'],
+  },
+  {
+    label: 'LANGUAGES',
+    tools: ['TypeScript', 'Node.js', 'Python', 'SQL', 'Bash'],
+  },
+  {
+    label: 'PIPELINES & DELIVERY',
+    tools: ['GitHub Actions', 'CI release gates', 'Docker', 'Vercel', 'EAS / TestFlight', 'webhooks · queues · cron'],
+  },
+  {
+    label: 'DATA & OBSERVABILITY',
+    tools: ['Postgres / Supabase', 'DuckDB', 'Redis', 'Stripe API', 'Sentry', 'PostHog'],
+  },
 ] as const
 
 interface OpenSourceRepo {
@@ -73,12 +90,19 @@ export function ScanSection() {
           </article>
 
           <article className="ag-cell ag-scan-cell">
-            <h3 className="ag-scan-label">STRONGEST TOOLS</h3>
-            <div className="ag-scan-chips">
-              {STRONGEST_TOOLS.map((tool) => (
-                <span key={tool} className="ag-chip">
-                  {tool}
-                </span>
+            <h3 className="ag-scan-label">THE TOOLBOX</h3>
+            <div className="ag-scan-toolgroups">
+              {TOOL_GROUPS.map((group) => (
+                <div key={group.label} className="ag-scan-toolgroup">
+                  <p className="ag-scan-toolgroup-label">{group.label}</p>
+                  <div className="ag-scan-chips">
+                    {group.tools.map((tool) => (
+                      <span key={tool} className="ag-chip ag-chip--sm">
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </article>

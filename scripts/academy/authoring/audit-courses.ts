@@ -22,8 +22,14 @@
  * are surfaced as WARN (needs a human/AI eye) — never silently passed.
  *
  * Usage:
- *   npx tsx scripts/academy/authoring/audit-courses.ts <dir> [--course <slug>] [--no-run-labs] [--json <out.json>]
+ *   npx tsx scripts/academy/authoring/audit-courses.ts <dir> [--course <slug>] [--no-run-labs] [--no-content-heuristics] [--json <out.json>]
  *   npx tsx scripts/academy/authoring/audit-courses.ts --self-test
+ *
+ * Beyond structure, it runs anti-template CONTENT heuristics (FAIL-level): boilerplate
+ * reuse across lessons (commonMistake/tradeoff/quiz/diagram), templated concept blocks
+ * (high cross-lesson similarity), and hollow labs whose output is a hardcoded proof card.
+ * These catch procedurally-generated shells that pass every structural check but don't
+ * teach. Pass --no-content-heuristics to run structure-only.
  *
  * SAFETY: this EXECUTES lab code authored by the external AI (python3/node/sqlite3),
  * each under a hard timeout. Run it only on course bundles you commissioned. Pass
@@ -134,6 +140,99 @@ function runSql(source: string): RunResult {
 
 const norm = (s: string) => s.replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '').replace(/\n+$/, '')
 
+// ── content-substance heuristics (anti-template) ─────────────────────────────
+// These catch procedurally-generated shells that pass the structural gate: the
+// same sentence skeleton reused across every lesson with the topic noun swapped,
+// boilerplate tradeoffs/quizzes, one generic diagram, and labs that print a
+// hardcoded "proof card" instead of computing anything. Real, distinct teaching
+// content scores far from these thresholds; a template collapses toward them.
+function shingles(text: string, n = 4): Set<string> {
+  const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean)
+  const s = new Set<string>()
+  for (let i = 0; i + n <= words.length; i++) s.add(words.slice(i, i + n).join(' '))
+  return s
+}
+function jaccard(a: Set<string>, b: Set<string>): number {
+  if (!a.size || !b.size) return 0
+  let inter = 0
+  for (const x of a) if (b.has(x)) inter++
+  return inter / (a.size + b.size - inter)
+}
+function median(xs: number[]): number {
+  if (!xs.length) return 0
+  const s = [...xs].sort((a, b) => a - b)
+  const m = Math.floor(s.length / 2)
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2
+}
+function stringLiterals(src: string): string {
+  const out: string[] = []
+  const re = /"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|`([^`\\]*(?:\\.[^`\\]*)*)`/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(src))) out.push((m[1] ?? m[2] ?? m[3] ?? '').replace(/\\n/g, '\n'))
+  return out.join('\n')
+}
+
+const SIM_THRESHOLD = 0.4 // concept cross-lesson similarity above this = templated
+const REUSE_MIN_UNIQUE_RATIO = 0.5 // fewer unique values than this = boilerplate
+const LAB_HARDCODE_FRAC = 0.85 // this share of check lines present verbatim in solution = computes nothing
+
+function contentHeuristics(
+  lessonsDoc: Record<string, unknown>,
+  solutions: Record<string, SolutionEntry>,
+): Finding[] {
+  const F: Finding[] = []
+  const lessons = Object.keys(lessonsDoc)
+  const first = (slug: string, type: string) =>
+    (Array.isArray(lessonsDoc[slug]) ? (lessonsDoc[slug] as unknown[]) : [])
+      .filter(isRecord)
+      .find((b) => b.type === type)
+
+  // 1. Boilerplate reuse — one value repeated across most lessons.
+  const gather = (type: string, field: string) =>
+    lessons.map((s) => { const b = first(s, type); return b && typeof b[field] === 'string' ? (b[field] as string) : null }).filter((x): x is string => !!x)
+  const flagReuse = (name: string, arr: string[]) => {
+    if (arr.length < 5) return
+    const uniq = new Set(arr).size
+    if (uniq / arr.length < REUSE_MIN_UNIQUE_RATIO)
+      F.push({ lesson: '—', dim: 'template', sev: 'FAIL', msg: `${name}: only ${uniq} unique across ${arr.length} lessons (${Math.round((uniq / arr.length) * 100)}%) — boilerplate, not per-lesson content` })
+  }
+  flagReuse('worked-example commonMistake', gather('worked-example', 'commonMistake'))
+  flagReuse('tradeoff guidance', gather('tradeoff', 'guidance'))
+  flagReuse('quiz question', gather('quiz', 'question'))
+  const diagSigs = lessons.map((s) => { const d = first(s, 'diagram'); return d && Array.isArray(d.nodes) ? (d.nodes as unknown[]).filter(isRecord).map((n) => String(n.label)).sort().join('|') : null }).filter((x): x is string => !!x)
+  flagReuse('diagram structure (node set)', diagSigs)
+
+  // 2. Concept templating — high median pairwise similarity across lessons.
+  const concepts = gather('concept', 'text')
+  if (concepts.length >= 5) {
+    const sh = concepts.map((c) => shingles(c))
+    const sims: number[] = []
+    for (let i = 0; i < sh.length; i++) for (let j = i + 1; j < sh.length; j++) sims.push(jaccard(sh[i], sh[j]))
+    const med = median(sims)
+    if (med > SIM_THRESHOLD)
+      F.push({ lesson: '—', dim: 'template', sev: 'FAIL', msg: `concept blocks are templated: median cross-lesson similarity ${Math.round(med * 100)}% (genuinely distinct teaching runs <20%)` })
+  }
+
+  // 3. Lab substance — output reconstructable from the solution's string literals
+  //    means the lab prints a hardcoded proof card and computes nothing.
+  for (const s of lessons) {
+    const lab = first(s, 'lab')
+    if (!lab) continue
+    const checkStr = typeof lab.check === 'string' ? lab.check : ''
+    const sol = (solutions[s] && typeof solutions[s].code === 'string' ? solutions[s].code : '') || (typeof lab.solution === 'string' ? lab.solution : '')
+    if (!checkStr || !sol) continue
+    const lits = stringLiterals(sol)
+    const lines = norm(checkStr).split('\n').map((l) => l.trim()).filter(Boolean)
+    if (lines.length < 2) continue
+    const covered = lines.filter((l) => lits.includes(l)).length
+    const frac = covered / lines.length
+    if (frac >= LAB_HARDCODE_FRAC)
+      F.push({ lesson: s, dim: 'lab-substance', sev: 'FAIL', msg: `lab output is hardcoded — ${Math.round(frac * 100)}% of check lines appear verbatim as string literals in the solution; the lab computes nothing (proof-card pattern)` })
+  }
+
+  return F
+}
+
 // ── per-lesson checks ────────────────────────────────────────────────────────
 type SolutionEntry = { language?: string; code?: string; stdin?: string }
 
@@ -242,7 +341,7 @@ function readJson(path: string): unknown {
   try { return JSON.parse(readFileSync(path, 'utf8')) } catch (e) { return { __parseError: String((e as Error).message) } }
 }
 
-function auditCourse(courseDir: string, runLabs: boolean): CourseReport {
+function auditCourse(courseDir: string, runLabs: boolean, contentChecks: boolean): CourseReport {
   const course = basename(courseDir)
   const counts = { fail: 0, warn: 0, labsRun: 0, labsPass: 0, labsUnverified: 0 }
   const findings: Finding[] = []
@@ -273,6 +372,10 @@ function auditCourse(courseDir: string, runLabs: boolean): CourseReport {
   for (const slug of lessonSlugs) {
     findings.push(...auditLesson(slug, lessonsDoc[slug], solutions, runLabs, counts))
   }
+
+  // Content-substance heuristics (anti-template) — catch procedurally-generated
+  // shells that pass structure but don't actually teach.
+  if (contentChecks) findings.push(...contentHeuristics(lessonsDoc, solutions))
 
   // 6. Manifest — 1:1 with lessons, fields present.
   const manifestPath = findFile(courseDir, course, 'manifest.json')
@@ -364,9 +467,31 @@ function selfTest(): void {
   const sqlOk = runSql('SELECT 1 AS n;').stdout.trim() === 'n\n1'.trim() || norm(runSql('SELECT 1 AS n;').stdout) === norm('n\n1')
   const jsOk = norm(runJs("console.log('hi', {a:1})").stdout) === norm('hi {"a":1}')
 
-  const all = labOk && refCaught && mismatchCaught && sqlOk && jsOk
-  console.log(`lab-pass:${labOk} ref-catch:${refCaught} mismatch-catch:${mismatchCaught} sql:${sqlOk} js:${jsOk}`)
-  console.log(all ? 'SELF-TEST PASS — harness runs labs, diffs check, and catches bad refs.' : 'SELF-TEST FAIL')
+  // Content heuristics: a hollow 6-lesson course (one reused commonMistake + proof-card
+  // labs) must FAIL; a varied course with computed labs must stay clean.
+  const mk = (i: number, hollow: boolean) => hollow
+    ? [
+        { type: 'worked-example', intro: 'x', steps: ['s'], commonMistake: 'Shipping a demo without a proof packet.' },
+        { type: 'lab', title: 't', language: 'python', starter: '#', check: `lesson-${i}\nartifact-${i}` },
+      ]
+    : [
+        { type: 'worked-example', intro: 'x', steps: ['s'], commonMistake: `Distinct mistake number ${i} about topic ${i}.` },
+        { type: 'lab', title: 't', language: 'python', starter: '#', check: `${i * 7}\n${i * 13}` },
+      ]
+  const hollowDoc: Record<string, unknown> = {}, variedDoc: Record<string, unknown> = {}
+  const hollowSol: Record<string, SolutionEntry> = {}, variedSol: Record<string, SolutionEntry> = {}
+  for (let i = 0; i < 6; i++) {
+    hollowDoc[`l${i}`] = mk(i, true); hollowSol[`l${i}`] = { language: 'python', code: `print("lesson-${i}")\nprint("artifact-${i}")` }
+    variedDoc[`l${i}`] = mk(i, false); variedSol[`l${i}`] = { language: 'python', code: `print(${i}*7)\nprint(${i}*13)` }
+  }
+  const hollowF = contentHeuristics(hollowDoc, hollowSol)
+  const variedF = contentHeuristics(variedDoc, variedSol)
+  const templateCaught = hollowF.some((x) => x.dim === 'template') && hollowF.some((x) => x.dim === 'lab-substance')
+  const noFalsePos = variedF.length === 0
+
+  const all = labOk && refCaught && mismatchCaught && sqlOk && jsOk && templateCaught && noFalsePos
+  console.log(`lab-pass:${labOk} ref-catch:${refCaught} mismatch-catch:${mismatchCaught} sql:${sqlOk} js:${jsOk} template-catch:${templateCaught} no-false-pos:${noFalsePos}`)
+  console.log(all ? 'SELF-TEST PASS — harness runs labs, diffs check, catches bad refs + templated/hollow content.' : 'SELF-TEST FAIL')
   process.exit(all ? 0 : 1)
 }
 
@@ -381,6 +506,7 @@ function main(): void {
     process.exit(2)
   }
   const runLabs = !argv.includes('--no-run-labs')
+  const contentChecks = !argv.includes('--no-content-heuristics')
   const only = argv.includes('--course') ? argv[argv.indexOf('--course') + 1] : null
   const jsonOut = argv.includes('--json') ? argv[argv.indexOf('--json') + 1] : null
 
@@ -394,7 +520,7 @@ function main(): void {
     process.exit(2)
   }
 
-  const reports = courseDirs.map((p) => auditCourse(p, runLabs))
+  const reports = courseDirs.map((p) => auditCourse(p, runLabs, contentChecks))
   printReport(reports)
   if (jsonOut) { writeFileSync(jsonOut, JSON.stringify(reports, null, 2)); console.log(`\nwrote ${jsonOut}`) }
   process.exit(reports.every((r) => r.gate === 'PASS') ? 0 : 1)

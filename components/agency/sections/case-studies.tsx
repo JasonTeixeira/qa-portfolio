@@ -1,19 +1,50 @@
 import type { ReactNode } from 'react'
 import { CASE_STUDIES, type CaseStudy } from '@/data/agency/case-studies'
+import { EVIDENCE_CAPTURES } from '@/data/agency/evidence-manifest'
 import { Reveal } from '@/components/agency/core'
-import { PipelineDiagram } from '@/components/agency/pipeline-diagram'
+import { SystemDiagram } from '@/components/agency/diagrams/system-diagram'
 import { SectionShell } from '@/components/agency/section-shell'
 
 /**
- * Section 03 — Featured case studies. Server component.
+ * Section 03 — Featured case studies. Server component. Diagram-first:
+ * each study leads with a full SystemDiagram topology, the title row overlaps
+ * the diagram's bottom edge, and prose is compressed to one problem sentence,
+ * one built sentence, instrument stats, and hazard chips.
  * Content lives in data/agency/case-studies.ts (sourced from the proof inventory).
  */
 
-function CaseStudyColumn({ heading, body }: { heading: string; body: string }) {
+/** Real artifact captures first (from disk, styled frames), honest placeholders after. */
+function EvidenceStrip({ study }: { study: CaseStudy }) {
+  const captures = EVIDENCE_CAPTURES.filter((c) => c.slot.startsWith(`${study.id}-`))
+  const placeholders = study.evidenceSlots.slice(captures.length)
   return (
-    <div className="ag-cs-col">
-      <h4 className="ag-cs-col-h">{heading}</h4>
-      <p className="ag-cs-col-p">{body}</p>
+    <div className="ag-cs-evidence">
+      <h4 className="ag-cs-evidence-h">
+        {captures.length > 0 ? 'EVIDENCE — REAL ARTIFACTS, CAPTURED FROM DISK' : 'EVIDENCE — REAL ARTIFACT PENDING DROP-IN'}
+      </h4>
+      <div className="ag-cs-slots">
+        {captures.map((capture) => (
+          <figure key={capture.file} className="ag-cs-slot ag-cs-slot--filled">
+            <img
+              src={capture.file}
+              alt={capture.title}
+              width={1200}
+              height={750}
+              loading="lazy"
+            />
+            <figcaption className="ag-cs-slot-caption">{capture.title}</figcaption>
+            <span className={`ag-cs-tier ag-cs-tier--${capture.tier.toLowerCase()}`}>
+              {capture.tier}
+            </span>
+          </figure>
+        ))}
+        {placeholders.map((slot) => (
+          <figure key={slot.caption} className="ag-cs-slot">
+            <figcaption className="ag-cs-slot-caption">{slot.caption} · PENDING</figcaption>
+            <span className={`ag-cs-tier ag-cs-tier--${slot.tier.toLowerCase()}`}>{slot.tier}</span>
+          </figure>
+        ))}
+      </div>
     </div>
   )
 }
@@ -31,47 +62,62 @@ function CaseStudyCard({
   return (
     <Reveal as="div">
       <article id={study.id} className="ag-cs" aria-labelledby={`${study.id}-title`}>
-        <header className="ag-cs-visual">
-          <PipelineDiagram stages={study.pipeline} />
-          <p className="ag-cs-pipetext">
-            {study.pipeline.map((stage) => stage.label).join(' → ')}
-          </p>
-        </header>
+        {/* System topology — the 5-second read */}
+        <div className="ag-cs-diagram">
+          <SystemDiagram uid={study.id} spec={study.diagram} />
+        </div>
+
+        {/* Title row overlapping the diagram's bottom edge */}
+        <div className="ag-cs-titlerow ag-cs-titlerow--overlap">
+          <span className="ag-cs-num">{num}</span>
+          <h3 id={`${study.id}-title`} className="ag-cs-title">
+            {study.title}
+          </h3>
+          <span className={`ag-badge ag-badge--${study.badge.variant} ag-cs-badge`}>
+            {study.badge.label}
+          </span>
+        </div>
 
         <div className="ag-cs-body">
-          <div className="ag-cs-titlerow">
-            <span className="ag-cs-num">{num}</span>
-            <h3 id={`${study.id}-title`} className="ag-cs-title">
-              {study.title}
-            </h3>
-            <span className={`ag-badge ag-badge--${study.badge.variant} ag-cs-badge`}>
-              {study.badge.label}
-            </span>
-          </div>
           <p className="ag-cs-subtitle">{study.subtitle}</p>
 
-          <div className="ag-cs-grid">
-            <CaseStudyColumn heading="PROBLEM" body={study.problem} />
-            <CaseStudyColumn heading="WHAT I BUILT" body={study.built} />
-            <CaseStudyColumn heading="VALIDATION" body={study.validation} />
-            <CaseStudyColumn heading="FAILURE MODES CONSIDERED" body={study.failureModes} />
+          {/* Compact problem / built band */}
+          <div className="ag-cs-band">
+            <div className="ag-cs-band-col">
+              <h4 className="ag-cs-band-h">PROBLEM</h4>
+              <p className="ag-cs-band-p">{study.problem}</p>
+            </div>
+            <div className="ag-cs-band-col">
+              <h4 className="ag-cs-band-h">BUILT</h4>
+              <p className="ag-cs-band-p">{study.built}</p>
+            </div>
+          </div>
+
+          {/* Instrument stat tiles */}
+          <dl className="ag-cs-stats">
+            {study.stats.map((stat) => (
+              <div key={stat.label} className="ag-cs-stat">
+                <dt className="ag-cs-stat-label">{stat.label}</dt>
+                <dd className="ag-cs-stat-value">{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          {/* Failure modes as pinned hazard chips */}
+          <div className="ag-cs-hazards">
+            <span className="ag-cs-hazards-h">FAILURE MODES</span>
+            <ul className="ag-cs-hazard-list">
+              {study.hazards.map((hazard) => (
+                <li key={hazard} className="ag-cs-hazard">
+                  {hazard}
+                </li>
+              ))}
+            </ul>
           </div>
 
           {demo ? <div className="ag-cs-demo">{demo}</div> : null}
 
-          <div className="ag-cs-evidence">
-            <h4 className="ag-cs-evidence-h">EVIDENCE — REAL ARTIFACT PENDING DROP-IN</h4>
-            <div className="ag-cs-slots">
-              {study.evidenceSlots.map((slot) => (
-                <figure key={slot.caption} className="ag-cs-slot">
-                  <figcaption className="ag-cs-slot-caption">{slot.caption}</figcaption>
-                  <span className={`ag-cs-tier ag-cs-tier--${slot.tier.toLowerCase()}`}>
-                    {slot.tier}
-                  </span>
-                </figure>
-              ))}
-            </div>
-          </div>
+          <EvidenceStrip study={study} />
 
           <footer className="ag-cs-footer">
             <div className="ag-cs-stack">

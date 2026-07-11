@@ -1,11 +1,29 @@
 import type { ReactNode } from 'react'
 
 import { Reveal } from '@/components/agency/core'
+import { HeroSchematic } from '@/components/agency/hero-schematic'
+import { Magnetic } from '@/components/agency/islands/magnetic'
 
 interface HeroProps {
   /** Optional live instrument (e.g. GateRunner) rendered in the right-side background layer. */
   instrument?: ReactNode
 }
+
+interface H1Word {
+  text: string
+  em: boolean
+}
+
+/* H1 copy split into words for the staggered rise-in — copy is unchanged;
+   the trailing clause keeps its accent via the existing .ag-hero-h1-em. */
+const H1_WORDS: readonly H1Word[] = [
+  ...'I build AI systems, QA infrastructure, and automation workflows'
+    .split(' ')
+    .map((text) => ({ text, em: false })),
+  ...'that prove they work.'.split(' ').map((text) => ({ text, em: true })),
+]
+
+const H1_STAGGER_MS = 40
 
 /**
  * Full-viewport hero, content bottom-anchored. Server component —
@@ -16,6 +34,7 @@ export function Hero({ instrument }: HeroProps) {
     <section id="top" className="ag-hero" aria-labelledby="hero-heading">
       {/* Decorative layers */}
       <div className="ag-hero-gridlines" aria-hidden="true" />
+      <HeroSchematic />
       <div className="ag-hero-glow" aria-hidden="true" />
       <svg className="ag-hero-lines" aria-hidden="true" focusable="false">
         <line x1="64%" y1="12%" x2="100%" y2="12%" stroke="var(--acc-primary)" strokeWidth="1.5" className="ag-dashflow" />
@@ -25,6 +44,7 @@ export function Hero({ instrument }: HeroProps) {
         <circle cx="70%" cy="19%" r="5" fill="var(--acc-ai)" className="ag-pulse" />
         <circle cx="67%" cy="26%" r="5" fill="var(--acc-pass)" className="ag-pulse" />
       </svg>
+      <div className="ag-grain" aria-hidden="true" />
 
       <div className="ag-hero-inner">
         <div className="ag-hero-content">
@@ -36,8 +56,19 @@ export function Hero({ instrument }: HeroProps) {
           </Reveal>
           <Reveal delay={90}>
             <h1 id="hero-heading" className="ag-hero-h1">
-              I build AI systems, QA infrastructure, and automation workflows{' '}
-              <em className="ag-hero-h1-em">that prove they work.</em>
+              {H1_WORDS.map((word, index) => (
+                <span key={`${word.text}-${index}`}>
+                  <span className="ag-h1-word">
+                    <span
+                      className="ag-h1-word-inner"
+                      style={{ animationDelay: `${index * H1_STAGGER_MS}ms` }}
+                    >
+                      {word.em ? <em className="ag-hero-h1-em">{word.text}</em> : word.text}
+                    </span>
+                  </span>
+                  {index < H1_WORDS.length - 1 ? ' ' : null}
+                </span>
+              ))}
             </h1>
           </Reveal>
           <Reveal delay={180}>
@@ -48,12 +79,16 @@ export function Hero({ instrument }: HeroProps) {
           </Reveal>
           <Reveal delay={270}>
             <div className="ag-hero-ctas">
-              <a href="#proof" className="ag-btn ag-btn--solid">
-                VIEW PROOF <span aria-hidden="true">↓</span>
-              </a>
-              <a href="#contact" className="ag-btn">
-                RESUME / CONTACT
-              </a>
+              <Magnetic>
+                <a href="#proof" className="ag-btn ag-btn--solid">
+                  VIEW PROOF <span aria-hidden="true">↓</span>
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="#contact" className="ag-btn">
+                  RESUME / CONTACT
+                </a>
+              </Magnetic>
               <span className="ag-hero-status">
                 <span className="ag-hero-status-dot ag-pulse" aria-hidden="true" />
                 OPEN TO ROLES + CONSULTING

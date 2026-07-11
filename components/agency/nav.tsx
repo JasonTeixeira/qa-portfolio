@@ -51,7 +51,7 @@ export function AgencyNav() {
         </a>
         <div className="ag-nav-links">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="ag-nav-link">
+            <a key={link.href} href={link.href} className="ag-nav-link ag-nav-link--underline">
               {link.label}
             </a>
           ))}

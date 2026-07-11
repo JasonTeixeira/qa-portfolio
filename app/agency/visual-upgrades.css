@@ -1,0 +1,364 @@
+/* Visual upgrades — micro-diagram motifs (proof grid), anatomy glyph arc,
+   skills system map, ledger instrument strip.
+   Imported from app/agency/layout.tsx AFTER agency.css/sections.css/islands.css
+   so its overrides win on equal specificity. Mobile-first; 720/1024 breakpoints.
+   All continuous animation reuses .ag-dashflow / .ag-pulse (compositor-safe,
+   reduced-motion-guarded globally in agency.css). */
+
+/* ============ MICRO-DIAGRAM MOTIFS ============ */
+
+.ag-motif {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 140px;
+}
+
+/* ============ 02 — PROOF GRID: motif card headers ============ */
+
+.ag-proof-card--motif {
+  gap: 12px;
+}
+
+.ag-proof-card-motif {
+  display: block;
+  margin: calc(var(--card-pad) * -1) calc(var(--card-pad) * -1) 6px;
+  padding: 22px 18px 14px;
+  border-bottom: 1px solid var(--ag-border-soft);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card-acc, var(--acc-primary)) 6%, transparent),
+    transparent
+  );
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.ag-proof-card--motif:hover .ag-proof-card-motif,
+.ag-proof-card--motif:focus-visible .ag-proof-card-motif {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card-acc, var(--acc-primary)) 11%, transparent),
+    transparent
+  );
+}
+
+/* ============ 02.5 — ANATOMY: glyph circles on an arc ============ */
+
+.ag-anatomy__rail--arc {
+  padding-top: 6px;
+  padding-bottom: 40px;
+}
+
+.ag-anatomy__node.ag-anatomy__node--glyph {
+  width: 148px;
+  gap: 10px;
+  transform: translateY(var(--arc-y, 0px));
+}
+
+.ag-anatomy__circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--stage-color);
+  color: var(--stage-color);
+  background: color-mix(in srgb, var(--stage-color) 6%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--stage-color) 8%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.ag-anatomy__glyph {
+  width: 32px;
+  height: 32px;
+}
+
+.ag-anatomy__node--glyph:hover .ag-anatomy__circle {
+  transform: scale(1.05);
+}
+
+.ag-anatomy__node--glyph[aria-checked='true'] .ag-anatomy__circle {
+  background: color-mix(in srgb, var(--stage-color) 18%, transparent);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--stage-color) 22%, transparent),
+    0 0 36px color-mix(in srgb, var(--stage-color) 32%, transparent);
+}
+
+.ag-anatomy__chip {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--tx-3);
+  border: 1px solid var(--ag-border);
+  background: color-mix(in srgb, var(--ag-card) 70%, transparent);
+  padding: 4px 8px;
+  max-width: 142px;
+  text-align: center;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.ag-anatomy__node--glyph[aria-checked='true'] .ag-anatomy__chip {
+  color: var(--tx-2);
+  border-color: color-mix(in srgb, var(--stage-color) 55%, transparent);
+}
+
+/* Curved connector: SVG stretches horizontally only (height fixed), so the
+   baked y-coordinates always meet the circle centers on the arc. */
+.ag-anatomy__link {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 26px;
+  height: 100px;
+}
+
+.ag-anatomy__link-svg {
+  display: block;
+  width: 100%;
+  height: 100px;
+}
+
+.ag-anatomy__link-arrow {
+  position: absolute;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid rgba(226, 234, 250, 0.45);
+  border-right: 2px solid rgba(226, 234, 250, 0.45);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* ============ 05 — SKILLS SYSTEM MAP ============ */
+
+.ag-skillmap-frame {
+  display: none;
+}
+
+.ag-skillmap {
+  display: block;
+  width: 100%;
+  height: clamp(420px, 42vw, 520px);
+}
+
+.ag-skillmap-hub-text {
+  font-family: var(--f-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  fill: var(--tx);
+}
+
+.ag-skillmap-node-label {
+  font-family: var(--f-sans);
+  font-size: 16.5px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  fill: var(--tx);
+}
+
+.ag-skillmap-chip {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  fill: var(--tx-3);
+}
+
+/* <720px: same content as a 2-col grid of compact node cards */
+.ag-skillmap-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--ag-border-soft);
+  border: 1px solid var(--ag-border-soft);
+}
+
+.ag-skillmap-card {
+  background: var(--ag-card);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ag-skillmap-card-glyph {
+  width: 24px;
+  height: 24px;
+  color: var(--node-acc, var(--acc-primary));
+  flex: 0 0 auto;
+}
+
+.ag-skillmap-card-outcome {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+}
+
+.ag-skillmap-card-tools {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  line-height: 1.9;
+  color: var(--tx-3);
+}
+
+/* Plain mono outcome row — visual strip on desktop; hidden <720 where the
+   card grid already carries the same content. */
+.ag-skillmap-row {
+  display: none;
+}
+
+@media (min-width: 720px) {
+  .ag-skillmap-frame {
+    display: block;
+    border: 1px solid var(--ag-border-soft);
+    background:
+      radial-gradient(
+        ellipse at center,
+        color-mix(in srgb, var(--acc-primary) 4%, transparent),
+        transparent 70%
+      ),
+      var(--ag-bg-deep);
+    padding: clamp(12px, 2vw, 28px);
+  }
+
+  /* Keep the full outcome+tools content in the a11y tree while the
+     decorative SVG map is shown (SVG itself is aria-hidden). */
+  .ag-skillmap-cards {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+  }
+
+  .ag-skillmap-row {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 28px;
+    row-gap: 8px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tx-3);
+  }
+
+  .ag-skillmap-row-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .ag-skillmap-row-item::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--ag-border-strong);
+    transform: rotate(45deg);
+    flex: 0 0 auto;
+    align-self: center;
+  }
+}
+
+/* ============ 04 — LEDGER INSTRUMENT STRIP ============ */
+
+.ag-ledger-strip {
+  margin: 0 0 30px;
+  border: 1px solid var(--ag-border-soft);
+  background: var(--ag-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ag-ledger-strip-cells {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.ag-ledger-strip-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ag-ledger-strip-num {
+  font-family: var(--f-mono);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--tx);
+  font-variant-numeric: tabular-nums;
+}
+
+.ag-ledger-strip-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--tx-3);
+}
+
+.ag-ledger-strip-bar {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  width: 100%;
+}
+
+.ag-ledger-strip-seg {
+  flex-basis: 0;
+  min-width: 4px;
+}
+
+.ag-ledger-glyph {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--tx-3);
+}
+
+.ag-ledger-artifact {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .ag-ledger-strip {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 22px 28px;
+  }
+
+  .ag-ledger-strip-cells {
+    display: flex;
+    gap: clamp(28px, 4vw, 64px);
+  }
+
+  .ag-ledger-strip-bar {
+    width: auto;
+    flex: 1 1 auto;
+    max-width: 420px;
+  }
+}

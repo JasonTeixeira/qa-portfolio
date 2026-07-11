@@ -1,13 +1,22 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactElement } from 'react'
 
 import { Reveal } from '@/components/agency/core'
 import { SectionShell } from '@/components/agency/section-shell'
+import {
+  ApprovalLoopMotif,
+  BrowserGridMotif,
+  DocTreeMotif,
+  EvalLoopMotif,
+  GateFunnelMotif,
+  WorkflowDagMotif,
+} from '@/components/agency/micro-diagrams'
 
 interface ProofCategory {
   category: string
   accent: string
   title: string
   microcopy: string
+  Motif: () => ReactElement
 }
 
 const PROOF_CATEGORIES: readonly ProofCategory[] = [
@@ -16,36 +25,42 @@ const PROOF_CATEGORIES: readonly ProofCategory[] = [
     accent: 'var(--acc-ai)',
     title: 'RAG evaluation harnesses',
     microcopy: 'Inspect the eval output →',
+    Motif: EvalLoopMotif,
   },
   {
     category: 'BROWSER QA',
     accent: 'var(--acc-browser)',
     title: 'Playwright E2E flows',
     microcopy: 'See the test report →',
+    Motif: BrowserGridMotif,
   },
   {
     category: 'OPERATIONS',
     accent: 'var(--acc-pass)',
     title: 'Automation workflows',
     microcopy: 'Read the run logs →',
+    Motif: WorkflowDagMotif,
   },
   {
     category: 'RELEASE SAFETY',
     accent: 'var(--acc-primary)',
     title: 'Release readiness gates',
     microcopy: 'Open the scorecard →',
+    Motif: GateFunnelMotif,
   },
   {
     category: 'HUMAN-IN-THE-LOOP',
     accent: 'var(--acc-pass)',
     title: 'AI assistant workflows',
     microcopy: 'Trace the approval loop →',
+    Motif: ApprovalLoopMotif,
   },
   {
     category: 'DOCUMENTATION',
     accent: 'var(--acc-log)',
     title: 'Runbooks & workflow maps',
     microcopy: 'Review the runbook →',
+    Motif: DocTreeMotif,
   },
 ]
 
@@ -65,9 +80,12 @@ export function ProofGridSection() {
             <a
               key={item.category}
               href="#case-studies"
-              className="ag-cell ag-proof-card"
+              className="ag-cell ag-proof-card ag-proof-card--motif"
               style={{ '--card-acc': item.accent } as CSSProperties}
             >
+              <span className="ag-proof-card-motif" aria-hidden="true">
+                <item.Motif />
+              </span>
               <span className="ag-proof-card-cat">{item.category}</span>
               <span className="ag-proof-card-title">{item.title}</span>
               <span className="ag-proof-card-cta">{item.microcopy}</span>

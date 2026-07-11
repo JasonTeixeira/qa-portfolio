@@ -1,0 +1,932 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "SAGE IDEAS" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e15]:
+          - button "Services" [ref=e17] [cursor=pointer]
+          - link "Work" [ref=e20] [cursor=pointer]:
+            - /url: /work
+          - link "Academy" [ref=e21] [cursor=pointer]:
+            - /url: /academy
+          - link "Pricing" [ref=e22] [cursor=pointer]:
+            - /url: /pricing
+          - button "Resources" [ref=e24] [cursor=pointer]
+        - generic [ref=e27]:
+          - button "Change language, current language EN" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]: 🌐
+            - text: EN
+            - generic [ref=e31]: ⌄
+          - link "Login" [ref=e32] [cursor=pointer]:
+            - /url: /login
+          - link "Book a call" [ref=e36] [cursor=pointer]:
+            - /url: /book
+            - text: Book a call
+            - generic [ref=e37]: →
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - generic: Routing / Index
+      - generic [ref=e41]:
+        - navigation "Main navigation" [ref=e43]:
+          - link "JASON TEIXEIRA" [ref=e44] [cursor=pointer]:
+            - /url: "#top"
+            - text: JASON TEIXEIRA
+            - generic [ref=e45]: ◆
+          - generic [ref=e46]:
+            - link "PROOF" [ref=e47] [cursor=pointer]:
+              - /url: "#proof"
+            - link "CASE STUDIES" [ref=e48] [cursor=pointer]:
+              - /url: "#case-studies"
+            - link "LEDGER" [ref=e49] [cursor=pointer]:
+              - /url: "#ledger"
+            - link "WRITING" [ref=e50] [cursor=pointer]:
+              - /url: "#writing"
+          - link "CONTACT" [ref=e51] [cursor=pointer]:
+            - /url: "#contact"
+        - main [ref=e52]:
+          - region [ref=e53]:
+            - generic [ref=e55]:
+              - paragraph [ref=e56]: $ verify agency.sageideas.dev
+              - list [ref=e58]
+              - paragraph [ref=e59]: LIVE OUTPUT OF THIS SITE'S OWN RELEASE GATE — SEEDED AT BUILD, WRITTEN BY CI
+            - generic [ref=e60]:
+              - paragraph [ref=e62]: AI / QA / AUTOMATION ENGINEER
+              - heading [level=1] [ref=e65]:
+                - text: I build AI systems, QA infrastructure, and automation workflows
+                - emphasis [ref=e66]: that prove they work.
+              - paragraph [ref=e68]: Tested automation systems, AI workflows, eval harnesses, and QA pipelines — for teams that need reliable software, not fragile demos.
+              - generic [ref=e70]:
+                - link "VIEW PROOF" [ref=e71] [cursor=pointer]:
+                  - /url: "#proof"
+                  - text: VIEW PROOF
+                  - generic [ref=e72]: ↓
+                - link "RESUME / CONTACT" [ref=e73] [cursor=pointer]:
+                  - /url: "#contact"
+                - generic [ref=e74]: OPEN TO ROLES + CONSULTING
+          - complementary "Operating principles" [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]: EVERY CLAIM ATTACHED TO AN ARTIFACT
+                  - generic [ref=e81]: ◆
+                - generic [ref=e82]:
+                  - generic [ref=e83]: NO INVENTED METRICS
+                  - generic [ref=e84]: ◆
+                - generic [ref=e85]:
+                  - generic [ref=e86]: TESTED, NOT DESCRIBED
+                  - generic [ref=e87]: ◆
+                - generic [ref=e88]:
+                  - generic [ref=e89]: EVALS OVER VIBES
+                  - generic [ref=e90]: ◆
+                - generic [ref=e91]:
+                  - generic [ref=e92]: OBSERVABLE · REPEATABLE · RECOVERABLE
+                  - generic [ref=e93]: ◆
+              - generic [ref=e94]:
+                - generic [ref=e95]:
+                  - generic [ref=e96]: EVERY CLAIM ATTACHED TO AN ARTIFACT
+                  - generic [ref=e97]: ◆
+                - generic [ref=e98]:
+                  - generic [ref=e99]: NO INVENTED METRICS
+                  - generic [ref=e100]: ◆
+                - generic [ref=e101]:
+                  - generic [ref=e102]: TESTED, NOT DESCRIBED
+                  - generic [ref=e103]: ◆
+                - generic [ref=e104]:
+                  - generic [ref=e105]: EVALS OVER VIBES
+                  - generic [ref=e106]: ◆
+                - generic [ref=e107]:
+                  - generic [ref=e108]: OBSERVABLE · REPEATABLE · RECOVERABLE
+                  - generic [ref=e109]: ◆
+          - region "THE 30-SECOND SCAN" [ref=e110]:
+            - generic: "01"
+            - generic [ref=e111]:
+              - paragraph [ref=e112]: 01 — THE 30-SECOND SCAN
+              - paragraph [ref=e113]: FOR HIRING MANAGERS & TECHNICAL LEADS
+            - generic [ref=e115]:
+              - article [ref=e116]:
+                - heading "TARGET ROLES" [level=3] [ref=e117]
+                - list [ref=e118]:
+                  - listitem [ref=e119]: AI Automation Engineer
+                  - listitem [ref=e120]: QA Automation Engineer / SDET
+                  - listitem [ref=e121]: AI Evaluation Engineer
+                  - listitem [ref=e122]: Test Infrastructure Engineer
+                  - listitem [ref=e123]: Workflow Automation Engineer
+              - article [ref=e124]:
+                - heading "BEST-FIT WORK" [level=3] [ref=e125]
+                - list [ref=e126]:
+                  - listitem [ref=e127]: AI workflows with evals + source checks
+                  - listitem [ref=e128]: Playwright & API test coverage
+                  - listitem [ref=e129]: Manual ops → repeatable systems
+                  - listitem [ref=e130]: Release readiness & QA reporting loops
+                  - listitem [ref=e131]: Debugging brittle workflows
+              - article [ref=e132]:
+                - heading "STRONGEST TOOLS" [level=3] [ref=e133]
+                - generic [ref=e134]:
+                  - generic [ref=e135]: Playwright
+                  - generic [ref=e136]: TypeScript
+                  - generic [ref=e137]: Node.js
+                  - generic [ref=e138]: Python
+                  - generic [ref=e139]: Claude / OpenAI APIs
+                  - generic [ref=e140]: RAG pipelines
+                  - generic [ref=e141]: CI gates
+                  - generic [ref=e142]: Webhooks
+                  - generic [ref=e143]: Supabase
+              - article [ref=e144]:
+                - heading "STRONGEST PROOF" [level=3] [ref=e145]
+                - list [ref=e146]:
+                  - listitem [ref=e147]:
+                    - link "RAG eval harnesses →" [ref=e148] [cursor=pointer]:
+                      - /url: "#case-studies"
+                  - listitem [ref=e149]:
+                    - link "Browser automation proof →" [ref=e150] [cursor=pointer]:
+                      - /url: "#case-studies"
+                  - listitem [ref=e151]:
+                    - link "Readiness reports →" [ref=e152] [cursor=pointer]:
+                      - /url: "#case-studies"
+                  - listitem [ref=e153]:
+                    - link "Workflow run logs →" [ref=e154] [cursor=pointer]:
+                      - /url: "#case-studies"
+                  - listitem [ref=e155]:
+                    - link "Evidence ledger →" [ref=e156] [cursor=pointer]:
+                      - /url: "#ledger"
+                - generic [ref=e157]:
+                  - link "↓ RESUME.PDF" [ref=e158] [cursor=pointer]:
+                    - /url: "#"
+                  - link "↗ GITHUB" [ref=e159] [cursor=pointer]:
+                    - /url: https://github.com/JasonTeixeira
+                  - link "✉ EMAIL" [ref=e160] [cursor=pointer]:
+                    - /url: mailto:sageideass@gmail.com
+          - region "PROOF, NOT PERCENTAGES" [ref=e161]:
+            - generic: "02"
+            - paragraph [ref=e163]: 02 — PROOF, NOT PERCENTAGES
+            - paragraph [ref=e165]: No invented time savings. No fake dashboards. Each category below links to an inspectable artifact — a report, a log, a diagram, or a screenshot.
+            - generic [ref=e167]:
+              - link "AI QUALITY RAG evaluation harnesses Inspect the eval output →" [ref=e168] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e169]: AI QUALITY
+                - generic [ref=e170]: RAG evaluation harnesses
+                - generic [ref=e171]: Inspect the eval output →
+              - link "BROWSER QA Playwright E2E flows See the test report →" [ref=e172] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e173]: BROWSER QA
+                - generic [ref=e174]: Playwright E2E flows
+                - generic [ref=e175]: See the test report →
+              - link "OPERATIONS Automation workflows Read the run logs →" [ref=e176] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e177]: OPERATIONS
+                - generic [ref=e178]: Automation workflows
+                - generic [ref=e179]: Read the run logs →
+              - link "RELEASE SAFETY Release readiness gates Open the scorecard →" [ref=e180] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e181]: RELEASE SAFETY
+                - generic [ref=e182]: Release readiness gates
+                - generic [ref=e183]: Open the scorecard →
+              - link "HUMAN-IN-THE-LOOP AI assistant workflows Trace the approval loop →" [ref=e184] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e185]: HUMAN-IN-THE-LOOP
+                - generic [ref=e186]: AI assistant workflows
+                - generic [ref=e187]: Trace the approval loop →
+              - link "DOCUMENTATION Runbooks & workflow maps Review the runbook →" [ref=e188] [cursor=pointer]:
+                - /url: "#case-studies"
+                - generic [ref=e189]: DOCUMENTATION
+                - generic [ref=e190]: Runbooks & workflow maps
+                - generic [ref=e191]: Review the runbook →
+          - region [ref=e192]:
+            - generic [ref=e193]:
+              - paragraph [ref=e194]: 02.5 — SYSTEM ANATOMY
+              - heading "Anatomy of a trustworthy automation" [level=2] [ref=e195]
+              - paragraph [ref=e196]: Hover each stage. Every service I offer lives somewhere on this map — and each stage links to the case study that proves it.
+            - radiogroup "Workflow stages" [ref=e197]:
+              - radio "TRIGGER" [checked] [ref=e199] [cursor=pointer]
+              - radio "AI STEP" [ref=e206] [cursor=pointer]
+              - radio "EVALS" [ref=e213] [cursor=pointer]
+              - radio "HUMAN GATE" [ref=e220] [cursor=pointer]
+              - radio "LOG" [ref=e227] [cursor=pointer]
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - generic [ref=e234]: 01 / TRIGGER
+                - paragraph [ref=e235]: A defined input starts the run — a webhook, a schedule, a message. Never a person remembering to. If it can’t say what wakes it up, it isn’t an automation yet.
+              - generic [ref=e236]:
+                - generic [ref=e237]: ARTIFACT IT PRODUCES
+                - generic [ref=e238]: Job manifest + trigger log
+                - link "SEE THE CASE STUDY →" [ref=e239] [cursor=pointer]:
+                  - /url: "#case-studies"
+          - region "FEATURED CASE STUDIES" [ref=e240]:
+            - generic: "03"
+            - generic [ref=e241]:
+              - paragraph [ref=e242]: 03 — FEATURED CASE STUDIES
+              - paragraph [ref=e243]: BUILT, TESTED, INSTRUMENTED — AND HONEST ABOUT STATUS
+            - generic [ref=e244]:
+              - article [ref=e246]:
+                - generic [ref=e247]:
+                  - generic [ref=e249]:
+                    - generic [ref=e250]: RUNNER FLEET
+                    - generic [ref=e256]: DAG ORCHESTRATOR
+                    - generic [ref=e262]: SIGNED EVIDENCE
+                    - generic [ref=e268]: QA VERIFY
+                    - generic [ref=e274]: CI GATE
+                  - paragraph [ref=e279]: RUNNER FLEET → DAG ORCHESTRATOR → SIGNED EVIDENCE → QA VERIFY → CI GATE
+                - generic [ref=e280]:
+                  - generic [ref=e281]:
+                    - generic [ref=e282]: "01"
+                    - heading "Nexural QA OS — Signed-Evidence Runner Fleet" [level=3] [ref=e283]
+                    - generic [ref=e284]: LIVE REPO + CI
+                  - paragraph [ref=e285]: An 85-runner QA fleet that signs its own evidence and refuses to report a green it did not earn.
+                  - generic [ref=e286]:
+                    - generic [ref=e287]:
+                      - heading "PROBLEM" [level=4] [ref=e288]
+                      - paragraph [ref=e289]: A 39-repo, single-operator SaaS federation had no way to trust its own QA. Runners could return green while doing zero work, and "evidence" was whatever the last terminal scroll said. Verification had to become machine-checkable, not vibes.
+                    - generic [ref=e290]:
+                      - heading "WHAT I BUILT" [level=4] [ref=e291]
+                      - paragraph [ref=e292]: "A Turbo/pnpm monorepo with 85 registered runners producing Ed25519-signed, redacted evidence bundles (qa-run.json, evidence manifest, spans, semgrep/gitleaks reports), plus a `qa verify` trust command that validates any run directory. On top sits an autonomous SDET loop — `qa auto` and `qa gen-tests` — that generates compiling, passing unit/property/BDD tests against a Definition-of-Done oracle."
+                    - generic [ref=e293]:
+                      - heading "VALIDATION" [level=4] [ref=e294]
+                      - paragraph [ref=e295]: A full-fleet E2E CI gate exercises every wired runner against fixtures and hard-fails on hang or crash, alongside proof-gate, SLSA-provenance, and artifact-signing workflows. Measured line coverage was driven from 52% to 91% (3,698 tests) with ratcheting thresholds, so a coverage regression is a build failure, not a footnote.
+                    - generic [ref=e296]:
+                      - heading "FAILURE MODES CONSIDERED" [level=4] [ref=e297]
+                      - paragraph [ref=e298]: "The core threat was the fleet lying to itself: 11 false-pass \"honesty bugs\" — runners returning green while doing nothing — were found and fixed, and fake fallbacks were converted to explicit honest-skips. Evidence tampering is countered by signing; hangs and crashes are hard failures, never timeouts-as-pass."
+                  - generic [ref=e299]:
+                    - heading "EVIDENCE — REAL ARTIFACT PENDING DROP-IN" [level=4] [ref=e300]
+                    - generic [ref=e301]:
+                      - 'figure "`qa verify` passing on a signed run directory" [ref=e302]':
+                        - generic [ref=e304]: T1
+                      - figure "GitHub Actions green run of the qa.yml full-fleet gate" [ref=e305]:
+                        - generic [ref=e307]: T1
+                      - 'figure "Coverage summary from `pnpm test:coverage` (52% → 91%)" [ref=e308]':
+                        - generic [ref=e310]: T2
+                  - generic [ref=e311]:
+                    - generic [ref=e312]:
+                      - generic [ref=e313]: TypeScript
+                      - generic [ref=e314]: Turborepo
+                      - generic [ref=e315]: pnpm
+                      - generic [ref=e316]: Vitest
+                      - generic [ref=e317]: Ed25519 signing
+                      - generic [ref=e318]: GitHub Actions
+                      - generic [ref=e319]: Semgrep
+                      - generic [ref=e320]: Gitleaks
+                    - paragraph [ref=e321]:
+                      - strong [ref=e322]: "IMPROVE NEXT:"
+                      - text: "Publish a sanitized sample evidence bundle so anyone can run `qa verify` against a real signed run without repo access."
+              - article [ref=e324]:
+                - generic [ref=e325]:
+                  - generic [ref=e327]:
+                    - generic [ref=e328]: SCREEN REGISTRY
+                    - generic [ref=e334]: STATIC GATE
+                    - generic [ref=e340]: LOGIC TESTS
+                    - generic [ref=e346]: ENGINE CONTRACTS
+                    - generic [ref=e352]: DEVICE CERT
+                  - paragraph [ref=e357]: SCREEN REGISTRY → STATIC GATE → LOGIC TESTS → ENGINE CONTRACTS → DEVICE CERT
+                - generic [ref=e358]:
+                  - generic [ref=e359]:
+                    - generic [ref=e360]: "02"
+                    - heading "Voza — 256-Screen Verification System" [level=3] [ref=e361]
+                    - generic [ref=e362]: LOCAL PROOF
+                  - paragraph [ref=e363]: "A machine-computed, 4-tier proof report for a native Expo app (repo: Voza-e2e-stabilization)."
+                  - generic [ref=e364]:
+                    - generic [ref=e365]:
+                      - heading "PROBLEM" [level=4] [ref=e366]
+                      - paragraph [ref=e367]: A 256-screen native language-learning app had no honest answer to "which screens actually work?" Manual spot-checks do not scale to that surface area, and a hand-edited status doc is exactly the kind of claim this portfolio refuses to make.
+                    - generic [ref=e368]:
+                      - heading "WHAT I BUILT" [level=4] [ref=e369]
+                      - paragraph [ref=e370]: "A 4-tier verification system driven by a single screen registry: `npm run verify` machine-computes a PROOF_REPORT — never hand-edited — across static, logic, and engine-contract tiers, and the same registry auto-generates 257 Maestro device flows. All 36 native service contracts are wired to the production backend (176 API routes) with a data-path smoke test that calls every contract."
+                    - generic [ref=e371]:
+                      - heading "VALIDATION" [level=4] [ref=e372]
+                      - paragraph [ref=e373]: 256/256 screens pass Tier 1–3 verification on the current tree, with live signed-in Maestro journeys walking real authenticated data. A full Tier-4 device certification was recorded passing on iOS simulator on 2026-06-14, but the on-disk report honestly shows 0/256 until it is re-run — that result is listed as needing re-verification, not claimed as current.
+                    - generic [ref=e374]:
+                      - heading "FAILURE MODES CONSIDERED" [level=4] [ref=e375]
+                      - paragraph [ref=e376]: Routes that threw on missing deep-link params let one redbox cascade into 139 downstream failures — fixed by making missing params non-fatal. Transient device flakes are retried and recorded as retries, and the report generator rejects hand edits so the scorecard cannot drift from reality.
+                  - generic [ref=e378]:
+                    - radiogroup "Test pyramid layers" [ref=e379]:
+                      - radio "VISUAL + A11Y" [ref=e380] [cursor=pointer]
+                      - radio "E2E BROWSER" [checked] [ref=e383] [cursor=pointer]
+                      - radio "API SMOKE" [ref=e386] [cursor=pointer]
+                      - radio "UNIT + INTEGRATION" [ref=e389] [cursor=pointer]
+                    - generic [ref=e392]:
+                      - heading "INTERACTIVE — HOVER THE PYRAMID" [level=4] [ref=e393]
+                      - generic [ref=e394]: E2E BROWSER
+                      - paragraph [ref=e395]: "Protects the highest-value user flows: auth, checkout, forms. Failures capture traces and screenshots so bugs arrive pre-reproduced."
+                      - generic [ref=e396]: Playwright · Chromium · trace files
+                  - generic [ref=e397]:
+                    - heading "EVIDENCE — REAL ARTIFACT PENDING DROP-IN" [level=4] [ref=e398]
+                    - generic [ref=e399]:
+                      - 'figure "PROOF_REPORT scorecard section, regenerated by `npm run verify`" [ref=e400]':
+                        - generic [ref=e402]: T2
+                      - figure "e2e/generated directory listing — 257 Maestro flows on disk" [ref=e403]:
+                        - generic [ref=e405]: T2
+                      - figure "engineSmoke green run against the live production backend" [ref=e406]:
+                        - generic [ref=e408]: T2
+                  - generic [ref=e409]:
+                    - generic [ref=e410]:
+                      - generic [ref=e411]: Expo / React Native
+                      - generic [ref=e412]: TypeScript
+                      - generic [ref=e413]: Maestro
+                      - generic [ref=e414]: iOS Simulator
+                      - generic [ref=e415]: Vercel (prod backend)
+                    - paragraph [ref=e416]:
+                      - strong [ref=e417]: "IMPROVE NEXT:"
+                      - text: Re-run the Tier-4 device certification and publish the refreshed report — the flows exist on disk, but the cert number must be regenerated, not quoted from memory.
+              - article [ref=e419]:
+                - generic [ref=e420]:
+                  - generic [ref=e422]:
+                    - generic [ref=e423]: CLAIM
+                    - generic [ref=e429]: COMMAND EVIDENCE
+                    - generic [ref=e435]: HMAC LEDGER
+                    - generic [ref=e441]: PROOF GRAPH
+                    - generic [ref=e447]: RELEASE GATE
+                  - paragraph [ref=e452]: CLAIM → COMMAND EVIDENCE → HMAC LEDGER → PROOF GRAPH → RELEASE GATE
+                - generic [ref=e453]:
+                  - generic [ref=e454]:
+                    - generic [ref=e455]: "03"
+                    - heading "sage-kernel + Course Auditor" [level=3] [ref=e456]
+                    - generic [ref=e457]: INTERNAL TOOLING
+                  - paragraph [ref=e458]: A proof-first, 140-tool MCP SDLC server paired with a content claim/source integrity harness.
+                  - generic [ref=e459]:
+                    - generic [ref=e460]:
+                      - heading "PROBLEM" [level=4] [ref=e461]
+                      - paragraph [ref=e462]: "\"Nothing stated, everything proven\" fails the moment the tooling itself cannot back its own claims. I needed an SDLC layer where every assertion — about code quality, security, or course content — resolves to a command that was actually run and a record that cannot be quietly edited."
+                    - generic [ref=e463]:
+                      - heading "WHAT I BUILT" [level=4] [ref=e464]
+                      - paragraph [ref=e465]: A terminal-only, 140-tool MCP SDLC server with an append-only, HMAC-anchored proof ledger and proof graph, plus AST engines for SAST with taint tracking, mutation testing, dead-code detection, and module graphs. Alongside it, a Python course-auditor harness (14 pytest suites) that extracts course content into claim/source ledgers behind a scored release gate (≥95 approved / ≥85 pilot / <70 blocked).
+                    - generic [ref=e466]:
+                      - heading "VALIDATION" [level=4] [ref=e467]
+                      - paragraph [ref=e468]: "The kernel holds 68/68 release gates green, with coverage and complexity thresholds enforced inside `release:check` so quality cannot silently rot; a chaos matrix covers 8 fault scenarios including tamper-detected ledgers and fail-closed DAGs. The auditor ran a 23-course / 460+ lesson baseline extracting 17k+ claims, and the SAST engine found a real HIGH (`new Function()`) in a sibling repo."
+                    - generic [ref=e469]:
+                      - heading "FAILURE MODES CONSIDERED" [level=4] [ref=e470]
+                      - paragraph [ref=e471]: A proof ledger is only as good as its tamper story — HMAC anchoring plus chaos tests for corrupt locks and edited ledgers cover that path. On the auditor side, the known weakness is over-extraction of claims from prose, which is documented in the baseline rather than hidden.
+                  - generic [ref=e473]:
+                    - generic [ref=e474]:
+                      - heading "INTERACTIVE — TRY THE GROUNDING CHECK · PICK A QUESTION" [level=4] [ref=e475]
+                      - generic [ref=e476]: SIMULATION OF MY REAL SCRIPT
+                    - generic [ref=e477]:
+                      - button "“Can I get a refund after 30 days?”" [pressed] [ref=e478] [cursor=pointer]
+                      - button "“What is the enterprise SLA?”" [ref=e481] [cursor=pointer]
+                      - button "“Does the API support bulk export?”" [ref=e484] [cursor=pointer]
+                    - generic [ref=e487]:
+                      - generic [ref=e488]: RETRIEVED + CITED SOURCES
+                      - generic [ref=e489]:
+                        - generic [ref=e490]:
+                          - text: policies/refunds.md
+                          - emphasis [ref=e491]: CITED
+                        - generic [ref=e492]:
+                          - text: legal/terms.md
+                          - emphasis [ref=e493]: RETRIEVED
+                      - generic [ref=e494]: ▸ GROUNDED — SHIPS AUTOMATICALLY
+                      - paragraph [ref=e495]: Every citation is inside the retrieved set. The grounding check passes and the answer goes out — no human needed.
+                  - generic [ref=e496]:
+                    - heading "EVIDENCE — REAL ARTIFACT PENDING DROP-IN" [level=4] [ref=e497]
+                    - generic [ref=e498]:
+                      - 'figure "`release:check` terminal output — 68/68 gates green" [ref=e499]':
+                        - generic [ref=e501]: T2
+                      - figure "SAST findings table from a run against a real repo" [ref=e502]:
+                        - generic [ref=e504]: T2
+                      - figure "AUDIT_BASELINE sourcing-priority ranking table" [ref=e505]:
+                        - generic [ref=e507]: T2
+                  - generic [ref=e508]:
+                    - generic [ref=e509]:
+                      - generic [ref=e510]: Node.js
+                      - generic [ref=e511]: MCP (stdio)
+                      - generic [ref=e512]: Python
+                      - generic [ref=e513]: pytest
+                      - generic [ref=e514]: HMAC-anchored ledger
+                      - generic [ref=e515]: AST analysis
+                    - paragraph [ref=e516]:
+                      - strong [ref=e517]: "IMPROVE NEXT:"
+                      - text: Stand up a public, sanitized demo of the proof ledger and terminal cockpit so the 68/68 gate output is verifiable outside my machine.
+              - article [ref=e519]:
+                - generic [ref=e520]:
+                  - generic [ref=e522]:
+                    - generic [ref=e523]: MINT SESSION
+                    - generic [ref=e529]: DRIVE ROUTES
+                    - generic [ref=e535]: SCORE
+                    - generic [ref=e541]: TRIAGE + FIX
+                    - generic [ref=e547]: RE-AUDIT
+                  - paragraph [ref=e552]: MINT SESSION → DRIVE ROUTES → SCORE → TRIAGE + FIX → RE-AUDIT
+                - generic [ref=e553]:
+                  - generic [ref=e554]:
+                    - generic [ref=e555]: "04"
+                    - heading "Headless Dashboard Audit Loop" [level=3] [ref=e556]
+                    - generic [ref=e557]: LIVE PRODUCT
+                  - paragraph [ref=e558]: A Playwright audit → fix → re-audit SDLC loop across ~55 authenticated production routes.
+                  - generic [ref=e559]:
+                    - generic [ref=e560]:
+                      - heading "PROBLEM" [level=4] [ref=e561]
+                      - paragraph [ref=e562]: A ~55-route production dashboard "looked done," but nobody could say which routes threw console errors, failed network calls, or shipped accessibility violations behind auth. Code audits kept missing it because the app has a mock/real twin — only driving the live product tells the truth.
+                    - generic [ref=e563]:
+                      - heading "WHAT I BUILT" [level=4] [ref=e564]
+                      - paragraph [ref=e565]: "A headless Playwright audit loop that mints real JWT sessions, drives every production route as an authenticated user, and scores each on console errors, network failures, axe-core accessibility, and content integrity — then feeds failures into a triage → fix → re-audit cycle. A separate no-fake-data ratchet in CI bans `Math.random` and seeded mocks on allowlisted cockpit screens."
+                    - generic [ref=e566]:
+                      - heading "VALIDATION" [level=4] [ref=e567]
+                      - paragraph [ref=e568]: "Three loop iterations drove the route average from 92 to 99.6 with 0 console errors, 0 network failures, and clean axe scans — verified against the live product, not a staging mock. One honest caveat: the harness scripts were deliberately throwaway; the live site is the standing proof, and the loop itself must be rebuilt from its spec before being re-claimed."
+                    - generic [ref=e569]:
+                      - heading "FAILURE MODES CONSIDERED" [level=4] [ref=e570]
+                      - paragraph [ref=e571]: Auth-gated routes silently "passing" because the crawler only ever saw a login page — solved by minting real sessions. Score inflation from auditing the mock twin instead of production, and fixed routes regressing later — the CI ratchet exists precisely to make faked data a build failure.
+                  - generic [ref=e572]:
+                    - heading "EVIDENCE — REAL ARTIFACT PENDING DROP-IN" [level=4] [ref=e573]
+                    - generic [ref=e574]:
+                      - figure "Authenticated production dashboard route, live" [ref=e575]:
+                        - generic [ref=e577]: T1
+                      - figure "No-fake-data ratchet failing on an injected violation" [ref=e578]:
+                        - generic [ref=e580]: T1
+                      - figure "axe-core 0-violations output (requires harness rebuild to re-run)" [ref=e581]:
+                        - generic [ref=e583]: T3
+                  - generic [ref=e584]:
+                    - generic [ref=e585]:
+                      - generic [ref=e586]: Playwright
+                      - generic [ref=e587]: TypeScript
+                      - generic [ref=e588]: axe-core
+                      - generic [ref=e589]: JWT session minting
+                      - generic [ref=e590]: GitHub Actions
+                    - paragraph [ref=e591]:
+                      - strong [ref=e592]: "IMPROVE NEXT:"
+                      - text: Rebuild the audit harness as a committed, re-runnable package — the results were real, but re-verification currently requires reconstructing the tooling from spec.
+              - article [ref=e594]:
+                - generic [ref=e595]:
+                  - generic [ref=e597]:
+                    - generic [ref=e598]: REPO
+                    - generic [ref=e604]: EAS CLOUD BUILD
+                    - generic [ref=e610]: LOG FORENSICS
+                    - generic [ref=e616]: ASC SUBMIT
+                    - generic [ref=e622]: TESTFLIGHT
+                  - paragraph [ref=e627]: REPO → EAS CLOUD BUILD → LOG FORENSICS → ASC SUBMIT → TESTFLIGHT
+                - generic [ref=e628]:
+                  - generic [ref=e629]:
+                    - generic [ref=e630]: "05"
+                    - heading "GIGGL — Headless iOS Release Lane" [level=3] [ref=e631]
+                    - generic [ref=e632]: LIVE BACKEND
+                  - paragraph [ref=e633]: Device E2E verification and 2FA-free EAS → TestFlight delivery for a live AI consumer app.
+                  - generic [ref=e634]:
+                    - generic [ref=e635]:
+                      - heading "PROBLEM" [level=4] [ref=e636]
+                      - paragraph [ref=e637]: "An AI comedy app (Expo monorepo, live backend at api.joingiggl.app) needed iOS releases that do not depend on a human sitting at a machine answering Apple 2FA prompts — and its CI was quietly worthless: gates reported green while skipping the actual test suites."
+                    - generic [ref=e638]:
+                      - heading "WHAT I BUILT" [level=4] [ref=e639]
+                      - paragraph [ref=e640]: A fully headless EAS iOS production build and TestFlight submission lane authenticated with an App Store Connect API key (no Apple 2FA in the loop), documented as a reusable playbook covering Brotli build-log forensics and signing gotchas. I also wired 8 social surfaces to the live backend with production migrations (0048–0051).
+                    - generic [ref=e641]:
+                      - heading "VALIDATION" [level=4] [ref=e642]
+                      - paragraph [ref=e643]: "Production builds ship to TestFlight end to end without interactive login. The false-green CI was exposed — a missing `packageManager` field silently skipped turbo gates — and the fix made ~1,374 tests actually run. A professional audit of the social wiring found and fixed 2 CRITICAL and ~18 HIGH issues before ship."
+                    - generic [ref=e644]:
+                      - heading "FAILURE MODES CONSIDERED" [level=4] [ref=e645]
+                      - paragraph [ref=e646]: CI that skips work is worse than no CI, so gate health is judged by test counts actually executed, not exit codes. Headless signing fails in opaque ways — the playbook documents lockfile, credential, and entitlement failure modes so the lane degrades loudly instead of silently.
+                  - generic [ref=e648]:
+                    - generic [ref=e649]:
+                      - heading "INTERACTIVE — THE SAME PROCESS, TWICE" [level=4] [ref=e650]
+                      - tablist "Before and after workflow" [ref=e651]:
+                        - tab "BEFORE — MANUAL" [ref=e652] [cursor=pointer]
+                        - tab "AFTER — AUTOMATED" [selected] [ref=e654] [cursor=pointer]
+                    - tabpanel "AFTER — AUTOMATED" [ref=e656]:
+                      - generic [ref=e657]:
+                        - generic [ref=e658]:
+                          - generic [ref=e659]: webhook trigger
+                          - generic [ref=e660]: →
+                        - generic [ref=e661]:
+                          - generic [ref=e662]: job with retries
+                          - generic [ref=e663]: →
+                        - generic [ref=e664]:
+                          - generic [ref=e665]: approval if risky
+                          - generic [ref=e666]: →
+                        - generic [ref=e667]:
+                          - generic [ref=e668]: post + sync
+                          - generic [ref=e669]: →
+                        - generic [ref=e670]: log + alert
+                      - generic [ref=e672]: TRIGGER ✓ · RETRIES ✓ · APPROVAL ✓ · LOG ✓ · RUNBOOK ✓ — ANYONE CAN RUN OR RECOVER IT
+                  - generic [ref=e673]:
+                    - heading "EVIDENCE — REAL ARTIFACT PENDING DROP-IN" [level=4] [ref=e674]
+                    - generic [ref=e675]:
+                      - 'figure "EAS build page for production build #8" [ref=e676]':
+                        - generic [ref=e678]: T2
+                      - figure "Before/after CI gate output — skipped turbo gates vs ~1,374 tests running" [ref=e679]:
+                        - generic [ref=e681]: T1
+                      - figure "PHASE3 social-wiring doc + production migration list" [ref=e682]:
+                        - generic [ref=e684]: T2
+                  - generic [ref=e685]:
+                    - generic [ref=e686]:
+                      - generic [ref=e687]: Expo
+                      - generic [ref=e688]: EAS Build
+                      - generic [ref=e689]: TypeScript
+                      - generic [ref=e690]: Turborepo
+                      - generic [ref=e691]: Supabase
+                      - generic [ref=e692]: GitHub Actions
+                      - generic [ref=e693]: App Store Connect API
+                    - paragraph [ref=e694]:
+                      - strong [ref=e695]: "IMPROVE NEXT:"
+                      - text: Generalize the headless-release playbook into a shared CI workflow so any Expo app ships to TestFlight through the same verified lane.
+          - region "EVIDENCE LEDGER" [ref=e696]:
+            - generic: "04"
+            - generic [ref=e697]:
+              - paragraph [ref=e698]: 04 — EVIDENCE LEDGER
+              - paragraph [ref=e699]: CLAIM → ARTIFACT, LINE BY LINE
+            - paragraph [ref=e701]: If a claim isn't on this ledger with an artifact behind it, it doesn't belong on this site.
+            - generic [ref=e703]:
+              - generic [ref=e704]:
+                - generic [ref=e705]: CLAIM
+                - generic [ref=e706]: ARTIFACT
+                - generic [ref=e707]: TOOLING
+                - generic [ref=e708]: PROOF TYPE
+                - generic [ref=e709]: TIER
+              - list [ref=e710]:
+                - listitem [ref=e711]:
+                  - generic [ref=e712]: "85-runner QA fleet with Ed25519-signed, redacted evidence bundles and a `qa verify` trust command"
+                  - generic [ref=e713]: evidence/qa-run-* dirs + runner-registry.ts (repo nexural-qa-os)
+                  - generic [ref=e714]: TypeScript · pnpm · Ed25519
+                  - generic [ref=e715]: signed evidence bundles
+                  - generic [ref=e716]: T1
+                - listitem [ref=e718]:
+                  - generic [ref=e719]: Full-fleet E2E CI gate with SLSA provenance and artifact signing
+                  - generic [ref=e720]: qa.yml · proof-gate.yml · slsa-provenance.yml · sign-artifacts.yml
+                  - generic [ref=e721]: GitHub Actions
+                  - generic [ref=e722]: green CI runs
+                  - generic [ref=e723]: T1
+                - listitem [ref=e725]:
+                  - generic [ref=e726]: Found + fixed 11 false-pass "honesty bugs" — runners returning green while doing zero work
+                  - generic [ref=e727]: runner-conformance.test.ts + git log on feat/sdet-autonomy
+                  - generic [ref=e728]: Vitest · git
+                  - generic [ref=e729]: conformance suite + commit history
+                  - generic [ref=e730]: T1
+                - listitem [ref=e732]:
+                  - generic [ref=e733]: 256/256 Tier 1–3 verification on a 256-screen native app, machine-computed (never hand-edited)
+                  - generic [ref=e734]: "PROOF_REPORT.md via `npm run verify` (repo Voza-e2e-stabilization)"
+                  - generic [ref=e735]: TypeScript · screen registry
+                  - generic [ref=e736]: generated proof report
+                  - generic [ref=e737]: T2
+                - listitem [ref=e739]:
+                  - generic [ref=e740]: 257 Maestro device flows auto-generated from the screen registry
+                  - generic [ref=e741]: mobile/e2e/generated/ — 257 flows on disk
+                  - generic [ref=e742]: Maestro · TypeScript
+                  - generic [ref=e743]: flow files on disk
+                  - generic [ref=e744]: T2
+                - listitem [ref=e746]:
+                  - generic [ref=e747]: Tier-4 device cert 256/256 on iOS simulator (recorded 2026-06-14)
+                  - generic [ref=e748]: cert runs on operator device — on-disk report honestly shows 0/256 until re-run
+                  - generic [ref=e749]: Maestro · iOS Simulator
+                  - generic [ref=e750]: recorded result — needs re-verification
+                  - generic [ref=e751]: T3
+                - listitem [ref=e753]:
+                  - generic [ref=e754]: 140-tool MCP SDLC server with an append-only, HMAC-anchored proof ledger
+                  - generic [ref=e755]: apps/mcp-server/tools.json + .sage-kernel/proof/ledger.jsonl
+                  - generic [ref=e756]: Node.js · MCP (stdio)
+                  - generic [ref=e757]: tool count + ledger on disk
+                  - generic [ref=e758]: T2
+                - listitem [ref=e760]:
+                  - generic [ref=e761]: 68/68 release gates green with enforced coverage + complexity ratchets
+                  - generic [ref=e762]: scripts/release-check.mjs (123 test files)
+                  - generic [ref=e763]: Node.js
+                  - generic [ref=e764]: terminal gate output
+                  - generic [ref=e765]: T2
+                - listitem [ref=e767]:
+                  - generic [ref=e768]: 23-course / 460+ lesson content audit baseline extracting 17k+ claims
+                  - generic [ref=e769]: AUDIT_BASELINE.md + audit-export.mjs (Supabase → markdown bridge)
+                  - generic [ref=e770]: Python · pytest · Supabase
+                  - generic [ref=e771]: generated ledgers + ranking
+                  - generic [ref=e772]: T2
+                - listitem [ref=e774]:
+                  - generic [ref=e775]: Mechanical publish gate executed 160/160 labs — then the content-truth gate blocked an AI-generated 8-course batch
+                  - generic [ref=e776]: audit-courses.ts + PREMIUM_BUILD loop reports
+                  - generic [ref=e777]: TypeScript · Node.js
+                  - generic [ref=e778]: gate output + DO-NOT-PUBLISH verdict
+                  - generic [ref=e779]: T2
+                - listitem [ref=e781]:
+                  - generic [ref=e782]: ~55 production dashboard routes driven 92 → 99.6 avg — 0 console errors, 0 network failures, axe-clean
+                  - generic [ref=e783]: live production dashboard; audit harness was deliberately throwaway — rebuild before re-running
+                  - generic [ref=e784]: Playwright · axe-core · JWT sessions
+                  - generic [ref=e785]: live prod routes (harness itself T3)
+                  - generic [ref=e786]: T1
+                - listitem [ref=e788]:
+                  - generic [ref=e789]: "No-fake-data CI ratchet bans `Math.random` / seeded mocks on cockpit screens"
+                  - generic [ref=e790]: check-cockpit-no-fake-data.sh + ci.yml
+                  - generic [ref=e791]: Bash · GitHub Actions
+                  - generic [ref=e792]: CI script failing on an injected violation
+                  - generic [ref=e793]: T1
+                - listitem [ref=e795]:
+                  - generic [ref=e796]: "Exposed a false-green CI — missing `packageManager` silently skipped turbo gates; fix made ~1,374 tests actually run"
+                  - generic [ref=e797]: phase1-verify.yml · sage-gate.yml (repo giggl)
+                  - generic [ref=e798]: Turborepo · GitHub Actions
+                  - generic [ref=e799]: before/after gate output
+                  - generic [ref=e800]: T1
+                - listitem [ref=e802]:
+                  - generic [ref=e803]: 20-page client site with a working lead-capture loop, live in production
+                  - generic [ref=e804]: web-sage-ideas.vercel.app + admin lead cockpit with LIVE badge + SLA
+                  - generic [ref=e805]: HTML/JS · Vercel
+                  - generic [ref=e806]: public deploy + e2e walk-through
+                  - generic [ref=e807]: T1
+            - list [ref=e810]:
+              - listitem [ref=e811]: T1 LIVE REPO / CI REPORT / DEPLOYED DEMO
+              - listitem [ref=e812]: T2 LOCAL PROOF / TERMINAL OUTPUT / DIAGRAM / RUNBOOK
+              - listitem [ref=e813]: T3 WRITTEN EXPLANATION / PLANNED WORK
+          - region "SKILLS, ORGANIZED BY OUTCOME" [ref=e814]:
+            - generic: "05"
+            - generic [ref=e815]:
+              - paragraph [ref=e816]: 05 — SKILLS, ORGANIZED BY OUTCOME
+              - paragraph [ref=e817]: NOT A TOOL LIST
+            - generic [ref=e819]:
+              - article [ref=e820]:
+                - heading "Build AI workflows" [level=3] [ref=e821]
+                - paragraph [ref=e822]: Claude / OpenAI APIs · RAG pipelines · prompt evaluation · retrieval testing · source grounding
+              - article [ref=e823]:
+                - heading "Test software systems" [level=3] [ref=e824]
+                - paragraph [ref=e825]: Playwright · unit / integration / E2E · accessibility checks · visual regression · API smoke tests
+              - article [ref=e826]:
+                - heading "Automate operations" [level=3] [ref=e827]
+                - paragraph [ref=e828]: Node.js · Python · scheduled jobs · webhooks · Discord / Slack workflows · report generation
+              - article [ref=e829]:
+                - heading "Validate releases" [level=3] [ref=e830]
+                - paragraph [ref=e831]: build / typecheck / lint gates · test suites · API smoke checks · readiness reports · rollback notes
+              - article [ref=e832]:
+                - heading "Debug failures" [level=3] [ref=e833]
+                - paragraph [ref=e834]: reproduction steps · log review · flaky test diagnosis · root-cause notes · fix verification
+              - article [ref=e835]:
+                - heading "Document handoff-ready systems" [level=3] [ref=e836]
+                - paragraph [ref=e837]: runbooks · workflow maps · architecture diagrams · QA checklists · operating notes
+          - region "WORK SAMPLES" [ref=e838]:
+            - generic: "06"
+            - generic [ref=e839]:
+              - paragraph [ref=e840]: 06 — WORK SAMPLES
+              - paragraph [ref=e841]: EACH FRAME IS A LABELED SLOT FOR A SPECIFIC ARTIFACT
+            - generic [ref=e842]:
+              - generic [ref=e844]:
+                - figure "AI eval output (JSON)" [ref=e845]
+                - heading "AI eval output" [level=3] [ref=e847]
+                - paragraph [ref=e848]: "Proves: answers are scored against a rubric, not eyeballed. TS · eval script"
+              - generic [ref=e850]:
+                - figure "Playwright browser proof" [ref=e851]
+                - heading "Playwright browser proof" [level=3] [ref=e853]
+                - paragraph [ref=e854]: "Proves: critical flows run and verify themselves. Playwright · trace files"
+              - generic [ref=e856]:
+                - figure "readiness-report.json" [ref=e857]
+                - heading "Release readiness report" [level=3] [ref=e859]
+                - paragraph [ref=e860]: "Proves: \"ready\" is a generated verdict, not a feeling. CI · readiness-report.json"
+              - generic [ref=e862]:
+                - figure "automation job log" [ref=e863]
+                - heading "Automation job log" [level=3] [ref=e865]
+                - paragraph [ref=e866]: "Proves: workflows are observable — runs, retries, failures. Node · job runner"
+              - generic [ref=e868]:
+                - figure "architecture diagram" [ref=e869]
+                - heading "Architecture diagram" [level=3] [ref=e871]
+                - paragraph [ref=e872]: "Proves: real data flow — model, retrieval, approval, logging. built in code"
+              - generic [ref=e874]:
+                - figure "bug reproduction note" [ref=e875]
+                - heading "Bug reproduction note" [level=3] [ref=e877]
+                - paragraph [ref=e878]: "Proves: defects reported with steps, expected vs actual, severity. QA · triage note"
+          - region "TECHNICAL WRITING" [ref=e879]:
+            - generic: "07"
+            - paragraph [ref=e881]: 07 — TECHNICAL WRITING
+            - list [ref=e882]:
+              - listitem [ref=e883]:
+                - link [ref=e884] [cursor=pointer]:
+                  - /url: https://sageideas.dev/blog
+                  - heading "How I test AI systems when the answer is probabilistic" [level=3] [ref=e885]
+                  - paragraph [ref=e886]: "You can't assert equality on a probabilistic answer — you assert properties: grounding, structure, refusal behavior, drift."
+                  - paragraph [ref=e887]: "PROVES: EVAL DESIGN · PUBLISHED →"
+              - listitem [ref=e888]:
+                - generic [ref=e889]:
+                  - heading "What a reliable automation workflow needs before production" [level=3] [ref=e890]
+                  - paragraph [ref=e891]: A workflow isn't done until someone else can run it, inspect it, and recover it.
+                  - paragraph [ref=e892]: "PROVES: OPERATIONAL MATURITY · DRAFT"
+              - listitem [ref=e893]:
+                - generic [ref=e894]:
+                  - heading "How I think about Playwright coverage and flaky tests" [level=3] [ref=e895]
+                  - paragraph [ref=e896]: Flaky tests are production debt — diagnose the root cause or delete the test. Never retry-loop your way to green.
+                  - paragraph [ref=e897]: "PROVES: QA STRATEGY · DRAFT"
+              - listitem [ref=e898]:
+                - generic [ref=e899]:
+                  - heading "The difference between a demo bot and an operational AI workflow" [level=3] [ref=e900]
+                  - paragraph [ref=e901]: A demo proves possibility. An operational workflow proves repeatability under failure.
+                  - paragraph [ref=e902]: "PROVES: PRODUCTION THINKING · DRAFT"
+              - listitem [ref=e903]:
+                - generic [ref=e904]:
+                  - heading "A release gate is a trust contract, not a checklist" [level=3] [ref=e905]
+                  - paragraph [ref=e906]: A gate earns its place when a non-QA stakeholder can read the output and make a ship decision.
+                  - paragraph [ref=e907]: "PROVES: COMMUNICATION · DRAFT"
+          - region "RESUME / CONTACT" [ref=e908]:
+            - generic: "08"
+            - paragraph [ref=e910]: 08 — RESUME / CONTACT
+            - generic [ref=e911]:
+              - heading [level=2] [ref=e913]:
+                - text: If the proof holds up,
+                - emphasis [ref=e914]: let's talk.
+              - paragraph [ref=e916]: "Open to AI automation, QA engineering, SDET, test infrastructure, and workflow automation roles — or consulting projects: building an AI workflow, adding test coverage to a fragile product, creating evals for an AI feature, or turning a manual process into a monitored workflow."
+              - generic [ref=e918]:
+                - link "✉ SAGEIDEASS@GMAIL.COM" [ref=e919] [cursor=pointer]:
+                  - /url: mailto:sageideass@gmail.com
+                - link "↗ GITHUB" [ref=e920] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira
+                - link "↗ LINKEDIN" [ref=e921] [cursor=pointer]:
+                  - /url: "#"
+              - generic [ref=e923]:
+                - heading "CONTRACT ENGAGEMENTS — FIXED SCOPE, PROOF INCLUDED" [level=3] [ref=e924]
+                - generic [ref=e925]:
+                  - article [ref=e926]:
+                    - paragraph [ref=e927]: AI SYSTEMS
+                    - heading "AI Workflow Build" [level=4] [ref=e928]
+                    - paragraph [ref=e929]: One scoped AI workflow — with evals, source-grounding checks, logging, and a runbook your team can operate.
+                    - link "BOOK A CALL →" [ref=e930] [cursor=pointer]:
+                      - /url: https://sageideas.dev/book
+                  - article [ref=e931]:
+                    - paragraph [ref=e932]: QA COVERAGE
+                    - heading "Test Coverage Sprint" [level=4] [ref=e933]
+                    - paragraph [ref=e934]: Playwright + API coverage for your highest-risk user flows — delivered with reports, screenshots, and a coverage map.
+                    - link "BOOK A CALL →" [ref=e935] [cursor=pointer]:
+                      - /url: https://sageideas.dev/book
+                  - article [ref=e936]:
+                    - paragraph [ref=e937]: RELEASE SAFETY
+                    - heading "Release Gate Setup" [level=4] [ref=e938]
+                    - paragraph [ref=e939]: "A readiness gate anyone can read: build, typecheck, lint, tests, smoke checks — output as a generated scorecard."
+                    - link "BOOK A CALL →" [ref=e940] [cursor=pointer]:
+                      - /url: https://sageideas.dev/book
+              - blockquote [ref=e942]: AI / QA / Automation engineer focused on building tested AI workflows, browser automation, release readiness gates, and operational systems with inspectable proof.
+        - generic [ref=e943]:
+          - generic [ref=e944]: © 2026 JASON TEIXEIRA — BUILT AS A PROOF SYSTEM
+          - generic [ref=e945]: NO INVENTED METRICS · UNVERIFIED WORK IS LABELED PROTOTYPE OR LOCAL PROOF · EVERY DIAGRAM BUILT IN CODE
+  - contentinfo "Site footer" [ref=e946]:
+    - generic [ref=e947]:
+      - generic [ref=e948]:
+        - generic [ref=e951]:
+          - link "Sage Ideas home" [ref=e952] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e959]: Sage Ideas
+          - paragraph [ref=e960]: Build the system.
+          - paragraph [ref=e961]: A solo AI-native studio for product, brand, automation, and growth. Real shipped systems, honest proof, and a direct path to the operator.
+          - generic [ref=e962]:
+            - generic [ref=e963]:
+              - paragraph [ref=e968]: Route
+              - paragraph [ref=e969]: Audit -> build
+            - generic [ref=e970]:
+              - paragraph [ref=e978]: Signal
+              - paragraph [ref=e979]: Content -> lead
+            - generic [ref=e980]:
+              - paragraph [ref=e984]: Proof
+              - paragraph [ref=e985]: Public receipts
+          - generic [ref=e986]:
+            - link "./book" [ref=e987] [cursor=pointer]:
+              - /url: /book
+            - link "View work" [ref=e988] [cursor=pointer]:
+              - /url: /work
+        - generic [ref=e989]:
+          - generic [ref=e990]:
+            - generic [ref=e991]:
+              - heading "Engage" [level=2] [ref=e994]
+              - list [ref=e995]:
+                - listitem [ref=e996]:
+                  - link "Services fixed-scope builds" [ref=e997] [cursor=pointer]:
+                    - /url: /services
+                    - generic [ref=e998]:
+                      - generic [ref=e999]: Services
+                      - generic [ref=e1000]: fixed-scope builds
+                - listitem [ref=e1004]:
+                  - link "Pricing tiers + retainers" [ref=e1005] [cursor=pointer]:
+                    - /url: /pricing
+                    - generic [ref=e1006]:
+                      - generic [ref=e1007]: Pricing
+                      - generic [ref=e1008]: tiers + retainers
+                - listitem [ref=e1012]:
+                  - link "Book a call start here" [ref=e1013] [cursor=pointer]:
+                    - /url: /book
+                    - generic [ref=e1014]:
+                      - generic [ref=e1015]: Book a call
+                      - generic [ref=e1016]: start here
+                - listitem [ref=e1020]:
+                  - link "Contact direct line" [ref=e1021] [cursor=pointer]:
+                    - /url: /contact
+                    - generic [ref=e1022]:
+                      - generic [ref=e1023]: Contact
+                      - generic [ref=e1024]: direct line
+            - generic [ref=e1028]:
+              - heading "Proof" [level=2] [ref=e1031]
+              - list [ref=e1032]:
+                - listitem [ref=e1033]:
+                  - link "Work case studies" [ref=e1034] [cursor=pointer]:
+                    - /url: /work
+                    - generic [ref=e1035]:
+                      - generic [ref=e1036]: Work
+                      - generic [ref=e1037]: case studies
+                - listitem [ref=e1041]:
+                  - link "Lab owned products" [ref=e1042] [cursor=pointer]:
+                    - /url: /lab
+                    - generic [ref=e1043]:
+                      - generic [ref=e1044]: Lab
+                      - generic [ref=e1045]: owned products
+                - listitem [ref=e1049]:
+                  - link "Trust center security + process" [ref=e1050] [cursor=pointer]:
+                    - /url: /trust
+                    - generic [ref=e1051]:
+                      - generic [ref=e1052]: Trust center
+                      - generic [ref=e1053]: security + process
+                - listitem [ref=e1057]:
+                  - link "Engineering OS how it ships" [ref=e1058] [cursor=pointer]:
+                    - /url: /engineering-os
+                    - generic [ref=e1059]:
+                      - generic [ref=e1060]: Engineering OS
+                      - generic [ref=e1061]: how it ships
+            - generic [ref=e1065]:
+              - heading "Learn" [level=2] [ref=e1068]
+              - list [ref=e1069]:
+                - listitem [ref=e1070]:
+                  - link "Academy courses forming" [ref=e1071] [cursor=pointer]:
+                    - /url: /academy
+                    - generic [ref=e1072]:
+                      - generic [ref=e1073]: Academy
+                      - generic [ref=e1074]: courses forming
+                - listitem [ref=e1078]:
+                  - link "Journal build notes" [ref=e1079] [cursor=pointer]:
+                    - /url: /blog
+                    - generic [ref=e1080]:
+                      - generic [ref=e1081]: Journal
+                      - generic [ref=e1082]: build notes
+                - listitem [ref=e1086]:
+                  - link "Topic hubs SEO library" [ref=e1087] [cursor=pointer]:
+                    - /url: /topics
+                    - generic [ref=e1088]:
+                      - generic [ref=e1089]: Topic hubs
+                      - generic [ref=e1090]: SEO library
+                - listitem [ref=e1094]:
+                  - link "Route finder diagnostic" [ref=e1095] [cursor=pointer]:
+                    - /url: /tools/route-finder
+                    - generic [ref=e1096]:
+                      - generic [ref=e1097]: Route finder
+                      - generic [ref=e1098]: diagnostic
+                - listitem [ref=e1102]:
+                  - link "SEO audit free tool" [ref=e1103] [cursor=pointer]:
+                    - /url: /tools/seo-audit
+                    - generic [ref=e1104]:
+                      - generic [ref=e1105]: SEO audit
+                      - generic [ref=e1106]: free tool
+            - generic [ref=e1110]:
+              - heading "Studio" [level=2] [ref=e1113]
+              - list [ref=e1114]:
+                - listitem [ref=e1115]:
+                  - link "Founder operator profile" [ref=e1116] [cursor=pointer]:
+                    - /url: /founder
+                    - generic [ref=e1117]:
+                      - generic [ref=e1118]: Founder
+                      - generic [ref=e1119]: operator profile
+                - listitem [ref=e1123]:
+                  - link "Studio how this works" [ref=e1124] [cursor=pointer]:
+                    - /url: /studio
+                    - generic [ref=e1125]:
+                      - generic [ref=e1126]: Studio
+                      - generic [ref=e1127]: how this works
+                - listitem [ref=e1131]:
+                  - link "Industries vertical routes" [ref=e1132] [cursor=pointer]:
+                    - /url: /industries
+                    - generic [ref=e1133]:
+                      - generic [ref=e1134]: Industries
+                      - generic [ref=e1135]: vertical routes
+                - listitem [ref=e1139]:
+                  - link "Compare buying paths" [ref=e1140] [cursor=pointer]:
+                    - /url: /compare
+                    - generic [ref=e1141]:
+                      - generic [ref=e1142]: Compare
+                      - generic [ref=e1143]: buying paths
+          - generic [ref=e1147]:
+            - paragraph [ref=e1148]: Not sure where to route the build?
+            - link "Run audit" [ref=e1149] [cursor=pointer]:
+              - /url: /tools/seo-audit
+            - link "Book call" [ref=e1150] [cursor=pointer]:
+              - /url: /book
+      - generic [ref=e1151]:
+        - generic [ref=e1152]:
+          - paragraph [ref=e1153]: © 2026 Sage Ideas LLC · Orlando, FL
+          - navigation "Social links" [ref=e1154]:
+            - link "Email" [ref=e1155] [cursor=pointer]:
+              - /url: mailto:sage@sageideas.dev
+            - link "LinkedIn" [ref=e1159] [cursor=pointer]:
+              - /url: https://linkedin.com/in/jason-teixeira
+            - link "GitHub" [ref=e1164] [cursor=pointer]:
+              - /url: https://github.com/JasonTeixeira
+        - navigation "Legal links" [ref=e1168]:
+          - list [ref=e1169]:
+            - listitem [ref=e1170]:
+              - link "Privacy" [ref=e1171] [cursor=pointer]:
+                - /url: /legal/privacy
+            - listitem [ref=e1172]:
+              - link "Terms" [ref=e1173] [cursor=pointer]:
+                - /url: /legal/terms
+            - listitem [ref=e1174]:
+              - link "Cookies" [ref=e1175] [cursor=pointer]:
+                - /url: /legal/cookies
+            - listitem [ref=e1176]:
+              - link "MSA" [ref=e1177] [cursor=pointer]:
+                - /url: /legal/msa
+            - listitem [ref=e1178]:
+              - link "NDA" [ref=e1179] [cursor=pointer]:
+                - /url: /legal/nda
+            - listitem [ref=e1180]:
+              - link "SOW" [ref=e1181] [cursor=pointer]:
+                - /url: /legal/sow-template
+  - region "Build telemetry" [ref=e1182]:
+    - generic [ref=e1183]:
+      - generic [ref=e1184]:
+        - generic [ref=e1188]: live
+        - generic [ref=e1189]: ·
+        - generic [ref=e1190]: build 0bdb025d
+        - generic [ref=e1191]: ·
+        - generic [ref=e1192]: 2026-07-11 14:23Z
+      - generic [ref=e1193]:
+        - generic [ref=e1194]: // solo studio
+        - generic [ref=e1195]: ·
+        - generic [ref=e1196]: // no analytics resold
+        - generic [ref=e1197]: ·
+        - generic [ref=e1198]: // every commit human-reviewed
+  - button

@@ -4,6 +4,9 @@ import './agency.css'
 import './sections.css'
 import './islands.css'
 import './proof.css'
+import './diagrams.css'
+import './visual-upgrades.css'
+import './wow.css'
 
 // Archivo variable — width axis is part of the design language (kicker→display contrast).
 const archivo = Archivo({

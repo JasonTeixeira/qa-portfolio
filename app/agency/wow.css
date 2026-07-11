@@ -1,0 +1,174 @@
+/* Agency Proof Portfolio — WOW layer (V3 atmosphere + micro-interactions).
+   NOTE: this file must be imported by app/agency/layout.tsx (import './wow.css')
+   alongside the other agency stylesheets — it is not imported anywhere else.
+
+   Discipline: compositor-only motion (transform/opacity). The global
+   prefers-reduced-motion guard in agency.css zeroes all durations; entrance
+   animations below additionally pin their final state explicitly. */
+
+/* ============ 1. HERO PIPELINE SCHEMATIC ============ */
+
+/* Ghosted background pipeline behind the hero. Sits above the gridlines,
+   below .ag-hero-inner (z-index: 2). Masked to transparent well before the
+   bottom-anchored headline block so nothing bright sits behind the H1. */
+.ag-hero-schematic {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 48%, transparent 78%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 48%, transparent 78%);
+}
+
+.ag-hero-schematic svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* On small screens the hero is a single column — the schematic would sit
+   directly behind copy, so it goes away entirely. */
+@media (max-width: 719px) {
+  .ag-hero-schematic {
+    display: none;
+  }
+}
+
+/* ============ 2. GRAIN ATMOSPHERE ============ */
+
+/* Ultra-cheap film grain: tiny inline feTurbulence tile, no external assets.
+   Above every hero layer (z-index 3 > .ag-hero-inner's 2) but at 5% overlay
+   it reads as texture, never as an occluder. */
+.ag-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ============ 3. H1 STAGGERED WORD RISE ============ */
+
+/* Outer span clips; inner span rises 110% → 0 once on load. The tiny
+   padding/negative-margin pair keeps descenders (y, g) from being clipped
+   by the 1.04 line-height. */
+.ag-h1-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.09em;
+  margin-bottom: -0.09em;
+}
+
+.ag-h1-word-inner {
+  display: inline-block;
+  animation: ag-word-rise 0.7s var(--ease-out) both;
+}
+
+@keyframes ag-word-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Reduced motion: render the final state outright (the global guard zeroes
+   durations but not delays — this removes the stagger entirely). */
+@media (prefers-reduced-motion: reduce) {
+  .ag-h1-word-inner {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ============ 4. MAGNETIC CTAS ============ */
+
+/* JS (islands/magnetic.tsx) writes translate3d on pointermove and clears it
+   on leave; this transition is both the follow-smoothing and the spring-back. */
+.ag-magnetic {
+  display: inline-flex;
+  transition: transform 280ms var(--ease-out);
+  will-change: transform;
+}
+
+/* ============ 5. NAV LINK UNDERLINE ============ */
+
+.ag-nav-link--underline {
+  position: relative;
+}
+
+.ag-nav-link--underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--acc-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 260ms var(--ease-out);
+}
+
+.ag-nav-link--underline:hover::after,
+.ag-nav-link--underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ============ 6. LEDGER SCANLINE ============ */
+
+/* One horizontal sweep per hover entry (600ms, forwards — parks off-right
+   until the pointer re-enters). Band is 40% of row width, so it travels
+   -100% → 275% of its own width to fully cross the row. */
+.ag-ledger-row {
+  position: relative;
+  overflow: hidden;
+}
+
+.ag-ledger-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(123, 184, 255, 0.07),
+    transparent
+  );
+  transform: translateX(-110%);
+  pointer-events: none;
+}
+
+.ag-ledger-row:hover::after {
+  animation: ag-scanline 600ms var(--ease-out) 1 forwards;
+}
+
+@keyframes ag-scanline {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(275%);
+  }
+}
+
+/* ============ 7. EVIDENCE FRAME ZOOM ============ */
+
+/* Slot containers already clip (overflow: hidden in agency.css). */
+.ag-cs-slot--filled img,
+.ag-ws-slot--filled img {
+  transition: transform 400ms var(--ease-out);
+}
+
+.ag-cs-slot--filled:hover img,
+.ag-ws-slot--filled:hover img {
+  transform: scale(1.03);
+}

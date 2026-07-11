@@ -20,9 +20,9 @@ export interface TierLegendEntry {
 
 export const LEDGER_ROWS: LedgerRow[] = [
   {
-    claim: '85-runner QA fleet with Ed25519-signed, redacted evidence bundles and a `qa verify` trust command',
+    claim: '85-runner QA fleet with hash-sealed, redacted evidence bundles (Ed25519-capable signer) and a `qa verify` trust command',
     artifact: 'evidence/qa-run-* dirs + runner-registry.ts (repo nexural-qa-os)',
-    tooling: 'TypeScript · pnpm · Ed25519',
+    tooling: 'TypeScript · pnpm · sha256/Ed25519',
     proofType: 'signed evidence bundles',
     tier: 'T1',
   },

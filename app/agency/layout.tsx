@@ -49,7 +49,7 @@ const PERSON_JSONLD = {
   name: 'Jason Teixeira',
   url: SITE_URL,
   jobTitle: 'AI / QA / Automation Engineer',
-  sameAs: ['https://github.com/JasonTeixeira', 'https://linkedin.com/in/jason-teixeira'],
+  sameAs: ['https://github.com/JasonTeixeira', 'https://www.linkedin.com/in/jason-teixeira/'],
   email: 'mailto:sage@sageideas.dev',
 }
 

@@ -907,3 +907,175 @@ a.ag-writing-row:focus-visible .ag-writing-title {
   font-size: 11px;
   padding: 4px 8px;
 }
+
+/* ============ 08 — THE OPERATOR ============ */
+
+.ag-about {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+
+.ag-about-id {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ag-about-photo {
+  margin: 0;
+  position: relative;
+  border: 1px solid var(--ag-border);
+  background: var(--ag-bg-deep);
+  max-width: 300px;
+}
+
+.ag-about-photo::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 1px solid rgba(77, 159, 255, 0.28);
+  pointer-events: none;
+}
+
+.ag-about-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: saturate(0.85) contrast(1.04);
+}
+
+.ag-about-name {
+  margin: 10px 0 0;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.ag-about-role {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--acc-primary);
+}
+
+.ag-about-links {
+  display: flex;
+  gap: 18px;
+}
+
+.ag-about-links a {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--tx-3);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-about-links a:hover {
+  color: var(--acc-primary-hi);
+}
+
+.ag-about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 680px;
+}
+
+.ag-about-p {
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.7;
+  color: var(--tx-2);
+  text-wrap: pretty;
+}
+
+.ag-about-p strong {
+  color: var(--tx);
+}
+
+.ag-about-signal {
+  border: 1px solid var(--ag-border);
+  background: var(--ag-bg-deep);
+  padding: 20px 24px;
+}
+
+.ag-about-signal-h {
+  margin: 0 0 12px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--acc-primary);
+}
+
+.ag-about-signal-rows {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ag-about-signal-row {
+  display: flex;
+  gap: 16px;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.ag-about-signal-row dt {
+  flex: 0 0 84px;
+  color: var(--tx-3);
+}
+
+.ag-about-signal-row dd {
+  margin: 0;
+  color: var(--tx);
+}
+
+.ag-about-network {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ag-about-network-link {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid var(--ag-border);
+  padding: 12px 16px;
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.ag-about-network-link:hover {
+  border-color: var(--acc-primary);
+  background: var(--ag-raised);
+}
+
+.ag-about-network-name {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--tx);
+}
+
+.ag-about-network-note {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--tx-3);
+}
+
+@media (min-width: 900px) {
+  .ag-about {
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  }
+}

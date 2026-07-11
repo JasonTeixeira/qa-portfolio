@@ -40,7 +40,7 @@ const OFFERS: readonly Offer[] = [
 /** Section 08 — resume / contact + fixed-scope contract offers. */
 export function ContactSection() {
   return (
-    <SectionShell id="contact" num="08" kicker="RESUME / CONTACT" ghost="08">
+    <SectionShell id="contact" num="09" kicker="RESUME / CONTACT" ghost="09">
       <div className="ag-contact">
         <Reveal>
           <h2 className="ag-contact-h2">
@@ -69,7 +69,7 @@ export function ContactSection() {
               ↗ GITHUB
             </a>
             <a
-              href="https://linkedin.com/in/jason-teixeira"
+              href="https://www.linkedin.com/in/jason-teixeira/"
               target="_blank"
               rel="noopener noreferrer"
               className="ag-btn"

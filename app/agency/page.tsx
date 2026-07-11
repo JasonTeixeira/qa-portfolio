@@ -13,6 +13,7 @@ import { LedgerSection } from '@/components/agency/sections/ledger'
 import { SkillsSection } from '@/components/agency/sections/skills'
 import { WorkSamplesSection } from '@/components/agency/sections/work-samples'
 import { WritingSection } from '@/components/agency/sections/writing'
+import { AboutSection } from '@/components/agency/sections/about'
 import { ContactSection } from '@/components/agency/sections/contact'
 import { AgencyFooter } from '@/components/agency/footer'
 
@@ -37,6 +38,7 @@ export default function AgencyPage() {
         <SkillsSection />
         <WorkSamplesSection />
         <WritingSection />
+        <AboutSection />
         <ContactSection />
       </main>
       <AgencyFooter />

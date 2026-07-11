@@ -1,0 +1,255 @@
+/* Agency Proof Portfolio — design tokens + base skin.
+   Source of truth: docs/agency-proof-portfolio-build-spec.md §2
+   (extracted from Claude Design "Proof Portfolio v3 Navy"). */
+
+.agency-root {
+  /* Surfaces */
+  --ag-bg: #090e1a;
+  --ag-bg-deep: #070b14;
+  --ag-card: #0e1526;
+  --ag-raised: #101830;
+  --ag-hover: #141e38;
+  --ag-hover-hi: #16203a;
+
+  /* Borders — grout between 1px-gap grid cards */
+  --ag-border-soft: rgba(160, 185, 235, 0.09);
+  --ag-border: rgba(160, 185, 235, 0.16);
+  --ag-border-strong: rgba(160, 185, 235, 0.28);
+
+  /* Semantic accents (workflow-stage semantics — keep the mapping) */
+  --acc-primary: #4d9fff;
+  --acc-primary-hi: #7bb8ff;
+  --acc-browser: #38bdf8;
+  --acc-ai: #b08be8;
+  --acc-pass: #6fc98f;
+  --acc-log: #2dd4bf;
+  --acc-fail: #e8897b;
+  --acc-fail-deep: #e07a6a;
+
+  /* Text — opacity ladder floored for WCAG 4.5:1 on --ag-bg */
+  --tx: #e6ecf8;
+  --tx-2: rgba(226, 234, 250, 0.82);
+  --tx-3: rgba(226, 234, 250, 0.62);
+  --tx-dim: rgba(226, 234, 250, 0.52); /* large/mono-label use only */
+
+  /* Type */
+  --f-sans: var(--font-agency-sans), 'Archivo', system-ui, sans-serif;
+  --f-mono: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  --h1: clamp(44px, 6.6vw, 108px);
+  --h2: clamp(32px, 4.4vw, 64px);
+  --h3: clamp(22px, 2.6vw, 32px);
+  --kicker-ls: 0.22em;
+
+  /* Rhythm */
+  --sect-y: clamp(72px, 10vw, 130px);
+  --sect-x: clamp(20px, 6vw, 96px);
+  --card-pad: clamp(20px, 2.6vw, 36px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+
+  background: var(--ag-bg);
+  color: var(--tx);
+  font-family: var(--f-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.agency-root ::selection {
+  background: var(--acc-primary);
+  color: #06101f;
+}
+
+/* ---------- primitives ---------- */
+
+.ag-kicker {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: var(--kicker-ls);
+  text-transform: uppercase;
+  color: var(--acc-primary);
+}
+
+.ag-kicker--dim {
+  color: var(--tx-3);
+}
+
+.ag-section {
+  position: relative;
+  padding: var(--sect-y) var(--sect-x);
+  border-top: 1px solid var(--ag-border-soft);
+  overflow: hidden;
+}
+
+/* Giant outlined ghost section numerals */
+.ag-ghost-num {
+  position: absolute;
+  top: clamp(8px, 2vw, 24px);
+  right: var(--sect-x);
+  font-family: var(--f-sans);
+  font-size: clamp(80px, 14vw, 220px);
+  font-weight: 800;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(160, 185, 235, 0.13);
+  pointer-events: none;
+  user-select: none;
+  font-variation-settings: 'wdth' 125;
+}
+
+/* 1px-gap grid: border-color as grout */
+.ag-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--ag-border-soft);
+  border: 1px solid var(--ag-border-soft);
+}
+
+.ag-cell {
+  background: var(--ag-card);
+  padding: var(--card-pad);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.ag-cell:hover,
+.ag-cell:focus-within {
+  background: var(--ag-raised);
+}
+
+/* Buttons */
+.ag-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 14px 26px;
+  border: 1px solid var(--ag-border-strong);
+  color: var(--tx);
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.ag-btn:hover {
+  border-color: var(--acc-primary);
+  color: var(--acc-primary-hi);
+}
+
+.ag-btn--solid {
+  background: var(--acc-primary);
+  border-color: var(--acc-primary);
+  color: #06101f;
+}
+
+.ag-btn--solid:hover {
+  background: var(--acc-primary-hi);
+  border-color: var(--acc-primary-hi);
+  color: #06101f;
+}
+
+.agency-root a:focus-visible,
+.agency-root button:focus-visible,
+.agency-root [tabindex]:focus-visible {
+  outline: 2px solid var(--acc-primary);
+  outline-offset: 3px;
+}
+
+/* Chips */
+.ag-chip {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  padding: 5px 10px;
+  border: 1px solid var(--ag-border);
+  color: var(--tx-2);
+  background: rgba(77, 159, 255, 0.06);
+}
+
+/* Status badges — the honesty system. Never remove. */
+.ag-badge {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid currentColor;
+}
+
+.ag-badge--live { color: var(--acc-pass); }
+.ag-badge--local { color: var(--acc-pass); }
+.ag-badge--internal { color: var(--acc-log); }
+.ag-badge--proto { color: var(--acc-fail); }
+
+/* Reveal-on-scroll (JS adds .is-in; no-JS and reduced-motion render final state) */
+.ag-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.85s var(--ease-out),
+    transform 0.85s var(--ease-out);
+}
+
+.ag-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Dashed data-flow lines (SVG stroke animation) */
+@keyframes ag-dashmove {
+  to { stroke-dashoffset: -24; }
+}
+
+.ag-dashflow {
+  stroke-dasharray: 6 6;
+  animation: ag-dashmove 1.4s linear infinite;
+}
+
+@keyframes ag-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.ag-pulse { animation: ag-pulse 2.2s ease-in-out infinite; }
+
+@keyframes ag-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ag-marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ag-marquee 36s linear infinite;
+}
+
+/* Reduced motion: kill all continuous + entrance motion, render final states */
+@media (prefers-reduced-motion: reduce) {
+  .agency-root *,
+  .agency-root *::before,
+  .agency-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .ag-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

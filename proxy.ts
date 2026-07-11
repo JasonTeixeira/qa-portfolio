@@ -12,6 +12,20 @@ import { defaultLocale, isLocale } from '@/lib/i18n/config';
  */
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  // agency.sageideas.dev — host-based second skin. Serve the /agency tree at the
+  // subdomain root, before i18n/auth (the agency surface is public + locale-free).
+  const host = (request.headers.get('host') ?? '').split(':')[0];
+  if (host === 'agency.sageideas.dev' || host === 'agency.localhost') {
+    if (!pathname.startsWith('/agency') && !pathname.startsWith('/api') && !pathname.includes('.')) {
+      const agencyUrl = request.nextUrl.clone();
+      agencyUrl.pathname = pathname === '/' ? '/agency' : `/agency${pathname}`;
+      const agencyHeaders = new Headers(request.headers);
+      agencyHeaders.set('x-pathname', agencyUrl.pathname + (search || ''));
+      return NextResponse.rewrite(agencyUrl, { request: { headers: agencyHeaders } });
+    }
+  }
+
   const firstSegment = pathname.split('/')[1];
 
   if (isLocale(firstSegment) && firstSegment !== defaultLocale) {

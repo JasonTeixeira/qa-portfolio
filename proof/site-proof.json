@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-07-11",
+  "checks": [
+    { "id": "typecheck", "label": "tsc --noEmit", "status": "pass" },
+    { "id": "build", "label": "next build", "status": "pass" },
+    { "id": "playwright", "label": "playwright screenshots 320/768/1024/1440", "status": "pass" },
+    { "id": "axe", "label": "axe-core scan — 0 violations (WCAG 2.1 AA)", "status": "pass" }
+  ],
+  "lighthouse": {
+    "performance": null,
+    "accessibility": null,
+    "bestPractices": null,
+    "seo": null
+  }
+}

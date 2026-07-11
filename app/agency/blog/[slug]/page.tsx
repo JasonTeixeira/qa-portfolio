@@ -32,6 +32,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const MONTHS: Record<string, string> = {
+  JAN: '01',
+  FEB: '02',
+  MAR: '03',
+  APR: '04',
+  MAY: '05',
+  JUN: '06',
+  JUL: '07',
+  AUG: '08',
+  SEP: '09',
+  OCT: '10',
+  NOV: '11',
+  DEC: '12',
+}
+
+/** Convert the display date format ('01 JUL 2026') to ISO ('2026-07-01'). */
+function toIsoDate(display: string): string | undefined {
+  const parts = display.trim().split(/\s+/)
+  if (parts.length !== 3) return undefined
+  const month = MONTHS[parts[1].toUpperCase()]
+  if (!month) return undefined
+  return `${parts[2]}-${month}-${parts[0].padStart(2, '0')}`
+}
+
 /** Renders bold, em, and code inline markers as real elements — no HTML injection. */
 function Inline({ text }: { text: string }): ReactElement {
   return (
@@ -120,8 +144,28 @@ export default async function BlogPostPage({ params }: Props) {
   const post = getPublishedPost(slug)
   if (!post) notFound()
 
+  const canonicalUrl = `https://agency.sageideas.dev/blog/${post.slug}`
+  // Static, non-user post data only — safe for the JSON.stringify script pattern.
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: toIsoDate(post.date),
+    description: post.dek,
+    author: {
+      '@type': 'Person',
+      name: 'Jason Teixeira',
+      url: 'https://agency.sageideas.dev',
+    },
+    mainEntityOfPage: canonicalUrl,
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <AgencyNav />
       <main>
         <article>

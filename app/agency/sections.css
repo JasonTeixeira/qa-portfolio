@@ -871,7 +871,10 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 }
 .ag-contact-dual-link {
   color: var(--acc-primary);
-  text-decoration: none;
+  /* Underline so links in body text aren't color-only (WCAG 1.4.1 / axe link-in-text-block). */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--acc-primary) 55%, transparent);
   transition: color var(--dur-fast) var(--ease-out);
 }
 .ag-contact-dual-link:hover {

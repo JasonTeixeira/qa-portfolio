@@ -17,6 +17,13 @@ export async function proxy(request: NextRequest) {
   // subdomain root, before i18n/auth (the agency surface is public + locale-free).
   const host = (request.headers.get('host') ?? '').split(':')[0];
   if (host === 'agency.sageideas.dev' || host === 'agency.localhost') {
+    // SEO files: the dot-exclusion below would let these fall through to the
+    // main site's sitemap/robots — map them explicitly onto the agency tree.
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+      const seoUrl = request.nextUrl.clone();
+      seoUrl.pathname = `/agency${pathname}`;
+      return NextResponse.rewrite(seoUrl);
+    }
     if (!pathname.startsWith('/agency') && !pathname.startsWith('/api') && !pathname.includes('.')) {
       const agencyUrl = request.nextUrl.clone();
       agencyUrl.pathname = pathname === '/' ? '/agency' : `/agency${pathname}`;
@@ -64,5 +71,10 @@ export const config = {
     // the middleware process the HMR upgrade and break it, killing dev hydration)
     // and static asset/feed files.
     '/((?!_next|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
+    // SEO files must reach the proxy so the agency host can serve its own
+    // sitemap/robots. On the main host these hit the default path (updateSession
+    // pass-through), so app/sitemap.ts + app/robots.ts behavior is unchanged.
+    '/sitemap.xml',
+    '/robots.txt',
   ],
 };

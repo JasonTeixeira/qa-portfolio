@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
+    "agency:proof": "node scripts/agency/run-proof-gates.mjs",
     "verify:local": "npm run test:unit && npm run typecheck && npm run lint && npm run build && git diff --check && npm run ops:approval-boundaries && npm run discord:release-local && npm run verify:business-site:evidence",
     "verify:local:evidence": "node scripts/ops/write-local-verification-evidence.mjs",
     "verify:business-site:evidence": "node scripts/marketing/verify-business-site-evidence.mjs",

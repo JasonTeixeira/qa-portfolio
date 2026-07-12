@@ -11,32 +11,44 @@
  */
 import { chromium } from 'playwright'
 import { AxeBuilder } from '@axe-core/playwright'
+import { existsSync } from 'node:fs'
 
 const [courseSlug, lessonSlug, baseUrl = 'http://localhost:3040'] = process.argv.slice(2)
+const storageState = process.env.ACADEMY_STORAGE_STATE
 const email = process.env.ACADEMY_TEST_EMAIL
 const password = process.env.ACADEMY_TEST_PASSWORD
-if (!courseSlug || !lessonSlug || !email || !password) {
-  console.error('usage: inspect-lesson.mjs <course> <lesson> [baseUrl] (+ ACADEMY_TEST_EMAIL/PASSWORD)')
+const haveState = storageState && existsSync(storageState)
+if (!courseSlug || !lessonSlug || (!haveState && (!email || !password))) {
+  console.error('usage: inspect-lesson.mjs <course> <lesson> [baseUrl] (+ ACADEMY_STORAGE_STATE or ACADEMY_TEST_EMAIL/PASSWORD)')
   process.exit(2)
 }
 
 // The canonical palette (ACADEMY_QUALITY_STANDARD §9 / DESIGN_SYSTEM). Consistency dim
 // flags meaningful off-system colors (allowing greys + transparency).
 const ALLOWED = new Set(
-  ['#0b0b0e', '#111115', '#f2efe9', '#9598a2', '#1e1e24', '#3d5afe', '#18b663', '#e0a93e', '#e5484d',
-   '#2a2a33', '#141418', '#b6b6c0', '#8fa0ff'].map((h) => h.toLowerCase()),
+  [// core palette
+   '#0b0b0e', '#111115', '#f2efe9', '#9598a2', '#1e1e24', '#3d5afe', '#18b663', '#e0a93e', '#e5484d',
+   '#2a2a33', '#141418', '#b6b6c0', '#8fa0ff',
+   // per-topic accent tokens (lib/academy/topics.ts) — deliberate design system
+   '#5bc8e8', '#6e8bff', '#34d399', '#e8b75a', '#9db4d0', '#a78bfa',
+  ].map((h) => h.toLowerCase()),
 )
 
 const browser = await chromium.launch()
-const ctx = await browser.newContext({ viewport: { width: 1280, height: 1040 }, deviceScaleFactor: 1 })
+const ctx = await browser.newContext({
+  viewport: { width: 1280, height: 1040 }, deviceScaleFactor: 1,
+  ...(haveState ? { storageState } : {}),
+})
 const page = await ctx.newPage()
 try {
-  await page.goto(`${baseUrl}/login?audience=academy&next=/academy/dashboard`, { waitUntil: 'networkidle', timeout: 60000 })
-  await (await page.$('#email, input[name=email]')).fill(email)
-  const pw = await page.$('#password, input[name=password]')
-  await pw.fill(password)
-  await pw.press('Enter')
-  await page.waitForURL((u) => !String(u).includes('/login'), { timeout: 20000 }).catch(() => {})
+  if (!haveState) {
+    await page.goto(`${baseUrl}/login?audience=academy&next=/academy/dashboard`, { waitUntil: 'networkidle', timeout: 60000 })
+    await (await page.$('#email, input[name=email]')).fill(email)
+    const pw = await page.$('#password, input[name=password]')
+    await pw.fill(password)
+    await pw.press('Enter')
+    await page.waitForURL((u) => !String(u).includes('/login'), { timeout: 20000 }).catch(() => {})
+  }
 
   const started = Date.now()
   const res = await page.goto(`${baseUrl}/academy/learn/${courseSlug}/${lessonSlug}`, { waitUntil: 'networkidle', timeout: 60000 })

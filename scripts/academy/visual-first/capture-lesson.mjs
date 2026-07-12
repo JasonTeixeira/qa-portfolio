@@ -15,6 +15,7 @@
 // horizontal-overflow px (must be 0) for the runner to parse.
 
 import { chromium } from 'playwright'
+import { existsSync } from 'node:fs'
 
 const [courseSlug, lessonSlug, baseUrl = 'http://localhost:3087', outDir = '/tmp/academy-shots'] =
   process.argv.slice(2)
@@ -23,10 +24,12 @@ if (!courseSlug || !lessonSlug) {
   console.error('usage: capture-lesson.mjs <courseSlug> <lessonSlug> [baseUrl] [outDir]')
   process.exit(2)
 }
+const storageState = process.env.ACADEMY_STORAGE_STATE
+const haveState = storageState && existsSync(storageState)
 const email = process.env.ACADEMY_TEST_EMAIL
 const password = process.env.ACADEMY_TEST_PASSWORD
-if (!email || !password) {
-  console.error('Missing ACADEMY_TEST_EMAIL / ACADEMY_TEST_PASSWORD env (login creds).')
+if (!haveState && (!email || !password)) {
+  console.error('Missing ACADEMY_STORAGE_STATE or ACADEMY_TEST_EMAIL / ACADEMY_TEST_PASSWORD env.')
   process.exit(2)
 }
 
@@ -35,11 +38,15 @@ const VH = 1040
 const MAX_SEGMENTS = 8
 
 const browser = await chromium.launch()
-const ctx = await browser.newContext({ viewport: { width: 1280, height: VH }, deviceScaleFactor: 2 })
+const ctx = await browser.newContext({
+  viewport: { width: 1280, height: VH }, deviceScaleFactor: 2,
+  ...(haveState ? { storageState } : {}),
+})
 const page = await ctx.newPage()
 
 try {
-  // 1) authenticate (academy audience)
+  // 1) authenticate (academy audience) — skipped when a saved session is supplied
+  if (!haveState) {
   await page.goto(`${baseUrl}/login?audience=academy`, { waitUntil: 'networkidle', timeout: 60000 })
   const emailEl = await page.$('input[type=email], input[name=email]')
   const passEl = await page.$('input[type=password], input[name=password]')
@@ -67,6 +74,7 @@ try {
     await page.waitForTimeout(2000)
     await submitLogin()
   }
+  } // end !haveState login
 
   // 2) navigate to the lesson; fail loudly if redirected to /login (gated/unentitled)
   const res = await page.goto(LESSON, { waitUntil: 'networkidle', timeout: 60000 })

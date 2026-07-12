@@ -161,7 +161,7 @@ function composite(dims) {
   let wsum = 0, w = 0
   for (const [k, wt] of Object.entries(WEIGHTS)) {
     const v = dims[k]
-    if (v === null || v === undefined || v === 'n/a') continue
+    if (v === null || v === undefined || v === 'n/a' || v === 'proxy') continue
     wsum += v * wt; w += wt
   }
   return w ? Math.round((wsum / w) * 10) / 10 : 0
@@ -186,16 +186,28 @@ async function main() {
   // when creds absent so the content+audio spine still works standalone.
   let inspect = null
   const canRender = process.env.ACADEMY_TEST_EMAIL && process.env.ACADEMY_TEST_PASSWORD
+  // Mint ONE session and reuse it (avoids the auth rate limit + per-run login flake).
+  if (canRender && lessonFilter && !process.env.ACADEMY_STORAGE_STATE) {
+    const statePath = '/tmp/academy-harness-state.json'
+    if (!existsSync(statePath)) {
+      const a = spawnSync('node', ['scripts/academy/quality/auth-state.mjs', process.env.HARNESS_BASE_URL || 'http://localhost:3040', statePath], { encoding: 'utf8', env: process.env })
+      if (!/"ok":true/.test(a.stdout || '')) console.log(`  (auth-state: ${(a.stderr || a.stdout || '').trim().slice(-120)})`)
+    }
+    if (existsSync(statePath)) process.env.ACADEMY_STORAGE_STATE = statePath
+  }
   if (canRender && lessonFilter) {
-    const r = spawnSync('node', ['scripts/academy/quality/inspect-lesson.mjs', courseSlug, lessonFilter], { encoding: 'utf8', env: process.env })
-    const line = (r.stdout || '').trim().split('\n').filter((l) => l.startsWith('{')).pop()
-    try {
-      const d = line ? JSON.parse(line) : null
-      if (d?.ok) {
-        inspect = d
-        if (d.a11y.hardFail) hardFails.push({ code: 'H4', unit: lessonFilter, msg: `a11y: ${d.a11y.byImpact.critical} critical / ${d.a11y.byImpact.serious} serious (${d.a11y.topViolations.map((v) => v.id).join(', ')})` })
-      }
-    } catch { /* inspector unreachable — dims stay pending */ }
+    // The inspector runs its own browser+login and can flake transiently — retry twice.
+    for (let attempt = 0; attempt < 2 && !inspect; attempt++) {
+      const r = spawnSync('node', ['scripts/academy/quality/inspect-lesson.mjs', courseSlug, lessonFilter], { encoding: 'utf8', env: process.env })
+      const line = (r.stdout || '').trim().split('\n').filter((l) => l.startsWith('{')).pop()
+      try {
+        const d = line ? JSON.parse(line) : null
+        if (d?.ok) {
+          inspect = d
+          if (d.a11y.hardFail) hardFails.push({ code: 'H4', unit: lessonFilter, msg: `a11y: ${d.a11y.byImpact.critical} critical / ${d.a11y.byImpact.serious} serious (${d.a11y.topViolations.map((v) => v.id).join(', ')})` })
+        }
+      } catch { /* transient — retry */ }
+    }
   }
 
   // Deterministic dims filled; subjective dims (visual, ux) left for the judge panel.
@@ -207,9 +219,12 @@ async function main() {
     voice: audio.applicable ? audio.score : 'n/a',
     a11y: inspect ? inspect.a11y.score : null,
     ux: null,       // judge panel (pending)
-    perf: inspect ? Math.min(99, Math.max(0, 100 - Math.round((inspect.perfProxy.wallMs - 1500) / 100))) : null,
+    // perf is a DEV proxy here — advisory, not gating (rubric §8: real gate = Phase-6
+    // prod Lighthouse). Excluded from composite like voice N/A; value kept in notes.
+    perf: inspect ? 'proxy' : null,
     consistency: inspect ? inspect.consistency.score : null,
   }
+  const perfProxyMs = inspect ? inspect.perfProxy.wallMs : null
   const pendingJudge = ['visual', 'ux'].filter((k) => dims[k] === null)
   const pendingChecks = ['a11y', 'perf', 'consistency'].filter((k) => dims[k] === null)
   const deterministicComposite = composite(dims)

@@ -56,7 +56,13 @@ function Section({ blockKey, children, tone }: { blockKey: string; children: Rea
 }
 
 function Mono({ code }: { code: string }) {
-  return <pre className={styles.code}><code>{code}</code></pre>
+  // tabIndex=0 makes the horizontally-scrollable code block keyboard-reachable
+  // (WCAG 2.1.1 — axe scrollable-region-focusable). role/label name the region.
+  return (
+    <pre className={styles.code} tabIndex={0} role="region" aria-label="Code sample">
+      <code>{code}</code>
+    </pre>
+  )
 }
 
 function SprintContract({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'sprint-contract' }> } & EvidenceProps) {

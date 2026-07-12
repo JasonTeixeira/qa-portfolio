@@ -69,6 +69,53 @@
   max-width: 60ch;
 }
 
+/* ── honest empty state (Phase-2: "No numbers yet — that's honest too.") ── */
+.emptyWrap {
+  border: 1px dashed #2A2A33;
+  border-radius: 18px;
+  background: var(--p-surface);
+  padding: clamp(36px, 6vw, 64px);
+  text-align: center;
+}
+.emptyOrb {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(110, 131, 255, 0.3);
+  background: radial-gradient(circle at 35% 30%, rgba(110, 131, 255, 0.5), rgba(61, 90, 254, 0.15) 55%, #0b0b0e 80%);
+}
+.emptyTitle {
+  margin: 18px auto 8px;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(24px, 2.8vw, 32px);
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+.emptyLead {
+  margin: 0 auto;
+  color: var(--p-muted);
+  max-width: 48ch;
+  font-size: 14.5px;
+  text-wrap: pretty;
+}
+.emptyCta {
+  display: inline-flex;
+  margin-top: 24px;
+  color: #fff;
+  background: #3d5afe;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: 12px;
+  transition: background 150ms ease;
+}
+.emptyCta:hover {
+  background: #6e83ff;
+}
+
 /* ── mastery chart ── */
 
 .chartHead {

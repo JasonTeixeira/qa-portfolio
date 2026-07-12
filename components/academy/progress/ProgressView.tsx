@@ -314,13 +314,18 @@ export function ProgressView({ data }: { data: ProgressData }) {
       </p>
 
       {isEmpty ? (
-        <div className={styles.card}>
-          <span className={styles.eyebrow}>No evidence yet</span>
-          <p className={styles.emptyBody}>
-            Your mastery curve, per-course scores, evidence velocity, and recall graph fill in here
-            as you produce real evidence — attempt a retrieval, build an artifact, verify a lab.
-            Nothing is shown until it is earned.
+        <div className={styles.emptyWrap}>
+          <span className={styles.emptyOrb} aria-hidden />
+          <h2 className={styles.emptyTitle}>
+            No numbers yet — <em className={styles.titleAccent}>that&apos;s honest too.</em>
+          </h2>
+          <p className={styles.emptyLead}>
+            Mastery scores here are earned, never estimated. Your curve starts the moment your first
+            proof holds — attempt a retrieval, build an artifact, verify a lab.
           </p>
+          <Link href="/academy/catalog" className={styles.emptyCta}>
+            Start learning →
+          </Link>
         </div>
       ) : (
         <>

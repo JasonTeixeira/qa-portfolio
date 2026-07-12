@@ -32,7 +32,6 @@ export const OPEN_SOURCE_REPOS: readonly OpenSourceRepo[] = [
   { name: 'sage-kernel', proves: 'Proof-first engineering OS, 140 MCP tools' },
   { name: 'Nexural_Automation', proves: 'Local-first automation lab, MCP server' },
   { name: 'nexural-automation-starter', proves: 'Paper-money-safe webhook automation starter' },
-  { name: 'graphify', proves: 'Any input → knowledge graph' },
 ] as const
 
 /** Section 01 — the 30-second scan: six capability tiles, depth on /services. */

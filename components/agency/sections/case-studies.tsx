@@ -9,7 +9,6 @@ const OPEN_REPO_NAMES: readonly string[] = [
   'playwright-sdet-regression-suite',
   'Nexural_Automation',
   'nexural-automation-starter',
-  'graphify',
 ]
 
 /**

@@ -5,6 +5,7 @@ import { completeOnboarding } from '@/app/academy/_actions/onboarding'
 import { GoalPicker } from '@/components/academy/goals/GoalPicker'
 import { Icon } from '@/components/academy/ui/Icon'
 import { Course00 } from './Course00'
+import { VoiceNote } from './VoiceNote'
 import styles from './onboarding.module.css'
 
 const GOALS = [
@@ -94,6 +95,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
       <div className={styles.primerShell}>
         <Course00 />
         <div className={styles.primerActions}>
+          <VoiceNote clip="welcome" label="Hear the 30-second welcome" />
           <button type="button" className={styles.primary} onClick={() => setShowPrimer(false)}>
             Continue — set up my account <Icon name="arrow-right" size={16} />
           </button>
@@ -116,6 +118,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
           <div className={styles.center}>
             <p className={styles.kicker}>Welcome — here&rsquo;s the whole system</p>
             <h1 className={styles.title}>Three moves. Everything else is detail.</h1>
+            <VoiceNote clip="onboard-loop" label="Hear how the loop works" />
           </div>
           <div className={styles.cards}>
             {MOVES.map((m) => (
@@ -152,6 +155,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
           <div className={styles.center}>
             <p className={styles.kicker}>Step 1 of 4 — your goal</p>
             <h1 className={styles.title}>What do you want to build?</h1>
+            <VoiceNote clip="onboard-goal" label="Hear it from Jason" />
           </div>
           <div className={styles.options}>
             {GOALS.map((g) => (

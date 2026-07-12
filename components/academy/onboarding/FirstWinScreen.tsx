@@ -4,6 +4,7 @@ import Link from 'next/link'
 import type { FirstWinSummary } from '@/lib/academy/first-win-logic'
 import { FIRST_WIN_MILESTONE_KEY } from '@/lib/academy/first-win-logic'
 import { Icon } from '@/components/academy/ui/Icon'
+import { VoiceNote } from './VoiceNote'
 import styles from './first-win.module.css'
 
 type Props = {
@@ -49,6 +50,8 @@ export function FirstWinScreen({ summary }: Props) {
             </>
           )}
         </p>
+
+        <VoiceNote clip="onboard-first-win" label="Hear it from Jason" />
 
         <div className={styles.progressBlock}>
           <div className={styles.progressHead}>

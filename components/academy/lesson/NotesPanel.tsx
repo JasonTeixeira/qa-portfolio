@@ -3,7 +3,7 @@
 import { useId, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { LessonNote } from '@/lib/academy/notes'
-import { saveNote, deleteNote } from '@/app/academy/_actions/notes'
+import { saveNote, deleteNote } from '@/app/(main)/academy/_actions/notes'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './notes.module.css'
 

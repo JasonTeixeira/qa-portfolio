@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, LogOut } from 'lucide-react';
-import { signOut } from '@/app/auth/actions';
+import { signOut } from '@/app/(main)/auth/actions';
 import { cn } from '@/lib/utils';
 import { portalAdminNav, portalClientNav } from './nav-items';
 

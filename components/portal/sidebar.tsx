@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut } from '@/app/auth/actions';
+import { signOut } from '@/app/(main)/auth/actions';
 import { LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { portalAdminNav, portalClientNav } from './nav-items';

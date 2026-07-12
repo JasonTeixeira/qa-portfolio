@@ -1,7 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { AdminTopbar } from '@/components/admin/topbar';
-import { adminInviteUser } from '@/app/auth/actions';
+import { adminInviteUser } from '@/app/(main)/auth/actions';
 import { UserRowActions } from '@/components/admin/user-row-actions';
 import { formatDate } from '@/lib/utils';
 

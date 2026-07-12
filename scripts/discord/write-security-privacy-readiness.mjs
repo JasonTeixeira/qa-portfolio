@@ -17,7 +17,7 @@ const paths = {
   premiumWorkflows: 'lib/discord/premium-workflows.ts',
   sageCommands: 'lib/discord/sage-commands.ts',
   publicProof: 'lib/discord/public-proof.ts',
-  adminActions: 'app/admin/discord/actions.ts',
+  adminActions: 'app/(main)/admin/discord/actions.ts',
   packageJson: 'package.json',
 };
 

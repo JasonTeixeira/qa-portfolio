@@ -11,9 +11,9 @@ const paths = {
   operatingCycle: 'lib/discord/operating-proof-cycle.ts',
   operatingCycleRules: 'lib/discord/operating-proof-cycle-rules.ts',
   proofBacklog: 'lib/discord/proof-backlog.ts',
-  adminActions: 'app/admin/discord/actions.ts',
-  adminPage: 'app/admin/discord/page.tsx',
-  landingPage: 'app/discord/page.tsx',
+  adminActions: 'app/(main)/admin/discord/actions.ts',
+  adminPage: 'app/(main)/admin/discord/page.tsx',
+  landingPage: 'app/(main)/discord/page.tsx',
   migration: 'supabase/migrations/0090_discord_public_proof_growth.sql',
   packageJson: 'package.json',
 };

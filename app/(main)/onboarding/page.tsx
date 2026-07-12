@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { resendVerification } from '@/app/auth/actions';
+import { resendVerification } from '@/app/(main)/auth/actions';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 import { GradientMesh } from '@/components/auth/gradient-mesh';
 import { createSupabaseServerClient } from '@/lib/supabase/server';

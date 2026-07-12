@@ -14,7 +14,7 @@ import {
   updateUserRole,
   updateUserStatus,
   removeUser,
-} from '@/app/admin/users/actions';
+} from '@/app/(main)/admin/users/actions';
 
 const ROLE_OPTIONS = ['admin', 'collaborator', 'client', 'pending'] as const;
 

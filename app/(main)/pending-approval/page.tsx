@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { signOut } from '@/app/auth/actions';
+import { signOut } from '@/app/(main)/auth/actions';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 

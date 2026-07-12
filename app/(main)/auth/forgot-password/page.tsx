@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { requestPasswordReset } from '@/app/auth/actions';
+import { requestPasswordReset } from '@/app/(main)/auth/actions';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 import { GradientMesh } from '@/components/auth/gradient-mesh';
 

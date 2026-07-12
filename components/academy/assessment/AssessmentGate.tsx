@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { isComplete, type PublicQuestion, type AssessmentKind } from '@/lib/academy/assessment-logic'
 import { gainBand } from '@/lib/academy/efficacy-logic'
-import { submitAssessmentResponses } from '@/app/academy/_actions/assessments'
+import { submitAssessmentResponses } from '@/app/(main)/academy/_actions/assessments'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './assessment.module.css'
 

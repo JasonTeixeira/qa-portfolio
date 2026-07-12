@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { completeOnboarding } from '@/app/academy/_actions/onboarding'
+import { completeOnboarding } from '@/app/(main)/academy/_actions/onboarding'
 import { GoalPicker } from '@/components/academy/goals/GoalPicker'
 import { Icon } from '@/components/academy/ui/Icon'
 import { Course00 } from './Course00'

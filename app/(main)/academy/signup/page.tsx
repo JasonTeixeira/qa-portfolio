@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signUpAcademy } from '@/app/auth/actions';
+import { signUpAcademy } from '@/app/(main)/auth/actions';
 import { AuthShell, AuthSubmit, authFieldClass } from '@/components/auth/auth-shell';
 import { Icon } from '@/components/academy/ui/Icon';
 

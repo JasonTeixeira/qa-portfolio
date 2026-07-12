@@ -3,9 +3,9 @@
 import { useState, useTransition, type ReactNode } from 'react'
 import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
-import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
+import { recordSprintEvidence } from '@/app/(main)/academy/_actions/evidence'
 import { ArtifactComposer } from './ArtifactComposer'
-import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
+import { gradeTeachback, type GradeTeachbackResult } from '@/app/(main)/academy/_actions/grader'
 import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import styles from './sprint.module.css'
 

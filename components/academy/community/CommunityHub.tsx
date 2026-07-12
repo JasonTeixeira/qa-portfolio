@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { FriendView, PendingRequest, CohortView } from '@/lib/academy/community'
-import { requestFriend, acceptFriend, joinCohortAction } from '@/app/academy/_actions/community'
+import { requestFriend, acceptFriend, joinCohortAction } from '@/app/(main)/academy/_actions/community'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './community.module.css'
 

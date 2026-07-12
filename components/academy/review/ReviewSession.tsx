@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { gradeReview } from '@/app/academy/_actions/reviews'
+import { gradeReview } from '@/app/(main)/academy/_actions/reviews'
 import type { DueReview, ReviewGrade } from '@/lib/academy/fsrs'
 import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
 import { XP_REWARDS, type Celebration } from '@/lib/academy/gamification-logic'

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { approveProfile } from '@/app/auth/actions';
+import { approveProfile } from '@/app/(main)/auth/actions';
 import { requireAdmin } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { timed } from '@/lib/portal/db-timing';

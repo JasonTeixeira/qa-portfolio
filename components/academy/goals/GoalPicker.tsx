@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { GOAL_CATALOG } from '@/lib/academy/goal-logic'
-import { setLearnerGoal } from '@/app/academy/_actions/goals'
+import { setLearnerGoal } from '@/app/(main)/academy/_actions/goals'
 import styles from './goal-picker.module.css'
 
 type Props = {

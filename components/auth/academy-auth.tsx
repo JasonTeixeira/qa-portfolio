@@ -7,7 +7,7 @@ import {
   signInWithProvider,
   signUpAcademy,
   signUpWithPassword,
-} from '@/app/auth/actions';
+} from '@/app/(main)/auth/actions';
 
 type Audience = 'studio' | 'academy';
 type Mode = 'signup' | 'login';

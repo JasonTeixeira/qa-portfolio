@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { searchAcademy } from '@/app/academy/_actions/search'
+import { searchAcademy } from '@/app/(main)/academy/_actions/search'
 import type { RankedSearchItem, SearchItemKind } from '@/lib/academy/search-logic'
 
 /**

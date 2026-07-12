@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { signUpWithPassword } from '@/app/auth/actions';
+import { signUpWithPassword } from '@/app/(main)/auth/actions';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 import { OAuthButtons } from '@/components/auth/oauth-buttons';
 import { GradientMesh } from '@/components/auth/gradient-mesh';

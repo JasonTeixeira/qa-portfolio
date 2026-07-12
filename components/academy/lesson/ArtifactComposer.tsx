@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { verifyArtifact } from '@/app/academy/_actions/evidence'
+import { verifyArtifact } from '@/app/(main)/academy/_actions/evidence'
 import { deriveRequirements, gradeArtifact, ARTIFACT_MIN_CHARS } from '@/lib/academy/artifact-logic'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './sprint.module.css'

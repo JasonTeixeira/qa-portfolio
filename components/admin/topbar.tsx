@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signOut } from '@/app/auth/actions';
+import { signOut } from '@/app/(main)/auth/actions';
 import { initials } from '@/lib/utils';
 
 export interface Crumb {

@@ -1,0 +1,32 @@
+/* Agency root base — replaces the main site's compiled Tailwind bundle.
+   The agency subtree uses only ag-* classes, so all it needs from the old
+   globals.css inheritance is (a) the preflight reset and (b) the handful of
+   html/body rules the old root layout applied via utility classes.
+   Importing Tailwind's own preflight keeps the reset byte-equivalent to what
+   the compiled bundle shipped, so agency rendering does not change. */
+
+@import 'tailwindcss/preflight.css';
+
+html {
+  background-color: #0b0b0e; /* was bg-[#0B0B0E] on <html> in the old root layout */
+}
+
+/* Smooth scrolling — same data-attribute contract as the main site
+   (anchor links like /#proof rely on it) */
+html[data-scroll-behavior='smooth'] {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-scroll-behavior='smooth'] {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh; /* was min-h-screen */
+  display: flex; /* was flex */
+  flex-direction: column; /* was flex-col */
+  -webkit-font-smoothing: antialiased; /* was antialiased */
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signInWithPassword } from '@/app/auth/actions';
+import { signInWithPassword } from '@/app/(main)/auth/actions';
 import { AuthShell, AuthSubmit, authFieldClass } from '@/components/auth/auth-shell';
 import { AcademyValuePanel } from '@/components/auth/academy-value-panel';
 import { AcademyAuth } from '@/components/auth/academy-auth';

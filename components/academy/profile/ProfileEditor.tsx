@@ -10,7 +10,7 @@ import {
   saveProfile,
   addMyArtifact,
   removeMyArtifact,
-} from '@/app/academy/_actions/profile'
+} from '@/app/(main)/academy/_actions/profile'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './profile-editor.module.css'
 

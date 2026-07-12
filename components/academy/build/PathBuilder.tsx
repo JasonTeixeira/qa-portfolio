@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useTransition, type CSSProperties } from 
 import Link from 'next/link'
 import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
 import type { CourseItem } from '@/data/academy/learn-catalog'
-import { saveBuiltPath } from '@/app/academy/_actions/paths'
+import { saveBuiltPath } from '@/app/(main)/academy/_actions/paths'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './build.module.css'
 

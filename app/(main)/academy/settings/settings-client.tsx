@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
-import { saveProfile } from '@/app/academy/_actions/profile'
+import { saveProfile } from '@/app/(main)/academy/_actions/profile'
 import type { BillingView } from '@/lib/academy/billing'
 
 /**

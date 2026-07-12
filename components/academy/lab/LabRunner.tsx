@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
-import { markLessonComplete } from '@/app/academy/_actions/progress'
-import { verifyLab } from '@/app/academy/_actions/evidence'
+import { markLessonComplete } from '@/app/(main)/academy/_actions/progress'
+import { verifyLab } from '@/app/(main)/academy/_actions/evidence'
 import { useSound } from '@/hooks/useSound'
 import { Icon } from '@/components/academy/ui/Icon'
 import { loadRuntime, normalizeLanguage, RUNTIME_LABEL, RUNTIME_FILE, type LabRuntime } from './runtimes'

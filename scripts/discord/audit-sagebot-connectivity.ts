@@ -33,7 +33,7 @@ const sageBotPrefixes = [
   'lib/discord/',
   'scripts/discord/',
   'app/api/discord/',
-  'app/admin/discord/',
+  'app/(main)/admin/discord/',
   'tools/engineering-loop/',
 ];
 
@@ -91,7 +91,7 @@ function run(command: string): { ok: boolean; stdout: string; stderr: string; ex
 }
 
 function listFiles(): string[] {
-  const result = run("find lib/discord scripts/discord app/api/discord app/admin/discord tools/engineering-loop -type f \\( -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' \\) | sort");
+  const result = run("find lib/discord scripts/discord app/api/discord app/(main)/admin/discord tools/engineering-loop -type f \\( -name '*.ts' -o -name '*.tsx' -o -name '*.mjs' \\) | sort");
   return result.stdout
     .split('\n')
     .map((line) => line.trim())
@@ -217,8 +217,8 @@ async function main() {
 
   const entrypointFiles = new Set<string>([
     'app/api/discord/interactions/route.ts',
-    'app/admin/discord/page.tsx',
-    'app/admin/discord/actions.ts',
+    'app/(main)/admin/discord/page.tsx',
+    'app/(main)/admin/discord/actions.ts',
   ]);
   for (const file of sourceFiles) {
     if (file.startsWith('scripts/discord/') && scriptReferencedFiles.has(file)) entrypointFiles.add(file);

@@ -11,8 +11,8 @@ const paths = {
   durableProof: 'docs/evidence/discord-ai-os/phase-14-durable-jobs-proof.json',
   scaleFailureProof: 'docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json',
   migration: 'supabase/migrations/0088_discord_durable_jobs.sql',
-  adminActions: 'app/admin/discord/actions.ts',
-  adminPage: 'app/admin/discord/page.tsx',
+  adminActions: 'app/(main)/admin/discord/actions.ts',
+  adminPage: 'app/(main)/admin/discord/page.tsx',
   packageJson: 'package.json',
 };
 

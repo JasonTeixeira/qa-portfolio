@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { updatePassword } from '@/app/auth/actions';
+import { updatePassword } from '@/app/(main)/auth/actions';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 import { GradientMesh } from '@/components/auth/gradient-mesh';

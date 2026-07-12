@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
-import { Archivo } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Archivo, JetBrains_Mono } from 'next/font/google'
+import './base.css'
 import './agency.css'
 import './sections.css'
 import './islands.css'
@@ -13,16 +14,34 @@ import './mobile.css'
 import './mobile-fixes.css'
 
 // Archivo variable — width axis is part of the design language (kicker→display contrast).
-// preload: false — the wdth-axis variable file is ~147KB and Lighthouse's simulated
-// slow-4G puts every preloaded font ahead of LCP. With swap + size-adjusted fallback,
-// the headline paints instantly in the fallback and upgrades when Archivo arrives.
+// preload: true — this is now the agency's OWN root layout, so Archivo no longer
+// competes with the main site's 4 font preloads. Preloading the LCP headline font wins.
 const archivo = Archivo({
   subsets: ['latin'],
   axes: ['wdth'],
   variable: '--font-agency-sans',
   display: 'swap',
-  preload: false,
+  preload: true,
 })
+
+// The agency previously inherited --font-mono from the main root layout.
+// Now that /agency is its own root, it must load JetBrains Mono itself —
+// every kicker/label/button on the site renders in it.
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-mono',
+  display: 'swap',
+  preload: true,
+})
+
+export const viewport: Viewport = {
+  themeColor: '#090e1a',
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const SITE_URL = 'https://agency.sageideas.dev'
 
@@ -75,19 +94,27 @@ const SERVICE_JSONLD = {
 
 export default function AgencyLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${archivo.variable} agency-root`}>
-      <a href="#main-content" className="ag-skip-link">
-        SKIP TO CONTENT
-      </a>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSONLD) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSONLD) }}
-      />
-      {children}
-    </div>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${archivo.variable} ${mono.variable}`}
+    >
+      <body suppressHydrationWarning>
+        <div className="agency-root">
+          <a href="#main-content" className="ag-skip-link">
+            SKIP TO CONTENT
+          </a>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSONLD) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSONLD) }}
+          />
+          {children}
+        </div>
+      </body>
+    </html>
   )
 }

@@ -11,7 +11,7 @@ const paths = {
   observabilitySmoke: 'scripts/discord/smoke-observability-quality-v2.ts',
   observabilityProof: 'docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json',
   migration: 'supabase/migrations/0091_discord_observability_quality_rollups.sql',
-  adminPage: 'app/admin/discord/page.tsx',
+  adminPage: 'app/(main)/admin/discord/page.tsx',
   packageJson: 'package.json',
 };
 

@@ -15,7 +15,7 @@ import {
   uploadBrandingLogo,
   updateTeamMember,
   removeTeamMember,
-} from '@/app/admin/settings/actions';
+} from '@/app/(main)/admin/settings/actions';
 
 export interface StudioSettings {
   org_name: string;

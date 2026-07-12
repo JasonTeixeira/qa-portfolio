@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { signOut } from '@/app/auth/actions'
+import { signOut } from '@/app/(main)/auth/actions'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getGamification } from '@/lib/academy/gamification'
 import { getDueCount } from '@/lib/academy/fsrs'

@@ -1,4 +1,4 @@
-import { signInWithProvider } from '@/app/auth/actions';
+import { signInWithProvider } from '@/app/(main)/auth/actions';
 
 function GoogleIcon() {
   return (

@@ -17,8 +17,8 @@ const cap = (s: string) =>
  *   SHIPPED) followed by the course's real module titles (badge COVERED). No fabricated
  *   capability claims and no fake artifact filenames — if the cert carries neither
  *   artifacts nor modules, the whole panel is omitted.
- * - The verify block shows the REAL verifiable URL (the public certificate page — there
- *   is no separate /verify endpoint) and a JSON shape built from real fields.
+ * - The verify block curls the REAL public /verify/<code> endpoint (app/verify/[code]/
+ *   route.ts), which returns exactly the JSON shown here — runnable by anyone, no login.
  */
 export function Certificate({ cert }: { cert: CertificateView }) {
   const issued = new Date(cert.issuedAt)
@@ -26,7 +26,9 @@ export function Certificate({ cert }: { cert: CertificateView }) {
   const dateIso = Number.isNaN(issued.getTime()) ? '' : issued.toISOString().slice(0, 10)
 
   const shareUrl = `${SITE}/academy/certificate/${cert.code}`
-  const verifyPath = `sageideas.dev/academy/certificate/${cert.code}`
+  // Real, runnable verification: the public /verify/<code> endpoint returns exactly
+  // the JSON shown below (see app/verify/[code]/route.ts).
+  const verifyPath = `sageideas.dev/verify/${cert.code}`
   const proofs = cert.artifacts.length
 
   // Meta clauses — only include what's actually backed by real data.
@@ -88,7 +90,7 @@ export function Certificate({ cert }: { cert: CertificateView }) {
         <div className={styles.terminal}>
           <div className={styles.termCmd}>$ curl {verifyPath}</div>
           <div className={styles.termOut}>{verifyJson}</div>
-          <div className={styles.termNote}># anyone can open this — no login, no screenshot to fake</div>
+          <div className={styles.termNote}># anyone can run this — no login, no screenshot to fake</div>
         </div>
 
         <div className={styles.ctas}>

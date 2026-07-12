@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 
 import { Reveal } from '@/components/agency/core'
+import { ContactForm } from '@/components/agency/islands/contact-form'
 import { SectionShell } from '@/components/agency/section-shell'
 import '@/app/agency/audit/audit.css'
 
@@ -40,57 +41,91 @@ const OFFERS: readonly Offer[] = [
 /** Section 08 — resume / contact + fixed-scope contract offers. */
 export function ContactSection() {
   return (
-    <SectionShell id="contact" num="08" kicker="RESUME / CONTACT" ghost="08">
+    <SectionShell id="contact" num="09" kicker="RESUME / CONTACT" ghost="09">
       <div className="ag-contact">
-        <Reveal>
-          <h2 className="ag-contact-h2">
-            If the proof holds up, <em className="ag-contact-h2-em">let&apos;s talk.</em>
-          </h2>
-        </Reveal>
-        <Reveal delay={90}>
-          <p className="ag-contact-sub">
-            Open to AI automation, QA engineering, SDET, test infrastructure, and workflow
-            automation roles — or consulting projects: building an AI workflow, adding test
-            coverage to a fragile product, creating evals for an AI feature, or turning a manual
-            process into a monitored workflow.
-          </p>
-        </Reveal>
-        <Reveal delay={180}>
-          <div className="ag-contact-ctas">
-            <a href="mailto:sage@sageideas.dev" className="ag-btn ag-btn--solid">
-              ✉ SAGE@SAGEIDEAS.DEV
-            </a>
-            <a
-              href="https://github.com/JasonTeixeira"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ag-btn"
-            >
-              ↗ GITHUB
-            </a>
-            <a
-              href="https://www.linkedin.com/in/jason-teixeira/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ag-btn"
-            >
-              ↗ LINKEDIN
-            </a>
-          </div>
-        </Reveal>
+        <div className="ag-contact-cols">
+          <div className="ag-contact-col-left">
+            <Reveal>
+              <h2 className="ag-contact-h2">
+                If the proof holds up, <em className="ag-contact-h2-em">let&apos;s talk.</em>
+              </h2>
+            </Reveal>
+            <Reveal delay={90}>
+              <p className="ag-contact-sub">
+                Open to AI automation, QA engineering, SDET, test infrastructure, and workflow
+                automation roles — or consulting projects: building an AI workflow, adding test
+                coverage to a fragile product, creating evals for an AI feature, or turning a
+                manual process into a monitored workflow.
+              </p>
+            </Reveal>
+            <Reveal delay={180}>
+              <div className="ag-contact-ctas">
+                <a href="mailto:sage@sageideas.dev" className="ag-btn ag-btn--solid">
+                  ✉ SAGE@SAGEIDEAS.DEV
+                </a>
+                <a
+                  href="https://github.com/JasonTeixeira"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ag-btn"
+                >
+                  ↗ GITHUB
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/jason-teixeira/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ag-btn"
+                >
+                  ↗ LINKEDIN
+                </a>
+              </div>
+            </Reveal>
 
-        <Reveal delay={240}>
-          <div className="ag-audit-band">
-            <p className="ag-kicker">FREE — SITE TEARDOWN</p>
-            <p className="ag-audit-band-copy">
-              Paste your URL, get four Lighthouse scores and your six worst findings in ~20
-              seconds.
-            </p>
-            <a href="/audit" className="ag-audit-band-link">
-              RUN THE FREE TEARDOWN →
-            </a>
+            <Reveal delay={210}>
+              <p className="ag-contact-dual">
+                Hiring for a full-time team instead? Same proof applies —{' '}
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener"
+                  className="ag-contact-dual-link"
+                >
+                  grab the resume
+                </a>{' '}
+                or{' '}
+                <a href="mailto:sage@sageideas.dev" className="ag-contact-dual-link">
+                  email me
+                </a>
+                .
+              </p>
+            </Reveal>
+
+            <Reveal delay={240}>
+              <div className="ag-audit-band">
+                <p className="ag-kicker">FREE — SITE TEARDOWN</p>
+                <p className="ag-audit-band-copy">
+                  Paste your URL, get four Lighthouse scores and your six worst findings in ~20
+                  seconds.
+                </p>
+                <a href="/audit" className="ag-audit-band-link">
+                  RUN THE FREE TEARDOWN →
+                </a>
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
+
+          <div className="ag-contact-col-right">
+            <Reveal delay={150}>
+              <div className="ag-contact-form-block">
+                <p className="ag-contact-form-label">
+                  START A PROJECT — USUALLY THE FASTEST PATH
+                </p>
+                <ContactForm />
+              </div>
+            </Reveal>
+          </div>
+        </div>
 
         <Reveal delay={240}>
           <div className="ag-contact-offers">
@@ -119,20 +154,6 @@ export function ContactSection() {
               ))}
             </div>
           </div>
-        </Reveal>
-
-        <Reveal delay={270}>
-          <p className="ag-contact-dual">
-            Hiring for a full-time team instead? Same proof applies —{' '}
-            <a href="/resume.pdf" target="_blank" rel="noopener" className="ag-contact-dual-link">
-              grab the resume
-            </a>{' '}
-            or{' '}
-            <a href="mailto:sage@sageideas.dev" className="ag-contact-dual-link">
-              email me
-            </a>
-            .
-          </p>
         </Reveal>
 
         <Reveal delay={300}>

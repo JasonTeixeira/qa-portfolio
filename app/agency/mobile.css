@@ -1,0 +1,250 @@
+/* Agency Proof Portfolio — mobile navigation + sticky contact CTA.
+   NOTE: app/agency/layout.tsx must import this file (import './mobile.css').
+   Tokens live in agency.css. Compositor-only motion (transform/opacity).
+   Breakpoint mirrors sections.css: links row appears at min-width 720px,
+   so everything here targets max-width 719px unless noted. */
+
+/* ---------- nav right-side group (CONTACT + MENU) ---------- */
+
+.ag-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- MENU toggle (phones only) ---------- */
+
+.ag-mnav-toggle {
+  display: none;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--tx);
+  background: transparent;
+  border: 1px solid var(--ag-border-strong);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.ag-mnav-toggle:hover {
+  border-color: var(--acc-primary);
+  color: var(--acc-primary-hi);
+}
+
+@media (max-width: 719px) {
+  .ag-mnav-toggle {
+    display: inline-flex;
+  }
+}
+
+/* ---------- full-screen menu overlay ---------- */
+
+.ag-mnav {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above nav (50) and sticky CTA (55) — covers the CTA */
+  display: flex;
+  flex-direction: column;
+  background: rgba(9, 14, 26, 0.98); /* --ag-bg at 0.98 */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  padding: 0 clamp(20px, 6vw, 40px) 32px;
+  overflow-y: auto;
+  animation: ag-mnav-in var(--dur-fast) var(--ease-out) both;
+}
+
+.ag-mnav-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px; /* mirrors .ag-nav-inner */
+  flex-shrink: 0;
+}
+
+.ag-mnav-close {
+  font-family: var(--f-mono);
+  font-size: 16px;
+  line-height: 1;
+  color: var(--tx-2);
+  background: transparent;
+  border: 1px solid var(--ag-border-strong);
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.ag-mnav-close:hover {
+  border-color: var(--acc-fail);
+  color: var(--tx);
+}
+
+.ag-mnav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: clamp(24px, 8vh, 64px);
+}
+
+.ag-mnav-link {
+  font-family: var(--f-mono);
+  font-size: clamp(22px, 6.4vw, 26px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--tx);
+  text-decoration: none;
+  padding: 8px 0;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: ag-mnav-item-in var(--dur) var(--ease-out) forwards;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-mnav-link:hover {
+  color: var(--acc-primary-hi);
+}
+
+/* Staggered reveal — 7 items (6 links + CONTACT) */
+.ag-mnav-links > :nth-child(1) { animation-delay: 40ms; }
+.ag-mnav-links > :nth-child(2) { animation-delay: 90ms; }
+.ag-mnav-links > :nth-child(3) { animation-delay: 140ms; }
+.ag-mnav-links > :nth-child(4) { animation-delay: 190ms; }
+.ag-mnav-links > :nth-child(5) { animation-delay: 240ms; }
+.ag-mnav-links > :nth-child(6) { animation-delay: 290ms; }
+.ag-mnav-links > :nth-child(7) { animation-delay: 340ms; }
+
+.ag-mnav-contact {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #06101f;
+  background: var(--acc-primary);
+  border: 1px solid var(--acc-primary);
+  padding: 14px 28px;
+  margin-top: 24px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: ag-mnav-item-in var(--dur) var(--ease-out) forwards;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.ag-mnav-contact:hover {
+  background: var(--acc-primary-hi);
+  border-color: var(--acc-primary-hi);
+}
+
+@keyframes ag-mnav-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ag-mnav-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- sticky contact CTA (phones + homepage only) ---------- */
+
+.ag-scta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 55; /* above nav (50), below the mobile menu overlay (60) */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(14, 21, 38, 0.97); /* --ag-card at 0.97 */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--ag-border);
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)) 16px;
+  animation: ag-scta-in var(--dur) var(--ease-out) both;
+}
+
+/* Belt-and-braces: the component gates on matchMedia, hide ≥720px anyway. */
+@media (min-width: 720px) {
+  .ag-scta {
+    display: none;
+  }
+}
+
+.ag-scta-label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--tx-3);
+}
+
+.ag-scta-btn {
+  flex-shrink: 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #06101f;
+  background: var(--acc-primary);
+  padding: 10px 18px;
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.ag-scta-btn:hover {
+  background: var(--acc-primary-hi);
+}
+
+.ag-scta-close {
+  flex-shrink: 0;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--tx-3);
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-scta-close:hover {
+  color: var(--tx);
+}
+
+/* ---------- reduced motion: no stagger, no slide ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-mnav,
+  .ag-mnav-link,
+  .ag-mnav-contact,
+  .ag-scta {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

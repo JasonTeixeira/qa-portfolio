@@ -1,0 +1,252 @@
+/*
+ * mobile-fixes.css — phone-width (≤480px / ≤719px) override sheet.
+ *
+ * layout.tsx imports this file LAST, after every other agency stylesheet,
+ * so rules here win on source order at equal specificity. Where a stylesheet
+ * is bundled *after* layout CSS on a route (blog.css on /blog routes), the
+ * selector is doubled (.x.x) to raise specificity instead of using !important.
+ *
+ * Every rule is wrapped in a max-width media query — desktop is untouched.
+ * Findings from the 375×720 Playwright audit pass (2026-07-11).
+ */
+
+/* =====================================================================
+   1. Evidence frames — captions were clipped by the fixed-ratio frame.
+   .ag-cs-slot forces aspect-ratio 16/10 (proof.css) and .ag-ws-slot a
+   fixed 190px height (sections.css); at 375px the 8/5 screenshot plus a
+   2-3 line caption exceeds that box, and the caption ran into / under
+   the frame border. Let the frame grow with its content on phones.
+   ===================================================================== */
+@media (max-width: 480px) {
+  .ag-cs-slot.ag-cs-slot {
+    aspect-ratio: auto;
+    min-height: 150px;
+  }
+
+  .ag-ws-slot.ag-ws-slot {
+    height: auto;
+    min-height: 150px;
+  }
+
+  /* Empty "PENDING" slots keep a roomy centered look without the ratio */
+  .ag-cs-slot:not(.ag-cs-slot--filled) {
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+}
+
+/* =====================================================================
+   2. Case-study stat tiles — long mono values ("0048–51", "92→99.6")
+   wrapped mid-value and pushed the 2-col grid past the card edge.
+   clamp() bottoms out at 28px which is too wide for a ~140px column.
+   ===================================================================== */
+@media (max-width: 480px) {
+  .ag-cs-stat.ag-cs-stat {
+    min-width: 0;
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+
+  .ag-cs-stat-value.ag-cs-stat-value {
+    font-size: 23px;
+    letter-spacing: -0.01em;
+  }
+
+  .ag-cs-stat-label.ag-cs-stat-label {
+    font-size: 10px;
+  }
+}
+
+/* =====================================================================
+   3. Before/after island — the "AFTER — AUTOMATED" tab overflowed the
+   viewport (tabs row is nowrap + margin-left auto), and the flow steps
+   kept their desktop trailing "→" arrows pointing at nothing once the
+   chain wrapped vertically. Stack tabs 2-up, stack the flow vertically,
+   and rotate the arrows so the sequence reads downward.
+   ===================================================================== */
+@media (max-width: 480px) {
+  .ag-ba__head {
+    row-gap: 10px;
+  }
+
+  .ag-ba__tabs {
+    margin-left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ag-ba__tab {
+    white-space: normal;
+    padding: 10px 8px;
+    min-height: 44px; /* touch target */
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ag-ba__steps--flow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .ag-ba__flow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .ag-ba__flow-item .ag-ba__step {
+    text-align: center;
+  }
+
+  .ag-ba__flow-item .ag-ba__arrow {
+    align-self: center;
+    transform: rotate(90deg); /* → becomes ↓ */
+  }
+}
+
+/* =====================================================================
+   4. Grounding-check island — the "SIMULATION OF MY REAL SCRIPT" badge
+   is wider than the 222px header column and overflowed its card.
+   ===================================================================== */
+@media (max-width: 480px) {
+  .ag-ground__head {
+    row-gap: 8px;
+  }
+
+  .ag-ground__sim-badge {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* =====================================================================
+   5. Horizontal-scroll affordances — the anatomy rail (§02.5) and every
+   case-study diagram canvas (.ag-diag) are overflow-x scrollers below
+   720px, but nodes were simply cut at the right edge with no hint that
+   more exists. Add a right-edge fade on the scrollport plus a mono
+   "swipe" hint. (Pseudo-elements only; no markup changes.)
+   ===================================================================== */
+@media (max-width: 719px) {
+  /* right-edge fade on the visible scrollport */
+  .ag-diag,
+  .ag-anatomy__rail {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 calc(100% - 34px),
+      rgba(0, 0, 0, 0.15)
+    );
+    mask-image: linear-gradient(90deg, #000 calc(100% - 34px), rgba(0, 0, 0, 0.15));
+  }
+
+  /* hint pinned to the non-scrolling wrapper, top-right of the canvas
+     (bottom edge is overlapped by the title plate) */
+  .ag-cs-diagram {
+    position: relative;
+  }
+
+  .ag-cs-diagram::after {
+    content: '← swipe';
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--tx-3);
+    pointer-events: none;
+  }
+
+  /* anatomy: static mono hint between the lede and the rail */
+  .ag-anatomy__head::after {
+    content: '← swipe the pipeline';
+    display: block;
+    margin-top: 14px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--tx-3);
+  }
+}
+
+/* =====================================================================
+   6. Nav touch targets — CONTACT and MENU measured 35px tall at 375px;
+   bump to the 44px recommended minimum (the 64px bar has room).
+   ===================================================================== */
+@media (max-width: 719px) {
+  .ag-nav-cta,
+  .ag-mnav-toggle {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* =====================================================================
+   6b. Very narrow phones (≤360px) — the 64px bar can't fit the full
+   wordmark (0.22em tracking) + CONTACT + MENU; the MENU button was
+   clipped off the right edge at 320px. Tighten tracking and padding.
+   ===================================================================== */
+@media (max-width: 360px) {
+  .ag-nav-inner {
+    gap: 10px;
+    padding: 0 12px;
+  }
+
+  .ag-nav-mark {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    gap: 6px;
+  }
+
+  .ag-nav-right {
+    gap: 8px;
+  }
+
+  .ag-nav-cta {
+    padding: 9px 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .ag-mnav-toggle {
+    padding: 8px 9px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* =====================================================================
+   7. Blog post code blocks — long JSON/eval lines were cut at the right
+   edge with no affordance. The block already scrolls (overflow-x auto);
+   add the fade + a sticky-left swipe hint and pull the type size down a
+   step so more of each line fits. Doubled selector: blog.css is bundled
+   after layout-level CSS on /blog routes.
+   ===================================================================== */
+@media (max-width: 480px) {
+  .ag-post-code.ag-post-code {
+    font-size: 12px;
+    padding: 16px 14px;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      #000 calc(100% - 30px),
+      rgba(0, 0, 0, 0.15)
+    );
+    mask-image: linear-gradient(90deg, #000 calc(100% - 30px), rgba(0, 0, 0, 0.15));
+  }
+
+  .ag-post-code.ag-post-code::after {
+    content: '← swipe';
+    display: block;
+    position: sticky;
+    left: 0;
+    width: max-content;
+    margin-top: 14px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--tx-3);
+  }
+}

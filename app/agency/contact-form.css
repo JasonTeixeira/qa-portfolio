@@ -1,0 +1,237 @@
+/* Agency contact form — section 08 two-column layout + form skin.
+   Tokens come from app/agency/agency.css (.agency-root scope). */
+
+/* ---- two-column contact layout (mobile-first) ---- */
+
+.ag-contact-cols {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+}
+
+.ag-contact-col-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+  min-width: 0;
+}
+
+.ag-contact-col-right {
+  min-width: 0;
+}
+
+.ag-contact-form-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ag-contact-form-label {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--tx-3);
+}
+
+@media (min-width: 1024px) {
+  .ag-contact-cols {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(48px, 5vw, 80px);
+    align-items: start;
+  }
+}
+
+/* ---- form ---- */
+
+.ag-form {
+  display: grid;
+  gap: 18px;
+  color-scheme: dark;
+}
+
+.ag-form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+@media (min-width: 640px) {
+  .ag-form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ag-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.ag-form-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--tx-3);
+}
+
+.ag-form-label-opt {
+  color: var(--tx-3);
+  letter-spacing: 0.12em;
+}
+
+.ag-form-input,
+.ag-form-select,
+.ag-form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--ag-bg-deep);
+  border: 1px solid var(--ag-border);
+  border-radius: 0;
+  color: var(--tx);
+  font-family: var(--f-sans);
+  font-size: 16px; /* ≥16px prevents iOS focus zoom */
+  line-height: 1.45;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.ag-form-textarea {
+  resize: vertical;
+  min-height: 0;
+}
+
+.ag-form-select {
+  cursor: pointer;
+}
+
+.ag-form-input:hover,
+.ag-form-select:hover,
+.ag-form-textarea:hover {
+  border-color: var(--ag-border-strong);
+}
+
+.ag-form-input:focus,
+.ag-form-select:focus,
+.ag-form-textarea:focus {
+  outline: none;
+  border-color: var(--acc-primary);
+  box-shadow: 0 0 0 1px var(--acc-primary);
+}
+
+/* ---- honeypot: offscreen, never focusable, never announced ---- */
+
+.ag-form-hp {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---- status / error ---- */
+
+.ag-form-status {
+  min-height: 1px;
+}
+
+.ag-form-status:empty {
+  display: none;
+}
+
+.ag-form-error {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--acc-fail);
+}
+
+.ag-form-error-link {
+  color: var(--acc-fail);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ag-form-error-link:hover {
+  color: var(--tx);
+}
+
+/* ---- submit ---- */
+
+.ag-form-submit {
+  justify-self: start;
+  font-family: var(--f-mono);
+}
+
+.ag-form-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---- success panel (terminal-style confirmation) ---- */
+
+.ag-form-success {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 26px;
+  background: var(--ag-bg-deep);
+  border: 1px solid var(--acc-pass);
+  border-left-width: 3px;
+}
+
+.ag-form-success-kicker {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--tx-3);
+}
+
+.ag-form-success-line {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--acc-pass);
+}
+
+/* ---- fallback panel (API up, transport down) ---- */
+
+.ag-form-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 26px;
+  background: var(--ag-bg-deep);
+  border: 1px solid var(--ag-border-strong);
+}
+
+.ag-form-fallback-line {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+  color: var(--tx-3);
+}
+
+/* ---- motion safety ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-form-input,
+  .ag-form-select,
+  .ag-form-textarea,
+  .ag-form-submit {
+    transition: none;
+  }
+}

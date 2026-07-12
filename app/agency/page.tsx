@@ -15,6 +15,7 @@ import { Manifesto } from '@/components/agency/manifesto'
 import { WorkSamplesSection } from '@/components/agency/sections/work-samples'
 import { WritingSection } from '@/components/agency/sections/writing'
 import { AboutSection } from '@/components/agency/sections/about'
+import { ProcessSection } from '@/components/agency/sections/process'
 import { ContactSection } from '@/components/agency/sections/contact'
 import { AgencyFooter } from '@/components/agency/footer'
 
@@ -41,6 +42,7 @@ export default function AgencyPage() {
         <WorkSamplesSection />
         <WritingSection />
         <AboutSection />
+        <ProcessSection />
         <ContactSection />
       </main>
       <AgencyFooter />

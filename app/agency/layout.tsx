@@ -8,6 +8,9 @@ import './diagrams.css'
 import './visual-upgrades.css'
 import './wow.css'
 import './statement.css'
+import './contact-form.css'
+import './mobile.css'
+import './mobile-fixes.css'
 
 // Archivo variable — width axis is part of the design language (kicker→display contrast).
 // preload: false — the wdth-axis variable file is ~147KB and Lighthouse's simulated

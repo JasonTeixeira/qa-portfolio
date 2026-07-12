@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-07-11",
+  "verifiedAt": "2026-07-12",
   "checks": [
     {
       "id": "typecheck",
@@ -8,7 +8,7 @@
     },
     {
       "id": "build",
-      "label": "next build (reused existing build)",
+      "label": "next build",
       "status": "pass"
     },
     {
@@ -23,17 +23,17 @@
     },
     {
       "id": "lighthouse",
-      "label": "lighthouse desktop 97 / 100 / 96 / 100",
+      "label": "lighthouse desktop 96 / 100 / 96 / 100",
       "status": "pass"
     }
   ],
   "lighthouse": {
     "strategy": "desktop",
-    "performance": 97,
+    "performance": 96,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 100,
     "mobileNote": "mobile a11y/seo 100; mobile perf simulated 74 (observed LCP 201ms) — shared-layout font preloads, fix tracked"
   },
-  "commit": "f58b43c3"
+  "commit": "2a87b63c"
 }

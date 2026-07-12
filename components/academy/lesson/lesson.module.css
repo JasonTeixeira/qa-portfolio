@@ -137,6 +137,12 @@
   transform: translateX(-50%);
   width: min(960px, calc(100vw - 304px - 4rem));
 }
+/* PROMOTE DIAGRAMS — marquee visuals (system-map, viz, walkthrough, compare)
+   get a wider frame + more breathing room so node labels stay legible and the
+   figure actually lands. Layout-only, still centered in the content cell. */
+.visualBleed[data-viz='wide'] {
+  width: min(1040px, calc(100vw - 304px - 3rem));
+}
 .notesSlot { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--ac-rule); }
 
 /* REFERENCE SURFACE · editorial dark-luxury header (proves the tokens)
@@ -219,12 +225,11 @@
 .play:hover { transform: scale(1.06); }
 .videoCap { position: absolute; left: 18px; bottom: 14px; font-family: var(--ac-font-mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--ac-accent-text); }
 
-/* lab */
-.lab { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1.8rem; padding: 1.3rem 1.4rem; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--topic) 42%, transparent); background: var(--topic-soft); }
-.labKicker { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--topic) 78%, white); }
-.labTitle { margin: 0.4rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em; }
-.labSummary { margin: 0.4rem 0 0; max-width: 46ch; font-size: 0.9rem; line-height: 1.5; color: var(--ac-ink-soft); }
-.labBtn { flex: none; display: inline-flex; align-items: center; gap: 0.45rem; border: 0; cursor: pointer; padding: 0.7rem 1.2rem; border-radius: 22px; background: var(--topic); color: var(--ac-bg); font-family: var(--ac-font-display); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+/* lab — DO/INTERACTIVE archetype (.arc.panel supplies the surface); this just
+   lays out the copy + primary action inside it. No own border/bg (panel owns it). */
+.lab { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; padding: 1.35rem 1.5rem; }
+.labTitle { margin: 0.55rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.3rem; letter-spacing: -0.02em; }
+.labSummary { margin: 0.4rem 0 0; max-width: 46ch; font-size: 0.92rem; line-height: 1.5; color: var(--ac-ink-soft); }
 
 /* callout — REFERENCE SURFACE content block (editorial dark-luxury tokens).
    Layered surface + accent-wash + hairline rule for depth; the accent used
@@ -257,9 +262,11 @@
   top: var(--ac-space-2xs, 0.6rem);
   bottom: var(--ac-space-2xs, 0.6rem);
   width: 2px;
-  background: var(--ac-accent);
+  background: var(--callout-tone, var(--ac-accent));
   border-radius: var(--ac-radius-pill, 999px);
 }
+/* semantic tone: a "tip" reads as verified-green guidance, a "note" as neutral accent */
+.callout[data-tone='tip'] { --callout-tone: var(--ac-mastery); }
 .calloutTag {
   display: inline-block;
   margin-bottom: var(--ac-space-2xs, 0.4rem);
@@ -269,12 +276,12 @@
   text-transform: uppercase;
   color: var(--ac-accent-text);
 }
+.callout[data-tone='tip'] .calloutTag { color: var(--ac-mastery); }
 .callout p { margin: 0; font-size: var(--ac-step-0, 0.96rem); line-height: var(--ac-leading-body, 1.55); color: var(--ac-ink-soft); }
 
-/* quiz */
-.quiz { margin: 0 0 1.8rem; padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: 14px; background: var(--ac-surface); }
-.quizKicker { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--topic); }
-.quizQ { margin: 0.5rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
+/* quiz — DO/INTERACTIVE archetype (.arc.panel supplies the surface). */
+.quiz { padding: 1.35rem 1.5rem; }
+.quizQ { margin: 0.7rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ac-ink); }
 .quizOptions { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .quizOptions button { width: 100%; text-align: left; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 9px; background: transparent; color: var(--ac-ink-soft); font-family: var(--ac-font-body); font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; }
 .quizOptions button:hover:not(:disabled) { border-color: var(--ac-rule-strong); }
@@ -282,22 +289,24 @@
 .quizOptions button[data-state='correct'] { border-color: color-mix(in oklch, var(--ac-mastery) 50%, transparent); background: color-mix(in oklch, var(--ac-mastery) 7%, transparent); color: var(--ac-ink); }
 .quizOptions button[data-state='wrong'] { border-color: color-mix(in oklch, var(--ac-danger) 50%, transparent); background: color-mix(in oklch, var(--ac-danger) 6%, transparent); }
 .quizOptions button:disabled { cursor: default; }
-.quizCheck { margin-top: 1rem; padding: 0.6rem 1.2rem; border: 0; border-radius: 20px; background: var(--topic); color: var(--ac-bg); font-family: var(--ac-font-display); font-weight: 600; font-size: 0.88rem; cursor: pointer; }
-.quizCheck:disabled { opacity: 0.5; cursor: default; }
-.quizResult { margin-top: 1rem; padding: 0.9rem 1rem; border-radius: 10px; border-left: 3px solid transparent; }
+.quizResult { margin-top: 1.1rem; padding: 0.9rem 1rem; border-radius: 10px; border-left: 3px solid transparent; }
 .quizResult[data-correct='true'] { border-color: var(--ac-mastery); background: color-mix(in oklch, var(--ac-mastery) 8%, transparent); }
 .quizResult[data-correct='false'] { border-color: var(--ac-danger); background: color-mix(in oklch, var(--ac-danger) 7%, transparent); }
 .quizResult strong { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-display); font-weight: 700; }
-.quizResult p { margin: 0.4rem 0 0; color: var(--dim); font-size: 0.92rem; line-height: 1.5; }
-.quizRetry { margin-top: 0.6rem; border: 1px solid var(--line); background: none; color: var(--muted); border-radius: 8px; padding: 0.4rem 0.8rem; font-family: var(--ac-font-mono); font-size: 0.72rem; cursor: pointer; }
+.quizResult p { margin: 0.4rem 0 0; color: var(--ac-ink-soft); font-size: 0.92rem; line-height: 1.5; }
+.quizRetry { margin-top: 0.6rem; border: 1px solid var(--ac-rule-strong); background: none; color: var(--ac-ink-soft); border-radius: 8px; padding: 0.4rem 0.8rem; font-family: var(--ac-font-mono); font-size: 0.72rem; cursor: pointer; }
+.quizRetry:hover { color: var(--ac-ink); border-color: var(--topic); }
 
 /* footer */
 .footer { position: fixed; left: 304px; right: 0; bottom: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 64px; padding: 0 2rem; border-top: 1px solid var(--line); background: color-mix(in oklch, var(--ac-bg) 92%, transparent); backdrop-filter: blur(14px); }
-.prev { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--ac-font-mono); font-size: 0.78rem; color: var(--muted); cursor: pointer; text-decoration: none; transition: color 0.2s ease; }
+.prev { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--ac-font-mono); font-size: 0.78rem; color: var(--ac-ink-soft); cursor: pointer; text-decoration: none; transition: color 0.2s ease; }
 .prev:hover { color: var(--ink); }
-.complete { display: inline-flex; align-items: center; gap: 0.45rem; border: 0; cursor: pointer; padding: 0.7rem 1.4rem; border-radius: 22px; background: var(--topic); color: var(--ac-bg); font-family: var(--ac-font-display); font-weight: 600; font-size: 0.92rem; box-shadow: var(--ac-shadow); transition: transform 0.2s ease; }
-.complete:hover { transform: translateY(-1px); }
-.completeDone { background: var(--ac-mastery); color: var(--ac-bg); box-shadow: none; }
+/* footer primary (locked / signed-out) inherits arc.btnPrimary; tone → topic accent */
+.footerCta { --btn-tone: var(--topic); }
+/* the demoted, quiet "mark complete" — arc.btnGhost supplies the base look */
+.footerComplete { font-family: var(--ac-font-display); font-size: 0.86rem; }
+.footerCompleteDone { border-color: color-mix(in srgb, var(--ac-mastery) 55%, transparent); color: var(--ac-mastery); background: color-mix(in srgb, var(--ac-mastery) 10%, transparent); }
+.footerCompleteDone:hover { border-color: var(--ac-mastery); color: var(--ac-mastery); background: color-mix(in srgb, var(--ac-mastery) 15%, transparent); }
 
 /* paywall / membership gate inside the player */
 .paywall { position: relative; }
@@ -333,7 +342,8 @@
   .kbdHint { display: none; }
 
   /* rail collapsed + grid is 1fr: the bleed is just full-width within the cell. */
-  .visualBleed { left: auto; transform: none; width: 100%; }
+  .visualBleed,
+  .visualBleed[data-viz='wide'] { left: auto; transform: none; width: 100%; }
 
   .railTrigger {
     grid-column: 1;
@@ -391,8 +401,8 @@
 @keyframes rail-sheet-in { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: translateY(0); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .play, .complete, .lessonItem, .callout, .moduleHead { transition: none; }
-  .complete:hover, .play:hover, .callout:hover { transform: none; }
+  .play, .lessonItem, .callout, .moduleHead { transition: none; }
+  .play:hover, .callout:hover { transform: none; }
   /* reference-surface reveal: show final state instantly, no motion */
   .title { animation: none; clip-path: none; opacity: 1; transform: none; }
   .drawerScrim, .drawerPanel { animation: none; }

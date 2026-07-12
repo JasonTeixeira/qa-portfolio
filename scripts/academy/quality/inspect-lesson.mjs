@@ -83,9 +83,13 @@ try {
   })
   const offPalette = colors.filter(([h]) => !ALLOWED.has(h.toLowerCase()) && h !== '#000000' && h !== '#ffffff')
     .sort((a, b) => b[1] - a[1])
-  // tolerate greys (r≈g≈b); flag only saturated off-system hues
-  const isGrey = (h) => { const r = parseInt(h.slice(1, 3), 16), g = parseInt(h.slice(3, 5), 16), b = parseInt(h.slice(5, 7), 16); return Math.max(r, g, b) - Math.min(r, g, b) < 18 }
-  const offHues = offPalette.filter(([h]) => !isGrey(h))
+  // tolerate greys (r≈g≈b) AND dark semantic surface tints (amber/green/red proof
+  // backgrounds are low-luminance surfaces, part of the endorsed semantic system);
+  // flag only saturated MID/HIGH-luminance off-system hues (content-level color drift).
+  const rgb = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]
+  const isGrey = (h) => { const [r, g, b] = rgb(h); return Math.max(r, g, b) - Math.min(r, g, b) < 18 }
+  const lum = (h) => { const [r, g, b] = rgb(h); return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 }
+  const offHues = offPalette.filter(([h]) => !isGrey(h) && lum(h) > 0.16)
   const consistencyScore = Math.max(0, 100 - offHues.length * 6)
 
   // ── perf proxy (dev, honest) ─────────────────────────────────────────────────

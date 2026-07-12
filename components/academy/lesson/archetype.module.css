@@ -1,0 +1,285 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Lesson-player ARCHETYPE + SEMANTIC layer (shared by LessonPlayer + SprintBlocks).
+
+   Fixes the "12 identical rounded cards" template loop by giving the 24 block
+   types ~4 visually distinct surface treatments, and unifies semantic color,
+   the button hierarchy, and the in-lesson progress spine.
+
+   SEMANTIC ROLE TOKENS (meaning, not raw color — each already AA on --ac-bg):
+     --lp-action  = accent/violet · action / CTA
+     --lp-proof   = amber        · required-proof / pending
+     --lp-verify  = green        · verified / correct / unlocked
+     --lp-trap    = red          · failure / trap / repair
+   Inherits --topic / --topic-soft / --ink / --muted / --line / --dim from the
+   player root. Consumed via composition (`composes:`) and direct class use.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.scope {
+  --lp-action: var(--ac-accent, #3d5afe);
+  /* solid fill used behind white button text — the AA-safe accent step */
+  --lp-action-fill: var(--ac-accent-strong, #3d5afe);
+  --lp-action-text: var(--ac-accent-text, #8fa0ff);
+  --lp-proof: var(--ac-pending, #e0a93e);
+  --lp-verify: var(--ac-mastery, #18b663);
+  --lp-trap: var(--ac-danger, #e5484d);
+}
+
+/* ── ARCHETYPE 1 · NARRATIVE ──────────────────────────────────────────────
+   Borderless / inset editorial prose. NO card. Generous reading measure,
+   display-serif section headers. This is what breaks the card monotony:
+   narrative blocks read as an article, not a widget. */
+.narrative {
+  margin: var(--ac-space-lg, 2.25rem) 0;
+  padding: 0 0 0 var(--ac-space-md, 1.5rem);
+  /* a single quiet spine instead of a full card outline */
+  border-left: 2px solid var(--line);
+  max-width: 42rem;
+}
+.narrativeEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 var(--ac-space-2xs, 0.5rem);
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1, 0.8rem);
+  text-transform: uppercase;
+  letter-spacing: var(--ac-track-label, 0.12em);
+  color: var(--ac-ink-soft); /* lifted one step off faint for AA */
+}
+.narrativeTitle {
+  margin: 0 0 var(--ac-space-xs, 0.75rem);
+  font-family: var(--ac-font-display);
+  font-weight: 500;
+  font-size: var(--ac-step-2, 1.6rem);
+  letter-spacing: var(--ac-track-display, -0.022em);
+  line-height: var(--ac-leading-snug, 1.3);
+  color: var(--ac-ink);
+}
+.narrativeBody {
+  margin: 0 0 var(--ac-space-sm, 1rem);
+  font-size: var(--ac-step-1, 1.15rem);
+  line-height: var(--ac-leading-body, 1.62);
+  color: var(--ac-ink-soft);
+}
+.narrativeBody:last-child { margin-bottom: 0; }
+
+/* Editorial pull-quote — ONE key line lifted big at a block boundary.
+   Serif, large, accent hairline. Pure scale contrast, no card. */
+.pullQuote {
+  margin: var(--ac-space-md, 1.5rem) 0 var(--ac-space-sm, 1rem);
+  padding-left: var(--ac-space-md, 1.5rem);
+  border-left: 3px solid var(--lp-action);
+  font-family: var(--ac-font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--ac-step-3, 1.75rem);
+  line-height: var(--ac-leading-snug, 1.3);
+  letter-spacing: var(--ac-track-display, -0.022em);
+  color: var(--ac-ink);
+}
+
+/* ── ARCHETYPE 2 · DO / INTERACTIVE ───────────────────────────────────────
+   A "console / panel" surface: subtle elevation + an accent-tinted top edge.
+   Distinctly heavier than narrative, distinctly lighter than a proof gate. */
+.panel {
+  position: relative;
+  margin: var(--ac-space-md, 1.5rem) 0;
+  border: 1px solid var(--ac-rule, var(--line));
+  border-radius: var(--ac-radius-lg, 14px);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--panel-edge, var(--lp-action)) 6%, transparent) 0%, transparent 34%),
+    var(--ac-surface);
+  box-shadow: var(--ac-elev-1);
+  overflow: hidden;
+  --panel-edge: var(--lp-action);
+}
+/* the accent-tinted top edge that marks this as an ACTION surface */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--panel-edge, var(--lp-action)), transparent 78%);
+}
+.panelProof { --panel-edge: var(--lp-proof); }
+.panelTrap  { --panel-edge: var(--lp-trap); }
+
+/* ── ARCHETYPE 3 · PROOF / GATE ───────────────────────────────────────────
+   Reserved, weightier bordered treatment carrying semantic color. Used for
+   verification / unlock-gate / spaced-review — the "this is graded" surfaces. */
+.proof {
+  position: relative;
+  margin: var(--ac-space-md, 1.5rem) 0;
+  border: 1px solid color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 34%, var(--ac-rule));
+  border-left: 3px solid var(--proof-tone, var(--lp-proof));
+  border-radius: var(--ac-radius-lg, 14px);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 7%, transparent) 0%, transparent 40%),
+    var(--ac-surface);
+  box-shadow: var(--ac-elev-2);
+  overflow: hidden;
+}
+.proofVerified { --proof-tone: var(--lp-verify); box-shadow: var(--ac-elev-2), 0 0 0 1px color-mix(in srgb, var(--lp-verify) 22%, transparent); }
+
+/* ── ARCHETYPE 4 · COMPARISON / VIZ ───────────────────────────────────────
+   Diagram-forward or two-column. Widened bleed + generous vertical air so the
+   marquee visual actually lands. (Width bleed lives in lesson.module.css.) */
+.vizBlock {
+  margin: var(--ac-space-xl, 3.5rem) 0;
+}
+
+/* ── DESIGNED BUTTON SYSTEM ────────────────────────────────────────────────
+   ONE primary (filled accent + subtle glow + explicit hover/focus/active),
+   ONE quiet secondary/ghost. The current *required* action uses .btnPrimary;
+   optional actions use .btnGhost. */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  cursor: pointer;
+  padding: 0.72rem 1.35rem;
+  border-radius: var(--ac-radius-pill, 999px);
+  background: var(--btn-tone, var(--lp-action-fill, var(--lp-action)));
+  color: #fff;
+  font-family: var(--ac-font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  box-shadow:
+    var(--ac-elev-1),
+    0 0 0 0 color-mix(in srgb, var(--btn-tone, var(--lp-action)) 45%, transparent);
+  transition:
+    transform var(--ac-dur-fast, 150ms) var(--ac-ease-out-expo, ease),
+    box-shadow var(--ac-dur, 300ms) var(--ac-ease-out-expo, ease),
+    opacity var(--ac-dur-fast, 150ms) ease;
+  will-change: transform;
+}
+.btnPrimary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    var(--ac-elev-2),
+    0 0 22px -4px color-mix(in srgb, var(--btn-tone, var(--lp-action)) 55%, transparent);
+}
+.btnPrimary:active:not(:disabled) { transform: translateY(0) scale(0.985); opacity: 0.94; }
+.btnPrimary:disabled { opacity: 0.45; cursor: default; box-shadow: none; }
+/* proof-required primaries read amber; verify/continue reads green */
+.btnProof  { --btn-tone: var(--lp-proof); color: #1a1206; }
+.btnVerify { --btn-tone: var(--lp-verify); }
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 0.6rem 1.05rem;
+  border-radius: var(--ac-radius-pill, 999px);
+  border: 1px solid var(--ac-rule-strong, var(--line));
+  background: transparent;
+  color: var(--ac-ink-soft);
+  font-family: var(--ac-font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition:
+    border-color var(--ac-dur-fast, 150ms) ease,
+    color var(--ac-dur-fast, 150ms) ease,
+    background var(--ac-dur-fast, 150ms) ease;
+}
+.btnGhost:hover:not(:disabled) {
+  border-color: var(--lp-action, var(--topic, #3d5afe));
+  color: var(--ac-ink);
+  background: color-mix(in srgb, var(--lp-action, var(--topic, #3d5afe)) 8%, transparent);
+}
+.btnGhost:disabled { opacity: 0.5; cursor: default; }
+
+/* ── SEMANTIC BADGE ────────────────────────────────────────────────────────
+   Saturated, consistent state chips. Faint faded badges were failing AA;
+   these use solid tinted fills + bordered edges keyed to role. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: var(--ac-radius-pill, 999px);
+  border: 1px solid color-mix(in srgb, var(--badge-tone, var(--lp-action)) 45%, transparent);
+  background: color-mix(in srgb, var(--badge-tone, var(--lp-action)) 15%, transparent);
+  color: var(--badge-tone, var(--lp-action-text));
+  font-family: var(--ac-font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.badgeAction { --badge-tone: var(--lp-action-text); }
+.badgeProof  { --badge-tone: var(--lp-proof); }
+.badgeVerify { --badge-tone: var(--lp-verify); }
+.badgeTrap   { --badge-tone: var(--lp-trap); }
+
+/* ── IN-LESSON PROGRESS SPINE ──────────────────────────────────────────────
+   Lightweight step indicator mapping the numbered blocks. Shows lesson SHAPE
+   + the learner's position: a thin fill bar over a dotted step track. Sticky
+   under the topbar so position stays legible while scrolling. Decorative →
+   aria-hidden; the real structure is the numbered blocks themselves. */
+.spine {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 var(--ac-space-lg, 2.25rem);
+  padding: 0.7rem 0 0.75rem;
+  background: linear-gradient(180deg, var(--ac-bg) 72%, transparent);
+}
+.spineTrack {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.spineStep {
+  flex: 1 1 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ac-surface-2);
+  overflow: hidden;
+  transition: background var(--ac-dur, 300ms) var(--ac-ease-out-expo, ease);
+}
+.spineStep[data-state='done'] { background: var(--lp-verify); }
+.spineStep[data-state='current'] {
+  background: linear-gradient(90deg, var(--lp-verify) 0%, var(--topic) 100%);
+}
+.spineMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--ac-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--ac-ink-soft);
+}
+.spinePhase {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--topic);
+}
+.spineCount { flex: none; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 900px) {
+  .narrative { max-width: none; }
+  .spine { top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnPrimary,
+  .btnGhost,
+  .spineStep { transition: none; }
+  .btnPrimary:hover:not(:disabled),
+  .btnPrimary:active:not(:disabled) { transform: none; }
+}

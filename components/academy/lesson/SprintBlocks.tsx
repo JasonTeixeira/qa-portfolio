@@ -7,7 +7,9 @@ import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
 import { ArtifactComposer } from './ArtifactComposer'
 import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
 import { Icon, type IconName } from '@/components/academy/ui/Icon'
+import { archetypeFor, type Archetype } from './LessonSpine'
 import styles from './sprint.module.css'
+import arc from './archetype.module.css'
 
 /** Slugs threaded down so a sprint section can emit evidence for the right unit. */
 type EvidenceProps = { courseSlug?: string; lessonSlug?: string }
@@ -33,12 +35,66 @@ const STEP_ICON: Record<string, IconName> = {
   'unlock-gate': 'lock',
 }
 
+/** Map an archetype to its surface class in the shared archetype layer.
+ *  NARRATIVE has no card — it renders as inset editorial prose so the eye parses
+ *  structure without reading. INTERACTIVE / PROOF get distinct panel treatments. */
+const ARCHETYPE_SURFACE: Record<Archetype, string> = {
+  narrative: arc.narrative,
+  interactive: arc.panel,
+  proof: arc.proof,
+  viz: arc.panel,
+}
+
 /** Loop-rail wrapper. Every sprint section carries its loop-step label so the
- *  learner perceives the engine, not just the content. */
-function Section({ blockKey, children, tone }: { blockKey: string; children: ReactNode; tone?: string }) {
+ *  learner perceives the engine, not just the content — but the SURFACE now
+ *  varies by archetype (data-driven off the block type) so 12 sections no longer
+ *  read as one repeated card. `tone` still tints the rail/step for danger/warm. */
+function Section({
+  blockKey,
+  children,
+  tone,
+  proofState,
+}: {
+  blockKey: string
+  children: ReactNode
+  tone?: string
+  /** For PROOF archetypes: 'pending' (amber) vs 'verified' (green) surface. */
+  proofState?: 'pending' | 'verified'
+}) {
   const s = loopStep(blockKey)
+  const archetype = archetypeFor(blockKey)
+  const surface = ARCHETYPE_SURFACE[archetype]
+  const proofClass = archetype === 'proof' && proofState === 'verified' ? arc.proofVerified : ''
+  const panelToneClass =
+    archetype === 'interactive' || archetype === 'viz'
+      ? tone === 'warm'
+        ? arc.panelProof
+        : tone === 'danger'
+          ? arc.panelTrap
+          : ''
+      : ''
+
+  // NARRATIVE: no card, no rail chrome — just the editorial spine + prose. The
+  // loop step is announced via the eyebrow so the engine still reads.
+  if (archetype === 'narrative') {
+    return (
+      <section className={`${styles.section} ${surface}`} data-tone={tone} data-archetype="narrative">
+        {s ? (
+          <span className={arc.narrativeEyebrow}>
+            <Icon name={STEP_ICON[s.key] ?? 'circle'} size={13} /> {String(s.step).padStart(2, '0')} · {s.label}
+          </span>
+        ) : null}
+        {children}
+      </section>
+    )
+  }
+
   return (
-    <section className={styles.section} data-tone={tone}>
+    <section
+      className={`${styles.section} ${surface} ${proofClass} ${panelToneClass}`}
+      data-tone={tone}
+      data-archetype={archetype}
+    >
       {s ? (
         <header className={styles.rail}>
           <span className={styles.railStep}>{String(s.step).padStart(2, '0')}</span>
@@ -53,6 +109,22 @@ function Section({ blockKey, children, tone }: { blockKey: string; children: Rea
       <div className={styles.body}>{children}</div>
     </section>
   )
+}
+
+/** Pull the first strong sentence out of a prose block for a large editorial
+ *  pull-quote (breaks the text-wall + gives in-block scale contrast). Returns
+ *  the lead sentence and the remainder, or null if the text is too short to split. */
+function splitPullQuote(text: string): { quote: string; rest: string } | null {
+  const trimmed = text.trim()
+  if (trimmed.length < 140) return null // too short to earn a pull-quote
+  // Find the end of the first sentence: a . ! or ? followed by whitespace.
+  const m = trimmed.match(/[.!?](\s)/)
+  if (!m || m.index === undefined) return null
+  const cut = m.index + 1
+  const quote = trimmed.slice(0, cut).trim()
+  const rest = trimmed.slice(cut).trim()
+  if (quote.length < 24 || quote.length > 180 || rest.length < 24) return null
+  return { quote, rest }
 }
 
 function Mono({ code }: { code: string }) {
@@ -120,7 +192,7 @@ function Pretest({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type
         aria-label="Pretest answer"
       />
       {!shown ? (
-        <button type="button" className={styles.ghostBtn} onClick={reveal} disabled={!val.trim()}>
+        <button type="button" className={`${arc.btnPrimary} ${arc.btnProof}`} onClick={reveal} disabled={!val.trim()}>
           {val.trim() ? (<>Reveal the answer <Icon name="arrow-right" size={14} /></>) : 'Write a guess to reveal'}
         </button>
       ) : (
@@ -137,7 +209,7 @@ function WorkedExample({ b }: { b: Extract<LessonBlock, { type: 'worked-example'
   const steps = (b.steps ?? []).filter(Boolean)
   return (
     <Section blockKey="worked-example">
-      <p className={styles.lead}>{b.intro}</p>
+      <p className={arc.narrativeBody}>{b.intro}</p>
       {b.code ? <Mono code={b.code} /> : null}
       {steps.length ? <ol className={styles.steps}>{steps.map((s, i) => <li key={i}>{s}</li>)}</ol> : null}
       {b.commonMistake ? <p className={styles.mistake}><strong>Common mistake:</strong> {b.commonMistake}</p> : null}
@@ -146,10 +218,18 @@ function WorkedExample({ b }: { b: Extract<LessonBlock, { type: 'worked-example'
 }
 
 function Concept({ b }: { b: Extract<LessonBlock, { type: 'concept' }> }) {
+  const split = splitPullQuote(b.text)
   return (
     <Section blockKey="concept" tone="cool">
-      {b.title ? <h3 className={styles.conceptTitle}>{b.title}</h3> : null}
-      <p className={styles.conceptText}>{b.text}</p>
+      {b.title ? <h3 className={arc.narrativeTitle}>{b.title}</h3> : null}
+      {split ? (
+        <>
+          <p className={arc.pullQuote}>{split.quote}</p>
+          <p className={arc.narrativeBody}>{split.rest}</p>
+        </>
+      ) : (
+        <p className={arc.narrativeBody}>{b.text}</p>
+      )}
     </Section>
   )
 }
@@ -162,7 +242,7 @@ function DebugBlock({ b }: { b: Extract<LessonBlock, { type: 'debug' }> }) {
       <Mono code={b.brokenCode} />
       <p className={styles.task}>{b.task}</p>
       {!shown ? (
-        <button type="button" className={styles.ghostBtn} onClick={() => setShown(true)}>Show the fix <Icon name="arrow-right" size={14} /></button>
+        <button type="button" className={arc.btnGhost} onClick={() => setShown(true)}>Show the fix <Icon name="arrow-right" size={14} /></button>
       ) : (
         <div className={styles.reveal}><span className={styles.revealTag}>Fix</span><p>{b.fix}</p></div>
       )}
@@ -203,7 +283,7 @@ function Verification({ b }: { b: Extract<LessonBlock, { type: 'verification' }>
   const allDone = items.length > 0 && done === items.length
   const toggle = (i: number) => setChecked((c) => c.map((v, j) => (j === i ? !v : v)))
   return (
-    <Section blockKey="verification" tone="cool">
+    <Section blockKey="verification" tone="cool" proofState={allDone ? 'verified' : 'pending'}>
       {b.intro ? <p className={styles.lead}>{b.intro}</p> : null}
       <ul className={styles.checklist}>
         {items.map((it, i) => (
@@ -254,11 +334,11 @@ function Teachback({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { ty
             aria-label="Teach-back explanation"
             disabled={pending}
           />
-          <button type="button" className={styles.ghostBtn} onClick={submit} disabled={pending || !val.trim()}>
+          <button type="button" className={`${arc.btnPrimary} ${arc.btnProof}`} onClick={submit} disabled={pending || !val.trim()}>
             {pending ? 'Grading…' : (<>Submit for grading <Icon name="arrow-right" size={14} /></>)}
           </button>
           {verdict ? (
-            <div className={styles.reveal} role="status" aria-live="polite">
+            <div className={styles.reveal} data-verdict={!verdict.available ? 'na' : verdict.passed ? 'pass' : 'fail'} role="status" aria-live="polite">
               <span className={styles.revealTag}>
                 {!verdict.available ? 'Grader' : verdict.passed ? (<><Icon name="check" size={13} /> Passed</>) : 'Needs work'}
               </span>
@@ -308,7 +388,7 @@ function Transfer({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { typ
     <Section blockKey="transfer">
       <p className={styles.lead}>{b.text}</p>
       {canEmit ? (
-        <button type="button" className={styles.ghostBtn} onClick={markAttempted} disabled={sent} data-on={sent}>
+        <button type="button" className={`${arc.btnPrimary} ${sent ? arc.btnVerify : ''}`} onClick={markAttempted} disabled={sent} data-on={sent}>
           {sent ? (<><Icon name="check" size={14} /> Transfer attempt logged</>) : (<>Mark transfer attempted <Icon name="arrow-right" size={14} /></>)}
         </button>
       ) : null}
@@ -366,7 +446,7 @@ export function SprintBlock({ block, courseSlug, lessonSlug }: { block: LessonBl
   switch (block.type) {
     case 'sprint-contract': return <SprintContract b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'mission': return <Section blockKey="mission"><p className={styles.missionText}>{block.text}</p></Section>
-    case 'context': return <Section blockKey="context"><p className={styles.lead}>{block.text}</p></Section>
+    case 'context': return <Section blockKey="context"><p className={arc.narrativeBody}>{block.text}</p></Section>
     case 'pretest': return <Pretest b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'worked-example': return <WorkedExample b={block} />
     case 'concept': return <Concept b={block} />

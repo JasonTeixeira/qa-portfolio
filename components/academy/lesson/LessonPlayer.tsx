@@ -23,7 +23,9 @@ import { SageViz } from '@/components/academy/visuals/SageViz'
 import { SageCodeWalkthrough } from '@/components/academy/visuals/SageCodeWalkthrough'
 import { SageCompare } from '@/components/academy/visuals/SageCompare'
 import { RevealStagger } from '@/components/academy/visuals/reveal'
+import { LessonSpine, blockAnchorId } from './LessonSpine'
 import styles from './lesson.module.css'
+import arc from './archetype.module.css'
 
 const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
 const JS_KW = ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'import', 'from', 'export', 'await', 'async', 'new', 'class', 'true', 'false', 'null', 'undefined']
@@ -84,8 +86,8 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
   const [checked, setChecked] = useState(false)
   const correct = selected === block.answer
   return (
-    <div className={styles.quiz}>
-      <span className={styles.quizKicker}><Icon name="sparkle" size={13} /> Quick check</span>
+    <div className={`${arc.panel} ${styles.quiz}`}>
+      <span className={`${arc.badge} ${arc.badgeAction}`}><Icon name="sparkle" size={12} /> Quick check</span>
       <p className={styles.quizQ}>{block.question}</p>
       <ul className={styles.quizOptions}>
         {(block.options ?? []).map((opt, i) => {
@@ -102,8 +104,8 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
         })}
       </ul>
       {!checked ? (
-        <button type="button" className={styles.quizCheck} disabled={selected === null} onClick={() => setChecked(true)}>
-          Check answer
+        <button type="button" className={arc.btnPrimary} disabled={selected === null} onClick={() => setChecked(true)}>
+          Check answer <Icon name="arrow-right" size={15} />
         </button>
       ) : (
         <div className={styles.quizResult} data-correct={correct} role="status" aria-live="polite">
@@ -131,7 +133,11 @@ function Block({
 }) {
   switch (block.type) {
     case 'prose':
-      return <p className={styles.prose}>{block.text}</p>
+      return (
+        <div className={arc.narrative}>
+          <p className={arc.narrativeBody}>{block.text}</p>
+        </div>
+      )
     case 'code':
       return <CodeBlock block={block} />
     case 'video':
@@ -147,18 +153,18 @@ function Block({
       )
     case 'lab':
       return (
-        <div className={styles.lab}>
+        <div className={`${arc.panel} ${styles.lab}`}>
           <div>
-            <span className={styles.labKicker}><Icon name="bolt" size={13} /> Guided lab · in-browser</span>
+            <span className={`${arc.badge} ${arc.badgeProof}`}><Icon name="bolt" size={12} /> Guided lab · in-browser</span>
             <h3 className={styles.labTitle}>{block.title}</h3>
             <p className={styles.labSummary}>{block.summary}</p>
           </div>
-          <Link href={labHref} className={styles.labBtn}>Open lab <Icon name="arrow-right" size={16} /></Link>
+          <Link href={labHref} className={`${arc.btnPrimary} ${arc.btnProof}`}>Open lab <Icon name="arrow-right" size={16} /></Link>
         </div>
       )
     case 'callout':
       return (
-        <aside className={styles.callout}>
+        <aside className={styles.callout} data-tone={block.tone}>
           <span className={styles.calloutTag}>{block.tone === 'tip' ? 'TIP' : 'NOTE'}</span>
           <p>{block.text}</p>
         </aside>
@@ -174,7 +180,7 @@ function Block({
       // the standard SageDiagram.
       const storyboard = Array.isArray(block.storyboard) && block.storyboard.length > 0 ? block.storyboard : null
       return (
-        <div className={styles.visualBleed}>
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
           <RevealStagger>
             {storyboard ? (
               <NarratedDiagram
@@ -206,7 +212,7 @@ function Block({
     }
     case 'viz':
       return (
-        <div className={styles.visualBleed}>
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
           <RevealStagger>
             <SageViz
               title={block.title}
@@ -222,7 +228,7 @@ function Block({
       // Animated, terminal-look code stepper; self-contained (own controls +
       // reduced-motion static state), so no reveal wrapper needed.
       return (
-        <div className={styles.visualBleed}>
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
           <SageCodeWalkthrough
             title={block.title}
             subtitle={block.subtitle}
@@ -236,7 +242,7 @@ function Block({
       )
     case 'compare':
       return (
-        <div className={styles.visualBleed}>
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
           <RevealStagger>
             <SageCompare
               title={block.title}
@@ -346,7 +352,7 @@ export function LessonPlayer({
 
       {/* main */}
       <main className={styles.main}>
-        <article className={styles.lesson}>
+        <article className={`${styles.lesson} ${arc.scope}`}>
           <header className={styles.lessonHeader}>
             <p className={styles.eyebrow}>{lesson.eyebrow}</p>
             <h1 className={styles.title}>{lesson.title}</h1>
@@ -403,9 +409,14 @@ export function LessonPlayer({
               </div>
             </div>
           ) : (
-            lesson.blocks.map((b, i) => (
-              <Block key={i} block={b} labHref={resolvedLabHref} courseSlug={course.slug} lessonSlug={lesson.slug} />
-            ))
+            <>
+              <LessonSpine blocks={lesson.blocks} />
+              {lesson.blocks.map((b, i) => (
+                <div key={i} id={blockAnchorId(i)} data-block-index={i}>
+                  <Block block={b} labHref={resolvedLabHref} courseSlug={course.slug} lessonSlug={lesson.slug} />
+                </div>
+              ))}
+            </>
           )}
           {!locked ? (
             <section className={styles.notesSlot} aria-label="Your notes">
@@ -431,20 +442,24 @@ export function LessonPlayer({
           <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>c</kbd> complete
         </span>
         {locked ? (
-          <Link className={styles.complete} href="/academy/join">Unlock all-access <Icon name="arrow-right" size={16} /></Link>
+          // Membership unlock is the one place the footer carries a true primary CTA.
+          <Link className={`${arc.btnPrimary} ${styles.footerCta}`} href="/academy/join">Unlock all-access <Icon name="arrow-right" size={16} /></Link>
         ) : signedIn ? (
+          // Demoted to a QUIET action so the in-block required proof (Open lab,
+          // Check answer, Submit for grading) reads as the primary. Once done it
+          // flips to the semantic verified/green state.
           <button
             type="button"
-            className={`${styles.complete} ${completed ? styles.completeDone : ''}`}
+            className={`${arc.btnGhost} ${styles.footerComplete} ${completed ? styles.footerCompleteDone : ''}`}
             onClick={onComplete}
             disabled={pending}
             aria-busy={pending}
             aria-keyshortcuts="c"
           >
-            {completed ? (<><Icon name="check" size={16} /> Completed · continue <Icon name="arrow-right" size={16} /></>) : pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={16} /></>)}
+            {completed ? (<><Icon name="check" size={15} /> Completed · continue <Icon name="arrow-right" size={15} /></>) : pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={15} /></>)}
           </button>
         ) : (
-          <a className={styles.complete} href="/login?next=/academy/preview">
+          <a className={`${arc.btnPrimary} ${styles.footerCta}`} href="/login?next=/academy/preview">
             Sign in to save progress <Icon name="arrow-right" size={16} />
           </a>
         )}

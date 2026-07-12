@@ -168,7 +168,7 @@ export default function ServicesPage() {
   return (
     <>
       <AgencyNav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="ag-section ag-svc-hero" aria-labelledby="services-heading">
           <p className="ag-kicker">SERVICES</p>
           <h1 id="services-heading" className="ag-svc-h1">

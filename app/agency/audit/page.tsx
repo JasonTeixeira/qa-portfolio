@@ -16,7 +16,7 @@ export default function AuditPage() {
   return (
     <>
       <AgencyNav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="ag-section ag-audit-hero" aria-labelledby="audit-heading">
           <p className="ag-kicker">FREE AUTOMATED TEARDOWN</p>
           <h1 id="audit-heading" className="ag-audit-h1">

@@ -76,6 +76,9 @@ const SERVICE_JSONLD = {
 export default function AgencyLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`${archivo.variable} agency-root`}>
+      <a href="#main-content" className="ag-skip-link">
+        SKIP TO CONTENT
+      </a>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSONLD) }}

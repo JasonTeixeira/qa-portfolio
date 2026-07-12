@@ -20,7 +20,12 @@ export const metadata: Metadata = {
   title: 'The Proof Log — Jason Teixeira',
   description:
     'Field notes from systems that prove they work — eval harnesses, browser QA, release gates, and operational AI workflows.',
-  alternates: { canonical: BLOG_URL },
+  alternates: {
+    canonical: BLOG_URL,
+    types: {
+      'application/rss+xml': 'https://agency.sageideas.dev/feed.xml',
+    },
+  },
 }
 
 /** Category → micro-diagram thumbnail (same motifs as the homepage proof grid). */
@@ -82,7 +87,7 @@ export default function BlogIndexPage() {
   return (
     <>
       <AgencyNav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="ag-section ag-blog-head" aria-labelledby="blog-heading">
           <p className="ag-kicker">THE PROOF LOG</p>
           <h1 id="blog-heading" className="ag-blog-h1">

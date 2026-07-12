@@ -1,0 +1,239 @@
+/* PROOF-DRIVEN DELIVERY — /method flagship page skin.
+   Tokens only (agency.css owns the values). Mobile-first; breakpoints 720/1024. */
+
+/* ---------- hero ---------- */
+
+.ag-method-hero {
+  padding-top: clamp(120px, 16vw, 190px);
+  max-width: 1080px;
+}
+
+.ag-method-h1 {
+  margin: 18px 0 0;
+  font-size: clamp(42px, 6.2vw, 96px);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  font-variation-settings: 'wdth' 118;
+}
+
+.ag-method-sub {
+  margin: 24px 0 0;
+  max-width: 760px;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--tx-2);
+}
+
+/* ---------- shared section furniture ---------- */
+
+.ag-method-h2 {
+  margin: 16px 0 0;
+  font-size: clamp(28px, 3.6vw, 48px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.ag-method-lede {
+  margin: 18px 0 0;
+  max-width: 680px;
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--tx-2);
+}
+
+/* ---------- the three tiers: instrument cards ---------- */
+
+.ag-method-tiers {
+  margin-top: clamp(32px, 4vw, 48px);
+  grid-template-columns: 1fr;
+}
+
+.ag-method-tier {
+  border-top: 2px solid var(--tier-accent);
+  display: flex;
+  flex-direction: column;
+}
+
+.ag-method-tier-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ag-method-tier-id {
+  font-family: var(--f-mono);
+  font-size: clamp(34px, 3.4vw, 46px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--tier-accent);
+}
+
+.ag-method-tier-label {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.ag-method-tier-def {
+  margin: 18px 0 0;
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: var(--tx-2);
+}
+
+.ag-method-tier-sub {
+  margin: 22px 0 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--kicker-ls);
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.ag-method-tier-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ag-method-tier-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--tx-2);
+}
+
+.ag-method-tier-list li + li {
+  margin-top: 9px;
+}
+
+.ag-method-tier-list li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 0.58em;
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--tier-accent);
+}
+
+.ag-method-tier-site {
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--tx-2);
+}
+
+/* ---------- the rules: numbered mono list ---------- */
+
+.ag-method-rules {
+  margin: clamp(32px, 4vw, 48px) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 880px;
+  border-top: 1px solid var(--ag-border);
+}
+
+.ag-method-rules li {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(18px, 3vw, 36px);
+  padding: clamp(18px, 2.6vw, 28px) 4px;
+  border-bottom: 1px solid var(--ag-border);
+}
+
+.ag-method-rule-num {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--acc-primary);
+}
+
+.ag-method-rule-text {
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+  text-wrap: balance;
+}
+
+/* ---------- see it running ---------- */
+
+.ag-method-running {
+  margin-top: clamp(32px, 4vw, 48px);
+  grid-template-columns: 1fr;
+}
+
+.ag-method-running-link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--tx);
+  text-decoration: none;
+}
+
+.ag-method-running-label {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acc-primary);
+}
+
+.ag-method-running-note {
+  font-weight: 500;
+  color: var(--tx-3);
+}
+
+.ag-method-running-detail {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--tx-2);
+}
+
+.ag-method-running-arrow {
+  margin-top: auto;
+  font-family: var(--f-mono);
+  font-size: 18px;
+  color: var(--tx-3);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-method-running-link:hover .ag-method-running-arrow {
+  color: var(--acc-primary-hi);
+}
+
+/* ---------- closing CTA ---------- */
+
+.ag-method-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ---------- breakpoints ---------- */
+
+@media (min-width: 720px) {
+  .ag-method-running {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ag-method-tiers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

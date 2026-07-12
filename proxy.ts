@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest) {
   if (host === 'agency.sageideas.dev' || host === 'agency.localhost') {
     // SEO files: the dot-exclusion below would let these fall through to the
     // main site's sitemap/robots — map them explicitly onto the agency tree.
-    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt' || pathname === '/feed.xml') {
       const seoUrl = request.nextUrl.clone();
       seoUrl.pathname = `/agency${pathname}`;
       return NextResponse.rewrite(seoUrl);
@@ -76,5 +76,6 @@ export const config = {
     // pass-through), so app/sitemap.ts + app/robots.ts behavior is unchanged.
     '/sitemap.xml',
     '/robots.txt',
+    '/feed.xml',
   ],
 };

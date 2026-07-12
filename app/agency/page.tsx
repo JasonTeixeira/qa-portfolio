@@ -23,7 +23,7 @@ export default function AgencyPage() {
   return (
     <>
       <AgencyNav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero instrument={<GateRunner />} />
         <Marquee />
         <CareerNumbers />

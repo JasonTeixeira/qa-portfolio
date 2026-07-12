@@ -49,6 +49,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/services`, priority: 0.9 },
     { url: `${SITE_URL}/audit`, priority: 0.8 },
     { url: `${SITE_URL}/blog`, priority: 0.8 },
+    { url: `${SITE_URL}/method`, priority: 0.8 },
+    { url: `${SITE_URL}/capabilities`, priority: 0.5 },
     ...postEntries,
   ]
 }

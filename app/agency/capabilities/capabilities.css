@@ -1,0 +1,372 @@
+/* CAPABILITIES — printable one-pager.
+   Screen: house style (tokens from agency.css).
+   Print: white bg / black text, chrome hidden, A4-fit. */
+
+/* ---------- screen ---------- */
+
+.ag-cap-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(120px, 16vw, 170px) var(--sect-x) clamp(56px, 8vw, 96px);
+}
+
+.ag-cap-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 24px 48px;
+  border-bottom: 2px solid var(--ag-border-strong);
+  padding-bottom: 28px;
+}
+
+.ag-cap-kicker {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: var(--kicker-ls);
+  text-transform: uppercase;
+  color: var(--acc-primary);
+}
+
+.ag-cap-name {
+  margin: 14px 0 0;
+  font-size: clamp(32px, 4.4vw, 52px);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'wdth' 118;
+}
+
+.ag-cap-title {
+  margin: 10px 0 0;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--tx-2);
+}
+
+.ag-cap-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.ag-cap-contact {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+}
+
+.ag-cap-contact-label {
+  color: var(--tx-3);
+  font-weight: 700;
+}
+
+.ag-cap-contact a {
+  color: var(--tx-2);
+  text-decoration: none;
+}
+
+.ag-cap-contact a:hover {
+  color: var(--acc-primary-hi);
+}
+
+.ag-cap-print-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* ---------- sections ---------- */
+
+.ag-cap-section {
+  margin-top: clamp(32px, 4.4vw, 44px);
+}
+
+.ag-cap-h2 {
+  margin: 0 0 16px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: var(--kicker-ls);
+  text-transform: uppercase;
+  color: var(--acc-primary);
+}
+
+.ag-cap-ship-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 32px;
+}
+
+.ag-cap-ship-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--tx-2);
+}
+
+.ag-cap-ship-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--acc-primary);
+}
+
+.ag-cap-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ag-cap-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ag-border-soft);
+}
+
+.ag-cap-row:first-child {
+  padding-top: 0;
+}
+
+.ag-cap-row-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+}
+
+.ag-cap-row-badge {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--tx-3);
+}
+
+.ag-cap-row-text {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--tx-2);
+}
+
+.ag-cap-row-stats {
+  margin: 8px 0 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--tx-3);
+}
+
+.ag-cap-toolbox {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ag-cap-toolbox li {
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.ag-cap-tool-label {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--tx-3);
+}
+
+.ag-cap-tool-list {
+  color: var(--tx-2);
+}
+
+/* ---------- links footer ---------- */
+
+.ag-cap-foot {
+  margin-top: clamp(36px, 5vw, 52px);
+  border-top: 2px solid var(--ag-border-strong);
+  padding-top: 20px;
+}
+
+.ag-cap-foot-tiers,
+.ag-cap-foot-honesty {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.ag-cap-foot-links {
+  margin: 12px 0;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+}
+
+.ag-cap-foot-links a {
+  color: var(--tx-2);
+  text-decoration: none;
+}
+
+.ag-cap-foot-links a:hover {
+  color: var(--acc-primary-hi);
+}
+
+@media (min-width: 720px) {
+  .ag-cap-ship-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- print: white sheet, black ink, A4-fit ---------- */
+
+@media print {
+  /* Reset the dark skin for the whole sheet. */
+  .agency-root,
+  .ag-cap-page {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Hide the site chrome and screen-only controls. */
+  .ag-cap-chrome,
+  .ag-cap-print-row {
+    display: none !important;
+  }
+
+  .ag-cap-page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  /* Ink overrides — token values are dark-surface tuned; print flattens to grayscale. */
+  .ag-cap-name,
+  .ag-cap-row-title,
+  .ag-cap-h2,
+  .ag-cap-kicker {
+    color: #000 !important;
+  }
+
+  .ag-cap-title,
+  .ag-cap-ship-list li,
+  .ag-cap-row-text,
+  .ag-cap-tool-list,
+  .ag-cap-contact a,
+  .ag-cap-foot-links a {
+    color: #1a1a1a !important;
+  }
+
+  .ag-cap-contact-label,
+  .ag-cap-row-badge,
+  .ag-cap-row-stats,
+  .ag-cap-tool-label,
+  .ag-cap-foot-tiers,
+  .ag-cap-foot-honesty {
+    color: #444 !important;
+  }
+
+  .ag-cap-head,
+  .ag-cap-foot {
+    border-color: #000 !important;
+  }
+
+  .ag-cap-row {
+    border-color: #ccc !important;
+    break-inside: avoid;
+  }
+
+  .ag-cap-ship-list li::before {
+    border-color: #000;
+  }
+
+  .ag-cap-contact a,
+  .ag-cap-foot-links a {
+    text-decoration: none;
+  }
+
+  /* Tighten rhythm so the sheet fits A4. */
+  .ag-cap-section {
+    margin-top: 18px;
+  }
+
+  .ag-cap-h2 {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .ag-cap-name {
+    font-size: 26px;
+  }
+
+  .ag-cap-title,
+  .ag-cap-row-text {
+    font-size: 11px;
+  }
+
+  .ag-cap-ship-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+
+  .ag-cap-ship-list li,
+  .ag-cap-toolbox li {
+    font-size: 11px;
+  }
+
+  .ag-cap-row {
+    padding: 8px 0;
+  }
+
+  .ag-cap-row-title {
+    font-size: 12px;
+  }
+
+  .ag-cap-row-stats {
+    margin-top: 4px;
+    font-size: 9.5px;
+  }
+
+  .ag-cap-contact,
+  .ag-cap-foot-links {
+    font-size: 10px;
+  }
+
+  .ag-cap-foot-tiers,
+  .ag-cap-foot-honesty {
+    font-size: 8.5px;
+  }
+
+  .ag-cap-head {
+    padding-bottom: 14px;
+  }
+
+  .ag-cap-foot {
+    margin-top: 18px;
+    padding-top: 12px;
+  }
+}

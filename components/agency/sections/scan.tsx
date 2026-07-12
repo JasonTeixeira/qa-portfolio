@@ -53,7 +53,8 @@ interface OpenSourceRepo {
   proves: string
 }
 
-const OPEN_SOURCE_REPOS: readonly OpenSourceRepo[] = [
+/** Exported so the sitemap footer renders the same repo list — single source of truth. */
+export const OPEN_SOURCE_REPOS: readonly OpenSourceRepo[] = [
   { name: 'playwright-sdet-regression-suite', proves: 'Release-style QA evidence, SDET-grade' },
   { name: 'sage-kernel', proves: 'Proof-first engineering OS, 140 MCP tools' },
   { name: 'Nexural_Automation', proves: 'Local-first automation lab, MCP server' },

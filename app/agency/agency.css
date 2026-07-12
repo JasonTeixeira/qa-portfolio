@@ -98,7 +98,7 @@
   -webkit-text-stroke: 1px rgba(160, 185, 235, 0.13);
   pointer-events: none;
   user-select: none;
-  font-variation-settings: 'wdth' 125;
+  letter-spacing: 0.01em;
 }
 
 /* 1px-gap grid: border-color as grout */
@@ -281,4 +281,12 @@
   padding: 10px 12px;
   border-top: 1px solid var(--ag-border-soft);
   text-align: left;
+}
+
+/* Below-fold sections skip layout/paint until scrolled near (content-visibility).
+   contain-intrinsic-size keeps scrollbar/anchor geometry sane; `auto` remembers
+   the real size after first render. The hero is excluded — it must paint at LCP. */
+.agency-root main > section.ag-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }

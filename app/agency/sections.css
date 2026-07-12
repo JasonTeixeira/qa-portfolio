@@ -182,10 +182,10 @@
 .ag-hero-h1 {
   margin: 0;
   font-size: clamp(40px, 4.7vw, 78px);
-  line-height: 1.04;
-  letter-spacing: -0.032em;
-  font-weight: 750;
-  font-variation-settings: 'wdth' 118;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  font-weight: 790;
+  
   text-wrap: balance;
 }
 
@@ -579,7 +579,7 @@ a.ag-writing-row:focus-visible .ag-writing-title {
   line-height: 1;
   letter-spacing: -0.03em;
   font-weight: 750;
-  font-variation-settings: 'wdth' 114;
+  
   max-width: 1000px;
   text-wrap: balance;
 }

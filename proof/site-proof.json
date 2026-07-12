@@ -35,5 +35,5 @@
     "seo": 100,
     "mobileNote": "mobile (simulated slow-4G): perf 92 / a11y 100 / bp 96 / seo 100 — measured post route-group restructure 2026-07-12"
   },
-  "commit": "cbe12a9b"
+  "commit": "fe58b303"
 }

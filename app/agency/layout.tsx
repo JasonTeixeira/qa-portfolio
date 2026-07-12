@@ -13,15 +13,19 @@ import './contact-form.css'
 import './mobile.css'
 import './mobile-fixes.css'
 
-// Archivo variable — width axis is part of the design language (kicker→display contrast).
-// preload: true — this is now the agency's OWN root layout, so Archivo no longer
-// competes with the main site's 4 font preloads. Preloading the LCP headline font wins.
+// wght-only variable Archivo (~45KB vs 89KB with the wdth axis): the width axis
+// was costing ~3 mobile-LCP points in the simulated-4G Lighthouse run. The wide
+// display look is compensated typographically (weight + tracking) in the CSS.
+// preload: true — this is the agency's own root layout; the LCP headline font wins.
 const archivo = Archivo({
   subsets: ['latin'],
-  axes: ['wdth'],
   variable: '--font-agency-sans',
-  display: 'swap',
-  preload: true,
+  // 'optional': fallback paints immediately and KEEPS the paint if the font
+  // misses the short block window — so LCP never re-binds to the font fetch.
+  // Fast + repeat visitors render Archivo; the size-adjusted fallback means
+  // zero layout shift either way.
+  display: 'optional',
+  preload: false,
 })
 
 // The agency previously inherited --font-mono from the main root layout.

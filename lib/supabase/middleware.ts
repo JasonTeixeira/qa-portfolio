@@ -185,6 +185,7 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/resources/sprint-loop' ||
     pathname === '/academy/efficacy' ||
     pathname === '/academy/legal' ||
+    pathname.startsWith('/academy/voice/') ||
     pathname.startsWith('/academy/u/') ||
     pathname.startsWith('/academy/certificate/');
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;

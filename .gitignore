@@ -70,3 +70,7 @@ infra/**/dist/
 !app/academy/build/
 !components/academy/build/
 design-source/sage-academy/
+
+# voice engine — private reference + generated narration (regenerable, not in git)
+.voice-work/
+public/academy/voice/

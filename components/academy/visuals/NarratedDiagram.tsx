@@ -27,6 +27,8 @@ const Glyph = ({ d, fill }: { d: string; fill?: boolean }) => (
 )
 const PrevG = () => <Glyph d="M15 6l-6 6 6 6" />
 const NextG = () => <Glyph d="M9 6l6 6-6 6" />
+const VoiceOnG = () => <Glyph d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+const VoiceOffG = () => <Glyph d="M11 5 6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6" />
 const PlayG = () => <Glyph d="M8 5l11 7-11 7z" fill />
 const PauseG = () => (
   <svg viewBox="0 0 24 24" width={16} height={16} fill="currentColor" aria-hidden>
@@ -44,6 +46,9 @@ export type DiagramBeat = {
   edges?: [string, string][]
   /** Beat length (ms). Voice-sync: the TTS segment duration. Default 3600. */
   ms?: number
+  /** Public URL of this beat's narration audio (Jason's cloned voice). When present
+   *  and voice is on, the audio becomes the clock — the beat advances on `ended`. */
+  audio?: string
 }
 export type DiagramStoryboard = DiagramBeat[]
 
@@ -59,8 +64,13 @@ export function NarratedDiagram({ storyboard, autoplay = true, ...diagram }: Pro
   const reduce = useReducedMotion()
   const [beat, setBeat] = React.useState(0)
   const [playing, setPlaying] = React.useState(autoplay && !reduce)
+  // Voice off by default: browser autoplay policy blocks audio until a user gesture
+  // (the toggle IS that gesture). The animation still autoplays silently.
+  const [voice, setVoice] = React.useState(false)
+  const audioRef = React.useRef<HTMLAudioElement>(null)
   const current = storyboard[beat]
   const total = storyboard.length
+  const hasVoice = storyboard.some((b) => b.audio)
 
   const spotlight = React.useMemo<SpotlightSpec>(
     () => ({
@@ -70,13 +80,33 @@ export function NarratedDiagram({ storyboard, autoplay = true, ...diagram }: Pro
     [current],
   )
 
-  // Auto-advance timeline (the voice engine will replace this timer with real
-  // audio-segment boundaries — same setBeat, different clock).
+  // Auto-advance. VOICE ON + a beat has audio → the audio is the clock (advance on
+  // `ended`, so the diagram animates in lockstep with Jason's narration). Otherwise
+  // → the fixed ms timer. If audio playback is blocked/fails, fall back to the timer.
   React.useEffect(() => {
     if (!playing || !current) return
-    const id = setTimeout(() => setBeat((n) => (n + 1) % total), current.ms ?? DEFAULT_MS)
+    const advance = () => setBeat((n) => (n + 1) % total)
+    const el = audioRef.current
+
+    if (voice && current.audio && el) {
+      let timer: ReturnType<typeof setTimeout> | undefined
+      el.src = current.audio
+      el.currentTime = 0
+      el.addEventListener('ended', advance)
+      const p = el.play()
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => { timer = setTimeout(advance, current.ms ?? DEFAULT_MS) })
+      }
+      return () => {
+        el.removeEventListener('ended', advance)
+        el.pause()
+        if (timer) clearTimeout(timer)
+      }
+    }
+
+    const id = setTimeout(advance, current.ms ?? DEFAULT_MS)
     return () => clearTimeout(id)
-  }, [playing, beat, current, total])
+  }, [playing, beat, current, total, voice])
 
   const go = (n: number) => {
     setPlaying(false)
@@ -146,6 +176,18 @@ export function NarratedDiagram({ storyboard, autoplay = true, ...diagram }: Pro
         <button type="button" onClick={() => go(beat + 1)} aria-label="Next beat" style={btn}>
           <NextG />
         </button>
+        {hasVoice && (
+          <button
+            type="button"
+            onClick={() => { const nv = !voice; setVoice(nv); if (nv) setPlaying(true) }}
+            aria-label={voice ? 'Turn narration voice off' : 'Turn narration voice on'}
+            aria-pressed={voice}
+            title={voice ? "Jason's voice on" : 'Play in Jason’s voice'}
+            style={{ ...btn, borderColor: voice ? 'var(--ac-accent, #3D5AFE)' : undefined, color: voice ? 'var(--ac-accent-text, #83AFFF)' : undefined }}
+          >
+            {voice ? <VoiceOnG /> : <VoiceOffG />}
+          </button>
+        )}
         <div style={{ display: 'flex', gap: 6, marginLeft: 6 }}>
           {storyboard.map((_, i) => (
             <button
@@ -175,9 +217,12 @@ export function NarratedDiagram({ storyboard, autoplay = true, ...diagram }: Pro
             color: 'var(--ac-ink-faint, #9598A2)',
           }}
         >
-          {playing ? 'narrating' : 'paused'} · voice-sync ready
+          {playing ? 'narrating' : 'paused'} · {hasVoice ? (voice ? 'Jason’s voice' : 'voice ready') : 'voice-sync ready'}
         </span>
       </div>
+
+      {/* Hidden narration audio element — the transport drives it when voice is on. */}
+      {hasVoice && <audio ref={audioRef} preload="auto" playsInline />}
 
       <style>{`@keyframes ac-caption-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}`}</style>
     </div>

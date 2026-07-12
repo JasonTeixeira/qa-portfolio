@@ -65,6 +65,8 @@ export type LessonBlock =
         nodes?: string[]
         edges?: [string, string][]
         ms?: number
+        /** Public URL of this beat's narration audio (cloned voice), when generated. */
+        audio?: string
       }[]
     }
   | {

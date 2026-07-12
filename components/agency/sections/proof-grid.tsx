@@ -70,8 +70,7 @@ export function ProofGridSection() {
     <SectionShell id="proof" num="02" kicker="PROOF, NOT PERCENTAGES" ghost="02">
       <Reveal>
         <p className="ag-proof-lede">
-          No invented time savings. No fake dashboards. Each category below links to an inspectable
-          artifact — a report, a log, a diagram, or a screenshot.
+          No invented time savings. Every category links to an inspectable artifact.
         </p>
       </Reveal>
       <Reveal delay={120}>

@@ -10,6 +10,7 @@ import {
   DiagNode,
 } from '@/components/agency/diagrams/primitives'
 import { SERVICES, type Service, type ServiceStage } from '@/data/agency/services'
+import { TOOL_GROUPS } from '@/data/agency/toolbox'
 import './services.css'
 
 export const metadata: Metadata = {
@@ -195,6 +196,27 @@ export default function ServicesPage() {
         {SERVICES.map((service, index) => (
           <ServiceBlock key={service.id} service={service} index={index} />
         ))}
+
+        {/* Compact toolbox — moved here from the homepage scan section. */}
+        <section className="ag-section ag-svc-toolbox" aria-labelledby="svc-toolbox-heading">
+          <h2 id="svc-toolbox-heading" className="ag-svc-minihead">
+            THE TOOLBOX — ALL IN ACTIVE USE
+          </h2>
+          <div className="ag-svc-toolgroups">
+            {TOOL_GROUPS.map((group) => (
+              <div key={group.label} className="ag-svc-toolgroup">
+                <p className="ag-svc-toolgroup-label">{group.label}</p>
+                <div className="ag-svc-toolchips">
+                  {group.tools.map((tool) => (
+                    <span key={tool} className="ag-chip ag-chip--sm">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
       <AgencyFooter />
     </>

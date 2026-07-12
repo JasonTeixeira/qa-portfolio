@@ -63,7 +63,7 @@ export function DiagFrame({
 }) {
   const glowId = `${uid}-glow`
   return (
-    <div className="ag-diag" aria-hidden="true">
+    <div className="ag-diag ag-draw" aria-hidden="true">
       <svg
         className="ag-diag-svg"
         viewBox={`0 0 ${viewW} ${viewH}`}

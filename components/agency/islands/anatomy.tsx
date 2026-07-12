@@ -191,8 +191,7 @@ export function AnatomySelector() {
           Anatomy of a trustworthy automation
         </h2>
         <p className="ag-anatomy__lede">
-          Select each stage. Every service I offer lives somewhere on this map — and each stage
-          links to the case study that proves it.
+          Select a stage — each links to the case study that proves it.
         </p>
       </div>
 

@@ -15,42 +15,42 @@ const WORK_SAMPLES: WorkSample[] = [
   {
     key: 'eval-output',
     title: 'AI eval output',
-    proves: 'Proves: answers are scored against a rubric, not eyeballed.',
+    proves: 'Answers scored against a rubric, not eyeballed.',
     tooling: 'TS · eval script',
     placeholder: 'AI eval output (JSON)',
   },
   {
     key: 'browser-proof',
     title: 'Playwright browser proof',
-    proves: 'Proves: critical flows run and verify themselves.',
+    proves: 'Critical flows run and verify themselves.',
     tooling: 'Playwright · trace files',
     placeholder: 'Playwright browser proof',
   },
   {
     key: 'readiness-report',
     title: 'Release readiness report',
-    proves: 'Proves: "ready" is a generated verdict, not a feeling.',
+    proves: '"Ready" is a generated verdict, not a feeling.',
     tooling: 'CI · readiness-report.json',
     placeholder: 'readiness-report.json',
   },
   {
     key: 'job-log',
     title: 'Automation job log',
-    proves: 'Proves: workflows are observable — runs, retries, failures.',
+    proves: 'Observable workflows — runs, retries, failures.',
     tooling: 'Node · job runner',
     placeholder: 'automation job log',
   },
   {
     key: 'architecture',
     title: 'Architecture diagram',
-    proves: 'Proves: real data flow — model, retrieval, approval, logging.',
+    proves: 'Real data flow — model, retrieval, approval, logging.',
     tooling: 'built in code',
     placeholder: 'architecture diagram',
   },
   {
     key: 'bug-note',
     title: 'Bug reproduction note',
-    proves: 'Proves: defects reported with steps, expected vs actual, severity.',
+    proves: 'Defects with steps, expected vs actual, severity.',
     tooling: 'QA · triage note',
     placeholder: 'bug reproduction note',
   },
@@ -63,7 +63,7 @@ export function WorkSamplesSection() {
       id="work-samples"
       num="05"
       kicker="WORK SAMPLES"
-      annotation="EACH FRAME IS A LABELED SLOT FOR A SPECIFIC ARTIFACT"
+      annotation="REAL ARTIFACTS, PULLED FROM DISK"
       ghost="05"
     >
       <div className="ag-ws-grid">

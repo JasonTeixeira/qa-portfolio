@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { CASE_STUDIES, type CaseStudy } from '@/data/agency/case-studies'
-import { EVIDENCE_CAPTURES } from '@/data/agency/evidence-manifest'
 import { Reveal } from '@/components/agency/core'
 import { SystemDiagram } from '@/components/agency/diagrams/system-diagram'
 import { SectionShell } from '@/components/agency/section-shell'
@@ -13,63 +13,29 @@ const OPEN_REPO_NAMES: readonly string[] = [
 ]
 
 /**
- * Section 03 — Featured case studies. Server component. Diagram-first:
- * each study leads with a full SystemDiagram topology, the title row overlaps
- * the diagram's bottom edge, and prose is compressed to one problem sentence,
- * one built sentence, instrument stats, and hazard chips.
+ * Section 03 — Featured case studies. Server component. De-densified:
+ * each study renders as a compact SCENE CARD — full SystemDiagram topology,
+ * title row, one subtitle line, a 3-stat mini strip, and a link to the full
+ * study at /work/<id>. All depth (problem/built, hazards, demos, evidence,
+ * stack) lives on the detail pages under app/agency/work/[slug]/.
  * Content lives in data/agency/case-studies.ts (sourced from the proof inventory).
  */
 
-/** Real artifact captures first (from disk, styled frames), honest placeholders after. */
-function EvidenceStrip({ study }: { study: CaseStudy }) {
-  const captures = EVIDENCE_CAPTURES.filter((c) => c.slot.startsWith(`${study.id}-`))
-  const placeholders = study.evidenceSlots.slice(captures.length)
-  return (
-    <div className="ag-cs-evidence">
-      <h4 className="ag-cs-evidence-h">
-        {captures.length > 0 ? 'EVIDENCE — REAL ARTIFACTS, CAPTURED FROM DISK' : 'EVIDENCE — REAL ARTIFACT PENDING DROP-IN'}
-      </h4>
-      <div className="ag-cs-slots">
-        {captures.map((capture) => (
-          <figure key={capture.file} className="ag-cs-slot ag-cs-slot--filled">
-            <img
-              src={capture.file}
-              alt={capture.title}
-              width={1200}
-              height={750}
-              loading="lazy"
-            />
-            <figcaption className="ag-cs-slot-caption">{capture.title}</figcaption>
-            <span className={`ag-cs-tier ag-cs-tier--${capture.tier.toLowerCase()}`}>
-              {capture.tier}
-            </span>
-          </figure>
-        ))}
-        {placeholders.map((slot) => (
-          <figure key={slot.caption} className="ag-cs-slot">
-            <figcaption className="ag-cs-slot-caption">{slot.caption} · PENDING</figcaption>
-            <span className={`ag-cs-tier ag-cs-tier--${slot.tier.toLowerCase()}`}>{slot.tier}</span>
-          </figure>
-        ))}
-      </div>
-    </div>
-  )
+/** Stats shown on the scene card — the rest render on /work/<id>. */
+const MINI_STAT_COUNT = 3
+
+/** First clause of the subtitle — the card carries ONE line; depth lives at /work/<id>. */
+function sceneLine(study: CaseStudy): string {
+  const lead = study.subtitle.split(' — ')[0]
+  return lead.endsWith('.') ? lead : `${lead}.`
 }
 
-function CaseStudyCard({
-  study,
-  index,
-  demo,
-}: {
-  study: CaseStudy
-  index: number
-  demo?: ReactNode
-}) {
+function SceneCard({ study, index }: { study: CaseStudy; index: number }) {
   const num = String(index + 1).padStart(2, '0')
   return (
     <Reveal as="div">
       <article id={study.id} className="ag-cs" aria-labelledby={`${study.id}-title`}>
-        {/* System topology — the 5-second read */}
+        {/* System topology — the hero of the card */}
         <div className="ag-cs-diagram">
           <SystemDiagram uid={study.id} spec={study.diagram} />
         </div>
@@ -86,23 +52,11 @@ function CaseStudyCard({
         </div>
 
         <div className="ag-cs-body">
-          <p className="ag-cs-subtitle">{study.subtitle}</p>
+          <p className="ag-cs-subtitle">{sceneLine(study)}</p>
 
-          {/* Compact problem / built band */}
-          <div className="ag-cs-band">
-            <div className="ag-cs-band-col">
-              <h4 className="ag-cs-band-h">PROBLEM</h4>
-              <p className="ag-cs-band-p">{study.problem}</p>
-            </div>
-            <div className="ag-cs-band-col">
-              <h4 className="ag-cs-band-h">BUILT</h4>
-              <p className="ag-cs-band-p">{study.built}</p>
-            </div>
-          </div>
-
-          {/* Instrument stat tiles */}
-          <dl className="ag-cs-stats">
-            {study.stats.map((stat) => (
+          {/* 3-stat mini strip — big mono values */}
+          <dl className="ag-cs-stats ag-cs-stats--mini">
+            {study.stats.slice(0, MINI_STAT_COUNT).map((stat) => (
               <div key={stat.label} className="ag-cs-stat">
                 <dt className="ag-cs-stat-label">{stat.label}</dt>
                 <dd className="ag-cs-stat-value">{stat.value}</dd>
@@ -110,51 +64,21 @@ function CaseStudyCard({
             ))}
           </dl>
 
-          {/* Failure modes as pinned hazard chips */}
-          <div className="ag-cs-hazards">
-            <span className="ag-cs-hazards-h">FAILURE MODES</span>
-            <ul className="ag-cs-hazard-list">
-              {study.hazards.map((hazard) => (
-                <li key={hazard} className="ag-cs-hazard">
-                  {hazard}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {demo ? <div className="ag-cs-demo">{demo}</div> : null}
-
-          <EvidenceStrip study={study} />
-
-          <footer className="ag-cs-footer">
-            <div className="ag-cs-stack">
-              {study.stack.map((item) => (
-                <span key={item} className="ag-chip">
-                  {item}
-                </span>
-              ))}
-              {study.repoUrl ? (
-                <a
-                  href={study.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ag-chip ag-cs-repo-chip"
-                >
-                  INSPECT THE REPO ↗
-                </a>
-              ) : null}
-            </div>
-            <p className="ag-cs-improve">
-              <strong>IMPROVE NEXT:</strong> {study.improveNext}
-            </p>
-          </footer>
+          <Link href={`/work/${study.id}`} className="ag-cs-readlink">
+            READ THE FULL STUDY →
+          </Link>
         </div>
       </article>
     </Reveal>
   )
 }
 
-export function CaseStudiesSection({ demos = {} }: { demos?: Record<string, ReactNode> }) {
+/**
+ * The `demos` prop is intentionally accepted-and-ignored: interactive demos
+ * moved to the /work/<slug> detail pages, but the signature is kept so
+ * app/agency/page.tsx compiles unchanged.
+ */
+export function CaseStudiesSection(_props: { demos?: Record<string, ReactNode> } = {}) {
   return (
     <SectionShell
       id="case-studies"
@@ -165,7 +89,7 @@ export function CaseStudiesSection({ demos = {} }: { demos?: Record<string, Reac
     >
       <div className="ag-cs-list">
         {CASE_STUDIES.map((study, index) => (
-          <CaseStudyCard key={study.id} study={study} index={index} demo={demos[study.id]} />
+          <SceneCard key={study.id} study={study} index={index} />
         ))}
       </div>
 

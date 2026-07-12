@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { CASE_STUDIES } from '@/data/agency/case-studies'
 import { POSTS } from '@/data/agency/posts'
 
 /**
@@ -36,6 +37,11 @@ function parsePostDate(display: string): Date | undefined {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const workEntries: MetadataRoute.Sitemap = CASE_STUDIES.map((study) => ({
+    url: `${SITE_URL}/work/${study.id}`,
+    priority: 0.8,
+  }))
+
   const postEntries: MetadataRoute.Sitemap = POSTS.filter(
     (post) => post.status === 'published',
   ).map((post) => ({
@@ -51,6 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/blog`, priority: 0.8 },
     { url: `${SITE_URL}/method`, priority: 0.8 },
     { url: `${SITE_URL}/capabilities`, priority: 0.5 },
+    ...workEntries,
     ...postEntries,
   ]
 }

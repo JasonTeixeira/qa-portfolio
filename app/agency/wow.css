@@ -299,7 +299,9 @@
   letter-spacing: 0.16em;
   white-space: nowrap;
   color: var(--tx);
-  opacity: 0.62;
+  /* dot-only when inactive — visible labels collided with section kickers
+     at the left margin; only the current stage announces itself. */
+  opacity: 0;
   transition: opacity 240ms var(--ease-out);
 }
 

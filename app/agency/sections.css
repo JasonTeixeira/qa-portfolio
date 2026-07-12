@@ -282,53 +282,6 @@
 
 /* ============ 01 — SCAN ============ */
 
-.ag-scan-grid {
-  grid-template-columns: 1fr;
-}
-
-.ag-scan-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.ag-scan-label {
-  margin: 0;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  color: var(--tx-3);
-}
-
-.ag-scan-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--tx);
-}
-
-.ag-scan-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.ag-scan-proof-link {
-  color: var(--tx);
-  text-decoration: none;
-  transition: color var(--dur-fast) var(--ease-out);
-}
-
-.ag-scan-proof-link:hover {
-  color: var(--acc-primary-hi);
-}
-
 .ag-scan-quicklinks {
   margin-top: auto;
   display: flex;
@@ -349,18 +302,6 @@
 
 .ag-scan-quicklinks a:hover {
   color: var(--acc-primary-hi);
-}
-
-@media (min-width: 720px) {
-  .ag-scan-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .ag-scan-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* ============ 02 — PROOF GRID ============ */
@@ -781,37 +722,6 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 
 /* repositioning */
 
-/* Scan — open-source repo links (column d) */
-.ag-scan-repo-link {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.ag-scan-repo-name {
-  font-family: var(--f-mono);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  color: var(--acc-primary);
-}
-.ag-scan-repo-link:hover .ag-scan-repo-name {
-  color: var(--acc-primary-hi);
-}
-.ag-scan-repo-proves {
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--tx-3);
-}
-
-/* Scan — quiet dual-audience note above the quicklinks */
-.ag-scan-dual-note {
-  margin: 16px 0 0;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  line-height: 1.6;
-  letter-spacing: 0.04em;
-  color: var(--tx-3);
-}
-
 /* Case studies — public-repo chip in the footer stack row */
 .ag-cs-repo-chip {
   border-color: var(--acc-pass);
@@ -881,28 +791,7 @@ a.ag-writing-row:focus-visible .ag-writing-title {
   color: var(--acc-primary-hi);
 }
 
-/* toolbox groups (comprehensive tools column) */
-.ag-scan-toolgroups {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.ag-scan-toolgroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.ag-scan-toolgroup-label {
-  margin: 0;
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--acc-primary);
-}
-
+/* small chip variant (toolbox chips on /services) */
 .ag-chip--sm {
   font-size: 11px;
   padding: 4px 8px;
@@ -1077,38 +966,6 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 @media (min-width: 900px) {
   .ag-about {
     grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
-  }
-}
-
-/* toolbox band — full-width spec sheet under the scan grid */
-.ag-scan-toolband-wrap {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.ag-scan-toolband-label {
-  letter-spacing: 0.2em;
-}
-
-.ag-scan-toolband {
-  grid-template-columns: 1fr;
-}
-
-.ag-scan-toolband .ag-scan-toolgroup {
-  gap: 10px;
-}
-
-@media (min-width: 600px) {
-  .ag-scan-toolband {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .ag-scan-toolband {
-    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -1348,4 +1205,143 @@ a.ag-writing-row:focus-visible .ag-writing-title {
 
 .ag-footer-gate-check {
   color: var(--acc-pass);
+}
+
+/* capability tiles */
+/* Section 01 tile wall — six glyph tiles, 2 cols → 3 cols. Hover: lift + accent glow. */
+.ag-tile-wall {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.ag-cap-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(22px, 3vw, 40px);
+  min-height: clamp(140px, 16vw, 210px);
+  padding: clamp(20px, 2.6vw, 34px) var(--card-pad);
+  overflow: hidden;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out);
+}
+
+/* accent top-rule — widens on hover */
+.ag-cap-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 2px;
+  background: var(--tile-acc, var(--acc-primary));
+  transition: width var(--dur) var(--ease-out);
+}
+
+.ag-cap-tile:hover {
+  background: var(--ag-raised);
+  transform: translateY(-4px);
+  box-shadow:
+    0 14px 34px rgba(4, 8, 18, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--tile-acc, var(--acc-primary)) 40%, transparent),
+    0 0 28px color-mix(in srgb, var(--tile-acc, var(--acc-primary)) 14%, transparent);
+}
+
+.ag-cap-tile:hover::before {
+  width: 100%;
+}
+
+.ag-cap-tile-glyph {
+  display: block;
+  width: 44px;
+  height: 44px;
+  color: var(--tile-acc, var(--acc-primary));
+}
+
+.ag-cap-tile-title {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+  color: var(--tx);
+}
+
+@media (min-width: 900px) {
+  .ag-tile-wall {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* below the wall — one mono pointer line + quicklinks in a row */
+.ag-scan-below {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ag-border-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 28px;
+}
+
+.ag-scan-more-link {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--tx-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--acc-primary) 55%, transparent);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.ag-scan-more-link:hover {
+  color: var(--acc-primary-hi);
+}
+
+.ag-scan-quicklinks--row {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+/* slim horizontal open-source repo strip */
+.ag-repo-strip {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+
+.ag-repo-strip-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--tx-3);
+  margin-right: 8px;
+}
+
+.ag-repo-chip {
+  font-family: var(--f-mono);
+  text-decoration: none;
+  color: var(--acc-primary);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.ag-repo-chip:hover {
+  color: var(--acc-primary-hi);
+  border-color: var(--acc-primary);
+  background: rgba(77, 159, 255, 0.12);
 }

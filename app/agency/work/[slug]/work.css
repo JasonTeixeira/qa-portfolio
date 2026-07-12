@@ -1,0 +1,113 @@
+/* ============ CASE STUDY DETAIL (/work/[slug]) ============
+   Page-specific bits only. The card internals (diagram frame, band, stats,
+   hazards, evidence, footer) reuse the global ag-cs-* classes from
+   proof.css / diagrams.css imported by the agency layout. */
+
+.ag-work-hero {
+  padding-bottom: clamp(28px, 4vw, 44px);
+}
+
+.ag-work-topline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ag-work-h1 {
+  margin: 0 0 18px;
+  font-size: clamp(30px, 4.6vw, 54px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.ag-work-sub {
+  margin: 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65;
+  color: var(--tx-2);
+  max-width: 68ch;
+}
+
+/* The homepage card overlapped its title plate on the diagram; here the title
+   lives in the hero, so restore normal top spacing inside the body. */
+.ag-work-body {
+  padding-top: clamp(24px, 4vw, 40px);
+}
+
+/* ---------- footer CTA row ---------- */
+
+.ag-work-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+/* ---------- prev / next pager ---------- */
+
+.ag-work-pager {
+  margin-top: clamp(32px, 5vw, 56px);
+  border-top: 1px solid var(--ag-border);
+  padding-top: 24px;
+}
+
+.ag-work-pager-kicker {
+  margin: 0 0 16px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--tx-3);
+}
+
+.ag-work-pager-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+}
+
+.ag-work-pager-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-width: 40ch;
+}
+
+.ag-work-pager-cell--next {
+  margin-left: auto;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.ag-work-pager-dir {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--tx-3);
+}
+
+.ag-work-pager-link {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--tx);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--acc-primary) 45%, transparent);
+  padding-bottom: 2px;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.ag-work-pager-link:hover,
+.ag-work-pager-link:focus-visible {
+  color: var(--acc-primary);
+  border-color: var(--acc-primary);
+}

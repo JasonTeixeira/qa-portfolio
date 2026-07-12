@@ -1,7 +1,9 @@
+import { CountUp } from '@/components/agency/islands/count-up'
+
 /**
  * Career numbers strip — a slim full-width instrument band under the marquee.
  * Every value is real and sourced from docs/agency-proof-inventory.md.
- * Server component.
+ * Server component (values animate via the CountUp island).
  */
 
 interface CareerNumber {
@@ -61,7 +63,7 @@ export function CareerNumbers() {
           <li key={item.label} className="ag-numbers-item">
             <a href={item.href} className="ag-numbers-link">
               <span className="ag-numbers-value" style={{ color: item.accent }}>
-                {item.value}
+                <CountUp value={item.value} />
               </span>
               <span className="ag-numbers-label">{item.label}</span>
             </a>

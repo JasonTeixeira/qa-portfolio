@@ -437,3 +437,54 @@
   color: var(--tx);
   border-color: var(--tx-3);
 }
+
+/* ---------- compact toolbox (moved from the homepage scan section) ---------- */
+
+.ag-svc-toolbox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ag-svc-toolgroups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--ag-border-soft);
+  border: 1px solid var(--ag-border-soft);
+}
+
+.ag-svc-toolgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--ag-card);
+  padding: clamp(16px, 2vw, 22px);
+}
+
+.ag-svc-toolgroup-label {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--acc-primary);
+}
+
+.ag-svc-toolchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (min-width: 600px) {
+  .ag-svc-toolgroups {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ag-svc-toolgroups {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

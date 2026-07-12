@@ -1,0 +1,55 @@
+/* ============================================================
+   Agency motion layer — CSS scroll-driven animations (progressive).
+   Everything here is gated behind @supports (animation-timeline: view())
+   — browsers without support simply show the elements as-is (no draw-in).
+   Compositor-friendly only: clip-path, opacity, transform.
+   Reduced-motion kills every rule in this file explicitly (scroll-driven
+   animations ignore the global duration clamp in agency.css, so they need
+   animation: none, not a shortened duration).
+   ============================================================ */
+
+@supports (animation-timeline: view()) {
+  /* Diagram draw-in: left-to-right inset reveal on the SVG CONTAINER.
+     Uses clip-path + opacity (not stroke-dashoffset) so the existing
+     .ag-dashflow infinite stroke flow keeps running after the draw-in. */
+  .ag-draw {
+    animation: ag-draw-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 45%;
+  }
+
+  /* Ghost section numbers: subtle scroll-linked parallax drift (the
+     data-drift attribute has no JS consumer — this is the depth pass). */
+  .ag-ghost-num {
+    animation: ag-ghost-parallax linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+@keyframes ag-draw-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.2;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes ag-ghost-parallax {
+  from {
+    transform: translateY(clamp(28px, 4vw, 56px));
+  }
+  to {
+    transform: translateY(clamp(-56px, -4vw, -28px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-draw,
+  .ag-ghost-num {
+    animation: none !important;
+  }
+}

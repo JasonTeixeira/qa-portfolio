@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { HeroSchematic } from '@/components/agency/hero-schematic'
+import { HeroField } from '@/components/agency/islands/hero-field'
 import { Magnetic } from '@/components/agency/islands/magnetic'
 import siteProof from '@/proof/site-proof.json'
 
@@ -30,7 +30,7 @@ export function Hero({ instrument }: HeroProps) {
     <section id="top" className="ag-hero" aria-labelledby="hero-heading">
       {/* Decorative layers */}
       <div className="ag-hero-gridlines" aria-hidden="true" />
-      <HeroSchematic />
+      <HeroField />
       <div className="ag-hero-glow" aria-hidden="true" />
       <div className="ag-grain" aria-hidden="true" />
 

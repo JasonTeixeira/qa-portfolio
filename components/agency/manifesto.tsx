@@ -18,14 +18,8 @@ export function Manifesto() {
       </Reveal>
       <Reveal delay={180}>
         <p className="ag-manifesto-support">
-          Green checkmarks you can&apos;t inspect, time savings nobody measured, demos that die in
-          production — that&apos;s theater.
-        </p>
-      </Reveal>
-      <Reveal delay={230}>
-        <p className="ag-manifesto-support">
-          Instrumented means: every claim carries its artifact, every gate generates a verdict, and
-          this site runs its own release gate in CI.
+          Every claim carries its artifact. Every gate generates a verdict. This site runs its own
+          release gate in CI.
         </p>
       </Reveal>
       <Reveal delay={300}>

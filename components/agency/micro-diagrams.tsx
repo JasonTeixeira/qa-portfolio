@@ -22,7 +22,7 @@ interface MotifShellProps {
 function MotifShell({ accent, children }: MotifShellProps): ReactElement {
   return (
     <svg
-      className="ag-motif"
+      className="ag-motif ag-draw"
       viewBox="0 0 400 130"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"

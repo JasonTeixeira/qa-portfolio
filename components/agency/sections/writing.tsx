@@ -14,32 +14,29 @@ interface WritingPiece {
 const WRITING_PIECES: readonly WritingPiece[] = [
   {
     title: 'How I test AI systems when the answer is probabilistic',
-    thesis:
-      "You can't assert equality on a probabilistic answer — you assert properties: grounding, structure, refusal behavior, drift.",
+    thesis: "You can't assert equality on a probabilistic answer — you assert properties.",
     proves: 'PROVES: EVAL DESIGN',
     href: '/blog/testing-probabilistic-ai',
   },
   {
     title: 'What a reliable automation workflow needs before production',
-    thesis: "A workflow isn't done until someone else can run it, inspect it, and recover it.",
+    thesis: "Not done until someone else can run, inspect, and recover it.",
     proves: 'PROVES: OPERATIONAL MATURITY',
   },
   {
     title: 'How I think about Playwright coverage and flaky tests',
-    thesis:
-      'Flaky tests are production debt — diagnose the root cause or delete the test. Never retry-loop your way to green.',
+    thesis: 'Flaky tests are debt — fix the root cause or delete them.',
     proves: 'PROVES: QA STRATEGY',
     href: '/blog/playwright-coverage-and-flaky-tests',
   },
   {
     title: 'The difference between a demo bot and an operational AI workflow',
-    thesis: 'A demo proves possibility. An operational workflow proves repeatability under failure.',
+    thesis: 'A demo proves possibility. Operations prove repeatability under failure.',
     proves: 'PROVES: PRODUCTION THINKING',
   },
   {
     title: 'A release gate is a trust contract, not a checklist',
-    thesis:
-      'A gate earns its place when a non-QA stakeholder can read the output and make a ship decision.',
+    thesis: 'A gate earns its place when non-QA stakeholders can ship from it.',
     proves: 'PROVES: COMMUNICATION',
     href: '/blog/release-gate-trust-contract',
   },

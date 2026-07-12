@@ -8,7 +8,7 @@
     },
     {
       "id": "build",
-      "label": "next build (reused existing build)",
+      "label": "next build",
       "status": "pass"
     },
     {
@@ -23,8 +23,8 @@
     },
     {
       "id": "lighthouse",
-      "label": "lighthouse desktop 100 / 100 / 96 / 100",
-      "status": "pass"
+      "label": "lighthouse desktop — run failed",
+      "status": "fail"
     }
   ],
   "lighthouse": {
@@ -35,5 +35,5 @@
     "seo": 100,
     "mobileNote": "mobile (simulated slow-4G): perf 92 / a11y 100 / bp 96 / seo 100 — measured post route-group restructure 2026-07-12"
   },
-  "commit": "4b078b42"
+  "commit": "cc7681c1"
 }

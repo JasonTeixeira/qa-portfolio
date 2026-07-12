@@ -50,9 +50,12 @@ try {
   // the redirect can lag past a fixed wait, leaving the session unset). Retry the
   // submit once if we're still on /login.
   async function submitLogin() {
-    const btn = await page.$('button[type=submit], button:has-text("Sign in"), button:has-text("Log in")')
-    if (!btn) throw new Error('login submit button not found')
-    await btn.click()
+    // Submit the PASSWORD form specifically. The login page also has a GitHub OAuth
+    // button (also type=submit), so a generic button click hijacks to OAuth — press
+    // Enter inside the password field to post the right form.
+    const pw = await page.$('#password, input[type=password], input[name=password]')
+    if (!pw) throw new Error('password field not found')
+    await pw.press('Enter')
     try {
       await page.waitForURL((u) => !String(u).includes('/login'), { timeout: 15000 })
     } catch {

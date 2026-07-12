@@ -181,6 +181,23 @@ async function main() {
   const content = scoreContent(allMeta || lessons)
   const hardFails = [...audio.hardFails, ...content.hardFails]
 
+  // Live-render inspection (a11y/consistency/perf) — per lesson, needs auth creds.
+  // Runs for a single lesson; for a course, callers loop lessons. Degrades to pending
+  // when creds absent so the content+audio spine still works standalone.
+  let inspect = null
+  const canRender = process.env.ACADEMY_TEST_EMAIL && process.env.ACADEMY_TEST_PASSWORD
+  if (canRender && lessonFilter) {
+    const r = spawnSync('node', ['scripts/academy/quality/inspect-lesson.mjs', courseSlug, lessonFilter], { encoding: 'utf8', env: process.env })
+    const line = (r.stdout || '').trim().split('\n').filter((l) => l.startsWith('{')).pop()
+    try {
+      const d = line ? JSON.parse(line) : null
+      if (d?.ok) {
+        inspect = d
+        if (d.a11y.hardFail) hardFails.push({ code: 'H4', unit: lessonFilter, msg: `a11y: ${d.a11y.byImpact.critical} critical / ${d.a11y.byImpact.serious} serious (${d.a11y.topViolations.map((v) => v.id).join(', ')})` })
+      }
+    } catch { /* inspector unreachable — dims stay pending */ }
+  }
+
   // Deterministic dims filled; subjective dims (visual, ux) left for the judge panel.
   const dims = {
     content: content.content,
@@ -188,10 +205,10 @@ async function main() {
     lab: content.lab,
     visual: null,   // judge panel (pending)
     voice: audio.applicable ? audio.score : 'n/a',
-    a11y: null,     // axe layer (pending)
+    a11y: inspect ? inspect.a11y.score : null,
     ux: null,       // judge panel (pending)
-    perf: null,     // lighthouse layer (pending)
-    consistency: null, // token/lint layer (pending)
+    perf: inspect ? Math.min(99, Math.max(0, 100 - Math.round((inspect.perfProxy.wallMs - 1500) / 100))) : null,
+    consistency: inspect ? inspect.consistency.score : null,
   }
   const pendingJudge = ['visual', 'ux'].filter((k) => dims[k] === null)
   const pendingChecks = ['a11y', 'perf', 'consistency'].filter((k) => dims[k] === null)
@@ -207,7 +224,15 @@ async function main() {
     hardFails,
     pendingJudge,
     pendingChecks,
-    notes: { audio: audio.notes, content: content.notes },
+    notes: {
+      audio: audio.notes,
+      content: content.notes,
+      inspect: inspect
+        ? [`a11y ${inspect.a11y.score} (${inspect.a11y.byImpact.serious} serious, ${inspect.a11y.byImpact.moderate} moderate)`,
+           `consistency ${inspect.consistency.score}${inspect.consistency.offHues.length ? ` — off-hue ${inspect.consistency.offHues.map((h) => h[0]).join(', ')}` : ''}`,
+           `perf ${inspect.perfProxy.wallMs}ms wall (dev proxy)`]
+        : [canRender ? 'inspector did not return (see stderr)' : 'render dims pending — set ACADEMY_TEST_EMAIL/PASSWORD'],
+    },
     pass,
     gate: GATE,
     generatedBy: 'academy-quality-harness (deterministic spine)',
@@ -221,6 +246,7 @@ async function main() {
   console.log(`  voice/audio : ${dims.voice}${audio.applicable ? ` (${audio.notes[0]})` : ''}`)
   if (content.applicable) console.log(`  content/arc/lab : ${dims.content}/${dims.arc}/${dims.lab} · ${content.notes.join(' · ')}`)
   else console.log(`  content : ${content.notes[0]}`)
+  if (inspect) console.log(`  a11y/consistency/perf : ${dims.a11y}/${dims.consistency}/${dims.perf} · ${card.notes.inspect.join(' · ')}`)
   console.log(`  hard-fails : ${hardFails.length ? hardFails.map((h) => `${h.code} ${h.msg}`).join('; ') : 'none'}`)
   console.log(`  deterministic composite : ${deterministicComposite} (subjective dims pending: ${[...pendingJudge, ...pendingChecks].join(', ')})`)
   console.log(`  → ${file}`)

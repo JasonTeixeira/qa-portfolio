@@ -17,6 +17,12 @@ export async function proxy(request: NextRequest) {
   // subdomain root, before i18n/auth (the agency surface is public + locale-free).
   const host = (request.headers.get('host') ?? '').split(':')[0];
   if (host === 'agency.sageideas.dev' || host === 'agency.localhost') {
+    // Extension-less metadata routes (app/icon.tsx, app/apple-icon.tsx) must not
+    // be rewritten into the agency tree — they 404 there (caught live: the only
+    // best-practices deduction on the deployed site).
+    if (pathname === '/icon' || pathname === '/apple-icon') {
+      return NextResponse.next();
+    }
     // SEO files: the dot-exclusion below would let these fall through to the
     // main site's sitemap/robots — map them explicitly onto the agency tree.
     if (pathname === '/sitemap.xml' || pathname === '/robots.txt' || pathname === '/feed.xml') {

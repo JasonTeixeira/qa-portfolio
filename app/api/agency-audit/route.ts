@@ -243,6 +243,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     })
     if (!response.ok) {
       console.error(`[agency-audit] PSI responded ${response.status} for ${target}`)
+      if (response.status === 429) {
+        return NextResponse.json(
+          {
+            error:
+              "Google's shared PageSpeed quota is exhausted right now — not your site's fault. Try again in an hour, or email me and I'll run the teardown by hand.",
+          },
+          { status: 503 },
+        )
+      }
       return NextResponse.json(
         { error: 'PageSpeed Insights could not analyze that URL. Check it loads publicly and try again.' },
         { status: 502 },

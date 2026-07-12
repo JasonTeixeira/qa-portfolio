@@ -1,0 +1,211 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - link "SKIP TO CONTENT" [ref=f3e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=f3e4]:
+      - navigation "Main navigation" [ref=f3e5]:
+        - link "JASON TEIXEIRA" [ref=f3e6] [cursor=pointer]:
+          - /url: /#top
+          - text: JASON TEIXEIRA
+          - generic [ref=f3e7]: ◆
+        - generic [ref=f3e8]:
+          - link "PROOF" [ref=f3e9] [cursor=pointer]:
+            - /url: /#proof
+          - link "CASE STUDIES" [ref=f3e10] [cursor=pointer]:
+            - /url: /#case-studies
+          - link "LEDGER" [ref=f3e11] [cursor=pointer]:
+            - /url: /#ledger
+          - link "SERVICES" [ref=f3e12] [cursor=pointer]:
+            - /url: /services
+          - link "AUDIT" [ref=f3e13] [cursor=pointer]:
+            - /url: /audit
+          - link "WRITING" [ref=f3e14] [cursor=pointer]:
+            - /url: /blog
+        - link "CONTACT" [ref=f3e16] [cursor=pointer]:
+          - /url: /#contact
+    - main [ref=f3e17]:
+      - article [ref=f3e18]:
+        - generic [ref=f3e19]:
+          - generic [ref=f3e20]:
+            - paragraph [ref=f3e21]: CASE STUDY
+            - generic [ref=f3e22]: LIVE REPO + CI
+          - heading "Nexural QA OS — Signed-Evidence Runner Fleet" [level=1] [ref=f3e23]
+          - paragraph [ref=f3e24]: QA infrastructure for a 39-repo product federation — an 85-runner fleet that signs its evidence and refuses unearned greens.
+        - generic [ref=f3e25]:
+          - generic [ref=f3e26]:
+            - generic [ref=f3e28]:
+              - generic [ref=f3e29]:
+                - generic [ref=f3e43]:
+                  - generic [ref=f3e51]: RUNNER FLEET
+                  - generic [ref=f3e52]: 85 registered
+                - generic [ref=f3e53]:
+                  - generic [ref=f3e60]: DAG ORCHESTRATOR
+                  - generic [ref=f3e61]: fixture-gated
+                - generic [ref=f3e62]:
+                  - generic [ref=f3e70]: EVIDENCE SIGNER
+                  - generic [ref=f3e71]: sealed bundles
+                - generic [ref=f3e72]:
+                  - generic [ref=f3e80]: QA VERIFY
+                  - generic [ref=f3e81]: trust command
+                - generic [ref=f3e82]:
+                  - generic [ref=f3e90]: SDET LOOP
+                  - generic [ref=f3e91]: qa auto · gen-tests
+                - generic [ref=f3e92]:
+                  - generic [ref=f3e102]: COVERAGE RATCHET
+                  - generic [ref=f3e103]: 52%→91% · 3,698 tests
+                - generic [ref=f3e104]:
+                  - generic [ref=f3e113]: CI GATE
+                  - generic [ref=f3e114]: full-fleet E2E
+                - generic [ref=f3e115]: 11 FALSE-GREENS FIXED
+                - generic [ref=f3e119]: SIGNED RUN DIR
+              - paragraph [ref=f3e123]: "Topology: an 85-runner fleet feeds a DAG orchestrator, whose runs are packaged by a hash-chain evidence signer (Ed25519-capable) and validated by the qa verify trust command. In parallel an autonomous SDET loop drives a 52-to-91-percent coverage ratchet; both paths terminate in the full-fleet CI gate."
+            - generic [ref=f3e124]:
+              - generic [ref=f3e125]:
+                - generic [ref=f3e126]:
+                  - heading "PROBLEM" [level=2] [ref=f3e127]
+                  - paragraph [ref=f3e128]: An 85-runner QA fleet could return green while doing zero work — its evidence was unverifiable terminal scroll.
+                - generic [ref=f3e129]:
+                  - heading "BUILT" [level=2] [ref=f3e130]
+                  - paragraph [ref=f3e131]: "Every runner now emits hash-sealed evidence bundles (Ed25519 signing built in), `qa verify` validates any run directory, and an autonomous SDET loop generates passing tests."
+              - generic [ref=f3e132]:
+                - generic [ref=f3e133]:
+                  - term [ref=f3e134]: runners registered in the fleet
+                  - definition [ref=f3e135]: "85"
+                - generic [ref=f3e136]:
+                  - term [ref=f3e137]: measured line coverage
+                  - definition [ref=f3e138]: 52→91%
+                - generic [ref=f3e139]:
+                  - term [ref=f3e140]: tests behind ratcheting thresholds
+                  - definition [ref=f3e141]: 3,698
+                - generic [ref=f3e142]:
+                  - term [ref=f3e143]: false-green honesty bugs fixed
+                  - definition [ref=f3e144]: "11"
+              - generic [ref=f3e145]:
+                - generic [ref=f3e146]: FAILURE MODES
+                - list [ref=f3e147]:
+                  - listitem [ref=f3e148]: Runners returning green, doing nothing
+                  - listitem [ref=f3e149]: Evidence tampering
+                  - listitem [ref=f3e150]: Hangs counted as passes
+                  - listitem [ref=f3e151]: Silent coverage rot
+              - generic [ref=f3e152]:
+                - heading "EVIDENCE — REAL ARTIFACTS, CAPTURED FROM DISK" [level=4] [ref=f3e153]
+                - generic [ref=f3e154]:
+                  - 'button "Inspect: Signed evidence manifest — every artifact content-hashed, run record signed" [ref=f3e155]':
+                    - generic [ref=f3e156]:
+                      - img "Signed evidence manifest — every artifact content-hashed, run record signed" [ref=f3e157]
+                      - text: INSPECT ⊕
+                    - generic [ref=f3e158]: Signed evidence manifest — every artifact content-hashed, run record signed
+                    - generic [ref=f3e159]: T1
+                  - 'button "Inspect: Git history of honesty-bug fixes — false-pass runners made honest" [ref=f3e160]':
+                    - generic [ref=f3e161]:
+                      - img "Git history of honesty-bug fixes — false-pass runners made honest" [ref=f3e162]
+                      - text: INSPECT ⊕
+                    - generic [ref=f3e163]: Git history of honesty-bug fixes — false-pass runners made honest
+                    - generic [ref=f3e164]: T1
+                  - 'button "Inspect: Measured coverage — 91.45% lines (12,588/13,764), ratcheted thresholds" [ref=f3e165]':
+                    - generic [ref=f3e166]:
+                      - img "Measured coverage — 91.45% lines (12,588/13,764), ratcheted thresholds" [ref=f3e167]
+                      - text: INSPECT ⊕
+                    - generic [ref=f3e168]: Measured coverage — 91.45% lines (12,588/13,764), ratcheted thresholds
+                    - generic [ref=f3e169]: T2
+              - generic [ref=f3e170]:
+                - generic [ref=f3e171]:
+                  - generic [ref=f3e172]: TypeScript
+                  - generic [ref=f3e173]: Turborepo
+                  - generic [ref=f3e174]: pnpm
+                  - generic [ref=f3e175]: Vitest
+                  - generic [ref=f3e176]: evidence signing
+                  - generic [ref=f3e177]: GitHub Actions
+                  - generic [ref=f3e178]: Semgrep
+                  - generic [ref=f3e179]: Gitleaks
+                - paragraph [ref=f3e180]:
+                  - strong [ref=f3e181]: "IMPROVE NEXT:"
+                  - text: "Publish a sanitized sample evidence bundle so anyone can run `qa verify` against a real signed run without repo access."
+          - generic [ref=f3e182]:
+            - link "HIRE ME FOR THIS →" [ref=f3e183] [cursor=pointer]:
+              - /url: /#contact
+            - link "← ALL WORK" [ref=f3e184] [cursor=pointer]:
+              - /url: /#case-studies
+          - navigation "More case studies" [ref=f3e185]:
+            - paragraph [ref=f3e186]: MORE CASE STUDIES
+            - generic [ref=f3e188]:
+              - paragraph [ref=f3e189]: NEXT →
+              - link "Voza — 256-Screen Verification System" [ref=f3e190] [cursor=pointer]:
+                - /url: /work/voza-verification
+    - contentinfo [ref=f3e191]:
+      - generic [ref=f3e192]:
+        - generic [ref=f3e193]:
+          - generic [ref=f3e194]: JASON TEIXEIRA ◆
+          - paragraph [ref=f3e195]: AI systems, QA infrastructure, and automation workflows that prove they work.
+        - navigation "Footer" [ref=f3e196]:
+          - generic [ref=f3e197]:
+            - paragraph [ref=f3e198]: PROOF
+            - list [ref=f3e199]:
+              - listitem [ref=f3e200]:
+                - link "PROOF GRID" [ref=f3e201] [cursor=pointer]:
+                  - /url: /#proof
+              - listitem [ref=f3e202]:
+                - link "CASE STUDIES" [ref=f3e203] [cursor=pointer]:
+                  - /url: /#case-studies
+              - listitem [ref=f3e204]:
+                - link "LEDGER" [ref=f3e205] [cursor=pointer]:
+                  - /url: /#ledger
+              - listitem [ref=f3e206]:
+                - link "WORK SAMPLES" [ref=f3e207] [cursor=pointer]:
+                  - /url: /#work-samples
+          - generic [ref=f3e208]:
+            - paragraph [ref=f3e209]: PAGES
+            - list [ref=f3e210]:
+              - listitem [ref=f3e211]:
+                - link "SERVICES" [ref=f3e212] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=f3e213]:
+                - link "METHOD" [ref=f3e214] [cursor=pointer]:
+                  - /url: /method
+              - listitem [ref=f3e215]:
+                - link "AUDIT" [ref=f3e216] [cursor=pointer]:
+                  - /url: /audit
+              - listitem [ref=f3e217]:
+                - link "WRITING" [ref=f3e218] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=f3e219]:
+                - link "ABOUT" [ref=f3e220] [cursor=pointer]:
+                  - /url: /#about
+          - generic [ref=f3e221]:
+            - paragraph [ref=f3e222]: CODE
+            - list [ref=f3e223]:
+              - listitem [ref=f3e224]:
+                - link "playwright-sdet-regression-suite" [ref=f3e225] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira/playwright-sdet-regression-suite
+              - listitem [ref=f3e226]:
+                - link "sage-kernel" [ref=f3e227] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira/sage-kernel
+              - listitem [ref=f3e228]:
+                - link "Nexural_Automation" [ref=f3e229] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira/Nexural_Automation
+              - listitem [ref=f3e230]:
+                - link "nexural-automation-starter" [ref=f3e231] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira/nexural-automation-starter
+              - listitem [ref=f3e232]:
+                - link "graphify" [ref=f3e233] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira/graphify
+          - generic [ref=f3e234]:
+            - paragraph [ref=f3e235]: CONTACT
+            - list [ref=f3e236]:
+              - listitem [ref=f3e237]:
+                - link "sage@sageideas.dev" [ref=f3e238] [cursor=pointer]:
+                  - /url: mailto:sage@sageideas.dev
+              - listitem [ref=f3e239]:
+                - link "LINKEDIN" [ref=f3e240] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/jason-teixeira/
+              - listitem [ref=f3e241]:
+                - link "GITHUB" [ref=f3e242] [cursor=pointer]:
+                  - /url: https://github.com/JasonTeixeira
+              - listitem [ref=f3e243]:
+                - link "BOOK A CALL" [ref=f3e244] [cursor=pointer]:
+                  - /url: https://sageideas.dev/book
+      - generic [ref=f3e245]:
+        - generic [ref=f3e246]: © 2026 JASON TEIXEIRA — BUILT AS A PROOF SYSTEM
+        - generic [ref=f3e247]: NO INVENTED METRICS · UNVERIFIED WORK IS LABELED PROTOTYPE OR LOCAL PROOF · EVERY DIAGRAM BUILT IN CODE
+        - generic [ref=f3e248]: "gate: SHIP ✓"
+  - alert [ref=f3e249]

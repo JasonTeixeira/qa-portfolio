@@ -1,6 +1,11 @@
 import { Reveal } from '@/components/agency/core'
 import { SectionShell } from '@/components/agency/section-shell'
 import { TiltCard } from '@/components/agency/islands/tilt-card'
+import {
+  ArtifactInspectorProvider,
+  InspectableArtifact,
+  InspectorButton,
+} from '@/components/agency/islands/artifact-inspector'
 import { EVIDENCE_CAPTURES } from '@/data/agency/evidence-manifest'
 
 interface WorkSample {
@@ -56,7 +61,8 @@ const WORK_SAMPLES: WorkSample[] = [
   },
 ]
 
-/** Section 06 — Work samples: six labeled tilt frames awaiting real artifacts. */
+/** Section 06 — Work samples: six labeled tilt frames, each an inspector trigger
+ *  into the full 18-capture evidence vault. */
 export function WorkSamplesSection() {
   return (
     <SectionShell
@@ -66,37 +72,49 @@ export function WorkSamplesSection() {
       annotation="REAL ARTIFACTS, PULLED FROM DISK"
       ghost="05"
     >
-      <div className="ag-ws-grid">
-        {WORK_SAMPLES.map((sample, i) => (
-          <Reveal key={sample.title} delay={i * 60}>
-            <TiltCard className="ag-ws-card">
-              {(() => {
-                const capture = EVIDENCE_CAPTURES.find((c) => c.slot === sample.key)
-                return capture ? (
-                  <figure className="ag-ws-slot ag-ws-slot--filled">
-                    <img
-                      src={capture.file}
-                      alt={capture.title}
-                      width={1200}
-                      height={750}
-                      loading="lazy"
-                    />
-                    <figcaption className="ag-ws-slot-caption">{capture.title}</figcaption>
-                  </figure>
-                ) : (
-                  <figure className="ag-ws-slot">
-                    <figcaption className="ag-ws-slot-caption">{sample.placeholder}</figcaption>
-                  </figure>
-                )
-              })()}
-              <h3 className="ag-ws-title">{sample.title}</h3>
-              <p className="ag-ws-proves">
-                {sample.proves} <span className="ag-ws-tooling">{sample.tooling}</span>
-              </p>
-            </TiltCard>
-          </Reveal>
-        ))}
-      </div>
+      <ArtifactInspectorProvider captures={EVIDENCE_CAPTURES}>
+        <div className="ag-ws-grid">
+          {WORK_SAMPLES.map((sample, i) => (
+            <Reveal key={sample.title} delay={i * 60}>
+              <TiltCard className="ag-ws-card">
+                {(() => {
+                  const capture = EVIDENCE_CAPTURES.find((c) => c.slot === sample.key)
+                  return capture ? (
+                    <InspectableArtifact
+                      capture={capture}
+                      className="ag-ws-slot ag-ws-slot--filled"
+                    >
+                      <span className="ag-inspect-media">
+                        <img
+                          src={capture.file}
+                          alt={capture.title}
+                          width={1200}
+                          height={750}
+                          loading="lazy"
+                        />
+                      </span>
+                      <span className="ag-ws-slot-caption">{capture.title}</span>
+                    </InspectableArtifact>
+                  ) : (
+                    <figure className="ag-ws-slot">
+                      <figcaption className="ag-ws-slot-caption">{sample.placeholder}</figcaption>
+                    </figure>
+                  )
+                })()}
+                <h3 className="ag-ws-title">{sample.title}</h3>
+                <p className="ag-ws-proves">
+                  {sample.proves} <span className="ag-ws-tooling">{sample.tooling}</span>
+                </p>
+              </TiltCard>
+            </Reveal>
+          ))}
+        </div>
+        <div className="ag-ws-vault">
+          <InspectorButton index={0} className="ag-ws-vault-btn">
+            {EVIDENCE_CAPTURES.length} ARTIFACTS ON FILE — OPEN THE VAULT →
+          </InspectorButton>
+        </div>
+      </ArtifactInspectorProvider>
     </SectionShell>
   )
 }

@@ -12,6 +12,7 @@ import './statement.css'
 import './contact-form.css'
 import './mobile.css'
 import './motion.css'
+import './inspector.css'
 import './mobile-fixes.css'
 
 // wght-only variable Archivo (~45KB vs 89KB with the wdth axis): the width axis

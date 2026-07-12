@@ -10,6 +10,10 @@ import { TestPyramid } from '@/components/agency/islands/test-pyramid'
 import { GroundingDemo } from '@/components/agency/islands/grounding-demo'
 import { BeforeAfterToggle } from '@/components/agency/islands/before-after'
 import { CountUp } from '@/components/agency/islands/count-up'
+import {
+  ArtifactInspectorProvider,
+  InspectableArtifact,
+} from '@/components/agency/islands/artifact-inspector'
 import { CASE_STUDIES, type CaseStudy } from '@/data/agency/case-studies'
 import { EVIDENCE_CAPTURES } from '@/data/agency/evidence-manifest'
 import './work.css'
@@ -67,29 +71,37 @@ function EvidenceStrip({ study }: { study: CaseStudy }) {
       <h4 className="ag-cs-evidence-h">
         {captures.length > 0 ? 'EVIDENCE — REAL ARTIFACTS, CAPTURED FROM DISK' : 'EVIDENCE — REAL ARTIFACT PENDING DROP-IN'}
       </h4>
-      <div className="ag-cs-slots">
-        {captures.map((capture) => (
-          <figure key={capture.file} className="ag-cs-slot ag-cs-slot--filled">
-            <img
-              src={capture.file}
-              alt={capture.title}
-              width={1200}
-              height={750}
-              loading="lazy"
-            />
-            <figcaption className="ag-cs-slot-caption">{capture.title}</figcaption>
-            <span className={`ag-cs-tier ag-cs-tier--${capture.tier.toLowerCase()}`}>
-              {capture.tier}
-            </span>
-          </figure>
-        ))}
-        {placeholders.map((slot) => (
-          <figure key={slot.caption} className="ag-cs-slot">
-            <figcaption className="ag-cs-slot-caption">{slot.caption} · PENDING</figcaption>
-            <span className={`ag-cs-tier ag-cs-tier--${slot.tier.toLowerCase()}`}>{slot.tier}</span>
-          </figure>
-        ))}
-      </div>
+      <ArtifactInspectorProvider captures={captures}>
+        <div className="ag-cs-slots">
+          {captures.map((capture) => (
+            <InspectableArtifact
+              key={capture.file}
+              capture={capture}
+              className="ag-cs-slot ag-cs-slot--filled"
+            >
+              <span className="ag-inspect-media">
+                <img
+                  src={capture.file}
+                  alt={capture.title}
+                  width={1200}
+                  height={750}
+                  loading="lazy"
+                />
+              </span>
+              <span className="ag-cs-slot-caption">{capture.title}</span>
+              <span className={`ag-cs-tier ag-cs-tier--${capture.tier.toLowerCase()}`}>
+                {capture.tier}
+              </span>
+            </InspectableArtifact>
+          ))}
+          {placeholders.map((slot) => (
+            <figure key={slot.caption} className="ag-cs-slot">
+              <figcaption className="ag-cs-slot-caption">{slot.caption} · PENDING</figcaption>
+              <span className={`ag-cs-tier ag-cs-tier--${slot.tier.toLowerCase()}`}>{slot.tier}</span>
+            </figure>
+          ))}
+        </div>
+      </ArtifactInspectorProvider>
     </div>
   )
 }

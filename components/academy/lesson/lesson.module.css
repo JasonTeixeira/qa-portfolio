@@ -140,8 +140,12 @@
 /* PROMOTE DIAGRAMS — marquee visuals (system-map, viz, walkthrough, compare)
    get a wider frame + more breathing room so node labels stay legible and the
    figure actually lands. Layout-only, still centered in the content cell. */
+/* MARQUEE DIAGRAM (blocker #3) — the system-map is the lesson's centerpiece, so
+   its wide frame gets the widest bleed. The SVG scales to this width preserving
+   its laid-out aspect ratio, so a wider frame renders every node + label larger
+   (no distortion, layout-only → 0 CLS). */
 .visualBleed[data-viz='wide'] {
-  width: min(1040px, calc(100vw - 304px - 3rem));
+  width: min(1140px, calc(100vw - 304px - 2rem));
 }
 .notesSlot { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--ac-rule); }
 
@@ -204,20 +208,8 @@
 }
 .prose { margin: 0 0 1.6rem; font-size: var(--ac-step-0, 1.06rem); line-height: var(--ac-leading-body, 1.62); color: var(--ac-ink-soft); }
 
-/* code */
-.code { margin: 0 0 1.8rem; border: 1px solid var(--ac-rule, var(--line)); border-radius: 12px; background: var(--ac-bg); overflow: hidden; box-shadow: var(--ac-elev-1); }
-.codeBar { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--ac-rule, var(--line)); background: var(--ac-surface); }
-.dots { display: inline-flex; gap: 5px; }
-.dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ac-rule-strong); }
-.codeName { font-family: var(--ac-font-mono); font-size: 0.72rem; color: var(--ac-ink-soft); }
-.copy { margin-left: auto; border: 0; background: none; cursor: pointer; font-family: var(--ac-font-mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--ac-ink-faint); transition: color 0.2s ease; }
-.copy:hover { color: var(--ac-accent-text); }
-.codeBody { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; }
-.codeLine { display: block; font-family: var(--ac-font-mono); font-size: 0.84rem; line-height: 1.7; color: var(--ac-ink-soft); white-space: pre; }
-.kw { color: var(--topic); }
-.str { color: var(--ac-accent-text); }
-.cmt { color: var(--ac-ink-faint); font-style: italic; }
-.num { color: var(--ac-accent-text); }
+/* code — the `code` block now renders through the shared CodeSurface well
+   (components/academy/lesson/CodeSurface.tsx + code-surface.module.css). */
 
 /* video */
 .video { position: relative; margin: 0 0 1.8rem; aspect-ratio: 16 / 9; border-radius: 12px; border: 1px solid var(--line); background: radial-gradient(circle at 50% 42%, var(--ac-surface-2), var(--ac-bg)); overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -305,6 +297,10 @@
 .footerCta { --btn-tone: var(--topic); }
 /* the demoted, quiet "mark complete" — arc.btnGhost supplies the base look */
 .footerComplete { font-family: var(--ac-font-display); font-size: 0.86rem; }
+/* the proof-gated quiet "Next section" — advances WITHOUT completing (blocker #4).
+   arc.btnGhost supplies the base; this just keeps it mono + unemphasized so it
+   never competes with the in-lesson proof CTAs. */
+.footerNext { font-family: var(--ac-font-mono); font-size: 0.78rem; letter-spacing: 0.02em; }
 .footerCompleteDone { border-color: color-mix(in srgb, var(--ac-mastery) 55%, transparent); color: var(--ac-mastery); background: color-mix(in srgb, var(--ac-mastery) 10%, transparent); }
 .footerCompleteDone:hover { border-color: var(--ac-mastery); color: var(--ac-mastery); background: color-mix(in srgb, var(--ac-mastery) 15%, transparent); }
 

@@ -5,6 +5,7 @@ import { loopStep } from '@/lib/academy/engine'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
 import { ArtifactComposer } from './ArtifactComposer'
+import { CodeSurface } from './CodeSurface'
 import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
 import { Icon, type IconName } from '@/components/academy/ui/Icon'
 import { archetypeFor, type Archetype } from './LessonSpine'
@@ -127,14 +128,11 @@ function splitPullQuote(text: string): { quote: string; rest: string } | null {
   return { quote, rest }
 }
 
-function Mono({ code }: { code: string }) {
-  // tabIndex=0 makes the horizontally-scrollable code block keyboard-reachable
-  // (WCAG 2.1.1 — axe scrollable-region-focusable). role/label name the region.
-  return (
-    <pre className={styles.code} tabIndex={0} role="region" aria-label="Code sample">
-      <code>{code}</code>
-    </pre>
-  )
+/** Thin adapter to the shared CodeSurface well. Keeps the (code, language)
+ *  contract worked-example / debug already carry; CodeSurface owns the a11y
+ *  (tabIndex=0 / role="region" / aria-label) + token highlighting + gutter. */
+function Mono({ code, language, label }: { code: string; language?: 'python' | 'ts' | 'bash'; label?: string }) {
+  return <CodeSurface code={code} language={language} filename={label} ariaLabel="Code sample" />
 }
 
 function SprintContract({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'sprint-contract' }> } & EvidenceProps) {
@@ -210,7 +208,7 @@ function WorkedExample({ b }: { b: Extract<LessonBlock, { type: 'worked-example'
   return (
     <Section blockKey="worked-example">
       <p className={arc.narrativeBody}>{b.intro}</p>
-      {b.code ? <Mono code={b.code} /> : null}
+      {b.code ? <Mono code={b.code} language={b.language} /> : null}
       {steps.length ? <ol className={styles.steps}>{steps.map((s, i) => <li key={i}>{s}</li>)}</ol> : null}
       {b.commonMistake ? <p className={styles.mistake}><strong>Common mistake:</strong> {b.commonMistake}</p> : null}
     </Section>
@@ -234,12 +232,47 @@ function Concept({ b }: { b: Extract<LessonBlock, { type: 'concept' }> }) {
   )
 }
 
+/** MISSION — the lesson's opening hook. A long mission gets a big serif lead line
+ *  (pull-quote scale-contrast) + a body paragraph so it never reads as a wall. */
+function Mission({ b }: { b: Extract<LessonBlock, { type: 'mission' }> }) {
+  const split = splitPullQuote(b.text)
+  return (
+    <Section blockKey="mission">
+      {split ? (
+        <>
+          <p className={styles.missionText}>{split.quote}</p>
+          <p className={arc.narrativeBody}>{split.rest}</p>
+        </>
+      ) : (
+        <p className={styles.missionText}>{b.text}</p>
+      )}
+    </Section>
+  )
+}
+
+/** CONTEXT — narrative prose; a long one is broken with the editorial pull-quote. */
+function Context({ b }: { b: Extract<LessonBlock, { type: 'context' }> }) {
+  const split = splitPullQuote(b.text)
+  return (
+    <Section blockKey="context">
+      {split ? (
+        <>
+          <p className={arc.pullQuote}>{split.quote}</p>
+          <p className={arc.narrativeBody}>{split.rest}</p>
+        </>
+      ) : (
+        <p className={arc.narrativeBody}>{b.text}</p>
+      )}
+    </Section>
+  )
+}
+
 function DebugBlock({ b }: { b: Extract<LessonBlock, { type: 'debug' }> }) {
   const [shown, setShown] = useState(false)
   return (
     <Section blockKey="debug" tone="danger">
       <p className={styles.lead}><strong>Symptom:</strong> {b.symptom}</p>
-      <Mono code={b.brokenCode} />
+      <Mono code={b.brokenCode} language={b.language} label="broken case" />
       <p className={styles.task}>{b.task}</p>
       {!shown ? (
         <button type="button" className={arc.btnGhost} onClick={() => setShown(true)}>Show the fix <Icon name="arrow-right" size={14} /></button>
@@ -445,8 +478,8 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
 export function SprintBlock({ block, courseSlug, lessonSlug }: { block: LessonBlock } & EvidenceProps): ReactNode {
   switch (block.type) {
     case 'sprint-contract': return <SprintContract b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
-    case 'mission': return <Section blockKey="mission"><p className={styles.missionText}>{block.text}</p></Section>
-    case 'context': return <Section blockKey="context"><p className={arc.narrativeBody}>{block.text}</p></Section>
+    case 'mission': return <Mission b={block} />
+    case 'context': return <Context b={block} />
     case 'pretest': return <Pretest b={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     case 'worked-example': return <WorkedExample b={block} />
     case 'concept': return <Concept b={block} />

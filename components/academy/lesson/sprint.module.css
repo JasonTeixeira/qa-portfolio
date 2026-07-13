@@ -71,8 +71,7 @@
 .reveal[data-verdict='pass'] { --tone: var(--ac-mastery); }
 .reveal[data-verdict='fail'] { --tone: var(--ac-danger); }
 
-.code { margin: 0 0 0.9rem; padding: 0.9rem 1rem; border-radius: 10px; background: var(--ac-bg); border: 1px solid var(--ac-rule, var(--line)); overflow-x: auto; }
-.code code { font-family: var(--ac-font-mono); font-size: 0.84rem; line-height: 1.65; color: var(--ac-ink-soft); white-space: pre; }
+/* worked-example / debug code now render through the shared CodeSurface well. */
 
 .steps { margin: 0 0 0.9rem; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
 .steps li { color: var(--ac-ink-soft); line-height: 1.55; }
@@ -82,11 +81,31 @@
 .conceptTitle { margin: 0 0 0.5rem; font-family: var(--ac-font-display); font-weight: 700; font-size: 1.2rem; }
 .conceptText { margin: 0; color: var(--ac-ink); line-height: 1.65; font-size: 1.02rem; }
 
-/* tradeoff */
-.tradeoffGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-.tradeoffCard { text-align: left; cursor: pointer; border: 1px solid var(--line); border-radius: 12px; background: var(--ac-surface); padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.4rem; transition: border-color 0.18s ease, background 0.18s ease; }
-.tradeoffCard:hover { border-color: color-mix(in srgb, var(--tone) 40%, transparent); }
-.tradeoffCard[data-on='true'] { border-color: var(--tone); background: color-mix(in srgb, var(--tone) 10%, transparent); }
+/* tradeoff — a TRUE two-column split (blocker #2 composition variation): a
+   dividing seam down the middle + OPPOSING tints (option A leans accent, option B
+   leans amber) so the block reads as "weigh A vs B", visually distinct from every
+   other panel even with labels stripped. */
+.tradeoffGrid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.tradeoffGrid::before {
+  /* the dividing seam */
+  content: '';
+  grid-column: 2;
+  grid-row: 1;
+  background: linear-gradient(180deg, transparent, var(--ac-rule-strong) 22%, var(--ac-rule-strong) 78%, transparent);
+}
+.tradeoffCard { text-align: left; cursor: pointer; border: 0; border-radius: 0; background: var(--ac-surface); padding: 1rem 1.15rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background 0.18s ease, box-shadow 0.18s ease; }
+/* opposing tints per side */
+.tradeoffCard:nth-of-type(1) { grid-column: 1; background: color-mix(in srgb, var(--lp-action, #3d5afe) 5%, var(--ac-surface)); }
+.tradeoffCard:nth-of-type(2) { grid-column: 3; background: color-mix(in srgb, var(--lp-proof, #e0a93e) 5%, var(--ac-surface)); }
+.tradeoffCard:hover { background: color-mix(in srgb, var(--tone) 9%, var(--ac-surface)); }
+.tradeoffCard[data-on='true'] { background: color-mix(in srgb, var(--tone) 13%, var(--ac-surface)); box-shadow: inset 0 2px 0 0 var(--tone); }
 .tradeoffLabel { font-family: var(--ac-font-display); font-weight: 700; color: var(--ink); }
 .tradeoffText { color: var(--ac-ink-soft); font-size: 0.88rem; line-height: 1.45; }
 
@@ -125,7 +144,12 @@
 .gate[data-open='true'] .gateState { color: var(--ac-mastery); }
 
 @media (max-width: 640px) {
+  /* stack the two options; the seam column collapses and cards span full width */
   .tradeoffGrid { grid-template-columns: 1fr; }
+  .tradeoffGrid::before { display: none; }
+  .tradeoffCard:nth-of-type(1),
+  .tradeoffCard:nth-of-type(2) { grid-column: 1; }
+  .tradeoffCard:nth-of-type(1) { border-bottom: 1px solid var(--line); }
   .contractGrid > div { grid-template-columns: 1fr; gap: 0.2rem; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -125,8 +125,11 @@ export function LessonSpine({ blocks }: { blocks: LessonBlock[] }) {
       </div>
       <p className={styles.spineMeta} role="status" aria-live="polite">
         <span className={styles.spinePhase}>{phase}</span>
+        {/* Explicit per-lesson step locator (blocker #5) — "Step N of M" so this
+            reads as position-in-lesson, never confused with the sidebar's
+            course-level "% · lessons" or the header's best-mastery score. */}
         <span className={styles.spineCount}>
-          {String(active + 1).padStart(2, '0')} / {String(blocks.length).padStart(2, '0')}
+          Step {active + 1} of {blocks.length}
         </span>
       </p>
     </div>

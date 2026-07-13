@@ -10,9 +10,13 @@ import type { ScoreResolution } from '@/lib/academy/caps-logic'
 export function ScoreCapMeter({
   resolution,
   className = '',
+  label = 'Mastery score',
 }: {
   resolution: ScoreResolution
   className?: string
+  /** Caption above the meter. Defaults to "Mastery score"; the lesson player
+   *  passes "Best mastery" to disambiguate prior/best from this-session progress. */
+  label?: string
 }) {
   const { score, binding } = resolution
   const capped = binding !== null
@@ -24,7 +28,7 @@ export function ScoreCapMeter({
           className="font-mono text-[11px] uppercase tracking-[0.1em]"
           style={{ color: 'var(--ac-ink-faint)' }}
         >
-          Mastery score
+          {label}
         </span>
         <span className="font-mono text-lg font-semibold tabular-nums" style={{ color: accent }}>
           {score}

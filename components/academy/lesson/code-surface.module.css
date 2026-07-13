@@ -1,0 +1,123 @@
+/* Shared CODE WELL for the lesson player (CodeSurface.tsx).
+   An inset, lifted editor surface — inner border + inset shadow "well", a
+   language/label header chip, a line-number gutter, and token colors driven by
+   the shared colorizer. All on the existing --ac-* palette; every token AA on
+   the near-black code floor. Inherits --ac-* from the player root. */
+
+.well {
+  margin: 0 0 var(--ac-space-sm, 1rem);
+  border: 1px solid var(--ac-rule, #1e1e24);
+  border-radius: var(--ac-radius-lg, 14px);
+  background: var(--ac-surface, #111115);
+  box-shadow: var(--ac-elev-1);
+  overflow: hidden;
+}
+.well:last-child {
+  margin-bottom: 0;
+}
+
+/* header chip row: os-dots + filename/label + language tag (+ optional copy) */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--ac-rule, #1e1e24);
+  background: linear-gradient(180deg, var(--ac-surface-2) 0%, var(--ac-surface) 100%);
+}
+.dots {
+  display: inline-flex;
+  gap: 5px;
+  flex: none;
+}
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ac-rule-strong);
+}
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--ac-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--ac-ink-soft);
+}
+.lang {
+  margin-left: auto;
+  flex: none;
+  padding: 0.16rem 0.5rem;
+  border-radius: var(--ac-radius-pill, 999px);
+  border: 1px solid color-mix(in srgb, var(--ac-accent-text) 34%, transparent);
+  background: color-mix(in srgb, var(--ac-accent-text) 12%, transparent);
+  font-family: var(--ac-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ac-accent-text);
+}
+/* when copy is present, it sits after the lang chip */
+.copy {
+  flex: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--ac-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--ac-ink-faint);
+  transition: color var(--ac-dur-fast, 150ms) ease;
+}
+.copy:hover {
+  color: var(--ac-accent-text);
+}
+
+/* the well body — the recessed code floor with an inset top shadow for depth */
+.body {
+  margin: 0;
+  padding: 0.85rem 0;
+  overflow-x: auto;
+  background: var(--ac-bg, #0b0b0e);
+  box-shadow: inset 0 1px 0 0 color-mix(in srgb, #000 40%, transparent),
+    inset 0 8px 14px -12px #000;
+}
+.body:focus-visible {
+  outline: 2px solid var(--ac-accent-text, #8fa0ff);
+  outline-offset: -2px;
+}
+
+.codeGrid {
+  display: block;
+  font-family: var(--ac-font-mono);
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+/* each physical line = gutter number + source; the gutter width tracks digits */
+.row {
+  display: grid;
+  grid-template-columns: calc(var(--gutter-ch, 2) * 1ch + 1.7rem) 1fr;
+  align-items: baseline;
+  /* keep blank source lines at full line-height (renderTokens returns null for
+     empty lines, which would otherwise collapse the row). */
+  min-height: 1.7em;
+}
+.ln {
+  padding-right: 0.9rem;
+  text-align: right;
+  color: var(--ac-ink-faint);
+  opacity: 0.5;
+  font-size: 0.76rem;
+  user-select: none;
+  -webkit-user-select: none;
+  border-right: 1px solid color-mix(in srgb, var(--ac-rule) 60%, transparent);
+}
+.src {
+  padding: 0 1.1rem;
+  color: var(--ac-ink-soft);
+  white-space: pre;
+}

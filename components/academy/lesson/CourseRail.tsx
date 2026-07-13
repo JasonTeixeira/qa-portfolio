@@ -119,8 +119,10 @@ function RailTree({
         <div className={styles.bar} aria-hidden="true">
           <span style={{ width: `${pct}%` }} />
         </div>
+        {/* Course-level locator — explicitly "lessons done" so it never reads as
+            this-lesson step position or the header's best-mastery score (blocker #5). */}
         <p className={styles.barLabel}>
-          {pct}% complete · {course.lessonsDone} / {course.lessonsTotal} lessons
+          Course · {course.lessonsDone} of {course.lessonsTotal} lessons done ({pct}%)
         </p>
       </div>
       <nav className={styles.tree} aria-label="Course contents">

@@ -63,6 +63,36 @@
 }
 .narrativeBody:last-child { margin-bottom: 0; }
 
+/* ── DESIGNED INLINE EMPHASIS (blocker #6) ────────────────────────────────
+   Replace crude ALL-CAPS shouting in prose with a designed emphasis token: the
+   text keeps its case + reading rhythm, but gains a semantic accent color + a
+   soft accent underline (not a full-weight bold slab). Scoped to prose inside
+   the lesson (.scope) so it never touches labels, kbd, or badges. Every emphasis
+   inherits its hue from --emph (defaults to the accent-text role; a danger/proof
+   surface can retint via --emph on the surrounding block). */
+.scope p strong,
+.scope p em,
+.scope li strong,
+.scope li em,
+.emph {
+  --emph: var(--lp-action-text, #8fa0ff);
+  font-weight: 600;
+  font-style: normal;
+  color: var(--emph);
+  text-transform: none;
+  /* a hairline accent underline via layered background — no layout, no caps */
+  background-image: linear-gradient(var(--emph), var(--emph));
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  padding-bottom: 0.02em;
+}
+/* semantic retint: emphasis inherits the surrounding block's role hue */
+.scope [data-tone='danger'] p strong,
+.scope [data-tone='danger'] li strong { --emph: var(--lp-trap, #e5484d); }
+.scope [data-tone='warm'] p strong,
+.scope [data-tone='warm'] li strong { --emph: var(--lp-proof, #e0a93e); }
+
 /* Editorial pull-quote — ONE key line lifted big at a block boundary.
    Serif, large, accent hairline. Pure scale contrast, no card. */
 .pullQuote {
@@ -84,11 +114,14 @@
 .panel {
   position: relative;
   margin: var(--ac-space-md, 1.5rem) 0;
-  border: 1px solid var(--ac-rule, var(--line));
+  border: 1px solid color-mix(in srgb, var(--panel-edge, var(--lp-action)) 20%, var(--ac-rule));
   border-radius: var(--ac-radius-lg, 14px);
+  /* TIER 2 · RAISED PANEL — a full-surface SEMANTIC WASH (not just the top edge):
+     the whole card carries a faint tint of its role hue so archetypes stay
+     distinct even with labels stripped. Top-edge gradient + elev-1 give depth. */
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--panel-edge, var(--lp-action)) 6%, transparent) 0%, transparent 34%),
-    var(--ac-surface);
+    linear-gradient(180deg, color-mix(in srgb, var(--panel-edge, var(--lp-action)) 9%, transparent) 0%, transparent 42%),
+    color-mix(in srgb, var(--panel-edge, var(--lp-action)) 4%, var(--ac-surface));
   box-shadow: var(--ac-elev-1);
   overflow: hidden;
   --panel-edge: var(--lp-action);
@@ -113,9 +146,11 @@
   border: 1px solid color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 34%, var(--ac-rule));
   border-left: 3px solid var(--proof-tone, var(--lp-proof));
   border-radius: var(--ac-radius-lg, 14px);
+  /* TIER 2b · PROOF/GATE — weightier than a panel: elev-2 + a stronger full-
+     surface wash of its semantic hue so "this is graded" reads pre-attentively. */
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 7%, transparent) 0%, transparent 40%),
-    var(--ac-surface);
+    linear-gradient(180deg, color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 11%, transparent) 0%, transparent 46%),
+    color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 5%, var(--ac-surface));
   box-shadow: var(--ac-elev-2);
   overflow: hidden;
 }

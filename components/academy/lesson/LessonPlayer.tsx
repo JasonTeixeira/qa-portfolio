@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition, type ReactNode, type CSSProperties } from 'react'
+import { useEffect, useState, useTransition, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { topic } from '@/lib/academy/topics'
@@ -24,60 +24,21 @@ import { SageCodeWalkthrough } from '@/components/academy/visuals/SageCodeWalkth
 import { SageCompare } from '@/components/academy/visuals/SageCompare'
 import { RevealStagger } from '@/components/academy/visuals/reveal'
 import { LessonSpine, blockAnchorId } from './LessonSpine'
+import { CodeSurface } from './CodeSurface'
 import styles from './lesson.module.css'
 import arc from './archetype.module.css'
 
-const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
-const JS_KW = ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'import', 'from', 'export', 'await', 'async', 'new', 'class', 'true', 'false', 'null', 'undefined']
-
-/** Lightweight, safe (no innerHTML) syntax highlighter for the sample blocks. Shiki swaps in later for full fidelity. */
-function highlightLine(line: string, lang: string): ReactNode[] {
-  const kw = lang === 'python' ? PY_KW : JS_KW
-  const comment = lang === 'python' ? '#' : '//'
-  const re = new RegExp(`("[^"]*"|'[^']*'|${comment === '#' ? '#' : '//'}.*$|\\b(?:${kw.join('|')})\\b|\\b\\d+(?:\\.\\d+)?\\b)`, 'g')
-  const out: ReactNode[] = []
-  let last = 0
-  let m: RegExpExecArray | null
-  while ((m = re.exec(line)) !== null) {
-    if (m.index > last) out.push(line.slice(last, m.index))
-    const tk = m[0]
-    let cls = styles.kw
-    if (tk.startsWith('"') || tk.startsWith("'")) cls = styles.str
-    else if (tk.startsWith(comment)) cls = styles.cmt
-    else if (/^\d/.test(tk)) cls = styles.num
-    out.push(<span key={m.index} className={cls}>{tk}</span>)
-    last = m.index + tk.length
-    if (m.index === re.lastIndex) re.lastIndex++
-  }
-  if (last < line.length) out.push(line.slice(last))
-  return out
-}
-
+/** The lesson's `code` block now renders through the shared CodeSurface well
+ *  (line-number gutter + language chip + token highlighting + copy control). */
 function CodeBlock({ block }: { block: Extract<LessonBlock, { type: 'code' }> }) {
-  const [copied, setCopied] = useState(false)
   return (
-    <div className={styles.code}>
-      <div className={styles.codeBar}>
-        <span className={styles.dots} aria-hidden="true"><i /><i /><i /></span>
-        <span className={styles.codeName}>{block.filename}</span>
-        <button
-          type="button"
-          className={styles.copy}
-          onClick={() => {
-            navigator.clipboard?.writeText(block.code)
-            setCopied(true)
-            window.setTimeout(() => setCopied(false), 1400)
-          }}
-        >
-          {copied ? 'copied' : 'copy'}
-        </button>
-      </div>
-      <pre className={styles.codeBody}>
-        {block.code.split('\n').map((line, i) => (
-          <code key={i} className={styles.codeLine}>{highlightLine(line, block.language)}</code>
-        ))}
-      </pre>
-    </div>
+    <CodeSurface
+      code={block.code}
+      language={block.language}
+      filename={block.filename}
+      copyable
+      ariaLabel={`Code — ${block.filename}`}
+    />
   )
 }
 
@@ -297,6 +258,21 @@ export function LessonPlayer({
 
   const lessonHref = (slug: string) => `/academy/learn/${course.slug}/${slug}`
 
+  // PROOF GATE (blocker #4). The footer primary only promotes to a real
+  // "Mark complete" once the sprint's proofs are satisfied. Proofs are satisfied
+  // when the evidence-spine unit is 'complete', or the lesson was already
+  // completed, or this lesson isn't evidence-tracked at all (no unitState —
+  // e.g. a plain content lesson), so we never trap a learner with no gate to clear.
+  const proofsMet = completed || !unitState || unitState === 'complete'
+
+  // Quiet advance: move to the next section WITHOUT marking complete. Used by the
+  // gated footer while proofs are still outstanding, so a learner can read ahead
+  // but cannot skip the proof by hitting the primary CTA.
+  const onAdvance = () => {
+    if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug))
+    else router.refresh()
+  }
+
   const onComplete = () => {
     startTransition(async () => {
       const res = await markLessonComplete(course.slug, lesson.slug)
@@ -325,12 +301,14 @@ export function LessonPlayer({
       if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return
       if (e.key === 'j' && lesson.nextSlug) { e.preventDefault(); router.push(lessonHref(lesson.nextSlug)) }
       else if (e.key === 'k' && lesson.prevSlug) { e.preventDefault(); router.push(lessonHref(lesson.prevSlug)) }
-      else if (e.key === 'c' && signedIn && !completed && !pending) { e.preventDefault(); onComplete() }
+      // `c` marks complete only once proofs are met; before that it's inert so
+      // the shortcut can't bypass the proof gate (mirrors the footer promotion).
+      else if (e.key === 'c' && signedIn && !completed && !pending && proofsMet) { e.preventDefault(); onComplete() }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson.nextSlug, lesson.prevSlug, signedIn, completed, pending])
+  }, [lesson.nextSlug, lesson.prevSlug, signedIn, completed, pending, proofsMet])
 
   return (
     <div className={styles.root} style={rootStyle}>
@@ -370,12 +348,16 @@ export function LessonPlayer({
                 {unitState ? <StateBadge state={unitState} /> : null}
                 {unitScore ? (
                   <div style={{ minWidth: '12rem', flex: '1 1 12rem', maxWidth: '20rem' }}>
-                    <ScoreCapMeter resolution={unitScore} />
+                    {/* Labeled "Best mastery" so the number reads as prior/best —
+                        NOT this-session progress (blocker #5 reconciliation). */}
+                    <ScoreCapMeter resolution={unitScore} label="Best mastery" />
                   </div>
                 ) : null}
               </div>
-              {/* The rail can read 'done' while the spine reads 'transfer due': mastery is
-                  evidence-gated, not completion-gated. One short clarifier for that dual truth. */}
+              {/* Reconcile the two numbers a learner sees at once (blocker #5):
+                  "Best mastery" = the prior/best capped score for this unit; the
+                  sidebar % + the in-lesson "Step N of M" are THIS session's
+                  position. Mastery is evidence-gated, not completion-gated. */}
               <p
                 style={{
                   margin: '0.5rem 0 0',
@@ -383,7 +365,7 @@ export function LessonPlayer({
                   color: 'var(--muted, var(--ac-ink-muted))',
                 }}
               >
-                Mastery is evidence-gated — complete the sprint to reach 100.
+                Best mastery is your prior best for this unit — evidence-gated, not the same as this session&rsquo;s progress. Complete the sprint proofs to lift it toward 100.
               </p>
             </div>
           ) : null}
@@ -439,24 +421,43 @@ export function LessonPlayer({
           <span />
         )}
         <span className={styles.kbdHint} aria-hidden="true">
-          <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>c</kbd> complete
+          <kbd>j</kbd>/<kbd>k</kbd> move{proofsMet && !completed ? (<> · <kbd>c</kbd> complete</>) : null}
         </span>
         {locked ? (
           // Membership unlock is the one place the footer carries a true primary CTA.
           <Link className={`${arc.btnPrimary} ${styles.footerCta}`} href="/academy/join">Unlock all-access <Icon name="arrow-right" size={16} /></Link>
-        ) : signedIn ? (
-          // Demoted to a QUIET action so the in-block required proof (Open lab,
-          // Check answer, Submit for grading) reads as the primary. Once done it
-          // flips to the semantic verified/green state.
+        ) : signedIn && completed ? (
+          // Already complete → a quiet, verified "continue" (no re-complete).
           <button
             type="button"
-            className={`${arc.btnGhost} ${styles.footerComplete} ${completed ? styles.footerCompleteDone : ''}`}
+            className={`${arc.btnGhost} ${styles.footerComplete} ${styles.footerCompleteDone}`}
+            onClick={onAdvance}
+          >
+            <Icon name="check" size={15} /> Completed · continue <Icon name="arrow-right" size={15} />
+          </button>
+        ) : signedIn && !proofsMet ? (
+          // PROOF GATE (blocker #4): proofs still outstanding. The footer does NOT
+          // offer "Mark complete" — only a QUIET "Next section" that advances
+          // WITHOUT recording completion, so the in-lesson proofs stay the gate.
+          <button
+            type="button"
+            className={`${arc.btnGhost} ${styles.footerNext}`}
+            onClick={onAdvance}
+            title="Advances without marking complete — clear the sprint proofs to unlock completion"
+          >
+            Next section <Icon name="arrow-right" size={15} />
+          </button>
+        ) : signedIn ? (
+          // Proofs satisfied → PROMOTE to the filled primary "Mark complete".
+          <button
+            type="button"
+            className={`${arc.btnPrimary} ${arc.btnVerify} ${styles.footerComplete}`}
             onClick={onComplete}
             disabled={pending}
             aria-busy={pending}
             aria-keyshortcuts="c"
           >
-            {completed ? (<><Icon name="check" size={15} /> Completed · continue <Icon name="arrow-right" size={15} /></>) : pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={15} /></>)}
+            {pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={15} /></>)}
           </button>
         ) : (
           <a className={`${arc.btnPrimary} ${styles.footerCta}`} href="/login?next=/academy/preview">

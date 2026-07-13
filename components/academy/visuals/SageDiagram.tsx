@@ -160,7 +160,13 @@ export function SageDiagram({
   // viewBox starts at the content's real min corner (not 0,0), so the diagram
   // fills its frame top-to-bottom. Cap rendered height if requested while
   // preserving the laid-out aspect ratio.
-  const renderHeight = height ? Math.min(height, viewH) : undefined
+  // MARQUEE PROMOTION (blocker #3): the system-map is the lesson's centerpiece,
+  // so we never let a small authored `height` shrink it below a hero floor — a
+  // too-small cap is clamped up to HERO_MIN_H (still never taller than the laid-
+  // out box, so no dead-air / letterboxing). Aspect ratio is owned by the SVG.
+  const HERO_MIN_H = 360
+  const cappedHeight = height ? Math.min(Math.max(height, HERO_MIN_H), viewH) : undefined
+  const renderHeight = cappedHeight
 
   return (
     <VisualFrame

@@ -164,9 +164,14 @@ export function SageDiagram({
   // so we never let a small authored `height` shrink it below a hero floor — a
   // too-small cap is clamped up to HERO_MIN_H (still never taller than the laid-
   // out box, so no dead-air / letterboxing). Aspect ratio is owned by the SVG.
-  const HERO_MIN_H = 360
+  const HERO_MIN_H = 420
   const cappedHeight = height ? Math.min(Math.max(height, HERO_MIN_H), viewH) : undefined
   const renderHeight = cappedHeight
+  // Graticule cell in user-space px — a low-contrast instrument grid backdrop so
+  // the canvas reads as an instrument panel, not a flat black field. Sized so a
+  // typical figure shows ~14-20 columns of ruling.
+  const gridId = `grid-${uid}`
+  const gridFineId = `gridfine-${uid}`
 
   return (
     <VisualFrame
@@ -191,15 +196,49 @@ export function SageDiagram({
         style={{ ...svgStyle, aspectRatio: `${viewW} / ${viewH}` }}
       >
         <EdgeMarkers uid={uid} />
+        <defs>
+          {/* Instrument GRATICULE — a two-tier ruled grid (fine + coarse) at very
+              low contrast so the panel reads as instrumentation, not flat black.
+              Pure --ac-rule hairlines; static (no motion); print/RM identical. */}
+          <pattern id={gridFineId} width={22} height={22} patternUnits="userSpaceOnUse">
+            <path d="M 22 0 L 0 0 0 22" fill="none" stroke="var(--ac-rule)" strokeWidth={0.6} opacity={0.5} />
+          </pattern>
+          <pattern id={gridId} width={110} height={110} patternUnits="userSpaceOnUse">
+            <rect width={110} height={110} fill={`url(#${gridFineId})`} />
+            <path d="M 110 0 L 0 0 0 110" fill="none" stroke="var(--ac-rule-strong)" strokeWidth={0.75} opacity={0.55} />
+          </pattern>
+        </defs>
         <rect
           x={viewX}
           y={viewY}
           width={viewW}
           height={viewH}
-          rx="16"
+          rx="14"
           fill="var(--ac-bg)"
           stroke="var(--ac-rule)"
         />
+        {/* graticule fill, inset a hair so it never rides the frame stroke */}
+        <rect
+          x={viewX + 1}
+          y={viewY + 1}
+          width={viewW - 2}
+          height={viewH - 2}
+          rx="13"
+          fill={`url(#${gridId})`}
+          pointerEvents="none"
+        />
+        {/* corner registration ticks — a small instrument affordance in each corner */}
+        {[
+          [viewX + 14, viewY + 14, 1, 1],
+          [viewX + viewW - 14, viewY + 14, -1, 1],
+          [viewX + 14, viewY + viewH - 14, 1, -1],
+          [viewX + viewW - 14, viewY + viewH - 14, -1, -1],
+        ].map(([cx, cy, sx, sy], i) => (
+          <g key={i} stroke="var(--ac-rule-strong)" strokeWidth={1} opacity={0.7} pointerEvents="none">
+            <line x1={cx} y1={cy} x2={cx + 10 * sx} y2={cy} />
+            <line x1={cx} y1={cy} x2={cx} y2={cy + 10 * sy} />
+          </g>
+        ))}
 
         {/* Edges — draw in along the dagre polyline via stroke-dashoffset. */}
         {layout.edges.map((edge, edgeIndex) => {

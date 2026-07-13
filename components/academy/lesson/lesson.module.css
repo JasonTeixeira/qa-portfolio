@@ -26,12 +26,13 @@
   font-family: var(--ac-font-mono);
   font-size: 12px;
 }
-.crumbCourse { color: var(--topic); letter-spacing: 0.1em; }
+.crumbCourse { color: var(--topic); letter-spacing: 0.1em; text-transform: uppercase; }
 .crumbSep { color: var(--ac-ink-faint); letter-spacing: 0.03em; }
 .spacer { flex: 1; }
-.topProgress { width: 140px; height: 4px; border-radius: 2px; background: var(--ac-surface-2); overflow: hidden; }
-.topProgressFill { display: block; height: 100%; background: var(--topic); border-radius: 2px; }
-.topPct { color: var(--topic); font-variant-numeric: tabular-nums; }
+/* instrument progress readout — a bordered track with tabular figures */
+.topProgress { width: 132px; height: 6px; border-radius: 2px; background: var(--ac-surface-2); border: 1px solid var(--ac-rule); overflow: hidden; }
+.topProgressFill { display: block; height: 100%; background: var(--topic); border-radius: 1px; }
+.topPct { color: var(--topic); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--ac-surface-2); margin-left: 0.4rem; }
 
 /* sidebar — sticky, independently scrollable course side-menu */

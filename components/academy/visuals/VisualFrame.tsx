@@ -70,10 +70,17 @@ export function VisualFrame({
           <ul style={legendRowStyle} aria-hidden="true">
             {legend.map((item) => (
               <li key={item.tone} style={legendItemStyle}>
+                {/* instrument legend key: a stroke sample that reads as the edge it
+                    labels (heavier + brighter for toned paths), not a flat chip */}
                 <span
                   style={{
                     ...legendSwatchStyle,
                     background: TONES[item.tone].stroke,
+                    height: item.tone === 'default' || item.tone === 'muted' ? 2 : 3,
+                    boxShadow:
+                      item.tone === 'default' || item.tone === 'muted'
+                        ? 'none'
+                        : `0 0 6px ${TONES[item.tone].stroke}`,
                   }}
                 />
                 <span style={legendLabelStyle}>{item.label}</span>
@@ -138,10 +145,14 @@ const kickerStyle: React.CSSProperties = {
 }
 
 const titleStyle: React.CSSProperties = {
+  // INSTRUMENT chrome (aesthetic contract): the figure title is mono-forward, not
+  // the reserved display serif — the serif is spent only on the marquee lesson
+  // title. Reads as a labeled instrument panel header.
   margin: '0.4rem 0 0',
-  fontFamily: 'var(--ac-font-display, Georgia, serif)',
-  fontSize: 'var(--ac-step-3, 1.85rem)',
-  letterSpacing: 'var(--ac-track-display, -0.022em)',
+  fontFamily: 'var(--ac-font-mono, ui-monospace, monospace)',
+  fontSize: 'var(--ac-step-2, 1.55rem)',
+  fontWeight: 600,
+  letterSpacing: '-0.01em',
   lineHeight: 'var(--ac-leading-snug, 1.3)',
   color: 'var(--ac-ink)',
 }
@@ -155,23 +166,27 @@ const subtitleStyle: React.CSSProperties = {
 }
 
 const legendRowStyle: React.CSSProperties = {
+  // instrument LEGEND KEY — a bordered readout strip, not a loose swatch row
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem 1.15rem',
+  gap: '0.5rem 1.3rem',
   listStyle: 'none',
   margin: '0.85rem 0 0',
-  padding: 0,
+  padding: '0.5rem 0.75rem',
+  border: '1px solid var(--ac-rule)',
+  borderRadius: 'var(--ac-radius, 8px)',
+  background: 'color-mix(in oklch, var(--ac-bg) 60%, transparent)',
 }
 
 const legendItemStyle: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '0.45rem',
+  gap: '0.5rem',
 }
 
 const legendSwatchStyle: React.CSSProperties = {
-  width: 18,
-  height: 4,
+  width: 22,
+  height: 3,
   borderRadius: 999,
   flex: '0 0 auto',
 }
@@ -179,8 +194,9 @@ const legendSwatchStyle: React.CSSProperties = {
 const legendLabelStyle: React.CSSProperties = {
   color: 'var(--ac-ink-soft)',
   fontFamily: 'var(--ac-font-mono, ui-monospace, monospace)',
-  fontSize: 'var(--ac-step--1, 0.8rem)',
-  letterSpacing: 'var(--ac-track-label, 0.04em)',
+  fontSize: '0.72rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.08em',
 }
 
 const captionStyle: React.CSSProperties = {

@@ -40,6 +40,8 @@ type CodeSurfaceProps = {
   copyable?: boolean
   /** Accessible label for the scroll region. */
   ariaLabel?: string
+  /** Optional 1-based line numbers to highlight as the instrument focus line(s). */
+  activeLines?: number[]
 }
 
 /**
@@ -61,6 +63,7 @@ export function CodeSurface({
   filename,
   copyable = false,
   ariaLabel = 'Code sample',
+  activeLines,
 }: CodeSurfaceProps) {
   const [copied, setCopied] = React.useState(false)
   const lang = toColorizerLang(language)
@@ -68,6 +71,7 @@ export function CodeSurface({
   // Trailing newline shouldn't render a phantom empty final line.
   const lines = React.useMemo(() => code.replace(/\n$/, '').split('\n'), [code])
   const gutterWidth = String(lines.length).length
+  const activeSet = React.useMemo(() => new Set(activeLines ?? []), [activeLines])
 
   const copy = () => {
     navigator.clipboard?.writeText(code)
@@ -84,6 +88,9 @@ export function CodeSurface({
           <i />
         </span>
         <span className={styles.label}>{label}</span>
+        <span className={styles.rows} aria-hidden="true">
+          {lines.length} LN
+        </span>
         <span className={styles.lang} aria-hidden="true">
           {LANG_LABEL[lang]}
         </span>
@@ -96,7 +103,11 @@ export function CodeSurface({
       <pre className={styles.body} tabIndex={0} role="region" aria-label={ariaLabel}>
         <code className={styles.codeGrid} style={{ '--gutter-ch': gutterWidth } as React.CSSProperties}>
           {lines.map((line, i) => (
-            <span key={i} className={styles.row}>
+            <span
+              key={i}
+              className={styles.row}
+              data-active={activeSet.has(i + 1) ? 'true' : undefined}
+            >
               <span className={styles.ln} aria-hidden="true">
                 {i + 1}
               </span>

@@ -27,15 +27,21 @@
 }
 .dots {
   display: inline-flex;
-  gap: 5px;
+  gap: 6px;
   flex: none;
+  align-items: center;
 }
 .dots i {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--ac-rule-strong);
 }
+/* LED traffic-lights — semantic status hues at low alpha so they read as an
+   instrument header, not a macOS skeuomorph. red / amber / green. */
+.dots i:nth-child(1) { background: color-mix(in srgb, var(--ac-danger) 72%, transparent); }
+.dots i:nth-child(2) { background: color-mix(in srgb, var(--ac-pending) 72%, transparent); }
+.dots i:nth-child(3) { background: color-mix(in srgb, var(--ac-mastery) 72%, transparent); }
 .label {
   min-width: 0;
   overflow: hidden;
@@ -46,8 +52,17 @@
   letter-spacing: 0.01em;
   color: var(--ac-ink-soft);
 }
-.lang {
+/* mono line-count readout — sits at the right edge before the language chip */
+.rows {
   margin-left: auto;
+  flex: none;
+  font-family: var(--ac-font-mono);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--ac-ink-faint);
+}
+.lang {
   flex: none;
   padding: 0.16rem 0.5rem;
   border-radius: var(--ac-radius-pill, 999px);
@@ -105,6 +120,16 @@
   /* keep blank source lines at full line-height (renderTokens returns null for
      empty lines, which would otherwise collapse the row). */
   min-height: 1.7em;
+}
+/* ACTIVE LINE — an author-flagged focus line reads as an instrument-highlighted
+   row: a faint accent wash + a left accent tick in the gutter margin. */
+.row[data-active='true'] {
+  background: color-mix(in srgb, var(--ac-accent) 9%, transparent);
+  box-shadow: inset 2px 0 0 0 var(--ac-accent-text);
+}
+.row[data-active='true'] .ln {
+  color: var(--ac-accent-text);
+  opacity: 0.9;
 }
 .ln {
   padding-right: 0.9rem;

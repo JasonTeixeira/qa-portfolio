@@ -213,14 +213,25 @@ function NodeShell({ kind, hw, hh, fill, stroke }: ShapeProps & { kind: NodeKind
       )
     }
     case 'decision': {
-      // Diamond.
+      // Decision GATE — a diamond with an inset hairline diamond so it reads as a
+      // distinct routing/branch instrument, not just another card silhouette.
+      const inset = 0.82
       return (
-        <path
-          d={`M 0 ${-hh} L ${hw} 0 L 0 ${hh} L ${-hw} 0 Z`}
-          fill={fill}
-          stroke={stroke}
-          strokeWidth={sw}
-        />
+        <g>
+          <path
+            d={`M 0 ${-hh} L ${hw} 0 L 0 ${hh} L ${-hw} 0 Z`}
+            fill={fill}
+            stroke={stroke}
+            strokeWidth={sw}
+          />
+          <path
+            d={`M 0 ${-hh * inset} L ${hw * inset} 0 L 0 ${hh * inset} L ${-hw * inset} 0 Z`}
+            fill="none"
+            stroke={stroke}
+            strokeWidth={1}
+            opacity={0.4}
+          />
+        </g>
       )
     }
     case 'process':
@@ -314,13 +325,18 @@ export function DiagramNode({
           <ArchIcon kind={NODE_ICON[kind]} size={NODE_ICON_SIZE} strokeWidth={1.6} />
         </g>
       ) : null}
+      {/* INSTRUMENT LABEL — monospace, uppercase-tracked so a node reads as a
+          labeled instrument cell, not a soft card. ≥16px in user-space (scales to
+          ≥13px on-screen at the lesson column width) with heavy weight for crisp
+          glyphs on the tinted fill. */}
       <text
         x={0}
         y={labelY}
         fill={t.text}
-        fontSize={19}
-        fontWeight={700}
-        fontFamily="var(--ac-font-body, system-ui, sans-serif)"
+        fontSize={17}
+        fontWeight={650}
+        letterSpacing={0.3}
+        fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
         textAnchor="middle"
       >
         {label}
@@ -331,7 +347,7 @@ export function DiagramNode({
           y={descY}
           /* AA on the tinted card / dark bg — --ac-ink-soft (oklch 80%). */
           fill="var(--ac-ink-soft)"
-          fontSize={15}
+          fontSize={13.5}
           fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
           textAnchor="middle"
         >

@@ -120,8 +120,13 @@
      the whole card carries a faint tint of its role hue so archetypes stay
      distinct even with labels stripped. Top-edge gradient + elev-1 give depth. */
   background:
+    /* instrument graticule — a faint ruled grid so the panel reads as an
+       instrument well, not a flat tinted card. Very low contrast. */
+    linear-gradient(color-mix(in srgb, var(--ac-rule) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ac-rule) 40%, transparent) 1px, transparent 1px),
     linear-gradient(180deg, color-mix(in srgb, var(--panel-edge, var(--lp-action)) 9%, transparent) 0%, transparent 42%),
     color-mix(in srgb, var(--panel-edge, var(--lp-action)) 4%, var(--ac-surface));
+  background-size: 26px 26px, 26px 26px, 100% 100%, 100% 100%;
   box-shadow: var(--ac-elev-1);
   overflow: hidden;
   --panel-edge: var(--lp-action);
@@ -146,13 +151,29 @@
   border: 1px solid color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 34%, var(--ac-rule));
   border-left: 3px solid var(--proof-tone, var(--lp-proof));
   border-radius: var(--ac-radius-lg, 14px);
-  /* TIER 2b · PROOF/GATE — weightier than a panel: elev-2 + a stronger full-
-     surface wash of its semantic hue so "this is graded" reads pre-attentively. */
+  /* TIER 2b · PROOF/GATE — a bordered STATUS PANEL: elev-2 + a stronger full-
+     surface wash of its semantic hue + a faint graticule so "this is graded"
+     reads pre-attentively as an instrument status well. */
   background:
+    linear-gradient(color-mix(in srgb, var(--ac-rule) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ac-rule) 45%, transparent) 1px, transparent 1px),
     linear-gradient(180deg, color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 11%, transparent) 0%, transparent 46%),
     color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 5%, var(--ac-surface));
+  background-size: 26px 26px, 26px 26px, 100% 100%, 100% 100%;
   box-shadow: var(--ac-elev-2);
   overflow: hidden;
+}
+/* LED status dot in the top-right corner — amber pending, green verified. */
+.proof::after {
+  content: '';
+  position: absolute;
+  top: 0.85rem;
+  right: 0.9rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--proof-tone, var(--lp-proof));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 65%, transparent);
 }
 .proofVerified { --proof-tone: var(--lp-verify); box-shadow: var(--ac-elev-2), 0 0 0 1px color-mix(in srgb, var(--lp-verify) 22%, transparent); }
 
@@ -272,19 +293,26 @@
 .spineTrack {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
+  padding: 3px 4px;
+  border: 1px solid var(--ac-rule);
+  border-radius: 3px;
+  background: color-mix(in oklch, var(--ac-bg) 70%, transparent);
 }
+/* segmented instrument track — each block is a hard-edged cell (no pills) so the
+   readout reads as an instrument segment bar, lit by status color per state. */
 .spineStep {
   flex: 1 1 0;
-  height: 4px;
-  border-radius: 2px;
+  height: 6px;
+  border-radius: 1px;
   background: var(--ac-surface-2);
   overflow: hidden;
   transition: background var(--ac-dur, 300ms) var(--ac-ease-out-expo, ease);
 }
-.spineStep[data-state='done'] { background: var(--lp-verify); }
+.spineStep[data-state='done'] { background: color-mix(in srgb, var(--lp-verify) 78%, transparent); }
 .spineStep[data-state='current'] {
-  background: linear-gradient(90deg, var(--lp-verify) 0%, var(--topic) 100%);
+  background: var(--lp-proof);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--lp-proof) 60%, transparent);
 }
 .spineMeta {
   display: flex;
@@ -296,15 +324,31 @@
   letter-spacing: 0.04em;
   color: var(--ac-ink-soft);
 }
+/* current-phase readout — amber (pending) status signal, prefixed with a mono
+   marker so it reads as a live instrument label. */
 .spinePhase {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--topic);
+  letter-spacing: 0.12em;
+  color: var(--lp-proof, var(--topic));
 }
-.spineCount { flex: none; font-variant-numeric: tabular-nums; }
+.spinePhase::before {
+  content: '▸';
+  flex: none;
+  color: var(--lp-proof, var(--topic));
+}
+.spineCount {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--ac-ink-faint);
+}
 
 @media (max-width: 900px) {
   .narrative { max-width: none; }

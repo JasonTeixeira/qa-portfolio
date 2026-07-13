@@ -316,7 +316,7 @@ export function LessonPlayer({
       {/* top bar */}
       <header className={styles.topbar}>
         <span className={styles.crumbCourse}>{course.title.toUpperCase()}</span>
-        <span className={styles.crumbSep}>/ {lesson.title}</span>
+        <span className={styles.crumbSep}>{lesson.title}</span>
         <span className={styles.spacer} />
         <span className={styles.topProgress} aria-hidden="true">
           <span className={styles.topProgressFill} style={{ width: `${pct}%` }} />

@@ -4,7 +4,7 @@ import * as React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { type Tone } from './tones'
 import { DiagramNode, type DiagramNodeSpec, type DiagramEdgeSpec, type NodeKind, type DiagramEdgeKind } from './diagram-kinds'
-import { layoutDiagram, pointsToPath, pathLength, LABEL_PILL_H } from './diagram-layout'
+import { layoutDiagram, pointsToOrthogonalPath, orthogonalPathLength, LABEL_PILL_H } from './diagram-layout'
 import { edgeStyle, dashFor, arrowId, warningGlowId, EdgeMarkers } from './diagram-edges'
 import { VisualFrame, deriveLegend, type LegendItem } from './VisualFrame'
 import {
@@ -245,8 +245,12 @@ export function SageDiagram({
           const toneKey: Tone = edge.tone ?? 'default'
           const { stroke, width, opacity } = edgeStyle(edge.tone)
           const dash = dashFor(edge.kind, edge.dashed, toneKey)
-          const d = pointsToPath(edge.points)
-          const len = pathLength(edge.points)
+          // ORTHOGONAL routing → the graph reads as an instrument bus diagram
+          // (right-angle runs, rounded corners), not a smooth sketch.
+          const d = pointsToOrthogonalPath(edge.points, rankdir)
+          // Length of the ORTHOGONAL route (longer than the chord) so the draw-in
+          // dashoffset + the dataflow-pulse gap track the actual rendered path.
+          const len = orthogonalPathLength(edge.points, rankdir)
           const delay = edgeIndex * EDGE_STAGGER
           const animate = !reduce && !dash
           // Narration engine: dim edges outside the current spotlight; only spotlit

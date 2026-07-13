@@ -57,6 +57,8 @@
 }
 .narrativeBody {
   margin: 0 0 var(--ac-space-sm, 1rem);
+  /* constrain the reading measure to ~66ch so long prose never runs slack-wide */
+  max-width: 66ch;
   font-size: var(--ac-step-1, 1.15rem);
   line-height: var(--ac-leading-body, 1.62);
   color: var(--ac-ink-soft);
@@ -94,7 +96,12 @@
 .scope [data-tone='warm'] li strong { --emph: var(--lp-proof, #e0a93e); }
 
 /* Editorial pull-quote — ONE key line lifted big at a block boundary.
-   Serif, large, accent hairline. Pure scale contrast, no card. */
+   Serif, large, accent hairline. Pure scale contrast, no card.
+   SERIF DISCIPLINE (blocker: cap the serif): the display serif is spent ONLY on
+   the marquee lesson <h1> and the ONE Mission hero line (.missionText). This
+   .pullQuote is the reserved hero register — narrative concept/context blocks
+   demote to the mono/sans .calloutQuote below so the serif stays rare + load-
+   bearing rather than repeating down the page. */
 .pullQuote {
   margin: var(--ac-space-md, 1.5rem) 0 var(--ac-space-sm, 1rem);
   padding-left: var(--ac-space-md, 1.5rem);
@@ -105,6 +112,22 @@
   font-size: var(--ac-step-3, 1.75rem);
   line-height: var(--ac-leading-snug, 1.3);
   letter-spacing: var(--ac-track-display, -0.022em);
+  color: var(--ac-ink);
+}
+/* DEMOTED callout — a key line lifted at a block boundary WITHOUT the serif: a
+   mono/sans left-rule callout. Same scale-contrast intent (bigger + a bright
+   accent rule), but keeps the display serif rare. Used by concept/context so a
+   lesson never stacks multiple serif pull-quotes. */
+.calloutQuote {
+  margin: var(--ac-space-md, 1.5rem) 0 var(--ac-space-sm, 1rem);
+  max-width: 66ch;
+  padding: 0.1rem 0 0.1rem var(--ac-space-md, 1.5rem);
+  border-left: 3px solid var(--lp-action);
+  font-family: var(--ac-font-body);
+  font-weight: 500;
+  font-size: var(--ac-step-2, 1.45rem);
+  line-height: var(--ac-leading-snug, 1.32);
+  letter-spacing: -0.01em;
   color: var(--ac-ink);
 }
 
@@ -141,13 +164,20 @@
 }
 .panelProof { --panel-edge: var(--lp-proof); }
 .panelTrap  { --panel-edge: var(--lp-trap); }
+/* per-role edge hues: info (blue · tradeoff/compare), verify (green · graded) */
+.panelInfo  { --panel-edge: color-mix(in oklch, var(--ac-accent, #3d5afe) 62%, white 38%); }
+.panelVerify { --panel-edge: var(--lp-verify); }
 
 /* ── ARCHETYPE 3 · PROOF / GATE ───────────────────────────────────────────
    Reserved, weightier bordered treatment carrying semantic color. Used for
    verification / unlock-gate / spaced-review — the "this is graded" surfaces. */
 .proof {
   position: relative;
-  margin: var(--ac-space-md, 1.5rem) 0;
+  /* FOOTPRINT VARIANCE (blocker: back-half form variance) — the graded/proof
+     band is INSET from the prose column (a reserved indent) + carries the
+     heaviest elevation, so even with its label stripped it reads as a distinct,
+     weightier "this is graded" shape rather than one more full-width card. */
+  margin: var(--ac-space-md, 1.5rem) 0 var(--ac-space-md, 1.5rem) var(--ac-space-md, 1.5rem);
   border: 1px solid color-mix(in srgb, var(--proof-tone, var(--lp-proof)) 34%, var(--ac-rule));
   border-left: 3px solid var(--proof-tone, var(--lp-proof));
   border-radius: var(--ac-radius-lg, 14px);
@@ -353,6 +383,8 @@
 @media (max-width: 900px) {
   .narrative { max-width: none; }
   .spine { top: 0; }
+  /* drop the proof inset on narrow screens so it doesn't crowd the edge */
+  .proof { margin-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

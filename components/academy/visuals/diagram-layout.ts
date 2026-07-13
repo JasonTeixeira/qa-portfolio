@@ -605,6 +605,126 @@ export function pointsToPath(points: { x: number; y: number }[]): string {
   return d
 }
 
+/**
+ * ORTHOGONAL (Manhattan) routing so the graph reads as an INSTRUMENT diagram
+ * (right-angle buses) rather than a hand-drawn sketch of smooth curves.
+ *
+ * The dagre polyline still owns the ROUTE (which lane the edge takes, where it
+ * bends to avoid nodes); this only rewrites that route into axis-aligned segments
+ * with small rounded corners. For each consecutive pair we insert a mid "elbow":
+ * travel along the dominant axis to the midpoint, turn 90°, cross, then turn back
+ * — producing the stepped-bus look. `radius` rounds each corner via a quadratic
+ * so the turns are crisp but not sharp. When two points already share an axis
+ * (a straight run) no elbow is added.
+ */
+/**
+ * The orthogonalized point list for a routed polyline (axis-aligned elbows,
+ * collinear/duplicate points pruned). Shared by the path builder AND the length
+ * measurement so the draw-in dashoffset + dataflow-pulse gap track the ACTUAL
+ * rendered path length (an orthogonal route is longer than the straight chord).
+ */
+export function orthogonalPoints(
+  points: { x: number; y: number }[],
+  rankdir: 'LR' | 'TB' | 'RL' | 'BT' = 'LR',
+): Pt[] {
+  if (points.length <= 1) return points.slice()
+  const horizontal = rankdir === 'LR' || rankdir === 'RL'
+  const ortho: Pt[] = [points[0]]
+  for (let i = 1; i < points.length; i++) {
+    const a = ortho[ortho.length - 1]
+    const b = points[i]
+    const dx = Math.abs(b.x - a.x)
+    const dy = Math.abs(b.y - a.y)
+    // Already axis-aligned (within a hair) → straight run, no elbow.
+    if (dx < 0.5 || dy < 0.5) {
+      ortho.push(b)
+      continue
+    }
+    // Elbow at the midpoint of the dominant axis so the turn lands between nodes.
+    if (horizontal) {
+      const midX = (a.x + b.x) / 2
+      ortho.push({ x: midX, y: a.y }, { x: midX, y: b.y }, b)
+    } else {
+      const midY = (a.y + b.y) / 2
+      ortho.push({ x: a.x, y: midY }, { x: b.x, y: midY }, b)
+    }
+  }
+  return dedupeCollinear(ortho)
+}
+
+/** Arc length of the orthogonalized route (matches the rendered `d`). */
+export function orthogonalPathLength(
+  points: { x: number; y: number }[],
+  rankdir: 'LR' | 'TB' | 'RL' | 'BT' = 'LR',
+): number {
+  return pathLength(orthogonalPoints(points, rankdir))
+}
+
+export function pointsToOrthogonalPath(
+  points: { x: number; y: number }[],
+  rankdir: 'LR' | 'TB' | 'RL' | 'BT' = 'LR',
+  radius = 9,
+): string {
+  if (points.length === 0) return ''
+  if (points.length === 1) return `M${round(points[0].x)},${round(points[0].y)}`
+
+  const pts = orthogonalPoints(points, rankdir)
+  if (pts.length === 2) {
+    return `M${round(pts[0].x)},${round(pts[0].y)}L${round(pts[1].x)},${round(pts[1].y)}`
+  }
+
+  // Emit rounded corners: line into a corner, quadratic through it, line out.
+  let d = `M${round(pts[0].x)},${round(pts[0].y)}`
+  for (let i = 1; i < pts.length - 1; i++) {
+    const prev = pts[i - 1]
+    const corner = pts[i]
+    const next = pts[i + 1]
+    const inLen = Math.hypot(corner.x - prev.x, corner.y - prev.y)
+    const outLen = Math.hypot(next.x - corner.x, next.y - corner.y)
+    const r = Math.min(radius, inLen / 2, outLen / 2)
+    const p1 = lerpPoint(corner, prev, r / (inLen || 1))
+    const p2 = lerpPoint(corner, next, r / (outLen || 1))
+    d += `L${round(p1.x)},${round(p1.y)}Q${round(corner.x)},${round(corner.y)} ${round(p2.x)},${round(p2.y)}`
+  }
+  const last = pts[pts.length - 1]
+  d += `L${round(last.x)},${round(last.y)}`
+  return d
+}
+
+/** Point at distance-fraction `t` from `a` toward `b`. */
+function lerpPoint(a: Pt, b: Pt, t: number): Pt {
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }
+}
+
+/** Drop duplicate + collinear interior points (keeps only real corners). */
+function dedupeCollinear(points: Pt[]): Pt[] {
+  const out: Pt[] = []
+  for (const p of points) {
+    const last = out[out.length - 1]
+    if (last && Math.abs(last.x - p.x) < 0.5 && Math.abs(last.y - p.y) < 0.5) continue
+    out.push(p)
+  }
+  // Remove middle points that are collinear with their neighbours.
+  const pruned: Pt[] = []
+  for (let i = 0; i < out.length; i++) {
+    if (i === 0 || i === out.length - 1) {
+      pruned.push(out[i])
+      continue
+    }
+    const a = out[i - 1]
+    const b = out[i]
+    const c = out[i + 1]
+    const cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+    if (Math.abs(cross) < 0.5) continue // collinear → skip
+    pruned.push(b)
+  }
+  return pruned
+}
+
+function round(n: number): number {
+  return Math.round(n * 100) / 100
+}
+
 /** Total length of a polyline (drives the stroke-dashoffset draw-in motion). */
 export function pathLength(points: { x: number; y: number }[]): number {
   let total = 0

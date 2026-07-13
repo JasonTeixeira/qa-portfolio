@@ -82,12 +82,15 @@ export function CodeSurface({
   return (
     <div className={styles.well}>
       <div className={styles.head}>
-        <span className={styles.dots} aria-hidden="true">
-          <i />
-          <i />
-          <i />
+        {/* Project-specific terminal header: a mono prompt glyph + a breadcrumb
+            path to the file (not the macOS traffic-light cliché). The ▮ block is
+            the Sage terminal caret; the path reads as a real editor location. */}
+        <span className={styles.prompt} aria-hidden="true">▮</span>
+        <span className={styles.path} aria-hidden="true">
+          <span className={styles.pathRoot}>sage</span>
+          <span className={styles.pathSep}>/</span>
+          <span className={styles.label}>{label}</span>
         </span>
-        <span className={styles.label}>{label}</span>
         <span className={styles.rows} aria-hidden="true">
           {lines.length} LN
         </span>

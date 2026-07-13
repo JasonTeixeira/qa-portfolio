@@ -46,6 +46,44 @@ const ARCHETYPE_SURFACE: Record<Archetype, string> = {
   viz: arc.panel,
 }
 
+/**
+ * PER-ROLE COLOR TAXONOMY (data-driven). ONE hue per block ROLE, applied
+ * CONSISTENTLY to that block's rail/chip/LED/accent so a learner can read the
+ * role by color alone — not amber-for-everything.
+ *
+ *   sprint-contract              → cool   (accent/violet · the contract)
+ *   pretest · calibration        → warm   (amber · calibrate-yourself)
+ *   worked-example·concept·context·mission → (none · the neutral narrative tier)
+ *   debug                        → danger (red · the broken case)
+ *   tradeoff                     → blue   (weigh A vs B)
+ *   verification·unlock·spaced   → verify (green · this is graded/proof)
+ *   lab                          → cool   (accent/violet · do-the-work)
+ *   teachback · transfer         → warm   (amber · explain / apply)
+ */
+const ROLE_TONE: Record<string, 'cool' | 'warm' | 'danger' | 'blue' | 'verify' | undefined> = {
+  'sprint-contract': 'cool',
+  pretest: 'warm',
+  calibration: 'warm',
+  'worked-example': undefined,
+  concept: undefined,
+  context: undefined,
+  mission: undefined,
+  debug: 'danger',
+  tradeoff: 'blue',
+  verification: 'verify',
+  'unlock-gate': 'verify',
+  'spaced-review': 'verify',
+  lab: 'cool',
+  teachback: 'warm',
+  transfer: 'warm',
+  quiz: 'cool',
+}
+
+/** Resolve the canonical role tone for a block key (undefined = neutral tier). */
+function roleTone(blockKey: string): string | undefined {
+  return ROLE_TONE[blockKey]
+}
+
 /** Loop-rail wrapper. Every sprint section carries its loop-step label so the
  *  learner perceives the engine, not just the content — but the SURFACE now
  *  varies by archetype (data-driven off the block type) so 12 sections no longer
@@ -53,27 +91,29 @@ const ARCHETYPE_SURFACE: Record<Archetype, string> = {
 function Section({
   blockKey,
   children,
-  tone,
   proofState,
 }: {
   blockKey: string
   children: ReactNode
-  tone?: string
   /** For PROOF archetypes: 'pending' (amber) vs 'verified' (green) surface. */
   proofState?: 'pending' | 'verified'
 }) {
   const s = loopStep(blockKey)
   const archetype = archetypeFor(blockKey)
   const surface = ARCHETYPE_SURFACE[archetype]
+  // Tone is DATA-DRIVEN off the block role — one consistent hue per role.
+  const tone = roleTone(blockKey)
   const proofClass = archetype === 'proof' && proofState === 'verified' ? arc.proofVerified : ''
+  // Map the role tone → the panel edge class so the whole card's accent hue
+  // tracks the role (interactive/viz surfaces only; proof owns its own hue).
+  const PANEL_TONE_CLASS: Record<string, string> = {
+    warm: arc.panelProof,
+    danger: arc.panelTrap,
+    blue: arc.panelInfo,
+    verify: arc.panelVerify,
+  }
   const panelToneClass =
-    archetype === 'interactive' || archetype === 'viz'
-      ? tone === 'warm'
-        ? arc.panelProof
-        : tone === 'danger'
-          ? arc.panelTrap
-          : ''
-      : ''
+    archetype === 'interactive' || archetype === 'viz' ? (tone ? PANEL_TONE_CLASS[tone] ?? '' : '') : ''
 
   // NARRATIVE: no card, no rail chrome — just the editorial spine + prose. The
   // loop step is announced via the eyebrow so the engine still reads.
@@ -128,6 +168,45 @@ function splitPullQuote(text: string): { quote: string; rest: string } | null {
   return { quote, rest }
 }
 
+/**
+ * STAT STRIP (blocker: prose walls → data). Surface any numeric tokens carrying
+ * a unit found in a prose block as MONO stat chips above the text, so the hard
+ * numbers a learner needs to remember (p99 < 50ms, 100,000 RPS, 99.99%) read as
+ * instrument data, not buried in a wall. Purely PRESENTATIONAL — it re-surfaces
+ * existing values, never invents or rewrites content. Only tokens WITH a unit
+ * qualify (bare integers like "three lists" are skipped as noise), deduped,
+ * capped, so the strip stays a scannable readout. Returns null when nothing
+ * quantitative is present (most narrative prose), so it never adds empty chrome.
+ */
+const STAT_TOKEN = /\b\d[\d.,]*\s?(?:ms\b|s\b|%|x\b|k\b|m\b|b\b|GB|MB|TB|KB|req\/s|RPS|QPS|reqs?\/s)/gi
+const MAX_STATS = 6
+
+function extractStats(text: string): string[] {
+  const out: string[] = []
+  const seen = new Set<string>()
+  for (const m of text.matchAll(STAT_TOKEN)) {
+    const tok = m[0].replace(/\s+/g, ' ').trim()
+    const key = tok.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push(tok)
+    if (out.length >= MAX_STATS) break
+  }
+  return out
+}
+
+function StatStrip({ text }: { text: string }) {
+  const stats = extractStats(text)
+  if (stats.length === 0) return null
+  return (
+    <ul className={styles.statStrip} aria-hidden="true">
+      {stats.map((s, i) => (
+        <li key={i} className={styles.statChip}>{s}</li>
+      ))}
+    </ul>
+  )
+}
+
 /** Thin adapter to the shared CodeSurface well. Keeps the (code, language)
  *  contract worked-example / debug already carry; CodeSurface owns the a11y
  *  (tabIndex=0 / role="region" / aria-label) + token highlighting + gutter. */
@@ -180,7 +259,7 @@ function Pretest({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type
   }
 
   return (
-    <Section blockKey="pretest" tone="warm">
+    <Section blockKey="pretest">
       <p className={styles.lead}>{b.prompt}</p>
       <textarea
         className={styles.input}
@@ -207,6 +286,7 @@ function WorkedExample({ b }: { b: Extract<LessonBlock, { type: 'worked-example'
   const steps = (b.steps ?? []).filter(Boolean)
   return (
     <Section blockKey="worked-example">
+      <StatStrip text={b.intro} />
       <p className={arc.narrativeBody}>{b.intro}</p>
       {b.code ? <Mono code={b.code} language={b.language} /> : null}
       {steps.length ? <ol className={styles.steps}>{steps.map((s, i) => <li key={i}>{s}</li>)}</ol> : null}
@@ -218,11 +298,12 @@ function WorkedExample({ b }: { b: Extract<LessonBlock, { type: 'worked-example'
 function Concept({ b }: { b: Extract<LessonBlock, { type: 'concept' }> }) {
   const split = splitPullQuote(b.text)
   return (
-    <Section blockKey="concept" tone="cool">
+    <Section blockKey="concept">
       {b.title ? <h3 className={arc.narrativeTitle}>{b.title}</h3> : null}
+      <StatStrip text={b.text} />
       {split ? (
         <>
-          <p className={arc.pullQuote}>{split.quote}</p>
+          <p className={arc.calloutQuote}>{split.quote}</p>
           <p className={arc.narrativeBody}>{split.rest}</p>
         </>
       ) : (
@@ -257,7 +338,7 @@ function Context({ b }: { b: Extract<LessonBlock, { type: 'context' }> }) {
     <Section blockKey="context">
       {split ? (
         <>
-          <p className={arc.pullQuote}>{split.quote}</p>
+          <p className={arc.calloutQuote}>{split.quote}</p>
           <p className={arc.narrativeBody}>{split.rest}</p>
         </>
       ) : (
@@ -270,7 +351,7 @@ function Context({ b }: { b: Extract<LessonBlock, { type: 'context' }> }) {
 function DebugBlock({ b }: { b: Extract<LessonBlock, { type: 'debug' }> }) {
   const [shown, setShown] = useState(false)
   return (
-    <Section blockKey="debug" tone="danger">
+    <Section blockKey="debug">
       <p className={styles.lead}><strong>Symptom:</strong> {b.symptom}</p>
       <Mono code={b.brokenCode} language={b.language} label="broken case" />
       <p className={styles.task}>{b.task}</p>
@@ -316,7 +397,7 @@ function Verification({ b }: { b: Extract<LessonBlock, { type: 'verification' }>
   const allDone = items.length > 0 && done === items.length
   const toggle = (i: number) => setChecked((c) => c.map((v, j) => (j === i ? !v : v)))
   return (
-    <Section blockKey="verification" tone="cool" proofState={allDone ? 'verified' : 'pending'}>
+    <Section blockKey="verification" proofState={allDone ? 'verified' : 'pending'}>
       {b.intro ? <p className={styles.lead}>{b.intro}</p> : null}
       <ul className={styles.checklist}>
         {items.map((it, i) => (
@@ -352,7 +433,7 @@ function Teachback({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { ty
   }
 
   return (
-    <Section blockKey="teachback" tone="warm">
+    <Section blockKey="teachback">
       <p className={styles.lead}>Explain it out loud — to an AI, a reviewer, or the rubber duck. Cover each prompt with a concrete example and one edge case.</p>
       <ul className={styles.prompts}>
         {(b.prompts ?? []).filter(Boolean).map((p, i) => <li key={i}>{p}</li>)}
@@ -435,7 +516,7 @@ function SpacedReview({ b }: { b: Extract<LessonBlock, { type: 'spaced-review' }
   const custom = (b.schedule ?? []).filter(Boolean)
   const sched = custom.length ? custom : DEFAULT_SCHEDULE
   return (
-    <Section blockKey="spaced-review" tone="cool">
+    <Section blockKey="spaced-review">
       <ol className={styles.schedule}>
         {sched.map((s, i) => <li key={i}>{s}</li>)}
       </ol>

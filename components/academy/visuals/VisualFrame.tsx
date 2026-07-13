@@ -13,7 +13,7 @@
  */
 
 import * as React from 'react'
-import { TONES, DEFAULT_LEGEND_LABEL, TONE_ORDER, isToned, type Tone } from './tones'
+import { TONES, DEFAULT_LEGEND_LABEL, LEGEND_DECODE, TONE_ORDER, isToned, type Tone } from './tones'
 
 export type LegendItem = {
   tone: Tone
@@ -72,18 +72,23 @@ export function VisualFrame({
               <li key={item.tone} style={legendItemStyle}>
                 {/* instrument legend key: a stroke sample that reads as the edge it
                     labels (heavier + brighter for toned paths), not a flat chip */}
-                <span
-                  style={{
-                    ...legendSwatchStyle,
-                    background: TONES[item.tone].stroke,
-                    height: item.tone === 'default' || item.tone === 'muted' ? 2 : 3,
-                    boxShadow:
-                      item.tone === 'default' || item.tone === 'muted'
-                        ? 'none'
-                        : `0 0 6px ${TONES[item.tone].stroke}`,
-                  }}
-                />
-                <span style={legendLabelStyle}>{item.label}</span>
+                <span style={legendKeyRowStyle}>
+                  <span
+                    style={{
+                      ...legendSwatchStyle,
+                      background: TONES[item.tone].stroke,
+                      height: item.tone === 'default' || item.tone === 'muted' ? 2 : 3,
+                      boxShadow:
+                        item.tone === 'default' || item.tone === 'muted'
+                          ? 'none'
+                          : `0 0 6px ${TONES[item.tone].stroke}`,
+                    }}
+                  />
+                  <span style={legendLabelStyle}>{item.label}</span>
+                </span>
+                {/* one-line DECODE: what this color means operationally, so a
+                    first-time reader can decode the instrument at a glance. */}
+                <span style={legendDecodeStyle}>{LEGEND_DECODE[item.tone]}</span>
               </li>
             ))}
           </ul>
@@ -166,13 +171,14 @@ const subtitleStyle: React.CSSProperties = {
 }
 
 const legendRowStyle: React.CSSProperties = {
-  // instrument LEGEND KEY — a bordered readout strip, not a loose swatch row
+  // instrument LEGEND KEY — a bordered readout strip, not a loose swatch row.
+  // Each item is a two-row cell (key + one-line decode), so columns stay aligned.
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem 1.3rem',
+  gap: '0.7rem 1.6rem',
   listStyle: 'none',
   margin: '0.85rem 0 0',
-  padding: '0.5rem 0.75rem',
+  padding: '0.6rem 0.8rem',
   border: '1px solid var(--ac-rule)',
   borderRadius: 'var(--ac-radius, 8px)',
   background: 'color-mix(in oklch, var(--ac-bg) 60%, transparent)',
@@ -180,8 +186,26 @@ const legendRowStyle: React.CSSProperties = {
 
 const legendItemStyle: React.CSSProperties = {
   display: 'inline-flex',
+  flexDirection: 'column',
+  gap: '0.15rem',
+  minWidth: 0,
+}
+
+const legendKeyRowStyle: React.CSSProperties = {
+  display: 'inline-flex',
   alignItems: 'center',
   gap: '0.5rem',
+}
+
+const legendDecodeStyle: React.CSSProperties = {
+  // the plain-language decode line under each chip — softer + sentence case so it
+  // reads as an aside, not another label. AA (--ac-ink-soft) on the strip.
+  color: 'var(--ac-ink-soft)',
+  fontFamily: 'var(--ac-font-mono, ui-monospace, monospace)',
+  fontSize: '0.66rem',
+  letterSpacing: '0.01em',
+  lineHeight: 1.35,
+  maxWidth: '22ch',
 }
 
 const legendSwatchStyle: React.CSSProperties = {

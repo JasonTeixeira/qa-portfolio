@@ -25,23 +25,38 @@
   border-bottom: 1px solid var(--ac-rule, #1e1e24);
   background: linear-gradient(180deg, var(--ac-surface-2) 0%, var(--ac-surface) 100%);
 }
-.dots {
-  display: inline-flex;
-  gap: 6px;
+/* terminal PROMPT caret — the Sage block glyph, accent-lit so the header reads
+   as a live terminal location, not a macOS window chrome skeuomorph. */
+.prompt {
   flex: none;
-  align-items: center;
+  font-family: var(--ac-font-mono);
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--ac-accent-text);
 }
-.dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--ac-rule-strong);
+/* breadcrumb PATH to the file (root / filename) — a real editor location line */
+.path {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  min-width: 0;
+  overflow: hidden;
 }
-/* LED traffic-lights — semantic status hues at low alpha so they read as an
-   instrument header, not a macOS skeuomorph. red / amber / green. */
-.dots i:nth-child(1) { background: color-mix(in srgb, var(--ac-danger) 72%, transparent); }
-.dots i:nth-child(2) { background: color-mix(in srgb, var(--ac-pending) 72%, transparent); }
-.dots i:nth-child(3) { background: color-mix(in srgb, var(--ac-mastery) 72%, transparent); }
+.pathRoot {
+  flex: none;
+  font-family: var(--ac-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--ac-ink-faint);
+}
+.pathSep {
+  flex: none;
+  font-family: var(--ac-font-mono);
+  font-size: 0.72rem;
+  color: var(--ac-ink-faint);
+  opacity: 0.7;
+}
 .label {
   min-width: 0;
   overflow: hidden;

@@ -26,13 +26,42 @@
   font-family: var(--ac-font-mono);
   font-size: 12px;
 }
-.crumbCourse { color: var(--topic); letter-spacing: 0.1em; text-transform: uppercase; }
-.crumbSep { color: var(--ac-ink-faint); letter-spacing: 0.03em; }
+/* course crumb — an accent-lit label chip so the cockpit header carries a clear
+   primary readout (was low-contrast micro-type). */
+.crumbCourse {
+  color: var(--topic);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid color-mix(in oklch, var(--topic) 32%, transparent);
+  background: color-mix(in oklch, var(--topic) 12%, transparent);
+}
+/* ACTIVE lesson — the header's primary readout: lifted off faint to full ink so
+   the current position is legible, prefixed with an accent marker. */
+.crumbSep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ac-ink);
+  letter-spacing: 0.03em;
+}
+.crumbSep::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--topic);
+  box-shadow: 0 0 5px color-mix(in oklch, var(--topic) 65%, transparent);
+}
 .spacer { flex: 1; }
 /* instrument progress readout — a bordered track with tabular figures */
 .topProgress { width: 132px; height: 6px; border-radius: 2px; background: var(--ac-surface-2); border: 1px solid var(--ac-rule); overflow: hidden; }
 .topProgressFill { display: block; height: 100%; background: var(--topic); border-radius: 1px; }
-.topPct { color: var(--topic); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+/* percent readout — lifted to full-weight topic ink so it reads as the header's
+   numeric primary, not dim decoration. */
+.topPct { color: var(--topic); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--ac-surface-2); margin-left: 0.4rem; }
 
 /* sidebar — sticky, independently scrollable course side-menu */
@@ -273,7 +302,11 @@
 .callout p { margin: 0; font-size: var(--ac-step-0, 0.96rem); line-height: var(--ac-leading-body, 1.55); color: var(--ac-ink-soft); }
 
 /* quiz — DO/INTERACTIVE archetype (.arc.panel supplies the surface). */
-.quiz { padding: 1.35rem 1.5rem; }
+/* QUICK-CHECK — a COMPACT card (footprint variance, blocker: back-half form
+   variance): narrower than the full prose column + a lifted elevation so, even
+   with its label stripped, a quiz reads as a distinct small instrument, not one
+   more full-width stack. Left-aligned so it anchors, not centers. */
+.quiz { padding: 1.35rem 1.5rem; max-width: 34rem; box-shadow: var(--ac-elev-2); }
 .quizQ { margin: 0.7rem 0 0; font-family: var(--ac-font-display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ac-ink); }
 .quizOptions { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .quizOptions button { width: 100%; text-align: left; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 9px; background: transparent; color: var(--ac-ink-soft); font-family: var(--ac-font-body); font-size: 0.95rem; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease; }

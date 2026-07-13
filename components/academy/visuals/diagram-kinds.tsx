@@ -76,16 +76,21 @@ export type DiagramEdgeSpec = {
 // box height TOGETHER. dagre reserves the box from measureNode, so a larger box
 // means text occupies a larger share of the viewBox → bigger on screen — while
 // the box still fully contains the (now wider) text run, so nothing overflows.
-const MIN_W = 180
-const MAX_W = 280
+// LEGIBILITY: a consistent internal grid means every node reserves the SAME
+// generous min-width so labels sit in a uniform cell (icon-top / label /
+// sublabel-bottom) rather than each card hugging its own text. A larger MIN_W +
+// PAD_X pushes the box to occupy more of the viewBox, so the (now 20px) label
+// scales UP on screen at the lesson column width.
+const MIN_W = 208
+const MAX_W = 296
 // Taller so every node carries its proprietary glyph on top + label (+ description)
 // with comfortable rhythm. measureNode drives dagre, so spacing adapts.
-const BASE_H = 108
+const BASE_H = 116
 // Leading component glyph, centered on top of the label.
 const NODE_ICON_SIZE = 30
-const LABEL_CHAR_W = 11.0 // ~19px display label advance (font 16→19, ×1.19)
-const DESC_CHAR_W = 8.4 // ~15px mono description advance (font 13→15, ×1.15)
-const PAD_X = 30
+const LABEL_CHAR_W = 11.6 // ~20px mono label advance (font 20, weight 650)
+const DESC_CHAR_W = 8.8 // ~15px mono sublabel advance
+const PAD_X = 34
 // Diamonds need extra footprint (text inscribed in a rotated square).
 const DECISION_SCALE = 1.32
 
@@ -299,9 +304,11 @@ export function DiagramNode({
   // The diamond IS its own glyph; every other kind leads with its component icon
   // centered on top of the label.
   const showIcon = kind !== 'decision'
-  const iconY = -hh + 14
-  const labelY = (showIcon ? (description ? 12 : 18) : description ? -6 : 6) + labelDy
-  const descY = (showIcon ? 34 : 20) + labelDy
+  const iconY = -hh + 16
+  // Consistent internal grid: icon on top, label centered, sublabel below — with
+  // uniform vertical rhythm so every card's cells align regardless of kind.
+  const labelY = (showIcon ? (description ? 14 : 20) : description ? -6 : 6) + labelDy
+  const descY = (showIcon ? 38 : 22) + labelDy
   // Concrete outer glow so a semantic node pops off the canvas (toned only).
   const glow = TONE_GLOW[tone]
   return (
@@ -333,9 +340,9 @@ export function DiagramNode({
         x={0}
         y={labelY}
         fill={t.text}
-        fontSize={17}
+        fontSize={20}
         fontWeight={650}
-        letterSpacing={0.3}
+        letterSpacing={0.2}
         fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
         textAnchor="middle"
       >
@@ -347,7 +354,7 @@ export function DiagramNode({
           y={descY}
           /* AA on the tinted card / dark bg — --ac-ink-soft (oklch 80%). */
           fill="var(--ac-ink-soft)"
-          fontSize={13.5}
+          fontSize={15}
           fontFamily="var(--ac-font-mono, ui-monospace, monospace)"
           textAnchor="middle"
         >

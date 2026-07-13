@@ -109,5 +109,18 @@ export const DEFAULT_LEGEND_LABEL: Record<Tone, string> = {
   default: 'supporting flow',
 }
 
+/**
+ * One-line plain-language DECODE under each legend chip, so a first-time reader
+ * learns what the color MEANS in operational terms — not just its name. Rendered
+ * as sublabel text beneath the legend label in VisualFrame.
+ */
+export const LEGEND_DECODE: Record<Tone, string> = {
+  accent: 'the path this lesson is tracing',
+  warning: 'what breaks if this is wrong',
+  success: 'the system of record — the truth',
+  muted: 'shown for context, not in scope',
+  default: 'ordinary request / data flow',
+}
+
 /** Stable legend ordering: suspect path → blast radius → source of truth → muted. */
 export const TONE_ORDER: Tone[] = ['accent', 'warning', 'success', 'muted', 'default']

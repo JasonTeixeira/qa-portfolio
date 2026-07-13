@@ -10,9 +10,17 @@
 .section {
   --tone: var(--topic, #6e8bff);
 }
+/* PER-ROLE COLOR TAXONOMY — one hue per block role, tracked by the rail/step/
+   chip/LED/reveal via --tone. warm=amber, cool=accent, danger=red, blue=info,
+   verify=green. Data-driven from ROLE_TONE in SprintBlocks. */
 .section[data-tone='warm'] { --tone: var(--ac-pending, #e0a93e); }
 .section[data-tone='cool'] { --tone: var(--ac-accent-text, #8fa0ff); }
 .section[data-tone='danger'] { --tone: var(--ac-danger, #e5484d); }
+/* blue = the BRAND blue (--ac-accent) brightened toward white so it stays AA as
+   small rail text on the dark bg, and reads distinctly bluer than the violet
+   'cool' accent-text. In-system (token-derived), not an off-palette hue. */
+.section[data-tone='blue'] { --tone: color-mix(in oklch, var(--ac-accent, #3d5afe) 58%, white 42%); }
+.section[data-tone='verify'] { --tone: var(--ac-mastery, #18b663); }
 /* RHYTHM — a PROOF/gate surface is a phase boundary; give it more breathing room
    above so it doesn't crowd the interactive block before it. */
 .section[data-archetype='proof'] { margin-top: var(--ac-space-lg, 2.25rem); }
@@ -92,6 +100,32 @@
 .reveal[data-verdict='fail'] { --tone: var(--ac-danger); }
 
 /* worked-example / debug code now render through the shared CodeSurface well. */
+
+/* STAT STRIP — numeric tokens pulled out of a prose block as mono data chips, so
+   the hard numbers read as an instrument readout above the paragraph rather than
+   being buried in the wall. tabular figures; AA on the dark bg. */
+.statStrip {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+}
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border-radius: 5px;
+  border: 1px solid color-mix(in oklch, var(--ac-accent-text) 30%, var(--ac-rule));
+  background: color-mix(in oklch, var(--ac-accent) 8%, transparent);
+  font-family: var(--ac-font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--ac-accent-text);
+}
 
 .steps { margin: 0 0 0.9rem; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
 .steps li { color: var(--ac-ink-soft); line-height: 1.55; }

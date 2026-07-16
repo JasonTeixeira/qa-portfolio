@@ -47,14 +47,15 @@ async function synthesize(text) {
   if (!r.ok) throw new Error(`voicebox ${r.status}: ${(await r.text()).slice(0, 140)}`)
   const gen = await r.json()
   const wav = join(VOICEBOX_DATA, 'generations', `${gen.id}.wav`)
+  const POLL_MS = Number(process.env.VOICEBOX_POLL_MS || 2000)
   let lastSize = -1, stable = 0
-  for (let i = 0; i < 120; i++) { // up to ~4min (first render cold-loads the model)
+  for (let i = 0; i < Math.ceil(240000 / POLL_MS); i++) { // up to ~4min (first render cold-loads the model)
     if (existsSync(wav)) {
       const sz = statSync(wav).size
       if (sz > 0 && sz === lastSize) { if (++stable >= 2) break } else stable = 0
       lastSize = sz
     }
-    await new Promise((res) => setTimeout(res, 2000))
+    await new Promise((res) => setTimeout(res, POLL_MS))
   }
   if (!existsSync(wav) || statSync(wav).size === 0) throw new Error(`no wav after timeout (id ${gen.id})`)
   const mp3 = wav.replace(/\.wav$/, '.mp3')

@@ -54,3 +54,26 @@ Re-run the count. Require:
 
 This check belongs in the quality harness as a permanent hard-fail (a new dimension: *assessment
 integrity*), so it can never silently regress again.
+
+---
+
+## RESOLVED — 2026-07-17
+
+Fixed via `quiz-distractor-rewrite` (32-course workflow: distractors rewritten into credible
+misconceptions mined from each lesson's own debug/tradeoff blocks, at length parity) → seeded
+`quiz-shuffle.mjs --apply` (607 quizzes) → gate.
+
+**Final `quiz-integrity.mjs` over all 632 live quizzes: GATE PASS**
+
+| Signal | Before | After | Gate |
+|---|---|---|---|
+| longest-option-wins | 98.3% | **15.8%** | ≤35% |
+| answer-index max share | 88.1% (idx 1) | **27.5%** (spread {0:143,1:174,2:165,3:149}) | ≤35% |
+| correct-vs-distractor length advantage | +176.4% | **−0.6%** | ≤25% |
+| blatant single-quiz tells (>50% longer) | 600 | **0** | — |
+
+Integrity preserved: 632 quizzes, 0 out-of-range answers, 0 empty options, 0 duplicate options;
+4,582 storyboard audio refs intact; content board still 32/32.
+
+**This gate (`scripts/academy/quality/quiz-integrity.mjs`, exit 1 on fail) is now the permanent
+regression guard — run it after any quiz-touching change; wire into CI/ship gate.**

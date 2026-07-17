@@ -106,6 +106,26 @@ export async function getLessonsByCourse(
 
 export type OverviewLesson = { slug: string; title: string; estMinutes: number; isFreePreview: boolean }
 export type OverviewModule = { title: string; lessons: OverviewLesson[] }
+
+/**
+ * The real name of a module, with the redundant "Module N" prefix removed.
+ *
+ * `academy_lessons.module_title` ships in exactly two shapes:
+ *   - named: "Module 3 · Framing & Diagnosis"  -> "Framing & Diagnosis"
+ *   - bare:  "Module 3"                        -> null (the module has no name)
+ *
+ * Every surface that renders a "MODULE NN" kicker beside the name must strip the
+ * prefix, or the number reads twice ("MODULE 03 · Module 3 · Framing"). The
+ * declared number is safe to drop: it equals the module's position in
+ * `module_sort` order for every module in the catalogue (verified 154/154).
+ *
+ * Returns null — never an empty string or an invented name — when the source
+ * carries no real name, so callers omit the element rather than render a blank.
+ */
+export function moduleName(title: string): string | null {
+  const stripped = title.replace(/^\s*module\s*\d+\s*[·:\-–—.]?\s*/i, '').trim()
+  return stripped === '' ? null : stripped
+}
 export type CourseOverview = {
   slug: string
   title: string

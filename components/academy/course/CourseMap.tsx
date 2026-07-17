@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import type { CourseOverview as Overview, OverviewLesson } from '@/lib/academy/content'
+import { moduleName, type CourseOverview as Overview, type OverviewLesson } from '@/lib/academy/content'
 import { TOPICS } from '@/lib/academy/topics'
 import styles from './course-map.module.css'
 
@@ -86,7 +86,9 @@ export function CourseMap({
 
   return (
     <div className={styles.root} style={rootStyle}>
-      <main className={styles.main}>
+      {/* Not a <main>: AcademyShell already owns the page's main landmark, and
+          nesting a second one makes it non-top-level, duplicated, and non-unique. */}
+      <div className={styles.main}>
         {/* Ghost numeral — module count, matching the course-overview convention. */}
         <div className={styles.ghost} aria-hidden="true">
           {NUM(moduleCount)}
@@ -132,20 +134,23 @@ export function CourseMap({
                 ? `${done} of ${rows.length} · in progress`
                 : `${done} of ${rows.length}`
             const activeModule = rows.some((l) => l.status === 'current')
+            // The "MODULE NN" kicker already carries the number — render only the
+            // real name beside it, and nothing at all when the module has none.
+            const name = moduleName(m.title)
 
             return (
               <section
                 key={m.title}
                 className={styles.module}
                 data-active={activeModule || undefined}
-                aria-label={`Module ${NUM(mi + 1)}: ${m.title}`}
+                aria-label={name ? `Module ${NUM(mi + 1)}: ${name}` : `Module ${NUM(mi + 1)}`}
               >
                 <div className={styles.moduleHead}>
                   <div className={styles.moduleHeadMain}>
                     <span className={styles.moduleNum} data-active={activeModule || undefined}>
                       MODULE {NUM(mi + 1)}
                     </span>
-                    <span className={styles.moduleName}>{m.title}</span>
+                    {name ? <span className={styles.moduleName}>{name}</span> : null}
                   </div>
                   <span className={styles.moduleSummary} data-state={isComplete ? 'complete' : inProgress ? 'active' : 'idle'}>
                     {summary}
@@ -202,7 +207,7 @@ export function CourseMap({
             current.
           </span>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

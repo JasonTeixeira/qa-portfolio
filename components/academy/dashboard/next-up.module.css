@@ -1,25 +1,40 @@
-/* NEXT UP — the near-miss strip. Disciplined-dark: hairline surfaces, no glow.
-   Each item is a tight pull-forward line with a literal progress bar. */
+/* NEXT UP — the near-miss surface. OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Dashboard Cockpit.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Design grammar: quiet hairline
+   cards (1px --sa-rule), mono kickers at 10px/0.14em, the radius canon
+   (7/14/24 + 11 inner card), and body-font pill buttons — never display-serif
+   at weight 700+, which the design reserves for headlines. */
 
+/* Standalone: draws its own hairline card. */
 .strip {
-  --dim: var(--sa-ink-subtle);
-  --muted: var(--sa-ink-faint);
   position: relative;
   z-index: 1;
-  margin: 0 0 1.5rem;
-  padding: 0.9rem 1.2rem 1rem;
+  margin: 0 0 24px;
+  padding: 18px 20px 20px;
   border: 1px solid var(--sa-rule);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--sa-surface-1);
 }
 
+/* Nested in a bento panel: the panel owns the card + the kicker, so this is
+   plain flow. It fills the panel so the tile reads as one composed block. */
+.stripBare {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+}
+
 .kicker {
-  margin: 0 0 0.7rem;
+  margin: 0 0 12px;
   font-family: var(--sa-mono-live, var(--sa-font-mono));
-  font-size: 0.62rem;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--sa-accent-text);
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
 }
 
 /* -- HERO: the single dominant "do this next" -------------------------------- */
@@ -28,20 +43,16 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 1.1rem;
-  padding: 1.15rem 1.25rem;
-  margin: 0 0 0.9rem;
+  gap: 16px;
+  padding: 18px 20px;
+  margin: 0 0 14px;
   border: 1px solid var(--sa-accent-border);
   border-radius: 14px;
-  background: linear-gradient(
-    120deg,
-    var(--sa-accent-soft),
-    var(--sa-surface-2)
-  );
+  background: linear-gradient(165deg, var(--sa-accent-soft), var(--sa-surface-2));
   text-decoration: none;
   color: var(--sa-ink);
   transition: transform var(--sa-dur-ui) var(--sa-ease),
-    border-color var(--sa-dur-ui) ease;
+    border-color var(--sa-dur-ui) var(--sa-ease);
 }
 .hero:hover {
   transform: translateY(-2px);
@@ -49,36 +60,36 @@
 }
 .hero:focus-visible {
   outline: var(--sa-focus-outline);
-  outline-offset: 2px;
+  outline-offset: var(--sa-focus-offset);
 }
 
 .heroGlyph {
   display: grid;
   place-items: center;
   flex: none;
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--sa-radius-node);
   border: 1px solid var(--sa-accent-border);
   background: var(--sa-accent-soft);
-  font-size: 1.2rem;
   color: var(--sa-accent-text);
 }
 
 .heroBody {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 9px;
   min-width: 0;
 }
 .heroLine {
-  font-size: 1.18rem;
+  font-size: 16px;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
+/* Display serif at the design's headline weight — not 800. */
 .heroLead {
   font-family: var(--sa-display-live, var(--sa-font-display));
-  font-weight: 800;
+  font-weight: 600;
   color: var(--sa-ink);
 }
 .heroToward {
@@ -90,47 +101,43 @@
   display: block;
   width: 100%;
   height: 7px;
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--sa-surface-3);
   overflow: hidden;
 }
 .heroBarFill {
   display: block;
   height: 100%;
-  border-radius: 999px;
-  background: var(--sa-accent);
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--sa-accent), var(--sa-accent-hover));
 }
 
+/* Design button grammar: body font, weight 600, 24px pill, #6E83FF hover. */
 .heroCta {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 6px;
   align-self: center;
-  padding: 0.62rem 1.25rem;
+  padding: 11px 20px;
   border-radius: 24px;
   background: var(--sa-accent);
   color: #ffffff;
-  font-family: var(--sa-display-live, var(--sa-font-display));
-  font-weight: 700;
-  font-size: 0.86rem;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 13.5px;
   white-space: nowrap;
+  transition: background var(--sa-dur-ui) var(--sa-ease);
+}
+.hero:hover .heroCta {
+  background: var(--sa-accent-hover);
 }
 
 /* -- SUPPORT ROW: the demoted near-misses — unmistakably secondary ----------- */
 .supportRow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.6rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -140,19 +147,20 @@
   min-width: 0;
 }
 
+/* Inner card on the page floor — the design's "artifact so far" grammar. */
 .link {
   display: flex;
   align-items: flex-start;
-  gap: 0.7rem;
+  gap: 11px;
   height: 100%;
-  padding: 0.7rem 0.85rem;
+  padding: 13px 15px;
   border: 1px solid var(--sa-rule);
-  border-radius: 10px;
-  background: var(--sa-surface-2);
+  border-radius: 11px;
+  background: var(--sa-bg);
   text-decoration: none;
   color: var(--sa-ink);
   transition: transform var(--sa-dur-ui) var(--sa-ease),
-    border-color var(--sa-dur-ui) ease;
+    border-color var(--sa-dur-ui) var(--sa-ease);
 }
 .link:hover {
   transform: translateY(-2px);
@@ -160,66 +168,66 @@
 }
 .link:focus-visible {
   outline: var(--sa-focus-outline);
-  outline-offset: 2px;
+  outline-offset: var(--sa-focus-offset);
 }
 
 .glyph {
   display: grid;
   place-items: center;
   flex: none;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--sa-radius-sm);
   border: 1px solid var(--sa-edge);
   background: var(--sa-surface-1);
-  font-size: 0.85rem;
   color: var(--sa-accent-text);
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 7px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .line {
-  font-size: 0.84rem;
+  font-size: 13px;
   line-height: 1.35;
 }
 .lead {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--sa-ink);
 }
 .toward {
-  color: var(--dim);
+  color: var(--sa-ink-subtle);
 }
 .toward em {
   font-style: normal;
   color: var(--sa-accent-text);
 }
 
-/* literal progress bar — compositor-friendly width on a static fill */
+/* literal progress bar — static fill, no layout-bound animation */
 .bar {
   display: block;
   width: 100%;
   height: 5px;
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--sa-surface-3);
   overflow: hidden;
 }
 .barFill {
   display: block;
   height: 100%;
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--sa-accent);
 }
 
 .leagueHint {
   font-family: var(--sa-mono-live, var(--sa-font-mono));
-  font-size: 0.66rem;
+  font-size: 10px;
   letter-spacing: 0.04em;
-  color: var(--muted);
+  color: var(--sa-ink-faint);
 }
 
 @media (max-width: 560px) {
@@ -228,13 +236,14 @@
   }
   .heroCta {
     grid-column: 1 / -1;
-    text-align: center;
+    justify-content: center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .link,
-  .hero {
+  .hero,
+  .heroCta {
     transition: none;
   }
   .link:hover,

@@ -223,7 +223,12 @@
   color: inherit;
   transition: border-color var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
 }
-.continue:hover { border-color: var(--sa-edge-hover); transform: translateY(-2px); }
+/* The reward fallback carries only a near-miss row or two — far less than the
+   "Continue" tile's title + module map + artifact block. Hug that real content
+   instead of stretching to the hero's height and banking dead space under it. */
+.continueHug { align-self: start; }
+/* Only the linked variant lifts — the fallback renders a plain div (no target). */
+a.continue:hover { border-color: var(--sa-edge-hover); transform: translateY(-2px); }
 .continue:focus-visible { outline: var(--sa-focus-outline); outline-offset: var(--sa-focus-offset); }
 .continueTitle {
   font-family: var(--sa-display-live);
@@ -534,5 +539,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .hero, .continue, .certChip, .heroCta, .gateBtn, .recallCta, .panelLink, .utilityLink { transition: none; }
-  .hero:hover, .continue:hover, .certChip:hover, .gateBtn:hover, .recallCta:hover { transform: none; }
+  .hero:hover, a.continue:hover, .certChip:hover, .gateBtn:hover, .recallCta:hover { transform: none; }
 }

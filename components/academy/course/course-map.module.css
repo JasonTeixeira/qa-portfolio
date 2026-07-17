@@ -155,7 +155,7 @@
 .moduleNum {
   font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
   white-space: nowrap;
 }
 .moduleNum[data-active] {
@@ -172,7 +172,7 @@
   font-family: var(--sa-mono-live);
   font-size: 10px;
   white-space: nowrap;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
 }
 .moduleSummary[data-state='complete'] {
   color: var(--sa-success);
@@ -217,7 +217,7 @@ a.row:focus-visible {
 .rowNum {
   font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
 }
 
 .rowDot {
@@ -254,14 +254,14 @@ a.row:focus-visible {
   display: block;
   font-family: var(--sa-mono-live);
   font-size: 9.5px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
   margin-top: 1px;
 }
 
 .rowLen {
   font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
   white-space: nowrap;
 }
 
@@ -271,7 +271,7 @@ a.row:focus-visible {
   letter-spacing: 0.07em;
   padding: 4px 9px;
   border-radius: 5px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
   border: 1px solid var(--sa-rule);
   white-space: nowrap;
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { topic, TOPICS } from '@/lib/academy/topics'
-import type { CourseOverview as Overview, OverviewLesson } from '@/lib/academy/content'
+import { moduleName, type CourseOverview as Overview, type OverviewLesson } from '@/lib/academy/content'
 import { ProgressBar } from '@/components/academy/shell/ProgressBar'
 import { Icon } from '@/components/academy/ui/Icon'
 import type { CSSProperties } from 'react'
@@ -65,6 +65,7 @@ export function CourseOverview({
   const started = doneCount > 0
   const ctaSlug = continueSlug ?? overview.firstLessonSlug
   const pct = overview.lessonsTotal ? Math.round((doneCount / overview.lessonsTotal) * 100) : 0
+  const courseDone = overview.lessonsTotal > 0 && doneCount >= overview.lessonsTotal
 
   const flat = flatten(overview)
   const moduleCount = overview.modules.length
@@ -99,9 +100,11 @@ export function CourseOverview({
           <div className={styles.heroMain}>
             <div className={styles.badges}>
               <span className={styles.badge}>{topicLabel}</span>
-              <span className={styles.badgeLive}>
-                ✓ {started ? `${pct}% done` : 'live'} · {overview.lessonsTotal} lessons · {moduleCount} module
-                {moduleCount === 1 ? '' : 's'}
+              {/* The mark and its colour are earned, never decorative: the success ✓
+                  appears only once the learner has actually finished the course. */}
+              <span className={styles.badgeLive} data-state={courseDone ? 'done' : started ? 'active' : 'idle'}>
+                {courseDone ? '✓ complete' : started ? `${pct}% done` : 'live'} · {overview.lessonsTotal} lessons ·{' '}
+                {moduleCount} module{moduleCount === 1 ? '' : 's'}
               </span>
             </div>
 
@@ -141,17 +144,29 @@ export function CourseOverview({
             ) : null}
           </div>
 
-          {/* Outcomes / "what you'll learn" card — modules stand in as the proof points. */}
+          {/* Outcomes / "what you'll learn" card — modules stand in as the proof points.
+              The mark is semantic, never decorative: success ✓ means "you finished this
+              module", so an un-finished module gets the neutral out-of-scope glyph. */}
           <aside className={styles.outcomes}>
             <div className={styles.outcomesHead}>What you&apos;ll cover</div>
-            {overview.modules.map((m) => (
-              <div key={m.title} className={styles.outcomeRow}>
-                <span className={styles.outcomeCheck} aria-hidden="true">
-                  ✓
-                </span>
-                <span className={styles.outcomeText}>{m.title}</span>
-              </div>
-            ))}
+            {overview.modules.map((m) => {
+              const doneHere = m.lessons.filter((l) => completed.has(l.slug)).length
+              const moduleDone = m.lessons.length > 0 && doneHere === m.lessons.length
+              const srState = moduleDone
+                ? 'complete'
+                : doneHere > 0
+                  ? `${doneHere} of ${m.lessons.length} lessons done`
+                  : 'not started'
+              return (
+                <div key={m.title} className={styles.outcomeRow}>
+                  <span className={styles.outcomeCheck} data-done={moduleDone || undefined} aria-hidden="true">
+                    {moduleDone ? '✓' : '○'}
+                  </span>
+                  <span className={styles.outcomeText}>{m.title}</span>
+                  <span className={styles.srOnly}> — {srState}</span>
+                </div>
+              )
+            })}
             <div className={styles.outcomesFoot}>
               {overview.lessonsTotal} lessons · <span className={styles.outcomesHours}>{overview.hours}h total</span>
             </div>
@@ -174,6 +189,9 @@ export function CourseOverview({
             {overview.modules.map((m, mi) => {
               const first = m.lessons[0]
               const href = first ? `/academy/learn/${overview.slug}/${first.slug}` : null
+              // The card's own "MODULE NN" kicker carries the number — drop the
+              // duplicate prefix, and omit the title when there's no real name.
+              const name = moduleName(m.title)
               const card = (
                 <>
                   <div className={styles.moduleTop}>
@@ -182,7 +200,7 @@ export function CourseOverview({
                       {m.lessons.length} lesson{m.lessons.length === 1 ? '' : 's'}
                     </span>
                   </div>
-                  <div className={styles.moduleTitle}>{m.title}</div>
+                  {name ? <div className={styles.moduleTitle}>{name}</div> : null}
                   {first ? <div className={styles.moduleDesc}>Starts with “{first.title}”.</div> : null}
                   <div className={styles.moduleArtifact}>
                     {m.lessons.some((l) => l.isFreePreview) ? 'includes a free preview lesson' : `${m.lessons.length} lessons in this module`}

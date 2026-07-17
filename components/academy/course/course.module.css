@@ -66,7 +66,7 @@
   border-radius: var(--sa-focus-radius);
 }
 .crumbSep {
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
 }
 .crumbHere {
   color: var(--sa-ink-subtle);
@@ -98,9 +98,17 @@
   padding: 0.25rem 0.625rem;
   border-radius: 5px;
 }
+/* Semantic tone ladder: idle = quiet label, active = accent (in flight),
+   done = success (earned). Green is never spent on "the course exists". */
 .badgeLive {
   font-family: var(--sa-mono-live);
   font-size: 10px;
+  color: var(--sa-ink-faint);
+}
+.badgeLive[data-state='active'] {
+  color: var(--sa-accent-text);
+}
+.badgeLive[data-state='done'] {
   color: var(--sa-success);
 }
 
@@ -190,11 +198,12 @@
   gap: 0.5rem;
   max-width: 30rem;
 }
+/* Partial progress is in-flight, not a passed proof — accent, not success green. */
 .progressLabel {
   font-family: var(--sa-mono-live);
   font-size: 11px;
   letter-spacing: 0.02em;
-  color: var(--sa-success);
+  color: var(--sa-ink-faint);
 }
 
 /* Outcomes card */
@@ -205,12 +214,13 @@
   background: var(--sa-surface-1);
   padding: 1.5rem;
 }
+/* Quiet mono kicker (design grammar) — not a green label; green carries meaning. */
 .outcomesHead {
   font-family: var(--sa-mono-live);
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--sa-success);
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
   margin-bottom: 1rem;
 }
 .outcomeRow {
@@ -220,10 +230,16 @@
   border-bottom: 1px solid var(--sa-rule);
   align-items: baseline;
 }
+/* Semantic, not decorative: success green is reserved for a module the learner
+   has actually finished. Un-finished modules take the neutral out-of-scope ink. */
 .outcomeCheck {
-  color: var(--sa-success);
+  font-family: var(--sa-mono-live);
+  color: var(--sa-ink-ghost);
   font-size: 0.82rem;
   flex-shrink: 0;
+}
+.outcomeCheck[data-done] {
+  color: var(--sa-success);
 }
 .outcomeText {
   font-size: 0.875rem;
@@ -294,7 +310,7 @@
 .moduleNum {
   font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
 }
 .moduleCount {
   font-family: var(--sa-mono-live);
@@ -386,7 +402,7 @@
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--sa-ink-ghost);
+  color: var(--sa-ink-faint);
   margin-bottom: 0.875rem;
 }
 .railItem {
@@ -648,4 +664,16 @@
   .onrampCta:hover {
     transform: none;
   }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

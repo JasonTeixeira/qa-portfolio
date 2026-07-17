@@ -196,7 +196,7 @@ export function Dashboard({
           </Link>
         ) : (
           rewards ? (
-            <div className={styles.continue}>
+            <div className={`${styles.continue} ${styles.continueHug}`}>
               <div className={styles.panelHead}>
                 <span className={styles.panelKicker}>Next up</span>
               </div>

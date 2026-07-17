@@ -1,11 +1,21 @@
-/* "YOUR JOURNEY" hero — the returning-learner anchor. Institutional Editorial,
-   token-driven, flat (no glow). Reads as a masthead, not a card. */
+/* "YOUR JOURNEY" — the goal band. OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Dashboard Cockpit.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*).
+
+   Design grammar applied here:
+   - quiet mono kicker at 10px / 0.14em over the name (never 0.2em)
+   - Fraunces at the design's headline weight (600), sized BELOW the page h1 —
+     the bento's "next best action" tile is the page's only hero, so this band
+     is a supporting panel and must not compete with it
+   - buttons are body-font 600 in a 24px pill, not display-serif 700
+   - radius canon 7 / 14 / 24 (+16 to match the bento tiles it sits under)
+   - the band sits in a flex column with its own gap, so it owns no margin */
 
 .hero {
   position: relative;
   z-index: 1;
-  margin: 0 0 2.2rem;
-  padding: clamp(1.3rem, 1rem + 1.4vw, 2rem) clamp(1.2rem, 0.9rem + 1.4vw, 2rem);
+  margin: 0;
+  padding: clamp(20px, 1rem + 1.4vw, 30px) clamp(18px, 0.9rem + 1.4vw, 26px);
   border: 1px solid var(--sa-rule);
   border-radius: 16px;
   background:
@@ -18,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(1rem, 0.5rem + 2vw, 2.4rem);
+  gap: clamp(16px, 0.5rem + 2vw, 38px);
 }
 
 .lead {
@@ -28,31 +38,32 @@
 .kicker {
   margin: 0;
   font-family: var(--sa-mono-live, var(--sa-font-mono));
-  font-size: 0.7rem;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--sa-accent-text);
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
 }
 
 .goalLabel {
-  margin: 0.5rem 0 0;
+  margin: 9px 0 0;
   font-family: var(--sa-display-live, var(--sa-font-display));
-  font-weight: 500;
-  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.8rem);
-  letter-spacing: -0.02em;
-  line-height: 1.04;
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
   color: var(--sa-ink);
+  text-wrap: balance;
 }
 
 /* next milestone — the clear call-to-action */
 .nextCta {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.55rem;
-  margin-top: 1rem;
-  padding: 0.6rem 1.05rem;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 10px 17px;
   border: 1px solid var(--sa-accent-border);
-  border-radius: 100px;
+  border-radius: var(--sa-radius-lg);
   background: var(--sa-accent-node-bg);
   text-decoration: none;
   transition: border-color var(--sa-dur-ui) var(--sa-ease),
@@ -65,19 +76,19 @@
 }
 .nextCta:focus-visible {
   outline: var(--sa-focus-outline);
-  outline-offset: 2px;
+  outline-offset: var(--sa-focus-offset);
 }
 .nextKicker {
   font-family: var(--sa-mono-live, var(--sa-font-mono));
-  font-size: 0.64rem;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: var(--sa-accent-text);
 }
 .nextLabel {
   font-family: var(--sa-body-live, var(--sa-font-body));
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 14.5px;
   color: var(--sa-ink);
 }
 .nextArrow {
@@ -94,17 +105,17 @@
 .nextDone {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0 0;
-  font-size: 0.95rem;
+  gap: 8px;
+  margin: 16px 0 0;
+  font-size: 14.5px;
   color: var(--sa-ink-subtle);
 }
 .nextCheck {
   display: inline-grid;
   place-items: center;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--sa-radius-pill);
   background: var(--sa-success-soft);
   color: var(--sa-success);
 }
@@ -114,7 +125,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: 6px;
   flex-shrink: 0;
 }
 .ring {
@@ -123,14 +134,14 @@
 .ringPct {
   font-family: var(--sa-display-live, var(--sa-font-display));
   font-weight: 600;
-  font-size: 1.35rem;
+  font-size: 20px;
   fill: var(--sa-ink);
 }
 .ringCaption {
   font-family: var(--sa-mono-live, var(--sa-font-mono));
-  font-size: 0.64rem;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: var(--sa-ink-faint);
 }
 
@@ -138,20 +149,20 @@
 .trail {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 0.7rem;
-  margin: 1.5rem 0 0;
-  padding: 1.2rem 0 0;
+  gap: 8px 11px;
+  margin: 22px 0 0;
+  padding: 18px 0 0;
   list-style: none;
   border-top: 1px solid var(--sa-rule);
 }
 .milestone {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.4rem 0.8rem;
+  gap: 7px;
+  padding: 7px 13px;
   border: 1px solid var(--sa-rule);
-  border-radius: 100px;
-  font-size: 0.82rem;
+  border-radius: var(--sa-radius-lg);
+  font-size: 13px;
   line-height: 1.2;
 }
 .mGlyph {
@@ -163,6 +174,7 @@
   font-family: var(--sa-body-live, var(--sa-font-body));
 }
 
+/* tone pairs, straight from the design's semantic set */
 .mDone {
   border-color: var(--sa-success-border);
   background: var(--sa-success-soft);
@@ -187,7 +199,7 @@
 }
 
 .mUpcoming .mGlyph {
-  color: var(--sa-muted);
+  color: var(--sa-ink-ghost);
 }
 .mUpcoming .mLabel {
   color: var(--sa-ink-faint);
@@ -198,36 +210,39 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.7rem;
+  gap: 11px;
 }
 .promptTitle {
-  margin: 0.3rem 0 0;
+  margin: 5px 0 0;
   font-family: var(--sa-display-live, var(--sa-font-display));
-  font-weight: 500;
-  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
   color: var(--sa-ink);
+  text-wrap: balance;
 }
 .promptBody {
   margin: 0;
   max-width: 52ch;
-  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  font-size: 14.5px;
   line-height: 1.5;
-  color: var(--sa-ink-subtle);
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
 }
+/* design button grammar: body font 600, 24px pill, accent glow, #6E83FF hover */
 .promptCta {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.6rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 100px;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 12px 22px;
+  border-radius: 24px;
   background: var(--sa-accent);
   color: #ffffff;
-  font-family: var(--sa-display-live, var(--sa-font-display));
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 14.5px;
   text-decoration: none;
   box-shadow: 0 0 22px rgba(61, 90, 254, 0.35);
   transition: transform var(--sa-dur-ui) var(--sa-ease),
@@ -239,7 +254,7 @@
 }
 .promptCta:focus-visible {
   outline: var(--sa-focus-outline);
-  outline-offset: 2px;
+  outline-offset: var(--sa-focus-offset);
 }
 
 .srOnly {
@@ -258,7 +273,7 @@
   .band {
     flex-direction: column-reverse;
     align-items: flex-start;
-    gap: 1.2rem;
+    gap: 18px;
   }
 }
 
@@ -267,5 +282,9 @@
   .nextArrow,
   .promptCta {
     transition: none;
+  }
+  .nextCta:hover,
+  .promptCta:hover {
+    transform: none;
   }
 }

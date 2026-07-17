@@ -111,10 +111,14 @@ export function NextUp({ rewards, nextHref, compact = false }: NextUpProps) {
   const { hero, rest } = electHero(lanes)
   // No hero-scale block: when compact (the resume action is already the hero), or when
   // only a league lane exists (no honest pct to promote). Render a calm strip instead.
+  //
+  // Compact drops BOTH the card chrome and the kicker: it is nested inside a bento
+  // panel that already draws the hairline card and prints the "NEXT UP" label, so
+  // repeating either would render a card-in-a-card under a duplicated heading.
   if (compact || !hero) {
     return (
-      <section className={styles.strip} aria-label="Next up">
-        <p className={styles.kicker}>Next up</p>
+      <section className={compact ? styles.stripBare : styles.strip} aria-label="Next up">
+        {compact ? null : <p className={styles.kicker}>Next up</p>}
         <ul className={styles.supportRow}>
           {lanes.map((lane) => (
             <SupportingItem key={lane.id} lane={lane} />

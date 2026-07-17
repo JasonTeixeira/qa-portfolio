@@ -1,109 +1,196 @@
-/* Sage Learning Engine V2 — sprint section styling.
-   Inherits --ink / --muted / --line / --topic / --topic-soft from the player root. */
+/* Sage Learning Engine V2 — sprint section styling. OFFICIAL SKIN.
+   Design source: Sage Lesson Player.dc.html — quiet hairline cards with mono
+   numbered kickers; semantic tone soft+border pairs carry meaning. */
 
-/* .section is now a NEUTRAL wrapper — the archetype class (arc.narrative /
-   arc.panel / arc.proof) owns the surface treatment, so 12 sections no longer
-   read as one repeated card. .section only carries the --tone var (used by the
-   rail, badges, checklists, reveals) and intentional vertical rhythm.
-   Rhythm: tighter default; narrative gets its own generous margins from the
-   archetype layer; a phase change gets extra air via [data-archetype] below. */
+/* .section is a NEUTRAL wrapper — the archetype class (arc.narrative /
+   arc.panel / arc.proof) owns the surface. --tone tracks the block ROLE. */
 .section {
-  --tone: var(--topic, #6e8bff);
+  --tone: var(--sa-accent-text);
 }
-/* PER-ROLE COLOR TAXONOMY — one hue per block role, tracked by the rail/step/
-   chip/LED/reveal via --tone. warm=amber, cool=accent, danger=red, blue=info,
-   verify=green. Data-driven from ROLE_TONE in SprintBlocks. */
-.section[data-tone='warm'] { --tone: var(--ac-pending, #e0a93e); }
-.section[data-tone='cool'] { --tone: var(--ac-accent-text, #8fa0ff); }
-.section[data-tone='danger'] { --tone: var(--ac-danger, #e5484d); }
-/* blue = the BRAND blue (--ac-accent) brightened toward white so it stays AA as
-   small rail text on the dark bg, and reads distinctly bluer than the violet
-   'cool' accent-text. In-system (token-derived), not an off-palette hue. */
-.section[data-tone='blue'] { --tone: color-mix(in oklch, var(--ac-accent, #3d5afe) 58%, white 42%); }
-.section[data-tone='verify'] { --tone: var(--ac-mastery, #18b663); }
-/* RHYTHM — a PROOF/gate surface is a phase boundary; give it more breathing room
-   above so it doesn't crowd the interactive block before it. */
-.section[data-archetype='proof'] { margin-top: var(--ac-space-lg, 2.25rem); }
+/* PER-ROLE COLOR TAXONOMY — one hue per block role (kicker, chips, reveals).
+   warm=warning, cool/blue=accent, danger=danger, verify=success. */
+.section[data-tone='warm'] { --tone: var(--sa-warning); --tone-soft: var(--sa-warning-soft); --tone-border: var(--sa-warning-border); }
+.section[data-tone='cool'] { --tone: var(--sa-accent-text); --tone-soft: var(--sa-accent-soft); --tone-border: var(--sa-accent-border); }
+.section[data-tone='danger'] { --tone: var(--sa-danger); --tone-soft: var(--sa-danger-soft); --tone-border: var(--sa-danger-border); }
+.section[data-tone='blue'] { --tone: var(--sa-accent-text); --tone-soft: var(--sa-accent-soft); --tone-border: var(--sa-accent-border); }
+.section[data-tone='verify'] { --tone: var(--sa-success); --tone-soft: var(--sa-success-soft); --tone-border: var(--sa-success-border); }
+/* a PROOF/gate surface is a phase boundary; give it extra air above */
+.section[data-archetype='proof'] { margin-top: 40px; }
 
+/* ── block header strip — the design's numbered mono kicker row
+   ("01 · Sprint contract" left · quiet meta right) ── */
 .rail {
-  display: flex; align-items: center; gap: 0.8rem;
-  padding: 0.7rem 1.1rem;
-  border-bottom: 1px solid var(--ac-rule, var(--line));
-  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--sa-rule);
 }
-.railStep {
-  flex-shrink: 0;
-  display: grid; place-items: center;
-  width: 30px; height: 30px; border-radius: 5px;
-  border: 1px solid color-mix(in srgb, var(--tone) 40%, transparent);
-  background: color-mix(in srgb, var(--tone) 14%, transparent);
-  color: var(--tone);
-  font-family: var(--ac-font-mono); font-size: 0.82rem; font-weight: 600;
-  font-variant-numeric: tabular-nums;
+.railKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-ink-faint);
+  white-space: nowrap;
 }
-.railMeta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-/* step LABEL is instrument chrome → mono, uppercase-tracked (not the display serif) */
-.railLabel { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-weight: 600; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.05em; text-transform: uppercase; }
-.railWhy { font-family: var(--ac-font-mono); font-size: 0.68rem; color: var(--ac-ink-soft); letter-spacing: 0.01em; }
+/* semantically loud steps carry their role hue on the kicker (design: green
+   "Prove it", accent "Teachback", red "Don't claim") */
+.section[data-tone='verify'] .railKicker,
+.section[data-tone='danger'] .railKicker { color: var(--tone); }
+.railWhy {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-accent-text);
+}
 
-.body { padding: 1.15rem 1.3rem 1.3rem; }
-.lead { margin: 0 0 0.9rem; color: var(--ac-ink-soft); line-height: 1.6; font-size: 1rem; }
+.body { padding: 20px 24px 24px; }
+.lead { margin: 0 0 0.9rem; color: var(--sa-ink-subtle); line-height: 1.6; font-size: 15px; text-wrap: pretty; }
 .lead:last-child { margin-bottom: 0; }
-/* MISSION — the lesson's opening hook. Big editorial serif line, no card. */
-.missionText { margin: 0; color: var(--ac-ink); font-family: var(--ac-font-display); font-weight: 500; font-size: var(--ac-step-2, 1.6rem); line-height: var(--ac-leading-snug, 1.32); letter-spacing: var(--ac-track-display, -0.02em); }
+/* MISSION — the lesson's opening hook: serif italic scene-setter (design block 2/3) */
+.missionText {
+  margin: 0 0 0.6rem;
+  color: var(--sa-ink);
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-style: italic;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
 
-/* sprint contract — an instrument SPEC PANEL (graticule well + spec table) */
+/* ── SPRINT CONTRACT — the design's 3-cell hairline-gap grid (block 01):
+   header strip · outcome/proof/unlock/don't-claim cells with tone kickers ── */
 .contract {
-  position: relative;
-  margin: 1.6rem 0;
-  border: 1px solid var(--ac-rule, var(--line));
-  border-left: 2px solid color-mix(in srgb, var(--topic, #6e8bff) 55%, transparent);
-  border-radius: 12px;
-  background:
-    linear-gradient(color-mix(in srgb, var(--ac-rule) 40%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--ac-rule) 40%, transparent) 1px, transparent 1px),
-    var(--ac-surface);
-  background-size: 26px 26px, 26px 26px, 100% 100%;
-  box-shadow: var(--ac-elev-1);
-  padding: 1.2rem 1.3rem;
+  margin: 32px 0;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
   overflow: hidden;
 }
-.contractTop { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-.contractKicker { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--topic, #6e8bff); }
-.intensity { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--ac-font-mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.28rem 0.65rem; border-radius: 5px; border: 1px solid var(--line); color: var(--ink); text-transform: uppercase; font-variant-numeric: tabular-nums; }
-.intensity::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 5px currentColor; }
-.intensity[data-i='micro'] { border-color: color-mix(in oklch, var(--ac-accent-text) 50%, transparent); color: var(--ac-accent-text); }
-.intensity[data-i='standard'] { border-color: color-mix(in oklch, var(--ac-accent) 50%, transparent); color: var(--ac-accent-text); }
-.intensity[data-i='deep'] { border-color: color-mix(in oklch, var(--ac-pending) 50%, transparent); color: var(--ac-pending); }
-.intensity[data-i='capstone'] { border-color: color-mix(in oklch, var(--ac-mastery) 50%, transparent); color: var(--ac-mastery); }
-/* SPEC TABLE — an instrument readout table: hairline-ruled rows, mono uppercase
-   keys in a fixed gutter, values aligned in a single column. */
-.contractGrid { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--ac-rule); }
-.contractGrid > div { display: grid; grid-template-columns: 140px 1fr; gap: 0.8rem; align-items: start; padding: 0.6rem 0; border-bottom: 1px solid var(--ac-rule); }
-.contractGrid dt { margin: 0; font-family: var(--ac-font-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ac-ink-faint); }
-.contractGrid dd { margin: 0; color: var(--ac-ink-soft); line-height: 1.5; font-size: 0.94rem; }
-.doNotClaim { margin: 1rem 0 0; padding-top: 0.9rem; border-top: 1px dashed var(--line); color: var(--ac-ink-soft); font-size: 0.84rem; font-style: italic; }
+.contractTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--sa-rule);
+}
+.contractKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  text-transform: uppercase;
+  color: var(--sa-ink-faint);
+}
+/* intensity chip — the topbar mastery-pill grammar */
+.intensity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  padding: 4px 11px;
+  border-radius: var(--sa-radius-md);
+  border: 1px solid var(--sa-edge);
+  color: var(--sa-ink-subtle);
+  white-space: nowrap;
+}
+.intensity[data-i='micro'],
+.intensity[data-i='standard'] { border-color: var(--sa-accent-border); color: var(--sa-accent-text); }
+.intensity[data-i='deep'] { border-color: var(--sa-warning-border); color: var(--sa-warning); }
+.intensity[data-i='capstone'] { border-color: var(--sa-success-border); color: var(--sa-success); }
+/* the hairline-gap cell grid */
+.contractGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--sa-rule);
+}
+.contractCell { background: var(--sa-surface-1); padding: 18px 22px; }
+.cellKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-faint);
+  margin-bottom: 6px;
+}
+.contractCell[data-tone='outcome'] .cellKicker { color: var(--sa-success); }
+.contractCell[data-tone='proof'] .cellKicker { color: var(--sa-accent-text); }
+.contractCell[data-tone='unlock'] .cellKicker { color: var(--sa-warning); }
+.contractCell[data-tone='claim'] .cellKicker { color: var(--sa-danger); }
+.cellBody { font-size: 13.5px; line-height: 1.55; color: var(--sa-ink-subtle); }
 
-/* shared interactive bits */
-.input { width: 100%; min-height: 84px; resize: vertical; border: 1px solid var(--line); border-radius: 10px; background: var(--ac-bg); color: var(--ink); padding: 0.7rem 0.8rem; font-family: var(--ac-font-body); font-size: 0.92rem; line-height: 1.5; }
-.input:focus-visible { outline: 2px solid var(--tone); outline-offset: 2px; }
-.ghostBtn { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.8rem; border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent); background: color-mix(in srgb, var(--tone) 10%, transparent); color: var(--ink); border-radius: 10px; padding: 0.55rem 1.05rem; font-family: var(--ac-font-display); font-weight: 600; font-size: 0.84rem; cursor: pointer; transition: background 0.18s ease; }
-.ghostBtn:hover:not(:disabled) { background: color-mix(in srgb, var(--tone) 18%, transparent); }
+/* shared interactive bits — the design's textarea/input treatment */
+.input {
+  width: 100%;
+  min-height: 84px;
+  resize: vertical;
+  border: 1px solid var(--sa-edge);
+  border-radius: 10px;
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  padding: 12px 14px;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13.5px;
+  line-height: 1.5;
+  outline: none;
+  transition: border-color var(--sa-dur-ui) var(--sa-ease);
+}
+.input::placeholder { color: var(--sa-ink-muted); }
+.input:focus-visible { border-color: var(--sa-accent); outline: var(--sa-focus-outline); outline-offset: var(--sa-focus-offset); }
+.ghostBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  border: 1px solid var(--sa-accent-border);
+  background: transparent;
+  color: var(--sa-accent-text);
+  border-radius: 22px;
+  padding: 10px 18px;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background var(--sa-dur-ui) var(--sa-ease), color var(--sa-dur-ui) var(--sa-ease);
+}
+.ghostBtn:hover:not(:disabled) { background: var(--sa-accent-node-bg); color: var(--sa-ink); }
 .ghostBtn:disabled { opacity: 0.5; cursor: default; }
-.ghostBtn:focus-visible { outline: 2px solid var(--tone); outline-offset: 2px; }
 
-.reveal { margin-top: 0.9rem; padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent); background: color-mix(in srgb, var(--tone) 8%, transparent); }
-.reveal p { margin: 0.3rem 0 0; color: var(--ac-ink); line-height: 1.55; }
-.revealTag { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--ac-font-mono); font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tone); }
+/* reveal — the design's "The oh!" verdict strip: hairline top rule + tone lead */
+.reveal {
+  margin-top: 16px;
+  border-top: 1px solid var(--sa-rule);
+  padding-top: 16px;
+  font-size: 14px;
+  color: var(--sa-ink-muted);
+}
+.reveal p { margin: 0.3rem 0 0; color: var(--sa-ink-subtle); line-height: 1.55; text-wrap: pretty; }
+.revealTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: var(--tone);
+}
 /* SEMANTIC verdict — a graded teach-back reads green on pass, red on fail. */
-.reveal[data-verdict='pass'] { --tone: var(--ac-mastery); }
-.reveal[data-verdict='fail'] { --tone: var(--ac-danger); }
+.reveal[data-verdict='pass'] { --tone: var(--sa-success); }
+.reveal[data-verdict='fail'] { --tone: var(--sa-danger); }
 
-/* worked-example / debug code now render through the shared CodeSurface well. */
-
-/* STAT STRIP — numeric tokens pulled out of a prose block as mono data chips, so
-   the hard numbers read as an instrument readout above the paragraph rather than
-   being buried in the wall. tabular figures; AA on the dark bg. */
+/* STAT STRIP — numeric tokens as mono data chips above the paragraph */
 .statStrip {
   list-style: none;
   margin: 0 0 0.9rem;
@@ -115,115 +202,218 @@
 .statChip {
   display: inline-flex;
   align-items: center;
-  padding: 0.22rem 0.55rem;
-  border-radius: 5px;
-  border: 1px solid color-mix(in oklch, var(--ac-accent-text) 30%, var(--ac-rule));
-  background: color-mix(in oklch, var(--ac-accent) 8%, transparent);
-  font-family: var(--ac-font-mono);
-  font-size: 0.74rem;
-  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--sa-radius-sm);
+  border: 1px solid var(--sa-accent-border);
+  background: var(--sa-accent-soft);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
-  color: var(--ac-accent-text);
+  color: var(--sa-accent-text);
 }
 
 .steps { margin: 0 0 0.9rem; padding-left: 1.3rem; display: grid; gap: 0.5rem; }
-.steps li { color: var(--ac-ink-soft); line-height: 1.55; }
-.mistake { margin: 0; padding: 0.7rem 0.9rem; border-radius: 8px; background: color-mix(in oklch, var(--ac-danger) 8%, transparent); border: 1px solid color-mix(in oklch, var(--ac-danger) 25%, transparent); color: color-mix(in oklch, var(--ac-danger) 30%, var(--ac-ink)); font-size: 0.9rem; line-height: 1.5; }
-.task { margin: 0 0 0.4rem; color: var(--ink); font-weight: 500; }
+.steps li { color: var(--sa-ink-subtle); line-height: 1.55; font-size: 14.5px; }
+.mistake {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sa-danger) 6%, transparent);
+  border: 1px solid var(--sa-danger-border);
+  color: var(--sa-ink-subtle);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.mistake strong { color: var(--sa-danger); }
+.task { margin: 0 0 0.4rem; color: var(--sa-ink); font-weight: 500; font-size: 14.5px; }
 
-.conceptTitle { margin: 0 0 0.5rem; font-family: var(--ac-font-display); font-weight: 700; font-size: 1.2rem; }
-.conceptText { margin: 0; color: var(--ac-ink); line-height: 1.65; font-size: 1.02rem; }
-
-/* tradeoff — a TRUE two-column split (blocker #2 composition variation): a
-   dividing seam down the middle + OPPOSING tints (option A leans accent, option B
-   leans amber) so the block reads as "weigh A vs B", visually distinct from every
-   other panel even with labels stripped. */
+/* tradeoff — the design compare grammar: two cells split by a hairline seam */
 .tradeoffGrid {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 0;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
   overflow: hidden;
+  background: var(--sa-edge);
 }
 .tradeoffGrid::before {
   /* the dividing seam */
   content: '';
   grid-column: 2;
   grid-row: 1;
-  background: linear-gradient(180deg, transparent, var(--ac-rule-strong) 22%, var(--ac-rule-strong) 78%, transparent);
+  background: var(--sa-edge);
 }
-.tradeoffCard { text-align: left; cursor: pointer; border: 0; border-radius: 0; background: var(--ac-surface); padding: 1rem 1.15rem; display: flex; flex-direction: column; gap: 0.4rem; transition: background 0.18s ease, box-shadow 0.18s ease; }
-/* opposing tints per side */
-.tradeoffCard:nth-of-type(1) { grid-column: 1; background: color-mix(in srgb, var(--lp-action, #3d5afe) 5%, var(--ac-surface)); }
-.tradeoffCard:nth-of-type(2) { grid-column: 3; background: color-mix(in srgb, var(--lp-proof, #e0a93e) 5%, var(--ac-surface)); }
-.tradeoffCard:hover { background: color-mix(in srgb, var(--tone) 9%, var(--ac-surface)); }
-.tradeoffCard[data-on='true'] { background: color-mix(in srgb, var(--tone) 13%, var(--ac-surface)); box-shadow: inset 0 2px 0 0 var(--tone); }
-.tradeoffLabel { font-family: var(--ac-font-display); font-weight: 700; color: var(--ink); }
-.tradeoffText { color: var(--ac-ink-soft); font-size: 0.88rem; line-height: 1.45; }
+.tradeoffCard {
+  text-align: left;
+  cursor: pointer;
+  border: 0;
+  border-radius: 0;
+  background: var(--sa-surface-1);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: background var(--sa-dur-ui) var(--sa-ease), box-shadow var(--sa-dur-ui) var(--sa-ease);
+}
+.tradeoffCard:nth-of-type(1) { grid-column: 1; }
+.tradeoffCard:nth-of-type(2) { grid-column: 3; }
+.tradeoffCard:hover { background: var(--sa-surface-2); }
+.tradeoffCard[data-on='true'] {
+  background: var(--sa-accent-node-bg);
+  box-shadow: inset 0 2px 0 0 var(--sa-accent);
+}
+/* mono compare kickers — ▲ weak amber / ✓ gold green markers work in grayscale */
+.tradeoffLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  color: var(--sa-ink);
+}
+.tradeoffText { color: var(--sa-ink-muted); font-size: 13px; line-height: 1.5; }
 
-/* checklists (verification + gate) */
-.checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
-.checklist button { width: 100%; text-align: left; cursor: pointer; display: flex; align-items: flex-start; gap: 0.7rem; border: 0; background: transparent; color: var(--ac-ink-soft); font-size: 0.94rem; line-height: 1.45; padding: 0.25rem 0; }
-.box { flex-shrink: 0; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--line); color: var(--ac-bg); font-size: 0.72rem; font-weight: 800; transition: background 0.15s ease, border-color 0.15s ease; }
-.checklist button[data-on='true'] .box { background: var(--tone); border-color: var(--tone); }
-.checklist button:focus-visible { outline: 2px solid var(--tone); outline-offset: 2px; border-radius: 4px; }
-/* proof counter — a bordered instrument readout with tabular figures + a status
-   LED (amber pending, green verified). */
+/* checklists (verification + gate) — the design's ✓ rows with soft hairlines */
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.checklist button {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--tone, var(--sa-success)) 15%, transparent);
+  background: transparent;
+  color: var(--sa-ink-subtle);
+  font-size: 14.5px;
+  line-height: 1.5;
+  padding: 8px 0;
+}
+.box {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid var(--sa-edge);
+  color: #04130C;
+  font-size: 0.72rem;
+  transition: background var(--sa-dur-ui) var(--sa-ease), border-color var(--sa-dur-ui) var(--sa-ease);
+  transform: translateY(2px);
+}
+.checklist button[data-on='true'] .box { background: var(--tone, var(--sa-success)); border-color: var(--tone, var(--sa-success)); }
+.checklist button:focus-visible { outline: var(--sa-focus-outline); outline-offset: var(--sa-focus-offset); border-radius: var(--sa-focus-radius); }
+/* proof counter — mono pill readout: amber pending, green verified */
 .progress {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  margin: 0.9rem 0 0;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid color-mix(in srgb, var(--ac-pending) 40%, var(--ac-rule));
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--ac-pending) 8%, transparent);
-  font-family: var(--ac-font-mono);
-  font-size: 0.74rem;
+  margin: 16px 0 0;
+  padding: 4px 11px;
+  border: 1px solid var(--sa-warning-border);
+  border-radius: var(--sa-radius-md);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
-  color: var(--ac-pending);
-}
-.progress::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 6px currentColor;
+  color: var(--sa-warning);
 }
 .progress[data-complete='true'] {
-  color: var(--ac-mastery);
-  border-color: color-mix(in srgb, var(--ac-mastery) 45%, var(--ac-rule));
-  background: color-mix(in srgb, var(--ac-mastery) 9%, transparent);
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
 }
 
 .prompts { margin: 0 0 0.9rem; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
-.prompts li { color: var(--ac-ink-soft); line-height: 1.5; }
-.hint { margin: 0.9rem 0 0; font-family: var(--ac-font-mono); font-size: 0.74rem; color: var(--ac-ink-soft); line-height: 1.5; }
+.prompts li { color: var(--sa-ink-subtle); line-height: 1.5; font-size: 14px; }
+.hint {
+  margin: 12px 0 0;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+  line-height: 1.6;
+}
 
 /* calibration */
-.calTabs { display: inline-flex; gap: 0.25rem; padding: 0.25rem; border: 1px solid var(--line); border-radius: 100px; margin-bottom: 0.8rem; }
-.calTabs button { border: 0; cursor: pointer; padding: 0.4rem 0.9rem; border-radius: 100px; background: transparent; color: var(--ac-ink-soft); font-family: var(--ac-font-mono); font-size: 0.74rem; text-transform: capitalize; transition: background 0.18s ease, color 0.18s ease; }
-.calTabs button[data-on='true'][data-level='weak'] { background: color-mix(in oklch, var(--ac-danger) 18%, transparent); color: var(--ac-danger); }
-.calTabs button[data-on='true'][data-level='passing'] { background: color-mix(in oklch, var(--ac-accent) 18%, transparent); color: var(--ac-accent-text); }
-.calTabs button[data-on='true'][data-level='excellent'] { background: color-mix(in oklch, var(--ac-mastery) 18%, transparent); color: var(--ac-mastery); }
-.calBody { padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--line); background: var(--ac-surface); color: var(--ac-ink); line-height: 1.55; font-size: 0.94rem; margin-bottom: 0.8rem; }
-.calBody[data-level='weak'] { border-color: color-mix(in oklch, var(--ac-danger) 30%, transparent); }
-.calBody[data-level='excellent'] { border-color: color-mix(in oklch, var(--ac-mastery) 30%, transparent); }
+.calTabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--sa-rule);
+  border-radius: 22px;
+  margin-bottom: 0.8rem;
+}
+.calTabs button {
+  border: 0;
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  border-radius: 22px;
+  background: transparent;
+  color: var(--sa-ink-subtle);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  text-transform: capitalize;
+  transition: background var(--sa-dur-ui) var(--sa-ease), color var(--sa-dur-ui) var(--sa-ease);
+}
+.calTabs button[data-on='true'][data-level='weak'] { background: var(--sa-danger-soft); color: var(--sa-danger); }
+.calTabs button[data-on='true'][data-level='passing'] { background: var(--sa-accent-soft); color: var(--sa-accent-text); }
+.calTabs button[data-on='true'][data-level='excellent'] { background: var(--sa-success-soft); color: var(--sa-success); }
+.calBody {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--sa-rule);
+  background: var(--sa-bg);
+  color: var(--sa-ink-subtle);
+  line-height: 1.55;
+  font-size: 14px;
+  margin-bottom: 0.8rem;
+}
+.calBody[data-level='weak'] { border-color: var(--sa-danger-border); }
+.calBody[data-level='excellent'] { border-color: var(--sa-success-border); }
 
 .schedule { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; counter-reset: rev; }
-.schedule li { counter-increment: rev; display: flex; gap: 0.7rem; align-items: center; color: var(--ac-ink-soft); font-size: 0.92rem; }
-.schedule li::before { content: counter(rev); flex-shrink: 0; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--tone) 14%, transparent); color: var(--tone); font-family: var(--ac-font-mono); font-size: 0.72rem; }
+.schedule li { counter-increment: rev; display: flex; gap: 0.7rem; align-items: center; color: var(--sa-ink-subtle); font-size: 13.5px; }
+.schedule li::before {
+  content: counter(rev);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--sa-radius-pill);
+  background: var(--sa-accent-soft);
+  color: var(--sa-accent-text);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+}
 
-/* unlock gate */
-.gate { margin: 1.8rem 0 0.5rem; border: 1px solid var(--ac-rule, var(--line)); border-left: 2px solid color-mix(in srgb, var(--ac-mastery, #18b663) 45%, transparent); border-radius: 14px; background: var(--ac-surface); overflow: hidden; --tone: var(--ac-mastery, #18b663); }
-.gate[data-open='true'] { border-left-color: var(--ac-mastery, #18b663); box-shadow: var(--ac-shadow); }
-.gate .checklist { padding: 1.1rem 1.2rem 0; }
-.gateState { display: flex; align-items: center; gap: 0.4rem; margin: 0; padding: 0.9rem 1.2rem 1.1rem; font-family: var(--ac-font-display); font-weight: 600; font-size: 0.9rem; color: var(--ac-pending); }
-.gate[data-open='true'] .gateState { color: var(--ac-mastery); }
+/* unlock gate — a proof-tier card: success border + faint success wash */
+.gate {
+  margin: 40px 0 0.5rem;
+  border: 1px solid var(--sa-success-border);
+  border-radius: var(--sa-radius-md);
+  background: color-mix(in srgb, var(--sa-success) 4%, transparent);
+  overflow: hidden;
+  --tone: var(--sa-success);
+}
+.gate .railKicker { color: var(--sa-success); }
+.gate .checklist { padding: 16px 24px 0; }
+.gateState {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 14px 24px 18px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sa-warning);
+}
+.gate[data-open='true'] .gateState { color: var(--sa-success); }
 
 @media (max-width: 640px) {
   /* stack the two options; the seam column collapses and cards span full width */
@@ -231,33 +421,48 @@
   .tradeoffGrid::before { display: none; }
   .tradeoffCard:nth-of-type(1),
   .tradeoffCard:nth-of-type(2) { grid-column: 1; }
-  .tradeoffCard:nth-of-type(1) { border-bottom: 1px solid var(--line); }
-  .contractGrid > div { grid-template-columns: 1fr; gap: 0.2rem; }
+  .tradeoffCard:nth-of-type(1) { border-bottom: 1px solid var(--sa-rule); }
+  .contractGrid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tradeoffCard, .ghostBtn, .box { transition: none; }
+  .tradeoffCard, .ghostBtn, .box, .input, .calTabs button { transition: none; }
 }
 
-/* artifact composer (interactive sprint-contract deliverable) */
-.composer { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--line); }
+/* artifact composer (interactive sprint-contract deliverable) — lives inside
+   the contract card, separated by the same hairline the cell grid uses */
+.composer { padding: 18px 22px 22px; border-top: 1px solid var(--sa-rule); }
 .composerHead { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-bottom: 0.7rem; }
 .composerCount {
-  font-family: var(--ac-font-mono);
-  font-size: 0.68rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
-  padding: 0.24rem 0.5rem;
-  border: 1px solid var(--ac-rule);
-  border-radius: 5px;
-  color: var(--ac-ink-faint);
+  padding: 3px 9px;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-sm);
+  color: var(--sa-ink-faint);
 }
 .composerCount[data-ok='true'] {
-  color: var(--ac-mastery);
-  border-color: color-mix(in srgb, var(--ac-mastery) 40%, var(--ac-rule));
-  background: color-mix(in srgb, var(--ac-mastery) 8%, transparent);
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
+  background: color-mix(in srgb, var(--sa-success) 6%, transparent);
 }
 .reqList { list-style: none; margin: 0 0 0.8rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.reqItem { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.32rem 0.66rem; border-radius: 100px; border: 1px solid var(--ac-rule-strong); color: var(--ac-ink-soft); font-size: 0.8rem; line-height: 1; transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease; }
-.reqItem[data-met='true'] { color: var(--ac-mastery); border-color: color-mix(in oklch, var(--ac-mastery) 45%, transparent); background: color-mix(in oklch, var(--ac-mastery) 8%, transparent); }
+.reqItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 5px 11px;
+  border-radius: var(--sa-radius-md);
+  border: 1px solid var(--sa-edge);
+  color: var(--sa-ink-subtle);
+  font-size: 12.5px;
+  line-height: 1.2;
+  transition: color var(--sa-dur-ui) var(--sa-ease), border-color var(--sa-dur-ui) var(--sa-ease), background var(--sa-dur-ui) var(--sa-ease);
+}
+.reqItem[data-met='true'] {
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
+  background: color-mix(in srgb, var(--sa-success) 6%, transparent);
+}
 .composerActions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.composerActions .ghostBtn { margin-top: 0.8rem; }

@@ -29,6 +29,16 @@ const ALLOWED = new Set(
   [// core palette
    '#0b0b0e', '#111115', '#f2efe9', '#9598a2', '#1e1e24', '#3d5afe', '#18b663', '#e0a93e', '#e5484d',
    '#2a2a33', '#141418', '#b6b6c0', '#8fa0ff',
+   // official --sa-* token sheet (styles/academy-tokens.css — design-system canon)
+   '#1a1a20', // --sa-surface-3
+   '#9c9ca6', // --sa-ink-muted
+   '#4a4a54', // --sa-ink-ghost / --sa-muted
+   '#5a5a64', // --sa-ink-comment
+   '#26262e', // --sa-fill-muted
+   '#3a3a44', // --sa-edge-neutral
+   '#343440', // --sa-edge-hover
+   '#6e83ff', // --sa-accent-hover
+   '#04130c', // dark ink on the success (green) pill — design lab CTA
    // per-topic accent tokens (lib/academy/topics.ts) — deliberate design system
    '#5bc8e8', '#6e8bff', '#34d399', '#e8b75a', '#9db4d0', '#a78bfa',
   ].map((h) => h.toLowerCase()),

@@ -20,7 +20,7 @@ export function ScoreCapMeter({
 }) {
   const { score, binding } = resolution
   const capped = binding !== null
-  const accent = capped ? 'var(--ac-pending)' : 'var(--ac-mastery)'
+  const accent = capped ? 'var(--sa-warning)' : 'var(--sa-success)'
   // Instrument GAUGE — a ticked readout track (0/25/50/75/100 graticule) with a
   // mono value and a "/100" denominator so the number reads as an instrument
   // measurement, not a decorative bar. Ticks are aria-hidden decoration.
@@ -29,13 +29,13 @@ export function ScoreCapMeter({
       <div className="flex items-baseline justify-between gap-3">
         <span
           className="font-mono text-[11px] uppercase tracking-[0.14em]"
-          style={{ color: 'var(--ac-ink-faint)' }}
+          style={{ color: 'var(--sa-ink-faint)' }}
         >
           {label}
         </span>
         <span className="font-mono tabular-nums" style={{ color: accent }}>
           <span className="text-lg font-semibold">{score}</span>
-          <span className="text-[11px]" style={{ color: 'var(--ac-ink-faint)' }}>
+          <span className="text-[11px]" style={{ color: 'var(--sa-ink-faint)' }}>
             /100
           </span>
         </span>
@@ -47,11 +47,11 @@ export function ScoreCapMeter({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label="Mastery score"
-        style={{ background: 'var(--ac-surface-2)', border: '1px solid var(--ac-rule)' }}
+        style={{ background: 'var(--sa-surface-3)', border: '1px solid var(--sa-rule)' }}
       >
         <span
           className="block h-full rounded-[2px]"
-          style={{ width: `${score}%`, background: accent, transition: 'width var(--ac-dur) var(--ac-ease)' }}
+          style={{ width: `${score}%`, background: accent, transition: 'width var(--sa-dur-ui) var(--sa-ease)' }}
         />
         {/* graticule tick marks at each quartile */}
         {[25, 50, 75].map((t) => (
@@ -59,14 +59,14 @@ export function ScoreCapMeter({
             key={t}
             aria-hidden="true"
             className="pointer-events-none absolute top-0 h-full"
-            style={{ left: `${t}%`, width: 1, background: 'var(--ac-bg)', opacity: 0.55 }}
+            style={{ left: `${t}%`, width: 1, background: 'var(--sa-bg)', opacity: 0.55 }}
           />
         ))}
       </div>
       {capped && (
-        <p className="font-mono text-[11px] leading-relaxed" style={{ color: 'var(--ac-ink-soft)' }}>
-          <span style={{ color: 'var(--ac-pending)' }}>CAP {binding.cap}</span> — {binding.reason}.{' '}
-          <span style={{ color: 'var(--ac-ink)' }}>Next: {binding.lift}.</span>
+        <p className="font-mono text-[11px] leading-relaxed" style={{ color: 'var(--sa-ink-subtle)' }}>
+          <span style={{ color: 'var(--sa-warning)' }}>CAP {binding.cap}</span> — {binding.reason}.{' '}
+          <span style={{ color: 'var(--sa-ink)' }}>Next: {binding.lift}.</span>
         </p>
       )}
     </div>

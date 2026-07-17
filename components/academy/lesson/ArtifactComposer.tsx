@@ -54,7 +54,7 @@ export function ArtifactComposer({ proof, outcome, courseSlug, lessonSlug }: Pro
   return (
     <div className={styles.composer}>
       <div className={styles.composerHead}>
-        <span className={styles.contractKicker}><Icon name="bolt" size={13} /> Build the artifact · {filename}</span>
+        <span className={styles.contractKicker}>Build the artifact · {filename}</span>
         <span className={styles.composerCount} data-ok={draft.trim().length >= ARTIFACT_MIN_CHARS}>
           {draft.trim().length}/{ARTIFACT_MIN_CHARS}
         </span>

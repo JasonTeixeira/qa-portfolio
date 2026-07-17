@@ -7,34 +7,13 @@ import { recordSprintEvidence } from '@/app/academy/_actions/evidence'
 import { ArtifactComposer } from './ArtifactComposer'
 import { CodeSurface } from './CodeSurface'
 import { gradeTeachback, type GradeTeachbackResult } from '@/app/academy/_actions/grader'
-import { Icon, type IconName } from '@/components/academy/ui/Icon'
+import { Icon } from '@/components/academy/ui/Icon'
 import { archetypeFor, type Archetype } from './LessonSpine'
 import styles from './sprint.module.css'
 import arc from './archetype.module.css'
 
 /** Slugs threaded down so a sprint section can emit evidence for the right unit. */
 type EvidenceProps = { courseSlug?: string; lessonSlug?: string }
-
-/** Each loop step maps to one clean line icon — the engine's decorative glyph
- *  field is intentionally not rendered. Keyed by the loop-step `key`. */
-const STEP_ICON: Record<string, IconName> = {
-  'sprint-contract': 'bolt',
-  mission: 'target',
-  context: 'compass',
-  pretest: 'sparkle',
-  'worked-example': 'book',
-  concept: 'star',
-  lab: 'bolt',
-  debug: 'search',
-  tradeoff: 'refresh',
-  verification: 'check',
-  quiz: 'sparkle',
-  teachback: 'users',
-  calibration: 'target',
-  transfer: 'arrow-up-right',
-  'spaced-review': 'refresh',
-  'unlock-gate': 'lock',
-}
 
 /** Map an archetype to its surface class in the shared archetype layer.
  *  NARRATIVE has no card — it renders as inset editorial prose so the eye parses
@@ -115,14 +94,14 @@ function Section({
   const panelToneClass =
     archetype === 'interactive' || archetype === 'viz' ? (tone ? PANEL_TONE_CLASS[tone] ?? '' : '') : ''
 
-  // NARRATIVE: no card, no rail chrome — just the editorial spine + prose. The
-  // loop step is announced via the eyebrow so the engine still reads.
+  // NARRATIVE: no card, no rail chrome — just editorial prose under a quiet
+  // numbered mono kicker (design: "05 · The mental model").
   if (archetype === 'narrative') {
     return (
       <section className={`${styles.section} ${surface}`} data-tone={tone} data-archetype="narrative">
         {s ? (
           <span className={arc.narrativeEyebrow}>
-            <Icon name={STEP_ICON[s.key] ?? 'circle'} size={13} /> {String(s.step).padStart(2, '0')} · {s.label}
+            {String(s.step).padStart(2, '0')} · {s.label}
           </span>
         ) : null}
         {children}
@@ -137,14 +116,10 @@ function Section({
       data-archetype={archetype}
     >
       {s ? (
+        // The design's card header strip: numbered kicker left, why-meta right.
         <header className={styles.rail}>
-          <span className={styles.railStep}>{String(s.step).padStart(2, '0')}</span>
-          <span className={styles.railMeta}>
-            <span className={styles.railLabel}>
-              <Icon name={STEP_ICON[s.key] ?? 'circle'} size={14} /> {s.label}
-            </span>
-            <span className={styles.railWhy}>{s.why}</span>
-          </span>
+          <span className={styles.railKicker}>{String(s.step).padStart(2, '0')} · {s.label}</span>
+          <span className={styles.railWhy}>{s.why}</span>
         </header>
       ) : null}
       <div className={styles.body}>{children}</div>
@@ -215,26 +190,32 @@ function Mono({ code, language, label }: { code: string; language?: 'python' | '
 }
 
 function SprintContract({ b, courseSlug, lessonSlug }: { b: Extract<LessonBlock, { type: 'sprint-contract' }> } & EvidenceProps) {
-  const rows: [string, string][] = [
-    ['Outcome', b.outcome],
-    ['Proof required', b.proof],
-    ['Unlock standard', b.unlock],
+  const step = loopStep('sprint-contract')
+  // The design's contract card: a numbered header strip over a hairline-gap
+  // cell grid — one tone-kicked cell per clause (outcome / proof / unlock /
+  // don't-claim), each color carrying meaning.
+  const cells: { tone: string; kicker: string; body: string }[] = [
+    { tone: 'outcome', kicker: 'The outcome', body: b.outcome },
+    { tone: 'proof', kicker: 'The proof', body: b.proof },
+    { tone: 'unlock', kicker: 'Unlock standard', body: b.unlock },
+    ...(b.doNotClaim ? [{ tone: 'claim', kicker: "Don't claim", body: b.doNotClaim }] : []),
   ]
   return (
     <section className={styles.contract}>
       <div className={styles.contractTop}>
-        <span className={styles.contractKicker}><Icon name="bolt" size={13} /> Sprint contract</span>
+        <span className={styles.contractKicker}>
+          {step ? `${String(step.step).padStart(2, '0')} · ` : ''}Sprint contract
+        </span>
         <span className={styles.intensity} data-i={b.intensity}>{b.intensity} · {b.time}</span>
       </div>
-      <dl className={styles.contractGrid}>
-        {rows.map(([k, v]) => (
-          <div key={k}>
-            <dt>{k}</dt>
-            <dd>{v}</dd>
+      <div className={styles.contractGrid}>
+        {cells.map((c) => (
+          <div key={c.tone} className={styles.contractCell} data-tone={c.tone}>
+            <div className={styles.cellKicker}>{c.kicker}</div>
+            <div className={styles.cellBody}>{c.body}</div>
           </div>
         ))}
-      </dl>
-      {b.doNotClaim ? <p className={styles.doNotClaim}>Don&rsquo;t claim after reading: {b.doNotClaim}</p> : null}
+      </div>
       <ArtifactComposer proof={b.proof} outcome={b.outcome} courseSlug={courseSlug} lessonSlug={lessonSlug} />
     </section>
   )
@@ -532,11 +513,7 @@ function UnlockGate({ b }: { b: Extract<LessonBlock, { type: 'unlock-gate' }> })
   return (
     <section className={styles.gate} data-open={allDone}>
       <header className={styles.rail}>
-        <span className={styles.railStep} aria-hidden="true"><Icon name="lock" size={14} /></span>
-        <span className={styles.railMeta}>
-          <span className={styles.railLabel}><Icon name="lock" size={14} /> Unlock gate</span>
-          <span className={styles.railWhy}>Advance only with proof</span>
-        </span>
+        <span className={styles.railKicker}>Unlock gate — advance only with proof</span>
       </header>
       <ul className={styles.checklist}>
         {criteria.map((c, i) => (

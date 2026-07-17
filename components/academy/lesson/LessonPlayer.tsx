@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState, useTransition, type CSSProperties } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { topic } from '@/lib/academy/topics'
 import type { Course, Lesson, LessonBlock } from '@/data/academy/sample-course'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
 import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
@@ -248,13 +247,11 @@ export function LessonPlayer({
   notes?: LessonNote[]
 }) {
   const resolvedLabHref = labHref ?? `/academy/learn/${course.slug}/${lesson.slug}/lab`
-  const t = topic(course.topic)
   const router = useRouter()
   const [completed, setCompleted] = useState(initialCompleted)
   const [celebration, setCelebration] = useState<Celebration | null>(null)
   const [pending, startTransition] = useTransition()
   const pct = course.lessonsTotal ? Math.round((course.lessonsDone / course.lessonsTotal) * 100) : 0
-  const rootStyle = { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
 
   const lessonHref = (slug: string) => `/academy/learn/${course.slug}/${slug}`
 
@@ -311,18 +308,24 @@ export function LessonPlayer({
   }, [lesson.nextSlug, lesson.prevSlug, signedIn, completed, pending, proofsMet])
 
   return (
-    <div className={styles.root} style={rootStyle}>
+    <div className={styles.root}>
       <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
-      {/* top bar */}
+      {/* top bar — mono breadcrumb strip with the ◆ mark + mastery chip (design) */}
       <header className={styles.topbar}>
-        <span className={styles.crumbCourse}>{course.title.toUpperCase()}</span>
-        <span className={styles.crumbSep}>{lesson.title}</span>
-        <span className={styles.spacer} />
-        <span className={styles.topProgress} aria-hidden="true">
-          <span className={styles.topProgressFill} style={{ width: `${pct}%` }} />
+        <Link href="/academy/dashboard" className={styles.topbarBrand}>
+          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <span className={styles.brandLabel}>← dashboard</span>
+        </Link>
+        <span className={styles.crumb}>
+          {course.title} <span className={styles.crumbSlash} aria-hidden="true">/</span>{' '}
+          <span className={styles.crumbHere}>{lesson.title}</span>
         </span>
-        <span className={styles.topPct}>{pct}%</span>
-        <span className={styles.avatar} aria-hidden="true" />
+        <span className={styles.spacer} />
+        {unitScore ? (
+          <span className={styles.masteryChip} data-capped={unitScore.binding !== null || undefined}>
+            mastery {unitScore.score}{unitScore.binding !== null ? ' · capped' : ''}
+          </span>
+        ) : null}
       </header>
 
       {/* course side-menu: collapsible module → lesson tree (desktop rail + mobile drawer) */}
@@ -336,18 +339,11 @@ export function LessonPlayer({
             <h1 className={styles.title}>{lesson.title}</h1>
           </header>
           {(unitState || unitScore) ? (
-            <div style={{ margin: '0.5rem 0 1.25rem' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  flexWrap: 'wrap',
-                }}
-              >
+            <div className={styles.masteryRow}>
+              <div className={styles.masteryLine}>
                 {unitState ? <StateBadge state={unitState} /> : null}
                 {unitScore ? (
-                  <div style={{ minWidth: '12rem', flex: '1 1 12rem', maxWidth: '20rem' }}>
+                  <div className={styles.masteryMeter}>
                     {/* Labeled "Best mastery" so the number reads as prior/best —
                         NOT this-session progress (blocker #5 reconciliation). */}
                     <ScoreCapMeter resolution={unitScore} label="Best mastery" />
@@ -358,13 +354,7 @@ export function LessonPlayer({
                   "Best mastery" = the prior/best capped score for this unit; the
                   sidebar % + the in-lesson "Step N of M" are THIS session's
                   position. Mastery is evidence-gated, not completion-gated. */}
-              <p
-                style={{
-                  margin: '0.5rem 0 0',
-                  fontSize: '0.75rem',
-                  color: 'var(--muted, var(--ac-ink-muted))',
-                }}
-              >
+              <p className={styles.masteryNote}>
                 Best mastery is your prior best for this unit — evidence-gated, not the same as this session&rsquo;s progress. Complete the sprint proofs to lift it toward 100.
               </p>
             </div>
@@ -416,10 +406,14 @@ export function LessonPlayer({
       {/* footer */}
       <footer className={styles.footer}>
         {lesson.prevSlug ? (
-          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}><Icon name="arrow-left" size={15} /> {lesson.prevLabel}</Link>
+          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}><Icon name="arrow-left" size={13} /> {lesson.prevLabel}</Link>
         ) : (
           <span />
         )}
+        {/* course-progress track — the design footer's 4px accent bar */}
+        <span className={styles.footerBar} aria-hidden="true">
+          <span className={styles.footerBarFill} style={{ width: `${pct}%` }} />
+        </span>
         <span className={styles.kbdHint} aria-hidden="true">
           <kbd>j</kbd>/<kbd>k</kbd> move{proofsMet && !completed ? (<> · <kbd>c</kbd> complete</>) : null}
         </span>

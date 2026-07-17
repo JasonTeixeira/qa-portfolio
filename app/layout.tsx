@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Fraunces, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+// Official Sage Academy design tokens (--sa-* namespace) — extracted verbatim
+// from design-source/sage-academy-2026; consumed by the academy lesson player.
+import '@/styles/academy-tokens.css'
 import { headers } from 'next/headers'
 import { MarketingChrome } from '@/components/marketing-chrome'
 import { CookieBanner } from '@/components/studio/cookie-banner'

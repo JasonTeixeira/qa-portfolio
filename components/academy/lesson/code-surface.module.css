@@ -1,38 +1,35 @@
-/* Shared CODE WELL for the lesson player (CodeSurface.tsx).
-   An inset, lifted editor surface — inner border + inset shadow "well", a
-   language/label header chip, a line-number gutter, and token colors driven by
-   the shared colorizer. All on the existing --ac-* palette; every token AA on
-   the near-black code floor. Inherits --ac-* from the player root. */
+/* Shared CODE WELL for the lesson player (CodeSurface.tsx). OFFICIAL SKIN.
+   Design source: the "Code walkthrough" figure — hairline card, mono kicker
+   header, a #0B0B0E code floor at 12.5px/1.85 with a quiet ghost gutter and
+   the accent-washed active line. Token colors come from the shared colorizer. */
 
 .well {
-  margin: 0 0 var(--ac-space-sm, 1rem);
-  border: 1px solid var(--ac-rule, #1e1e24);
-  border-radius: var(--ac-radius-lg, 14px);
-  background: var(--ac-surface, #111115);
-  box-shadow: var(--ac-elev-1);
+  margin: 0 0 1rem;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
   overflow: hidden;
 }
 .well:last-child {
   margin-bottom: 0;
 }
 
-/* header chip row: os-dots + filename/label + language tag (+ optional copy) */
+/* header strip: prompt caret + file path + line count + language chip */
 .head {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.5rem 0.85rem;
-  border-bottom: 1px solid var(--ac-rule, #1e1e24);
-  background: linear-gradient(180deg, var(--ac-surface-2) 0%, var(--ac-surface) 100%);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--sa-rule);
+  background: var(--sa-surface-1);
 }
-/* terminal PROMPT caret — the Sage block glyph, accent-lit so the header reads
-   as a live terminal location, not a macOS window chrome skeuomorph. */
+/* terminal PROMPT caret — the Sage block glyph, accent-lit */
 .prompt {
   flex: none;
-  font-family: var(--ac-font-mono);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
   font-size: 0.8rem;
   line-height: 1;
-  color: var(--ac-accent-text);
+  color: var(--sa-accent-text);
 }
 /* breadcrumb PATH to the file (root / filename) — a real editor location line */
 .path {
@@ -44,17 +41,17 @@
 }
 .pathRoot {
   flex: none;
-  font-family: var(--ac-font-mono);
-  font-size: 0.72rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: var(--ac-ink-faint);
+  color: var(--sa-ink-faint);
 }
 .pathSep {
   flex: none;
-  font-family: var(--ac-font-mono);
-  font-size: 0.72rem;
-  color: var(--ac-ink-faint);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
   opacity: 0.7;
 }
 .label {
@@ -62,33 +59,33 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--ac-font-mono);
-  font-size: 0.72rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
   letter-spacing: 0.01em;
-  color: var(--ac-ink-soft);
+  color: var(--sa-ink-subtle);
 }
 /* mono line-count readout — sits at the right edge before the language chip */
 .rows {
   margin-left: auto;
   flex: none;
-  font-family: var(--ac-font-mono);
-  font-size: 0.6rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.1em;
-  color: var(--ac-ink-faint);
+  color: var(--sa-ink-faint);
 }
 .lang {
   flex: none;
-  padding: 0.16rem 0.5rem;
-  border-radius: var(--ac-radius-pill, 999px);
-  border: 1px solid color-mix(in srgb, var(--ac-accent-text) 34%, transparent);
-  background: color-mix(in srgb, var(--ac-accent-text) 12%, transparent);
-  font-family: var(--ac-font-mono);
-  font-size: 0.6rem;
-  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--sa-radius-sm);
+  border: 1px solid var(--sa-accent-border);
+  background: var(--sa-accent-soft);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ac-accent-text);
+  color: var(--sa-accent-text);
 }
 /* when copy is present, it sits after the lang chip */
 .copy {
@@ -96,35 +93,33 @@
   border: 0;
   background: none;
   cursor: pointer;
-  font-family: var(--ac-font-mono);
-  font-size: 0.66rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
   letter-spacing: 0.04em;
-  color: var(--ac-ink-faint);
-  transition: color var(--ac-dur-fast, 150ms) ease;
+  color: var(--sa-ink-faint);
+  transition: color var(--sa-dur-ui) var(--sa-ease);
 }
 .copy:hover {
-  color: var(--ac-accent-text);
+  color: var(--sa-accent-text);
 }
 
-/* the well body — the recessed code floor with an inset top shadow for depth */
+/* the well body — the design's flat #0B0B0E code floor */
 .body {
   margin: 0;
-  padding: 0.85rem 0;
+  padding: 16px 0;
   overflow-x: auto;
-  background: var(--ac-bg, #0b0b0e);
-  box-shadow: inset 0 1px 0 0 color-mix(in srgb, #000 40%, transparent),
-    inset 0 8px 14px -12px #000;
+  background: var(--sa-bg);
 }
 .body:focus-visible {
-  outline: 2px solid var(--ac-accent-text, #8fa0ff);
+  outline: var(--sa-focus-outline);
   outline-offset: -2px;
 }
 
 .codeGrid {
   display: block;
-  font-family: var(--ac-font-mono);
-  font-size: 0.84rem;
-  line-height: 1.7;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: var(--sa-text-code-size);
+  line-height: 1.85;
 }
 
 /* each physical line = gutter number + source; the gutter width tracks digits */
@@ -134,30 +129,28 @@
   align-items: baseline;
   /* keep blank source lines at full line-height (renderTokens returns null for
      empty lines, which would otherwise collapse the row). */
-  min-height: 1.7em;
+  min-height: 1.85em;
 }
-/* ACTIVE LINE — an author-flagged focus line reads as an instrument-highlighted
-   row: a faint accent wash + a left accent tick in the gutter margin. */
+/* ACTIVE LINE — the design's stepped focus line: accent wash + 2px accent edge */
 .row[data-active='true'] {
-  background: color-mix(in srgb, var(--ac-accent) 9%, transparent);
-  box-shadow: inset 2px 0 0 0 var(--ac-accent-text);
+  background: var(--sa-accent-soft);
+  box-shadow: inset 2px 0 0 0 var(--sa-accent);
 }
 .row[data-active='true'] .ln {
-  color: var(--ac-accent-text);
-  opacity: 0.9;
+  color: var(--sa-accent-text);
 }
 .ln {
   padding-right: 0.9rem;
   text-align: right;
-  color: var(--ac-ink-faint);
-  opacity: 0.5;
-  font-size: 0.76rem;
+  /* the design file's gutter ink (#4A4A54 --sa-ink-ghost) fails WCAG AA on the
+     code floor; lift one step to the faint-label ink (a11y is a hard keep). */
+  color: var(--sa-ink-faint);
+  font-size: 11px;
   user-select: none;
   -webkit-user-select: none;
-  border-right: 1px solid color-mix(in srgb, var(--ac-rule) 60%, transparent);
 }
 .src {
-  padding: 0 1.1rem;
-  color: var(--ac-ink-soft);
+  padding: 0 1.4rem 0 0.4rem;
+  color: var(--sa-ink-subtle);
   white-space: pre;
 }

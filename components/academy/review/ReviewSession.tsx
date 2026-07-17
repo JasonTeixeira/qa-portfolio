@@ -125,7 +125,7 @@ export function ReviewSession({
         ? <span className={styles.retention}>retention {retention}%</span>
         : null
 
-  // ── EMPTY: nothing due ──────────────────────────────────────────────────
+  // ── EMPTY: nothing due — the design's "Queue clear" success summary ─────
   if (total === 0) {
     return (
       <div className={styles.stage}>
@@ -135,19 +135,19 @@ export function ReviewSession({
         </div>
         <main className={styles.center}>
           <div className={styles.shell}>
-            <div className={styles.empty}>
-              <span className={styles.emptyGlyph} aria-hidden="true">
-                <Icon name="check" size={26} />
-              </span>
-              <h1 className={styles.emptyTitle}>You&rsquo;re all caught up.</h1>
-              <p className={styles.emptyBody}>
-                Nothing&rsquo;s due right now. Reviews resurface exactly when you&rsquo;re about to
-                forget &mdash; come back tomorrow.
+            <div className={styles.summary}>
+              <p className={styles.summaryKicker}>Queue clear</p>
+              <h1 className={styles.summaryTitle}>You&rsquo;re all caught up.</h1>
+              <p className={styles.summaryBody}>
+                Nothing&rsquo;s due right now. Prompts resurface on their FSRS schedule, exactly
+                when you&rsquo;re about to forget &mdash; nothing to remember to remember.
               </p>
-              <Link href="/academy/dashboard" className={styles.primaryBtn}>
-                Back to My Learning
-                <Icon name="arrow-right" size={16} aria-hidden="true" />
-              </Link>
+              <div className={styles.summaryActions}>
+                <Link href="/academy/dashboard" className={styles.successBtn}>
+                  Back to My Learning
+                  <Icon name="arrow-right" size={16} aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </div>
         </main>
@@ -169,12 +169,13 @@ export function ReviewSession({
         </div>
         <main className={styles.center}>
           <div className={styles.shell}>
-            <div className={styles.done} role="status" aria-live="polite">
-              <span className={styles.doneGlyph} aria-hidden="true">
-                <Icon name="star" size={26} />
-              </span>
-              <p className={styles.doneEyebrow}>Memory strengthened</p>
-              <h1 className={styles.doneTitle}>Session complete.</h1>
+            <div
+              className={`${styles.summary} ${styles.summaryEnter}`}
+              role="status"
+              aria-live="polite"
+            >
+              <p className={styles.summaryKicker}>Queue clear</p>
+              <h1 className={styles.summaryTitle}>Session complete.</h1>
               <ul className={styles.doneStats}>
                 <li className={styles.doneStat}>
                   <span className={styles.doneStatNum}>{memoriesLabel}</span>
@@ -193,15 +194,17 @@ export function ReviewSession({
                   </li>
                 ) : null}
               </ul>
-              <p className={styles.doneBody}>
+              <p className={styles.summaryBody}>
                 {nextInDays
                   ? `Each card returns right before you'd forget it — your next review lands in ~${nextInDays} ${nextInDays === 1 ? 'day' : 'days'}.`
                   : "Each card returns right before you'd forget it."}
               </p>
-              <Link href="/academy/dashboard" className={styles.primaryBtn}>
-                Back to My Learning
-                <Icon name="arrow-right" size={16} aria-hidden="true" />
-              </Link>
+              <div className={styles.summaryActions}>
+                <Link href="/academy/dashboard" className={styles.successBtn}>
+                  Back to My Learning
+                  <Icon name="arrow-right" size={16} aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </div>
         </main>
@@ -258,9 +261,10 @@ export function ReviewSession({
               </>
             ) : (
               <div className={styles.answerArea}>
-                <p className={styles.answerLabel}>Recall it out loud or in code, then rate it.</p>
+                <p className={styles.answerLabel}>Rate your recall</p>
                 <p className={styles.answerBody}>
-                  Explain the idea as if teaching it &mdash; the retrieval is the rep.
+                  Explain the idea out loud or in code, as if teaching it &mdash; the retrieval is
+                  the rep.
                   {current.lessonSlug && current.courseSlug ? (
                     <>
                       {' '}

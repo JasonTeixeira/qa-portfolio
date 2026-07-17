@@ -127,7 +127,7 @@ function Ring({ pct }: { pct: number }) {
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="var(--ac-rule-strong)"
+          stroke="var(--sa-edge)"
           strokeWidth={stroke}
         />
         <circle
@@ -135,7 +135,7 @@ function Ring({ pct }: { pct: number }) {
           cy={size / 2}
           r={r}
           fill="none"
-          stroke={done ? 'var(--ac-mastery)' : 'var(--ac-accent)'}
+          stroke={done ? 'var(--sa-success)' : 'var(--sa-accent)'}
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={circ}

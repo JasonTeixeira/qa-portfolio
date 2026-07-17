@@ -17,14 +17,18 @@ import styles from './progress.module.css'
  * per-dimension score decomposition, so it cannot be shown honestly.
  */
 
+/**
+ * Hex-pinned to the official --sa-* ramp (styles/academy-tokens.css): success /
+ * warning / danger / accent / accent-text / ink-faint. Kept as literals because
+ * these feed SVG presentation attributes, which cannot resolve CSS var().
+ */
 const PAL = {
-  green: '#18B663',
-  gold: '#E0A93E',
-  red: '#E5484D',
-  accent: '#3D5AFE',
-  accentText: '#8FA0FF',
-  muted: '#9598A2',
-  faint: '#4A4A54',
+  green: '#18B663', //   --sa-success
+  gold: '#E0A93E', //    --sa-warning
+  red: '#E5484D', //     --sa-danger
+  accent: '#3D5AFE', //  --sa-accent
+  accentText: '#8FA0FF', // --sa-accent-text
+  muted: '#9598A2', //   --sa-ink-faint
 } as const
 
 // ── Mastery line chart (SVG) ─────────────────────────────────────────────────
@@ -74,13 +78,13 @@ function MasteryChart({ timeline }: { timeline: MasteryTimeline }) {
         {/* axes */}
         <line x1={CHART.left} y1={CHART.top} x2={CHART.left} y2={CHART.bottom} stroke="#1E1E24" strokeWidth={1} />
         <line x1={CHART.left} y1={CHART.bottom} x2={CHART.right} y2={CHART.bottom} stroke="#1E1E24" strokeWidth={1} />
-        <text x={34} y={18} fill={PAL.muted} fontSize={10} fontFamily="var(--ac-font-mono)" textAnchor="end">
+        <text x={34} y={18} fill={PAL.muted} fontSize={10} className={styles.chartText} textAnchor="end">
           100
         </text>
-        <text x={34} y={106} fill={PAL.muted} fontSize={10} fontFamily="var(--ac-font-mono)" textAnchor="end">
+        <text x={34} y={106} fill={PAL.muted} fontSize={10} className={styles.chartText} textAnchor="end">
           50
         </text>
-        <text x={34} y={192} fill={PAL.muted} fontSize={10} fontFamily="var(--ac-font-mono)" textAnchor="end">
+        <text x={34} y={192} fill={PAL.muted} fontSize={10} className={styles.chartText} textAnchor="end">
           0
         </text>
         {/* cap ceiling — dashed gold at the current binding cap */}
@@ -95,7 +99,7 @@ function MasteryChart({ timeline }: { timeline: MasteryTimeline }) {
               strokeWidth={1.5}
               strokeDasharray="5 5"
             />
-            <text x={CHART.right} y={capY - 6} fill={PAL.gold} fontSize={9.5} fontFamily="var(--ac-font-mono)" textAnchor="end">
+            <text x={CHART.right} y={capY - 6} fill={PAL.gold} fontSize={9.5} className={styles.chartText} textAnchor="end">
               capped at {timeline.cap} — {timeline.capLabel}
             </text>
           </>
@@ -109,7 +113,7 @@ function MasteryChart({ timeline }: { timeline: MasteryTimeline }) {
           return (
             <g key={i}>
               <circle cx={cx} cy={cy} r={5} fill="#0B0B0E" stroke={PAL.red} strokeWidth={2.5} />
-              <text x={cx} y={cy + 22} fill={PAL.red} fontSize={9.5} fontFamily="var(--ac-font-mono)" textAnchor="middle">
+              <text x={cx} y={cy + 22} fill={PAL.red} fontSize={9.5} className={styles.chartText} textAnchor="middle">
                 {m.label}
               </text>
             </g>

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { LearnerDashboard, DashCourse } from '@/lib/academy/learner'
-import { TOPICS, topic } from '@/lib/academy/topics'
+import { TOPICS } from '@/lib/academy/topics'
 import type { GamificationState } from '@/lib/academy/gamification-logic'
 import type { GoalProgress } from '@/lib/academy/goal-logic'
 import type { QuestProgress, BonusState } from '@/lib/academy/quest-logic'
@@ -213,31 +213,25 @@ export function Dashboard({
               <Link href="/academy/catalog" className={styles.panelLink}>find more →</Link>
             </div>
             {courseRows.map((c) => {
-              const t = topic(c.topic)
               const finished = c.done >= c.total
               return (
                 <div key={c.slug} className={styles.masteryRow}>
                   <div className={styles.masteryRowHead}>
                     <span className={styles.masteryName}>{c.title}</span>
-                    <span
-                      className={styles.masteryScore}
-                      style={{ color: finished ? 'var(--dc-green)' : 'var(--dc-muted)' }}
-                    >
+                    <span className={styles.masteryScore} data-done={finished || undefined}>
                       {c.done}/{c.total}
                     </span>
                   </div>
                   <div className={styles.masteryTrack}>
                     <div
                       className={styles.masteryFill}
-                      style={{ width: `${c.pct}%`, background: finished ? 'var(--dc-green)' : t.color }}
+                      data-done={finished || undefined}
+                      style={{ width: `${c.pct}%` }}
                     />
                   </div>
                   <div className={styles.masteryFoot}>
                     <span className={styles.masteryReason}>{TOPICS[c.topic].label}</span>
-                    <span
-                      className={styles.masteryLift}
-                      style={{ color: finished ? 'var(--dc-green)' : 'var(--dc-accent-text)' }}
-                    >
+                    <span className={styles.masteryLift} data-done={finished || undefined}>
                       {finished ? 'complete' : `${c.pct}%`}
                     </span>
                   </div>
@@ -267,8 +261,12 @@ export function Dashboard({
             </div>
           ) : (
             <p className={styles.ledgerEmpty}>
-              No proofs shipped yet. Finish a lesson and its proof lands here — a
-              timeline you can show an employer.
+              <span className={styles.ledgerEmptyLede}>
+                No rows yet — your first proof creates the first one.
+              </span>
+              <span className={styles.ledgerEmptySub}>
+                Finish a lesson and its proof lands here — a timeline you can show an employer.
+              </span>
             </p>
           )}
         </section>
@@ -280,7 +278,7 @@ export function Dashboard({
               <span className={styles.panelKicker}>Momentum · level {game.xp.level}</span>
               <span
                 className={styles.momentumSafe}
-                style={{ color: game.streak.activeToday ? 'var(--dc-green)' : 'var(--dc-gold)' }}
+                data-state={game.streak.activeToday ? 'on' : 'warn'}
               >
                 {game.streak.current}-day streak{game.streak.activeToday ? ' · active' : ' · on the line'}
               </span>
@@ -301,7 +299,7 @@ export function Dashboard({
                 ))
               })()}
             </div>
-            <div className={styles.momentumSafe} style={{ color: 'var(--dc-muted)' }}>
+            <div className={styles.momentumSafe}>
               {game.xp.intoLevel}/{150} XP into level {game.xp.level} · {game.xp.toNext} to level {game.xp.level + 1}
             </div>
             {streakDays.length > 0 ? (
@@ -331,10 +329,7 @@ export function Dashboard({
           <section className={`${styles.panel} ${styles.retention}`} aria-label="Recall pressure">
             <div className={styles.panelHead}>
               <span className={styles.panelKicker}>Recall · holds under pressure</span>
-              <span
-                className={styles.retentionStat}
-                style={{ color: recallDue > 0 ? 'var(--dc-gold)' : 'var(--dc-green)' }}
-              >
+              <span className={styles.retentionStat} data-due={recallDue > 0 || undefined}>
                 {recallDue > 0 ? `${recallDue} due` : 'all clear'}
               </span>
             </div>

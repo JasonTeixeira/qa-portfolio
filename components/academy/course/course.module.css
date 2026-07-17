@@ -1,27 +1,17 @@
-/* Sage Academy — Course landing. Palette + type match design-source/rendered/course-landing.html.
-   bg #0B0B0E · surface #111115 · text #F2EFE9 · muted #9598A2 · lines #1E1E24
-   accent #3D5AFE · green #18B663 · gold #E0A93E. Fraunces / Hanken / JetBrains Mono. */
+/* Sage Academy — Course landing. OFFICIAL Sage Academy skin (--sa-* tokens,
+   styles/academy-tokens.css). Fonts route through next/font vars with the
+   --sa-* stacks as fallbacks, aliased once on .page (same pattern as the
+   Lesson Player / Dashboard Cockpit / Course Map). */
 .page {
-  --ac-bg: #0b0b0e;
-  --ac-surface: #111115;
-  --ac-surface-2: #0d0d11;
-  --ac-ink: #f2efe9;
-  --ac-dim: #b6b6c0;
-  --ac-muted: #9598a2;
-  --ac-faint: #4a4a54;
-  --ac-line: #1e1e24;
-  --ac-line-2: #2a2a33;
-  --ac-accent: #3d5afe;
-  --ac-accent-soft: #6e83ff;
-  --ac-green: #18b663;
-  --ac-gold: #e0a93e;
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
 
-  --serif: var(--font-display, Fraunces), Georgia, serif;
-  --sans: var(--font-sans, 'Hanken Grotesk'), system-ui, sans-serif;
-  --mono: var(--font-mono, 'JetBrains Mono'), monospace;
+  /* neutral band tint between bg and surface-1 (grey, layout-only) */
+  --course-band: #0d0d11;
 
-  font-family: var(--sans);
-  color: var(--ac-ink);
+  font-family: var(--sa-body-live);
+  color: var(--sa-ink);
   line-height: 1.6;
 }
 
@@ -43,7 +33,7 @@
   position: absolute;
   right: -20px;
   top: -40px;
-  font-family: var(--serif);
+  font-family: var(--sa-display-live);
   font-weight: 700;
   font-size: clamp(160px, 22vw, 300px);
   line-height: 1;
@@ -59,22 +49,27 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.69rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
 }
 .crumbLink {
-  color: var(--ac-muted);
+  color: var(--sa-ink-faint);
   text-decoration: none;
 }
 .crumbLink:hover {
-  color: var(--ac-ink);
+  color: var(--sa-ink);
+}
+.crumbLink:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
 }
 .crumbSep {
-  color: var(--ac-faint);
+  color: var(--sa-ink-ghost);
 }
 .crumbHere {
-  color: var(--ac-dim);
+  color: var(--sa-ink-subtle);
 }
 
 .heroGrid {
@@ -94,24 +89,24 @@
   gap: 0.75rem;
 }
 .badge {
-  font-family: var(--mono);
-  font-size: 0.625rem;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ac-accent-soft);
+  color: var(--sa-accent-hover);
   border: 1px solid rgba(110, 131, 255, 0.35);
   padding: 0.25rem 0.625rem;
   border-radius: 5px;
 }
 .badgeLive {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  color: var(--ac-green);
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-success);
 }
 
 .title {
   margin: 1.1rem 0 0;
-  font-family: var(--serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: clamp(2rem, 1rem + 3.4vw, 3.25rem);
   line-height: 1.05;
@@ -120,7 +115,7 @@
 }
 .subtitle {
   margin: 1.1rem 0 0;
-  color: var(--ac-dim);
+  color: var(--sa-ink-subtle);
   font-size: 1.06rem;
   max-width: 54ch;
   text-wrap: pretty;
@@ -132,12 +127,13 @@
   gap: 0.75rem;
   margin-top: 1.6rem;
 }
+/* primary pill — accent fill, glow, #6E83FF hover fill (design grammar) */
 .cta {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   color: #fff;
-  background: var(--ac-accent);
+  background: var(--sa-accent);
   text-decoration: none;
   font-size: 0.94rem;
   font-weight: 600;
@@ -145,37 +141,47 @@
   border-radius: 26px;
   box-shadow: rgba(61, 90, 254, 0.35) 0 0 24px;
   white-space: nowrap;
-  transition: transform 0.2s ease;
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
 }
 .cta:hover {
+  background: var(--sa-accent-hover);
   transform: translateY(-1px);
 }
+.cta:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}
+/* ghost pill — hairline edge, #343440 hover edge (design Back-button grammar) */
 .ctaGhost {
   display: inline-flex;
   align-items: center;
-  color: var(--ac-ink);
-  border: 1px solid var(--ac-line-2);
+  color: var(--sa-ink);
+  border: 1px solid var(--sa-edge);
   text-decoration: none;
   font-size: 0.94rem;
   padding: 0.8rem 1.6rem;
   border-radius: 26px;
   white-space: nowrap;
-  transition: border-color 0.2s ease;
+  transition: border-color var(--sa-dur-ui) var(--sa-ease);
 }
 .ctaGhost:hover {
-  border-color: var(--ac-accent-soft);
+  border-color: var(--sa-edge-hover);
+}
+.ctaGhost:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
 }
 .soon {
-  font-family: var(--mono);
+  font-family: var(--sa-mono-live);
   font-size: 0.8rem;
-  color: var(--ac-muted);
+  color: var(--sa-ink-faint);
 }
 
 .meta {
   margin: 1.1rem 0 0;
-  font-family: var(--mono);
-  font-size: 0.69rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
 }
 .progress {
   margin: 1.1rem 0 0;
@@ -185,52 +191,52 @@
   max-width: 30rem;
 }
 .progressLabel {
-  font-family: var(--mono);
-  font-size: 0.7rem;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
   letter-spacing: 0.02em;
-  color: var(--ac-green);
+  color: var(--sa-success);
 }
 
 /* Outcomes card */
 .outcomes {
   position: relative;
-  border: 1px solid var(--ac-line);
+  border: 1px solid var(--sa-rule);
   border-radius: 14px;
-  background: var(--ac-surface);
+  background: var(--sa-surface-1);
   padding: 1.5rem;
 }
 .outcomesHead {
-  font-family: var(--mono);
-  font-size: 0.625rem;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ac-green);
+  color: var(--sa-success);
   margin-bottom: 1rem;
 }
 .outcomeRow {
   display: flex;
   gap: 0.75rem;
   padding: 0.56rem 0;
-  border-bottom: 1px solid var(--ac-line);
+  border-bottom: 1px solid var(--sa-rule);
   align-items: baseline;
 }
 .outcomeCheck {
-  color: var(--ac-green);
+  color: var(--sa-success);
   font-size: 0.82rem;
   flex-shrink: 0;
 }
 .outcomeText {
   font-size: 0.875rem;
-  color: var(--ac-dim);
+  color: var(--sa-ink-subtle);
 }
 .outcomesFoot {
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
   margin-top: 0.9rem;
 }
 .outcomesHours {
-  color: var(--ac-accent-soft);
+  color: var(--sa-accent-hover);
 }
 .outcomesRing {
   position: absolute;
@@ -240,8 +246,8 @@
 
 /* ── The arc — modules ── */
 .arc {
-  border-top: 1px solid var(--ac-line);
-  background: var(--ac-surface-2);
+  border-top: 1px solid var(--sa-rule);
+  background: var(--course-band);
 }
 .arcInner {
   max-width: 1240px;
@@ -250,7 +256,7 @@
 }
 .h2 {
   margin: 0 0 2.25rem;
-  font-family: var(--serif);
+  font-family: var(--sa-display-live);
   font-weight: 560;
   font-size: clamp(1.5rem, 1rem + 1.8vw, 2.125rem);
   letter-spacing: -0.02em;
@@ -261,20 +267,24 @@
   gap: 1.125rem;
 }
 .moduleCard {
-  border: 1px solid var(--ac-line);
+  border: 1px solid var(--sa-rule);
   border-radius: 14px;
-  background: var(--ac-surface);
+  background: var(--sa-surface-1);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.18s ease, transform 0.18s ease;
+  transition: border-color var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
 }
 .moduleCard:hover {
-  border-color: var(--ac-line-2);
+  border-color: var(--sa-edge-hover);
   transform: translateY(-2px);
+}
+.moduleCard:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
 }
 .moduleTop {
   display: flex;
@@ -282,17 +292,17 @@
   justify-content: space-between;
 }
 .moduleNum {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  color: var(--ac-faint);
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-ghost);
 }
 .moduleCount {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint);
 }
 .moduleTitle {
-  font-family: var(--serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: 1.25rem;
   letter-spacing: -0.01em;
@@ -300,21 +310,21 @@
 }
 .moduleDesc {
   font-size: 0.84rem;
-  color: #9c9ca6;
+  color: var(--sa-ink-muted);
   flex: 1 1 0%;
   text-wrap: pretty;
 }
 .moduleArtifact {
-  font-family: var(--mono);
-  font-size: 0.656rem;
-  color: var(--ac-accent-soft);
-  border-top: 1px solid var(--ac-line);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-accent-hover);
+  border-top: 1px solid var(--sa-rule);
   padding-top: 0.75rem;
 }
 
 /* ── Sample lesson player ── */
 .sample {
-  border-top: 1px solid var(--ac-line);
+  border-top: 1px solid var(--sa-rule);
 }
 .sampleInner {
   max-width: 1240px;
@@ -333,16 +343,16 @@
   margin: 0;
 }
 .sampleTag {
-  font-family: var(--mono);
-  font-size: 0.69rem;
-  color: var(--ac-green);
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-success);
 }
 .player {
-  border: 1px solid var(--ac-line);
+  border: 1px solid var(--sa-rule);
   border-radius: 16px;
-  background: var(--ac-surface);
+  background: var(--sa-surface-1);
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.85) 0 32px 80px -32px;
+  box-shadow: var(--sa-shadow-frame);
 }
 .playerBar {
   display: flex;
@@ -350,17 +360,17 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.875rem 1.4rem;
-  border-bottom: 1px solid var(--ac-line);
+  border-bottom: 1px solid var(--sa-rule);
 }
 .playerLesson {
-  font-family: var(--mono);
-  font-size: 0.656rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
 }
 .playerBlock {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  color: #8fa0ff;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-accent-text);
   white-space: nowrap;
 }
 .playerBody {
@@ -368,15 +378,15 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
 }
 .playerRail {
-  border-right: 1px solid var(--ac-line);
+  border-right: 1px solid var(--sa-rule);
   padding: 1.25rem;
 }
 .railHead {
-  font-family: var(--mono);
-  font-size: 0.594rem;
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ac-faint);
+  color: var(--sa-ink-ghost);
   margin-bottom: 0.875rem;
 }
 .railItem {
@@ -389,22 +399,22 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--ac-line-2);
+  background: var(--sa-edge);
   flex-shrink: 0;
 }
 .railItem[data-done='true'] .railDot {
-  background: var(--ac-green);
+  background: var(--sa-success);
 }
 .railItem[data-active='true'] .railDot {
-  background: #8fa0ff;
+  background: var(--sa-accent-text);
 }
 .railText {
   font-size: 0.8rem;
-  color: var(--ac-dim);
+  color: var(--sa-ink-subtle);
   font-weight: 400;
 }
 .railItem[data-active='true'] .railText {
-  color: var(--ac-ink);
+  color: var(--sa-ink);
   font-weight: 600;
 }
 .playerMain {
@@ -415,18 +425,18 @@
 }
 .playerLede {
   font-size: 0.94rem;
-  color: var(--ac-dim);
+  color: var(--sa-ink-subtle);
   max-width: 60ch;
 }
 .playerLedeStrong {
-  color: var(--ac-ink);
+  color: var(--sa-ink);
   font-weight: 600;
 }
 .playerDiagram {
   position: relative;
-  border: 1px solid var(--ac-line);
+  border: 1px solid var(--sa-rule);
   border-radius: 12px;
-  background: var(--ac-bg);
+  background: var(--sa-bg);
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -434,34 +444,34 @@
   flex-wrap: wrap;
 }
 .diagNode {
-  border: 1.5px solid #8fa0ff;
+  border: 1.5px solid var(--sa-accent-text);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   font-size: 0.78rem;
-  background: rgba(61, 90, 254, 0.08);
+  background: var(--sa-accent-node-bg);
 }
 .diagNodeWarn {
-  border: 1.5px solid var(--ac-gold);
+  border: 1.5px solid var(--sa-warning);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   font-size: 0.78rem;
-  background: rgba(224, 169, 62, 0.08);
+  background: var(--sa-warning-node-bg);
 }
 .diagNodeMuted {
-  border: 1px solid var(--ac-line-2);
+  border: 1px solid var(--sa-edge);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   font-size: 0.78rem;
-  color: var(--ac-muted);
+  color: var(--sa-ink-faint);
 }
 .diagArrow {
-  color: var(--ac-faint);
+  color: var(--sa-ink-ghost);
 }
 .diagCaption {
   margin-left: auto;
-  font-family: var(--mono);
-  font-size: 0.594rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
 }
 .playerFoot {
   display: flex;
@@ -472,23 +482,31 @@
 }
 .playerScroll {
   font-size: 0.8rem;
-  color: var(--ac-muted);
+  color: var(--sa-ink-faint);
   font-style: italic;
 }
 .playerUnlock {
   display: inline-flex;
   color: #fff;
-  background: var(--ac-accent);
+  background: var(--sa-accent);
   text-decoration: none;
   font-size: 0.84rem;
   font-weight: 600;
   padding: 0.625rem 1.25rem;
   border-radius: 20px;
   white-space: nowrap;
+  transition: background var(--sa-dur-ui) var(--sa-ease);
+}
+.playerUnlock:hover {
+  background: var(--sa-accent-hover);
+}
+.playerUnlock:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
 }
 .playerOpen {
   display: inline-flex;
-  color: #8fa0ff;
+  color: var(--sa-accent-text);
   text-decoration: none;
   font-size: 0.84rem;
   font-weight: 600;
@@ -498,10 +516,15 @@
 .playerOpen:hover {
   text-decoration: underline;
 }
+.playerOpen:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
 
 /* ── Closing free-lesson CTA ── */
 .onramp {
-  border-top: 1px solid var(--ac-line);
+  border-top: 1px solid var(--sa-rule);
 }
 .onrampInner {
   max-width: 860px;
@@ -509,28 +532,28 @@
   padding: clamp(3rem, 2rem + 5vw, 5rem) clamp(1.25rem, 0.6rem + 3vw, 3rem);
 }
 .onrampCard {
-  border: 1px solid rgba(24, 182, 99, 0.35);
+  border: 1px solid var(--sa-success-border);
   border-radius: 18px;
-  background: rgba(24, 182, 99, 0.04);
+  background: var(--sa-success-node-bg);
   padding: clamp(1.75rem, 1rem + 3vw, 2.5rem);
 }
 .onrampCardBlue {
-  border: 1px solid rgba(61, 90, 254, 0.35);
+  border: 1px solid var(--sa-accent-border);
   border-radius: 18px;
   background: rgba(61, 90, 254, 0.05);
   padding: clamp(1.75rem, 1rem + 3vw, 2.5rem);
   text-align: center;
 }
 .onrampKicker {
-  font-family: var(--mono);
-  font-size: 0.625rem;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--ac-green);
+  color: var(--sa-success);
 }
 .onrampTitle {
   margin: 0.875rem 0 0.5rem;
-  font-family: var(--serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: clamp(1.5rem, 1rem + 1.8vw, 2.125rem);
   letter-spacing: -0.02em;
@@ -539,7 +562,7 @@
 .onrampBody {
   margin: 0 0 1.4rem;
   font-size: 0.94rem;
-  color: #9c9ca6;
+  color: var(--sa-ink-muted);
   max-width: 56ch;
   text-wrap: pretty;
 }
@@ -557,30 +580,39 @@
   display: inline-flex;
   align-items: center;
   color: #04130c;
-  background: var(--ac-green);
+  background: var(--sa-success);
   font-size: 0.94rem;
   font-weight: 600;
   padding: 0.875rem 1.6rem;
   border-radius: 26px;
   text-decoration: none;
   white-space: nowrap;
-  transition: transform 0.2s ease;
+  transition: transform var(--sa-dur-ui) var(--sa-ease);
 }
 .onrampCta:hover {
   transform: translateY(-1px);
+}
+.onrampCta:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
 }
 .back {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: var(--mono);
-  font-size: 0.69rem;
-  color: var(--ac-muted);
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color var(--sa-dur-ui) var(--sa-ease);
 }
 .back:hover {
-  color: var(--ac-ink);
+  color: var(--sa-ink);
+}
+.back:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
 }
 
 /* Progress ring (shared) */
@@ -588,8 +620,8 @@
   display: block;
 }
 .ringText {
-  fill: var(--ac-ink);
-  font-family: var(--mono);
+  fill: var(--sa-ink);
+  font-family: var(--sa-mono-live);
   font-size: 13px;
   font-weight: 600;
 }
@@ -600,14 +632,20 @@
   }
   .playerRail {
     border-right: none;
-    border-bottom: 1px solid var(--ac-line);
+    border-bottom: 1px solid var(--sa-rule);
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .cta,
   .ctaGhost,
   .moduleCard,
+  .playerUnlock,
   .onrampCta {
     transition: none;
+  }
+  .cta:hover,
+  .moduleCard:hover,
+  .onrampCta:hover {
+    transform: none;
   }
 }

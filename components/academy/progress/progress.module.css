@@ -1,79 +1,77 @@
-/*
- * Progress — "The honest picture." Reskin to the Sage Academy design.
- * Palette is pinned to the design's exact hex (bg #0B0B0E, surface #111115,
- * text #F2EFE9, muted #9598A2, lines #1E1E24, accent #3D5AFE, green #18B663,
- * gold #E0A93E, red #E5484D). Mono is used for every number/label.
- */
+/* Progress — "The honest picture." OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Progress.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Fonts route through next/font
+   vars with the --sa-* stacks as fallbacks (player aliasing grammar).
+   NOTE: the design sets the skill-graph caption/due labels in #4A4A54 (ghost
+   ink); lifted to --sa-ink-faint for WCAG AA, matching the player reskin. */
 
 .page {
-  --p-bg: #0b0b0e;
-  --p-surface: #111115;
-  --p-text: #f2efe9;
-  --p-muted: #9598a2;
-  --p-line: #1e1e24;
-  --p-track: #1a1a20;
-  --p-accent: #3d5afe;
-  --p-accent-text: #8fa0ff;
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
 
-  max-width: 1180px;
+  max-width: var(--sa-shell-max);
   margin: 0 auto;
   padding: clamp(24px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px;
-  color: var(--p-text);
-  font-family: var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
   font-size: 15px;
   line-height: 1.6;
 }
 
+/* Designed-in keyboard focus: 2px #8FA0FF, 2px offset, 4px radius. */
+.page a:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
+
+/* ── header — huge serif with the italic accent word ── */
+
 .title {
   margin: 0 0 6px;
-  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: clamp(28px, 3.2vw, 40px);
-  letter-spacing: -0.025em;
+  letter-spacing: var(--sa-text-display-tracking);
 }
 
 .titleAccent {
   font-style: italic;
   font-weight: 500;
-  color: var(--p-accent-text);
+  color: var(--sa-accent-text);
 }
 
 .sub {
   margin: 0 0 32px;
-  color: var(--p-muted);
+  color: var(--sa-ink-muted);
   max-width: 60ch;
 }
 
-/* ── surfaces ── */
+/* ── surfaces — quiet hairline cards, radius canon md ── */
 
 .card {
-  border: 1px solid var(--p-line);
-  border-radius: 16px;
-  background: var(--p-surface);
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
   padding: 26px;
   margin-bottom: 18px;
 }
 
 .eyebrow {
   display: block;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--p-muted);
+  color: var(--sa-ink-faint);
 }
 
-.emptyBody {
-  margin: 12px 0 0;
-  color: var(--p-muted);
-  max-width: 60ch;
-}
-
-/* ── honest empty state (Phase-2: "No numbers yet — that's honest too.") ── */
+/* ── honest empty state ("No numbers yet — that's honest too.") ── */
 .emptyWrap {
-  border: 1px dashed #2A2A33;
-  border-radius: 18px;
-  background: var(--p-surface);
+  border: 1px dashed var(--sa-edge);
+  border-radius: 18px; /* design-literal hero-card radius */
+  background: var(--sa-surface-1);
   padding: clamp(36px, 6vw, 64px);
   text-align: center;
 }
@@ -81,13 +79,18 @@
   display: inline-block;
   width: 64px;
   height: 64px;
-  border-radius: 50%;
-  border: 1px solid rgba(110, 131, 255, 0.3);
-  background: radial-gradient(circle at 35% 30%, rgba(110, 131, 255, 0.5), rgba(61, 90, 254, 0.15) 55%, #0b0b0e 80%);
+  border-radius: var(--sa-radius-pill);
+  border: 1px solid rgba(110, 131, 255, 0.3); /* design-literal orb ring */
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(110, 131, 255, 0.5),
+    rgba(61, 90, 254, 0.15) 55%,
+    var(--sa-bg) 80%
+  );
 }
 .emptyTitle {
   margin: 18px auto 8px;
-  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: clamp(24px, 2.8vw, 32px);
   letter-spacing: -0.02em;
@@ -95,7 +98,7 @@
 }
 .emptyLead {
   margin: 0 auto;
-  color: var(--p-muted);
+  color: var(--sa-ink-muted);
   max-width: 48ch;
   font-size: 14.5px;
   text-wrap: pretty;
@@ -104,16 +107,16 @@
   display: inline-flex;
   margin-top: 24px;
   color: #fff;
-  background: #3d5afe;
+  background: var(--sa-accent);
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
   padding: 13px 26px;
-  border-radius: 12px;
-  transition: background 150ms ease;
+  border-radius: var(--sa-radius-md);
+  transition: background var(--sa-dur-ui) var(--sa-ease);
 }
 .emptyCta:hover {
-  background: #6e83ff;
+  background: var(--sa-accent-hover);
 }
 
 /* ── mastery chart ── */
@@ -130,15 +133,20 @@
 .legend {
   display: flex;
   gap: 18px;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10.5px;
-  color: var(--p-muted);
+  color: var(--sa-ink-muted);
 }
 
 .chartSvg {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* SVG axis / annotation labels — mono, honest axes. */
+.chartText {
+  font-family: var(--sa-mono-live);
 }
 
 /* ── grid of side panels ── */
@@ -174,15 +182,16 @@
 }
 
 .courseScore {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 11px;
+  font-variant-numeric: tabular-nums;
 }
 
 .barTrack {
   position: relative;
   height: 6px;
   border-radius: 3px;
-  background: var(--p-track);
+  background: var(--sa-surface-3);
 }
 
 .barFill {
@@ -201,17 +210,16 @@
 }
 
 .courseMeta {
-  color: var(--p-muted);
+  color: var(--sa-ink-faint);
 }
 
 .courseAction {
   font-weight: 600;
   text-decoration: none;
-  transition: opacity var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+  transition: opacity var(--sa-dur-ui) var(--sa-ease);
 }
 
 .courseAction:hover {
-  opacity: 0.82;
   text-decoration: underline;
 }
 
@@ -239,25 +247,25 @@
 }
 
 .velLabel {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 8.5px;
-  color: var(--p-muted);
+  color: var(--sa-ink-faint);
   text-align: center;
 }
 
 .velCaption {
   margin: 16px 0 0;
   font-size: 13px;
-  color: var(--p-muted);
+  color: var(--sa-ink-faint);
 }
 
 /* ── skill graph · recall ── */
 
 .recallCard {
   margin-top: 28px;
-  border: 1px solid var(--p-line);
-  border-radius: 16px;
-  background: var(--p-surface);
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
   overflow: hidden;
 }
 
@@ -267,14 +275,14 @@
   justify-content: space-between;
   gap: 12px;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--p-line);
+  border-bottom: 1px solid var(--sa-rule);
   flex-wrap: wrap;
 }
 
 .recallHeadNote {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: #e0a93e;
+  color: var(--sa-warning);
 }
 
 .recallRow {
@@ -283,7 +291,7 @@
   gap: 14px;
   align-items: center;
   padding: 14px 24px;
-  border-bottom: 1px solid var(--p-line);
+  border-bottom: 1px solid var(--sa-rule);
 }
 
 .recallRow:last-of-type {
@@ -299,7 +307,7 @@
   position: relative;
   height: 7px;
   border-radius: 4px;
-  background: var(--p-track);
+  background: var(--sa-surface-3);
   overflow: hidden;
 }
 
@@ -319,36 +327,36 @@
 }
 
 .recallScore {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 11px;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .recallDue {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: #4a4a54;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
   white-space: nowrap;
 }
 
 .recallAction {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
   text-decoration: none;
   white-space: nowrap;
-  transition: opacity var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+  transition: opacity var(--sa-dur-ui) var(--sa-ease);
 }
 
 .recallAction:hover {
-  opacity: 0.82;
   text-decoration: underline;
 }
 
 .recallCaption {
   padding: 13px 24px;
-  border-top: 1px solid var(--p-line);
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  border-top: 1px solid var(--sa-rule);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: #4a4a54;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
   font-style: italic;
 }

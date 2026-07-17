@@ -1,68 +1,71 @@
-/* Recall Queue — Sage Academy "Recall · six minutes, not homework" flashcard flow.
-   Exact palette from the design:
-     bg #0B0B0E · surface #111115 · text #F2EFE9 · muted #9598A2
-     lines #1E1E24 · accent #3D5AFE · green #18B663 · gold #E0A93E
-   Fonts: Fraunces (question) / Hanken Grotesk (body) / JetBrains Mono (labels),
-   sourced from the global --ac-* tokens; hex fallbacks match the palette. */
+/* Recall Queue — OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Recall Queue.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Fonts route through next/font
+   vars (--font-serif/--font-sans/--font-mono) with the --sa-* stacks as
+   fallbacks — same aliasing grammar as the Lesson Player.
+   NOTE: the design file sets meaningful text in #4A4A54 (ghost ink); as in the
+   player reskin, that ink is lifted to --sa-ink-faint for WCAG AA contrast. */
 .stage {
-  --bg: #0b0b0e;
-  --surface: #111115;
-  --ink: #f2efe9;
-  --muted: #9598a2;
-  --line: #1e1e24;
-  --accent: #3d5afe;
-  --accent-soft: #8fa0ff;
-  --green: #18b663;
-  --gold: #e0a93e;
-  --dim2: #4a4a54;
-  --track: #26262e;
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
 
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 4rem);
-  color: var(--ink);
-  font-family: var(--ac-font-body, 'Hanken Grotesk', sans-serif);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 16px;
+  line-height: 1.6;
   background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%)
-    var(--bg);
+    var(--sa-bg);
 }
 
-/* ── top bar: brand kicker (left) + retention stat (right) ─────────────── */
+/* Designed-in keyboard focus: 2px #8FA0FF, 2px offset, 4px radius. */
+.stage a:focus-visible,
+.stage button:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
+
+/* ── top bar: mono brand kicker (left) + retention / streak stat (right) ── */
 .topbar {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 10px clamp(16px, 3vw, 28px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--sa-rule);
 }
 .brandKicker {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10.5px;
-  color: var(--muted);
+  color: var(--sa-ink-faint);
 }
 .retention {
   margin-left: auto;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10.5px;
-  color: var(--green);
+  color: var(--sa-success);
 }
-/* Daily Rep streak pill — gold "at stake" / dimmed when shielded. */
+/* Daily Rep streak pill — warning-toned "at stake", success when shielded. */
 .streakPill {
   margin-left: auto;
   padding: 5px 12px;
-  border: 1px solid color-mix(in oklab, var(--gold, #e0a93e) 40%, transparent);
-  border-radius: 999px;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  border: 1px solid var(--sa-warning-border);
+  border-radius: var(--sa-radius-md);
+  font-family: var(--sa-mono-live);
   font-size: 10.5px;
   letter-spacing: 0.02em;
-  color: var(--gold, #e0a93e);
+  color: var(--sa-warning);
   white-space: nowrap;
 }
 .streakPill[data-shielded='true'] {
-  color: var(--green, #18b663);
-  border-color: color-mix(in oklab, var(--green, #18b663) 35%, transparent);
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
 }
 
-/* ── centered flashcard column ────────────────────────────────────────── */
+/* ── centered flashcard column (design: min(640px, 100%)) ─────────────── */
 .center {
   flex: 1;
   display: flex;
@@ -75,7 +78,7 @@
   width: min(640px, 100%);
 }
 
-/* ── progress dots + "i of N" ─────────────────────────────────────────── */
+/* ── progress dots + "i of N" (26px active accent · 14px done success) ── */
 .dots {
   display: flex;
   align-items: center;
@@ -86,36 +89,36 @@
 .dot {
   height: 6px;
   border-radius: 3px;
-  background: var(--track);
-  transition: width 0.25s ease, background 0.25s ease;
+  background: var(--sa-fill-muted);
+  transition: width var(--sa-dur-ui) var(--sa-ease), background var(--sa-dur-ui) var(--sa-ease);
 }
 .dot[data-state='active'] {
   width: 26px;
-  background: var(--accent);
+  background: var(--sa-accent);
 }
 .dot[data-state='done'] {
   width: 14px;
-  background: var(--green);
+  background: var(--sa-success);
 }
 .dot[data-state='todo'] {
   width: 14px;
-  background: var(--track);
+  background: var(--sa-fill-muted);
 }
 .dotCounter {
   margin-left: 8px;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10.5px;
-  color: var(--muted);
+  color: var(--sa-ink-faint);
   font-variant-numeric: tabular-nums;
 }
 
-/* ── card ─────────────────────────────────────────────────────────────── */
+/* ── the card — hero surface with the design's deep drop shadow ────────── */
 .card {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
+  border: 1px solid var(--sa-rule);
+  border-radius: 18px; /* design-literal hero-card radius */
+  background: var(--sa-surface-1);
   padding: clamp(28px, 4vw, 44px);
-  box-shadow: 0 32px 80px -32px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 32px 80px -32px rgba(0, 0, 0, 0.85); /* design-literal */
 }
 .cardHead {
   display: flex;
@@ -125,21 +128,21 @@
   margin-bottom: 22px;
 }
 .kicker {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent-soft);
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-accent-text);
 }
 .due {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--dim2);
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
   white-space: nowrap;
 }
 .question {
   margin: 0;
-  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-family: var(--sa-display-live);
   font-weight: 600;
   font-size: clamp(22px, 2.6vw, 30px);
   letter-spacing: -0.02em;
@@ -147,7 +150,7 @@
   text-wrap: balance;
 }
 
-/* ── show answer ──────────────────────────────────────────────────────── */
+/* ── show answer — accent pill w/ glow, #6E83FF hover (design pill grammar) ── */
 .showRow {
   display: flex;
   justify-content: center;
@@ -157,86 +160,85 @@
   display: inline-flex;
   align-items: center;
   color: #fff;
-  background: var(--accent);
+  background: var(--sa-accent);
   border: 0;
   cursor: pointer;
-  font-family: var(--ac-font-body, 'Hanken Grotesk', sans-serif);
+  font-family: var(--sa-body-live);
   font-size: 15px;
   font-weight: 600;
   padding: 14px 32px;
-  border-radius: 26px;
-  box-shadow: 0 0 24px rgba(61, 90, 254, 0.35);
-  transition: filter 0.15s ease, transform 0.1s ease;
+  border-radius: 26px; /* design-literal pill */
+  box-shadow: 0 0 24px rgba(61, 90, 254, 0.35); /* design-literal glow */
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
   white-space: nowrap;
 }
 .showBtn:hover {
-  filter: brightness(1.08);
+  background: var(--sa-accent-hover);
 }
 .showBtn:active {
   transform: translateY(1px);
 }
-.showBtn:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.55);
-  outline-offset: 2px;
-}
 .hint {
   text-align: center;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--dim2);
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
   margin: 14px 0 0;
 }
 
-/* ── revealed answer + rating buttons ─────────────────────────────────── */
+/* ── revealed answer + tone-bordered rating grid ───────────────────────── */
 .answerArea {
   margin-top: 26px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--sa-rule);
   padding-top: 22px;
-  animation: revealRise 320ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  animation: revealRise 320ms var(--sa-ease) both;
 }
 .answerLabel {
-  margin: 0;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
-  font-size: 10px;
+  margin: 0 0 10px;
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent-soft);
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-success); /* design: "The answer" kicker is success-toned */
 }
 .answerBody {
-  margin: 0.5rem 0 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--ink);
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
 }
 .revisit {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  color: var(--accent-soft);
+  color: var(--sa-accent-text);
   text-decoration: none;
 }
 .revisit:hover {
   text-decoration: underline;
 }
 
+/* Design grammar: tone border AT REST, tone label, mono sub; soft tone wash
+   on hover — semantic color pairs straight from the token sheet. */
 .grades {
-  margin-top: 22px;
+  margin-top: 26px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
+  gap: 8px;
 }
 .grade {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  padding: 0.9rem 0.5rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  gap: 3px;
+  padding: 12px 8px;
+  border: 1px solid var(--sa-edge);
+  border-radius: var(--sa-radius-node);
+  background: transparent;
   cursor: pointer;
-  color: var(--ink);
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  text-align: center;
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
 }
 .grade:hover {
   transform: translateY(-2px);
@@ -246,164 +248,164 @@
   cursor: default;
   transform: none;
 }
-.grade:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
-  outline-offset: 2px;
-}
 .gradeLabel {
-  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-family: var(--sa-body-live);
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 13.5px;
 }
 .gradeSub {
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.6rem;
+  font-family: var(--sa-mono-live);
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--muted);
+  color: var(--sa-ink-faint);
+}
+.grade[data-grade='again'] {
+  border-color: var(--sa-danger-border);
+}
+.grade[data-grade='again'] .gradeLabel {
+  color: var(--sa-danger);
 }
 .grade[data-grade='again']:hover {
-  border-color: rgba(244, 90, 90, 0.5);
-  background: rgba(244, 90, 90, 0.08);
+  background: var(--sa-danger-soft);
+}
+.grade[data-grade='hard'] {
+  border-color: var(--sa-warning-border);
+}
+.grade[data-grade='hard'] .gradeLabel {
+  color: var(--sa-warning);
 }
 .grade[data-grade='hard']:hover {
-  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
-  background: color-mix(in srgb, var(--gold) 10%, transparent);
+  background: var(--sa-warning-soft);
+}
+.grade[data-grade='good'] {
+  border-color: var(--sa-accent-border);
+}
+.grade[data-grade='good'] .gradeLabel {
+  color: var(--sa-accent-text);
 }
 .grade[data-grade='good']:hover {
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  background: rgba(61, 90, 254, 0.1);
+  background: var(--sa-accent-soft);
+}
+.grade[data-grade='easy'] {
+  border-color: var(--sa-success-border);
+}
+.grade[data-grade='easy'] .gradeLabel {
+  color: var(--sa-success);
 }
 .grade[data-grade='easy']:hover {
-  border-color: color-mix(in srgb, var(--green) 55%, transparent);
-  background: color-mix(in srgb, var(--green) 10%, transparent);
+  background: var(--sa-success-soft);
 }
 
 .foot {
   margin: 20px 0 0;
   text-align: center;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--sa-mono-live);
   font-size: 10px;
-  color: var(--dim2);
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
 }
 
-/* ── empty / done centered states ─────────────────────────────────────── */
-.empty,
-.done {
+/* ── "Queue clear" summary — success-toned card (empty AND done states) ── */
+.summary {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.7rem;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(24, 182, 99, 0.35); /* design-literal summary border */
   border-radius: 18px;
-  background: var(--surface);
-  padding: clamp(32px, 4vw, 48px);
-  box-shadow: 0 32px 80px -32px rgba(0, 0, 0, 0.85);
+  background: rgba(24, 182, 99, 0.04); /* design-literal summary wash */
+  padding: clamp(32px, 5vw, 52px);
 }
-.done {
-  animation: doneRise 520ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+.summaryEnter {
+  animation: doneRise 520ms var(--sa-ease) both;
 }
-.emptyGlyph,
-.doneGlyph {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  background: rgba(61, 90, 254, 0.1);
-  color: var(--accent-soft);
+.summaryKicker {
+  margin: 0;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-success);
 }
-.doneGlyph {
-  color: var(--gold);
-  border-color: color-mix(in srgb, var(--gold) 40%, transparent);
-  background: color-mix(in srgb, var(--gold) 10%, transparent);
-  animation: donePop 600ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
-}
-.emptyTitle,
-.doneTitle {
-  margin: 0.4rem 0 0;
-  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+.summaryTitle {
+  margin: 16px 0 10px;
+  font-family: var(--sa-display-live);
   font-weight: 600;
-  font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.4rem);
+  font-size: clamp(26px, 3vw, 36px);
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
-.emptyBody,
-.doneBody {
-  margin: 0;
-  max-width: 46ch;
-  color: var(--muted);
-  line-height: 1.55;
+.summaryBody {
+  margin: 0 auto;
+  color: var(--sa-ink-muted);
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.6;
 }
-.doneEyebrow {
-  margin: 0.5rem 0 0;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.64rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--gold);
-}
+
+/* Real-session stat chips (memories / XP / streak) — mono chips, tone pairs. */
 .doneStats {
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: 14px 0 12px;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.45rem 0.6rem;
+  gap: 8px 10px;
 }
 .doneStat {
-  padding: 0.32rem 0.8rem;
-  border: 1px solid var(--line);
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.02);
+  padding: 5px 13px;
+  border: 1px solid var(--sa-edge);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-muted-soft);
 }
 .doneStat[data-tone='xp'] {
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-  background: rgba(61, 90, 254, 0.12);
+  border-color: var(--sa-accent-border);
+  background: var(--sa-accent-soft);
 }
 .doneStat[data-tone='streak'] {
-  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
-  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border-color: var(--sa-warning-border);
+  background: var(--sa-warning-soft);
 }
 .doneStatNum {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.74rem;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
-  color: var(--ink);
+  color: var(--sa-ink);
 }
 
-.primaryBtn {
+/* Primary summary action — the design's success-filled pill. */
+.summaryActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.successBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  margin-top: 0.8rem;
-  padding: 14px 28px;
-  border-radius: 26px;
-  background: var(--accent);
-  color: #fff;
+  color: #04130c; /* design-literal ink-on-success */
+  background: var(--sa-success);
   text-decoration: none;
-  font-family: var(--ac-font-body, 'Hanken Grotesk', sans-serif);
+  font-family: var(--sa-body-live);
+  font-size: 14.5px;
   font-weight: 600;
-  font-size: 0.95rem;
-  box-shadow: 0 0 24px rgba(61, 90, 254, 0.35);
-  transition: filter 0.15s ease, transform 0.1s ease;
+  padding: 13px 26px;
+  border-radius: var(--sa-radius-lg);
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+  white-space: nowrap;
 }
-.primaryBtn:hover {
-  filter: brightness(1.08);
+.successBtn:hover {
+  background: #2acd79; /* design-literal success hover */
 }
-.primaryBtn:active {
+.successBtn:active {
   transform: translateY(1px);
-}
-.primaryBtn:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.55);
-  outline-offset: 2px;
 }
 
 @keyframes revealRise {
@@ -426,19 +428,6 @@
     transform: translate3d(0, 0, 0);
   }
 }
-@keyframes donePop {
-  0% {
-    opacity: 0;
-    transform: scale(0.82);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
 @media (max-width: 560px) {
   .grades {
@@ -449,12 +438,11 @@
   .dot,
   .grade,
   .showBtn,
-  .primaryBtn {
+  .successBtn {
     transition: none;
   }
   .answerArea,
-  .done,
-  .doneGlyph {
+  .summaryEnter {
     animation: none;
   }
 }

@@ -57,3 +57,32 @@ something.
 2. Fix wave: worst-first (agents-tool-use at 58 is a genuine correctness emergency), editor agents
    execute fixLists → audit → apply → re-judge.
 3. Target: no course below ~95, zero correctness defects, then re-verify the content board still 32/32.
+
+---
+
+## FIX WAVE 1 — RESOLVED + VERIFIED (2026-07-17)
+
+**Lab integrity gate + correctness bombs, all verified against LIVE data (not agent claims):**
+
+| Metric | Before | After |
+|---|---|---|
+| Labs that hand the answer (632 labs) | **25.9%** (system-design 92%) | **1.7%** — GATE PASS |
+| Correctness bombs fixed | — | 20 across 15 courses |
+| Labs still execute (reworked courses) | — | system-design 22/22, agents 17/17, data-structures 17/17 |
+| Content board | 32/32 | **32/32** (survived) |
+| Quiz integrity | PASS | **PASS** (no collateral) |
+| Storyboard narration beats | 4,582 | **4,582** (intact) |
+
+**Confirmed correctness bombs killed (by inspection/re-execution, not scores):**
+- `agents-tool-use` capstone infinite loop → FIXED: `log.turns++` now at the TOP of the loop
+  ("no branch below can skip it"), so a repeated denied tool trips the budget. Dead `denied.length * 0`
+  scoring term removed.
+- `career-databases_data_modeling` → the `UNIQUE USING INDEX` step is now correct TEACHING: "there is
+  NO promote-to-constraint step. Postgres refuses… ERROR: index contains expressions."
+- `system-design` cap-and-consistency: algorithm-in-comment removed from the lab starter.
+
+**Method note:** two of my own signature regexes false-alarmed (the `denied.push; continue` pattern
+persists but the bug was the step-ordering, now fixed; the databases string appears in
+teaching-about-the-error). Always read the CONTEXT, not just the substring.
+
+The `lab-integrity.mjs` gate is now permanent — run after any lab-touching change.

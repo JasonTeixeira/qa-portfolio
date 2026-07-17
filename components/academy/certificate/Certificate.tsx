@@ -46,7 +46,7 @@ export function Certificate({ cert }: { cert: CertificateView }) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.topbar}>
+      <div className={styles.topbar} data-noprint="true">
         <span className={styles.topKicker}>issued by code · revocable by code</span>
       </div>
 
@@ -93,7 +93,7 @@ export function Certificate({ cert }: { cert: CertificateView }) {
           <div className={styles.termNote}># anyone can run this — no login, no screenshot to fake</div>
         </div>
 
-        <div className={styles.ctas}>
+        <div className={styles.ctas} data-noprint="true">
           <a className={styles.ctaPrimary} href={`${SITE}/academy/profile`}>Show on public profile →</a>
           <a className={styles.ctaGhost} href={`${SITE}/academy/catalog`}>Next course →</a>
           <span className={styles.shareWrap}>

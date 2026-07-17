@@ -1,0 +1,189 @@
+/* ============================================================================
+   SAGE ACADEMY — DESIGN TOKENS (--sa-* namespace)
+   Extracted verbatim from the canonical design file:
+     design-source/sage-academy-2026/Sage Academy Design System.dc.html
+   Cross-checked against: HANDOFF.md, Sage Lesson Player.dc.html
+   Every value below appears literally in the design source. Nothing invented.
+   Additive only — does not touch the existing --ac-* system in app/globals.css.
+   Reference doc: docs/academy/DESIGN_TOKENS.md
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     COLOR · SURFACE RAMP  (design page "Surface ramp" token card)
+     ------------------------------------------------------------------ */
+  --sa-bg: #0B0B0E;          /* page floor ("bg") */
+  --sa-surface-1: #111115;   /* default card / panel */
+  --sa-surface-2: #141418;   /* raised node / inner panel */
+  --sa-surface-3: #1A1A20;   /* highest surface tier */
+
+  /* ------------------------------------------------------------------
+     COLOR · INK RAMP  (design page "Ink & hairlines" token card)
+     ------------------------------------------------------------------ */
+  --sa-ink: #F2EFE9;         /* primary text (warm bone) */
+  --sa-ink-subtle: #B6B6C0;  /* secondary prose */
+  --sa-ink-muted: #9C9CA6;   /* muted prose / captions */
+  --sa-ink-faint: #9598A2;   /* faintest labels / mono kickers */
+
+  /* Hairlines & edges */
+  --sa-rule: #1E1E24;            /* named "rule / rule-strong" in the token card;
+                                    the default hairline divider everywhere */
+  --sa-edge: #2A2A33;            /* component/swatch border, vs-seam ring, muted-tone border */
+  --sa-edge-neutral: #3A3A44;    /* neutral diagram edge stroke */
+  --sa-edge-hover: #343440;      /* hover border (Back button style-hover) */
+
+  /* Deep-neutral utility inks (used in code + viz) */
+  --sa-ink-ghost: #4A4A54;       /* "muted / out of scope" tone; code line numbers; cram line */
+  --sa-ink-comment: #5A5A64;     /* code comments */
+  --sa-fill-muted: #26262E;      /* non-current viz bars */
+
+  /* ------------------------------------------------------------------
+     COLOR · SEMANTIC TONES  (design page "Semantic tones" token card)
+     "color carries meaning, not decoration"
+     ------------------------------------------------------------------ */
+  /* accent — focus · suspect · primary action */
+  --sa-accent: #3D5AFE;
+  --sa-accent-soft: rgba(61, 90, 254, 0.10);
+  --sa-accent-border: rgba(61, 90, 254, 0.4);
+  --sa-accent-hover: #6E83FF;          /* "Next step" button hover fill */
+  --sa-accent-text: #8FA0FF;           /* accent as text/kicker on dark; focus outline */
+  --sa-accent-node-border: rgba(61, 90, 254, 0.6);  /* suspect diagram node border */
+  --sa-accent-node-bg: rgba(61, 90, 254, 0.08);     /* suspect diagram node fill */
+  --sa-selection: rgba(61, 90, 254, 0.35);          /* ::selection background */
+
+  /* success — truth · mastery · passed proof */
+  --sa-success: #18B663;
+  --sa-success-soft: rgba(24, 182, 99, 0.10);
+  --sa-success-border: rgba(24, 182, 99, 0.4);
+  --sa-success-node-border: rgba(24, 182, 99, 0.6); /* source-of-truth node border */
+  --sa-success-node-bg: rgba(24, 182, 99, 0.07);    /* source-of-truth node fill */
+
+  /* warning — risk · blast radius · pending */
+  --sa-warning: #E0A93E;
+  --sa-warning-soft: rgba(224, 169, 62, 0.10);
+  --sa-warning-border: rgba(224, 169, 62, 0.4);
+  --sa-warning-node-bg: rgba(224, 169, 62, 0.08);   /* decision/risk node fill */
+
+  /* danger — error · failed proof */
+  --sa-danger: #E5484D;
+  --sa-danger-soft: rgba(229, 72, 77, 0.10);
+  --sa-danger-border: rgba(229, 72, 77, 0.4);
+
+  /* muted — out of scope */
+  --sa-muted: #4A4A54;
+  --sa-muted-soft: rgba(255, 255, 255, 0.03);
+  --sa-muted-border: #2A2A33;
+
+  /* ------------------------------------------------------------------
+     COLOR · PAGE ATMOSPHERE  (page-level background washes)
+     ------------------------------------------------------------------ */
+  --sa-bg-wash:
+    radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%),
+    radial-gradient(60% 50% at 88% 8%, rgba(61, 90, 254, 0.06) 0%, transparent 60%);
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY · FAMILIES  (design page "Type" section)
+     Fraunces = display serif · Hanken Grotesk = body · JetBrains Mono = data
+     ------------------------------------------------------------------ */
+  --sa-font-display: 'Fraunces', Georgia, serif;
+  --sa-font-body: 'Hanken Grotesk', sans-serif;
+  --sa-font-mono: 'JetBrains Mono', monospace;
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY · SCALE  (sizes/weights/leading/tracking as designed)
+     "hierarchy: scale contrast, huge serif over quiet mono kicker"
+     ------------------------------------------------------------------ */
+  /* Display (page h1) */
+  --sa-text-display-size: clamp(38px, 5vw, 64px);
+  --sa-text-display-weight: 560;               /* Fraunces variable-weight */
+  --sa-text-display-leading: 1.02;
+  --sa-text-display-tracking: -0.025em;
+
+  /* Hero display variant (type-specimen headline) */
+  --sa-text-hero-size: clamp(32px, 4.4vw, 56px);
+  --sa-text-hero-weight: 600;
+  --sa-text-hero-leading: 1.03;
+
+  /* Section heading (h2) */
+  --sa-text-h2-size: 28px;
+  --sa-text-h2-weight: 520;
+  --sa-text-h2-tracking: -0.02em;
+
+  /* Figure / card title */
+  --sa-text-title-size: 21px;
+  --sa-text-title-weight: 560;
+  --sa-text-title-tracking: -0.015em;
+
+  /* Small card title (viz / walkthrough step) */
+  --sa-text-title-sm-size: 19px;
+  --sa-text-title-sm-weight: 560;
+  --sa-text-title-sm-leading: 1.25;
+  --sa-text-title-sm-tracking: -0.01em;
+
+  /* Body */
+  --sa-text-body-size: 16px;
+  --sa-text-body-leading: 1.6;
+  --sa-text-lede-size: 17px;         /* header lede paragraph */
+  --sa-text-body-lg-size: 16.5px;    /* type-specimen body */
+  --sa-text-body-sm-size: 14px;      /* annotation body */
+  --sa-text-caption-size: 13.5px;    /* list rows / compare points */
+
+  /* Mono kicker (uppercase eyebrow) */
+  --sa-text-kicker-size: 10.5px;
+  --sa-text-kicker-tracking: 0.12em; /* 0.14em at the page-top kicker; 0.1em on card headers */
+  --sa-text-kicker-transform: uppercase;
+
+  /* Mono data / code */
+  --sa-text-mono-size: 13px;         /* data block */
+  --sa-text-mono-leading: 1.9;
+  --sa-text-code-size: 12.5px;       /* code walkthrough */
+  --sa-text-mono-label-size: 11px;   /* mono side-labels, legends, hex readouts */
+
+  /* ------------------------------------------------------------------
+     RADII  (documented on the design page: "radius: 7 / 14 / 24")
+     ------------------------------------------------------------------ */
+  --sa-radius-sm: 7px;    /* chips, swatches */
+  --sa-radius-md: 14px;   /* cards, frames, figures */
+  --sa-radius-lg: 24px;   /* pill-ish nodes (client node) */
+  --sa-radius-btn: 8px;   /* buttons (Back / Next step) */
+  --sa-radius-node: 10px; /* diagram service/decision nodes */
+  --sa-radius-pill: 50%;  /* dots, legend swatches, vs seam */
+
+  /* ------------------------------------------------------------------
+     BORDERS
+     ------------------------------------------------------------------ */
+  --sa-border-hairline: 1px solid var(--sa-rule);       /* card + divider default */
+  --sa-border-node: 1.5px solid var(--sa-edge);         /* diagram node default (1.5px) */
+  --sa-border-width-node: 1.5px;
+
+  /* ------------------------------------------------------------------
+     ELEVATION
+     ------------------------------------------------------------------ */
+  --sa-shadow-frame: 0 24px 60px -30px rgba(0, 0, 0, 0.8); /* VisualFrame */
+
+  /* ------------------------------------------------------------------
+     MOTION  (documented: "ease: cubic-bezier(0.16, 1, 0.3, 1)"
+              and "motion: transform + opacity only")
+     ------------------------------------------------------------------ */
+  --sa-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --sa-dur-ui: 0.2s;        /* step-dot transition ("all 0.2s") */
+  --sa-dur-dash: 0.9s;      /* edgeDash live-edge animation, linear infinite */
+
+  /* Focus ring (a:focus-visible / [tabindex]:focus-visible) */
+  --sa-focus-outline: 2px solid #8FA0FF;
+  --sa-focus-offset: 2px;
+  --sa-focus-radius: 4px;
+
+  /* ------------------------------------------------------------------
+     LAYOUT  (shell + rhythm as built on the design page; the design
+              file documents no abstract spacing scale — these are the
+              literal layout values it uses)
+     ------------------------------------------------------------------ */
+  --sa-shell-max: 1180px;
+  --sa-shell-pad-y: clamp(48px, 6vw, 88px);
+  --sa-shell-pad-x: clamp(20px, 4vw, 48px);
+  --sa-section-gap: 64px;         /* margin-bottom between sections */
+  --sa-card-pad: 24px;            /* viz cards */
+  --sa-card-pad-lg: clamp(24px, 4vw, 44px); /* type specimen card */
+  --sa-card-grid-gap: 20px;       /* token/viz card grids */
+}

@@ -120,3 +120,30 @@ export async function deleteLesson(courseSlug: string, lessonSlug: string): Prom
   revalidatePath(`/academy/course/${courseSlug}`)
   return { ok: true }
 }
+
+/**
+ * Certificate revocation — the credential's trust guarantee made operational.
+ * Revoke ONLY when the proofs behind a cert fail; the public /verify/[code] endpoint
+ * immediately reports REVOKED. Reinstate reverses it (e.g. proofs re-verified).
+ */
+export async function setCertificateRevocation(
+  certCode: string,
+  revoked: boolean,
+  reason?: string,
+): Promise<{ ok: boolean; error?: string }> {
+  const adminUser = await getAdminUser()
+  if (!adminUser) return { ok: false, error: 'Not authorized' }
+  if (!certCode) return { ok: false, error: 'cert_code required' }
+  const admin = supabaseAdmin()
+  const { error } = await admin
+    .from('academy_certificates')
+    .update({
+      revoked,
+      revoked_at: revoked ? new Date().toISOString() : null,
+      revoked_reason: revoked ? (reason ?? 'Proofs failed verification') : null,
+    })
+    .eq('cert_code', certCode)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath(`/academy/certificate/${certCode}`)
+  return { ok: true }
+}

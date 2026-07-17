@@ -137,7 +137,7 @@ export async function getCertificate(code: string): Promise<CertificateView | nu
     const admin = supabaseAdmin()
     const { data: cert } = await admin
       .from('academy_certificates')
-      .select('cert_code, course_slug, recipient_name, issued_at, user_id')
+      .select('cert_code, course_slug, recipient_name, issued_at, user_id, revoked, revoked_at, revoked_reason')
       .eq('cert_code', code)
       .maybeSingle()
     if (!cert) return null
@@ -183,7 +183,7 @@ export async function getCertificate(code: string): Promise<CertificateView | nu
       lessonCount: (course?.lessons as number | null) ?? 0,
       modules,
       artifacts,
-      revoked: false,
+      revoked: (cert.revoked as boolean | null) ?? false,
     }
   } catch (err) {
     console.error('[academy/learner] getCertificate failed', err)

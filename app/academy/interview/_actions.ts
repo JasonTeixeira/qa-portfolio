@@ -321,3 +321,68 @@ async function insertSnapshot(
   })
   if (error) console.error('[academy/interview/_actions] snapshot insert failed', error)
 }
+
+// ── saveArtifact ─────────────────────────────────────────────────────────────
+
+const ARTIFACT_KINDS = ['code', 'whiteboard', 'negotiation'] as const
+type ArtifactKind = (typeof ARTIFACT_KINDS)[number]
+
+export type SaveArtifactResult = { ok: true } | { ok: false; reason: string }
+
+/**
+ * Persist one piece of session work product (a code run, whiteboard notes, or a
+ * negotiation sheet) for the live mock. The graded transcript weighs these via the
+ * grader (grader-logic.describeArtifact) — most importantly `caught_the_lie` on a
+ * code artifact, the deterministic verification signal.
+ *
+ * SECURITY: userId is ALWAYS from the session — never the args. The session must
+ * belong to the caller (own-row RLS read), and the insert goes through the caller's
+ * own-row RLS insert path (user_id = auth.uid()) — a learner can only ever write an
+ * artifact onto their own session. The payload is stored as-is (untrusted content);
+ * the grader treats it as untrusted data, never as instructions.
+ */
+export async function saveArtifact(input: {
+  sessionId: string
+  kind: ArtifactKind
+  payload: Record<string, unknown>
+}): Promise<SaveArtifactResult> {
+  try {
+    const sb = await createSupabaseServerClient()
+    const {
+      data: { user },
+    } = await sb.auth.getUser()
+    if (!user) return { ok: false, reason: 'unauthorized' }
+
+    const sessionId = typeof input?.sessionId === 'string' ? input.sessionId.trim() : ''
+    if (!sessionId) return { ok: false, reason: 'session_required' }
+    if (!ARTIFACT_KINDS.includes(input?.kind)) return { ok: false, reason: 'invalid_kind' }
+    const payload =
+      input?.payload && typeof input.payload === 'object' && !Array.isArray(input.payload)
+        ? input.payload
+        : {}
+
+    // Ownership: own-row RLS read of the caller's own session row.
+    const { data: session } = await sb
+      .from('interview_sessions')
+      .select('id, user_id')
+      .eq('id', sessionId)
+      .maybeSingle()
+    if (!session || session.user_id !== user.id) return { ok: false, reason: 'forbidden' }
+
+    // Own-row RLS insert: the caller writes an artifact onto their own session.
+    const { error } = await sb.from('interview_artifacts').insert({
+      session_id: sessionId,
+      user_id: user.id,
+      kind: input.kind,
+      payload,
+    })
+    if (error) {
+      console.error('[academy/interview/_actions] saveArtifact insert failed', error)
+      return { ok: false, reason: 'insert_failed' }
+    }
+    return { ok: true }
+  } catch (err) {
+    console.error('[academy/interview/_actions] saveArtifact threw', err)
+    return { ok: false, reason: 'server_error' }
+  }
+}

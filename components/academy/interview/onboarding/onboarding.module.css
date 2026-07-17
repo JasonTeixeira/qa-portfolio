@@ -1,0 +1,470 @@
+/* Interview Mastery — ONBOARDING wizard skin.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Onboarding.dc.html
+   Renders inside InterviewShell (.root of interview.module.css) → all --sa-* / --iv-gold*
+   custom properties are INHERITED here. GOLD accent variant. No fabricated data. */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .aside {
+    display: none;
+  }
+}
+
+/* progress rail */
+.progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.progressSeg {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--sa-surface-3, #1a1a20);
+  transition: background var(--sa-dur-ui, 0.2s) ease;
+}
+.progressSegOn {
+  background: var(--iv-gold, #e0a93e);
+}
+
+.kicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+}
+.title {
+  margin: 12px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.body {
+  margin: 14px 0 0;
+  color: var(--sa-ink-muted);
+  font-size: 15.5px;
+  max-width: 50ch;
+  text-wrap: pretty;
+}
+
+/* generic option surfaces */
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+.optCard {
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 18px;
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.optCard:hover {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.5));
+}
+.optCardOn {
+  border-color: rgba(224, 169, 62, 0.55);
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.08));
+}
+.optGlyph {
+  font-family: var(--sa-mono-live);
+  font-size: 14px;
+  color: var(--sa-ink-faint);
+}
+.optGlyphOn {
+  color: var(--iv-gold-bright, #f0c36a);
+}
+.optName {
+  font-size: 14.5px;
+  font-weight: 600;
+  margin-top: 8px;
+  color: var(--sa-ink);
+}
+.optMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 3px;
+}
+
+/* level list */
+.levelList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 30px;
+}
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.levelRow:hover {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.5));
+}
+.levelRowOn {
+  border-color: rgba(224, 169, 62, 0.55);
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.08));
+}
+.levelTag {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  width: 78px;
+  flex-shrink: 0;
+}
+.levelTagOn {
+  color: var(--iv-gold-bright, #f0c36a);
+}
+.levelBody {
+  flex: 1;
+}
+.levelName {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.levelDesc {
+  font-size: 12.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 2px;
+}
+.levelBar {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+  flex-shrink: 0;
+}
+
+/* timeline cards */
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+.timeCard {
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 18px;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  color: inherit;
+  font: inherit;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.timeCard:hover {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.5));
+}
+.timeCardOn {
+  border-color: rgba(224, 169, 62, 0.55);
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.08));
+}
+.timeName {
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--sa-ink);
+}
+.timeDesc {
+  font-size: 12.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 4px;
+}
+.timePace {
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  margin-top: 8px;
+}
+
+/* date + jd fields */
+.fieldBlock {
+  margin-top: 20px;
+}
+.fieldLabel {
+  display: block;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-faint);
+  margin-bottom: 8px;
+}
+.textInput {
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--sa-edge, #2a2a33);
+  border-radius: 10px;
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  font: inherit;
+  font-size: 14px;
+  padding: 12px 14px;
+  transition: border-color var(--sa-dur-fast, 150ms) ease;
+}
+.textInput:focus {
+  outline: none;
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.5));
+}
+.fieldHint {
+  font-size: 12px;
+  color: var(--sa-ink-faint);
+  margin-top: 8px;
+  text-wrap: pretty;
+}
+.cadencePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--iv-gold-bright, #f0c36a);
+  border: 1px solid var(--iv-gold-border, rgba(224, 169, 62, 0.4));
+  border-radius: 16px;
+  padding: 7px 13px;
+}
+
+/* evidence toggle */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  background: var(--sa-surface-1);
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  margin-top: 22px;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.toggleRowOn {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.4));
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.05));
+}
+.toggleBox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--sa-ink-ghost, #4a4a54);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: var(--sa-bg);
+  flex-shrink: 0;
+}
+.toggleBoxOn {
+  border-color: var(--iv-gold-bright, #f0c36a);
+  background: var(--iv-gold-bright, #f0c36a);
+}
+.toggleTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.toggleDesc {
+  font-size: 12.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 2px;
+  text-wrap: pretty;
+}
+
+/* review card */
+.reviewCard {
+  border: 1px solid var(--iv-gold-border, rgba(224, 169, 62, 0.35));
+  border-radius: 16px;
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+  padding: 26px;
+  margin-top: 30px;
+}
+.reviewKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+  margin-bottom: 16px;
+}
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+.reviewLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.reviewValue {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: var(--sa-ink);
+}
+.reviewFoot {
+  border-top: 1px solid rgba(224, 169, 62, 0.15);
+  margin-top: 18px;
+  padding-top: 18px;
+  font-size: 13.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+
+/* footer nav */
+.navRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-ink-faint);
+  border: 1px solid var(--sa-edge, #2a2a33);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 24px;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.backBtn:hover {
+  color: var(--sa-ink);
+}
+.nextBtn {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright, #f0c36a), var(--iv-gold-deep, #d99a2b));
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: 26px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.35);
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.nextBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.nextBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.navHint {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-ghost, #4a4a54);
+}
+.navError {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-danger);
+}
+
+/* aside */
+.aside {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 26px;
+  position: sticky;
+  top: 24px;
+}
+.asideKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+  margin-bottom: 16px;
+}
+.asideList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.asideItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.asideGlyph {
+  font-family: var(--sa-mono-live);
+  font-size: 12px;
+  color: var(--iv-gold);
+  flex-shrink: 0;
+}
+.asideTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.asideBody {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 2px;
+  text-wrap: pretty;
+}
+.asideFoot {
+  border-top: 1px solid var(--sa-rule);
+  margin-top: 20px;
+  padding-top: 16px;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-ghost, #4a4a54);
+  text-wrap: pretty;
+}
+
+/* step counter in the shell content */
+.stepCount {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
+  margin-bottom: 18px;
+}

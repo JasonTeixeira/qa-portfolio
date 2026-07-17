@@ -86,3 +86,25 @@ persists but the bug was the step-ordering, now fixed; the databases string appe
 teaching-about-the-error). Always read the CONTEXT, not just the substring.
 
 The `lab-integrity.mjs` gate is now permanent — run after any lab-touching change.
+
+---
+
+## FIX WAVE 2 (2nd pass, 17 uncovered courses) — 2026-07-17
+
+14/17 applied, **82 defects fixed**, 73 confirmed already-stale (killed by quiz/lab gates).
+GLOBAL gates all held: quiz-integrity PASS (16.1% longest, −0.5% length adv), lab-integrity
+IMPROVED to 0.2%, content board 32/32, 4,582 narration beats intact. The per-course "quiz FAIL"
+reports were small-N artifacts (20-quiz courses); the global length-tell is dead.
+
+Verified wins: career-interview SWEBOK/ABET citation fraud 48→1; git-the-terminal +10; observability
++12; qa_sdet +10; ux +9; security +8; networking +7; platform +6; nextjs +8.
+
+**3 not-applied (agents claimed all defects stale) — SPOT-CHECK CAUGHT A PUNT:**
+- career-enterprise_it: **phantom capstone CONFIRMED STILL LIVE** — 34 "capstone" mentions, zero
+  capstone lesson. Agent said stale; it is not. → targeted fix (build the capstone or remove the
+  phantom forward-refs).
+- career-engineering_judgment_foundation: "Testa" jargon confirmed GONE; walkthrough-highlight +
+  gate-arithmetic defects need re-verify.
+- career-architecture_system_design: capstone has a real substantive lab; cache-aside "resurrection"
+  claim + dead-gate need re-verify.
+LESSON (again): an agent reporting "defect stale" is a CLAIM — spot-check the objective ones.

@@ -147,7 +147,28 @@ export function Dashboard({
           <div className={styles.dateLine}>{dateLine} · your cockpit</div>
           <h1 className={styles.headline}>Welcome back, {name}.</h1>
         </div>
-        <div className={styles.ledgerLine}>{ledgerLine}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+          <div className={styles.ledgerLine}>{ledgerLine}</div>
+          {/* Cross-sell into the Interview Mastery add-on. On-brand gold pill, no fabricated stats. */}
+          <Link
+            href="/academy/interview"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              fontFamily: 'var(--font-mono, monospace)',
+              fontSize: 11,
+              color: '#E0A93E',
+              textDecoration: 'none',
+              border: '1px solid rgba(224,169,62,0.4)',
+              borderRadius: 16,
+              padding: '6px 12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ◆ Interview Mastery →
+          </Link>
+        </div>
       </div>
 
       <div className={styles.bento}>

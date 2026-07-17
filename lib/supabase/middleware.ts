@@ -185,6 +185,9 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/resources/sprint-loop' ||
     pathname === '/academy/efficacy' ||
     pathname === '/academy/legal' ||
+    // Interview Mastery add-on: the marketing/pricing landing is public (like /academy + /join).
+    // Every other /academy/interview/* surface stays behind needsAcademyLogin.
+    pathname === '/academy/interview/mastery' ||
     pathname.startsWith('/academy/voice/') ||
     pathname.startsWith('/academy/u/') ||
     pathname.startsWith('/academy/certificate/');

@@ -1,0 +1,307 @@
+/* Async peer loops — OFFICIAL Sage skin, gold-accent variant.
+   Source grammar: design-source/sage-academy-2026/Sage Interview Pairs.dc.html (adapted).
+   The design mocks a LIVE stranger-matching feed (member counts, matched strangers, live
+   60-minute call). This surface is deliberately ASYNC-ONLY (Spec §7): no live room, no presence,
+   no fabricated matched peer. We keep the gold-on-dark card grammar but the content is a real
+   request form + the caller's own real requests — never an invented match. */
+
+.scope {
+  --iv-gold: var(--sa-warning, #e0a93e);
+  --iv-gold-bright: #f0c36a;
+  --iv-gold-deep: #d99a2b;
+  --iv-gold-border: rgba(224, 169, 62, 0.4);
+  --iv-gold-soft: rgba(224, 169, 62, 0.08);
+}
+
+/* ── HEAD ────────────────────────────────────────────────────────────────── */
+.head {
+  max-width: 640px;
+  margin-bottom: 30px;
+}
+.headKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+}
+.headTitle {
+  margin: 10px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.headLine {
+  margin: 14px 0 0;
+  color: var(--sa-ink-muted);
+  font-size: 15.5px;
+  text-wrap: pretty;
+}
+.asyncTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-subtle);
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  padding: 7px 13px;
+}
+.asyncDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--iv-gold);
+}
+
+/* ── GRID ────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-lg, 16px);
+  background: var(--sa-surface-1);
+  padding: 26px;
+}
+.cardGold {
+  border-color: var(--iv-gold-border);
+  background: linear-gradient(165deg, rgba(23, 21, 14, 0.9), var(--sa-surface-1));
+}
+.cardKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-subtle);
+  margin-bottom: 16px;
+}
+.cardKickerGold {
+  color: var(--iv-gold);
+}
+
+/* ── REQUEST FORM ────────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.label {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-subtle);
+}
+.optional {
+  color: var(--sa-ink-faint);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.select,
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md, 12px);
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 14px;
+  padding: 11px 13px;
+  transition: border-color var(--sa-dur-fast, 150ms) ease;
+}
+.select:focus,
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--iv-gold-border);
+}
+.textarea {
+  min-height: 84px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.submitRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 22px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.3);
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  box-shadow: none;
+}
+.feedback {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11.5px;
+}
+.feedbackOk {
+  color: var(--sa-success, #18b663);
+}
+.feedbackErr {
+  color: var(--sa-danger, #e5484d);
+}
+.formNote {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+  margin-top: 4px;
+  text-wrap: pretty;
+}
+
+/* ── REQUESTS LIST ───────────────────────────────────────────────────────── */
+.requests {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.request {
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md, 13px);
+  background: var(--sa-bg);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.requestBody {
+  flex: 1;
+  min-width: 200px;
+}
+.requestTop {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.requestTrack {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.requestDate {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+}
+.requestNote {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 5px;
+  text-wrap: pretty;
+}
+.requestSlot {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 5px;
+}
+.statusChip {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--sa-rule);
+  white-space: nowrap;
+}
+.chipRequested {
+  color: var(--iv-gold-bright);
+  border-color: var(--iv-gold-border);
+  background: var(--iv-gold-soft);
+}
+.chipMatched,
+.chipScheduled {
+  color: var(--sa-success, #18b663);
+  border-color: rgba(24, 182, 99, 0.35);
+  background: rgba(24, 182, 99, 0.06);
+}
+.chipCompleted {
+  color: var(--sa-ink-subtle);
+}
+.emptyRequests {
+  font-size: 13.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+
+/* ── HOW-IT-WORKS (right column) ─────────────────────────────────────────── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.step {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+.stepNum {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--iv-gold-bright);
+  width: 22px;
+  flex-shrink: 0;
+}
+.stepText {
+  font-size: 13px;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
+}
+.honesty {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+.honesty b {
+  color: var(--sa-ink);
+  font-weight: 600;
+}
+.stackGap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}

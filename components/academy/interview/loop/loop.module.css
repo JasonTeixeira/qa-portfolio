@@ -1,0 +1,392 @@
+/* Loop simulation runner — OFFICIAL Sage skin, gold-accent variant.
+   No dedicated design file exists for the loop runner; this is built from the spec plus the
+   InterviewShell / cockpit grammar (--sa-* tokens, gold interview accent). A loop is a clean
+   ordered rounds list + progress + a deterministic aggregate reveal. It shares the gold accent
+   family (--sa-warning) with the rest of Interview Mastery so it reads as the same product. */
+
+.scope {
+  --iv-gold: var(--sa-warning, #e0a93e);
+  --iv-gold-bright: #f0c36a;
+  --iv-gold-deep: #d99a2b;
+  --iv-gold-border: rgba(224, 169, 62, 0.4);
+  --iv-gold-soft: rgba(224, 169, 62, 0.08);
+}
+
+/* ── HEAD ────────────────────────────────────────────────────────────────── */
+.head {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+.headKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+}
+.headTitle {
+  margin: 10px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.headLine {
+  margin: 14px 0 0;
+  color: var(--sa-ink-muted);
+  font-size: 15.5px;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+/* Progress meter — how many rounds have a real grade. */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.progressTrack {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--sa-surface-2);
+  overflow: hidden;
+}
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  transition: width var(--sa-dur-ui, 300ms) var(--sa-ease, ease);
+}
+.progressLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-subtle);
+  white-space: nowrap;
+}
+
+/* ── ROUNDS LIST ─────────────────────────────────────────────────────────── */
+.rounds {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.round {
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-lg, 16px);
+  background: var(--sa-surface-1);
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.roundActive {
+  border-color: var(--iv-gold-border);
+  background: linear-gradient(165deg, rgba(23, 21, 14, 0.9), var(--sa-surface-1));
+}
+.roundNum {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sa-ink-subtle);
+  border: 1px solid var(--sa-rule);
+  background: var(--sa-surface-2);
+}
+.roundNumGraded {
+  color: var(--sa-bg);
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+}
+.roundBody {
+  flex: 1;
+  min-width: 200px;
+}
+.roundName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.roundFocus {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 4px;
+  text-wrap: pretty;
+}
+.roundMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.trackChip {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sa-ink-subtle);
+  border: 1px solid var(--sa-rule);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* Right-side status column. */
+.roundStatus {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.statusTag {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-faint);
+}
+.statusLive {
+  color: var(--iv-gold-bright);
+}
+.roundScore {
+  text-align: right;
+}
+.roundScoreNum {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--sa-ink);
+}
+.roundVerdict {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* Verdict band colors (shared by rounds + aggregate). */
+.bandHire {
+  color: var(--sa-success, #18b663);
+}
+.bandLean {
+  color: var(--iv-gold-bright);
+}
+.bandNo {
+  color: var(--sa-danger, #e5484d);
+}
+
+/* ── ACTION BUTTONS ──────────────────────────────────────────────────────── */
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 22px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.3);
+  white-space: nowrap;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.primaryBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.primaryBtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  box-shadow: none;
+}
+.ghostLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--iv-gold-bright);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--iv-gold-border);
+  border-radius: 22px;
+  padding: 10px 20px;
+  white-space: nowrap;
+  transition: background var(--sa-dur-fast, 150ms) ease;
+}
+.ghostLink:hover {
+  background: var(--iv-gold-soft);
+}
+
+/* ── FINALIZE / AGGREGATE ────────────────────────────────────────────────── */
+.finalizeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 20px 22px;
+  border: 1px dashed var(--sa-rule);
+  border-radius: var(--sa-radius-lg, 16px);
+}
+.finalizeCopy {
+  font-size: 13.5px;
+  color: var(--sa-ink-muted);
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+.partialNote {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md, 12px);
+  background: var(--sa-surface-1);
+  font-size: 13.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+
+.aggregate {
+  margin-top: 22px;
+  border: 1px solid var(--iv-gold-border);
+  border-radius: var(--sa-radius-lg, 16px);
+  background: linear-gradient(165deg, rgba(23, 21, 14, 0.92), var(--sa-surface-1));
+  padding: 28px;
+}
+.aggKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+}
+.aggHeadline {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.aggVerdict {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.aggScore {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 14px;
+  color: var(--sa-ink-subtle);
+}
+.aggNote {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  max-width: 54ch;
+  text-wrap: pretty;
+}
+.aggRounds {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.aggRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.aggRowLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-subtle);
+  width: 130px;
+  flex-shrink: 0;
+  text-transform: capitalize;
+}
+.aggBarTrack {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sa-surface-2);
+  overflow: hidden;
+}
+.aggBarFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--iv-gold-bright), var(--iv-gold-deep));
+}
+.aggRowScore {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 12px;
+  color: var(--sa-ink);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.errorMsg {
+  margin-top: 14px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 12px;
+  color: var(--sa-danger, #e5484d);
+}
+
+/* ── RUN-LOOP BUTTON (embedded in the Library preset card) ───────────────── */
+.runWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+.runBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--iv-gold-border);
+  cursor: pointer;
+  color: var(--iv-gold-bright);
+  background: var(--iv-gold-soft);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.runBtn:hover:not(:disabled) {
+  background: rgba(224, 169, 62, 0.14);
+  filter: brightness(1.05);
+}
+.runBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.runError {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-danger, #e5484d);
+}

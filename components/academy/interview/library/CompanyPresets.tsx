@@ -1,4 +1,5 @@
 import styles from './library.module.css'
+import { RunLoopButton } from '@/components/academy/interview/loop/RunLoopButton'
 
 export type CompanyPreset = {
   slug: string
@@ -23,8 +24,8 @@ function simLabel(minutes: number): string {
 
 /**
  * The real interview_company_presets — four seeded loops with their real round counts and sim
- * length. The "run this loop" affordance is an HONEST stub: the full loop simulation is a later
- * phase, so we label it as coming rather than link to a non-existent sim.
+ * length. The "run this loop" affordance (RunLoopButton) creates a real loop from the preset and
+ * routes to the loop-simulation runner at /academy/interview/loop/<id>.
  */
 export function CompanyPresets({ presets }: Props) {
   if (presets.length === 0) return null
@@ -43,7 +44,7 @@ export function CompanyPresets({ presets }: Props) {
               {p.roundCount} round{p.roundCount === 1 ? '' : 's'}
               {simLabel(p.simMinutes) ? ` · ${simLabel(p.simMinutes)}` : ''}
             </div>
-            <div className={styles.presetStub}>Full loop sim · coming soon</div>
+            <RunLoopButton slug={p.slug} />
           </div>
         ))}
       </div>

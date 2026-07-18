@@ -160,6 +160,79 @@ async function main(): Promise<void> {
     return
   }
 
+  if (STAGE === '4') {
+    // Phase-3: prove brief + loop + pairs write real rows through the real UI.
+    await admin.from('interview_company_briefs').delete().eq('user_id', uid)
+    await admin.from('interview_loops').delete().eq('user_id', uid)
+    await admin.from('interview_peer_matches').delete().eq('user_id', uid)
+    await admin.from('interview_profiles').upsert({
+      user_id: uid, target_role: 'Backend Engineer', target_level: 'senior', target_company: 'Meridian Labs',
+      timeline: 'six_weeks', onboarded_at: new Date().toISOString(),
+    })
+    const JD =
+      'Senior Backend Engineer. You will design and operate distributed services in Go and ' +
+      'PostgreSQL at scale, own reliability and on-call, and mentor engineers. We value ownership, ' +
+      'crisp tradeoff reasoning under pressure, and a strong verification habit. Experience with ' +
+      'rate limiting, idempotency, and incident response is a plus.'
+
+    const browser = await chromium.launch()
+    const ctx = await browser.newContext(); await ctx.addCookies(cookies)
+    const page = await ctx.newPage(); page.setDefaultTimeout(45000)
+
+    // BRIEF: paste JD → generateBrief (live) → /brief/[id]
+    await page.goto(`${BASE}/academy/interview/brief`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1500)
+    await page.locator('textarea').first().fill(JD)
+    const companyInp = page.getByPlaceholder(/meridian/i).first()
+    if (await companyInp.count()) await companyInp.fill('Meridian Labs').catch(() => {})
+    const roleInp = page.getByPlaceholder(/senior swe|payments/i).first()
+    if (await roleInp.count()) await roleInp.fill('Backend Engineer').catch(() => {})
+    await page.getByRole('button', { name: /decode this jd|decode|generate|create brief/i }).first().click().catch(() => {})
+    await page.waitForURL(/\/brief\/[0-9a-f-]{36}/, { timeout: 60000 }).catch(() => {})
+    await page.waitForTimeout(1500)
+    await page.screenshot({ path: `${SHOT}/e2e-brief.png`, fullPage: true })
+    console.log('✓ brief: submitted JD')
+
+    // LOOP: Library "run this loop" → createLoop → /loop/[id]
+    await page.goto(`${BASE}/academy/interview/library`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1500)
+    const runLoop = page.getByRole('button', { name: /run this loop|run loop|run the/i }).first()
+    if (await runLoop.count()) { await runLoop.click().catch(() => {}); await page.waitForURL(/\/loop\//, { timeout: 30000 }).catch(() => {}) }
+    await page.waitForTimeout(1200)
+    await page.screenshot({ path: `${SHOT}/e2e-loop.png`, fullPage: true })
+    console.log('✓ loop: ran a preset')
+
+    // PAIRS: request a peer loop
+    await page.goto(`${BASE}/academy/interview/pairs`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1200)
+    const noteInp = page.locator('textarea, input[type=text]').first()
+    if (await noteInp.count()) await noteInp.fill('Looking for a senior backend peer loop.').catch(() => {})
+    await page.getByRole('button', { name: /request|post|find a peer|open a request/i }).first().click().catch(() => {})
+    await page.waitForTimeout(2500)
+    await page.screenshot({ path: `${SHOT}/e2e-pairs.png`, fullPage: true })
+    console.log('✓ pairs: requested a peer loop')
+    await browser.close()
+
+    const scen = await admin.from('interview_scenarios').select('slug').eq('status', 'published')
+    const realSlugs = new Set((scen.data ?? []).map((s) => s.slug))
+    const [briefs, loops, peers] = await Promise.all([
+      admin.from('interview_company_briefs').select('company,queue').eq('user_id', uid),
+      admin.from('interview_loops').select('id,company_preset_id').eq('user_id', uid),
+      admin.from('interview_peer_matches').select('status,track').eq('user_id', uid),
+    ])
+    const brief = (briefs.data ?? [])[0]
+    const queue = (brief?.queue as string[] | undefined) ?? []
+    const queueReal = queue.length > 0 && queue.every((s) => realSlugs.has(s))
+    const loopRows = loops.data ?? []
+    const peerRows = peers.data ?? []
+
+    console.log('\n=== PHASE 3 WRITE PATHS (real rows) ===')
+    console.log(`  company brief:  ${briefs.data?.length ?? 0} (queue ${queue.length}, all real: ${queueReal})`)
+    console.log(`  loop created:   ${loopRows.length} (preset bound: ${loopRows[0]?.company_preset_id ? 'yes' : 'no'})`)
+    console.log(`  peer request:   ${peerRows.length} (status: ${peerRows[0]?.status ?? '—'})`)
+    const pass = (briefs.data?.length ?? 0) >= 1 && queueReal && loopRows.length >= 1 && peerRows.length >= 1
+    console.log(`\n═══ PHASE 3 E2E: ${pass ? 'PASS' : 'FAIL'} ═══  (review e2e-{brief,loop,pairs}.png)`)
+    if (!pass) process.exit(1)
+    return
+  }
+
   // ── STAGE 2: drive the live mock + assert real rows ──────────────────────
   const sessionId = process.env.SESSION_ID
   if (!sessionId) throw new Error('STAGE 2 needs SESSION_ID=<id>')

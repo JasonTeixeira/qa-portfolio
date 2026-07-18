@@ -1,0 +1,517 @@
+/* Company brief — Interview Mastery gold-accent skin.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Company Brief.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Gold accent is reused from
+   interview.module.css (--iv-gold family); redeclared here so this module stands alone. */
+
+.brief {
+  --iv-gold: var(--sa-warning, #e0a93e);
+  --iv-gold-bright: #f0c36a;
+  --iv-gold-deep: #d99a2b;
+  --iv-gold-border: rgba(224, 169, 62, 0.35);
+  --iv-gold-soft: rgba(224, 169, 62, 0.06);
+
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ───────────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.headKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+}
+.headTitle {
+  margin: 8px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.confBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 14px;
+  padding: 7px 14px;
+  white-space: nowrap;
+}
+.confDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.confHigh {
+  color: var(--sa-success);
+  border: 1px solid var(--sa-success-border);
+  background: var(--sa-success-soft);
+}
+.confMedium {
+  color: var(--iv-gold);
+  border: 1px solid var(--iv-gold-border);
+  background: var(--sa-warning-soft);
+}
+.confLow {
+  color: var(--sa-ink-muted);
+  border: 1px solid var(--sa-rule);
+  background: var(--sa-surface-2);
+}
+
+/* ── TWO-COLUMN GRID ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+  align-items: start;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── CARDS ────────────────────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 26px;
+}
+.cardLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-muted);
+  margin-bottom: 16px;
+}
+
+/* Decoded phrases */
+.decodedList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.decodedRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: baseline;
+}
+.phrase {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--iv-gold-bright);
+  border: 1px solid var(--iv-gold-border);
+  border-radius: 10px;
+  padding: 3px 10px;
+  justify-self: start;
+  max-width: 26ch;
+}
+.means {
+  font-size: 13.5px;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
+}
+
+/* Predicted rounds */
+.roundHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.roundHeadLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-muted);
+}
+.roundHeadMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-muted);
+}
+.rounds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.round {
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  background: var(--sa-bg);
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.roundNum {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-muted);
+  width: 44px;
+  flex-shrink: 0;
+}
+.roundMid {
+  flex: 1;
+  min-width: 200px;
+}
+.roundName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.roundFocus {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 3px;
+  text-wrap: pretty;
+}
+
+/* Edge / risk */
+.edgeCard {
+  border: 1px solid var(--sa-success-border);
+  border-radius: 16px;
+  background: var(--sa-success-soft);
+  padding: 24px;
+}
+.edgeLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-success);
+  margin-bottom: 10px;
+}
+.riskCard {
+  border: 1px solid var(--sa-danger-border);
+  border-radius: 16px;
+  background: var(--sa-danger-soft);
+  padding: 24px;
+}
+.riskLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-danger);
+  margin-bottom: 10px;
+}
+.cardProse {
+  font-size: 13.5px;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
+}
+.cardProseMuted {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+
+/* Tuned queue */
+.queueCard {
+  border: 1px solid var(--iv-gold-border);
+  border-radius: 16px;
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+  padding: 24px;
+}
+.queueLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+  margin-bottom: 14px;
+}
+.queue {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.queueItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  font-family: var(--sa-body-live);
+  font-size: 13px;
+  color: var(--sa-ink-subtle);
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background var(--sa-dur-fast, 150ms) ease, color var(--sa-dur-fast, 150ms) ease;
+}
+.queueItem:hover:not(:disabled) {
+  background: var(--iv-gold-soft);
+  color: var(--sa-ink);
+}
+.queueItem:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.queueMode {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--iv-gold-bright);
+  width: 48px;
+  flex-shrink: 0;
+}
+.queueName {
+  flex: 1;
+}
+.queueMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-ghost);
+  white-space: nowrap;
+}
+.emptyNote {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+.startError {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-danger);
+}
+
+/* Footer */
+.footer {
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  color: var(--sa-ink-ghost);
+  text-align: center;
+  text-wrap: pretty;
+  margin-top: 4px;
+}
+
+/* ── COMPOSER (index / new brief) ─────────────────────────────────────────── */
+.canvas {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.composerHead {
+  margin-bottom: 22px;
+}
+.composerKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--iv-gold);
+}
+.composerTitle {
+  margin: 12px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.composerExplainer {
+  margin: 12px 0 0;
+  color: var(--sa-ink-muted);
+  font-size: 14.5px;
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 24px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.label {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sa-ink-muted);
+}
+.textarea {
+  width: 100%;
+  min-height: 200px;
+  resize: vertical;
+  background: var(--sa-surface-2);
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.textarea:focus-visible {
+  outline: none;
+  border-color: var(--iv-gold-border);
+  box-shadow: 0 0 0 3px var(--sa-warning-soft);
+}
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 560px) {
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+}
+.input {
+  width: 100%;
+  background: var(--sa-surface-2);
+  border: 1px solid var(--sa-rule);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 14px;
+}
+.input:focus-visible {
+  outline: none;
+  border-color: var(--iv-gold-border);
+  box-shadow: 0 0 0 3px var(--sa-warning-soft);
+}
+.formFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.charHint {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-ghost);
+}
+.submit {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  border: none;
+  font-family: var(--sa-body-live);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: 24px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.3);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+.formError {
+  font-family: var(--sa-mono-live);
+  font-size: 11.5px;
+  color: var(--sa-danger);
+}
+
+/* Existing briefs list */
+.listSection {
+  margin-top: 34px;
+}
+.listLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-muted);
+  margin-bottom: 12px;
+}
+.briefsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.briefRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  background: var(--sa-surface-1);
+  padding: 14px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.briefRow:hover {
+  border-color: var(--iv-gold-border);
+  background: var(--sa-surface-2);
+}
+.briefRowMain {
+  min-width: 0;
+}
+.briefCompany {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.briefRole {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 2px;
+}
+.briefMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-ghost);
+  white-space: nowrap;
+  flex-shrink: 0;
+}

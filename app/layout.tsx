@@ -214,17 +214,21 @@ export default async function RootLayout({
   const isPortal = h.get('x-portal') === '1'
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
-  // The Interview mock room + verdict reveal are full-screen immersive surfaces
-  // (own session bar / centered reveal). The marketing chrome's fixed header
-  // overlaps their controls, so they render chromeless like the cinematic paths.
-  const isImmersiveInterview =
-    pathname.startsWith('/academy/interview/session') || pathname.startsWith('/academy/interview/verdict')
+  // The gated Interview product is a self-contained app: every page carries its own
+  // InterviewShell nav (or the full-bleed session/verdict bars), so the marketing
+  // chrome's fixed header is redundant and its fixed position overlaps the mock-room
+  // controls. Render the whole gated product chromeless. Public mastery/checkout keep
+  // the marketing chrome (site nav + cookie banner for conversion/SEO).
+  const isInterviewProduct =
+    pathname.startsWith('/academy/interview') &&
+    !pathname.startsWith('/academy/interview/mastery') &&
+    !pathname.startsWith('/academy/interview/checkout')
   const isCinematicPath =
     pathname === '/path' ||
     pathname === '/ascent' ||
     pathname.startsWith('/learn') ||
     pathname.startsWith('/proto') ||
-    isImmersiveInterview
+    isInterviewProduct
   const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (

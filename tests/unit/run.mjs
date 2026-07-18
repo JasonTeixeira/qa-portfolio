@@ -10253,6 +10253,14 @@ test('sageforge institutional harness: enforces identity, proof, and autonomy bo
     '../../lib/academy/interview/drill-logic.test.ts'
   );
   registerDrillLogic(test);
+  const { register: registerBriefLogic } = await import(
+    '../../lib/academy/interview/brief-logic.test.ts'
+  );
+  registerBriefLogic(test);
+  const { register: registerLoopLogic } = await import(
+    '../../lib/academy/interview/loop-logic.test.ts'
+  );
+  registerLoopLogic(test);
 }
 
 // -------------------------------------------------------------- runner

@@ -103,6 +103,63 @@ async function main(): Promise<void> {
     return
   }
 
+  if (STAGE === '3') {
+    // Phase-2 mastery loop: needs a GRADED session (run after Stage 2 with its SESSION_ID).
+    const sessionId = process.env.SESSION_ID
+    if (!sessionId) throw new Error('STAGE 3 needs SESSION_ID=<graded id>')
+    // Give the profile a target_date so the taper can generate (pure date math).
+    const target = new Date(); target.setDate(target.getDate() + 42)
+    await admin.from('interview_profiles').update({ target_date: target.toISOString().slice(0, 10) }).eq('user_id', uid)
+
+    const browser = await chromium.launch()
+    const ctx = await browser.newContext(); await ctx.addCookies(cookies)
+    const page = await ctx.newPage(); page.setDefaultTimeout(45000)
+
+    // DEBRIEF → Plan my drills (live generateDrills).
+    await page.goto(`${BASE}/academy/interview/debrief/${sessionId}`, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1800)
+    const planBtn = page.getByRole('button', { name: /plan my drills|plan.*drill/i }).first()
+    if (await planBtn.count()) { await planBtn.click(); await page.waitForTimeout(22000) }
+    await page.screenshot({ path: `${SHOT}/e2e-debrief.png`, fullPage: true })
+    console.log('✓ debrief: planned drills')
+
+    // SCHEDULE → Generate my taper plan (seedTaperFromProfile).
+    await page.goto(`${BASE}/academy/interview/schedule`, { waitUntil: 'networkidle' })
+    await page.waitForTimeout(1800)
+    const taperBtn = page.getByRole('button', { name: /generate.*taper|taper plan|generate my/i }).first()
+    if (await taperBtn.count()) { await taperBtn.click(); await page.waitForTimeout(5000) }
+    await page.screenshot({ path: `${SHOT}/e2e-schedule.png`, fullPage: true })
+    console.log('✓ schedule: generated taper')
+
+    // LIBRARY + PROGRESS render on real data.
+    await page.goto(`${BASE}/academy/interview/library`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1500)
+    const libHtml = await page.content()
+    await page.screenshot({ path: `${SHOT}/e2e-library.png`, fullPage: true })
+    await page.goto(`${BASE}/academy/interview/progress`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1500)
+    const progHtml = await page.content()
+    await page.screenshot({ path: `${SHOT}/e2e-progress.png`, fullPage: true })
+    await browser.close()
+
+    const [drills, sched] = await Promise.all([
+      admin.from('interview_drills').select('scenario_id,title').eq('user_id', uid),
+      admin.from('interview_schedule').select('session_type,slot_date').eq('user_id', uid),
+    ])
+    const drillRows = drills.data ?? []
+    const realDrills = drillRows.filter((d) => d.scenario_id).length
+    const schedRows = sched.data ?? []
+    const libCap = /cap/i.test(libHtml)
+    const progHonest = /readiness|trend|projection|graded/i.test(progHtml)
+
+    console.log('\n=== PHASE 2 SCREENS (real data) ===')
+    console.log(`  debrief drills:   ${drillRows.length} (real scenario ${realDrills})`)
+    console.log(`  schedule slots:   ${schedRows.length} (${[...new Set(schedRows.map((s) => s.session_type))].join(', ')})`)
+    console.log(`  library cap text: ${libCap}   progress renders: ${progHonest}`)
+    const pass = drillRows.length === 3 && realDrills === 3 && schedRows.length > 0 && progHonest
+    console.log(`\n═══ PHASE 2 E2E: ${pass ? 'PASS' : 'FAIL'} ═══  (review e2e-{debrief,schedule,library,progress}.png)`)
+    if (!pass) process.exit(1)
+    return
+  }
+
   // ── STAGE 2: drive the live mock + assert real rows ──────────────────────
   const sessionId = process.env.SESSION_ID
   if (!sessionId) throw new Error('STAGE 2 needs SESSION_ID=<id>')

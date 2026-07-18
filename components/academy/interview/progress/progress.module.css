@@ -1,0 +1,367 @@
+/* Interview Mastery — PROGRESS surface. Gold-accent Sage skin.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Progress.dc.html
+   Inherits --iv-gold* + --sa-* from the InterviewShell .root ancestor. */
+
+/* ── HEADER ────────────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.headMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-subtle);
+}
+.headTitle {
+  margin: 8px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(24px, 3vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.targetChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--iv-gold-bright);
+  border: 1px solid var(--iv-gold-border);
+  border-radius: 16px;
+  padding: 7px 13px;
+  white-space: nowrap;
+}
+
+/* ── GRID + CARDS ──────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 26px;
+}
+.cardGold {
+  border-color: var(--iv-gold-border);
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+}
+.span8 {
+  grid-column: span 8;
+}
+.span7 {
+  grid-column: span 7;
+}
+.span5 {
+  grid-column: span 5;
+}
+.span4 {
+  grid-column: span 4;
+}
+.span12 {
+  grid-column: span 12;
+}
+.cardHeadRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.cardKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-subtle);
+}
+.cardKickerGold {
+  color: var(--iv-gold);
+}
+.cardStat {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-success);
+}
+.cardStatMuted {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-subtle);
+}
+
+/* ── READINESS CHART ───────────────────────────────────────────────────────── */
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@keyframes ivLineDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.chartCurve {
+  animation: ivLineDraw 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chartCurve {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+.chartLegend {
+  display: flex;
+  gap: 20px;
+  margin-top: 12px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-subtle);
+  flex-wrap: wrap;
+}
+.legendReal {
+  color: var(--iv-gold);
+}
+.legendProjection {
+  color: rgba(224, 169, 62, 0.6);
+}
+.chartNote {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 14px;
+  text-wrap: pretty;
+}
+
+/* ── COHORT STANDING ───────────────────────────────────────────────────────── */
+.cohortCol {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.percentileBig {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 44px;
+  line-height: 1;
+}
+.percentileSub {
+  font-size: 12.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 6px;
+  text-wrap: pretty;
+}
+.cohortBars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cohortRowHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.cohortName {
+  color: var(--sa-ink-muted);
+}
+.cohortNameYou {
+  color: var(--sa-ink);
+  font-weight: 700;
+}
+.cohortVal {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-subtle);
+}
+.cohortTrack {
+  height: 5px;
+  border-radius: 3px;
+  background: #1a1a20;
+}
+.cohortFill {
+  height: 5px;
+  border-radius: 3px;
+}
+.cohortNote {
+  font-size: 12px;
+  color: var(--sa-ink-muted);
+  border-top: 1px solid var(--sa-rule);
+  padding-top: 12px;
+  text-wrap: pretty;
+}
+.cohortEmpty {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+.cohortEmptyBig {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--sa-ink-subtle);
+  margin-bottom: 8px;
+}
+
+/* ── SKILL TRAJECTORIES ────────────────────────────────────────────────────── */
+.skillList {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.skillRow {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.9fr) 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+.skillName {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.skillTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: #1a1a20;
+}
+.skillGain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(224, 169, 62, 0.25);
+  border-radius: 3px;
+}
+.skillFrom {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+.skillNow {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 3px;
+  border-radius: 2px;
+}
+.skillBar {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: rgba(240, 195, 106, 0.55);
+}
+.skillDelta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  width: 82px;
+  text-align: right;
+}
+.skillFootNote {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  border-top: 1px solid var(--sa-rule);
+  margin-top: 16px;
+  padding-top: 14px;
+  text-wrap: pretty;
+}
+
+/* ── ACTIVITY LEDGER ───────────────────────────────────────────────────────── */
+.ledgerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ledgerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.ledgerTile {
+  border: 1px solid var(--sa-rule);
+  border-radius: 11px;
+  background: var(--sa-bg);
+  padding: 15px 16px;
+}
+.ledgerValue {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1;
+}
+.ledgerLabel {
+  font-size: 12px;
+  color: var(--sa-ink-subtle);
+  margin-top: 6px;
+  text-wrap: pretty;
+}
+.ledgerNote {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 2px;
+}
+
+/* ── PROOF FOOTER ──────────────────────────────────────────────────────────── */
+.proofCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.proofMark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  color: var(--sa-bg);
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 0 18px rgba(224, 169, 62, 0.35);
+}
+.proofMain {
+  flex: 1;
+  min-width: 260px;
+}
+.proofBody {
+  font-size: 14px;
+  color: var(--sa-ink-muted);
+  max-width: 78ch;
+  text-wrap: pretty;
+}
+.proofStat {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-subtle);
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .span8,
+  .span7,
+  .span5,
+  .span4,
+  .span12 {
+    grid-column: auto;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

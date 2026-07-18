@@ -1,0 +1,487 @@
+/* Schedule / taper — Sage gold-accent skin on the --sa-* tokens.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Schedule.dc.html.
+   Every colour resolves to a token or the --iv-gold family the InterviewShell defines. */
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.headKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+.headTitle {
+  margin: 8px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.headNote {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+}
+.countPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--iv-gold-bright);
+  border: 1px solid var(--sa-warning-border);
+  border-radius: 16px;
+  padding: 7px 13px;
+  white-space: nowrap;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 24px;
+}
+.weekCard {
+  padding: 26px;
+}
+.cardGold {
+  border-color: var(--sa-warning-border);
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+  box-shadow: 0 0 32px rgba(224, 169, 62, 0.08);
+}
+.panelKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+.panelKickerGold {
+  color: var(--iv-gold);
+}
+
+.weekHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.weekHint {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--iv-gold-bright);
+}
+
+/* ── DAY ROWS ───────────────────────────────────────────────────────────── */
+.days {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dayRow {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.dayLabel {
+  padding: 12px 0;
+  text-align: right;
+}
+.dayName {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sa-ink-faint);
+}
+.dayNameHot {
+  color: var(--iv-gold-bright);
+}
+.dayDate {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9px;
+  color: var(--sa-ink-ghost);
+  margin-top: 2px;
+}
+.slot {
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  background: var(--sa-bg);
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.slotHot {
+  border-color: var(--sa-warning-border);
+  background: var(--iv-gold-soft);
+}
+.slotDone {
+  opacity: 0.6;
+}
+.slotTime {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  width: 52px;
+}
+.slotTimeHot {
+  color: var(--iv-gold-bright);
+}
+.slotBody {
+  flex: 1;
+  min-width: 150px;
+}
+.slotWhat {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.slotWhatDone {
+  text-decoration: line-through;
+  color: var(--sa-ink-muted);
+}
+.slotMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 2px;
+}
+.tag {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  border-radius: 12px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.tagHardRep {
+  color: var(--sa-danger);
+  border-color: var(--sa-danger-border);
+}
+.tagDress {
+  color: var(--iv-gold-bright);
+  border-color: var(--sa-warning-border);
+}
+.tagLight {
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
+}
+.tagTaper {
+  color: var(--sa-ink-faint);
+  border-color: var(--sa-edge);
+}
+.tagGoTime {
+  color: var(--iv-gold-bright);
+  border-color: var(--sa-warning-border);
+}
+.slotActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.iconBtn {
+  appearance: none;
+  border: 1px solid var(--sa-rule);
+  background: transparent;
+  color: var(--sa-ink-faint);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.iconBtn:hover {
+  color: var(--sa-ink);
+  border-color: var(--sa-edge-hover);
+}
+.iconBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── ADD FORM ───────────────────────────────────────────────────────────── */
+.addBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+.addToggle {
+  appearance: none;
+  border: 1px dashed var(--sa-edge);
+  background: transparent;
+  color: var(--sa-ink-subtle);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.addToggle:hover {
+  color: var(--iv-gold-bright);
+  border-color: var(--sa-warning-border);
+}
+.addForm {
+  margin-top: 14px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  background: var(--sa-surface-2);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.fieldWide {
+  grid-column: 1 / -1;
+}
+.fieldLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-faint);
+}
+.input,
+.select {
+  width: 100%;
+  border: 1px solid var(--sa-rule);
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--sa-warning-border);
+  outline-offset: 1px;
+}
+.formActions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.saveBtn {
+  appearance: none;
+  border: none;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 10px;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+.saveBtn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+.cancelBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--sa-ink-faint);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  cursor: pointer;
+}
+.cancelBtn:hover {
+  color: var(--sa-ink);
+}
+.errorLine {
+  color: var(--sa-danger);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  margin: 10px 0 0;
+}
+
+/* ── SEED / EMPTY (target set, no slots) ─────────────────────────────────── */
+.seedBox {
+  text-align: center;
+  padding: 28px 20px;
+}
+.seedTitle {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(20px, 2.2vw, 26px);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+.seedBody {
+  color: var(--sa-ink-muted);
+  font-size: 14px;
+  margin: 12px auto 0;
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+.seedActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── THE REAL ONE (onsite running order) ─────────────────────────────────── */
+.realTitle {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  margin: 12px 0 0;
+}
+.realMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-muted);
+  margin-top: 6px;
+}
+.realRounds {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+.realRound {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.realRoundTime {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+  width: 88px;
+}
+.realRoundName {
+  color: var(--sa-ink-subtle);
+}
+.realFoot {
+  border-top: 1px solid var(--sa-warning-soft);
+  margin-top: 14px;
+  padding-top: 12px;
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+
+/* ── TAPER RULES (static product guidance, not user data) ─────────────────── */
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+}
+.rule {
+  display: flex;
+  gap: 10px;
+}
+.ruleMark {
+  color: var(--iv-gold);
+  flex-shrink: 0;
+}
+.ruleStrong {
+  color: var(--sa-ink);
+}
+.rulesKicker {
+  margin-bottom: 12px;
+}
+
+/* ── REMINDERS ──────────────────────────────────────────────────────────── */
+.remKicker {
+  margin-bottom: 8px;
+}
+.remRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+.remRow:disabled {
+  cursor: default;
+}
+.remPill {
+  width: 30px;
+  height: 17px;
+  border-radius: 10px;
+  background: var(--sa-edge);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 200ms ease;
+}
+.remPillOn {
+  background: var(--iv-gold);
+}
+.remKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--sa-ink);
+  transition: left 200ms ease;
+}
+.remKnobOn {
+  left: 15px;
+}
+.remLabel {
+  font-size: 13px;
+  color: var(--sa-ink-subtle);
+}

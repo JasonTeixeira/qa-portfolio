@@ -1,0 +1,511 @@
+/* Interview Mastery — DEBRIEF surface. Gold-accent Sage skin.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Debrief.dc.html
+   Inherits --iv-gold* + --sa-* from the InterviewShell .root ancestor (CSS custom
+   properties cascade through the DOM), so this module only references them. */
+
+/* ── HEADER BLOCK ──────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.headMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-subtle);
+}
+.headTitle {
+  margin: 10px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(26px, 3.2vw, 42px);
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.headRail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.railCell {
+  text-align: right;
+}
+.railLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sa-ink-subtle);
+}
+.railVerdict {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.1;
+}
+.railScore {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.1;
+}
+.railScoreBar {
+  font-size: 14px;
+  color: var(--sa-ink-subtle);
+}
+.railDivider {
+  width: 1px;
+  height: 44px;
+  background: var(--sa-rule);
+}
+
+/* ── GRID ──────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 26px;
+}
+.cardGold {
+  border-color: var(--iv-gold-border);
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+}
+.span7 {
+  grid-column: span 7;
+}
+.span5 {
+  grid-column: span 5;
+}
+.span12 {
+  grid-column: span 12;
+}
+.cardHeadRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.cardKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-subtle);
+}
+.cardKickerGold {
+  color: var(--iv-gold);
+}
+.cardHint {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-subtle);
+}
+
+/* ── SCORED MOMENTS TIMELINE ───────────────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+.moment {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sa-rule);
+}
+.moment:last-child {
+  border-bottom: none;
+}
+.momentStamp {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 2px 0 0;
+  margin: 0;
+  text-align: left;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--iv-gold);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.momentStamp:hover {
+  color: var(--iv-gold-bright);
+}
+.momentStamp:focus-visible {
+  outline: 2px solid var(--iv-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.momentStamp[aria-expanded='true'] {
+  color: var(--iv-gold-bright);
+}
+.momentBody {
+  min-width: 0;
+}
+.momentTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mark {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
+  padding: 2px 7px;
+  color: var(--sa-ink-faint);
+  border: 1px solid var(--sa-edge, var(--sa-rule));
+  flex-shrink: 0;
+}
+.mark[data-mark='catch'],
+.mark[data-mark='recovery'] {
+  color: var(--sa-success);
+  border-color: var(--sa-success-border, var(--sa-success));
+}
+.mark[data-mark='flag'],
+.mark[data-mark='stumble'] {
+  color: var(--sa-danger);
+  border-color: var(--sa-danger-border, var(--sa-danger));
+}
+.momentTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.momentNote {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+.replayHint {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 6px;
+}
+/* Disclosure: transcript turns around the moment. */
+.replay {
+  margin-top: 10px;
+  border-left: 2px solid var(--iv-gold-border);
+  padding: 4px 0 4px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.replayTurn {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.replaySpeaker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-top: 2px;
+}
+.replaySpeaker[data-speaker='interviewer'] {
+  color: var(--iv-gold);
+}
+.replaySpeaker[data-speaker='candidate'] {
+  color: var(--sa-ink-subtle);
+}
+.replayContent {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+.replayHintTag {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 8.5px;
+  color: var(--iv-gold);
+  margin-left: 6px;
+}
+.replayEmpty {
+  font-size: 12px;
+  color: var(--sa-ink-faint);
+  font-style: italic;
+}
+.emptyLine {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* ── RUBRIC MOVEMENT ───────────────────────────────────────────────────────── */
+.rubric {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.rubricRow > .rubricRowHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.rubricName {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.rubricCap {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sa-danger);
+  border: 1px solid var(--sa-danger-border, var(--sa-danger));
+  border-radius: 6px;
+  padding: 1px 5px;
+  margin-left: 7px;
+}
+.rubricScore {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+.rubricTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: #1a1a20;
+}
+.rubricFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+.rubricMarker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: rgba(240, 195, 106, 0.6);
+}
+.movementNote {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  border-top: 1px solid var(--sa-rule);
+  padding-top: 14px;
+  text-wrap: pretty;
+}
+
+/* ── SPEECH ANALYTICS (only when present) ──────────────────────────────────── */
+.speechGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.speechTile {
+  border: 1px solid var(--sa-rule);
+  border-radius: 11px;
+  background: var(--sa-bg);
+  padding: 13px 14px;
+}
+.speechValue {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 16px;
+}
+.speechLabel {
+  font-size: 11.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 3px;
+}
+
+/* ── DRILL PLANNER ─────────────────────────────────────────────────────────── */
+.planCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.planMark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  color: var(--sa-bg);
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 0 18px rgba(224, 169, 62, 0.35);
+}
+.planMain {
+  flex: 1;
+  min-width: 280px;
+}
+.drillGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.drill {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--sa-rule);
+  border-radius: 11px;
+  background: rgba(11, 11, 14, 0.6);
+  padding: 15px 16px;
+  min-height: 100%;
+}
+.drillTag {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--iv-gold);
+}
+.drillTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.drillMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 5px;
+}
+.drillStart {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 10px 0 0;
+  text-align: left;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--iv-gold);
+  cursor: pointer;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.drillStart:hover:not(:disabled) {
+  color: var(--iv-gold-bright);
+}
+.drillStart:disabled {
+  color: var(--sa-ink-faint);
+  cursor: default;
+}
+.drillDone {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-success);
+  margin-top: 10px;
+}
+.planEmptyLine {
+  font-size: 13.5px;
+  color: var(--sa-ink-muted);
+  margin: 10px 0 0;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+.planBtn {
+  appearance: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: 24px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.3);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.planBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.planBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.planError {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-danger);
+}
+
+/* ── FOOTER CTAs ───────────────────────────────────────────────────────────── */
+.footRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: 24px;
+  box-shadow: 0 0 22px rgba(224, 169, 62, 0.3);
+  white-space: nowrap;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.ctaPrimary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.ctaGhost {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  text-decoration: none;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.ctaGhost:hover {
+  color: var(--iv-gold-bright);
+}
+
+/* ── HONEST "NOT GRADED" PANEL ─────────────────────────────────────────────── */
+.ungraded {
+  max-width: 640px;
+  margin: clamp(24px, 8vh, 96px) auto 0;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .span7,
+  .span5,
+  .span12 {
+    grid-column: auto;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

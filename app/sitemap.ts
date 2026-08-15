@@ -16,6 +16,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/interview', priority: 0.9, changeFrequency: 'weekly' },
   { path: '/academy/concepts', priority: 0.85, changeFrequency: 'weekly' },
+  { path: '/academy/guarantee', priority: 0.6, changeFrequency: 'monthly' },
   ...(conceptsManifest as { concepts: { slug: string }[] }).concepts.map((c) => ({ path: `/academy/concepts/${c.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
   { path: '/engineering-os', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/services', priority: 0.95, changeFrequency: 'weekly' },

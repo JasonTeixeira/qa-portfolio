@@ -118,7 +118,7 @@ export async function updateDiscordPremium(input: {
 
 export async function recordDiscordScheduledRun(input: {
   runKey: string;
-  kind: 'daily_signal' | 'weekly_recap' | 'learning_lab';
+  kind: 'daily_signal' | 'weekly_recap' | 'learning_lab' | 'content_factory';
   status: 'drafted' | 'published' | 'posted' | 'skipped' | 'failed';
   messageId?: string | null;
   metadata?: Json;

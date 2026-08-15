@@ -1,4 +1,5 @@
 import 'server-only'
+import conceptsManifest from '@/lib/academy/concepts-manifest.json'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { TRACKS } from '@/lib/academy/taxonomy'
 import { TOPICS, type TopicKey } from '@/lib/academy/topics'
@@ -53,17 +54,26 @@ const TOPIC_PRIORITY: Record<TopicKey, number> = {
 }
 
 function taxonomyFallback(): AcademyStats {
-  // Honest degraded state: taxonomy track count, unknown lesson total (0), and
-  // synthetic-free cards drawn from the real track list (never invented names).
+  // Honest degraded state: cards drawn from the real track list (never
+  // invented names), lesson counts backed by the git-resident concept
+  // manifest (real authored lessons), and coursesCount matching the cards
+  // actually shown — count and list must never disagree.
+  const manifestLessonsByCourse = new Map<string, number>()
+  for (const c of conceptsManifest.concepts) {
+    manifestLessonsByCourse.set(c.courseSlug, (manifestLessonsByCourse.get(c.courseSlug) ?? 0) + 1)
+  }
   const courses: AcademyCourseCard[] = TRACKS.filter((t) => t.status === 'live').map((t) => ({
     slug: t.id,
     title: t.name,
     subtitle: t.outcome,
     topic: normalizeTopic(t.topic),
     level: 'Beginner',
-    lessons: 0,
+    lessons: manifestLessonsByCourse.get(t.id) ?? 0,
   }))
-  return { coursesCount: TRACKS.length, lessonsCount: 0, courses }
+  // Floor, not a claim: the manifest holds real authored lessons even when
+  // the catalog service is unreachable.
+  const lessonsCount = conceptsManifest.concepts.length
+  return { coursesCount: courses.length, lessonsCount, courses }
 }
 
 export async function getAcademyStats(): Promise<AcademyStats> {

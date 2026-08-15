@@ -33,7 +33,8 @@ export async function PATCH(req: Request) {
     .update({ full_name: fullName, company })
     .eq('id', ctx.user.clerk_id);
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[profile/update] profile update failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 
   await sb

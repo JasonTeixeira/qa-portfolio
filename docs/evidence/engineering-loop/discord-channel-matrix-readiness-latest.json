@@ -1,0 +1,136 @@
+{
+  "ok": true,
+  "version": "discord-channel-matrix-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:46.678Z",
+  "mutationMode": "local_file_evidence_only",
+  "channelCount": 20,
+  "approvedMemberChannelCount": 16,
+  "preApprovalChannels": [
+    "start-here"
+  ],
+  "premiumChannels": [
+    "premium",
+    "premium-reviews"
+  ],
+  "staffPrivateChannels": [
+    "team-ops"
+  ],
+  "dailyChannels": [
+    "daily-signal",
+    "questions",
+    "build-lab",
+    "team-ops"
+  ],
+  "weeklyChannels": [
+    "announcements",
+    "project-submissions",
+    "review-queue",
+    "content-queue",
+    "office-hours",
+    "accountability",
+    "resources",
+    "wins-showcase",
+    "premium-reviews"
+  ],
+  "proofLaneCoverage": [
+    "approved_discord_knowledge",
+    "onboarding",
+    "operating_admin",
+    "premium_workflow_proof",
+    "public_proof_assets",
+    "rag_discord_sources"
+  ],
+  "categoryCoverage": [
+    "academy",
+    "engagement",
+    "entry",
+    "learning",
+    "ops",
+    "premium",
+    "proof"
+  ],
+  "postingModeCoverage": [
+    "bot_led",
+    "member_led",
+    "read_only",
+    "staff_only",
+    "structured_submissions"
+  ],
+  "ownerCoverage": [
+    "admin",
+    "members",
+    "premium",
+    "sagebot",
+    "staff"
+  ],
+  "pinnedAssetCoverage": {
+    "channelsWithPinnedAssets": 20,
+    "minimumPinnedAssetsPerChannel": 2
+  },
+  "botJobCoverage": {
+    "channelsWithBotJobs": 20,
+    "totalBotJobs": 61
+  },
+  "antiSprawlCoverage": {
+    "channelsWithRules": 20,
+    "examples": [
+      {
+        "channel": "start-here",
+        "rule": "Keep all pre-approval instructions here; do not create extra welcome, rules, or FAQ channels."
+      },
+      {
+        "channel": "academy-roadmap",
+        "rule": "Use this as the single map instead of path-specific channel sprawl."
+      },
+      {
+        "channel": "introductions",
+        "rule": "Do not split intros by path; route path context through roles and profile metadata."
+      },
+      {
+        "channel": "announcements",
+        "rule": "Only announcements with a clear action go here; discussion moves to the linked channel."
+      },
+      {
+        "channel": "daily-signal",
+        "rule": "Keep daily prompts consolidated here; do not create separate daily question/resource/tool channels."
+      }
+    ]
+  },
+  "contentFactoryTargeting": {
+    "ok": true,
+    "knownChannelCount": 20,
+    "targetableChannelCount": 16,
+    "plannedSlotCount": 36,
+    "unknownChannels": [],
+    "blockedChannels": [],
+    "blockedVisibilityPolicy": [
+      {
+        "visibility": "pre_approval",
+        "reason": "Content factory must not post into the application gate."
+      },
+      {
+        "visibility": "premium_members",
+        "reason": "Premium content uses premium workflows, not free daily/weekly factory slots."
+      },
+      {
+        "visibility": "staff_private",
+        "reason": "Staff operations are private and not public engagement targets."
+      }
+    ]
+  },
+  "operatingChecks": [
+    "One and only one pre-approval channel exists: start-here.",
+    "Approved free members have a compact Academy map, questions lane, build lab, review queue, content queue, live cadence, resources, and wins lane.",
+    "Premium and staff-private channels are excluded from general content factory targeting.",
+    "Every channel declares owner, cadence, posting mode, bot jobs, pinned assets, proof lanes, and anti-sprawl rule.",
+    "Content factory targets are validated against canonical channels before drafts are created or planned."
+  ],
+  "failures": [],
+  "releaseMeaning": "Channel matrix readiness proves the local operating design and content-factory targeting rules only. It does not create, delete, rename, reorder, or mutate live Discord channels.",
+  "validation": {
+    "ok": true,
+    "failures": [],
+    "validator": "discord-channel-matrix-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:46.680Z"
+  }
+}

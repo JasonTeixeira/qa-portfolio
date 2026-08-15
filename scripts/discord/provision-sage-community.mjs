@@ -5,7 +5,6 @@ const TEXT_CHANNEL = 0;
 const VIEW_CHANNEL = 1n << 10n;
 const SEND_MESSAGES = 1n << 11n;
 const READ_MESSAGE_HISTORY = 1n << 16n;
-const MANAGE_MESSAGES = 1n << 13n;
 
 const requiredRoles = [
   'AI Engineer',
@@ -22,17 +21,26 @@ const requiredRoles = [
 ];
 
 const channelPlan = [
-  { name: 'start-here', topic: 'Welcome, rules, onboarding instructions, and first action.', readOnly: true },
-  { name: 'daily-signal', topic: 'Daily build prompt, AI pattern, and community question.' },
-  { name: 'questions', topic: 'Main Q&A room for structured questions, useful answers, helpful marks, and unanswered-question tracking.' },
-  { name: 'build-lab', topic: 'Project specs, shipping updates, technical questions, and build help.' },
-  { name: 'review-queue', topic: 'Design, code, AI, SEO, cloud, and architecture review requests.' },
-  { name: 'content-lab', topic: 'Captured questions, lessons, content ideas, resource gaps, and growth work.' },
-  { name: 'live-room', topic: 'Office-hours queue, live session notes, and replay follow-up.' },
-  { name: 'resources', topic: 'Templates, stack guides, reading list, prompts, tools, and resource drops.', readOnly: true },
-  { name: 'wins-showcase', topic: 'Ships, wins, proof screenshots, launches, and weekly recap.' },
-  { name: 'premium', topic: 'Premium critique, advanced drops, replays, and deeper help.', premiumOnly: true },
-  { name: 'team-ops', topic: 'Private moderation, reports, analytics review, and admin operations.', opsOnly: true },
+  { name: 'start-here', displayName: '✦｜start-here', topic: 'Welcome, rules, onboarding instructions, and first action.', readOnly: true },
+  { name: 'academy-roadmap', displayName: '✥｜academy-roadmap', topic: 'Read-only Academy map: how paths, levels, projects, points, premium, and weekly rhythm work.', readOnly: true },
+  { name: 'introductions', displayName: '◇｜introductions', topic: 'Approved-member intros: goal, current build, level, and first help request.' },
+  { name: 'announcements', displayName: '✶｜announcements', topic: 'Read-only Academy updates, challenge launches, live sessions, releases, and important operating notices.', readOnly: true },
+  { name: 'daily-signal', displayName: '◆｜daily-signal', topic: 'Daily build prompt, AI pattern, and community question.' },
+  { name: 'questions', displayName: '⌕｜questions', topic: 'Main Q&A room for structured questions, useful answers, helpful marks, and unanswered-question tracking.' },
+  { name: 'ask-sage', displayName: '◈｜ask-sage', topic: 'Dedicated SageBot and RAG question lane.' },
+  { name: 'lesson-discussion', displayName: '⎋｜lesson-discussion', topic: 'Discussion and questions tied to lessons, modules, walkthroughs, and Academy material.' },
+  { name: 'build-lab', displayName: '▣｜build-lab', topic: 'Project specs, shipping updates, technical questions, and build help.' },
+  { name: 'project-submissions', displayName: '▤｜project-submissions', topic: 'Structured project submissions for review, points, showcase candidates, and member progress tracking.' },
+  { name: 'review-queue', displayName: '◎｜review-queue', topic: 'Design, code, AI, SEO, cloud, and architecture review requests.' },
+  { name: 'content-queue', displayName: '▱｜content-queue', topic: 'Captured questions, content ideas, resource gaps, and approved draft inputs.' },
+  { name: 'live-room', displayName: '◐｜live-room', topic: 'Office-hours queue, live session notes, and replay follow-up.' },
+  { name: 'office-hours', displayName: '◑｜office-hours', topic: 'Office-hours schedule, agenda, submitted questions, session notes, and replay links.' },
+  { name: 'accountability', displayName: '◍｜accountability', topic: 'Weekly goals, check-ins, shipping commitments, and progress nudges.' },
+  { name: 'resources', displayName: '◌｜resources', topic: 'Templates, stack guides, reading list, prompts, tools, and resource drops.', readOnly: true },
+  { name: 'wins-showcase', displayName: '★｜wins-showcase', topic: 'Ships, wins, proof screenshots, launches, and weekly recap.' },
+  { name: 'premium', displayName: '✧｜premium', topic: 'Premium critique, advanced drops, replays, and deeper help.', premiumOnly: true },
+  { name: 'premium-reviews', displayName: '✩｜premium-reviews', topic: 'Premium-only structured reviews, deeper teardowns, and priority critique queue.', premiumOnly: true },
+  { name: 'team-ops', displayName: '■｜team-ops', topic: 'Private moderation, reports, analytics review, and admin operations.', opsOnly: true },
 ];
 
 const startHereMessage = [
@@ -42,14 +50,14 @@ const startHereMessage = [
   '',
   '## Start here',
   '1. Read the quality bar below.',
-  '2. Run `/apply`.',
-  '3. Answer the application questions and confirm rules acceptance.',
+  '2. Complete the Discord application questions.',
+  '3. Confirm rules acceptance in the application.',
   '4. Wait for manual approval.',
   '5. After approval, run `/onboard`.',
-  '6. Post your intro in `questions` with the template below.',
+  '6. Post your intro in `introductions` with the template below.',
   '7. Submit your first project with `/submit-project`.',
   '8. Ask for focused critique with `/request-review`.',
-  '9. Use `questions` for help, `content-lab` for content ideas, and `live-room` for office-hours questions.',
+  '9. Use `questions` for help, `ask-sage` for bot/RAG help, `content-queue` for reusable ideas, `resources` for approved assets, and `live-room` for office-hours questions.',
   '',
   '## Quality bar',
   '- Ask with context: goal, current attempt, blocker, and link/screenshot when possible.',
@@ -166,16 +174,34 @@ if (missingRoles.length) {
 const existingByBaseName = new Map(channels.map((channel) => [baseDiscordName(channel.name), channel]));
 const created = [];
 const existing = [];
+const updated = [];
 
 for (const [position, channel] of channelPlan.entries()) {
   const current = existingByBaseName.get(channel.name);
   if (current) {
     existing.push(channel.name);
+    await discordApi(`/channels/${current.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name: channel.displayName,
+        topic: channel.topic,
+        position,
+        permission_overwrites: permissionOverwrites({
+          everyoneId: guildId,
+          premiumRoleId: roleByName.get('Premium Member')?.id,
+          academyRoleId: roleByName.get('Academy Member')?.id,
+          readOnly: channel.readOnly,
+          premiumOnly: channel.premiumOnly,
+          opsOnly: channel.opsOnly,
+        }),
+      }),
+    });
+    updated.push(channel.name);
     continue;
   }
 
   const payload = {
-    name: channel.name,
+    name: channel.displayName,
     type: TEXT_CHANNEL,
     topic: channel.topic,
     position,
@@ -200,7 +226,7 @@ for (const [position, channel] of channelPlan.entries()) {
 const startHere = existingByBaseName.get('start-here');
 if (startHere) {
   const messages = await discordApi(`/channels/${startHere.id}/messages?limit=20`);
-  const alreadyPosted = messages.some((message) => message.author?.bot && message.content.includes('Run `/apply`'));
+  const alreadyPosted = messages.some((message) => message.author?.bot && message.content.includes('# Welcome to Sage Ideas Academy'));
   if (!alreadyPosted) {
     await discordApi(`/channels/${startHere.id}/messages`, {
       method: 'POST',
@@ -213,6 +239,7 @@ console.log(JSON.stringify({
   ok: true,
   created,
   existing,
+  updated,
   startHerePosted: Boolean(startHere),
-  note: 'Provisioned lean Sage Ideas Discord channels. Existing channels were left untouched.',
+  note: 'Provisioned lean 20-channel Sage Ideas Academy layout with restrained symbol prefixes.',
 }, null, 2));

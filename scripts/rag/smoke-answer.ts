@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { flushAiObservability } from '../../lib/ai/observability';
 import { answerRagQuestion } from '../../lib/rag/retrieval';
 
 const evidenceDir = path.join(process.cwd(), 'docs', 'evidence', 'rag');
@@ -19,13 +20,15 @@ async function main() {
   const startedAt = new Date().toISOString();
   const result = await answerRagQuestion(sb, question, { limit: 5, persist: true });
   const evidence = {
-    ok: Boolean(result.answer && result.citations.length && result.retrievalLogId && result.answerId),
+    ok: Boolean(result.answer && result.citations.length && result.retrievalLogId && result.answerId && result.observability.traceId),
     question,
     model: result.model,
     answerPreview: result.answer.slice(0, 500),
     citationCount: result.citations.length,
     retrievalLogId: result.retrievalLogId,
     answerId: result.answerId,
+    traceId: result.observability.traceId,
+    observabilityProvider: result.observability.provider,
     citations: result.citations,
     startedAt,
     finishedAt: new Date().toISOString(),
@@ -33,6 +36,7 @@ async function main() {
   await mkdir(evidenceDir, { recursive: true });
   const evidencePath = path.join(evidenceDir, 'answer-smoke.json');
   await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
+  await flushAiObservability();
   console.log(JSON.stringify({ ...evidence, evidencePath }, null, 2));
   if (!evidence.ok) process.exit(1);
 }
@@ -46,6 +50,7 @@ main().catch(async (error) => {
   await mkdir(evidenceDir, { recursive: true });
   const evidencePath = path.join(evidenceDir, 'answer-smoke.json');
   await writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
+  await flushAiObservability();
   console.error(JSON.stringify({ ...evidence, evidencePath }, null, 2));
   process.exit(1);
 });

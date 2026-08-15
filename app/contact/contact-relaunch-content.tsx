@@ -28,37 +28,37 @@ import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/l
 type EngagementType = 'studio' | 'project' | 'consult'
 
 const TYPE_TABS: { value: EngagementType; label: string; tagline: string }[] = [
-  { value: 'studio', label: 'Studio Engagement', tagline: 'Embedded — months, not days' },
+  { value: 'studio', label: 'Studio Engagement', tagline: 'Embedded for months, not days' },
   { value: 'project', label: 'Project', tagline: 'Scoped delivery with a fixed outcome' },
   { value: 'consult', label: 'Consult', tagline: 'A focused call or short review' },
 ]
 
 const TIMELINE_OPTS = [
-  { value: 'asap', label: 'ASAP — within 2 weeks' },
-  { value: '2-4w', label: '2–4 weeks out' },
-  { value: '1-2m', label: '1–2 months out' },
+  { value: 'asap', label: 'ASAP, within 2 weeks' },
+  { value: '2-4w', label: '2-4 weeks out' },
+  { value: '1-2m', label: '1-2 months out' },
   { value: '3m+', label: '3+ months out' },
   { value: 'exploring', label: 'Just exploring' },
 ]
 
 const BUDGET_OPTS: Record<EngagementType, { value: string; label: string }[]> = {
   studio: [
-    { value: '25-50k', label: '$25–50k / month' },
-    { value: '50-100k', label: '$50–100k / month' },
+    { value: '25-50k', label: '$25-50k / month' },
+    { value: '50-100k', label: '$50-100k / month' },
     { value: '100k+', label: '$100k+ / month' },
     { value: 'unsure', label: 'Not sure yet' },
   ],
   project: [
     { value: '<10k', label: 'Under $10k' },
-    { value: '10-25k', label: '$10–25k' },
-    { value: '25-50k', label: '$25–50k' },
-    { value: '50-100k', label: '$50–100k' },
+    { value: '10-25k', label: '$10-25k' },
+    { value: '25-50k', label: '$25-50k' },
+    { value: '50-100k', label: '$50-100k' },
     { value: '100k+', label: '$100k+' },
     { value: 'unsure', label: 'Not sure yet' },
   ],
   consult: [
     { value: '<10k', label: 'Under $10k' },
-    { value: '10-25k', label: '$10–25k' },
+    { value: '10-25k', label: '$10-25k' },
     { value: 'unsure', label: 'Not sure yet' },
   ],
 }
@@ -292,7 +292,7 @@ function ContactInner() {
               <span className="text-[var(--sage-ink)] [font-family:var(--font-mono),ui-monospace,monospace]">
                 {email}
               </span>
-              . Every inquiry is read personally — well-matched ones get a response within 48 hours.
+              . Every inquiry is read personally. Well-matched ones get a response within 48 hours.
             </p>
             <p className="mt-3 text-[13px] text-[var(--sage-ink-faint)]">
               No match? You&apos;ll still hear back. We don&apos;t ghost.
@@ -329,20 +329,20 @@ function ContactInner() {
           <div className="max-w-3xl">
             {/* Mono eyebrow */}
             <MonoLabel tone="faint" as="p" className="text-[11px] mb-4">
-              {'// contact · sage ideas studio'}
+              {'Contact Sage Ideas'}
             </MonoLabel>
 
             {/* Fraunces display heading */}
             <h1 style={SERIF} className="text-5xl sm:text-6xl lg:text-7xl font-normal text-[var(--sage-ink)] leading-[1.05] tracking-[-0.02em]">
-              Start a conversation.
+              Tell me what you want built.
             </h1>
 
             {/* Accent lead hairline */}
             <Hairline accentLead className="mt-6 mb-6" />
 
             <p className="text-[15px] text-[var(--sage-ink-muted)] leading-relaxed max-w-[52ch]">
-              Pick the engagement type that fits. The more specific you are about scope and timeline,
-              the faster the reply — and the better the fit assessment.
+              Send the business problem, workflow, or website leak. I will point you to the right demo,
+              build path, or next step.
             </p>
 
             {/* Pre-selected badge */}
@@ -484,7 +484,7 @@ function ContactInner() {
                     type="text"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Acme Inc."
+                    placeholder="Your company"
                     className={inputClass}
                     autoComplete="organization"
                     maxLength={200}
@@ -512,9 +512,9 @@ function ContactInner() {
                   >
                     <option value="">Select size…</option>
                     <option value="solo">Just me / founder</option>
-                    <option value="1-10">1–10</option>
-                    <option value="11-50">11–50</option>
-                    <option value="51-200">51–200</option>
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
                     <option value="200+">200+</option>
                   </select>
                 </Field>
@@ -525,8 +525,8 @@ function ContactInner() {
                     className={selectClass}
                   >
                     <option value="">Select…</option>
-                    <option value="buyer">I'm the decision-maker</option>
-                    <option value="proposing">I'm proposing to leadership</option>
+                    <option value="buyer">I&apos;m the decision-maker</option>
+                    <option value="proposing">I&apos;m proposing to leadership</option>
                     <option value="exploring">Exploring for someone else</option>
                   </select>
                 </Field>
@@ -615,20 +615,20 @@ function ContactInner() {
                   )}
                 </button>
                 <p className="text-[12px] [font-family:var(--font-mono),ui-monospace,monospace] text-[var(--sage-ink-faint)]">
-                  Well-matched inquiries get a reply within 48h.
+                  Well-matched inquiries get a reply within 48 hours.
                 </p>
               </div>
             </form>
           </Surface>
 
-          {/* Sidebar */}
-          <aside className="space-y-3">
+          {/* Conversion support panel */}
+          <div className="space-y-3">
             <SidebarCard
               icon={Calendar}
               label="Book"
               title="Prefer a call?"
-              body="Skip the form and book a 30-minute strategy call. No pitch, no pressure."
-              href="/book"
+              body="Skip the form and book a 30-minute build call. Bring the problem, not a pitch deck."
+              href="/book?source=contact_sidebar"
               cta="Book a call"
             />
             <SidebarCard
@@ -653,7 +653,7 @@ function ContactInner() {
                 . We collect only what we need to respond and never sell personal data.
               </p>
             </Surface>
-          </aside>
+          </div>
         </div>
       </section>
 
@@ -686,7 +686,7 @@ function ContactInner() {
                 <div className="text-[15px] font-medium text-[var(--sage-ink)]">Jason Teixeira</div>
                 <div className="text-[13px] text-[var(--sage-ink-faint)]">Founder · Sage Ideas Studio</div>
                 <p className="text-[13px] text-[var(--sage-ink-faint)] leading-relaxed pt-1">
-                  Every inquiry lands in my inbox. No SDR, no triage queue. You&apos;ll talk to the
+                  Every inquiry lands in my inbox. No SDR, no triage queue. You will talk to the
                   person doing the work.
                 </p>
                 <div className="flex items-center gap-3 rounded-[3px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] p-3 mt-2">
@@ -725,13 +725,13 @@ function ContactInner() {
                   icon: MessageSquare,
                   step: '01',
                   title: 'Reply within 1 business day',
-                  body: "A real response from me — not an autoresponder. Either we book a call or I tell you it's not a fit.",
+                  body: "A real response from me, not an autoresponder. Either we book a call or I tell you it is not a fit.",
                   duration: '< 24h',
                 },
                 {
                   icon: Search,
                   step: '02',
-                  title: 'Discovery call (30–45 min)',
+                  title: 'Build call (30-45 min)',
                   body: "I dig into the actual problem, current state, and what \"done\" looks like. You leave clearer either way.",
                   duration: 'Week 1',
                 },
@@ -740,14 +740,14 @@ function ContactInner() {
                   step: '03',
                   title: 'Written scope + fixed quote',
                   body: "A short written proposal: scope, milestones, price, timeline, and what's explicitly out of scope.",
-                  duration: 'Week 1–2',
+                  duration: 'Week 1-2',
                 },
                 {
                   icon: Rocket,
                   step: '04',
                   title: 'Kickoff and first artifact',
                   body: 'On signing, we set up the shared workspace and ship the first deliverable inside the first week.',
-                  duration: 'Week 2–3',
+                  duration: 'Week 2-3',
                 },
               ].map((item) => (
                 <Surface

@@ -9,7 +9,7 @@ export async function getCatalogCourses(): Promise<CourseItem[]> {
     const sb = await createSupabaseServerClient()
     const { data } = await sb
       .from('academy_courses')
-      .select('slug, title, topic, level, lessons, hours')
+      .select('slug, title, subtitle, topic, level, lessons, hours')
       .eq('status', 'published')
       .order('sort')
     if (!data?.length) return []
@@ -20,8 +20,10 @@ export async function getCatalogCourses(): Promise<CourseItem[]> {
       level: r.level as Level,
       lessons: r.lessons,
       hours: r.hours,
+      subtitle: r.subtitle ?? '',
     }))
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] getCatalogCourses failed', err)
     return []
   }
 }
@@ -67,13 +69,63 @@ export async function getCourse(slug: string): Promise<Course | null> {
       lessonsDone: 0,
       modules,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
+  }
+}
+
+/**
+ * Ordered lessons (slug + title) for every given course, keyed by course slug,
+ * in lesson order. Used by the Content Map. One query covers all courses.
+ */
+export async function getLessonsByCourse(
+  courseSlugs: string[],
+): Promise<Record<string, { slug: string; title: string }[]>> {
+  if (courseSlugs.length === 0) return {}
+  try {
+    const sb = await createSupabaseServerClient()
+    const { data: lessons } = await sb
+      .from('academy_lessons')
+      .select('slug, title, course_slug, module_sort, sort')
+      .in('course_slug', courseSlugs)
+      .eq('status', 'published')
+      .order('module_sort')
+      .order('sort')
+
+    const byCourse: Record<string, { slug: string; title: string }[]> = {}
+    for (const l of lessons ?? []) {
+      ;(byCourse[l.course_slug] ??= []).push({ slug: l.slug, title: l.title })
+    }
+    return byCourse
+  } catch (err) {
+    console.error('[academy/content] getLessonsByCourse failed', err)
+    return {}
   }
 }
 
 export type OverviewLesson = { slug: string; title: string; estMinutes: number; isFreePreview: boolean }
 export type OverviewModule = { title: string; lessons: OverviewLesson[] }
+
+/**
+ * The real name of a module, with the redundant "Module N" prefix removed.
+ *
+ * `academy_lessons.module_title` ships in exactly two shapes:
+ *   - named: "Module 3 · Framing & Diagnosis"  -> "Framing & Diagnosis"
+ *   - bare:  "Module 3"                        -> null (the module has no name)
+ *
+ * Every surface that renders a "MODULE NN" kicker beside the name must strip the
+ * prefix, or the number reads twice ("MODULE 03 · Module 3 · Framing"). The
+ * declared number is safe to drop: it equals the module's position in
+ * `module_sort` order for every module in the catalogue (verified 154/154).
+ *
+ * Returns null — never an empty string or an invented name — when the source
+ * carries no real name, so callers omit the element rather than render a blank.
+ */
+export function moduleName(title: string): string | null {
+  const stripped = title.replace(/^\s*module\s*\d+\s*[·:\-–—.]?\s*/i, '').trim()
+  return stripped === '' ? null : stripped
+}
 export type CourseOverview = {
   slug: string
   title: string
@@ -133,7 +185,8 @@ export async function getCourseOverview(slug: string): Promise<CourseOverview | 
       firstLessonSlug: ls[0]?.slug ?? null,
       modules: order.map((t) => ({ title: t, lessons: byModule.get(t)! })),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
   }
 }
@@ -170,7 +223,8 @@ export async function getLesson(courseSlug: string, lessonSlug: string): Promise
       nextSlug: next?.slug,
       nextLabel: next?.title,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/content] query failed', err)
     return null
   }
 }

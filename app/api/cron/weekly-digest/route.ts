@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
     .select('id, approval_status')
     .eq('approval_status', 'approved');
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[cron/weekly-digest] profile query failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 
   const profileIds = ((profiles ?? []) as Array<{ id: string }>).map((p) => p.id);

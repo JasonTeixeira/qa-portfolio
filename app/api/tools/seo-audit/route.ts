@@ -30,7 +30,7 @@ const BodySchema = z.object({
 
 export async function POST(req: NextRequest) {
   // Rate limiting: 5 audits per minute per IP
-  const limited = rateLimit(req, { limit: 5, windowMs: 60_000, prefix: 'seo-audit' });
+  const limited = await rateLimit(req, { limit: 5, windowMs: 60_000, prefix: 'seo-audit' });
   if (limited) return limited;
 
   let raw: unknown;

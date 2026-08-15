@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import type { AcademyPlan, PlanInterval } from '@/lib/academy/plans'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './join.module.css'
 
 const FEATURES = [
@@ -33,12 +34,15 @@ export function JoinClient({
       <div className={styles.root}>
         <div className={styles.wrap}>
           <div className={styles.member}>
-            <div className={styles.memberGlyph}>✓</div>
+            <div className={styles.memberGlyph} aria-hidden="true"><Icon name="check" size={24} /></div>
             <h1 className={styles.h1} style={{ fontSize: '2rem', margin: '0.6rem 0' }}>You&rsquo;re all-access</h1>
             <p className={styles.sub} style={{ margin: '0 auto' }}>
               Your membership is active. Every course, lab, and certificate is unlocked.
             </p>
-            <Link href="/academy/dashboard" className={styles.memberLink}>Go to your dashboard →</Link>
+            <Link href="/academy/dashboard" className={styles.memberLink}>
+              Go to your dashboard
+              <Icon name="arrow-right" size={15} aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>
@@ -73,7 +77,7 @@ export function JoinClient({
   return (
     <div className={styles.root}>
       <div className={styles.wrap}>
-        <span className={styles.kicker}>◆ Sage Academy · All-access</span>
+        <span className={styles.kicker}>Sage Academy · All-access</span>
         <h1 className={styles.h1}>Learn to build with AI — <em>everything, unlocked</em></h1>
         <p className={styles.sub}>
           One membership opens every course, every hands-on lab, and every certificate. Learn by
@@ -103,7 +107,14 @@ export function JoinClient({
           </div>
           <div className={styles.cardSide}>
             <button type="button" className={styles.cta} onClick={subscribe} disabled={pending} aria-busy={pending}>
-              {pending ? 'Starting…' : signedIn ? `Start ${interval} membership →` : 'Sign in & subscribe →'}
+              {pending ? (
+                'Starting…'
+              ) : (
+                <>
+                  {signedIn ? `Start ${interval} membership` : 'Sign in & subscribe'}
+                  <Icon name="arrow-right" size={16} aria-hidden="true" />
+                </>
+              )}
             </button>
             <p className={styles.fine}>
               Secure checkout by Stripe. {interval === 'yearly' ? 'Billed $200/year.' : 'Billed $20/month.'} Cancel anytime.
@@ -113,9 +124,9 @@ export function JoinClient({
         </div>
 
         <div className={styles.guarantee}>
-          <span>⬡ Cancel anytime</span>
-          <span>◇ Keep access through the paid period</span>
-          <span>✓ New courses included</span>
+          <span><Icon name="refresh" size={14} aria-hidden="true" /> Cancel anytime</span>
+          <span><Icon name="lock" size={14} aria-hidden="true" /> Keep access through the paid period</span>
+          <span><Icon name="check" size={14} aria-hidden="true" /> New courses included</span>
         </div>
       </div>
     </div>

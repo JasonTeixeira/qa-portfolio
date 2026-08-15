@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-06-25T18:58:27.786Z",
+  "baseUrl": "http://127.0.0.1:3041",
+  "phase": "business-site-phase-2-work-case-studies",
+  "checks": {
+    "routes": [
+      {
+        "route": "/work",
+        "status": 200,
+        "desktop": {
+          "innerWidth": 1440,
+          "scrollWidth": 1440,
+          "title": "Work — Interactive Systems and Business Proof — Sage Ideas",
+          "description": "Open working Sage Ideas examples: interactive business systems, revenue dashboards, quote engines, and proof-led builds that show the outcome before the call.",
+          "canonical": "https://www.sageideas.dev/work",
+          "h1": [
+            "See the proof before the pitch."
+          ],
+          "bookingLinks": [
+            "/book?source=work_hero",
+            "/book?source=work_hero",
+            "/book?source=work_nexural",
+            "/book?source=work_alphastream",
+            "/book?source=work_jobpoise",
+            "/book?source=work_trayd",
+            "/book?source=work_aws-landing-zone",
+            "/book?source=work_quality-telemetry",
+            "/book?source=work_brand-sprint-rebuild",
+            "/book?source=work_site-care-retainer",
+            "/book?source=work"
+          ],
+          "jsonLdCount": 4
+        },
+        "mobile": {
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        "overflow": false,
+        "axeViolations": []
+      },
+      {
+        "route": "/work/nexural",
+        "status": 200,
+        "desktop": {
+          "innerWidth": 1440,
+          "scrollWidth": 1440,
+          "title": "Nexural — Full-Stack Fintech Platform — Sage Ideas",
+          "description": "A production-grade trading platform with real-time execution, portfolio tracking, a Discord-native AI companion, and Stripe billing.",
+          "canonical": "https://www.sageideas.dev/work/nexural",
+          "h1": [
+            "A trading platform built like an institution. Run by one person."
+          ],
+          "bookingLinks": [
+            "/book?source=work_nexural"
+          ],
+          "jsonLdCount": 5
+        },
+        "mobile": {
+          "innerWidth": 390,
+          "documentScrollWidth": 390,
+          "bodyScrollWidth": 390
+        },
+        "overflow": false,
+        "axeViolations": []
+      }
+    ],
+    "lighthouse": {
+      "lighthouse-work.json": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1,
+        "lcp": 1309,
+        "cls": 0,
+        "tbt": 0
+      },
+      "lighthouse-work-nexural.json": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "bestPractices": 1,
+        "seo": 1,
+        "lcp": 1306,
+        "cls": 0,
+        "tbt": 0
+      }
+    },
+    "e2e": {
+      "workProof": "PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/work-proof.spec.ts --config=playwright.e2e.config.ts --project=chromium (3 passed)",
+      "homeBusiness": "PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts --config=playwright.e2e.config.ts --project=chromium (4 passed)"
+    },
+    "broadMarketingAudit": {
+      "file": "docs/evidence/marketing/audits/2026-06-25/business-site-audit.json",
+      "summary": "17 routes, 180 internal link targets, 0 failed links, 0 axe violations, 0 overflow routes"
+    }
+  }
+}

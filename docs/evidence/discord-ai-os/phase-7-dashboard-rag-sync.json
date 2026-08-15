@@ -1,0 +1,68 @@
+{
+  "phase": 7,
+  "name": "Dashboard-triggered RAG sync",
+  "completed_at": "2026-06-24T20:30:00Z",
+  "status": "passed",
+  "objective": "Add a one-click admin dashboard trigger so approved Discord knowledge can be synced into authoritative RAG without using CLI or waiting for cron.",
+  "implemented": [
+    "Added a filesystem-free Discord RAG sync module for dashboard/server-action use.",
+    "Kept the full corpus CLI sync path for docs, blog posts, resources, and approved Discord sources.",
+    "Added a Sync RAG now button to the admin Discord RAG knowledge approval desk.",
+    "Recorded dashboard sync outcomes as discord_events with run key, counts, by-type stats, blocker, and error fields.",
+    "Updated the admin E2E test to approve a temporary Discord content queue item, click the dashboard sync button, verify rag_sources and rag_documents, reload the dashboard, and clean up temporary rows."
+  ],
+  "files": [
+    "app/admin/discord/actions.ts",
+    "app/admin/discord/page.tsx",
+    "lib/rag/discord-source-sync.ts",
+    "lib/rag/source-sync.ts",
+    "scripts/rag/sync-sources.ts",
+    "tests/e2e/admin/discord-rag-corpus.spec.ts",
+    "tests/unit/run.mjs",
+    "docs/evidence/rag/source-sync-sample.json",
+    "docs/evidence/rag/eval-smoke.json"
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "evidence": "162 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "tsc --noEmit completed successfully"
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-rag-corpus.spec.ts --project=chromium",
+      "result": "passed",
+      "evidence": "1 Chromium test passed. The test used the admin dashboard button, not the CLI, to sync the approved temporary Discord queue item into rag_sources and rag_documents."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "Next.js production build completed successfully. Existing non-blocking warnings remain for middleware deprecation, edge runtime static generation behavior, and academy cookie-based dynamic rendering."
+    },
+    {
+      "command": "npm run rag:sync-sources",
+      "result": "passed",
+      "evidence": "runKey rag-source-sync-2026-06-24T20-31-09-926Z; sourcesSeen 65; sourcesUpserted 65; documentsUpserted 65; failures 0"
+    },
+    {
+      "command": "npm run rag:evaluate:smoke",
+      "result": "passed",
+      "evidence": "runKey smoke-20260624202921; 3/3 passed; passRate 1; retrievalHitRate 1; citationCoverage 1"
+    }
+  ],
+  "live_data_state": {
+    "approved_discord_questions": 0,
+    "approved_discord_answers": 0,
+    "approved_discord_content_queue_items": 0,
+    "approved_discord_content_drafts": 0,
+    "note": "The E2E created and proved a temporary approved Discord content queue row, then removed it during cleanup. Current persistent live Discord knowledge rows are still empty, so the full CLI sync currently indexes the docs/blog/resource corpus only."
+  },
+  "what_is_left": [
+    "Get real community questions, helpful answers, published content queue items, or approved drafts into Discord/Supabase so the dashboard sync has persistent live Discord knowledge to ingest.",
+    "Phase 8 can build corpus freshness and eval drilldown operations: failed-answer drilldowns, per-source stale age, and admin resync/re-embed controls."
+  ]
+}

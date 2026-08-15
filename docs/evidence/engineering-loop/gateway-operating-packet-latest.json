@@ -1,0 +1,189 @@
+{
+  "ok": true,
+  "version": "gateway-operating-packet-v1",
+  "generatedAt": "2026-06-30T13:25:43.250Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof.",
+  "status": "proven",
+  "target": {
+    "current": 1,
+    "target": 1,
+    "remaining": 0,
+    "usableMessageState": "fresh_usable_message_proven"
+  },
+  "sourceEvidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+  "adminSurface": "/admin/discord -> Gateway operating packet, Gateway capture diagnosis, Jobs, Knowledge/RAG",
+  "messageContentSignal": {
+    "effectiveEnabled": true,
+    "source": "heartbeat",
+    "identifyEnabled": true,
+    "heartbeatEnabled": true,
+    "identifyCreatedAt": "2026-06-30T12:40:18.938637+00:00"
+  },
+  "heartbeat": {
+    "workerId": "sagebot-main",
+    "status": "heartbeat_ack",
+    "ageMinutes": 1,
+    "lastSeenAt": "2026-06-30T13:25:02.422+00:00",
+    "fresh": true,
+    "lastCloseCode": null
+  },
+  "fields": [
+    {
+      "key": "proof_cycle_key",
+      "label": "Proof cycle key",
+      "description": "Weekly operating cycle key, for example 2026-W26.",
+      "required": true
+    },
+    {
+      "key": "worker_id",
+      "label": "Worker id",
+      "description": "Long-lived gateway worker id that produced the fresh heartbeat.",
+      "required": true
+    },
+    {
+      "key": "heartbeat_status",
+      "label": "Heartbeat status",
+      "description": "Latest worker heartbeat status, such as ready, resumed, or heartbeat_ack.",
+      "required": true
+    },
+    {
+      "key": "heartbeat_last_seen_at",
+      "label": "Heartbeat last seen at",
+      "description": "Fresh heartbeat timestamp from discord_gateway_heartbeats.",
+      "required": true
+    },
+    {
+      "key": "heartbeat_age_minutes",
+      "label": "Heartbeat age minutes",
+      "description": "Heartbeat age at proof time; must be within the accepted freshness window.",
+      "required": true
+    },
+    {
+      "key": "message_content_enabled",
+      "label": "Message content enabled",
+      "description": "Boolean confirmation that Message Content Intent is enabled for the worker identify path.",
+      "required": true
+    },
+    {
+      "key": "message_content_signal_source",
+      "label": "Message content signal source",
+      "description": "heartbeat or identify_event source used for the intent proof.",
+      "required": true
+    },
+    {
+      "key": "identify_event_created_at",
+      "label": "Identify event created at",
+      "description": "Timestamp for the gateway_identify_sent event that proves current intent configuration.",
+      "required": true
+    },
+    {
+      "key": "usable_message_id",
+      "label": "Usable message id",
+      "description": "discord_messages row id for the fresh non-bot non-empty member message.",
+      "required": true
+    },
+    {
+      "key": "channel_base_name",
+      "label": "Channel base name",
+      "description": "Channel where the fresh member message was captured.",
+      "required": true
+    },
+    {
+      "key": "author_bot",
+      "label": "Author bot",
+      "description": "Must be false. Bot/system messages cannot prove community corpus capture.",
+      "required": true
+    },
+    {
+      "key": "content_length",
+      "label": "Content length",
+      "description": "Captured message content length; must be greater than zero.",
+      "required": true
+    },
+    {
+      "key": "captured_at",
+      "label": "Captured at",
+      "description": "Timestamp for the captured message; must be after current Message Content-enabled identify evidence.",
+      "required": true
+    },
+    {
+      "key": "deleted",
+      "label": "Deleted",
+      "description": "Must be false. Deleted or cleanup rows cannot prove durable corpus capture.",
+      "required": true
+    },
+    {
+      "key": "classification_state",
+      "label": "Classification state",
+      "description": "Classifier/candidate state after capture, or explicit note that classification is the next step.",
+      "required": true
+    },
+    {
+      "key": "dead_letter_count",
+      "label": "Dead letter count",
+      "description": "Recent unresolved gateway dead-letter count at proof time.",
+      "required": true
+    },
+    {
+      "key": "evidence_artifact_path",
+      "label": "Evidence artifact path",
+      "description": "Path to the diagnosis JSON, dashboard screenshot, or proof artifact.",
+      "required": true
+    },
+    {
+      "key": "operator_attestation",
+      "label": "Operator attestation",
+      "description": "Plain-language statement of exactly what live capture was verified and what remains unverified.",
+      "required": true
+    }
+  ],
+  "acceptanceChecklist": [
+    "Latest gateway heartbeat is fresh, from the intended long-lived worker, and has no unresolved fatal close code.",
+    "Message Content Intent is proven by heartbeat metadata or a recent gateway_identify_sent event.",
+    "A fresh non-bot, non-deleted member message exists in discord_messages with content_length greater than zero.",
+    "The usable message was captured after the current Message Content-enabled identify event.",
+    "Recent gateway dead letters are zero or explicitly reviewed and not related to message capture.",
+    "The captured message can proceed to classifier and content queue review without exposing private data.",
+    "Operator attestation identifies the worker id, channel, message row, captured_at, and evidence artifact."
+  ],
+  "rejectionChecklist": [
+    "Only bot messages are captured.",
+    "Non-bot messages exist but content_length is zero.",
+    "The message row is deleted, synthetic, smoke-created, or from a local one-shot rehearsal.",
+    "Message Content Intent is inferred from config text but no identify or heartbeat evidence exists.",
+    "Heartbeat is stale, missing, or from an unrelated worker.",
+    "Old non-empty deleted rows are being counted as current corpus proof."
+  ],
+  "antiFakeRules": [
+    "This packet is not live capture proof; it is the contract for proving live capture.",
+    "Do not count identify-only evidence without a fresh non-bot non-empty message row.",
+    "Do not count empty content, bot messages, deleted messages, smoke rows, dry-run rows, or one-shot local rehearsal rows.",
+    "Do not count stale heartbeat rows or heartbeat rows that lack a link to the current worker proof window.",
+    "Do not count old non-empty messages captured before the current Message Content-enabled identify event.",
+    "Do not claim Discord corpus readiness until capture, classification, candidate queueing, approval, and RAG sync are separately proven."
+  ],
+  "liveProofSteps": [
+    "Keep the long-lived gateway worker running with Message Content Intent enabled.",
+    "Post a fresh, harmless non-bot member message in an approved free channel.",
+    "Run npm run discord:gateway-capture-diagnosis and confirm non_bot_non_empty is at least 1 from a non-deleted row.",
+    "Run npm run discord:classify-messages and npm run discord:queue-content after explicit approval for live Supabase mutation.",
+    "Approve useful candidates through /admin/discord before syncing anything into authoritative RAG."
+  ],
+  "verificationCommands": [
+    "npm run discord:gateway-operating-packet",
+    "npm run discord:gateway-capture-diagnosis",
+    "npm run discord:proof-source-scan",
+    "npm run verify:local:evidence"
+  ],
+  "nextActions": [
+    "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+    "Review resulting candidates in /admin/discord and approve durable knowledge items.",
+    "Rerun proof-source scan after approvals."
+  ],
+  "failures": [],
+  "validation": {
+    "ok": true,
+    "failures": []
+  }
+}

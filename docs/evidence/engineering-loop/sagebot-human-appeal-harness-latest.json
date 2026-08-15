@@ -1,0 +1,171 @@
+{
+  "ok": true,
+  "version": "sagebot-human-appeal-harness-v1",
+  "generatedAt": "2026-06-30T13:25:36.894Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This harness verifies SageForge visual formatting, human voice, and regression evidence from source files and evidence JSON. It writes local evidence only and does not post, deploy, push, or mutate production.",
+  "status": "human_appeal_ready",
+  "score": 100,
+  "targetScoreRange": "95-99",
+  "categories": [
+    {
+      "key": "visual_embed_contract",
+      "title": "Visual Embed Contract",
+      "gates": [
+        {
+          "key": "formatter_exports_cards",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "buildSageAnswerEmbed/buildSageContentEmbed produce titled colored fielded cards",
+          "recovery": "Fix lib/discord/message-formatting.ts so answers and content drafts render as Discord embeds with title, color, fields, and footer."
+        },
+        {
+          "key": "discord_rest_supports_payloads",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "sage-rest supports embed payload posting by channel base name",
+          "recovery": "Keep postMessageToChannelByBaseName and embed-aware postToChannelByBaseName wired in lib/discord/sage-rest.ts."
+        },
+        {
+          "key": "member_facing_flows_use_embeds",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "project/review/content/question/answer/daily/weekly/ask-sage flows route through embed payloads",
+          "recovery": "Route all member-facing SageForge posts through postToChannelByBaseName(..., { embed: true }) or result.messagePayload.embeds."
+        },
+        {
+          "key": "mention_replies_use_embeds",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "mention responder replies with the same answer embed payload",
+          "recovery": "Update lib/discord/mention-responder.ts so @Sage Ideas replies use result.messagePayload rather than raw markdown content."
+        }
+      ],
+      "status": "passed",
+      "score": 40,
+      "maxScore": 40
+    },
+    {
+      "key": "human_voice_contract",
+      "title": "Human Voice Contract",
+      "gates": [
+        {
+          "key": "personality_v2_active",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "personality=sagebot-personality-v2",
+          "recovery": "Use the warm mentor voice kernel version, not the old sterile v1 personality."
+        },
+        {
+          "key": "answer_prompt_is_human_mentor",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "answer prompt explicitly requires warm mentor voice and blocks corporate report voice",
+          "recovery": "Tighten sageBotAnswerSystemPrompt with human mentor language, concrete next moves, and anti-sterile-report rules."
+        },
+        {
+          "key": "daily_prompt_is_visual_and_scannable",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "daily prompt requires labeled sections that become clean embed fields",
+          "recovery": "Keep daily signal generation sectioned for Discord embeds: Today's move, Why it matters, Build this, Ship check, Reply with."
+        },
+        {
+          "key": "policy_score_blocks_low_quality",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "sample policy score=90",
+          "recovery": "Fix scoreSageBotPolicyOutput so useful, sourced, builder-oriented answers pass and generic hype fails."
+        }
+      ],
+      "status": "passed",
+      "score": 40,
+      "maxScore": 40
+    },
+    {
+      "key": "proof_and_regression_gates",
+      "title": "Proof And Regression Gates",
+      "gates": [
+        {
+          "key": "ask_sage_smoke_proves_embed",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "ask-sage smoke ok=true title=Sage Ideas Answer",
+          "recovery": "Run npm run discord:smoke-ask-sage and require embed title, question, answer, and source fields."
+        },
+        {
+          "key": "live_visual_embed_proof_exists",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "visual proof ok=true messageId=1521292355620175896",
+          "recovery": "Post a controlled team-ops visual proof embed and capture docs/evidence/discord/visual-embed-live-proof.json."
+        },
+        {
+          "key": "smoke_script_blocks_markdown_regression",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "smoke-ask-sage asserts embed output rather than old markdown header",
+          "recovery": "Update scripts/discord/smoke-ask-sage.ts so plain # SageBot answer markdown cannot satisfy the smoke."
+        },
+        {
+          "key": "package_scripts_include_human_gate",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "discord:human-appeal-harness package script exists",
+          "recovery": "Wire npm run discord:human-appeal-harness into package.json and the SageForge institutional loop."
+        }
+      ],
+      "status": "passed",
+      "score": 40,
+      "maxScore": 40
+    },
+    {
+      "key": "rag_answer_payload_contract",
+      "title": "RAG Answer Payload Contract",
+      "gates": [
+        {
+          "key": "ask_sage_returns_message_payload",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "ask-sage returns both legacy formatted text and Discord embed payload",
+          "recovery": "Keep askSageFromDiscord returning messagePayload so slash and mention paths share one visual answer contract."
+        },
+        {
+          "key": "sources_are_visible_in_embed",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "answer embed includes a Sources field",
+          "recovery": "Ensure buildSageAnswerEmbed always renders a Sources field for grounded answers."
+        }
+      ],
+      "status": "passed",
+      "score": 20,
+      "maxScore": 20
+    }
+  ],
+  "failures": [],
+  "safeAutonomousCommands": [
+    "npm run discord:smoke-ask-sage",
+    "npm run discord:human-appeal-harness",
+    "npm run loop:sageforge:quality"
+  ],
+  "productionProofCommands": [
+    "npm run discord:register",
+    "Deploy Vercel/Railway only after approval when runtime code changes.",
+    "Post one controlled team-ops visual proof embed after deploy and capture docs/evidence/discord/visual-embed-live-proof.json."
+  ]
+}

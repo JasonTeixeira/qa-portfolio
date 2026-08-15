@@ -7,7 +7,7 @@ import { Compass, ArrowRight } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Page not found', robots: { index: false, follow: false } };
 
-// Renders the portal 404 view. The middleware rewrites unknown /portal/*
+// Renders the portal 404 view. The request proxy rewrites unknown /portal/*
 // sub-routes here with status: 404 so the response carries the right wire
 // status without surrendering the portal chrome (sidebar/topbar) that the
 // parent layout supplies.

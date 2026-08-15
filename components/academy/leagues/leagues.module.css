@@ -1,0 +1,472 @@
+/* Sage Academy · Leagues — reskinned one-for-one to design-source/rendered/leagues.html.
+   Exact palette locked to the design's hexes (scoped locally, additive to the global
+   --ac-* font tokens). Real data drives every value the page renders. */
+.page {
+  --bg: #0b0b0e;
+  --surface: #111115;
+  --ink: #f2efe9;
+  --muted: #9598a2;
+  --line: #1e1e24;
+  --line-2: #2a2a33;
+  --faint: #4a4a54;
+  --accent: #3d5afe;
+  --accent-text: #8fa0ff;
+  --green: #18b663;
+  --gold: #e0a93e;
+  --red: #e5484d;
+
+  position: relative;
+  min-height: 100%;
+  background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) var(--bg);
+  color: var(--ink);
+  font-family: var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 48px) clamp(16px, 3vw, 32px) 72px;
+}
+
+/* ── HERO ─────────────────────────────────────────────────────────────── */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.heroText {
+  min-width: 0;
+}
+.title {
+  margin: 0 0 6px;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.sub {
+  margin: 0;
+  color: var(--muted);
+  max-width: 58ch;
+  font-size: 15px;
+}
+.subEm {
+  color: #b6b6c0;
+}
+.heroMeta {
+  margin-top: 12px;
+}
+
+/* Status card — real relegation margin (accent), or a neutral rank card when
+   relegation can't bite (bottom tier / thin cohort). */
+.status {
+  border: 1px solid rgba(61, 90, 254, 0.4);
+  border-radius: 12px;
+  background: rgba(61, 90, 254, 0.07);
+  padding: 14px 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.status[data-neutral='true'] {
+  border-color: var(--line-2);
+  background: rgba(255, 255, 255, 0.02);
+}
+.statusLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-text);
+}
+.status[data-neutral='true'] .statusLabel {
+  color: var(--muted);
+}
+.statusValue {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.statusTail {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--ac-font-body, sans-serif);
+  font-weight: 400;
+}
+
+/* ── LEADERBOARD ──────────────────────────────────────────────────────── */
+.board {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.boardHead,
+.row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 24px;
+}
+.boardHead {
+  border-bottom: 1px solid var(--line);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.headXp {
+  text-align: right;
+}
+.row {
+  padding: 13px 24px;
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid transparent;
+  background: transparent;
+}
+.rowYou {
+  background: rgba(61, 90, 254, 0.08);
+  border-left-color: var(--accent);
+}
+.rowBelow {
+  opacity: 0.65;
+}
+.rank {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.rowYou .rank {
+  color: var(--accent-text);
+}
+.member {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1a1a20;
+  border: 1px solid var(--line-2);
+  display: grid;
+  place-items: center;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.avatarYou {
+  background: rgba(61, 90, 254, 0.2);
+  border-color: rgba(61, 90, 254, 0.5);
+  color: var(--accent-text);
+}
+.handle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.handleYou {
+  font-weight: 700;
+  color: var(--ink);
+}
+.tagPromote {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+.tagYou {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--accent-text);
+  flex-shrink: 0;
+}
+.tagYouRisk {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  color: var(--red);
+  flex-shrink: 0;
+}
+.detail {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.xp {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: #b6b6c0;
+  text-align: right;
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+.xpYou {
+  color: var(--accent-text);
+}
+
+/* Solo / forming cohort — honest empty state, never invented competitors. */
+.forming {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.formingLine {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+/* Drop line divider */
+.dropLine {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  background: rgba(229, 72, 77, 0.04);
+}
+.dropRule {
+  flex: 1;
+  border-top: 1.5px dashed rgba(229, 72, 77, 0.5);
+}
+.dropLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+/* ── LEGEND ───────────────────────────────────────────────────────────── */
+.legend {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.legendLabel {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.legendItem {
+  font-size: 13px;
+  color: var(--muted);
+}
+.legendGreen {
+  color: var(--green);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendGold {
+  color: var(--gold);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendAccent {
+  color: var(--accent-text);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+}
+.legendMuted {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ── INVITE ───────────────────────────────────────────────────────────── */
+.invite {
+  margin-top: 28px;
+  border: 1px solid rgba(61, 90, 254, 0.35);
+  border-radius: 16px;
+  background: linear-gradient(165deg, #14141c, var(--surface));
+  padding: 26px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.inviteBody {
+  flex: 1;
+  min-width: 250px;
+}
+.inviteKicker {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+.inviteTitle {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.inviteCopy {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 6px;
+  max-width: 52ch;
+}
+.inviteActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.inviteLink {
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: #b6b6c0;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  padding: 11px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.copyBtn:hover {
+  filter: brightness(1.08);
+}
+.copyBtn:active {
+  transform: translateY(1px);
+}
+.copyBtn:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+.inviteFallback {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: var(--accent-text);
+  background: rgba(61, 90, 254, 0.1);
+  border: 1px solid rgba(61, 90, 254, 0.4);
+  border-radius: 10px;
+  padding: 11px 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.inviteFallback:hover {
+  filter: brightness(1.1);
+}
+
+/* ── COUNTDOWN (consumed by LeagueCountdown.tsx — preserved) ──────────── */
+.countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.34rem 0.8rem;
+  border: 1px solid var(--line-2);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+}
+.countdownLabel {
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.countdownValue {
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.countdownDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--accent);
+  animation: countdownPulse 2s ease-in-out infinite;
+}
+@keyframes countdownPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.78);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdownDot {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hero {
+    align-items: stretch;
+  }
+  .status {
+    text-align: left;
+    width: 100%;
+  }
+  .boardHead,
+  .row {
+    grid-template-columns: 34px 1fr auto;
+    gap: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .detail {
+    display: none;
+  }
+  .legendMuted {
+    margin-left: 0;
+    width: 100%;
+  }
+  .inviteLink {
+    max-width: 100%;
+  }
+}

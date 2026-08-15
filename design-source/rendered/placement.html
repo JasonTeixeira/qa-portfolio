@@ -1,0 +1,128 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Placement"><div data-dc-tpl="6" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 16px; line-height: 1.6; display: flex; flex-direction: column; overflow-x: hidden;">
+
+  
+  <div data-dc-tpl="7" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(16px, 3vw, 28px); border-bottom: 1px solid rgb(30, 30, 36);">
+    <a data-dc-tpl="8" href="Sage Course Map.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit;">
+      <span data-dc-tpl="9" style="display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 11px;">◆</span>
+      <span data-dc-tpl="10" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">← course map</span>
+    </a>
+    <span data-dc-tpl="11" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">Placement · five minutes of respect for what you already know</span>
+    <span data-dc-tpl="12" style="margin-left: auto; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">scenario 1 of 3</span></span>
+  </div>
+
+  <main data-dc-tpl="13" style="flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);">
+    <div data-dc-tpl="14" style="width: min(640px, 100%);">
+
+      <div data-dc-tpl="15" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 28px;">
+        
+          <div data-dc-tpl="17" style="width: 26px; height: 6px; border-radius: 3px; background: rgb(61, 90, 254);"></div>
+        
+          <div data-dc-tpl="17" style="width: 14px; height: 6px; border-radius: 3px; background: rgb(38, 38, 46);"></div>
+        
+          <div data-dc-tpl="17" style="width: 14px; height: 6px; border-radius: 3px; background: rgb(38, 38, 46);"></div>
+        
+      </div>
+
+      
+        <div data-dc-tpl="19" style="border: 1px solid rgb(30, 30, 36); border-radius: 18px; background: rgb(17, 17, 21); padding: clamp(28px, 4vw, 42px); box-shadow: rgba(0, 0, 0, 0.85) 0px 32px 80px -32px;">
+          <div data-dc-tpl="20" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(143, 160, 255); margin-bottom: 16px;"><span class="sc-interp">Scenario 1 of 3 · diagnosis routing</span></div>
+          <div data-dc-tpl="21" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(21px, 2.4vw, 27px); letter-spacing: -0.02em; line-height: 1.24; text-wrap: balance;"><span class="sc-interp">Four customers were charged twice. The billing job ran once. Where do you look first?</span></div>
+          <div data-dc-tpl="22" style="display: flex; flex-direction: column; gap: 9px; margin-top: 24px;">
+            
+              <div data-dc-tpl="24" class="scp0" style="border: 1px solid rgb(30, 30, 36); border-radius: 10px; padding: 14px 17px; font-size: 14.5px; color: rgb(182, 182, 192); cursor: pointer;"><span class="sc-interp">Read the billing job's code top to bottom</span></div>
+            
+              <div data-dc-tpl="24" class="scp0" style="border: 1px solid rgb(30, 30, 36); border-radius: 10px; padding: 14px 17px; font-size: 14.5px; color: rgb(182, 182, 192); cursor: pointer;"><span class="sc-interp">The retry path between the job and the charge — cheapest disproof</span></div>
+            
+              <div data-dc-tpl="24" class="scp0" style="border: 1px solid rgb(30, 30, 36); border-radius: 10px; padding: 14px 17px; font-size: 14.5px; color: rgb(182, 182, 192); cursor: pointer;"><span class="sc-interp">Roll back the last deploy and watch</span></div>
+            
+          </div>
+          <div data-dc-tpl="25" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); margin-top: 18px;">no grade shown — this routes you, it doesn't judge you</div>
+        </div>
+      
+
+      
+    </div>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{}">
+class Component extends DCLogic {
+  state = { step: 0, correct: 0 };
+
+  questions() {
+    return [
+      {
+        tag: 'Scenario 1 of 3 · diagnosis routing',
+        prompt: 'Four customers were charged twice. The billing job ran once. Where do you look first?',
+        options: [
+          { text: 'Read the billing job\'s code top to bottom', ok: false },
+          { text: 'The retry path between the job and the charge — cheapest disproof', ok: true },
+          { text: 'Roll back the last deploy and watch', ok: false },
+        ],
+      },
+      {
+        tag: 'Scenario 2 of 3 · blast radius',
+        prompt: 'You\'re changing a config value. What bounds the blast radius of that change?',
+        options: [
+          { text: 'The size of the diff', ok: false },
+          { text: 'Everything that reads the value — including transitive readers', ok: true },
+          { text: 'The services deployed alongside it', ok: false },
+        ],
+      },
+      {
+        tag: 'Scenario 3 of 3 · defended omissions',
+        prompt: 'Your system map leaves the CDN off. When is that defensible?',
+        options: [
+          { text: 'When the CDN team approved the change', ok: false },
+          { text: 'Never — complete maps are better maps', ok: false },
+          { text: 'When the map itself says why: "cache key unchanged"', ok: true },
+        ],
+      },
+    ];
+  }
+
+  pick(ok) {
+    this.setState({ step: this.state.step + 1, correct: this.state.correct + (ok ? 1 : 0) });
+  }
+
+  renderVals() {
+    const green = '#18B663', accent = '#3D5AFE', accentText = '#8FA0FF', amber = '#E0A93E', faint = '#4A4A54';
+    const s = this.state;
+    const qs = this.questions();
+    const done = s.step >= qs.length;
+    const q = done ? qs[0] : qs[s.step];
+    const c = s.correct;
+
+    const result = c === 3
+      ? { title: 'Skip ahead: start at Module 3 — Decide & Prove.', body: 'You already route, bound, and defend like the course teaches. Modules 1–2 stay open as reference; your time belongs at the proof gates.', cta: 'Open Module 3 on the map' }
+      : c === 2
+      ? { title: 'Start at Module 2 — Map.', body: 'Your diagnosis instincts are solid. The defended-omission discipline is the piece to build — that\'s exactly where Module 2 begins.', cta: 'Open Module 2 on the map' }
+      : { title: 'Start at Lesson 01 — and that\'s the strong move.', body: 'The loop is learnable and the first win is 25 minutes in. Starting at the beginning here isn\'t remedial; it\'s how the judgment compounds.', cta: 'Start Lesson 01' };
+
+    return {
+      stepLabel: done ? 'routed' : 'scenario ' + (s.step + 1) + ' of 3',
+      dots: [0, 1, 2].map((i) => ({
+        size: !done && i === s.step ? '26px' : '14px',
+        color: done || i < s.step ? green : i === s.step ? accent : '#26262E',
+      })),
+      inQuiz: !done,
+      done,
+      qTag: q.tag,
+      qPrompt: q.prompt,
+      options: q.options.map((o) => ({ text: o.text, pick: () => this.pick(o.ok) })),
+
+      resultTitle: result.title,
+      resultBody: result.body,
+      resultCta: result.cta,
+      tracks: [
+        { name: 'Engineering Judgment (Course 00)', route: c === 3 ? 'module 3 →' : c === 2 ? 'module 2 →' : 'lesson 01 →', dot: accent, color: accentText },
+        { name: 'Concept Maps', route: c >= 2 ? 'eligible now' : 'after module 2', dot: c >= 2 ? green : faint, color: c >= 2 ? green : faint },
+        { name: 'Backend Engineering', route: c === 3 ? 'eligible now' : 'recommended after 00', dot: c === 3 ? green : amber, color: c === 3 ? green : amber },
+      ],
+      retake: () => this.setState({ step: 0, correct: 0 }),
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>

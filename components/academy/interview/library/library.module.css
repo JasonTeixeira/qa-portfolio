@@ -1,0 +1,385 @@
+/* Scenario library — Sage gold-accent skin on the --sa-* tokens.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Library.dc.html. */
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.headKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+.headTitle {
+  margin: 8px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+.headNote {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  text-wrap: pretty;
+  max-width: 34ch;
+  text-align: right;
+}
+
+/* ── COMPANY PRESETS ────────────────────────────────────────────────────── */
+.presetsBlock {
+  margin-bottom: 28px;
+}
+.presetsKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--iv-gold);
+  margin-bottom: 14px;
+}
+.presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+@media (max-width: 960px) {
+  .presets {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .presets {
+    grid-template-columns: 1fr;
+  }
+}
+.preset {
+  border: 1px solid var(--sa-rule);
+  border-radius: 14px;
+  background: var(--sa-surface-1);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.presetName {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--sa-ink);
+}
+.presetDesc {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+.presetMeta {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--iv-gold);
+  margin-top: 6px;
+}
+.presetStub {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-ghost);
+  margin-top: 4px;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────────────────────── */
+.lib {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .lib {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── FILTER SIDEBAR ─────────────────────────────────────────────────────── */
+.filters {
+  border: 1px solid var(--sa-rule);
+  border-radius: 14px;
+  background: var(--sa-surface-1);
+  padding: 18px;
+  position: sticky;
+  top: 84px;
+}
+@media (max-width: 960px) {
+  .filters {
+    position: static;
+  }
+}
+.filterKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sa-ink-faint);
+  margin-bottom: 12px;
+}
+.filterList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.filterItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sa-ink-muted);
+  background: transparent;
+  border: none;
+  padding: 8px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+  width: 100%;
+  text-align: left;
+}
+.filterItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.filterItemActive {
+  color: var(--sa-ink);
+  font-weight: 700;
+  background: var(--iv-gold-soft);
+}
+.filterCount {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+}
+.filterDivider {
+  border-top: 1px solid var(--sa-rule);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+.diffRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.diffChip {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-muted);
+  background: transparent;
+  border: 1px solid var(--sa-rule);
+  border-radius: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+.diffChip:hover {
+  border-color: var(--sa-edge-hover);
+  color: var(--sa-ink);
+}
+.diffChipActive {
+  color: var(--sa-ink);
+  border-color: var(--sa-warning-border);
+  background: var(--iv-gold-soft);
+}
+.capPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-danger);
+  border: 1px solid var(--sa-danger-border);
+  border-radius: 14px;
+  padding: 6px 11px;
+}
+.capNone {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-ghost);
+  text-wrap: pretty;
+  line-height: 1.5;
+}
+
+/* ── SEARCH ─────────────────────────────────────────────────────────────── */
+.searchBar {
+  margin-bottom: 12px;
+}
+.searchInput {
+  width: 100%;
+  border: 1px solid var(--sa-rule);
+  background: var(--sa-surface-1);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13.5px;
+  border-radius: 10px;
+  padding: 11px 14px;
+}
+.searchInput::placeholder {
+  color: var(--sa-ink-ghost);
+}
+.searchInput:focus {
+  outline: 2px solid var(--sa-warning-border);
+  outline-offset: 1px;
+}
+
+/* ── SCENARIO LIST ──────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 16px 20px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+.card:hover {
+  border-color: var(--sa-warning-border);
+  transform: translateY(-1px);
+}
+.card:disabled {
+  cursor: default;
+  opacity: 0.7;
+  transform: none;
+}
+.cardCap {
+  border-color: var(--sa-warning-border);
+  background: rgba(224, 169, 62, 0.04);
+}
+.glyph {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--sa-bg);
+  border: 1px solid var(--sa-rule);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 13px;
+}
+.glyphCoding {
+  color: var(--sa-accent-text);
+}
+.glyphSystem {
+  color: var(--sa-success);
+}
+.glyphBehavioral {
+  color: var(--iv-gold);
+}
+.glyphNegotiation {
+  color: var(--sa-success);
+}
+.cardMid {
+  min-width: 0;
+}
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.forYou {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 8.5px;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  border-radius: 9px;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.capBadge {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 8.5px;
+  color: var(--sa-danger);
+  border: 1px solid var(--sa-danger-border);
+  border-radius: 9px;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.desc {
+  font-size: 12.5px;
+  color: var(--sa-ink-muted);
+  margin-top: 3px;
+  max-width: 72ch;
+  text-wrap: pretty;
+}
+.metaRow {
+  display: flex;
+  gap: 14px;
+  margin-top: 7px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  flex-wrap: wrap;
+}
+.diffSenior {
+  color: var(--iv-gold-bright);
+}
+.diffHard {
+  color: var(--sa-danger);
+}
+.diffEasy {
+  color: var(--sa-success);
+}
+.cardRight {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.startLabel {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 12px;
+  color: var(--iv-gold-bright);
+}
+.startError {
+  display: block;
+  color: var(--sa-danger);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11px;
+  margin-top: 10px;
+}
+.emptyList {
+  text-align: center;
+  padding: 40px 20px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 11.5px;
+  color: var(--sa-ink-ghost);
+  border: 1px dashed var(--sa-edge);
+  border-radius: 13px;
+}
+.footNote {
+  text-align: center;
+  padding: 14px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-ghost);
+  text-wrap: pretty;
+}

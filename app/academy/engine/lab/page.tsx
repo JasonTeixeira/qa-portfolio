@@ -17,7 +17,7 @@ export default function EngineLabPage() {
       title={lab.title}
       summary={lab.summary}
       starter={lab.starter ?? '# Write your Python here\n'}
-      check={lab.check}
+      hasCheck={Boolean(lab.check)}
       backHref="/academy/engine"
       courseSlug="_engine"
       lessonSlug="flagship"

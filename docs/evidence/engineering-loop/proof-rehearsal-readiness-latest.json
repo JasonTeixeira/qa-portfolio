@@ -1,0 +1,178 @@
+{
+  "ok": true,
+  "version": "discord-proof-rehearsal-readiness-v2",
+  "generatedAt": "2026-06-30T13:25:50.381Z",
+  "mutationMode": "local_file_evidence_only",
+  "maxEvidenceAgeDays": 14,
+  "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment.",
+  "lanes": [
+    {
+      "key": "gateway_capture_rehearsal",
+      "title": "Gateway capture diagnosis rehearsal",
+      "command": "npm run discord:gateway-capture-diagnosis",
+      "scriptPath": "scripts/discord/diagnose-gateway-capture.ts",
+      "evidencePath": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+      "mutationMode": "read_only",
+      "requiredContracts": [
+        "reads live gateway heartbeat and message rows",
+        "diagnoses Message Content Intent state",
+        "counts non-bot non-empty captured messages",
+        "writes local evidence only",
+        "does not post messages or mutate Discord",
+        "does not count diagnosis rows as operating proof"
+      ],
+      "checks": {
+        "npm_script_present": true,
+        "source_contract_present": true,
+        "evidence_present": true,
+        "evidence_ok": true,
+        "evidence_recent_or_absent": true,
+        "evidence_not_operating_proof": true
+      },
+      "ok": true,
+      "latestEvidence": {
+        "path": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+        "ok": true,
+        "timestamp": "2026-06-30T13:25:42.744Z",
+        "ageHours": 0
+      },
+      "note": "This lane is read-only."
+    },
+    {
+      "key": "content_factory_readiness_rehearsal",
+      "title": "Content factory readiness rehearsal",
+      "command": "npm run discord:content-factory-readiness",
+      "scriptPath": "scripts/discord/write-content-factory-readiness.ts",
+      "evidencePath": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+      "mutationMode": "read_only",
+      "requiredContracts": [
+        "validates the dry-run content factory evidence",
+        "checks no public publish happened",
+        "checks admin approval is required",
+        "checks channel, draft type, and topic coverage",
+        "writes local evidence only",
+        "does not count dry-run drafts as operating proof"
+      ],
+      "checks": {
+        "npm_script_present": true,
+        "source_contract_present": true,
+        "evidence_present": true,
+        "evidence_ok": true,
+        "evidence_recent_or_absent": true,
+        "evidence_not_operating_proof": true
+      },
+      "ok": true,
+      "latestEvidence": {
+        "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+        "ok": true,
+        "timestamp": "2026-06-30T13:25:48.272Z",
+        "ageHours": 0
+      },
+      "note": "This lane is read-only."
+    },
+    {
+      "key": "authoritative_rag_sync_rehearsal",
+      "title": "Authoritative Discord RAG sync rehearsal",
+      "command": "npm run rag:smoke-discord-authoritative-sync",
+      "scriptPath": "scripts/rag/smoke-discord-authoritative-sync.ts",
+      "evidencePath": "docs/evidence/rag/discord-authoritative-sync-smoke.json",
+      "mutationMode": "transient_seed_cleanup",
+      "requiredContracts": [
+        "creates one approved queue item",
+        "creates one blocked queue item",
+        "creates one approved draft",
+        "creates one blocked draft",
+        "cleans inserted smoke rows",
+        "does not count smoke rows as operating proof"
+      ],
+      "checks": {
+        "npm_script_present": true,
+        "source_contract_present": true,
+        "evidence_present": true,
+        "evidence_ok": true,
+        "evidence_recent_or_absent": true,
+        "evidence_not_operating_proof": true
+      },
+      "ok": true,
+      "latestEvidence": {
+        "path": "docs/evidence/rag/discord-authoritative-sync-smoke.json",
+        "ok": true,
+        "timestamp": "2026-06-24T19:07:37.514Z",
+        "ageHours": 138.3
+      },
+      "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
+    },
+    {
+      "key": "public_proof_growth_rehearsal",
+      "title": "Public proof growth rehearsal",
+      "command": "npm run discord:smoke-public-proof-growth",
+      "scriptPath": "scripts/discord/smoke-public-proof-growth.ts",
+      "evidencePath": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
+      "mutationMode": "transient_seed_cleanup",
+      "requiredContracts": [
+        "checks privacy blocking",
+        "creates public proof source",
+        "creates public growth draft",
+        "records privacy and quality gates",
+        "cleans public proof source and draft rows",
+        "does not count smoke rows as operating proof"
+      ],
+      "checks": {
+        "npm_script_present": true,
+        "source_contract_present": true,
+        "evidence_present": true,
+        "evidence_ok": true,
+        "evidence_recent_or_absent": true,
+        "evidence_not_operating_proof": true
+      },
+      "ok": true,
+      "latestEvidence": {
+        "path": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
+        "ok": true,
+        "timestamp": "2026-06-25T00:02:18.418Z",
+        "ageHours": 133.39
+      },
+      "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
+    },
+    {
+      "key": "premium_workflow_rehearsal",
+      "title": "Premium workflow rehearsal",
+      "command": "npm run discord:smoke-premium-workflows",
+      "scriptPath": "scripts/discord/smoke-premium-workflows.ts",
+      "evidencePath": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+      "mutationMode": "transient_seed_cleanup",
+      "requiredContracts": [
+        "creates premium review request",
+        "assigns premium review request",
+        "completes premium review request",
+        "creates office-hours queue item",
+        "answers premium question through RAG",
+        "cleans premium smoke rows",
+        "does not count smoke rows as operating proof"
+      ],
+      "checks": {
+        "npm_script_present": true,
+        "source_contract_present": true,
+        "evidence_present": true,
+        "evidence_ok": true,
+        "evidence_recent_or_absent": true,
+        "evidence_not_operating_proof": true
+      },
+      "ok": true,
+      "latestEvidence": {
+        "path": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+        "ok": true,
+        "timestamp": "2026-06-25T00:02:28.145Z",
+        "ageHours": 133.39
+      },
+      "note": "This lane uses temporary seeded rows and cleanup. It proves local wiring only and must not be counted as real operating proof."
+    }
+  ],
+  "missingOrStale": [],
+  "validation": {
+    "ok": true,
+    "validator": "proof-rehearsal-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:50.382Z",
+    "failures": []
+  }
+}

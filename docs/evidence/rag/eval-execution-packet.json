@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "version": "rag-eval-execution-packet-v1",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",
+  "sourceEvidence": {
+    "coverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
+    "missingPlan": "docs/evidence/rag/eval-missing-plan.json"
+  },
+  "status": "not_required",
+  "coverageStillBlocked": false,
+  "selectedMatchesCoverage": true,
+  "expectedQuestionCount": 65,
+  "evaluatedQuestionCount": 65,
+  "missingEvalKeys": [],
+  "selectedKeys": [],
+  "commandPlan": {
+    "dryRunCommand": "npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness",
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "mutationWarning": "No missing keys selected; only readiness refresh is needed.",
+    "requiresExplicitApproval": false
+  },
+  "preRunChecks": [
+    "Confirm NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present in .env.local.",
+    "Confirm DEEPSEEK_API_KEY is present before any non-dry-run eval command.",
+    "Confirm SAGE_ALLOW_NON_DRY_RAG_EVAL=approved is set only after explicit approval for this eval run.",
+    "Use npm run rag:evaluate:approved-missing for approved coverage repair so coverage readiness, final scorecard, and local evidence refresh in one guarded sequence.",
+    "Run npm run rag:evaluate:missing-plan and confirm selectedKeys exactly match missingEvalKeys.",
+    "Do not run from a dirty staged state unless the staged files are intentionally part of the eval pass.",
+    "Confirm this is an eval coverage run, not a content-generation or public-posting action."
+  ],
+  "postRunChecks": [
+    "docs/evidence/rag/eval-latest.json has seededQuestionCount >= expectedQuestionCount.",
+    "docs/evidence/rag/eval-latest.json has evaluatedQuestionCount >= expectedQuestionCount.",
+    "docs/evidence/rag/eval-coverage-readiness.json has releaseReady=true and missingEvalKeys=[].",
+    "npm run discord:smoke-final-scorecard no longer fails rag_eval_latest or rag_eval_coverage_readiness if quality thresholds pass.",
+    "npm run verify:local:evidence passes after refreshed evidence is written."
+  ],
+  "failureHandling": [
+    "If any missing eval fails below threshold, do not loosen the threshold; inspect missingSources and missingRequiredTerms.",
+    "If retrieval misses sources, fix source metadata, chunking, or reranking before rerunning the failed keys.",
+    "If DeepSeek or Supabase fails transiently, rerun only missing or failed keys after confirming no duplicate run is being claimed as release proof.",
+    "If eval-latest is partially updated, keep eval-coverage-readiness releaseReady=false until every seeded key is represented."
+  ],
+  "antiFakeRules": [
+    "Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage.",
+    "A local packet without rag_eval_results rows does not satisfy eval coverage.",
+    "Passing 50/50 old evals does not satisfy the 65-question gate.",
+    "A scorecard may not claim world-class while rag_eval_latest or rag_eval_coverage_readiness gates fail."
+  ],
+  "startedAt": "2026-06-30T13:25:40.973Z",
+  "finishedAt": "2026-06-30T13:25:40.974Z"
+}

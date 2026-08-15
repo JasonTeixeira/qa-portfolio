@@ -1,13 +1,20 @@
 {
   "ok": true,
   "skipped": false,
-  "draftId": "aec40782-c799-4419-a687-80abf3b34112",
+  "draftId": "447da46e-5c8f-4b54-9f22-e946b454c356",
   "dateKey": "2099-01-01",
   "model": "deepseek-v4-flash",
   "title": "Daily Signal - 2099-01-01",
-  "bodyPreview": "# Daily Signal\n**Theme:** Automation and AI – Building safe, auditable workflows\n\n**Build prompt:** Create a simple automation that reads a CSV of new user emails, checks each against a blocklist (local .txt file), and sends a welcome email only to non-blocked addresses. Use a tool like n8n, Make, o",
+  "bodyPreview": "# Daily Signal\n**Theme:** Automation and AI — Building safe, auditable workflows\n\n**Build prompt:**  \nCreate a Telegram bot that monitors a Supabase table for new rows, sends a Slack alert with a \"Review & Approve\" button, and only executes a Stripe charge after a human clicks approve. Use DeepSeek ",
+  "observability": {
+    "traceId": "9cb574d05938e22b1a00c12dcc1cd707",
+    "observationId": "2a87da3fa6fe041e",
+    "provider": "local"
+  },
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-21T19:34:31.824Z",
-  "finishedAt": "2026-06-21T19:34:38.543Z"
+  "traceId": "9cb574d05938e22b1a00c12dcc1cd707",
+  "observabilityProvider": "local",
+  "startedAt": "2026-06-24T18:17:10.636Z",
+  "finishedAt": "2026-06-24T18:17:16.950Z"
 }

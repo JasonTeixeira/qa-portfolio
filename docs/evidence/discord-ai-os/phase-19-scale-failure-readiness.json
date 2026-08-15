@@ -1,0 +1,411 @@
+{
+  "ok": true,
+  "version": "discord-scale-readiness-v1",
+  "summary": {
+    "ok": true,
+    "score": 100,
+    "failures": []
+  },
+  "checks": {
+    "synthetic_scenarios_complete": true,
+    "synthetic_scenarios_pass": true,
+    "dashboard_performance_pass": true,
+    "duplicate_job_safe": true,
+    "failed_publish_dead_lettered": true,
+    "dead_letter_replay_queued": true,
+    "runbooks_present": true,
+    "migration_present": true,
+    "no_live_discord_spam": true,
+    "summary_passed": true
+  },
+  "failures": [],
+  "scenarios": [
+    {
+      "key": "members_100",
+      "label": "100 member normal day",
+      "members": 100,
+      "messagesPerMinute": 8,
+      "commandsPerMinute": 2,
+      "cronTriggersPerHour": 4,
+      "externalFailureRate": 0,
+      "embeddingBacklog": 25,
+      "estimatedWritesPerMinute": 28,
+      "estimatedJobRunsPerHour": 13,
+      "estimatedP95LatencyMs": 288,
+      "riskScore": 0,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "members_500",
+      "label": "500 member active day",
+      "members": 500,
+      "messagesPerMinute": 35,
+      "commandsPerMinute": 8,
+      "cronTriggersPerHour": 8,
+      "externalFailureRate": 0.01,
+      "embeddingBacklog": 150,
+      "estimatedWritesPerMinute": 118,
+      "estimatedJobRunsPerHour": 47,
+      "estimatedP95LatencyMs": 458,
+      "riskScore": 0,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "members_1000",
+      "label": "1,000 member active day",
+      "members": 1000,
+      "messagesPerMinute": 75,
+      "commandsPerMinute": 16,
+      "cronTriggersPerHour": 12,
+      "externalFailureRate": 0.02,
+      "embeddingBacklog": 300,
+      "estimatedWritesPerMinute": 248,
+      "estimatedJobRunsPerHour": 90,
+      "estimatedP95LatencyMs": 676,
+      "riskScore": 0,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "members_5000",
+      "label": "5,000 member scale target",
+      "members": 5000,
+      "messagesPerMinute": 275,
+      "commandsPerMinute": 55,
+      "cronTriggersPerHour": 18,
+      "externalFailureRate": 0.03,
+      "embeddingBacklog": 1000,
+      "estimatedWritesPerMinute": 889,
+      "estimatedJobRunsPerHour": 283,
+      "estimatedP95LatencyMs": 1625,
+      "riskScore": 9,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "message_burst",
+      "label": "High message burst",
+      "members": 1000,
+      "messagesPerMinute": 450,
+      "commandsPerMinute": 20,
+      "cronTriggersPerHour": 8,
+      "externalFailureRate": 0.01,
+      "embeddingBacklog": 500,
+      "estimatedWritesPerMinute": 1170,
+      "estimatedJobRunsPerHour": 118,
+      "estimatedP95LatencyMs": 1565,
+      "riskScore": 29,
+      "passed": true,
+      "risks": [
+        "write_pressure"
+      ],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "command_burst",
+      "label": "High command burst",
+      "members": 1000,
+      "messagesPerMinute": 120,
+      "commandsPerMinute": 120,
+      "cronTriggersPerHour": 8,
+      "externalFailureRate": 0.01,
+      "embeddingBacklog": 300,
+      "estimatedWritesPerMinute": 688,
+      "estimatedJobRunsPerHour": 398,
+      "estimatedP95LatencyMs": 1369,
+      "riskScore": 3,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "repeated_cron",
+      "label": "Repeated cron trigger",
+      "members": 500,
+      "messagesPerMinute": 25,
+      "commandsPerMinute": 8,
+      "cronTriggersPerHour": 60,
+      "externalFailureRate": 0,
+      "embeddingBacklog": 120,
+      "estimatedWritesPerMinute": 102,
+      "estimatedJobRunsPerHour": 96,
+      "estimatedP95LatencyMs": 395,
+      "riskScore": 0,
+      "passed": true,
+      "risks": [],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "discord_429",
+      "label": "Discord API 429",
+      "members": 1000,
+      "messagesPerMinute": 80,
+      "commandsPerMinute": 40,
+      "cronTriggersPerHour": 10,
+      "externalFailureRate": 0.12,
+      "embeddingBacklog": 250,
+      "estimatedWritesPerMinute": 334,
+      "estimatedJobRunsPerHour": 155,
+      "estimatedP95LatencyMs": 1114,
+      "riskScore": 22,
+      "passed": true,
+      "risks": [
+        "external_provider_failure_pressure"
+      ],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "supabase_latency",
+      "label": "Supabase latency/failure",
+      "members": 1000,
+      "messagesPerMinute": 70,
+      "commandsPerMinute": 20,
+      "cronTriggersPerHour": 10,
+      "externalFailureRate": 0.08,
+      "embeddingBacklog": 350,
+      "estimatedWritesPerMinute": 251,
+      "estimatedJobRunsPerHour": 105,
+      "estimatedP95LatencyMs": 887,
+      "riskScore": 22,
+      "passed": true,
+      "risks": [
+        "external_provider_failure_pressure"
+      ],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "deepseek_failure",
+      "label": "DeepSeek failure",
+      "members": 1000,
+      "messagesPerMinute": 70,
+      "commandsPerMinute": 18,
+      "cronTriggersPerHour": 10,
+      "externalFailureRate": 0.1,
+      "embeddingBacklog": 300,
+      "estimatedWritesPerMinute": 242,
+      "estimatedJobRunsPerHour": 94,
+      "estimatedP95LatencyMs": 917,
+      "riskScore": 22,
+      "passed": true,
+      "risks": [
+        "external_provider_failure_pressure"
+      ],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    },
+    {
+      "key": "embedding_backlog",
+      "label": "Embedding backlog",
+      "members": 5000,
+      "messagesPerMinute": 200,
+      "commandsPerMinute": 35,
+      "cronTriggersPerHour": 12,
+      "externalFailureRate": 0.02,
+      "embeddingBacklog": 2500,
+      "estimatedWritesPerMinute": 719,
+      "estimatedJobRunsPerHour": 237,
+      "estimatedP95LatencyMs": 1835,
+      "riskScore": 35,
+      "passed": true,
+      "risks": [
+        "embedding_backlog_pressure"
+      ],
+      "controls": [
+        "idempotent_job_runs",
+        "retry_backoff_and_dead_letters",
+        "admin_dashboard_failure_visibility",
+        "no_live_discord_load_spam",
+        "provider_failure_isolation",
+        "embedding_backlog_triage"
+      ]
+    }
+  ],
+  "dashboard": {
+    "rowsScanned": 138,
+    "queryCount": 10,
+    "elapsedMs": 451,
+    "counts": [
+      7,
+      0,
+      0,
+      5,
+      0,
+      0,
+      0,
+      16,
+      110,
+      0
+    ],
+    "estimatedP95Ms": 937,
+    "passed": true,
+    "risks": []
+  },
+  "dashboardMeasurement": {
+    "rowsScanned": 138,
+    "queryCount": 10,
+    "elapsedMs": 451,
+    "counts": [
+      7,
+      0,
+      0,
+      5,
+      0,
+      0,
+      0,
+      16,
+      110,
+      0
+    ]
+  },
+  "failureModes": [
+    {
+      "key": "duplicate_job",
+      "passed": true,
+      "expectedControl": "Unique job_key/idempotency_key plus duplicate detection.",
+      "evidence": "startDiscordDurableJobRun returns duplicate=true on repeated idempotency key."
+    },
+    {
+      "key": "failed_publish",
+      "passed": true,
+      "expectedControl": "Publish side effects dead-letter instead of silently retrying duplicate Discord posts.",
+      "evidence": "daily_publish failure creates discord_job_dead_letters row."
+    },
+    {
+      "key": "failed_role_sync",
+      "passed": true,
+      "expectedControl": "Role sync failure has durable event or dead-letter visibility.",
+      "evidence": "Failure mode registered in Phase 19 runbook and durable job registry controls."
+    },
+    {
+      "key": "failed_model_call",
+      "passed": true,
+      "expectedControl": "Model failure blocks auto-posting and becomes an admin-visible failed job.",
+      "evidence": "DeepSeek failure scenario evaluated with provider_failure_isolation control."
+    },
+    {
+      "key": "failed_rag_sync",
+      "passed": true,
+      "expectedControl": "RAG sync is a durable job with retry and dead-letter controls.",
+      "evidence": "rag_sync/rag_chunk_embed/rag_eval registry entries present."
+    },
+    {
+      "key": "dead_letter_replay",
+      "passed": true,
+      "expectedControl": "Retryable dead letter queues a new run and resolves original dead letter.",
+      "evidence": "retryDiscordDurableDeadLetter returns retry run key."
+    },
+    {
+      "key": "discord_rate_limit",
+      "passed": true,
+      "expectedControl": "Discord 429 retry_after is honored by publish smokes and rate limits protect interactions.",
+      "evidence": "Phase 19 checks retry/backoff wiring instead of spamming live Discord."
+    }
+  ],
+  "duplicate": {
+    "startedDuplicate": {
+      "runKey": "daily_draft:phase-19-scale-1782351900976-duplicate:a1",
+      "status": "running",
+      "duplicate": false
+    },
+    "duplicate": {
+      "runKey": "daily_draft:phase-19-scale-1782351900976-duplicate:a1",
+      "status": "running",
+      "duplicate": true
+    },
+    "duplicateRunKey": "daily_draft:phase-19-scale-1782351900976-duplicate:a1"
+  },
+  "failedPublish": {
+    "runKey": "daily_publish:phase-19-scale-1782351900976-publish:a1",
+    "status": "dead_lettered",
+    "nextRetryAt": null,
+    "deadLetterId": "941820aa-3f4a-46e5-a944-b10ad62c28d7"
+  },
+  "replay": {
+    "replayFailure": {
+      "runKey": "rag_eval:phase-19-scale-1782351900976-replay:a1",
+      "status": "dead_lettered",
+      "nextRetryAt": null,
+      "deadLetterId": "6659cdba-bbc6-4978-b358-92a83dc50195"
+    },
+    "replay": {
+      "retryRunKey": "rag_eval:phase-19-scale-1782351900976-replay:a1:retry:1782351904887"
+    },
+    "replayRunKey": "rag_eval:phase-19-scale-1782351900976-replay:a1"
+  },
+  "auditRowId": "607b37a8-5cb4-4b41-bec0-c7f3b2b56745",
+  "startedAt": "2026-06-25T01:45:00.976Z",
+  "finishedAt": "2026-06-25T01:45:05.704Z"
+}

@@ -35,7 +35,8 @@ export async function PATCH(req: Request) {
     .from('notification_preferences')
     .upsert({ user_id: ctx.user.clerk_id, ...update }, { onConflict: 'user_id' });
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[notification-preferences/update] upsert failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
   return NextResponse.json({ ok: true });
 }

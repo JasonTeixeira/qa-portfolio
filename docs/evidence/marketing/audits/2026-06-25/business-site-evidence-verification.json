@@ -1,0 +1,143 @@
+{
+  "ok": true,
+  "version": "business-site-evidence-verification-v1",
+  "generatedFrom": {
+    "date": "2026-06-25",
+    "businessAuditPath": "docs/evidence/marketing/audits/2026-06-25/business-site-audit.json",
+    "lighthouseSummaryPath": "docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json",
+    "scorecardPath": "docs/marketing/business-site-scorecard.2026-06-25.txt",
+    "completionAuditPath": "docs/marketing/business-site-completion-audit.2026-06-25.txt",
+    "matrixPath": "docs/marketing/business-front-end-page-score-matrix.2026-06-25.txt"
+  },
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This verifies committed local marketing evidence only. It does not run the site, rerun Lighthouse, deploy, publish, or prove live customer outcomes.",
+  "thresholds": {
+    "minRoutesAudited": 29,
+    "minLinkTargets": 200,
+    "maxFailedLinks": 0,
+    "maxAxeViolationRoutes": 0,
+    "maxSeriousAxeViolations": 0,
+    "maxOverflowRoutes": 0,
+    "minLighthouseRoutes": 18,
+    "minPerformance": 0.96,
+    "minAccessibility": 1,
+    "minBestPractices": 1,
+    "minSeo": 1,
+    "maxCls": 0,
+    "maxTbt": 0
+  },
+  "observed": {
+    "auditSummary": {
+      "generatedAt": "2026-06-26T03:26:13.822Z",
+      "baseUrl": "http://127.0.0.1:3051",
+      "routes": 29,
+      "linkTargets": 229,
+      "failedLinks": 0,
+      "routesWithAxeViolations": 0,
+      "seriousAxeViolations": [],
+      "routesWithOverflow": []
+    },
+    "lighthouseRouteCount": 18,
+    "lighthouseMinimums": {
+      "performance": 0.96,
+      "accessibility": 1,
+      "bestPractices": 1,
+      "seo": 1,
+      "cls": 0,
+      "tbt": 0
+    }
+  },
+  "checks": [
+    {
+      "key": "business_routes_audited",
+      "passed": true,
+      "evidence": "29/29"
+    },
+    {
+      "key": "business_link_targets_checked",
+      "passed": true,
+      "evidence": "229/200"
+    },
+    {
+      "key": "business_failed_links_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "business_axe_routes_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "business_serious_axe_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "business_overflow_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "lighthouse_route_count",
+      "passed": true,
+      "evidence": "18/18"
+    },
+    {
+      "key": "lighthouse_performance_minimum",
+      "passed": true,
+      "evidence": "0.96"
+    },
+    {
+      "key": "lighthouse_accessibility_minimum",
+      "passed": true,
+      "evidence": "1"
+    },
+    {
+      "key": "lighthouse_best_practices_minimum",
+      "passed": true,
+      "evidence": "1"
+    },
+    {
+      "key": "lighthouse_seo_minimum",
+      "passed": true,
+      "evidence": "1"
+    },
+    {
+      "key": "lighthouse_cls_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "lighthouse_tbt_zero",
+      "passed": true,
+      "evidence": "0"
+    },
+    {
+      "key": "scorecard_claim_is_bounded",
+      "passed": true,
+      "evidence": "scorecard must claim bounded 94-96 posture"
+    },
+    {
+      "key": "scorecard_has_no_100_claim",
+      "passed": true,
+      "evidence": "scorecard must not claim 100/100"
+    },
+    {
+      "key": "scorecard_has_live_proof_disclaimer",
+      "passed": true,
+      "evidence": "scorecard must name missing live proof"
+    },
+    {
+      "key": "completion_audit_has_remaining_gaps",
+      "passed": true,
+      "evidence": "completion audit must keep real proof capture as remaining work"
+    },
+    {
+      "key": "matrix_keeps_trust_below_high_90s",
+      "passed": true,
+      "evidence": "trust/proof must not overclaim high-90s without live proof"
+    }
+  ],
+  "failures": []
+}

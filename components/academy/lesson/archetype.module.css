@@ -1,0 +1,305 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Lesson-player ARCHETYPE + SEMANTIC layer (shared by LessonPlayer + SprintBlocks).
+   OFFICIAL SKIN — design-source/sage-academy-2026/Sage Lesson Player.dc.html.
+
+   Block presentation follows the design file's 14-block arc: quiet hairline
+   cards (#1E1E24 · radius 14 · surface #111115) with mono numbered kickers,
+   editorial 660px prose for narrative blocks, and semantic tone soft+border
+   pairs (accent / success / warning / danger) carrying meaning, not decoration.
+
+   SEMANTIC ROLE TOKENS (meaning, not raw color — each AA on --sa-bg):
+     --lp-action  = --sa-accent  · action / CTA / focus
+     --lp-proof   = --sa-warning · required-proof / pending
+     --lp-verify  = --sa-success · verified / correct / unlocked
+     --lp-trap    = --sa-danger  · failure / trap / repair
+   ───────────────────────────────────────────────────────────────────────── */
+
+.scope {
+  --lp-action: var(--sa-accent);
+  --lp-action-hover: var(--sa-accent-hover);
+  --lp-action-text: var(--sa-accent-text);
+  --lp-action-soft: var(--sa-accent-soft);
+  --lp-action-border: var(--sa-accent-border);
+  --lp-proof: var(--sa-warning);
+  --lp-proof-soft: var(--sa-warning-soft);
+  --lp-proof-border: var(--sa-warning-border);
+  --lp-verify: var(--sa-success);
+  --lp-verify-soft: var(--sa-success-soft);
+  --lp-verify-border: var(--sa-success-border);
+  --lp-trap: var(--sa-danger);
+  --lp-trap-soft: var(--sa-danger-soft);
+  --lp-trap-border: var(--sa-danger-border);
+}
+
+/* ── ARCHETYPE 1 · NARRATIVE ──────────────────────────────────────────────
+   Editorial 660px prose — no card, no spine. A quiet mono kicker announces
+   the loop step; the words carry the block (design blocks 2/3/5/9/13). */
+.narrative {
+  margin: 40px 0;
+  max-width: 660px;
+}
+.narrativeEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 12px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-ink-faint);
+}
+.narrativeTitle {
+  margin: 0 0 12px;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 560;
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--sa-ink);
+}
+.narrativeBody {
+  margin: 0 0 1rem;
+  max-width: 66ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
+}
+.narrativeBody:last-child { margin-bottom: 0; }
+
+/* DESIGNED INLINE EMPHASIS — the design file emphasizes inside prose by
+   lifting to full ink + weight 600 (e.g. "they map LESS"), no underline slab. */
+.scope p strong,
+.scope p em,
+.scope li strong,
+.scope li em,
+.emph {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--sa-ink);
+}
+
+/* Editorial pull-quote — the ONE key line lifted big at a block boundary.
+   The design's "mental model" register: Fraunces 500 · 22px · lh 1.4. */
+.pullQuote {
+  margin: 24px 0 1rem;
+  max-width: 660px;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 500;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sa-ink);
+}
+/* concept/context key line — same serif register (the design gives the mental
+   model the serif; it is the load-bearing line of the lesson). */
+.calloutQuote {
+  margin: 24px 0 1rem;
+  max-width: 660px;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sa-ink);
+}
+
+/* ── ARCHETYPE 2 · DO / INTERACTIVE ───────────────────────────────────────
+   The design card: hairline border · radius 14 · surface-1. Semantically
+   active cards tint the BORDER with their tone pair (teachback = accent,
+   proof = warning, trap = danger) — fills stay quiet. */
+.panel {
+  position: relative;
+  margin: 36px 0;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
+  overflow: hidden;
+}
+.panelProof  { border-color: var(--lp-proof-border); }
+.panelTrap   { border-color: var(--lp-trap-border); }
+.panelInfo   { border-color: var(--lp-action-border); }
+.panelVerify { border-color: var(--lp-verify-border); }
+
+/* ── ARCHETYPE 3 · PROOF / GATE ───────────────────────────────────────────
+   The design's "Prove it — no vibes" surface: success border + a faint
+   success wash. This is the only card that carries a tinted fill. */
+.proof {
+  position: relative;
+  margin: 40px 0;
+  border: 1px solid var(--lp-verify-border);
+  border-radius: var(--sa-radius-md);
+  background: color-mix(in srgb, var(--sa-success) 4%, transparent);
+  overflow: hidden;
+}
+.proofVerified { border-color: var(--sa-success-node-border); }
+
+/* ── ARCHETYPE 4 · COMPARISON / VIZ ───────────────────────────────────────
+   Diagram-forward figures get generous vertical air (design: 24–40px). */
+.vizBlock {
+  margin: 40px 0;
+}
+
+/* ── DESIGNED BUTTON SYSTEM — the design's pill grammar ───────────────────
+   Primary = filled accent pill (radius 22 · hover lifts to --sa-accent-hover);
+   verify variant = filled success (ink #04130C); ghost = accent-outline pill. */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  cursor: pointer;
+  padding: 10px 22px;
+  border-radius: 22px;
+  background: var(--btn-tone, var(--lp-action, var(--sa-accent)));
+  color: #fff;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--sa-dur-ui) var(--sa-ease),
+    transform var(--sa-dur-ui) var(--sa-ease),
+    opacity var(--sa-dur-ui) var(--sa-ease);
+}
+.btnPrimary:hover:not(:disabled) {
+  background: var(--btn-tone-hover, var(--sa-accent-hover));
+  transform: translateY(-1px);
+}
+.btnPrimary:active:not(:disabled) { transform: translateY(0); opacity: 0.94; }
+.btnPrimary:disabled { opacity: 0.45; cursor: default; }
+/* proof-required primaries read amber; verify/continue reads the design's
+   green lab pill — dark ink on success green. */
+.btnProof {
+  --btn-tone: var(--lp-proof, var(--sa-warning));
+  --btn-tone-hover: color-mix(in srgb, var(--sa-warning) 82%, white);
+  color: #1a1206;
+}
+.btnVerify {
+  --btn-tone: var(--lp-verify, var(--sa-success));
+  --btn-tone-hover: color-mix(in srgb, var(--sa-success) 82%, white);
+  color: #04130C;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 22px;
+  border: 1px solid var(--sa-accent-border);
+  background: transparent;
+  color: var(--sa-accent-text);
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    border-color var(--sa-dur-ui) var(--sa-ease),
+    color var(--sa-dur-ui) var(--sa-ease),
+    background var(--sa-dur-ui) var(--sa-ease);
+}
+.btnGhost:hover:not(:disabled) {
+  background: var(--sa-accent-node-bg);
+  color: var(--sa-ink);
+}
+.btnGhost:disabled { opacity: 0.5; cursor: default; }
+
+/* ── SEMANTIC BADGE — the design's verdict chip (mono · radius 5 · bordered) ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--badge-tone, var(--sa-accent-text)) 45%, transparent);
+  background: color-mix(in srgb, var(--badge-tone, var(--sa-accent-text)) 10%, transparent);
+  color: var(--badge-tone, var(--sa-accent-text));
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.badgeAction { --badge-tone: var(--sa-accent-text); }
+.badgeProof  { --badge-tone: var(--sa-warning); }
+.badgeVerify { --badge-tone: var(--sa-success); }
+.badgeTrap   { --badge-tone: var(--sa-danger); }
+
+/* ── IN-LESSON PROGRESS SPINE ──────────────────────────────────────────────
+   The 4px accent progress language from the design's rail/footer tracks,
+   segmented per block. Sticky under the topbar; decorative → aria-hidden. */
+.spine {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 32px;
+  padding: 0.7rem 0 0.75rem;
+  background: linear-gradient(180deg, var(--sa-bg) 72%, transparent);
+}
+.spineTrack {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.spineStep {
+  flex: 1 1 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--sa-surface-3);
+  overflow: hidden;
+  transition: background var(--sa-dur-ui) var(--sa-ease);
+}
+.spineStep[data-state='done'] { background: var(--sa-accent); }
+.spineStep[data-state='current'] { background: var(--sa-accent-text); }
+.spineMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--sa-ink-faint);
+}
+.spinePhase {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-accent-text);
+}
+.spineCount {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--sa-ink-faint);
+}
+
+@media (max-width: 900px) {
+  .narrative { max-width: none; }
+  .spine { top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnPrimary,
+  .btnGhost,
+  .spineStep { transition: none; }
+  .btnPrimary:hover:not(:disabled),
+  .btnPrimary:active:not(:disabled) { transform: none; }
+}

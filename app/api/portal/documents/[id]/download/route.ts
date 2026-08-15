@@ -36,10 +36,8 @@ export async function GET(
     .from('documents')
     .createSignedUrl(doc.storage_path, 60);
   if (error || !signed?.signedUrl) {
-    return NextResponse.json(
-      { error: error?.message ?? 'sign_failed' },
-      { status: 400 },
-    );
+    console.error('[portal/documents/download] createSignedUrl failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 400 });
   }
 
   return NextResponse.redirect(signed.signedUrl, { status: 302 });

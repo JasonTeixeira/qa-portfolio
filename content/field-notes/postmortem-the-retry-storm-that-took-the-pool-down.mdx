@@ -1,0 +1,36 @@
+---
+slug: postmortem-the-retry-storm-that-took-the-pool-down
+title: "Postmortem: the retry storm that took the pool down"
+date: 2026-05-12
+category: Repair log
+tags: [retries, backpressure, connection-pool, incident]
+summary: One slow dependency turned into a full outage in ninety seconds. The retries meant to make us resilient are what actually took us down. Here's the postmortem, verbatim.
+---
+
+A downstream service got slow — not down, slow. Responses that normally took 40ms started taking 3 seconds. Within ninety seconds our own service was fully down, connection pool exhausted, every request timing out. The thing that turned a partner's slowdown into our outage was the mechanism we'd installed to survive exactly this: retries.
+
+## Timeline
+
+- **T+0:00** — Downstream latency rises from 40ms to ~3s. No errors yet, just slow.
+- **T+0:20** — Our client timeout is 2s. Calls start timing out. The retry policy kicks in: up to 3 attempts.
+- **T+0:35** — Each user request now makes up to 3 downstream calls, each holding a connection for 2s before timing out. Effective load on the pool triples.
+- **T+0:55** — Connection pool saturated. New requests queue waiting for a connection. Queue latency climbs.
+- **T+1:10** — Requests that were merely slow are now failing outright — not because downstream is worse, but because they can't get a connection to *try*.
+- **T+1:30** — Full outage. Downstream is still just "slow," never down.
+
+## What actually happened
+
+This is a retry storm. When a dependency slows down, naive retries don't add resilience — they add load, at the exact moment the system can least absorb it. Three retries means three times the concurrent connections held for the full timeout window. The pool, sized for normal fan-out, saturates. Once the pool is the bottleneck, retries are competing with *first attempts* for the same scarce connections, and the system starves itself.
+
+The cruel part: the harder we tried to succeed, the faster we failed. Retries are a positive feedback loop into a saturating resource. Positive feedback loops into saturation is the mathematical shape of every cascading outage.
+
+## The fixes
+
+1. **Circuit breaker.** After a threshold of failures, stop calling the dependency at all for a cool-down window. Fail fast, locally, without touching the pool. A tripped breaker is the system choosing to shed load instead of drowning in it.
+2. **Retry budget, not retry count.** Cap retries as a *percentage of total requests* (say 10%), not per-request. Under a broad slowdown the budget exhausts almost immediately, and retries stop system-wide. Per-request counts have no global awareness and always storm.
+3. **Jittered exponential backoff.** Synchronized retries arrive in waves. Jitter spreads them out so they don't hammer the recovering dependency in lockstep.
+4. **Bulkhead the pool.** Isolate connections per dependency so one slow partner can't consume the whole pool and take unrelated traffic down with it.
+
+## The lesson
+
+Retries assume the failure is transient and independent. A dependency-wide slowdown is neither — it's persistent and correlated, and retrying into it is pouring load on a fire. Resilience isn't "try harder." It's "know when to stop trying," enforced globally, with a budget and a breaker. The retry that saves one request can sink the whole fleet if nothing tells it when to quit.

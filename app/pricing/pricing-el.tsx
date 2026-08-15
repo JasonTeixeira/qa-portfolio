@@ -1,282 +1,523 @@
-import Link from 'next/link'
-import { Section, Hairline, MonoLabel, Reveal, CtaLink } from '@/components/el'
-import {
-  TierGrid,
-  CareCard,
-  ComparisonTable,
-  FaqAccordion,
-  CatalogRow,
-  type CatalogRowItem,
-} from '@/components/el/services'
-import { QuoteCalculator } from '@/components/pricing/quote-calculator'
-import { ConversionMap, MotionProofStrip, SystemHeroPanel } from '@/components/living/LivingPageSystem'
-import { RouteConversionCta } from '@/components/living/RouteConversionCta'
-import { tiersOrdered, careTiers } from '@/data/services/tiers'
-import {
-  extendedCategories,
-  extendedTiersByCategory,
-} from '@/data/services/extended'
-import { pricingFaq } from '@/data/services/pricing-faq'
+'use client'
 
-// Recommended on-ramp: the cheapest self-serve productized tier (Audit).
-// It earns the single accent — the entry point, not every card.
-const RECOMMENDED_SLUG = 'audit'
+import { useState } from 'react'
+import type { AcademyPlan, PlanInterval } from '@/lib/academy/plans'
+import { trackEvent } from '@/lib/analytics/events'
 
-// Extended catalog categories that are inquiry-first; prices flow from the
-// tier data. We skip the flagship category here (it has its own surfaces).
-const CATALOG_CATEGORY_KEYS = extendedCategories
-  .map((c) => c.key)
-  .filter((k) => k !== 'ai-flagship')
+/**
+ * Sage Academy pricing surface — reskin of the rendered design at
+ * design-source/rendered/pricing.html. Presentation only: the plan data and the
+ * checkout wiring are the REAL Academy all-access plans (lib/academy/plans.ts)
+ * hitting POST /api/checkout { kind: 'academy_allaccess', interval }. Monthly and
+ * Annual are live Stripe subscriptions; Team has no self-serve Stripe plan and so
+ * keeps its real mailto CTA rather than a fabricated checkout link.
+ *
+ * Palette (from the design): bg #0B0B0E · surface #111115 · ink #F2EFE9 ·
+ * muted #9598A2 · lines #1E1E24 · accent #3D5AFE · green #18B663.
+ */
 
-function toRowItems(slugKey: string): CatalogRowItem[] {
-  const tiers = extendedTiersByCategory[slugKey as keyof typeof extendedTiersByCategory] ?? []
-  return tiers.map((t) => ({
-    slug: t.slug,
-    name: t.name,
-    tagline: t.tagline,
-    price: t.price,
-    timeline: t.timeline,
-    href: `/services/${t.slug}`,
-  }))
+const SERIF = 'Fraunces, Georgia, serif'
+const MONO = '"JetBrains Mono", ui-monospace, monospace'
+
+const COLORS = {
+  bg: '#0B0B0E',
+  surface: '#111115',
+  ink: '#F2EFE9',
+  muted: '#9598A2',
+  softMuted: '#9C9CA6',
+  line: '#1E1E24',
+  accent: '#3D5AFE',
+  accentInk: '#8FA0FF',
+  green: '#18B663',
+  faint: '#4A4A54',
+} as const
+
+type Tier = {
+  key: 'monthly' | 'annual' | 'team'
+  name: string
+  price: string
+  per: string
+  note: string
+  feats: string[]
+  cta: string
+  highlight?: boolean
+  sideTag?: string
+  tick: string
+  /** For live subscription tiers, the interval passed to the checkout API. */
+  interval?: PlanInterval
+  /** For non-self-serve tiers (Team), a plain href. */
+  href?: string
 }
 
-export function PricingEl() {
+type Faq = { q: string; a: string }
+
+const ACADEMY_FAQ: Faq[] = [
+  {
+    q: 'Is this for beginners?',
+    a: 'Course 00 assumes you can code a little and think a lot. Career-switchers start there plus Programming Fundamentals; working engineers can enter any live track. Nothing here is watch-and-nod content — expect to be wrong in public and fix it.',
+  },
+  {
+    q: 'Monthly or annual?',
+    a: 'Monthly is for trying the water — same access, cancel any month. Annual is two months cheaper and adds a yearly portfolio review. Most members switch to annual after their first shipped proof; the upgrade is prorated.',
+  },
+  {
+    q: 'Why is the score capped instead of averaged?',
+    a: "Because that's how a reviewer reads your work. They don't average your strong claims against your broken one — they stop at the broken one. The cap shows the exact repair that lifts it, so the honest number is also an actionable one.",
+  },
+  {
+    q: 'How much time does it take?',
+    a: 'A lesson is 20–40 minutes and ends in a proof. Recall is about six minutes a day. One sprint a week is the intended cadence — this is designed around a job, not instead of one.',
+  },
+  {
+    q: 'What does the guarantee actually mean?',
+    a: "If you finish your first sprint and haven't shipped a proof you'd show a reviewer, tell us within 14 days and we refund in full. We'd rather refund than argue.",
+  },
+]
+
+const OUTCOMES = [
+  'A portfolio of decision memos and passing proofs',
+  'Retention that holds under pressure — recall at 1/3/7/30 days',
+  'Honest mastery scores a reviewer would agree with',
+  'Certificates verifiable by code, not screenshots',
+]
+
+function buildTiers(monthly: AcademyPlan, yearly: AcademyPlan): Tier[] {
+  return [
+    {
+      key: 'monthly',
+      name: 'Monthly',
+      price: monthly.price,
+      per: '/ month',
+      note: 'for trying the water',
+      feats: [
+        'Everything in the academy',
+        'Cancel any month, keep your ledger',
+        'Upgrade to annual anytime — prorated',
+      ],
+      cta: 'Start monthly',
+      tick: COLORS.faint,
+      interval: 'monthly',
+    },
+    {
+      key: 'annual',
+      name: 'Annual',
+      price: yearly.price,
+      per: '/ year',
+      note: '≈ $21/month · billed yearly',
+      feats: [
+        'Everything in the academy',
+        'Two months free vs monthly',
+        'Yearly portfolio review checkpoint',
+        'Price locked as new courses ship',
+      ],
+      cta: 'Start annual',
+      highlight: true,
+      sideTag: 'save 2 months',
+      tick: COLORS.accentInk,
+      interval: 'yearly',
+    },
+    {
+      key: 'team',
+      name: 'Team',
+      price: '$190',
+      per: '/ seat · yr',
+      note: 'per seat / year · 5+ seats',
+      feats: [
+        'Everything, for every engineer',
+        'Manager view of team evidence ledgers',
+        'Cohort onboarding sprint',
+        'Invoice billing + seat management',
+      ],
+      cta: 'Talk to us',
+      tick: COLORS.green,
+      href: 'mailto:hello@sageideas.dev?subject=Sage%20Academy%20—%20Team%20plan',
+    },
+  ]
+}
+
+function PlanCta({ tier }: { tier: Tier }) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const baseStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textDecoration: 'none',
+    fontSize: '14.5px',
+    fontWeight: 600,
+    padding: '14px 22px',
+    borderRadius: '26px',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    width: '100%',
+    transition: 'filter 160ms ease, background 160ms ease',
+  }
+
+  const primary: React.CSSProperties = {
+    ...baseStyle,
+    color: '#fff',
+    background: COLORS.accent,
+    border: `1px solid ${COLORS.accent}`,
+    boxShadow: '0 0 24px rgba(61,90,254,0.4)',
+  }
+  const secondary: React.CSSProperties = {
+    ...baseStyle,
+    color: COLORS.ink,
+    background: 'transparent',
+    border: '1px solid #2A2A33',
+  }
+  const style = tier.highlight ? primary : secondary
+
+  // Team (no self-serve plan) → real mailto link, no checkout call.
+  if (tier.href) {
+    return (
+      <a href={tier.href} style={style}>
+        {tier.cta}
+      </a>
+    )
+  }
+
+  // Live subscription tiers → real Stripe checkout via /api/checkout.
+  const onClick = async () => {
+    if (!tier.interval) return
+    setLoading(true)
+    setError(null)
+    trackEvent('checkout_start', { slug: `academy_allaccess_${tier.interval}`, priceCents: 0 })
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ kind: 'academy_allaccess', interval: tier.interval }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && data.url) {
+        window.location.href = data.url
+        return
+      }
+      if (typeof data?.signIn === 'string') {
+        window.location.href = data.signIn
+        return
+      }
+      setError(typeof data?.error === 'string' ? data.error : "Couldn't start checkout. Please try again.")
+    } catch {
+      setError('Network error. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <div className="overflow-hidden bg-[var(--sage-bg)]">
-      {/* ── Hero ───────────────────────────────────────────────────── */}
-      <section
-        aria-label="Pricing"
-        className="sage-grain relative isolate overflow-hidden pt-28 pb-14 sm:pt-32 lg:pb-20"
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+      <button type="button" onClick={onClick} disabled={loading} style={{ ...style, opacity: loading ? 0.7 : 1 }}>
+        {loading ? 'Loading…' : tier.cta}
+      </button>
+      {error ? (
+        <p role="alert" style={{ margin: 0, fontSize: '12px', color: '#F87171', textAlign: 'center' }}>
+          {error}
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
+function PlanCard({ tier }: { tier: Tier }) {
+  const cardStyle: React.CSSProperties = tier.highlight
+    ? {
+        position: 'relative',
+        border: '1px solid rgba(61,90,254,0.5)',
+        borderRadius: '18px',
+        background: 'linear-gradient(170deg, #14141C, #111115)',
+        padding: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '0 0 40px rgba(61,90,254,0.14), 0 32px 80px -32px rgba(0,0,0,0.85)',
+      }
+    : {
+        position: 'relative',
+        border: `1px solid ${COLORS.line}`,
+        borderRadius: '18px',
+        background: COLORS.surface,
+        padding: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+      }
+
+  return (
+    <div style={cardStyle}>
+      {tier.highlight ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: '-12px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontFamily: MONO,
+            fontSize: '9.5px',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: '#fff',
+            background: COLORS.accent,
+            padding: '5px 14px',
+            borderRadius: '12px',
+            whiteSpace: 'nowrap',
+            boxShadow: '0 0 18px rgba(61,90,254,0.45)',
+          }}
+        >
+          Most chosen
+        </div>
+      ) : null}
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
+        <span
+          style={{
+            fontFamily: MONO,
+            fontSize: '10.5px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.12em',
+            color: '#959AA2',
+          }}
+        >
+          {tier.name}
+        </span>
+        {tier.sideTag ? (
+          <span
+            style={{
+              fontFamily: MONO,
+              fontSize: '9.5px',
+              color: COLORS.green,
+              border: '1px solid rgba(24,182,99,0.4)',
+              padding: '3px 9px',
+              borderRadius: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {tier.sideTag}
+          </span>
+        ) : null}
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', margin: '20px 0 3px' }}>
+        <span
+          style={{
+            fontFamily: SERIF,
+            fontWeight: 600,
+            fontSize: tier.highlight ? '64px' : '46px',
+            letterSpacing: '-0.035em',
+            lineHeight: 1,
+            color: COLORS.ink,
+          }}
+        >
+          {tier.price}
+        </span>
+        <span style={{ color: '#959AA2', fontSize: '14px', whiteSpace: 'nowrap' }}>{tier.per}</span>
+      </div>
+      <div style={{ fontSize: '13px', color: '#959AA2', marginBottom: '22px', minHeight: '20px' }}>{tier.note}</div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '26px', flex: '1 1 0%' }}>
+        {tier.feats.map((feat) => (
+          <div
+            key={feat}
+            style={{ display: 'flex', gap: '11px', alignItems: 'baseline', fontSize: '13.5px', color: '#B6B6C0' }}
+          >
+            <span aria-hidden style={{ color: tier.tick, flexShrink: 0, fontSize: '12px' }}>
+              ◆
+            </span>
+            {feat}
+          </div>
+        ))}
+      </div>
+
+      <PlanCta tier={tier} />
+    </div>
+  )
+}
+
+type PricingElProps = {
+  monthly: AcademyPlan
+  yearly: AcademyPlan
+}
+
+export function PricingEl({ monthly, yearly }: PricingElProps) {
+  const tiers = buildTiers(monthly, yearly)
+
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        background:
+          'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.035) 0%, transparent 55%), radial-gradient(60% 50% at 88% 8%, rgba(61,90,254,0.06) 0%, transparent 60%) #0B0B0E',
+        color: COLORS.ink,
+        fontFamily: '"Hanken Grotesk", ui-sans-serif, system-ui, sans-serif',
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <header
+        style={{
+          maxWidth: '860px',
+          margin: '0 auto',
+          padding: 'clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px) clamp(36px, 5vw, 56px)',
+          textAlign: 'center',
+        }}
       >
-        <div aria-hidden className="sage-depth pointer-events-none absolute inset-0" />
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">{'// pricing'}</MonoLabel>
-            <Hairline className="flex-1" strong />
-          </div>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
-            <div>
-              <h1
-                className="max-w-4xl text-[var(--sage-ink)] font-normal text-[clamp(3.2rem,_1.3rem_+_5.2vw,_6.4rem)]"
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  letterSpacing: '-0.026em',
-                  lineHeight: 1.0,
-                }}
-              >
-                One price per engagement.{' '}
-                <span className="italic text-[#3D5AFE]">Written before we start.</span>
-              </h1>
-              <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
-                No “starting from”, no discovery-call price reveal. Every productized tier below has a
-                fixed scope and a fixed number. The self-serve ones take a card on this page; the larger
-                builds get scoped on a call. The number you see is the number in the contract.
-              </p>
-              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-                <CtaLink variant="text" href="#compare">compare every tier</CtaLink>
-                <CtaLink variant="text" href="#care">care plans</CtaLink>
-                <CtaLink variant="text" href="#catalog">ai &amp; automation</CtaLink>
-                <CtaLink variant="text" href="#faq">faq</CtaLink>
-              </div>
-            </div>
-            <SystemHeroPanel
-              eyebrow="price engine"
-              title="Pricing system map"
-              nodes={['Scope', 'Price', 'Checkout', 'Handoff']}
-              stats={[
-                { label: 'self serve', value: 'yes' },
-                { label: 'surprise fees', value: '0' },
-                { label: 'refund rule', value: 'clear' },
-              ]}
-            />
-          </div>
-          <div className="mt-12">
-            <MotionProofStrip
-              items={[
-                { label: 'fixed scope', value: 'written' },
-                { label: 'audit', value: '$750' },
-                { label: 'platform build', value: '$9.5k' },
-                { label: 'care plans', value: 'monthly' },
-              ]}
-            />
-          </div>
+        <div
+          style={{
+            fontFamily: MONO,
+            fontSize: '11.5px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.16em',
+            color: COLORS.accentInk,
+          }}
+        >
+          Simple, honest pricing
+        </div>
+        <h1
+          style={{
+            margin: '18px auto 0',
+            fontFamily: SERIF,
+            fontWeight: 600,
+            fontSize: 'clamp(34px, 4.6vw, 60px)',
+            lineHeight: 1.02,
+            letterSpacing: '-0.026em',
+            maxWidth: '20ch',
+            textWrap: 'balance',
+          }}
+        >
+          You&rsquo;re not buying hours of video. You&rsquo;re buying{' '}
+          <em style={{ fontStyle: 'italic', fontWeight: 500, color: COLORS.accentInk }}>a body of work.</em>
+        </h1>
+        <p style={{ margin: '20px auto 0', color: COLORS.softMuted, fontSize: '16.5px', maxWidth: '54ch' }}>
+          Every plan includes everything — all 23 courses as they ship, every lab and proof, spaced recall, leagues,
+          and verifiable certificates. Pick the commitment, not the features.
+        </p>
+      </header>
+
+      {/* Plans */}
+      <section
+        id="plans"
+        style={{
+          maxWidth: '1180px',
+          margin: '0 auto',
+          padding: '12px clamp(20px, 4vw, 48px) clamp(24px, 3vw, 40px)',
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: '18px',
+            alignItems: 'stretch',
+          }}
+        >
+          {tiers.map((tier) => (
+            <PlanCard key={tier.key} tier={tier} />
+          ))}
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px 22px',
+            marginTop: '26px',
+          }}
+        >
+          <span style={{ fontFamily: MONO, fontSize: '10.5px', color: '#959AA2' }}>
+            14-day honest guarantee on every plan: no proof shipped, full refund.
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ display: 'flex' }}>
+              <span style={avatarStyle('rgba(61,90,254,0.18)', COLORS.accentInk, 0)}>PN</span>
+              <span style={avatarStyle('rgba(24,182,99,0.15)', COLORS.green, -7)}>MW</span>
+              <span style={avatarStyle('rgba(224,169,62,0.15)', '#E0A93E', -7)}>DO</span>
+              <span style={avatarStyle('#1A1A20', '#959AA2', -7)}>+</span>
+            </span>
+            <span style={{ fontSize: '12.5px', color: COLORS.softMuted }}>
+              12,480 engineers · 2,847 proofs shipped this week
+            </span>
+          </span>
         </div>
       </section>
 
-      <Section
-        index="00"
-        eyebrow="pricing logic"
-        ariaLabel="Pricing logic"
-        heading="The page should make the buying decision obvious."
-        lede="A premium pricing page earns trust by showing the route, the constraints, and the next action. No pressure tricks; just clear commercial architecture."
+      {/* Outcomes */}
+      <section
+        style={{
+          maxWidth: '860px',
+          margin: '0 auto',
+          padding: 'clamp(24px, 4vw, 48px) clamp(20px, 4vw, 48px) clamp(48px, 7vw, 80px)',
+        }}
       >
-        <ConversionMap
-          steps={[
-            { label: 'Audit', detail: 'Best when you need clarity before committing to a larger build.' },
-            { label: 'Ship', detail: 'Best when the surface, launch, or conversion system is the bottleneck.' },
-            { label: 'Automate', detail: 'Best when AI, ops, or workflow leverage creates measurable lift.' },
-            { label: 'Build / Operate', detail: 'Best when the product needs a principal builder and an operating cadence.' },
-          ]}
-        />
-      </Section>
-
-      {/* ── Quote calculator (primary scope object) ────────────────── */}
-      <Section
-        index="01"
-        eyebrow="scope estimator"
-        ariaLabel="Scope estimator"
-        heading={
-          <>
-            Skip the spreadsheet.{' '}
-            <span className="italic text-[#3D5AFE]">Build your quote here.</span>
-          </>
-        }
-        lede="Click your way to a real estimate. The number you see is the number we’ll write into the contract — and if scope changes mid-flight, the kill switch refunds the unspent half."
-        width="max-w-6xl"
-        grain
-      >
-        <QuoteCalculator />
-      </Section>
-
-      {/* ── Productized tiers ──────────────────────────────────────── */}
-      <Section
-        index="02"
-        eyebrow="productized engagements"
-        ariaLabel="Productized engagement tiers"
-        heading={
-          <>
-            Fixed scope. Fixed price.{' '}
-            <span className="italic text-[#3D5AFE]">Click to start.</span>
-          </>
-        }
-        lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, automation, brand work, and platform builds. Audit is the self-serve on-ramp; most of it credits toward a larger engagement."
-      >
-        <TierGrid tiers={tiersOrdered} recommendedSlug={RECOMMENDED_SLUG} />
-      </Section>
-
-      {/* ── Care plans ─────────────────────────────────────────────── */}
-      <Section
-        id="care"
-        index="03"
-        eyebrow="monthly care"
-        ariaLabel="Care plan retainers"
-        heading={
-          <>
-            Kept alive every month.{' '}
-            <span className="italic text-[#3D5AFE]">Cancel anytime.</span>
-          </>
-        }
-        lede="Lightweight retainers for teams who already shipped. Real subscriptions through Stripe — no clawback, no minimum term, no drama."
-        width="max-w-6xl"
-        className="scroll-mt-20"
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          {careTiers.map((care, i) => (
-            <Reveal key={care.slug} delay={i * 0.06} className="h-full">
-              <CareCard care={care} index={String(i + 1).padStart(2, '0')} />
-            </Reveal>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+            gap: '10px 32px',
+          }}
+        >
+          {OUTCOMES.map((outcome) => (
+            <div key={outcome} style={{ display: 'flex', gap: '12px', alignItems: 'baseline', padding: '8px 0' }}>
+              <span aria-hidden style={{ color: COLORS.green, flexShrink: 0 }}>
+                ✓
+              </span>
+              <span style={{ fontSize: '15px', color: '#B6B6C0' }}>{outcome}</span>
+            </div>
           ))}
         </div>
-      </Section>
+      </section>
 
-      {/* ── Comparison table ───────────────────────────────────────── */}
-      <Section
-        id="compare"
-        index="04"
-        eyebrow="honest comparison"
-        ariaLabel="Tier comparison"
-        heading="Every tier, side by side."
-        lede="Prices, timelines, and how each one starts — straight from the source. The only accent marks the recommended on-ramp, not a discount you’ll never see."
-        width="max-w-6xl"
-        className="scroll-mt-20"
-      >
-        <ComparisonTable tiers={tiersOrdered} recommendedSlug={RECOMMENDED_SLUG} />
-      </Section>
-
-      {/* ── Extended catalog ───────────────────────────────────────── */}
-      <Section
-        id="catalog"
-        index="05"
-        eyebrow="ai & automation"
-        ariaLabel="AI and automation catalog"
-        heading={
-          <>
-            More ways we can help —{' '}
-            <span className="italic text-[#3D5AFE]">scoped before you commit.</span>
-          </>
-        }
-        lede="AI reliability, automation pipelines, customer-facing AI, retainers, diagnostics, and full bundles. Inquiry-first: every engagement is scoped and priced in writing before any commitment."
-        width="max-w-6xl"
-        grain
-        className="scroll-mt-20"
-      >
-        <div className="space-y-10">
-          {CATALOG_CATEGORY_KEYS.map((key) => {
-            const meta = extendedCategories.find((c) => c.key === key)
-            const items = toRowItems(key)
-            if (!meta || items.length === 0) return null
-            return <CatalogRow key={key} label={meta.label} items={items} />
-          })}
-        </div>
-        <Reveal className="mt-10">
-          <CtaLink variant="ghost" href="/services">browse the full catalog</CtaLink>
-        </Reveal>
-      </Section>
-
-      {/* ── FAQ ────────────────────────────────────────────────────── */}
-      <Section
-        id="faq"
-        index="06"
-        eyebrow="questions"
-        ariaLabel="Pricing FAQ"
-        heading="Pricing, in plain English."
-        width="max-w-4xl"
-        className="scroll-mt-20"
-      >
-        <FaqAccordion items={pricingFaq} />
-      </Section>
-
-      <RouteConversionCta
-        eyebrow="price to route"
-        title="Still comparing? Get routed."
-        body="If the matrix is close but not obvious, answer four questions. The diagnostic points you toward audit, studio build, automation, or academy instead of forcing a generic sales call."
-        primary={{ label: 'Run the route finder', href: '/tools/route-finder?source=pricing_final' }}
-        secondary={{ label: 'Book a call', href: '/book' }}
-        variant="growth"
-        proof={[
-          { label: 'self-serve on-ramp', value: 'Audit' },
-          { label: 'pricing model', value: 'fixed' },
-          { label: 'route options', value: '04' },
-        ]}
-      />
-
-      {/* ── Close ──────────────────────────────────────────────────── */}
-      <Section
-        eyebrow="not sure which fits?"
-        ariaLabel="Book a discovery call"
-        centered
-        heading={
-          <>
-            Start with{' '}
-            <span className="italic text-[#3D5AFE]">a conversation.</span>
-          </>
-        }
-        lede="A free 30-minute discovery call. We talk through what you’re building, what you’ve tried, and which engagement — if any — is the right fit."
-        width="max-w-3xl"
-      >
-        <Reveal className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <CtaLink variant="solid" href="/book" event="cta_click" eventProps={{ location: 'pricing_final_cta', label: 'book_discovery' }}>
-            ./book
-          </CtaLink>
-          <Link
-            href="/contact?engagement=custom"
-            className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
+      {/* FAQ */}
+      <section style={{ borderTop: `1px solid ${COLORS.line}`, background: '#0D0D11' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: 'clamp(48px, 7vw, 88px) clamp(20px, 4vw, 48px)' }}>
+          <h2
+            style={{
+              margin: '0 0 32px',
+              fontFamily: SERIF,
+              fontWeight: 560,
+              fontSize: 'clamp(24px, 2.8vw, 34px)',
+              letterSpacing: '-0.02em',
+            }}
           >
-            <span>scope something custom</span>
-            <span aria-hidden className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5">→</span>
-          </Link>
-        </Reveal>
-      </Section>
+            Honest answers
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {ACADEMY_FAQ.map((item) => (
+              <div key={item.q} style={{ padding: '22px 0', borderBottom: `1px solid ${COLORS.line}` }}>
+                <div
+                  style={{
+                    fontFamily: SERIF,
+                    fontWeight: 600,
+                    fontSize: '18px',
+                    letterSpacing: '-0.01em',
+                    marginBottom: '8px',
+                  }}
+                >
+                  {item.q}
+                </div>
+                <p style={{ margin: 0, fontSize: '14.5px', color: COLORS.softMuted, maxWidth: '68ch' }}>{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
+}
+
+function avatarStyle(bg: string, color: string, marginLeft: number): React.CSSProperties {
+  return {
+    width: '24px',
+    height: '24px',
+    borderRadius: '50%',
+    background: bg,
+    border: '1.5px solid #14141C',
+    display: 'grid',
+    placeItems: 'center',
+    fontFamily: MONO,
+    fontSize: '7.5px',
+    color,
+    marginLeft: marginLeft ? `${marginLeft}px` : undefined,
+  }
 }

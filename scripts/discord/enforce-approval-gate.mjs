@@ -6,18 +6,25 @@ const SEND_MESSAGES = 1n << 11n;
 const READ_MESSAGE_HISTORY = 1n << 16n;
 
 const memberChannels = [
+  'academy-roadmap',
   'introductions',
+  'announcements',
   'daily-signal',
   'questions',
+  'ask-sage',
+  'lesson-discussion',
   'build-lab',
+  'project-submissions',
   'review-queue',
-  'content-lab',
+  'content-queue',
   'live-room',
+  'office-hours',
+  'accountability',
   'resources',
   'wins-showcase',
 ];
 
-const requiredChannels = ['start-here', ...memberChannels, 'premium', 'team-ops'];
+const requiredChannels = ['start-here', ...memberChannels, 'premium', 'premium-reviews', 'team-ops'];
 
 function cleanEnv(value) {
   return value?.replace(/\\n/g, '').trim();
@@ -65,7 +72,7 @@ function overwritesFor(channelName, ids) {
     ];
   }
 
-  if (channelName === 'premium') {
+  if (channelName === 'premium' || channelName === 'premium-reviews') {
     return [
       { id: ids.everyone, type: 0, deny: String(VIEW_CHANNEL) },
       { id: ids.premium, type: 0, allow: String(VIEW_CHANNEL | SEND_MESSAGES | READ_MESSAGE_HISTORY) },

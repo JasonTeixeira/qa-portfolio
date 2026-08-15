@@ -1,0 +1,448 @@
+/* Recall Queue — OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Recall Queue.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Fonts route through next/font
+   vars (--font-serif/--font-sans/--font-mono) with the --sa-* stacks as
+   fallbacks — same aliasing grammar as the Lesson Player.
+   NOTE: the design file sets meaningful text in #4A4A54 (ghost ink); as in the
+   player reskin, that ink is lifted to --sa-ink-faint for WCAG AA contrast. */
+.stage {
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 4rem);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 16px;
+  line-height: 1.6;
+  background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%)
+    var(--sa-bg);
+}
+
+/* Designed-in keyboard focus: 2px #8FA0FF, 2px offset, 4px radius. */
+.stage a:focus-visible,
+.stage button:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
+
+/* ── top bar: mono brand kicker (left) + retention / streak stat (right) ── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px clamp(16px, 3vw, 28px);
+  border-bottom: 1px solid var(--sa-rule);
+}
+.brandKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
+}
+.retention {
+  margin-left: auto;
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-success);
+}
+/* Daily Rep streak pill — warning-toned "at stake", success when shielded. */
+.streakPill {
+  margin-left: auto;
+  padding: 5px 12px;
+  border: 1px solid var(--sa-warning-border);
+  border-radius: var(--sa-radius-md);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--sa-warning);
+  white-space: nowrap;
+}
+.streakPill[data-shielded='true'] {
+  color: var(--sa-success);
+  border-color: var(--sa-success-border);
+}
+
+/* ── centered flashcard column (design: min(640px, 100%)) ─────────────── */
+.center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);
+}
+.shell {
+  width: min(640px, 100%);
+}
+
+/* ── progress dots + "i of N" (26px active accent · 14px done success) ── */
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.dot {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sa-fill-muted);
+  transition: width var(--sa-dur-ui) var(--sa-ease), background var(--sa-dur-ui) var(--sa-ease);
+}
+.dot[data-state='active'] {
+  width: 26px;
+  background: var(--sa-accent);
+}
+.dot[data-state='done'] {
+  width: 14px;
+  background: var(--sa-success);
+}
+.dot[data-state='todo'] {
+  width: 14px;
+  background: var(--sa-fill-muted);
+}
+.dotCounter {
+  margin-left: 8px;
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── the card — hero surface with the design's deep drop shadow ────────── */
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 18px; /* design-literal hero-card radius */
+  background: var(--sa-surface-1);
+  padding: clamp(28px, 4vw, 44px);
+  box-shadow: 0 32px 80px -32px rgba(0, 0, 0, 0.85); /* design-literal */
+}
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.kicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-accent-text);
+}
+.due {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
+  white-space: nowrap;
+}
+.question {
+  margin: 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* ── show answer — accent pill w/ glow, #6E83FF hover (design pill grammar) ── */
+.showRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+.showBtn {
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  background: var(--sa-accent);
+  border: 0;
+  cursor: pointer;
+  font-family: var(--sa-body-live);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 26px; /* design-literal pill */
+  box-shadow: 0 0 24px rgba(61, 90, 254, 0.35); /* design-literal glow */
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+  white-space: nowrap;
+}
+.showBtn:hover {
+  background: var(--sa-accent-hover);
+}
+.showBtn:active {
+  transform: translateY(1px);
+}
+.hint {
+  text-align: center;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
+  margin: 14px 0 0;
+}
+
+/* ── revealed answer + tone-bordered rating grid ───────────────────────── */
+.answerArea {
+  margin-top: 26px;
+  border-top: 1px solid var(--sa-rule);
+  padding-top: 22px;
+  animation: revealRise 320ms var(--sa-ease) both;
+}
+.answerLabel {
+  margin: 0 0 10px;
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-success); /* design: "The answer" kicker is success-toned */
+}
+.answerBody {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--sa-ink-subtle);
+  text-wrap: pretty;
+}
+.revisit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--sa-accent-text);
+  text-decoration: none;
+}
+.revisit:hover {
+  text-decoration: underline;
+}
+
+/* Design grammar: tone border AT REST, tone label, mono sub; soft tone wash
+   on hover — semantic color pairs straight from the token sheet. */
+.grades {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.grade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 12px 8px;
+  border: 1px solid var(--sa-edge);
+  border-radius: var(--sa-radius-node);
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+}
+.grade:hover {
+  transform: translateY(-2px);
+}
+.grade:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+.gradeLabel {
+  font-family: var(--sa-body-live);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.gradeSub {
+  font-family: var(--sa-mono-live);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sa-ink-faint);
+}
+.grade[data-grade='again'] {
+  border-color: var(--sa-danger-border);
+}
+.grade[data-grade='again'] .gradeLabel {
+  color: var(--sa-danger);
+}
+.grade[data-grade='again']:hover {
+  background: var(--sa-danger-soft);
+}
+.grade[data-grade='hard'] {
+  border-color: var(--sa-warning-border);
+}
+.grade[data-grade='hard'] .gradeLabel {
+  color: var(--sa-warning);
+}
+.grade[data-grade='hard']:hover {
+  background: var(--sa-warning-soft);
+}
+.grade[data-grade='good'] {
+  border-color: var(--sa-accent-border);
+}
+.grade[data-grade='good'] .gradeLabel {
+  color: var(--sa-accent-text);
+}
+.grade[data-grade='good']:hover {
+  background: var(--sa-accent-soft);
+}
+.grade[data-grade='easy'] {
+  border-color: var(--sa-success-border);
+}
+.grade[data-grade='easy'] .gradeLabel {
+  color: var(--sa-success);
+}
+.grade[data-grade='easy']:hover {
+  background: var(--sa-success-soft);
+}
+
+.foot {
+  margin: 20px 0 0;
+  text-align: center;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
+}
+
+/* ── "Queue clear" summary — success-toned card (empty AND done states) ── */
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(24, 182, 99, 0.35); /* design-literal summary border */
+  border-radius: 18px;
+  background: rgba(24, 182, 99, 0.04); /* design-literal summary wash */
+  padding: clamp(32px, 5vw, 52px);
+}
+.summaryEnter {
+  animation: doneRise 520ms var(--sa-ease) both;
+}
+.summaryKicker {
+  margin: 0;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-success);
+}
+.summaryTitle {
+  margin: 16px 0 10px;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 36px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.summaryBody {
+  margin: 0 auto;
+  color: var(--sa-ink-muted);
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Real-session stat chips (memories / XP / streak) — mono chips, tone pairs. */
+.doneStats {
+  list-style: none;
+  margin: 14px 0 12px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 10px;
+}
+.doneStat {
+  padding: 5px 13px;
+  border: 1px solid var(--sa-edge);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-muted-soft);
+}
+.doneStat[data-tone='xp'] {
+  border-color: var(--sa-accent-border);
+  background: var(--sa-accent-soft);
+}
+.doneStat[data-tone='streak'] {
+  border-color: var(--sa-warning-border);
+  background: var(--sa-warning-soft);
+}
+.doneStatNum {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--sa-ink);
+}
+
+/* Primary summary action — the design's success-filled pill. */
+.summaryActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.successBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #04130c; /* design-literal ink-on-success */
+  background: var(--sa-success);
+  text-decoration: none;
+  font-family: var(--sa-body-live);
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: var(--sa-radius-lg);
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+  white-space: nowrap;
+}
+.successBtn:hover {
+  background: #2acd79; /* design-literal success hover */
+}
+.successBtn:active {
+  transform: translateY(1px);
+}
+
+@keyframes revealRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes doneRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 560px) {
+  .grades {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .grade,
+  .showBtn,
+  .successBtn {
+    transition: none;
+  }
+  .answerArea,
+  .summaryEnter {
+    animation: none;
+  }
+}

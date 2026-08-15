@@ -1,0 +1,109 @@
+{
+  "phase": 10,
+  "name": "Content jobs engine v2",
+  "completed_at": "2026-06-24T22:15:00Z",
+  "status": "passed_with_worker_observation_note",
+  "objective": "Create a source-grounded daily/weekly/content draft machine from approved Discord knowledge and real member activity, with manual approval before public posting.",
+  "implemented": [
+    "Added lib/discord/content-jobs-v2.ts with an approved source registry over closed questions, helpful answers, published content queue items, and approved/published drafts.",
+    "Added strict Zod schema parsing for generated content job drafts.",
+    "Added Phase 10 quality gates for approved source IDs, source citations, source markers, concrete action, target channel, draft type, policy, content quality, and privacy guard.",
+    "Added DeepSeek-backed content job generation with source provenance, prompt version, trace metadata, quality gates, and source refs stored on discord_content_drafts.metadata.",
+    "Added generic approved-draft publishing that refuses unapproved drafts, writes published_message_id, and idempotently skips already-published drafts.",
+    "Added admin dashboard publish action and button for approved drafts in /admin/discord.",
+    "Added a live smoke script that creates an approved source, generates a resource drop through DeepSeek, approves it, publishes it to Discord, verifies duplicate publish is blocked, deletes the Discord smoke message, and cleans up database rows.",
+    "Added focused Playwright proof that an approved content job draft can be published from the admin dashboard and cleaned up."
+  ],
+  "files": [
+    "app/admin/discord/actions.ts",
+    "app/admin/discord/page.tsx",
+    "lib/discord/content-jobs-v2.ts",
+    "package.json",
+    "scripts/discord/smoke-content-jobs-v2.ts",
+    "tests/e2e/admin/discord-content-jobs-v2.spec.ts",
+    "tests/unit/run.mjs",
+    "docs/evidence/discord/content-jobs-v2-smoke.json"
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "evidence": "164 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "tsc --noEmit completed successfully"
+    },
+    {
+      "command": "npm run discord:smoke-content-jobs-v2",
+      "result": "passed",
+      "evidence": "DeepSeek generated resource_drop draft b7f4badd-f6ff-452e-a9c6-afe9b9bca248 from approved queue source b0978bef-75cf-47ba-a6f8-9b90734b03ab; qualityScore 90 at generation and 100 after persisted evaluation; published Discord message 1519464724226637825; second publish skipped as already_published; message and rows cleaned up.",
+      "evidencePath": "docs/evidence/discord/content-jobs-v2-smoke.json"
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-content-jobs-v2.spec.ts --project=chromium",
+      "result": "passed_after_selector_fix",
+      "evidence": "Initial run failed because the seeded draft title appeared in both AI approval and RAG corpus panels. Test was fixed to target the publish button test id. Rerun passed: 1 Chromium test passed, live Discord message deleted, database rows cleaned up."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "Next.js production build completed. Existing non-blocking warnings remain for middleware deprecation, edge runtime static generation behavior, and academy cookie dynamic-render logs."
+    },
+    {
+      "command": "DISCORD_GATEWAY_WORKER_ID=phase10-gateway-once npm run discord:gateway:once -- --message-content",
+      "result": "passed",
+      "evidence": "Fresh one-off gateway worker opened successfully."
+    },
+    {
+      "command": "railway status",
+      "result": "passed",
+      "evidence": "Project sageideas-discord-worker, environment production, service sagebot-gateway."
+    },
+    {
+      "command": "railway logs --lines 80 --json",
+      "result": "observed_with_warning",
+      "evidence": "Production gateway container is running and reconnecting. Logs repeatedly show socket open and socket closed 4000/1006, confirming Phase 14 durability hardening is still needed."
+    },
+    {
+      "command": "Supabase observation query for last 24h discord_messages, gateway_events, heartbeats, and dead letters",
+      "result": "passed_with_worker_warning",
+      "evidence": "2 real member messages captured in last 24h from JD_PGA in introductions; 102 gateway events; 0 gateway dead letters; sagebot-main heartbeat status heartbeat_ack at 2026-06-24T22:12:43.848Z with sequence 247."
+    }
+  ],
+  "what_is_real": [
+    "Approved Discord sources can now become pending content drafts with source provenance.",
+    "Generated drafts use a strict JSON schema instead of free-form parsing.",
+    "Generic/thin/private/unsupported drafts are blocked before insertion as pending public drafts.",
+    "Admins can publish approved drafts from /admin/discord.",
+    "Published drafts store the Discord message ID.",
+    "Duplicate publish is idempotently blocked by the published draft state.",
+    "Live smoke and E2E both posted to Discord and deleted their test messages."
+  ],
+  "what_is_not_done": [
+    "The production gateway worker is alive, but logs show recurring close code 4000 and occasional 1006 reconnects.",
+    "The system has captured real member messages, but real community knowledge volume is still low because the server is early.",
+    "The generic content jobs v2 layer exists, but cron orchestration for every job type should be hardened in Phase 14 rather than crammed into this phase."
+  ],
+  "earned_scores_after_phase": {
+    "content_engine_quality": "90-95",
+    "admin_dashboard": "90-94",
+    "rag_corpus_quality": "88-94",
+    "gateway_capture_and_classification": "86-92",
+    "durable_worker_reliability": "75-84"
+  },
+  "remaining_master_plan": [
+    "Phase 11 - Quiz/challenge/lab engine v2",
+    "Phase 12 - Member intelligence and nudges",
+    "Phase 13 - Admin operating cockpit v2",
+    "Phase 14 - Durable jobs/retries/dead letters and gateway close-code cleanup",
+    "Phase 15 - Premium workflows",
+    "Phase 16 - Growth loop/public proof",
+    "Phase 17 - Observability/cost/quality intelligence v2",
+    "Phase 18 - Security/privacy/abuse hardening",
+    "Phase 19 - Scale/load/failure readiness",
+    "Phase 20 - Final scorecard and operating rhythm"
+  ],
+  "next_phase": "Phase 11 - Quiz/challenge/lab engine v2"
+}

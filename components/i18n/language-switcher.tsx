@@ -39,8 +39,8 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Change language"
-        className="inline-flex items-center gap-1.5 rounded-full border border-[var(--sage-border,rgba(255,255,255,0.14))] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted,#cbd0d6)] transition-colors hover:border-[var(--sage-accent,#3D5AFE)] hover:text-white"
+        aria-label={`Change language, current language ${active.toUpperCase()}`}
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-[var(--sage-border,rgba(255,255,255,0.14))] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-muted,#cbd0d6)] transition-colors hover:border-[var(--sage-accent,#3D5AFE)] hover:text-white"
       >
         <span aria-hidden>🌐</span>
         {active.toUpperCase()}

@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { isApprovedDiscordMember, type MemberApplicationProfile } from './engagement';
+import { captureDiscordKnowledgeCandidateFromMessage } from './knowledge-candidates';
 import { approveDiscordMember } from './onboarding';
 import { baseDiscordName } from './sage-rest';
 
@@ -102,7 +103,7 @@ export function detectDiscordMessageKind(input: {
 }): NormalizedDiscordMessage['detectedKind'] {
   const channel = input.channelBaseName ?? '';
   const content = (input.content ?? '').toLowerCase();
-  if (channel === 'wins') return 'win';
+  if (channel === 'wins-showcase') return 'win';
   if (channel === 'review-queue') return 'review';
   if (channel === 'resources') return 'resource';
   if (channel === 'build-lab') return 'project';
@@ -184,6 +185,19 @@ export async function recordDiscordGatewayHeartbeat(input: {
   metadata?: Json;
 }): Promise<void> {
   try {
+    let previousMetadata: Record<string, unknown> = {};
+    try {
+      const { data } = await supabaseAdmin()
+        .from('discord_gateway_heartbeats')
+        .select('metadata')
+        .eq('worker_id', input.workerId)
+        .maybeSingle();
+      previousMetadata = typeof data?.metadata === 'object' && data.metadata ? data.metadata as Record<string, unknown> : {};
+    } catch (err) {
+      console.warn('[discord/gateway] heartbeat metadata read failed', err instanceof Error ? err.message : err);
+    }
+    const nextMetadata = typeof input.metadata === 'object' && input.metadata ? input.metadata as Record<string, unknown> : {};
+    const metadata = { ...previousMetadata, ...nextMetadata } as Json;
     await supabaseAdmin().from('discord_gateway_heartbeats').upsert({
       worker_id: input.workerId,
       status: input.status,
@@ -192,7 +206,7 @@ export async function recordDiscordGatewayHeartbeat(input: {
       resume_gateway_url: input.resumeGatewayUrl ?? null,
       last_close_code: input.lastCloseCode ?? null,
       last_close_reason: input.lastCloseReason ?? null,
-      metadata: input.metadata ?? {},
+      metadata,
       last_seen_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }, { onConflict: 'worker_id' });
@@ -317,6 +331,38 @@ export async function recordDiscordMessageCreate(
       authorUserId: message.authorUserId,
       payload: { detected_kind: message.detectedKind, channel_base_name: message.channelBaseName },
     });
+    try {
+      const candidate = await captureDiscordKnowledgeCandidateFromMessage(sb, message);
+      await recordDiscordGatewayEvent({
+        eventType: candidate.queued ? 'message_candidate_queued' : 'message_candidate_skipped',
+        discordMessageId: message.discordMessageId,
+        channelId: message.channelId,
+        authorUserId: message.authorUserId,
+        payload: {
+          category: candidate.classification.category,
+          recommended_action: candidate.classification.recommended_action,
+          confidence: candidate.classification.confidence,
+          quality_score: candidate.classification.quality_score,
+          content_value_score: candidate.classification.content_value_score,
+          queue_id: candidate.queueId,
+          reason: candidate.reason,
+        },
+      });
+    } catch (err) {
+      await recordDiscordGatewayDeadLetter({
+        workerId: 'gateway-ingestion',
+        eventType: 'message_candidate_failed',
+        error: err instanceof Error ? err.message : String(err),
+        payload: { discord_message_id: message.discordMessageId, channel_id: message.channelId },
+      });
+      await recordDiscordGatewayEvent({
+        eventType: 'message_candidate_failed',
+        discordMessageId: message.discordMessageId,
+        channelId: message.channelId,
+        authorUserId: message.authorUserId,
+        payload: { error: err instanceof Error ? err.message : String(err) },
+      });
+    }
     return message;
   } catch (err) {
     await recordDiscordGatewayEvent({

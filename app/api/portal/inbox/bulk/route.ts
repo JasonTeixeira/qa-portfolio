@@ -57,7 +57,8 @@ export async function POST(req: Request) {
       .is('read_at', null)
       .select('id');
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error('[portal/inbox/bulk] mark_read failed', error);
+      return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
     }
     updated = data ?? [];
   } else {

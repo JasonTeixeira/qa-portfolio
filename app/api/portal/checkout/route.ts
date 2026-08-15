@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import Stripe from 'stripe';
 import { getPortalContext } from '@/lib/portal/auth';
+import { getServiceCatalog } from '@/lib/portal/queries';
 import { badRequest, fromZodError } from '@/lib/api-errors';
 
 const schema = z.object({
@@ -19,7 +20,17 @@ export async function POST(req: Request) {
   });
   if (!parsed.success) return fromZodError(parsed.error);
   const { priceId } = parsed.data;
-  const recurring = parsed.data.recurring === '1' || parsed.data.recurring === 'true';
+
+  // Allowlist: only price IDs from the active service catalog may be purchased, and the
+  // catalog — not the client — dictates one-time vs subscription. This blocks a user from
+  // checking out arbitrary (internal/test/one-off) Stripe prices or forging the charge mode.
+  const catalog = (await getServiceCatalog()) as Array<{
+    stripe_price_id?: string | null;
+    recurring?: boolean | null;
+  }>;
+  const item = catalog.find((c) => c.stripe_price_id === priceId);
+  if (!item) return badRequest('That item is not available.');
+  const recurring = !!item.recurring;
 
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) return badRequest('Stripe not configured');

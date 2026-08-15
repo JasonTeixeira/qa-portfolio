@@ -1,0 +1,125 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "generated": {
+    "ok": true,
+    "dateKey": "2099-01-08",
+    "quizKey": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+    "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+    "quizId": "b14c7c19-82be-476d-8ff3-080d6b366a69",
+    "challengeId": "229ff998-c6cc-4d4a-9a3b-ceff733ce947",
+    "qualityScore": 82,
+    "sourceIds": [
+      "discord_content_queue:a2fbab74-4a60-4b9d-840c-aefc833d1b97"
+    ],
+    "model": "deepseek-v4-flash",
+    "observability": {
+      "traceId": "77aaf6cf0fd330ba8aa1084ea52692b5",
+      "observationId": "2c21e40d2423e831",
+      "provider": "local"
+    }
+  },
+  "sourceId": "discord_content_queue:a2fbab74-4a60-4b9d-840c-aefc833d1b97",
+  "quizDate": "2099-01-13T12:00:00.000Z",
+  "challengeDate": "2099-01-13T12:00:00.000Z",
+  "firstQuiz": {
+    "quiz": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+      "prompt": "You are building an approval-gated AI automation that sends a customer invoice. Which step must include a human decision point?",
+      "options": [
+        "Before the external send or charge",
+        "When the AI drafts the invoice",
+        "After the invoice is emailed",
+        "When the trigger fires"
+      ],
+      "correctAnswer": "Before the external send or charge",
+      "explanation": "Approval-gated automations require a human decision point before any irreversible action like sending or charging, as stated in the source."
+    },
+    "correct": true,
+    "points": 10,
+    "alreadyAttempted": false
+  },
+  "secondQuiz": {
+    "quiz": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-quiz",
+      "prompt": "You are building an approval-gated AI automation that sends a customer invoice. Which step must include a human decision point?",
+      "options": [
+        "Before the external send or charge",
+        "When the AI drafts the invoice",
+        "After the invoice is emailed",
+        "When the trigger fires"
+      ],
+      "correctAnswer": "Before the external send or charge",
+      "explanation": "Approval-gated automations require a human decision point before any irreversible action like sending or charging, as stated in the source."
+    },
+    "correct": true,
+    "points": 0,
+    "alreadyAttempted": true
+  },
+  "firstSubmission": {
+    "id": "94f2b6f4-2a47-41c8-ad13-7cb37df09a58",
+    "challenge": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "title": "Design an Approval-Gated Automation Spec",
+      "prompt": "Map a trigger, input, approval owner, failure path, and proof artifact for an automation that posts a public announcement only after human approval.\n\nConstraints:\n- Use a trigger that is a specific event (e.g., form submission, schedule, webhook).\n- Include at least one failure path (e.g., approval denied, timeout).\n\nRubric:\n- Spec includes all five required elements: trigger, input, irreversible action, approval owner, failure path.\n- Failure path is realistic and actionable.\n- Test case is specific and verifiable.",
+      "deliverable": "A diagram or checklist that names the trigger, data input, irreversible action, human approval owner, failure path, and one test case.",
+      "points": 25
+    },
+    "points": 0,
+    "status": "pending",
+    "alreadySubmitted": false
+  },
+  "duplicateSubmission": {
+    "id": "94f2b6f4-2a47-41c8-ad13-7cb37df09a58",
+    "challenge": {
+      "key": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "title": "Design an Approval-Gated Automation Spec",
+      "prompt": "Map a trigger, input, approval owner, failure path, and proof artifact for an automation that posts a public announcement only after human approval.\n\nConstraints:\n- Use a trigger that is a specific event (e.g., form submission, schedule, webhook).\n- Include at least one failure path (e.g., approval denied, timeout).\n\nRubric:\n- Spec includes all five required elements: trigger, input, irreversible action, approval owner, failure path.\n- Failure path is realistic and actionable.\n- Test case is specific and verifiable.",
+      "deliverable": "A diagram or checklist that names the trigger, data input, irreversible action, human approval owner, failure path, and one test case.",
+      "points": 25
+    },
+    "points": 0,
+    "status": "duplicate",
+    "alreadySubmitted": true
+  },
+  "approved": {
+    "ok": true,
+    "pointsAwarded": 25,
+    "submission": {
+      "id": "94f2b6f4-2a47-41c8-ad13-7cb37df09a58",
+      "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "discordUserId": "phase-11-learning-member",
+      "username": "phase-11-learning-smoke",
+      "summary": "Built an approval-gated automation spec with trigger, input, human decision point, failure path, artifact link, and test case proof.",
+      "link": "https://example.com/phase-11-learning-lab-proof",
+      "status": "approved",
+      "pointsAwarded": 25
+    }
+  },
+  "featured": {
+    "ok": true,
+    "pointsAwarded": 25,
+    "submission": {
+      "id": "94f2b6f4-2a47-41c8-ad13-7cb37df09a58",
+      "challengeKey": "lab-v2-2099-01-08-approval-gated-ai-automation-challenge",
+      "discordUserId": "phase-11-learning-member",
+      "username": "phase-11-learning-smoke",
+      "summary": "Built an approval-gated automation spec with trigger, input, human decision point, failure path, artifact link, and test case proof.",
+      "link": "https://example.com/phase-11-learning-lab-proof",
+      "status": "featured",
+      "pointsAwarded": 25
+    }
+  },
+  "attemptsCount": 1,
+  "quizLedgerCount": 1,
+  "challengeLedgerCount": 1,
+  "submissionsCount": 1,
+  "points": {
+    "total": 35,
+    "streak": 1,
+    "longestStreak": 1,
+    "rank": 1
+  },
+  "startedAt": "2026-06-24T22:58:12.580Z",
+  "finishedAt": "2026-06-24T22:58:23.460Z"
+}

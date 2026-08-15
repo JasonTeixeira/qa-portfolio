@@ -1,0 +1,238 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Progress"><div data-dc-tpl="6" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 15px; line-height: 1.6; overflow-x: hidden;">
+
+  
+  <div data-dc-tpl="7" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(16px, 3vw, 28px); border-bottom: 1px solid rgb(30, 30, 36); background: rgba(11, 11, 14, 0.9);">
+    <a data-dc-tpl="8" href="Sage Dashboard Cockpit.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit;">
+      <span data-dc-tpl="9" style="display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 11px;">◆</span>
+      <span data-dc-tpl="10" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">← cockpit</span>
+    </a>
+    <span data-dc-tpl="11" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">Progress · mastery over time</span>
+    <sage-app-nav data-dc-tpl="12" current="progress"></sage-app-nav>
+    <sage-notify data-dc-tpl="13" style="margin-left: auto;"></sage-notify>
+  </div>
+
+  <main data-dc-tpl="14" style="max-width: 1180px; margin: 0px auto; padding: clamp(32px, 5vw, 52px) clamp(16px, 3vw, 32px) 72px;">
+    <h1 data-dc-tpl="15" style="margin: 0px 0px 6px; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(28px, 3.2vw, 40px); letter-spacing: -0.025em;">The <em data-dc-tpl="16" style="font-style: italic; font-weight: 500; color: rgb(143, 160, 255);">honest</em> picture.</h1>
+    <p data-dc-tpl="17" style="margin: 0px 0px 32px; color: rgb(156, 156, 166); max-width: 60ch;">Every number below implies an action. Caps show their repair; dips show their cause.</p>
+
+    
+    <div data-dc-tpl="18" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; margin-bottom: 18px;">
+      <div data-dc-tpl="19" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 10px;">
+        <span data-dc-tpl="20" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Mastery · 12 weeks · Course 00</span>
+        <div data-dc-tpl="21" style="display: flex; gap: 18px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(156, 156, 166);">
+          <span data-dc-tpl="22"><span data-dc-tpl="23" style="color: rgb(143, 160, 255);">—</span> mastery</span>
+          <span data-dc-tpl="24"><span data-dc-tpl="25" style="color: rgb(224, 169, 62);">--</span> cap ceiling</span>
+          <span data-dc-tpl="26"><span data-dc-tpl="27" style="color: rgb(229, 72, 77);">●</span> failed proof</span>
+        </div>
+      </div>
+      <svg data-dc-tpl="28" viewBox="0 0 900 220" style="width: 100%; height: auto; display: block;">
+        <line data-dc-tpl="29" x1="40" y1="12" x2="40" y2="190" stroke="#1E1E24" stroke-width="1"></line>
+        <line data-dc-tpl="30" x1="40" y1="190" x2="890" y2="190" stroke="#1E1E24" stroke-width="1"></line>
+        <text data-dc-tpl="31" x="34" y="18" fill="#9598A2" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="end">100</text>
+        <text data-dc-tpl="32" x="34" y="106" fill="#9598A2" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="end">50</text>
+        <text data-dc-tpl="33" x="34" y="192" fill="#9598A2" font-size="10" font-family="JetBrains Mono, monospace" text-anchor="end">0</text>
+        <polyline data-dc-tpl="34" points="40,168 110,150 180,128 250,118 320,96 390,100 460,78 530,84 600,60 670,64 740,52 890,52" fill="none" stroke="#3D5AFE" stroke-width="2.5"></polyline>
+        <polyline data-dc-tpl="35" points="530,84 600,60 670,64 740,52 890,52" fill="none" stroke="#E0A93E" stroke-width="1.5" stroke-dasharray="5 5"></polyline>
+        <circle data-dc-tpl="36" cx="390" cy="100" r="5" fill="#0B0B0E" stroke="#E5484D" stroke-width="2.5"></circle>
+        <circle data-dc-tpl="37" cx="740" cy="52" r="5" fill="#0B0B0E" stroke="#E5484D" stroke-width="2.5"></circle>
+        <text data-dc-tpl="38" x="390" y="122" fill="#E5484D" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">rollback proof failed</text>
+        <text data-dc-tpl="39" x="740" y="36" fill="#E0A93E" font-size="9.5" font-family="JetBrains Mono, monospace" text-anchor="middle">capped at 78 — repair open</text>
+      </svg>
+    </div>
+
+    <div data-dc-tpl="40" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px;">
+      
+      <div data-dc-tpl="41" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; display: flex; flex-direction: column; gap: 18px;">
+        <span data-dc-tpl="42" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Per course</span>
+        
+          <div data-dc-tpl="44">
+            <div data-dc-tpl="45" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px;">
+              <span data-dc-tpl="46" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Engineering Judgment</span></span>
+              <span data-dc-tpl="47" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62);"><span class="sc-interp">78 · capped</span></span>
+            </div>
+            <div data-dc-tpl="48" style="position: relative; height: 6px; border-radius: 3px; background: rgb(26, 26, 32);">
+              <div data-dc-tpl="49" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 78%; border-radius: 3px; background: linear-gradient(90deg, rgb(61, 90, 254), rgb(110, 131, 255));"></div>
+            </div>
+            <div data-dc-tpl="50" style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
+              <span data-dc-tpl="51" style="color: rgb(149, 152, 162);"><span class="sc-interp">9/16 lessons · module 3</span></span>
+              <span data-dc-tpl="52" style="color: rgb(24, 182, 99); font-weight: 600; cursor: pointer;"><span class="sc-interp">repair → 91</span></span>
+            </div>
+          </div>
+        
+          <div data-dc-tpl="44">
+            <div data-dc-tpl="45" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px;">
+              <span data-dc-tpl="46" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Concept Maps</span></span>
+              <span data-dc-tpl="47" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99);"><span class="sc-interp">92</span></span>
+            </div>
+            <div data-dc-tpl="48" style="position: relative; height: 6px; border-radius: 3px; background: rgb(26, 26, 32);">
+              <div data-dc-tpl="49" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 92%; border-radius: 3px; background: linear-gradient(90deg, rgb(24, 182, 99), rgb(58, 205, 133));"></div>
+            </div>
+            <div data-dc-tpl="50" style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
+              <span data-dc-tpl="51" style="color: rgb(149, 152, 162);"><span class="sc-interp">30/30 lessons · complete</span></span>
+              <span data-dc-tpl="52" style="color: rgb(149, 152, 162); font-weight: 600; cursor: pointer;"><span class="sc-interp">recheck in 3d</span></span>
+            </div>
+          </div>
+        
+          <div data-dc-tpl="44">
+            <div data-dc-tpl="45" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px;">
+              <span data-dc-tpl="46" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Programming Fundamentals</span></span>
+              <span data-dc-tpl="47" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99);"><span class="sc-interp">88</span></span>
+            </div>
+            <div data-dc-tpl="48" style="position: relative; height: 6px; border-radius: 3px; background: rgb(26, 26, 32);">
+              <div data-dc-tpl="49" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 88%; border-radius: 3px; background: linear-gradient(90deg, rgb(24, 182, 99), rgb(58, 205, 133));"></div>
+            </div>
+            <div data-dc-tpl="50" style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
+              <span data-dc-tpl="51" style="color: rgb(149, 152, 162);"><span class="sc-interp">18/18 · certified</span></span>
+              <span data-dc-tpl="52" style="color: rgb(143, 160, 255); font-weight: 600; cursor: pointer;"><span class="sc-interp">view cert</span></span>
+            </div>
+          </div>
+        
+      </div>
+
+      
+      <div data-dc-tpl="53" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px;">
+        <span data-dc-tpl="54" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Course 00 · by dimension</span>
+        <div data-dc-tpl="55" style="display: flex; flex-direction: column; gap: 12px; margin-top: 18px;">
+          
+            <div data-dc-tpl="57" style="display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center;">
+              <span data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">FRAME</span></span>
+              <div data-dc-tpl="59" style="height: 6px; border-radius: 3px; background: rgb(26, 26, 32); overflow: hidden;"><div data-dc-tpl="60" style="height: 100%; width: 90%; background: rgb(61, 90, 254); border-radius: 3px;"></div></div>
+              <span data-dc-tpl="61" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(182, 182, 192); text-align: right;"><span class="sc-interp">90</span></span>
+            </div>
+          
+            <div data-dc-tpl="57" style="display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center;">
+              <span data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">MAP</span></span>
+              <div data-dc-tpl="59" style="height: 6px; border-radius: 3px; background: rgb(26, 26, 32); overflow: hidden;"><div data-dc-tpl="60" style="height: 100%; width: 86%; background: rgb(61, 90, 254); border-radius: 3px;"></div></div>
+              <span data-dc-tpl="61" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(182, 182, 192); text-align: right;"><span class="sc-interp">86</span></span>
+            </div>
+          
+            <div data-dc-tpl="57" style="display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center;">
+              <span data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">DECIDE</span></span>
+              <div data-dc-tpl="59" style="height: 6px; border-radius: 3px; background: rgb(26, 26, 32); overflow: hidden;"><div data-dc-tpl="60" style="height: 100%; width: 84%; background: rgb(61, 90, 254); border-radius: 3px;"></div></div>
+              <span data-dc-tpl="61" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(182, 182, 192); text-align: right;"><span class="sc-interp">84</span></span>
+            </div>
+          
+            <div data-dc-tpl="57" style="display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center;">
+              <span data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62);"><span class="sc-interp">PROOF</span></span>
+              <div data-dc-tpl="59" style="height: 6px; border-radius: 3px; background: rgb(26, 26, 32); overflow: hidden;"><div data-dc-tpl="60" style="height: 100%; width: 58%; background: rgb(224, 169, 62); border-radius: 3px;"></div></div>
+              <span data-dc-tpl="61" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62); text-align: right;"><span class="sc-interp">58</span></span>
+            </div>
+          
+            <div data-dc-tpl="57" style="display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center;">
+              <span data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">TRANSFER</span></span>
+              <div data-dc-tpl="59" style="height: 6px; border-radius: 3px; background: rgb(26, 26, 32); overflow: hidden;"><div data-dc-tpl="60" style="height: 100%; width: 81%; background: rgb(61, 90, 254); border-radius: 3px;"></div></div>
+              <span data-dc-tpl="61" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(182, 182, 192); text-align: right;"><span class="sc-interp">81</span></span>
+            </div>
+          
+        </div>
+        <div data-dc-tpl="62" style="margin-top: 18px; border-top: 1px solid rgb(30, 30, 36); padding-top: 14px; font-size: 13px; color: rgb(149, 152, 162);"><span data-dc-tpl="63" style="color: rgb(224, 169, 62); font-weight: 600;">PROOF is the cap.</span> One repair lifts the whole course to 91 — <a data-dc-tpl="64" href="Sage Lesson Player.dc.html" style="color: rgb(143, 160, 255); text-decoration: none;">open the repair →</a></div>
+      </div>
+
+      
+      <div data-dc-tpl="65" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px;">
+        <span data-dc-tpl="66" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Evidence velocity</span>
+        <div data-dc-tpl="67" style="display: flex; align-items: flex-end; gap: 8px; height: 110px; margin-top: 20px;">
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 33%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S1</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 67%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S2</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 33%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S3</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 100%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S4</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 67%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S5</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 67%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S6</span></div>
+            </div>
+          
+            <div data-dc-tpl="69" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="70" style="height: 100%; border-radius: 4px 4px 2px 2px; background: rgb(24, 182, 99);"></div>
+              <div data-dc-tpl="71" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">S7</span></div>
+            </div>
+          
+        </div>
+        <div data-dc-tpl="72" style="margin-top: 16px; font-size: 13px; color: rgb(149, 152, 162);">14 artifacts in 12 weeks · <span data-dc-tpl="73" style="color: rgb(24, 182, 99);">3 this sprint</span> — the portfolio compounds.</div>
+      </div>
+    </div>
+
+    
+    <div data-dc-tpl="74" style="margin-top: 28px; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); overflow: hidden;">
+      <div data-dc-tpl="75" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-bottom: 1px solid rgb(30, 30, 36); flex-wrap: wrap;">
+        <span data-dc-tpl="76" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Skill graph · concepts, not courses</span>
+        <span data-dc-tpl="77" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(224, 169, 62);">recall targets the weakest first</span>
+      </div>
+      <div data-dc-tpl="78" style="display: grid; grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto; gap: 14px; align-items: center; padding: 14px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+        <span data-dc-tpl="79" style="font-size: 14px; font-weight: 600;">Idempotency</span>
+        <div data-dc-tpl="80" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);"><div data-dc-tpl="81" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 94%; border-radius: 4px; background: linear-gradient(90deg, rgb(24, 182, 99), rgb(58, 205, 133));"></div></div>
+        <span data-dc-tpl="82" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99); white-space: nowrap;">94 · solid</span>
+        <span data-dc-tpl="83" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); white-space: nowrap;">next recall 12d</span>
+      </div>
+      <div data-dc-tpl="84" style="display: grid; grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto; gap: 14px; align-items: center; padding: 14px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+        <span data-dc-tpl="85" style="font-size: 14px; font-weight: 600;">Blast radius</span>
+        <div data-dc-tpl="86" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);"><div data-dc-tpl="87" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 88%; border-radius: 4px; background: linear-gradient(90deg, rgb(24, 182, 99), rgb(58, 205, 133));"></div></div>
+        <span data-dc-tpl="88" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99); white-space: nowrap;">88 · solid</span>
+        <span data-dc-tpl="89" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); white-space: nowrap;">next recall 7d</span>
+      </div>
+      <div data-dc-tpl="90" style="display: grid; grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto; gap: 14px; align-items: center; padding: 14px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+        <span data-dc-tpl="91" style="font-size: 14px; font-weight: 600;">Retry semantics</span>
+        <div data-dc-tpl="92" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);"><div data-dc-tpl="93" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 71%; border-radius: 4px; background: linear-gradient(90deg, rgb(224, 169, 62), rgb(235, 192, 106));"></div><div data-dc-tpl="94" style="position: absolute; left: 71%; width: 12%; top: 0px; bottom: 0px; background: repeating-linear-gradient(45deg, rgba(224, 169, 62, 0.25) 0px, rgba(224, 169, 62, 0.25) 4px, transparent 4px, transparent 8px); border-radius: 0px 4px 4px 0px;"></div></div>
+        <span data-dc-tpl="95" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62); white-space: nowrap;">71 · decaying</span>
+        <span data-dc-tpl="96" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(224, 169, 62); white-space: nowrap;">last held 9d ago</span>
+      </div>
+      <div data-dc-tpl="97" style="display: grid; grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto; gap: 14px; align-items: center; padding: 14px 24px;">
+        <span data-dc-tpl="98" style="font-size: 14px; font-weight: 600;">Rollback proofs</span>
+        <div data-dc-tpl="99" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);"><div data-dc-tpl="100" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 52%; border-radius: 4px; background: linear-gradient(90deg, rgb(229, 72, 77), rgb(240, 112, 95));"></div><div data-dc-tpl="101" style="position: absolute; left: 52%; width: 20%; top: 0px; bottom: 0px; background: repeating-linear-gradient(45deg, rgba(229, 72, 77, 0.25) 0px, rgba(229, 72, 77, 0.25) 4px, transparent 4px, transparent 8px); border-radius: 0px 4px 4px 0px;"></div></div>
+        <span data-dc-tpl="102" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(229, 72, 77); white-space: nowrap;">52 · fading</span>
+        <a data-dc-tpl="103" href="Sage Recall Queue.dc.html" class="scp0" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(143, 160, 255); text-decoration: none; white-space: nowrap;">recall now →</a>
+      </div>
+      <div data-dc-tpl="104" style="padding: 13px 24px; border-top: 1px solid rgb(30, 30, 36); font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); font-style: italic;">decay is visible on purpose — a fading bar is a comeback trigger, not a verdict</div>
+    </div>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{}">
+class Component extends DCLogic {
+  renderVals() {
+    const green = '#18B663', amber = '#E0A93E', accent = '#3D5AFE';
+    return {
+      courses: [
+        { name: 'Engineering Judgment', score: '78 · capped', scoreColor: amber, pct: '78%', bar: 'linear-gradient(90deg, #3D5AFE, #6E83FF)', meta: '9/16 lessons · module 3', action: 'repair → 91', actionColor: green },
+        { name: 'Concept Maps', score: '92', scoreColor: green, pct: '92%', bar: 'linear-gradient(90deg, #18B663, #3ACD85)', meta: '30/30 lessons · complete', action: 'recheck in 3d', actionColor: '#9598A2' },
+        { name: 'Programming Fundamentals', score: '88', scoreColor: green, pct: '88%', bar: 'linear-gradient(90deg, #18B663, #3ACD85)', meta: '18/18 · certified', action: 'view cert', actionColor: '#8FA0FF' },
+      ],
+      dims: [
+        { name: 'FRAME', pct: '90%', val: '90', color: accent, labelColor: '#9598A2', valColor: '#B6B6C0' },
+        { name: 'MAP', pct: '86%', val: '86', color: accent, labelColor: '#9598A2', valColor: '#B6B6C0' },
+        { name: 'DECIDE', pct: '84%', val: '84', color: accent, labelColor: '#9598A2', valColor: '#B6B6C0' },
+        { name: 'PROOF', pct: '58%', val: '58', color: amber, labelColor: amber, valColor: amber },
+        { name: 'TRANSFER', pct: '81%', val: '81', color: accent, labelColor: '#9598A2', valColor: '#B6B6C0' },
+      ],
+      velocity: [1, 2, 1, 3, 2, 2, 3].map((v, i) => ({
+        h: Math.round((v / 3) * 100) + '%',
+        color: i === 6 ? green : '#26262E',
+        label: 'S' + (i + 1),
+      })),
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>

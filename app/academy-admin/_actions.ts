@@ -96,7 +96,54 @@ export async function saveLesson(input: LessonInput): Promise<{ ok: boolean; err
 export async function deleteLesson(courseSlug: string, lessonSlug: string): Promise<{ ok: boolean }> {
   if (!(await getAdminUser())) return { ok: false }
   const admin = supabaseAdmin()
-  await admin.from('academy_lessons').delete().eq('course_slug', courseSlug).eq('slug', lessonSlug)
+  const { error } = await admin
+    .from('academy_lessons')
+    .delete()
+    .eq('course_slug', courseSlug)
+    .eq('slug', lessonSlug)
+  if (error) {
+    console.error('[academy-admin] deleteLesson failed', error)
+    return { ok: false }
+  }
+  // Keep the denormalized course lesson-count accurate — otherwise it drifts high on
+  // every deletion and the dashboard totals diverge from the certificate engine.
+  const { count } = await admin
+    .from('academy_lessons')
+    .select('id', { count: 'exact', head: true })
+    .eq('course_slug', courseSlug)
+    .eq('status', 'published')
+  await admin
+    .from('academy_courses')
+    .update({ lessons: count ?? 0, updated_at: new Date().toISOString() })
+    .eq('slug', courseSlug)
   revalidatePath(`/academy-admin/${courseSlug}`)
+  revalidatePath(`/academy/course/${courseSlug}`)
+  return { ok: true }
+}
+
+/**
+ * Certificate revocation — the credential's trust guarantee made operational.
+ * Revoke ONLY when the proofs behind a cert fail; the public /verify/[code] endpoint
+ * immediately reports REVOKED. Reinstate reverses it (e.g. proofs re-verified).
+ */
+export async function setCertificateRevocation(
+  certCode: string,
+  revoked: boolean,
+  reason?: string,
+): Promise<{ ok: boolean; error?: string }> {
+  const adminUser = await getAdminUser()
+  if (!adminUser) return { ok: false, error: 'Not authorized' }
+  if (!certCode) return { ok: false, error: 'cert_code required' }
+  const admin = supabaseAdmin()
+  const { error } = await admin
+    .from('academy_certificates')
+    .update({
+      revoked,
+      revoked_at: revoked ? new Date().toISOString() : null,
+      revoked_reason: revoked ? (reason ?? 'Proofs failed verification') : null,
+    })
+    .eq('cert_code', certCode)
+  if (error) return { ok: false, error: error.message }
+  revalidatePath(`/academy/certificate/${certCode}`)
   return { ok: true }
 }

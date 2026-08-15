@@ -1,0 +1,338 @@
+/*
+ * Weekly Challenge — reskinned to the Sage Academy design. Palette pinned to
+ * the design's exact hex (bg #0B0B0E, surface #111115, lines #1E1E24 / #2A2A33,
+ * text #F2EFE9, muted #9598A2 / #9C9CA6, faint #4A4A54, accent #3D5AFE,
+ * accent-text #8FA0FF, green #18B663, gold #E0A93E, red #E5484D). Mono for
+ * every number/label. HONEST build: no fabricated names, votes, ranks, or
+ * participant counts — the brief is a real field note.
+ */
+
+.page {
+  --c-bg: #0b0b0e;
+  --c-surface: #111115;
+  --c-text: #f2efe9;
+  --c-muted: #9598a2;
+  --c-muted-2: #9c9ca6;
+  --c-line: #1e1e24;
+  --c-line-2: #2a2a33;
+  --c-faint: #4a4a54;
+  --c-accent: #3d5afe;
+  --c-accent-text: #8fa0ff;
+  --c-green: #18b663;
+  --c-gold: #e0a93e;
+  --c-red: #e5484d;
+
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 52px) clamp(16px, 3vw, 32px) 88px;
+  color: var(--c-text);
+  font-family: var(--ac-font-body, 'Hanken Grotesk', system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── meta bar ── */
+
+.metaBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-bottom: clamp(24px, 4vw, 36px);
+}
+
+.metaMono {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  color: var(--c-muted);
+}
+
+.cadence {
+  margin-left: auto;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  color: var(--c-gold);
+  border: 1px solid rgba(224, 169, 62, 0.35);
+  padding: 5px 11px;
+  border-radius: 14px;
+  white-space: nowrap;
+}
+
+/* ── hero ── */
+
+.hero {
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c-accent-text);
+}
+
+.title {
+  margin: 12px 0 0;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.motif {
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10.5px;
+  color: var(--c-muted);
+}
+
+.motifStep {
+  color: var(--c-accent-text);
+}
+
+.motifArrow {
+  color: var(--c-faint);
+}
+
+/* ── grid ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 18px;
+}
+
+/* ── cards ── */
+
+.card {
+  border: 1px solid var(--c-line);
+  border-radius: 16px;
+  background: var(--c-surface);
+  padding: 26px;
+}
+
+.cardLabel {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+}
+
+.cardLabelRed {
+  color: var(--c-red);
+}
+
+.cardLabelAccent {
+  color: var(--c-accent-text);
+}
+
+.brief {
+  margin: 0 0 14px;
+  font-size: 15px;
+  color: #b6b6c0;
+  text-wrap: pretty;
+}
+
+.briefLead {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-style: italic;
+  color: var(--c-text);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.chip {
+  border: 1px solid var(--c-line-2);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 11.5px;
+  color: #b6b6c0;
+  background: #141418;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  white-space: nowrap;
+}
+
+.mustBlock {
+  margin-top: 18px;
+  border-top: 1px solid var(--c-line);
+  padding-top: 16px;
+}
+
+.mustLabel {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-muted);
+  margin-bottom: 10px;
+}
+
+.mustRow {
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 13.5px;
+  color: #b6b6c0;
+}
+
+.mustNum {
+  color: var(--c-accent-text);
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+}
+
+.briefLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  color: var(--c-accent-text);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.briefLink:hover {
+  color: #b8c3ff;
+}
+
+/* ── action card (honest submit area) ── */
+
+.actionCard {
+  border: 1px solid rgba(61, 90, 254, 0.4);
+  border-radius: 16px;
+  background: linear-gradient(165deg, #14141c, #111115);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.actionBody {
+  margin: 0;
+  font-size: 14px;
+  color: var(--c-muted-2);
+  text-wrap: pretty;
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  background: var(--c-accent);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 0 22px rgba(61, 90, 254, 0.35);
+  transition: background 150ms ease;
+}
+
+.btnPrimary:hover {
+  background: #6e83ff;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--c-accent-text);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border: 1px solid var(--c-line-2);
+  border-radius: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.btnGhost:hover {
+  border-color: rgba(61, 90, 254, 0.5);
+  color: #b8c3ff;
+}
+
+.actionNote {
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: var(--c-faint);
+  margin: 4px 0 0;
+}
+
+/* ── standings (honest empty state) ── */
+
+.standings {
+  margin-top: 18px;
+  border: 1px solid var(--c-line);
+  border-radius: 16px;
+  background: var(--c-surface);
+  overflow: hidden;
+}
+
+.standingsHeader {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--c-line);
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-muted);
+}
+
+.emptyState {
+  padding: 40px 24px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.emptyTitle {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--c-text);
+}
+
+.emptyBody {
+  font-size: 13.5px;
+  color: var(--c-muted-2);
+  max-width: 46ch;
+  margin: 0;
+}
+
+.rubricNote {
+  padding: 13px 24px;
+  border-top: 1px solid var(--c-line);
+  font-family: var(--ac-font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: var(--c-faint);
+  font-style: italic;
+}

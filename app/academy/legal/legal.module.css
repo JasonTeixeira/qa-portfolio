@@ -1,0 +1,190 @@
+/* Academy Legal page — scoped styles (matches Sage Academy Phase-2 design) */
+
+.root {
+  --bg: #0b0b0e;
+  --surface: #111115;
+  --line: #1e1e24;
+  --line-2: #2a2a33;
+  --text: #f2efe9;
+  --muted: #9598a2;
+  --muted-2: #9c9ca6;
+  --faint: #4a4a54;
+  --accent: #3d5afe;
+  --accent-text: #8fa0ff;
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ac-font-body, "Hanken Grotesk", system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px clamp(16px, 3vw, 28px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.diamond {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+}
+
+.brandName {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.topnote {
+  margin-left: auto;
+  font-family: var(--ac-font-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 4vw, 48px) 88px;
+}
+
+.h1 {
+  margin: 0 0 8px;
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: -0.024em;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: var(--muted-2);
+  font-size: 14.5px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-family: var(--ac-font-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 11.5px;
+  padding: 9px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  color: var(--muted-2);
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease,
+    background 150ms ease;
+}
+
+.tab:hover {
+  border-color: #343440;
+  color: var(--text);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+  border-radius: 20px;
+}
+
+.tabActive {
+  border-color: rgba(61, 90, 254, 0.6);
+  color: var(--text);
+  background: rgba(61, 90, 254, 0.12);
+}
+
+.summaryCard {
+  border: 1px solid rgba(61, 90, 254, 0.35);
+  border-radius: 14px;
+  background: rgba(61, 90, 254, 0.05);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.summaryLabel {
+  font-family: var(--ac-font-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+
+.summaryBody {
+  margin: 0;
+  font-size: 14.5px;
+  color: #b6b6c0;
+  text-wrap: pretty;
+}
+
+.section {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sectionNum {
+  font-family: var(--ac-font-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 10px;
+  color: var(--faint);
+  margin-bottom: 6px;
+}
+
+.sectionTitle {
+  font-family: var(--ac-font-display, Fraunces, Georgia, serif);
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.sectionBody {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted-2);
+  max-width: 70ch;
+  text-wrap: pretty;
+}
+
+.footer {
+  margin-top: 24px;
+  font-family: var(--ac-font-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 10.5px;
+  color: var(--faint);
+}
+
+::selection {
+  background: rgba(61, 90, 254, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab {
+    transition-duration: 0.01ms;
+  }
+}

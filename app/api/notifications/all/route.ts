@@ -43,7 +43,8 @@ export async function GET(req: Request) {
 
   const { data, count, error } = await query;
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[notifications/all] query failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 
   type NotifRow = {

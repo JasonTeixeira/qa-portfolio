@@ -1,0 +1,277 @@
+/* EarnMoment — restrained reward reveal.
+   Compositor-only motion: transform / opacity / clip-path. No width/height/top/
+   left/margin animation, no glow. Disciplined-dark, --ac-* tokens only. */
+
+.inlineWrap {
+  display: inline-block;
+}
+
+/* ---- card ----------------------------------------------------------------- */
+
+.card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1.5rem 1.75rem;
+  min-width: 16rem;
+  max-width: 22rem;
+  text-align: center;
+  background: var(--ac-surface, #111115);
+  border: 1px solid var(--ac-rule, #1e1e24);
+  border-radius: calc(var(--ac-radius, 6px) * 2);
+  box-shadow: var(--ac-shadow, 0 8px 24px rgb(0 0 0 / 0.28));
+  /* the kind accent, defaulted per-kind below */
+  --earn-accent: var(--ac-accent, #3d6bff);
+  /* a hairline accent rule along the top edge — semantic, not decorative glow */
+  border-top: 2px solid var(--earn-accent);
+}
+
+.card:focus {
+  outline: none;
+}
+.card:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--earn-accent) 60%, transparent);
+  outline-offset: 3px;
+}
+
+.glyph {
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--earn-accent);
+  /* tiny tile so the glyph reads as a token, not loose text */
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--earn-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--earn-accent) 35%, transparent);
+}
+
+.eyebrow {
+  margin: 0.4rem 0 0;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--earn-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--ac-font-display);
+  font-size: var(--ac-step-2, 1.4rem);
+  line-height: 1.2;
+  color: var(--ac-ink, #f2efe9);
+}
+
+.sub {
+  margin: 0.1rem 0 0;
+  font-size: var(--ac-step-0, 1rem);
+  color: var(--ac-ink-soft, #c0c0ca);
+}
+
+/* ---- amplified figure (the dopamine token) -------------------------------- */
+
+/* The reward figure — "+120 XP", "Lv.4". A confident display element, not
+   sub-text. Solid accent colour (never opacity on text), tabular numerals so a
+   counting figure doesn't jitter. Decorative emphasis; meaning is in title/sub. */
+.figure {
+  margin: 0.55rem 0 0.15rem;
+  font-family: var(--ac-font-display);
+  font-size: var(--ac-step-4, 2.6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--earn-accent);
+}
+
+.dismiss {
+  margin-top: 0.9rem;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--ac-font-mono);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ac-ink, #f2efe9);
+  background: var(--ac-surface-2, #141418);
+  border: 1px solid var(--ac-rule-strong, #2a2a33);
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    border-color var(--ac-dur-fast, 150ms) var(--ac-ease, ease),
+    background var(--ac-dur-fast, 150ms) var(--ac-ease, ease),
+    color var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+.dismiss:hover {
+  border-color: color-mix(in srgb, var(--earn-accent) 50%, transparent);
+  background: color-mix(in srgb, var(--earn-accent) 8%, transparent);
+}
+.dismiss:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--earn-accent) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* ---- kind accents (semantic, from tokens) --------------------------------- */
+
+.kind-badge {
+  --earn-accent: var(--ac-accent, #3d6bff);
+}
+.kind-level {
+  --earn-accent: var(--ac-mastery, #4ade80);
+}
+.kind-streak {
+  --earn-accent: var(--ac-pending, #e8b75a);
+}
+.kind-cert {
+  --earn-accent: var(--ac-accent-text, #8fa0ff);
+}
+
+/* ---- magnitude hierarchy -------------------------------------------------- */
+/* The rarer/bigger the reward, the more visual weight. data-mag is 1 (streak)
+   … 4 (cert), set from magnitudeWeight(kind). Restraint, not spectacle: a
+   measured step in glyph weight, top-rule thickness, and shadow depth so a
+   certificate reads heavier than a streak tick without changing the system. */
+
+.card[data-mag='1'] {
+  border-top-width: 2px;
+}
+.card[data-mag='2'] {
+  border-top-width: 2px;
+}
+.card[data-mag='3'] {
+  border-top-width: 3px;
+  box-shadow:
+    var(--ac-shadow, 0 8px 24px rgb(0 0 0 / 0.28)),
+    0 0 0 1px color-mix(in srgb, var(--earn-accent) 14%, transparent);
+}
+.card[data-mag='4'] {
+  border-top-width: 4px;
+  box-shadow:
+    var(--ac-shadow, 0 8px 24px rgb(0 0 0 / 0.28)),
+    0 0 0 1px color-mix(in srgb, var(--earn-accent) 22%, transparent);
+}
+
+/* heavier glyph tile as magnitude climbs */
+.card[data-mag='3'] .glyph {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.85rem;
+  background: color-mix(in srgb, var(--earn-accent) 16%, transparent);
+}
+.card[data-mag='4'] .glyph {
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 2.1rem;
+  background: color-mix(in srgb, var(--earn-accent) 18%, transparent);
+  border-width: 1.5px;
+}
+
+/* ---- reveal motion (compositor-only) -------------------------------------- */
+
+/* one-shot entrance: scale + opacity + a left-to-right clip wipe.
+   transform-origin centered so the card breathes in from its own center. */
+.card.hidden {
+  opacity: 0;
+  transform: scale(0.94);
+  clip-path: inset(0 100% 0 0);
+}
+
+.card.revealed {
+  opacity: 1;
+  transform: scale(1);
+  clip-path: inset(0 0 0 0);
+  transition:
+    opacity 360ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    transform 480ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    clip-path 520ms var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1));
+  will-change: transform, clip-path, opacity;
+}
+
+/* reduced-motion: fully present, no entrance animation, text fully opaque. */
+.card.reduced {
+  opacity: 1;
+  transform: none;
+  clip-path: none;
+  transition: none;
+}
+
+/* ---- overlay -------------------------------------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: var(--ac-gutter, 1.5rem);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--ac-bg, #0b0b0e) 78%, transparent);
+  /* fade the scrim, not the content text */
+  opacity: 0;
+  transition: opacity 320ms var(--ac-ease, ease);
+}
+.overlay.revealed .backdrop {
+  opacity: 1;
+}
+.overlay.reduced .backdrop {
+  opacity: 1;
+  transition: none;
+}
+
+/* the panel sits above the scrim */
+.overlay .card {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- hero treatment (overlay = a moment, not a tile) ---------------------- */
+/* The overlay is the captured hero: one earned reward, centered and focal.
+   Bigger frame, more generous rhythm, a celebratory display figure. Still
+   compositor-only on reveal; size is static layout, not animated. */
+.card[data-variant='overlay'] {
+  gap: 0.5rem;
+  padding: clamp(2.25rem, 1.5rem + 3vw, 3.5rem) clamp(2rem, 1.5rem + 3vw, 4rem);
+  min-width: min(26rem, 90vw);
+  max-width: 34rem;
+  border-radius: calc(var(--ac-radius, 6px) * 3);
+}
+
+.card[data-variant='overlay'] .glyph {
+  width: 4rem;
+  height: 4rem;
+  font-size: 2.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.card[data-variant='overlay'] .eyebrow {
+  font-size: var(--ac-step-0, 1rem);
+  letter-spacing: 0.22em;
+}
+
+.card[data-variant='overlay'] .title {
+  font-size: var(--ac-step-4, 2.6rem);
+  line-height: 1.08;
+}
+
+/* the dopamine token at hero scale — large, confident, never cheap */
+.card[data-variant='overlay'] .figure {
+  margin: 0.7rem 0 0.2rem;
+  font-size: var(--ac-step-6, 4.5rem);
+  line-height: 0.9;
+}
+
+.card[data-variant='overlay'] .sub {
+  font-size: var(--ac-step-0, 1rem);
+}
+
+/* a top-magnitude hero (cert) earns the most generous frame */
+.card[data-variant='overlay'][data-mag='4'] {
+  max-width: 36rem;
+}

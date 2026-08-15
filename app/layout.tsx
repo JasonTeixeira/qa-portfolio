@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Fraunces, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+// Official Sage Academy design tokens (--sa-* namespace) — extracted verbatim
+// from design-source/sage-academy-2026; consumed by the academy lesson player.
+import '@/styles/academy-tokens.css'
 import { headers } from 'next/headers'
 import { MarketingChrome } from '@/components/marketing-chrome'
 import { CookieBanner } from '@/components/studio/cookie-banner'
@@ -211,7 +214,22 @@ export default async function RootLayout({
   const isPortal = h.get('x-portal') === '1'
   const pathname = (h.get('x-pathname') ?? '').split('?')[0]
   const isLivingHomepage = pathname === '/'
-  const isCinematicPath = pathname === '/path' || pathname === '/ascent' || pathname.startsWith('/learn') || pathname.startsWith('/proto')
+  // The gated Interview product is a self-contained app: every page carries its own
+  // InterviewShell nav (or the full-bleed session/verdict bars), so the marketing
+  // chrome's fixed header is redundant and its fixed position overlaps the mock-room
+  // controls. Render the whole gated product chromeless. Public mastery/checkout keep
+  // the marketing chrome (site nav + cookie banner for conversion/SEO).
+  const isInterviewProduct =
+    pathname.startsWith('/academy/interview') &&
+    !pathname.startsWith('/academy/interview/mastery') &&
+    !pathname.startsWith('/academy/interview/checkout')
+  const isCinematicPath =
+    pathname === '/path' ||
+    pathname === '/ascent' ||
+    pathname.startsWith('/learn') ||
+    pathname.startsWith('/proto') ||
+    isInterviewProduct
+  const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
   return (
     <html
@@ -230,7 +248,7 @@ export default async function RootLayout({
         {/* DNS-prefetch for GitHub API (GitHubActivity widget) */}
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>
-      <body className="font-sans antialiased min-h-screen flex flex-col">
+      <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         {/* Pre-paint intro state — sets body.living-intro synchronously on the
             first homepage visit so the cinematic splash covers from frame 1.
             Without this, the homepage hero paints for one frame before JS adds
@@ -239,7 +257,7 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{if(location.pathname!=='/')return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
+              "(function(){try{if(location.pathname!=='/')return;var p=new URLSearchParams(location.search);if(p.get('intent')==='hire'||p.has('source')||p.has('utm_source')||p.has('utm_campaign'))return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
           }}
         />
         <script
@@ -256,8 +274,8 @@ export default async function RootLayout({
             {!isCinematicPath && <MarketingChrome position="top" />}
             {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
             {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && <MarketingChrome position="bottom" />}
-            {!isPortal && !isCinematicPath && <CookieBanner />}
+            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+            {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
             {!isPortal && !isPremiumLanding && <ExitIntentModal />}
             <WebVitalsReporter />
             <ClientErrorReporter />

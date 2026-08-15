@@ -4,51 +4,51 @@
   "resultCount": 5,
   "topResults": [
     {
-      "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
-      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "chunk_id": "b9bd6fdb-cea3-4258-85ed-22f037035eab",
+      "title": "SAGEBOT_DISCORD_OPERATING_FAQ.md",
       "source_type": "resource",
-      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "vector_score": 0.862236,
+      "source_url": "/docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "vector_score": 0.880769,
       "keyword_score": 0,
       "hybrid_score": 0.010656
+    },
+    {
+      "chunk_id": "3f18ade9-2e6c-429b-a88a-6a5eadbba24e",
+      "title": "SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "source_type": "resource",
+      "source_url": "/docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "vector_score": 0.875851,
+      "keyword_score": 0,
+      "hybrid_score": 0.010484
+    },
+    {
+      "chunk_id": "c8cd2764-eeca-48d9-8457-009cd5d81e43",
+      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "source_type": "resource",
+      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "vector_score": 0.880072,
+      "keyword_score": 0,
+      "hybrid_score": 0.009848
     },
     {
       "chunk_id": "64b40667-5fde-47c6-9009-5834939d0415",
       "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
       "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "vector_score": 0.854631,
-      "keyword_score": 0,
-      "hybrid_score": 0.010484
-    },
-    {
-      "chunk_id": "e3350d3a-715f-494c-901d-a1abe99a6d70",
-      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_type": "resource",
-      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "vector_score": 0.853974,
+      "vector_score": 0.855424,
       "keyword_score": 0,
       "hybrid_score": 0.010317
     },
     {
-      "chunk_id": "782fbcf7-55aa-49a8-aae1-0574f6760350",
-      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "chunk_id": "79623708-1409-402e-8f03-647ed6862950",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource",
-      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
-      "vector_score": 0.843065,
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "vector_score": 0.874981,
       "keyword_score": 0,
-      "hybrid_score": 0.010156
-    },
-    {
-      "chunk_id": "471156d9-992b-4512-8333-44188ffd3ec4",
-      "title": "rag-system-build-plan.txt",
-      "source_type": "resource",
-      "source_url": "/docs/specs/rag-system-build-plan.txt",
-      "vector_score": 0.832324,
-      "keyword_score": 0,
-      "hybrid_score": 0.01
+      "hybrid_score": 0.010317
     }
   ],
-  "startedAt": "2026-06-21T13:32:53.514Z",
-  "finishedAt": "2026-06-21T13:32:54.460Z"
+  "startedAt": "2026-06-25T20:38:47.997Z",
+  "finishedAt": "2026-06-25T20:38:49.821Z"
 }

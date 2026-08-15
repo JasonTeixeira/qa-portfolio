@@ -1,0 +1,1202 @@
+{
+  "ok": true,
+  "version": "local-verification-evidence-v1",
+  "timestamp": "2026-06-30T13:25:58.700Z",
+  "command": "npm run verify:local",
+  "mutationMode": "local_file_evidence_only",
+  "summary": {
+    "localVerificationPassed": true,
+    "worldClassEligible": false,
+    "averageScore": 83,
+    "releaseGateFailures": [],
+    "ragEvalCoverage": {
+      "releaseReady": true,
+      "evaluatedQuestionCount": 65,
+      "expectedQuestionCount": 65,
+      "missingEvalKeyCount": 0,
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "requiresExplicitApproval": true
+    },
+    "operatingProof": {
+      "status": "blocked",
+      "blockedLanes": [
+        "approved_discord_knowledge:0/10",
+        "rag_discord_sources:0/10",
+        "public_proof_assets:0/4",
+        "premium_workflow_proof:0/1"
+      ],
+      "knownBlockers": [
+        "approved_discord_knowledge_sources_below_target:0/10",
+        "rag_discord_sources_below_target:0/10",
+        "public_proof_assets_below_target:0/4",
+        "public_proof_apply_clicks_below_target:0/1",
+        "applications_submitted_below_target:0/1",
+        "premium_workflow_proof_below_target:0/1"
+      ]
+    },
+    "actionPlan": {
+      "localOnlyCommands": [
+        "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+        "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+        "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+        "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+      ],
+      "explicitApprovalCommands": [
+        "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
+      ],
+      "liveOperatorActions": [
+        "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+        "Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.",
+        "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+        "Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.",
+        "Drive at least one measured Discord application from the approval-gated growth funnel.",
+        "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+      ]
+    },
+    "nonClaimRule": "Local verification passing does not mean world-class or 95+ until RAG coverage and real operating proof lanes pass."
+  },
+  "gates": [
+    {
+      "command": "npm run test:unit",
+      "passed": true
+    },
+    {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    {
+      "command": "npm run lint",
+      "passed": true
+    },
+    {
+      "command": "npm run build",
+      "passed": true
+    },
+    {
+      "command": "npm run ops:approval-boundaries",
+      "passed": true
+    },
+    {
+      "command": "npm run discord:release-local",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": {
+    "approvalBoundaryCheck": "docs/evidence/engineering-loop/approval-boundary-check-latest.json",
+    "finalScorecard": "docs/evidence/discord-ai-os/phase-20-final-scorecard.json",
+    "operatingCycle": "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+    "contentFactory": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+    "evalSeedQuality": "docs/evidence/rag/eval-seed-quality.json",
+    "evalSeedDryRun": "docs/evidence/rag/eval-seed-dry-run.json",
+    "evalCoverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
+    "evalExecutionPacket": "docs/evidence/rag/eval-execution-packet.json",
+    "evalMissingPreflight": "docs/evidence/rag/eval-missing-preflight.json",
+    "evalRecoveryPlan": "docs/evidence/rag/eval-recovery-plan.json",
+    "discordCorpusReadiness": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+    "durableJobsReadiness": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+    "securityPrivacyReadiness": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+    "observabilityQualityReadiness": "docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
+    "proofRehearsalReadiness": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+    "channelMatrixReadiness": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+    "contentFactoryReadiness": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+    "premiumWorkflowReadiness": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+    "publicGrowthReadiness": "docs/evidence/engineering-loop/public-growth-readiness-latest.json",
+    "proofIntakeReadiness": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+    "proofBacklog": "docs/evidence/engineering-loop/discord-proof-backlog-latest.json",
+    "weeklyProofPacket": "docs/evidence/engineering-loop/discord-weekly-proof-packet-latest.json",
+    "proofCandidateAudit": "docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json",
+    "proofSourceVolumeScan": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+    "proofSourceRecoveryPlan": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+    "approvedKnowledgePacket": "docs/evidence/engineering-loop/approved-knowledge-operating-packet-latest.json",
+    "operatorBrief": "docs/evidence/engineering-loop/discord-operator-brief-latest.json",
+    "gatewayCaptureDiagnosis": "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+    "gatewayOperatingPacket": "docs/evidence/engineering-loop/gateway-operating-packet-latest.json",
+    "worldClassReadiness": "docs/evidence/engineering-loop/world-class-readiness-latest.json"
+  },
+  "scorecard": {
+    "ok": true,
+    "averageScore": 83,
+    "worldClassEligible": false,
+    "worldClassThreshold": 95,
+    "releaseGateFailures": [],
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ],
+    "runKey": "phase-20-final-1782825951052"
+  },
+  "approvalBoundaryCheck": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "localReleaseRoots": [
+      "verify:local",
+      "discord:release-local"
+    ],
+    "riskyScriptCount": 23,
+    "riskyScriptsIncludedInLocalRelease": [],
+    "failures": [],
+    "releaseMeaning": "This check only inspects package scripts and writes local evidence. It does not push, deploy, post to Discord, mutate Supabase, change Stripe, or run RAG evaluation."
+  },
+  "operatingCycle": {
+    "status": "blocked",
+    "ok": false,
+    "cycleKey": "2026-W27",
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 3,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "approvedMembers": 7,
+    "onboardedMembers": 7,
+    "activeMembers7d": 7,
+    "premiumMembers": 0,
+    "premiumWorkflowProofs": 0,
+    "publicProofApplyClicks": 0,
+    "knownBlockers": [
+      "approved_discord_knowledge_sources_below_target:0/10",
+      "rag_discord_sources_below_target:0/10",
+      "public_proof_assets_below_target:0/4",
+      "public_proof_apply_clicks_below_target:0/1",
+      "applications_submitted_below_target:0/1",
+      "premium_workflow_proof_below_target:0/1"
+    ]
+  },
+  "gatewayCapture": {
+    "ok": true,
+    "status": "healthy",
+    "usableMessageCount": 1,
+    "rootCauses": [],
+    "nextActions": [
+      "Run npm run discord:classify-messages, then npm run discord:queue-content to create reviewable candidates."
+    ],
+    "releaseMeaning": "Gateway capture diagnosis reads live Supabase gateway/message rows and writes local evidence only. It does not post messages, change Discord, mutate Supabase, approve candidates, or satisfy operating proof."
+  },
+  "ragEvalSeeds": {
+    "ok": true,
+    "dryRunOk": true,
+    "seedCount": 65,
+    "seededDryRun": 65,
+    "categoryCounts": {
+      "onboarding": 10,
+      "content_engine": 20,
+      "quiz_challenge_points": 10,
+      "premium": 10,
+      "rag_ai_build": 15
+    },
+    "issues": []
+  },
+  "ragEvalCoverageReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "releaseReady": true,
+    "expectedQuestionCount": 65,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "missingEvalKeys": [],
+    "unexpectedEvalKeys": [],
+    "blockers": [],
+    "nextActions": [
+      "No eval coverage action needed before the next scorecard run."
+    ]
+  },
+  "ragEvalExecutionPacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "not_required",
+    "selectedMatchesCoverage": true,
+    "missingEvalKeys": [],
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "requiresExplicitApproval": false,
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This packet plans the approved RAG eval coverage run. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
+  "ragEvalMissingPreflight": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready_for_explicitly_approved_eval",
+    "selectedMatchesCoverage": true,
+    "missingEvalKeys": [],
+    "sourceReadyCount": 0,
+    "termCoverageReadyCount": 0,
+    "readyForApprovedEvalCount": 0,
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
+  },
+  "ragEvalRecoveryPlan": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready",
+    "missingEvalCount": 0,
+    "failedEvalCount": 0,
+    "missingEvalBacklogReadyCount": 0,
+    "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+  },
+  "discordCorpusReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "approvedOnlyCollector": true,
+      "adminApprovalSurface": true,
+      "smokeProofCommandAvailable": "tsx --env-file=.env.local scripts/rag/smoke-discord-authoritative-sync.ts",
+      "approvedKnowledgeCount": 0,
+      "discordRagSourceCount": 0,
+      "reviewableCandidateCount": 6
+    },
+    "checkCount": 8,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not treat raw discord_messages rows as authoritative RAG sources.",
+      "Do not treat captured or pending content queue rows as approved knowledge.",
+      "Do not count smoke-created and cleaned-up RAG rows as live corpus volume.",
+      "Do not improve RAG corpus quality score until real approved Discord knowledge reaches the target and is synced."
+    ],
+    "nextOperatingProofRequired": [
+      "Capture real non-bot Discord questions, answers, builds, reviews, wins, and resources.",
+      "Approve at least 10 high-signal Discord knowledge sources from the admin dashboard.",
+      "Run the approved Discord RAG sync and verify rag_sources/rag_documents provenance.",
+      "With explicit approval, rerun non-dry RAG eval and final scorecard after sync."
+    ],
+    "releaseMeaning": "Discord corpus readiness proves approved-only ingestion wiring, admin surfaces, smoke proof paths, and current empty-corpus blockers. It does not mutate Supabase, sync live RAG, create knowledge rows, or prove real corpus volume."
+  },
+  "durableJobsReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "requiredJobCount": 12,
+      "smokeProofOk": true,
+      "registrySynced": 12,
+      "duplicateDetected": true,
+      "deadLetterCreated": true,
+      "deadLetterRetryQueued": true,
+      "deadLetterResolved": true,
+      "adminSurface": true
+    },
+    "checkCount": 7,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count smoke-created and cleaned-up job rows as live production job health.",
+      "Do not count registered jobs as reliable unless idempotency, retry, and dead-letter paths are proven.",
+      "Do not treat an empty dead-letter table as proof unless jobs are actively running and observable.",
+      "Do not publish from scheduled jobs unless the draft is approved and the job run is idempotent."
+    ],
+    "nextOperatingProofRequired": [
+      "Run scheduled daily and weekly jobs in production long enough to observe real run rows.",
+      "Review open dead letters every operating day and resolve or retry them from the admin dashboard.",
+      "Confirm duplicate scheduled invocations do not create duplicate posts, points, or RAG sync rows.",
+      "Track job success rate and dead-letter count in the admin dashboard during each operating cycle."
+    ],
+    "releaseMeaning": "Durable jobs readiness proves local registry, idempotency, retry, dead-letter, admin, migration, and smoke-proof wiring. It does not mutate Supabase, run jobs, publish Discord posts, or prove production scheduled job health."
+  },
+  "securityPrivacyReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "smokeProofOk": true,
+      "livePermissionAuditPassed": true,
+      "promptInjectionBlocked": true,
+      "privacyGuardBlocksPrivateData": true,
+      "reportAbuseWired": true,
+      "adminActionsGuarded": true,
+      "publicProofPrivacyGate": true
+    },
+    "checkCount": 9,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count this local readiness file as a fresh live Discord permission audit.",
+      "Do not treat automated abuse classification as a moderator decision or ban/mute action.",
+      "Do not publish public proof unless privacy score passes and permission status is explicit or anonymized.",
+      "Do not process RAG or premium questions that include prompt injection, secrets, credentials, or private member/client data."
+    ],
+    "nextOperatingProofRequired": [
+      "Run the live security/privacy smoke after role, channel permission, interaction, RAG, premium, or public-proof policy changes.",
+      "Review moderator decisions for reported abuse and false positives during each operating cycle.",
+      "Audit unapproved member visibility and premium/team-ops restrictions after Discord channel changes.",
+      "Exercise export/delete handling when a real member privacy request arrives."
+    ],
+    "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit."
+  },
+  "observabilityQualityReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "smokeProofOk": true,
+      "deterministicRollupHealthy": true,
+      "liveRollupPersistedInSmoke": true,
+      "localFallbackAndRedaction": true,
+      "traceCostQualityJobRollup": true,
+      "adminSurface": true,
+      "schemaRls": true
+    },
+    "checkCount": 7,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count this local readiness file as live Langfuse trace coverage.",
+      "Do not treat DeepSeek cost estimates from token metadata as billing truth.",
+      "Do not count smoke-created and cleaned-up rows as production quality, cost, job, or trace health.",
+      "Do not claim 95+ observability until real Discord commands, jobs, RAG answers, content drafts, premium responses, and eval runs all produce current rollups.",
+      "Do not treat an empty alert list as healthy if the current window has no live artifacts."
+    ],
+    "nextOperatingProofRequired": [
+      "Run the live Phase 17 smoke after observability, cost, quality, admin, migration, or job schema changes.",
+      "Configure Langfuse env in production and verify at least one real /ask-sage trace appears in Langfuse and in persisted metadata.",
+      "Verify current-window admin rollups after real scheduled jobs, RAG answers, content drafts, premium responses, and eval runs exist.",
+      "Compare estimated DeepSeek token cost against provider billing during weekly operating review.",
+      "Review open alerts and dead letters from /admin/discord during every operating cycle."
+    ],
+    "releaseMeaning": "Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health."
+  },
+  "contentFactory": {
+    "ok": true,
+    "dryRun": true,
+    "planned": 36,
+    "created": 0,
+    "failed": 0
+  },
+  "contentFactoryReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "planned": 36,
+    "created": 0,
+    "minQualityScore": 90,
+    "channelCoverage": [
+      "accountability",
+      "announcements",
+      "build-lab",
+      "content-queue",
+      "daily-signal",
+      "introductions",
+      "office-hours",
+      "project-submissions",
+      "questions",
+      "resources",
+      "review-queue",
+      "wins-showcase"
+    ],
+    "requiredChannelCoverage": {
+      "required": [
+        "announcements",
+        "introductions",
+        "daily-signal",
+        "questions",
+        "build-lab",
+        "project-submissions",
+        "review-queue",
+        "content-queue",
+        "office-hours",
+        "accountability",
+        "resources",
+        "wins-showcase"
+      ],
+      "missing": []
+    },
+    "channelCadence": [
+      {
+        "channel": "accountability",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Shipping rhythm"
+        ]
+      },
+      {
+        "channel": "announcements",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Weekly operating rhythm"
+        ]
+      },
+      {
+        "channel": "build-lab",
+        "plannedCount": 7,
+        "draftTypes": [
+          "challenge"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "content-queue",
+        "plannedCount": 1,
+        "draftTypes": [
+          "lesson"
+        ],
+        "topics": [
+          "Content engine from real activity"
+        ]
+      },
+      {
+        "channel": "daily-signal",
+        "plannedCount": 7,
+        "draftTypes": [
+          "daily_signal"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "introductions",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Member activation"
+        ]
+      },
+      {
+        "channel": "office-hours",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Live help"
+        ]
+      },
+      {
+        "channel": "project-submissions",
+        "plannedCount": 1,
+        "draftTypes": [
+          "challenge"
+        ],
+        "topics": [
+          "Project proof"
+        ]
+      },
+      {
+        "channel": "questions",
+        "plannedCount": 7,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "resources",
+        "plannedCount": 7,
+        "draftTypes": [
+          "resource_drop"
+        ],
+        "topics": [
+          "Approval-gated AI apps",
+          "Cloud and automation reliability",
+          "Content engines from real questions",
+          "Growth loops and public proof",
+          "Review-driven building",
+          "Websites that convert from proof",
+          "Weekly synthesis"
+        ]
+      },
+      {
+        "channel": "review-queue",
+        "plannedCount": 1,
+        "draftTypes": [
+          "announcement"
+        ],
+        "topics": [
+          "Review-driven building"
+        ]
+      },
+      {
+        "channel": "wins-showcase",
+        "plannedCount": 1,
+        "draftTypes": [
+          "weekly_recap"
+        ],
+        "topics": [
+          "Weekly synthesis"
+        ]
+      }
+    ],
+    "approvalChecklistCount": 7,
+    "proofPromotionRequirements": {
+      "realOperatingProofRequired": true,
+      "requiredEvidence": [
+        "approved draft id",
+        "published Discord message id",
+        "member response or submission id",
+        "admin approval actor and timestamp",
+        "content queue or knowledge candidate id when reused",
+        "privacy review result before public proof",
+        "proof lane target and collection instruction"
+      ],
+      "nonProofExamples": [
+        "dry-run planned draft",
+        "editorial seed without member response",
+        "bot-only message with no engagement",
+        "unapproved raw Discord message"
+      ]
+    },
+    "releaseMeaning": "Content factory readiness only proves local dry-run quality and approval gates. Real operating proof still requires admin-approved publishing, member responses, and weekly growth-cycle evidence."
+  },
+  "channelMatrixReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "channelCount": 20,
+    "approvedMemberChannelCount": 16,
+    "preApprovalChannels": [
+      "start-here"
+    ],
+    "premiumChannels": [
+      "premium",
+      "premium-reviews"
+    ],
+    "staffPrivateChannels": [
+      "team-ops"
+    ],
+    "targetableChannelCount": 16,
+    "blockedVisibilityPolicy": [
+      {
+        "visibility": "pre_approval",
+        "reason": "Content factory must not post into the application gate."
+      },
+      {
+        "visibility": "premium_members",
+        "reason": "Premium content uses premium workflows, not free daily/weekly factory slots."
+      },
+      {
+        "visibility": "staff_private",
+        "reason": "Staff operations are private and not public engagement targets."
+      }
+    ],
+    "proofLaneCoverage": [
+      "approved_discord_knowledge",
+      "onboarding",
+      "operating_admin",
+      "premium_workflow_proof",
+      "public_proof_assets",
+      "rag_discord_sources"
+    ],
+    "releaseMeaning": "Channel matrix readiness proves the local operating design and content-factory targeting rules only. It does not create, delete, rename, reorder, or mutate live Discord channels."
+  },
+  "premiumWorkflowReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "seededProofOk": true,
+      "reviewStatus": "answered",
+      "qualityScore": 100,
+      "lifecycleEvents": [
+        "answered",
+        "assigned",
+        "requested"
+      ],
+      "officeHoursPremiumMember": true,
+      "ragAnswerPresent": true,
+      "retrievalLogPresent": true
+    },
+    "checkCount": 10,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count Premium Member role alone as premium workflow fulfillment.",
+      "Do not count queued premium requests without an answered/completed outcome.",
+      "Do not count seeded smoke proof as live Stripe economics proof.",
+      "Do not grant premium-only answer workflows to users who fail the premium_member authorization check."
+    ],
+    "nextOperatingProofRequired": [
+      "Fulfill one real premium review, premium answer, or office-hours item with a real premium member or explicitly seeded premium scenario.",
+      "Verify Stripe checkout/subscription role sync in the live environment before claiming monetization proof.",
+      "Review premium SLA, response quality, and fulfillment load weekly from /admin/discord.",
+      "Record premium economics separately before changing price or promise."
+    ],
+    "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics."
+  },
+  "publicGrowthReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "proofSummary": {
+      "seededProofOk": true,
+      "privacyBlocksPrivateData": true,
+      "sourceCreated": true,
+      "draftCreated": true,
+      "draftStatus": "pending_approval",
+      "privacyScore": 100,
+      "qualityScore": 100,
+      "utmCampaign": "discord_public_proof"
+    },
+    "checkCount": 9,
+    "failures": [],
+    "antiFakeRules": [
+      "Do not count public proof drafts without approved or anonymized source provenance.",
+      "Do not count privacy-blocked or private member content as public growth proof.",
+      "Do not count a public proof asset toward growth proof without UTM/source attribution.",
+      "Do not count seeded smoke proof as four weekly public proof cycles or real application conversion."
+    ],
+    "nextOperatingProofRequired": [
+      "Create four privacy-safe public proof drafts from approved Discord source material.",
+      "Approve or reject each public proof draft in /admin/discord before external publishing.",
+      "Publish at least one approved public proof asset with tracked apply/join attribution.",
+      "Measure applications, approvals, active members, and premium conversions after each public proof cycle."
+    ],
+    "releaseMeaning": "Public growth readiness proves local wiring and seeded smoke proof only. It does not mutate Supabase, publish externally, create growth events, or prove four weekly public proof cycles."
+  },
+  "proofRehearsalReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "laneCount": 5,
+    "missingOrStale": [],
+    "releaseMeaning": "Readiness for proof rehearsal only. Real 95+ operating proof still requires live gateway capture, approved knowledge, RAG sync, public proof cycles, and premium fulfillment."
+  },
+  "proofIntakeReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "requiredFieldCount": 78,
+    "antiFakeGateSummary": [
+      {
+        "key": "gateway_capture",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "rag_discord_sources",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "public_proof_assets",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "premium_workflow_proof",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredEvidenceFields": true,
+        "blocksSyntheticProof": true
+      }
+    ],
+    "weeklyIntakeOrder": [
+      "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
+      "Review candidates and fill required proof fields.",
+      "Reject private, generic, low-context, or unsupported material.",
+      "Approve reusable knowledge and sync only approved items into RAG.",
+      "Create privacy-safe public proof assets from approved sources.",
+      "Fulfill and log one premium path when premium activity exists.",
+      "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
+    ],
+    "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist."
+  },
+  "proofBacklog": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "blockedLanes": [
+      "approved_discord_knowledge:0/10",
+      "rag_discord_sources:0/10",
+      "public_proof_assets:0/4",
+      "premium_workflow_proof:0/1"
+    ],
+    "nextActions": [
+      "Approve high-signal questions, answers, resources, wins, reviews, or drafts from /admin/discord.",
+      "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+    ]
+  },
+  "weeklyProofPacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "backlogStatus": "blocked",
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "blockedLanes": [
+      "approved_discord_knowledge:0/10",
+      "rag_discord_sources:0/10",
+      "public_proof_assets:0/4",
+      "premium_workflow_proof:0/1"
+    ],
+    "antiFakeGateSummary": [
+      {
+        "key": "gateway_capture",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "rag_discord_sources",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "public_proof_assets",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      },
+      {
+        "key": "premium_workflow_proof",
+        "qualityGateCount": 6,
+        "nonProofExampleCount": 6,
+        "hasRequiredTemplateFields": true,
+        "blocksSyntheticProof": true
+      }
+    ],
+    "releaseMeaning": "Weekly proof packet is an operator collection template. It does not create or satisfy operating proof without real approved Discord, RAG, public proof, and premium records."
+  },
+  "proofCandidateAudit": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "laneCount": 5,
+    "laneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "candidateStates": [
+      "gateway_capture:target_met:1/1",
+      "approved_discord_knowledge:needs_review:0/10",
+      "rag_discord_sources:needs_source_volume:0/10",
+      "public_proof_assets:needs_source_volume:0/4",
+      "premium_workflow_proof:needs_source_volume:0/1"
+    ],
+    "criticalFieldSummary": [
+      {
+        "key": "gateway_capture",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "worker_id",
+          "message_content_enabled",
+          "usable_message_id",
+          "capture_health"
+        ]
+      },
+      {
+        "key": "approved_discord_knowledge",
+        "criticalFieldCount": 3,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "source_type",
+          "reuse_category",
+          "rag_safe"
+        ]
+      },
+      {
+        "key": "rag_discord_sources",
+        "criticalFieldCount": 3,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "rag_source_key",
+          "chunk_count",
+          "eval_or_retrieval_proof"
+        ]
+      },
+      {
+        "key": "public_proof_assets",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "asset_type",
+          "utm_campaign",
+          "publish_status",
+          "growth_tracking_status"
+        ]
+      },
+      {
+        "key": "premium_workflow_proof",
+        "criticalFieldCount": 4,
+        "hasCriticalFields": true,
+        "criticalEvidenceFields": [
+          "premium_path",
+          "authorization_evidence",
+          "sla_status",
+          "fulfillment_summary"
+        ]
+      }
+    ],
+    "nextActions": [
+      "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
+      "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+    ],
+    "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof."
+  },
+  "approvedKnowledgePacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "ready_for_collection",
+    "target": {
+      "current": 0,
+      "target": 10,
+      "remaining": 10,
+      "reviewableCandidates": 6,
+      "sourceVolumeState": "needs_review"
+    },
+    "requiredFieldCount": 18,
+    "weeklySlotCount": 10,
+    "passScore": 80,
+    "antiFakeRules": [
+      "This packet is not operating proof; it is the review contract for collecting operating proof.",
+      "Do not count raw discord_messages rows, smoke rows, deleted rows, dry-run drafts, or generated templates.",
+      "Do not count approved knowledge unless every required field, privacy status, decision reason, and evidence artifact is present.",
+      "Do not sync Discord-derived RAG from raw or private text; sync only the approved/anonymized version.",
+      "Do not claim 95+ content/RAG/growth posture until approved knowledge is synced, evaluated, and used in public proof cycles."
+    ],
+    "nextActions": [
+      "Approve 10 more high-signal Discord knowledge items with this packet.",
+      "Review 6 candidates already visible in source-volume evidence.",
+      "Reject low-context, private, generic, or synthetic candidates instead of trying to fill the target with weak proof.",
+      "Rerun npm run discord:proof-source-scan after approvals."
+    ],
+    "releaseMeaning": "This approved-knowledge packet defines the weekly review contract for the next proof lane. It does not approve records, sync RAG, publish content, call AI models, mutate Supabase, or satisfy operating proof."
+  },
+  "gatewayOperatingPacket": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "proven",
+    "target": {
+      "current": 1,
+      "target": 1,
+      "remaining": 0,
+      "usableMessageState": "fresh_usable_message_proven"
+    },
+    "heartbeat": {
+      "workerId": "sagebot-main",
+      "status": "heartbeat_ack",
+      "ageMinutes": 1,
+      "lastSeenAt": "2026-06-30T13:25:02.422+00:00",
+      "fresh": true,
+      "lastCloseCode": null
+    },
+    "messageContentSignal": {
+      "effectiveEnabled": true,
+      "source": "heartbeat",
+      "identifyEnabled": true,
+      "heartbeatEnabled": true,
+      "identifyCreatedAt": "2026-06-30T12:40:18.938637+00:00"
+    },
+    "requiredFieldCount": 18,
+    "antiFakeRules": [
+      "This packet is not live capture proof; it is the contract for proving live capture.",
+      "Do not count identify-only evidence without a fresh non-bot non-empty message row.",
+      "Do not count empty content, bot messages, deleted messages, smoke rows, dry-run rows, or one-shot local rehearsal rows.",
+      "Do not count stale heartbeat rows or heartbeat rows that lack a link to the current worker proof window.",
+      "Do not count old non-empty messages captured before the current Message Content-enabled identify event.",
+      "Do not claim Discord corpus readiness until capture, classification, candidate queueing, approval, and RAG sync are separately proven."
+    ],
+    "nextActions": [
+      "Run classifier and content queue jobs only with explicit approval for live Supabase mutation.",
+      "Review resulting candidates in /admin/discord and approve durable knowledge items.",
+      "Rerun proof-source scan after approvals."
+    ],
+    "releaseMeaning": "This gateway operating packet converts the latest diagnosis into a live proof contract. It does not run the worker, post messages, change Discord, mutate Supabase, classify messages, or satisfy operating proof."
+  },
+  "proofSourceVolumeScan": {
+    "ok": true,
+    "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
+    "laneReadiness": {
+      "approvedDiscordKnowledge": {
+        "current": 0,
+        "target": 10,
+        "reviewableCandidates": 6,
+        "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
+      },
+      "ragDiscordSources": {
+        "current": 0,
+        "target": 10,
+        "approvedKnowledgeAvailable": 0,
+        "blocker": "Discord RAG sources are 0/10; no approved Discord knowledge exists to sync into RAG."
+      },
+      "publicProofAssets": {
+        "current": 0,
+        "target": 4,
+        "approvedKnowledgeAvailable": 0,
+        "applyClicks": 0,
+        "blocker": "Public proof requires approved Discord knowledge first."
+      },
+      "premiumWorkflowProof": {
+        "current": 0,
+        "target": 1,
+        "premiumMembers": 0,
+        "premiumReviews": 0,
+        "officeHours": 0,
+        "blocker": "No answered/completed premium review or completed office-hours proof row is visible."
+      }
+    },
+    "counts": {
+      "discord_messages.all": 12,
+      "discord_messages.non_empty_visible": 1,
+      "discord_messages.recent_7d_visible": 1,
+      "discord_message_classifications.all": 3,
+      "discord_message_classifications.recommended_action.in": 3,
+      "discord_content_queue.all": 3,
+      "discord_content_queue.status.in": 3,
+      "discord_content_queue.status=published": 0,
+      "discord_questions.all": 0,
+      "discord_questions.status.in": 0,
+      "discord_answers.all": 0,
+      "discord_answers.helpful=true": 0,
+      "discord_content_drafts.all": 35,
+      "discord_content_drafts.approved_with_discord_provenance": 0,
+      "rag_sources.or": 0,
+      "discord_public_proof_sources.all": 0,
+      "discord_public_growth_drafts.status=pending_approval": 0,
+      "discord_public_growth_drafts.status=published": 0,
+      "discord_growth_events.event_type=apply_click": 0,
+      "discord_members.premium_member=true": 0,
+      "discord_premium_review_requests.status.in": 0,
+      "discord_office_hours_queue.status.in": 0
+    },
+    "queryErrors": [],
+    "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof."
+  },
+  "proofSourceRecoveryPlan": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "status": "blocked",
+    "summary": {
+      "laneCount": 4,
+      "blockedLaneCount": 4,
+      "totalShortfall": 25,
+      "nextLane": "approvedDiscordKnowledge"
+    },
+    "laneStates": [
+      {
+        "key": "approvedDiscordKnowledge",
+        "status": "blocked",
+        "sourceVolumeState": "needs_review",
+        "current": 0,
+        "target": 10,
+        "shortfall": 10,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
+      },
+      {
+        "key": "ragDiscordSources",
+        "status": "blocked",
+        "sourceVolumeState": "no_source_volume",
+        "current": 0,
+        "target": 10,
+        "shortfall": 10,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
+      },
+      {
+        "key": "publicProofAssets",
+        "status": "blocked",
+        "sourceVolumeState": "no_source_volume",
+        "current": 0,
+        "target": 4,
+        "shortfall": 4,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
+      },
+      {
+        "key": "premiumWorkflowProof",
+        "status": "blocked",
+        "sourceVolumeState": "needs_fulfillment",
+        "current": 0,
+        "target": 1,
+        "shortfall": 1,
+        "collectionCadenceCount": 3,
+        "acceptanceChecklistCount": 3
+      }
+    ],
+    "antiFakeRuleCount": 4,
+    "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
+  },
+  "operatorBrief": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "blockedLaneCount": 4,
+    "proofSourceRecoveryPlan": {
+      "status": "blocked",
+      "blockedLaneCount": 4,
+      "totalShortfall": 25,
+      "nextLane": "approvedDiscordKnowledge",
+      "laneStates": [
+        {
+          "key": "approvedDiscordKnowledge",
+          "status": "blocked",
+          "sourceVolumeState": "needs_review",
+          "current": 0,
+          "target": 10,
+          "shortfall": 10,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
+        },
+        {
+          "key": "ragDiscordSources",
+          "status": "blocked",
+          "sourceVolumeState": "no_source_volume",
+          "current": 0,
+          "target": 10,
+          "shortfall": 10,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
+        },
+        {
+          "key": "publicProofAssets",
+          "status": "blocked",
+          "sourceVolumeState": "no_source_volume",
+          "current": 0,
+          "target": 4,
+          "shortfall": 4,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
+        },
+        {
+          "key": "premiumWorkflowProof",
+          "status": "blocked",
+          "sourceVolumeState": "needs_fulfillment",
+          "current": 0,
+          "target": 1,
+          "shortfall": 1,
+          "collectionCadenceCount": 3,
+          "acceptanceChecklistCount": 3
+        }
+      ]
+    },
+    "proofLaneKeys": [
+      "gateway_capture",
+      "approved_discord_knowledge",
+      "rag_discord_sources",
+      "public_proof_assets",
+      "premium_workflow_proof"
+    ],
+    "currentReality": "The local system is verified, but real operating proof is still missing. Close gateway capture and blocked proof lanes with real approved community activity before claiming 95+.",
+    "nonClaimRule": "Do not claim world-class, 95+, production-complete, or operating-proof complete until every proof backlog lane is passed from real operating data and the final scorecard is rerun."
+  },
+  "worldClassReadiness": {
+    "ok": true,
+    "mutationMode": "local_file_evidence_only",
+    "releaseDecision": "do_not_claim_world_class",
+    "validation": {
+      "ok": true,
+      "failures": []
+    },
+    "releaseGateFailures": [],
+    "ragEvalMissingPreflight": {
+      "status": "ready_for_explicitly_approved_eval",
+      "ok": true,
+      "missingEvalCount": 0,
+      "readyForApprovedEvalCount": 0,
+      "selectedMatchesCoverage": true,
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "releaseMeaning": "This preflight checks local source readiness for missing eval keys. It does not seed Supabase, call DeepSeek, run retrieval, write rag_eval_results, or satisfy eval coverage."
+    },
+    "ragEvalRecoveryPlan": {
+      "status": "ready",
+      "ok": true,
+      "missingEvalCount": 0,
+      "readyMissingEvalCount": 0,
+      "failedEvalCount": 0,
+      "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage."
+    },
+    "proofSourceRecoveryPlan": {
+      "status": "blocked",
+      "ok": true,
+      "totalShortfall": 25,
+      "blockedLaneCount": 4,
+      "nextLaneKey": "approvedDiscordKnowledge",
+      "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof."
+    },
+    "immediateActionCount": 16
+  },
+  "remainingGaps": [
+    "Deploy or run the gateway worker with Message Content Intent proven, then capture a fresh non-bot non-empty Discord message.",
+    "Grow approved Discord knowledge from real member questions, answers, builds, reviews, wins, and resources.",
+    "Approve Discord candidates into authoritative RAG and rerun non-dry-run RAG eval with explicit approval.",
+    "Run weekly public proof/growth cycles with approved public drafts and measured conversion.",
+    "Prove premium workflows with real or deliberately seeded premium-member scenarios.",
+    "Rerun the final scorecard after each operating cycle until category evidence earns 95+."
+  ]
+}

@@ -39,7 +39,11 @@ export async function getUserWithProfile(): Promise<{
   user: NonNullable<Awaited<ReturnType<typeof getUser>>>;
   profile: ProfileRow;
 } | null> {
-  if (process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' && !process.env.VERCEL) {
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' &&
+    !process.env.VERCEL
+  ) {
     const now = new Date().toISOString();
     return {
       user: {

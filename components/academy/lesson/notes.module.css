@@ -1,0 +1,243 @@
+/* Notes panel — OFFICIAL SKIN (design: the "Notes · this lesson" surface).
+   Hairline card, mono accent kicker, note cards on the page floor. */
+.panel {
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
+  overflow: hidden;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 13px 18px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  text-transform: uppercase;
+  color: var(--sa-accent-text);
+  background: var(--sa-surface-1);
+  border: 0;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--sa-dur-ui) var(--sa-ease);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  color: var(--sa-ink);
+}
+
+.panel:focus-within > .summary,
+.summary:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: -2px;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  transition: transform var(--sa-dur-ui) var(--sa-ease);
+}
+
+.panel[open] > .summary .chevron {
+  transform: rotate(90deg);
+}
+
+.count {
+  margin-left: auto;
+  color: var(--sa-ink-faint);
+}
+
+.body {
+  padding: 14px 18px 18px;
+  border-top: 1px solid var(--sa-rule);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sa-ink-faint);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 5rem;
+  resize: vertical;
+  padding: 12px 14px;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sa-ink);
+  background: var(--sa-bg);
+  border: 1px solid var(--sa-edge);
+  border-radius: 10px;
+  transition: border-color var(--sa-dur-ui) var(--sa-ease);
+}
+
+.textarea::placeholder {
+  color: var(--sa-ink-muted);
+}
+
+.textarea:focus-visible {
+  outline: none;
+  border-color: var(--sa-accent);
+  box-shadow: 0 0 0 2px var(--sa-accent-border);
+}
+
+.formFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.counter {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+}
+
+.counterOver {
+  color: var(--sa-danger);
+}
+
+.save {
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--sa-accent);
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 15px;
+  cursor: pointer;
+  transition:
+    background var(--sa-dur-ui) var(--sa-ease),
+    opacity var(--sa-dur-ui) var(--sa-ease);
+}
+
+.save:hover:not(:disabled) {
+  background: var(--sa-accent-hover);
+}
+
+.save:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}
+
+.save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 11px 13px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 10px;
+  background: var(--sa-bg);
+}
+
+.noteText {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--sa-ink-subtle);
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-wrap: pretty;
+}
+
+.noteMeta {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--sa-ink-faint);
+}
+
+.delete {
+  flex: none;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--sa-ink-faint);
+  background: transparent;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-sm);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition:
+    color var(--sa-dur-ui) var(--sa-ease),
+    border-color var(--sa-dur-ui) var(--sa-ease);
+}
+
+.delete:hover:not(:disabled) {
+  color: var(--sa-danger);
+  border-color: var(--sa-danger-border);
+}
+
+.delete:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}
+
+.delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--sa-ink-faint);
+}
+
+.signedOut {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sa-ink-subtle);
+}
+
+.signInLink {
+  color: var(--sa-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.signInLink:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}

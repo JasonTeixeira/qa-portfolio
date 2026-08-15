@@ -21,10 +21,12 @@ export type CourseItem = {
   level: Level
   lessons: number
   hours: number
+  /** One-line course description (from the DB `subtitle`); empty when unset. */
+  subtitle?: string
 }
 
 export const paths: PathItem[] = [
-  { slug: 'foundations', name: 'Foundations', topic: 'foundations', level: 'Beginner', courses: 6, hours: 18, progress: 0.32 },
+  { slug: 'foundations', name: 'Foundations', topic: 'foundations', level: 'Beginner', courses: 6, hours: 18 },
   { slug: 'ai-engineering', name: 'AI Engineering', topic: 'ai-engineering', level: 'Intermediate', courses: 8, hours: 26 },
   { slug: 'ship-real-products', name: 'Ship Real Products', topic: 'ship-it', level: 'Advanced', courses: 7, hours: 22 },
 ]
@@ -40,5 +42,3 @@ export const courses: CourseItem[] = [
   { slug: 'nextjs-supabase', title: 'Next.js + Supabase', topic: 'ship-it', level: 'Advanced', lessons: 14, hours: 6 },
   { slug: 'stripe-auth', title: 'Stripe & Auth', topic: 'ship-it', level: 'Advanced', lessons: 8, hours: 3 },
 ]
-
-export const TOTAL_COURSES = 42 // catalog grows; grid paginates

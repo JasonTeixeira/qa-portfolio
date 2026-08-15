@@ -3,9 +3,9 @@
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { saveCourse } from './_actions'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './studio.module.css'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const TOPICS = ['foundations', 'ai-engineering', 'ship-it', 'growth', 'data']
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 
@@ -24,7 +24,7 @@ export function CourseEditor({ course, lessons }: { course: any; lessons: any[] 
     setMsg(null)
     start(async () => {
       const res = await saveCourse({ slug: course.slug, title, subtitle, topic, level, hours: Number(hours) || 0, sort: Number(sort) || 0, status })
-      setMsg(res.ok ? { kind: 'ok', text: 'Saved ✓' } : { kind: 'err', text: res.error ?? 'Save failed' })
+      setMsg(res.ok ? { kind: 'ok', text: 'Saved' } : { kind: 'err', text: res.error ?? 'Save failed' })
     })
   }
 
@@ -75,7 +75,7 @@ export function CourseEditor({ course, lessons }: { course: any; lessons: any[] 
         </div>
         <div className={styles.actions}>
           <button type="button" className={styles.save} onClick={onSave} disabled={saving}>{saving ? 'Saving…' : 'Save course'}</button>
-          <Link href={`/academy/course/${course.slug}`} className={styles.ghost} target="_blank">Preview →</Link>
+          <Link href={`/academy/course/${course.slug}`} className={styles.ghost} target="_blank">Preview <Icon name="arrow-right" size={13} aria-hidden="true" /></Link>
           {msg ? <span className={`${styles.msg} ${msg.kind === 'err' ? styles.msgErr : styles.msgOk}`}>{msg.text}</span> : null}
         </div>
       </div>

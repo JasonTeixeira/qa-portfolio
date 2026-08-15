@@ -1,0 +1,136 @@
+{
+  "ok": true,
+  "cleanedUp": true,
+  "runKey": "learning-lab-daily-2099-01-15",
+  "sourceId": "discord_content_queue:8608549c-dc3f-4e6a-9438-ecb6a0de898f",
+  "draft": {
+    "ok": true,
+    "skipped": false,
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "dateKey": "2099-01-15",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge",
+    "quizId": "8ba6dbb2-b0e5-4a76-ad9b-22d16ce980b3",
+    "challengeId": "0ffc7534-1532-4cab-a6d3-6dc614dde1a3",
+    "qualityScore": 82,
+    "sourceIds": [
+      "discord_content_queue:8608549c-dc3f-4e6a-9438-ecb6a0de898f"
+    ],
+    "model": "deepseek-v4-flash"
+  },
+  "duplicateDraft": {
+    "ok": true,
+    "skipped": true,
+    "reason": "already_exists",
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "dateKey": "2099-01-15",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge",
+    "quizId": "8ba6dbb2-b0e5-4a76-ad9b-22d16ce980b3",
+    "challengeId": "0ffc7534-1532-4cab-a6d3-6dc614dde1a3",
+    "qualityScore": 82,
+    "sourceIds": [
+      "discord_content_queue:8608549c-dc3f-4e6a-9438-ecb6a0de898f"
+    ],
+    "model": "deepseek-v4-flash"
+  },
+  "blockedPublish": {
+    "ok": false,
+    "published": false,
+    "skipped": true,
+    "reason": "no_approved_learning_lab_items",
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "dateKey": "2099-01-15",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge"
+  },
+  "reviewed": {
+    "ok": true,
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge",
+    "status": "approved"
+  },
+  "published": {
+    "ok": true,
+    "published": true,
+    "skipped": false,
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "dateKey": "2099-01-15",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge"
+  },
+  "duplicatePublish": {
+    "ok": true,
+    "published": false,
+    "skipped": true,
+    "reason": "already_published",
+    "runKey": "learning-lab-daily-2099-01-15",
+    "cadence": "daily",
+    "dateKey": "2099-01-15",
+    "quizKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+    "challengeKey": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge"
+  },
+  "pending": {
+    "quizActive": false,
+    "quizStatus": "pending_approval",
+    "challengeActive": false,
+    "challengeStatus": "pending_approval"
+  },
+  "afterPublish": {
+    "quizActive": true,
+    "quizStatus": "published",
+    "challengeActive": true,
+    "challengeStatus": "published"
+  },
+  "quizDate": "2099-01-19T12:00:00.000Z",
+  "challengeDate": "2099-01-19T12:00:00.000Z",
+  "quizAttempt": {
+    "quiz": {
+      "key": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-quiz",
+      "prompt": "You are scheduling a daily learning job. What is the correct first step before publishing a quiz or challenge?",
+      "options": [
+        "Generate and immediately publish all items",
+        "Create inactive items and wait for admin approval",
+        "Post directly to a public channel for feedback",
+        "Run the job multiple times to ensure coverage"
+      ],
+      "correctAnswer": "Create inactive items and wait for admin approval",
+      "explanation": "The source states that a strong scheduled learning job should generate inactive items first, wait for admin review, then publish them as active only after approval. This prevents unvetted content from reaching learners."
+    },
+    "correct": true,
+    "points": 10,
+    "alreadyAttempted": false
+  },
+  "challengeSubmission": {
+    "id": "89a1702b-ef2c-4d01-b539-08e41930f3f2",
+    "challenge": {
+      "key": "lab-v2-2099-01-15-approval-gated-scheduled-learning-job-challenge",
+      "title": "Design an Approval-Gated Learning Job Workflow",
+      "prompt": "Map the workflow for a daily learning job that produces quizzes and challenges from approved community knowledge, including the approval gate and duplicate prevention.\n\nConstraints:\n- Use only the concepts from the approved source: inactive items, admin review, activation after approval, and no duplicate farming.\n- The workflow must include at least one decision point for admin approval.\n\nRubric:\n- Workflow includes the step to generate inactive items\n- Workflow includes an admin review/approval step before activation\n- Workflow includes a mechanism to prevent duplicate runs from creating farming paths",
+      "deliverable": "A diagram or checklist that shows the sequence from source ingestion to active publication, with the approval gate clearly marked.",
+      "points": 25
+    },
+    "points": 0,
+    "status": "pending",
+    "alreadySubmitted": false
+  },
+  "run": {
+    "run_key": "learning-lab-daily-2099-01-15",
+    "kind": "learning_lab",
+    "status": "skipped",
+    "metadata": {
+      "reason": "already_published",
+      "source": "phase-12-smoke-publish",
+      "cadence": "daily",
+      "scheduler_version": "discord-learning-lab-scheduler-v1"
+    }
+  },
+  "startedAt": "2026-06-24T23:00:38.290Z",
+  "finishedAt": "2026-06-24T23:00:49.870Z"
+}

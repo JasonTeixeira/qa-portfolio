@@ -153,7 +153,7 @@ function PipelineHeader({
             {pipeline.eyebrow}
           </div>
         )}
-        <h3 className="text-2xl font-semibold text-white md:text-3xl">{pipeline.title}</h3>
+        <h2 className="text-2xl font-semibold text-white md:text-3xl">{pipeline.title}</h2>
         <p className="mt-2 max-w-2xl text-sm text-zinc-400 md:text-base">{pipeline.tagline}</p>
         <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500">
           <span>{pipeline.stages.length} stages</span>

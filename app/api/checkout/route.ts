@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
 
 // Rate limit is intentionally tight (10/60s) — this is a payment endpoint.
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'checkout' })
+  const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'checkout' })
   if (limited) return limited
 
   // Parse + validate body first — these steps need no Stripe env.

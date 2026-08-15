@@ -1,0 +1,207 @@
+/* Repair queue — OFFICIAL Sage Academy skin (--sa-* tokens).
+   Grammar follows the Lesson Player reskin: quiet hairline card (1px --sa-rule
+   / radius-14), semantic tone soft+border pairs, mono kickers, live font
+   aliases through next/font vars. Danger = open repairs; success = clear. */
+.panel {
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  max-width: 720px;
+  margin: 0 auto clamp(1.6rem, 1rem + 2vw, 2.6rem);
+  padding: clamp(1.2rem, 0.9rem + 1.4vw, 1.7rem);
+  border: 1px solid var(--sa-danger-border);
+  border-radius: var(--sa-radius-md);
+  background: rgba(229, 72, 77, 0.04); /* summary-card wash grammar */
+  font-family: var(--sa-body-live);
+  color: var(--sa-ink);
+}
+
+/* Cleared state is POSITIVE — success tone pair, never danger. */
+.panelClear {
+  border-color: var(--sa-success-border);
+  background: rgba(24, 182, 99, 0.04); /* design-literal "Queue clear" wash */
+}
+.panelClear .kicker {
+  color: var(--sa-success);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.kicker {
+  margin: 0;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-danger);
+}
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.4rem;
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-danger);
+  color: var(--sa-bg);
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Demoted clear-state: a single success chip that yields the page to the
+   review card when there's an active review — the hero is the card. */
+.statusChip {
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  max-width: 720px;
+  margin: 0 auto clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  margin-left: max(0px, calc(50% - 360px));
+  padding: 5px 12px;
+  border: 1px solid var(--sa-success-border);
+  border-radius: var(--sa-radius-md);
+  background: rgba(24, 182, 99, 0.04);
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--sa-success);
+}
+.statusGlyph {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.empty {
+  margin: 0.9rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+}
+.emptyGlyph {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--sa-success-border);
+  border-radius: var(--sa-radius-pill);
+  color: var(--sa-success);
+}
+.emptyTitle {
+  margin: 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--sa-ink);
+}
+.emptyHelp {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--sa-ink-muted);
+}
+
+.list {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.item {
+  margin: 0;
+}
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-node);
+  background: var(--sa-surface-1);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+}
+.link:hover {
+  border-color: var(--sa-danger-border);
+  background: var(--sa-danger-soft);
+  transform: translateX(2px);
+}
+.link:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
+
+.itemMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.itemCourse {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--sa-text-kicker-tracking);
+  color: var(--sa-ink-faint);
+}
+.itemLesson {
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--sa-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.itemCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: none;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--sa-accent-text);
+}
+
+@media (max-width: 560px) {
+  .itemCta {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+}

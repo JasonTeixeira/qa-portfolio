@@ -282,7 +282,7 @@ export async function Footer() {
                     target={item.external && item.href.startsWith('http') ? '_blank' : undefined}
                     rel={item.external && item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     aria-label={item.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--sage-border)] bg-[rgba(20,20,24,0.72)] text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.52)] hover:text-[var(--sage-accent-readable)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)]"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--sage-border)] bg-[rgba(20,20,24,0.72)] text-[var(--sage-ink-faint)] transition-colors hover:border-[rgba(61,90,254,0.52)] hover:text-[var(--sage-accent-readable)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(61,90,254,0.62)]"
                   >
                     <Icon aria-hidden className="h-4 w-4" />
                   </Link>
@@ -297,7 +297,7 @@ export async function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="[font-family:var(--font-mono),ui-monospace,monospace] text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-ink-muted)]"
+                    className="inline-flex min-h-11 items-center [font-family:var(--font-mono),ui-monospace,monospace] text-[11px] uppercase tracking-[0.12em] text-[var(--sage-ink-faint)] transition-colors hover:text-[var(--sage-ink-muted)]"
                   >
                     {t(item.label)}
                   </Link>

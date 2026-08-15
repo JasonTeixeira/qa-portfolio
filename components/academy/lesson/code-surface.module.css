@@ -1,0 +1,156 @@
+/* Shared CODE WELL for the lesson player (CodeSurface.tsx). OFFICIAL SKIN.
+   Design source: the "Code walkthrough" figure — hairline card, mono kicker
+   header, a #0B0B0E code floor at 12.5px/1.85 with a quiet ghost gutter and
+   the accent-washed active line. Token colors come from the shared colorizer. */
+
+.well {
+  margin: 0 0 1rem;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
+  overflow: hidden;
+}
+.well:last-child {
+  margin-bottom: 0;
+}
+
+/* header strip: prompt caret + file path + line count + language chip */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--sa-rule);
+  background: var(--sa-surface-1);
+}
+/* terminal PROMPT caret — the Sage block glyph, accent-lit */
+.prompt {
+  flex: none;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--sa-accent-text);
+}
+/* breadcrumb PATH to the file (root / filename) — a real editor location line */
+.path {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  min-width: 0;
+  overflow: hidden;
+}
+.pathRoot {
+  flex: none;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--sa-ink-faint);
+}
+.pathSep {
+  flex: none;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
+  opacity: 0.7;
+}
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  letter-spacing: 0.01em;
+  color: var(--sa-ink-subtle);
+}
+/* mono line-count readout — sits at the right edge before the language chip */
+.rows {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--sa-ink-faint);
+}
+.lang {
+  flex: none;
+  padding: 3px 9px;
+  border-radius: var(--sa-radius-sm);
+  border: 1px solid var(--sa-accent-border);
+  background: var(--sa-accent-soft);
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sa-accent-text);
+}
+/* when copy is present, it sits after the lang chip */
+.copy {
+  flex: none;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--sa-ink-faint);
+  transition: color var(--sa-dur-ui) var(--sa-ease);
+}
+.copy:hover {
+  color: var(--sa-accent-text);
+}
+
+/* the well body — the design's flat #0B0B0E code floor */
+.body {
+  margin: 0;
+  padding: 16px 0;
+  overflow-x: auto;
+  background: var(--sa-bg);
+}
+.body:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: -2px;
+}
+
+.codeGrid {
+  display: block;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: var(--sa-text-code-size);
+  line-height: 1.85;
+}
+
+/* each physical line = gutter number + source; the gutter width tracks digits */
+.row {
+  display: grid;
+  grid-template-columns: calc(var(--gutter-ch, 2) * 1ch + 1.7rem) 1fr;
+  align-items: baseline;
+  /* keep blank source lines at full line-height (renderTokens returns null for
+     empty lines, which would otherwise collapse the row). */
+  min-height: 1.85em;
+}
+/* ACTIVE LINE — the design's stepped focus line: accent wash + 2px accent edge */
+.row[data-active='true'] {
+  background: var(--sa-accent-soft);
+  box-shadow: inset 2px 0 0 0 var(--sa-accent);
+}
+.row[data-active='true'] .ln {
+  color: var(--sa-accent-text);
+}
+.ln {
+  padding-right: 0.9rem;
+  text-align: right;
+  /* the design file's gutter ink (#4A4A54 --sa-ink-ghost) fails WCAG AA on the
+     code floor; lift one step to the faint-label ink (a11y is a hard keep). */
+  color: var(--sa-ink-faint);
+  font-size: 11px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.src {
+  padding: 0 1.4rem 0 0.4rem;
+  color: var(--sa-ink-subtle);
+  white-space: pre;
+}

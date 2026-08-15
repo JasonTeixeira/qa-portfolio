@@ -1,0 +1,103 @@
+{
+  "ok": true,
+  "version": "premium-workflow-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:48.555Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "premiumProof": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+    "premiumWorkflows": "lib/discord/premium-workflows.ts",
+    "premiumStripe": "lib/discord/premium.ts",
+    "commands": "lib/discord/sage-commands.ts",
+    "register": "scripts/discord/register-sage-commands.mjs",
+    "adminActions": "app/admin/discord/actions.ts",
+    "adminPage": "app/admin/discord/page.tsx",
+    "migrationV1": "supabase/migrations/0072_discord_premium_workflows.sql",
+    "migrationV2": "supabase/migrations/0089_discord_premium_workflows_v2.sql",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "seeded_premium_proof_passes",
+      "passed": true,
+      "evidence": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json"
+    },
+    {
+      "name": "premium_lifecycle_events_present",
+      "passed": true,
+      "evidence": "answered, assigned, requested"
+    },
+    {
+      "name": "premium_authorization_gate_wired",
+      "passed": true,
+      "evidence": "lib/discord/premium-workflows.ts"
+    },
+    {
+      "name": "premium_quality_and_sla_gates_wired",
+      "passed": true,
+      "evidence": "lib/discord/premium-workflows.ts"
+    },
+    {
+      "name": "premium_storage_schema_wired",
+      "passed": true,
+      "evidence": "supabase/migrations/0072_discord_premium_workflows.sql, supabase/migrations/0089_discord_premium_workflows_v2.sql"
+    },
+    {
+      "name": "premium_slash_commands_registered",
+      "passed": true,
+      "evidence": "lib/discord/sage-commands.ts, scripts/discord/register-sage-commands.mjs"
+    },
+    {
+      "name": "premium_admin_review_actions_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/actions.ts"
+    },
+    {
+      "name": "premium_admin_dashboard_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/page.tsx"
+    },
+    {
+      "name": "stripe_role_sync_wired",
+      "passed": true,
+      "evidence": "lib/discord/premium.ts"
+    },
+    {
+      "name": "premium_smoke_command_available",
+      "passed": true,
+      "evidence": "package.json"
+    }
+  ],
+  "proofSummary": {
+    "seededProofOk": true,
+    "reviewStatus": "answered",
+    "qualityScore": 100,
+    "lifecycleEvents": [
+      "answered",
+      "assigned",
+      "requested"
+    ],
+    "officeHoursPremiumMember": true,
+    "ragAnswerPresent": true,
+    "retrievalLogPresent": true
+  },
+  "antiFakeRules": [
+    "Do not count Premium Member role alone as premium workflow fulfillment.",
+    "Do not count queued premium requests without an answered/completed outcome.",
+    "Do not count seeded smoke proof as live Stripe economics proof.",
+    "Do not grant premium-only answer workflows to users who fail the premium_member authorization check."
+  ],
+  "nextOperatingProofRequired": [
+    "Fulfill one real premium review, premium answer, or office-hours item with a real premium member or explicitly seeded premium scenario.",
+    "Verify Stripe checkout/subscription role sync in the live environment before claiming monetization proof.",
+    "Review premium SLA, response quality, and fulfillment load weekly from /admin/discord.",
+    "Record premium economics separately before changing price or promise."
+  ],
+  "failures": [],
+  "releaseMeaning": "Premium workflow readiness proves local wiring and a seeded proof artifact only. It does not mutate Supabase, call RAG, create Stripe sessions, change Discord roles, or prove live premium fulfillment/economics.",
+  "validation": {
+    "ok": true,
+    "validator": "premium-workflow-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:48.557Z",
+    "failures": []
+  }
+}

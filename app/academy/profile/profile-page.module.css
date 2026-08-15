@@ -1,0 +1,8 @@
+/* Shares the editor's column geometry so the mastery map and the editor read
+ * as one centered stack. The editor brings its own inner padding; this wrapper
+ * owns the outer column width + the top offset under the shell. */
+.stack {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(1.6rem, 1.2rem + 1vw, 2.4rem) clamp(1.2rem, 0.5rem + 3vw, 3rem) 0;
+}

@@ -1,0 +1,256 @@
+/* Sage Academy Onboarding — centered multi-step welcome carousel.
+   Palette locked to the design source; type via global --ac-* tokens.
+   bg #0B0B0E · surface #111115 · text #F2EFE9 · muted #9598A2 · lines #1E1E24
+   accent #3D5AFE · green #18B663 · gold #E0A93E */
+.page {
+  --accent: #3d5afe;
+  --accent-text: #8fa0ff;
+  --green: #18b663;
+  --gold: #e0a93e;
+  --ink: #f2efe9;
+  --muted: #9598a2;
+  --sub: #9c9ca6;
+  --surface: #111115;
+  --line: #1e1e24;
+  --dot-off: #26262e;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) #0b0b0e;
+  font-family: var(--ac-font-body);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* top bar: logo + setup breadcrumb */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px clamp(16px, 3vw, 28px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+}
+.brandName { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+.breadcrumb {
+  margin-left: auto;
+  font-family: var(--ac-font-mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* centered stage */
+.main {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);
+}
+.shell { width: min(680px, 100%); }
+
+/* progress dots */
+.dots { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 30px; }
+.dot { height: 6px; width: 14px; border-radius: 3px; background: var(--dot-off); transition: width 0.25s ease, background 0.25s ease; }
+.dot[data-state='active'] { width: 26px; background: var(--accent); }
+.dot[data-state='done'] { background: var(--green); }
+
+/* step card wrapper */
+.step { }
+.center { text-align: center; margin-bottom: 30px; }
+.kicker {
+  margin: 0;
+  font-family: var(--ac-font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-text);
+}
+.title {
+  margin: 14px auto 0;
+  font-family: var(--ac-font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+.lede {
+  margin: 14px auto 0;
+  max-width: 46ch;
+  color: var(--sub);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* the three-move cards (step 0) */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+.card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 22px;
+  text-align: left;
+}
+.cardAccentGreen { border-color: rgba(24, 182, 99, 0.35); background: rgba(24, 182, 99, 0.04); }
+.cardNum { font-family: var(--ac-font-mono); font-size: 10px; margin-bottom: 10px; color: var(--accent-text); }
+.cardNumGreen { color: var(--green); }
+.cardNumGold { color: var(--gold); }
+.cardTitle { font-family: var(--ac-font-display); font-weight: 600; font-size: 18px; margin-bottom: 6px; }
+.cardText { font-size: 13px; color: #9c9ca6; }
+
+/* option lists (goal / calibration) rendered as centered cards */
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 22px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.option:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.option[data-on='true'] { border-color: var(--accent); background: rgba(61, 90, 254, 0.08); }
+.option:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
+.optLabel { font-family: var(--ac-font-display); font-weight: 600; font-size: 18px; }
+.optSub { font-family: var(--ac-font-mono); font-size: 11px; color: var(--muted); }
+
+/* daily goal cards */
+.goals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+.goalCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 24px 18px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.goalCard:hover { transform: translateY(-2px); }
+.goalCard[data-on='true'] { border-color: var(--accent); background: rgba(61, 90, 254, 0.08); }
+.goalCard:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
+.recommend {
+  position: absolute;
+  top: -10px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--ac-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.goalLabel { font-family: var(--ac-font-display); font-weight: 600; font-size: 16px; }
+.goalXp { font-family: var(--ac-font-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: var(--accent-text); }
+.goalSub { font-family: var(--ac-font-mono); font-size: 10px; color: var(--muted); }
+
+/* first-win promise line before the final CTA */
+.firstWin {
+  margin: 22px auto 0;
+  max-width: 52ch;
+  padding: 12px 16px;
+  border: 1px solid rgba(24, 182, 99, 0.35);
+  background: rgba(24, 182, 99, 0.04);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #cdd0cb;
+  text-align: left;
+}
+
+/* CTA row */
+.actions { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  background: var(--accent);
+  font-family: var(--ac-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 30px;
+  border: 0;
+  border-radius: 26px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 0 22px rgba(61, 90, 254, 0.35);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.primary:hover { filter: brightness(1.07); }
+.primary:active { transform: translateY(1px); }
+.primary:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
+.primary:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.6); outline-offset: 2px; }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--ac-font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0;
+  transition: color 0.15s ease;
+}
+.back:hover { color: var(--ink); }
+.back:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 3px; border-radius: 4px; }
+
+/* primer (Course00) wrapper — kept, restyled to match the stage */
+.primerShell { width: min(760px, 100%); }
+.primerActions {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+}
+.primerActions .primary { margin-top: 0; }
+
+/* stack gap between blocks inside a step */
+.rows { display: flex; flex-direction: column; gap: 20px; }
+
+@media (max-width: 480px) {
+  .options, .cards, .goals { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .option, .goalCard, .primary, .dot { transition: none; }
+}

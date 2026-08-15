@@ -23,7 +23,8 @@ export async function GET() {
     .limit(50);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[notifications] query failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 
   return NextResponse.json({ items: data ?? [] });

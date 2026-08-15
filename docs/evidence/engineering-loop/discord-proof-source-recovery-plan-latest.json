@@ -1,0 +1,170 @@
+{
+  "ok": true,
+  "version": "discord-proof-source-recovery-plan-v1",
+  "generatedAt": "2026-06-30T13:25:44.926Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This recovery plan reads source-volume evidence and writes local guidance only. It does not approve, sync, publish, assign roles, call AI models, or satisfy operating proof.",
+  "scanGeneratedAt": "2026-06-30T13:25:44.431Z",
+  "status": "blocked",
+  "summary": {
+    "laneCount": 4,
+    "blockedLaneCount": 4,
+    "totalShortfall": 25,
+    "nextLane": "approvedDiscordKnowledge"
+  },
+  "lanes": [
+    {
+      "key": "approvedDiscordKnowledge",
+      "status": "blocked",
+      "current": 0,
+      "target": 10,
+      "shortfall": 10,
+      "priority": 1,
+      "sourceVolumeState": "needs_review",
+      "evidenceToCollect": [
+        "Specific member question with goal, attempt, blocker, and reusable teaching value.",
+        "Helpful answer or review that explains a decision, risk, or build pattern.",
+        "Project/resource/win that can become a lesson without exposing private data."
+      ],
+      "collectionCadence": [
+        "Daily: review captured questions, answers, builds, reviews, wins, and resources for reusable teaching value.",
+        "Weekly: approve at least two privacy-safe knowledge candidates until the lane reaches 10/10.",
+        "Monthly: remove stale, private, or low-context candidates that should not become durable knowledge."
+      ],
+      "acceptanceChecklist": [
+        "Source has a concrete problem, artifact, decision, or teaching moment.",
+        "Source is privacy-safe, anonymized, or explicitly approved for internal reuse.",
+        "Admin decision reason explains why the source belongs in future answers or lessons."
+      ],
+      "doNotCount": [
+        "Raw unapproved Discord chatter.",
+        "Generic praise, greetings, low-context messages, or private member details.",
+        "Synthetic smoke rows or dry-run drafts."
+      ],
+      "adminSurface": "/admin/discord -> Content Queue, Drafts, Knowledge/RAG",
+      "safeLocalCommand": "npm run discord:proof-source-scan",
+      "liveActionRequired": "Collect and approve high-signal member questions, helpful answers, project submissions, reviews, wins, and resources.",
+      "verificationCommand": "npm run discord:proof-source-scan && npm run discord:operating-cycle:dry-run",
+      "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
+    },
+    {
+      "key": "ragDiscordSources",
+      "status": "blocked",
+      "current": 0,
+      "target": 10,
+      "shortfall": 10,
+      "priority": 2,
+      "sourceVolumeState": "no_source_volume",
+      "evidenceToCollect": [
+        "Approved Discord source synced into rag_sources with approved provenance.",
+        "Generated document/chunk tied back to an approved question, answer, queue item, or draft.",
+        "Retrieval/eval evidence showing the synced source is citeable."
+      ],
+      "collectionCadence": [
+        "Weekly: run approved-source sync only after the approved knowledge lane has new material.",
+        "After each sync: re-run retrieval and eval evidence before using score improvement claims.",
+        "Monthly: audit Discord-derived RAG sources for stale, rejected, or privacy-sensitive material."
+      ],
+      "acceptanceChecklist": [
+        "RAG source points to an approved Discord question, answer, queue item, or content draft.",
+        "Document/chunk text is citeable and does not include raw private chatter.",
+        "Retrieval evidence shows the source can be selected for relevant questions."
+      ],
+      "doNotCount": [
+        "Raw discord_messages rows.",
+        "Rejected, deleted, private, or low-quality source material.",
+        "RAG sources without approved Discord provenance."
+      ],
+      "adminSurface": "/admin/discord -> RAG Health, Corpus Health, Eval Runs",
+      "safeLocalCommand": "npm run discord:proof-source-scan",
+      "liveActionRequired": "After approved knowledge exists, run approved Discord RAG sync and re-run eval/scorecard.",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "blocker": "Discord RAG sources are 0/10; no approved Discord knowledge exists to sync into RAG."
+    },
+    {
+      "key": "publicProofAssets",
+      "status": "blocked",
+      "current": 0,
+      "target": 4,
+      "shortfall": 4,
+      "priority": 3,
+      "sourceVolumeState": "no_source_volume",
+      "evidenceToCollect": [
+        "Approved Discord source with public-sharing status anonymized or explicit.",
+        "Public proof draft with source provenance and a clear lesson/proof angle.",
+        "Growth event or application attribution tied to the proof cycle."
+      ],
+      "collectionCadence": [
+        "Weekly: select one approved source that can become a privacy-safe public lesson or proof asset.",
+        "Weekly: approve or reject the public proof draft before publishing anywhere external.",
+        "After publishing: record apply clicks, applications, and source attribution for that proof cycle."
+      ],
+      "acceptanceChecklist": [
+        "Public proof asset references approved source provenance without leaking private member data.",
+        "Draft has a clear lesson, outcome, or proof angle rather than generic promotional copy.",
+        "Growth event tracking is attached before the asset counts toward the public proof target."
+      ],
+      "doNotCount": [
+        "Public posts detached from approved source material.",
+        "Member names, screenshots, or details without explicit permission.",
+        "Generic social content that does not prove the community system."
+      ],
+      "adminSurface": "/admin/discord -> Public Proof Sources, Public Growth Drafts",
+      "safeLocalCommand": "npm run discord:proof-source-scan",
+      "liveActionRequired": "Create privacy-safe weekly proof drafts from approved Discord source material and approve/publish them manually.",
+      "verificationCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-source-scan",
+      "blocker": "Public proof requires approved Discord knowledge first."
+    },
+    {
+      "key": "premiumWorkflowProof",
+      "status": "blocked",
+      "current": 0,
+      "target": 1,
+      "shortfall": 1,
+      "priority": 4,
+      "sourceVolumeState": "needs_fulfillment",
+      "evidenceToCollect": [
+        "Premium authorization or deliberately seeded premium scenario.",
+        "Submitted artifact/question with status answered, completed, or fulfilled.",
+        "Logged SLA/outcome proving premium fulfillment without free-member bypass."
+      ],
+      "collectionCadence": [
+        "Weekly: review premium members, open review requests, deeper-answer requests, and office-hours queue.",
+        "Per request: record authorization, requested outcome, SLA state, and final response status.",
+        "Monthly: audit premium fulfillment quality and economics before changing the premium promise."
+      ],
+      "acceptanceChecklist": [
+        "Proof shows premium authorization or a deliberately seeded premium test scenario.",
+        "Request has a submitted artifact/question and a completed or answered outcome.",
+        "SLA/outcome is logged without granting premium-only workflows to unqualified free members."
+      ],
+      "doNotCount": [
+        "Premium interest without a fulfilled workflow.",
+        "Premium role alone.",
+        "Queued requests with no answer/completion outcome."
+      ],
+      "adminSurface": "/admin/discord -> Premium, Office Hours, Member Intelligence",
+      "safeLocalCommand": "npm run discord:smoke-premium-workflows",
+      "liveActionRequired": "Fulfill one premium review, deeper answer, or office-hours workflow with visible authorization and outcome.",
+      "verificationCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-source-scan",
+      "blocker": "No answered/completed premium review or completed office-hours proof row is visible."
+    }
+  ],
+  "immediateActionOrder": [
+    "Collect and approve high-signal member questions, helpful answers, project submissions, reviews, wins, and resources.",
+    "After approved knowledge exists, run approved Discord RAG sync and re-run eval/scorecard.",
+    "Create privacy-safe weekly proof drafts from approved Discord source material and approve/publish them manually.",
+    "Fulfill one premium review, deeper answer, or office-hours workflow with visible authorization and outcome."
+  ],
+  "antiFakeRules": [
+    "Do not count dry-run, smoke, synthetic, rejected, or raw unapproved rows as operating proof.",
+    "Do not sync raw Discord messages into authoritative RAG without admin approval and privacy review.",
+    "Do not publish public proof without explicit anonymized/approved sharing status.",
+    "Do not count premium role membership as premium workflow fulfillment."
+  ],
+  "validation": {
+    "ok": true,
+    "failures": []
+  },
+  "failures": []
+}

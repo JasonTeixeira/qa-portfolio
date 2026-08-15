@@ -1,0 +1,100 @@
+{
+  "ok": true,
+  "version": "discord-proof-source-volume-scan-v1",
+  "generatedAt": "2026-06-30T13:25:44.431Z",
+  "mutationMode": "read_only_supabase_selects_and_local_file_evidence_only",
+  "releaseMeaning": "This scan reads live Supabase counts and writes local evidence only. It does not approve, sync, publish, assign roles, or satisfy operating proof.",
+  "counts": {
+    "discord_messages.all": 12,
+    "discord_messages.non_empty_visible": 1,
+    "discord_messages.recent_7d_visible": 1,
+    "discord_message_classifications.all": 3,
+    "discord_message_classifications.recommended_action.in": 3,
+    "discord_content_queue.all": 3,
+    "discord_content_queue.status.in": 3,
+    "discord_content_queue.status=published": 0,
+    "discord_questions.all": 0,
+    "discord_questions.status.in": 0,
+    "discord_answers.all": 0,
+    "discord_answers.helpful=true": 0,
+    "discord_content_drafts.all": 35,
+    "discord_content_drafts.approved_with_discord_provenance": 0,
+    "rag_sources.or": 0,
+    "discord_public_proof_sources.all": 0,
+    "discord_public_growth_drafts.status=pending_approval": 0,
+    "discord_public_growth_drafts.status=published": 0,
+    "discord_growth_events.event_type=apply_click": 0,
+    "discord_members.premium_member=true": 0,
+    "discord_premium_review_requests.status.in": 0,
+    "discord_office_hours_queue.status.in": 0
+  },
+  "laneReadiness": {
+    "approvedDiscordKnowledge": {
+      "current": 0,
+      "target": 10,
+      "reviewableCandidates": 6,
+      "blocker": "Approved knowledge is 0/10; reviewable candidates exist, but admin approval is still required before they count as approved knowledge."
+    },
+    "ragDiscordSources": {
+      "current": 0,
+      "target": 10,
+      "approvedKnowledgeAvailable": 0,
+      "blocker": "Discord RAG sources are 0/10; no approved Discord knowledge exists to sync into RAG."
+    },
+    "publicProofAssets": {
+      "current": 0,
+      "target": 4,
+      "approvedKnowledgeAvailable": 0,
+      "applyClicks": 0,
+      "blocker": "Public proof requires approved Discord knowledge first."
+    },
+    "premiumWorkflowProof": {
+      "current": 0,
+      "target": 1,
+      "premiumMembers": 0,
+      "premiumReviews": 0,
+      "officeHours": 0,
+      "blocker": "No answered/completed premium review or completed office-hours proof row is visible."
+    }
+  },
+  "samples": {
+    "contentQueue": [
+      {
+        "id": "8533ea39-861e-4d09-b53d-3749d586c542",
+        "status": "captured",
+        "priority": 75,
+        "channelBaseName": "live-room",
+        "action": "track_question",
+        "category": "question",
+        "createdAt": "2026-06-29T21:27:55.159594+00:00"
+      },
+      {
+        "id": "96b5b421-a862-4a6b-90c7-4d9719dad9e9",
+        "status": "captured",
+        "priority": 71,
+        "channelBaseName": "build-lab",
+        "action": "candidate_resource",
+        "category": "resource",
+        "createdAt": "2026-06-27T20:08:57.660437+00:00"
+      },
+      {
+        "id": "315a3cc1-8fe4-404c-94da-b3e8e3f1e347",
+        "status": "captured",
+        "priority": 61,
+        "channelBaseName": "live-room",
+        "action": "track_question",
+        "category": "question",
+        "createdAt": "2026-06-29T20:49:07.177762+00:00"
+      }
+    ]
+  },
+  "errors": [],
+  "nextActions": [
+    "Review captured/classified candidates in /admin/discord and approve only privacy-safe reusable knowledge.",
+    "Do not run RAG sync yet; there are no approved Discord knowledge rows.",
+    "Create public proof drafts only after approved Discord source material exists.",
+    "Create or wait for one fulfilled real/deliberately seeded premium workflow before claiming premium readiness."
+  ],
+  "startedAt": "2026-06-30T13:25:43.797Z",
+  "finishedAt": "2026-06-30T13:25:44.431Z"
+}

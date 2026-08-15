@@ -1,13 +1,13 @@
 {
   "ok": true,
-  "draftId": "8b757995-ecce-4ff5-8acb-39f6c6689641",
+  "draftId": "1a00757b-78a4-4a54-a7c9-46147cc8de0b",
   "weekKey": "2026-W26",
-  "leaderboardSnapshotId": "ca237b27-add6-4cb6-ba8e-c50ae85c389f",
+  "leaderboardSnapshotId": "11f17b13-fe61-4e3c-b7ed-743dda1b15b3",
   "leaderboardCount": 0,
-  "qualityScore": 100,
+  "qualityScore": 90,
   "bodyPreview": "# Weekly Recap\n**Cadence**\n- Monday: Build brief and weekly project target.\n- Tuesday: Tool teardown and implementation pattern.\n- Wednesday: Office-hours question collection.\n- Thursday: Review day for code, design, AI, SEO, and architecture.\n- Friday: Ship showcase and portfolio proof.\n- Saturday:",
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-22T03:55:01.346Z",
-  "finishedAt": "2026-06-22T03:55:02.874Z"
+  "startedAt": "2026-06-24T18:15:38.893Z",
+  "finishedAt": "2026-06-24T18:15:40.659Z"
 }

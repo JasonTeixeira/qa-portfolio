@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
+import conceptsManifest from '@/lib/academy/concepts-manifest.json'
 import { tiers, careTiers } from '@/data/services/tiers'
 import { verticals } from '@/data/industries/verticals'
 import { comparisons } from '@/data/compare/comparisons'
-import { academyTracks } from '@/data/academy/tracks'
 import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { getServiceIndustryPages } from '@/lib/seo/service-industry-pages'
@@ -14,6 +14,9 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/work', priority: 0.9, changeFrequency: 'weekly' },
   { path: '/lab', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/academy', priority: 0.85, changeFrequency: 'weekly' },
+  { path: '/interview', priority: 0.9, changeFrequency: 'weekly' },
+  { path: '/academy/concepts', priority: 0.85, changeFrequency: 'weekly' },
+  ...(conceptsManifest as { concepts: { slug: string }[] }).concepts.map((c) => ({ path: `/academy/concepts/${c.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
   { path: '/engineering-os', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/services', priority: 0.95, changeFrequency: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changeFrequency: 'monthly' },
@@ -93,16 +96,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE}/lab/${slug}`,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
-    })),
-    ...academyTracks.map((track) => ({
-      url: `${SITE}/academy/${track.slug}`,
-      changeFrequency: 'weekly' as const,
-      priority: 0.78,
-    })),
-    ...academyTracks.map((track) => ({
-      url: `${SITE}/academy/${track.slug}/enroll`,
-      changeFrequency: 'weekly' as const,
-      priority: 0.74,
     })),
     ...blogPosts.map((post) => ({
       url: `${SITE}/blog/${post.slug}`,

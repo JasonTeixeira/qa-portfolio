@@ -1,10 +1,14 @@
 import type { ReactNode } from 'react';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import {
   Activity,
   AlertTriangle,
   Award,
+  BookOpenCheck,
   CalendarDays,
   ChevronRight,
+  ClipboardCheck,
   FileCheck2,
   GitPullRequestArrow,
   HeartPulse,
@@ -25,10 +29,54 @@ import { AdminTopbar } from '@/components/admin/topbar';
 import { Card, CardContent } from '@/components/portal/ui/card';
 import { Badge } from '@/components/portal/ui/badge';
 import {
+  buildDiscordCorpusAnswerItem,
+  buildDiscordCorpusDraftItem,
+  buildDiscordCorpusQueueItem,
+  buildDiscordCorpusQuestionItem,
+  summarizeDiscordCorpusHealth,
+  type DiscordCorpusItem,
+} from '@/lib/rag/discord-corpus-health';
+import { isApprovedDiscordContentDraft } from '@/lib/rag/discord-authoritative-sources';
+import {
+  buildRagEvalDrilldownRow,
+  summarizeRagCorpusHealth,
+  type RagEvalDrilldownRow,
+} from '@/lib/rag/admin-health';
+import { loadDiscordObservabilityQualityRollup } from '@/lib/discord/observability-quality';
+import {
+  buildDiscordProofBacklogReport,
+  type DiscordProofChecklistStep,
+  type DiscordProofBacklogLane,
+} from '@/lib/discord/proof-backlog';
+import {
+  buildDiscordFinalScorecard,
+  buildDiscordFinalScorecardSummary,
+} from '@/lib/discord/final-scorecard';
+import {
+  buildWorldClassReadinessReport,
+  validateWorldClassReadinessReport,
+  type WorldClassReadinessCategory,
+} from '@/lib/discord/world-class-readiness';
+import {
+  approveDiscordAnswerForRagAction,
   approveDiscordApplication,
+  approveDiscordQueueItemForRagAction,
+  approveDiscordQuestionForRagAction,
+  assignDiscordPremiumReviewAction,
+  cancelDiscordJobRunAction,
+  completeDiscordPremiumReviewAction,
+  createRagEvalKnowledgeTaskAction,
+  publishDiscordContentDraftAction,
   rejectDiscordApplication,
+  resolveDiscordJobDeadLetterAction,
+  retryDiscordJobDeadLetterAction,
+  reviewDiscordMemberNudgeAction,
+  reviewDiscordKnowledgeCandidateAction,
   reviewDiscordChallengeSubmissionAction,
   reviewDiscordContentDraftAction,
+  reviewDiscordPublicGrowthDraftAction,
+  reviewDiscordPublicProofSourceAction,
+  syncDiscordRagSourcesAction,
   updateDiscordContentQueueStatus,
 } from './actions';
 
@@ -36,6 +84,18 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Discord Command Center', robots: { index: false, follow: false } };
 
 type Tone = 'neutral' | 'cyan' | 'emerald' | 'amber' | 'rose' | 'violet';
+
+const PROOF_LANE_OPERATING_BLOCKER_KEYS: Record<string, string> = {
+  approved_discord_knowledge: 'approved_discord_knowledge_sources_below_target',
+  rag_discord_sources: 'rag_discord_sources_below_target',
+  public_proof_assets: 'public_proof_assets_below_target',
+  premium_workflow_proof: 'premium_workflow_proof_below_target',
+};
+
+function formatProofLaneOperatingBlocker(lane: { key: string; currentCount: number; targetCount: number }) {
+  const blockerKey = PROOF_LANE_OPERATING_BLOCKER_KEYS[lane.key];
+  return blockerKey ? `${blockerKey}:${lane.currentCount}/${lane.targetCount}` : null;
+}
 
 type DiscordEventRow = {
   id: string;
@@ -59,6 +119,37 @@ type DiscordMemberRow = {
   last_seen_at: string;
 };
 
+type DiscordMemberIntelligenceProfileRow = {
+  discord_user_id: string;
+  username: string | null;
+  segment: string;
+  segment_confidence: number;
+  segment_reasons: string[] | null;
+  next_best_action: string;
+  next_nudge_key: string | null;
+  next_nudge_reason: string | null;
+  risk_flags: string[] | null;
+  strengths: string[] | null;
+  total_points: number;
+  current_streak: number;
+  onboarding_steps_completed: number;
+  last_activity_at: string | null;
+  calculated_at: string;
+};
+
+type DiscordMemberNudgeQueueRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  nudge_key: string;
+  reason: string;
+  status: string;
+  priority: number;
+  rate_limit_until: string | null;
+  created_at: string;
+  metadata: Record<string, unknown> | null;
+};
+
 type DiscordRunRow = {
   run_key: string;
   kind: string;
@@ -76,10 +167,15 @@ type DiscordPointsRow = {
 type DiscordContentQueueRow = {
   id: string;
   idea: string;
+  angle: string | null;
   source: string;
+  source_message_id: string | null;
+  source_classification_action: string | null;
+  source_classification_category: string | null;
   discord_username: string | null;
   status: string;
   priority: number;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 };
 
@@ -91,6 +187,51 @@ type DiscordContentDraftRow = {
   body: string;
   status: string;
   quality_score: number;
+  prompt_version: string | null;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+};
+
+type DiscordPublicGrowthDraftRow = {
+  id: string;
+  draft_type: string;
+  title: string;
+  body: string;
+  status: string;
+  privacy_score: number;
+  quality_score: number;
+  utm_campaign: string;
+  reviewer_email: string | null;
+  reviewed_at: string | null;
+  published_at: string | null;
+  created_at: string;
+  discord_public_proof_sources?: Array<{
+    title: string | null;
+    source_type: string | null;
+    permission_status: string | null;
+    privacy_score: number | null;
+  }> | null;
+};
+
+type DiscordPublicProofSourceRow = {
+  id: string;
+  source_type: string;
+  source_table: string | null;
+  source_record_id: string | null;
+  title: string;
+  summary: string;
+  permission_status: string;
+  privacy_score: number;
+  created_at: string;
+  updated_at: string;
+};
+
+type DiscordGrowthEventRow = {
+  id: string;
+  event_type: string;
+  source: string | null;
+  utm_campaign: string | null;
+  path: string | null;
   created_at: string;
 };
 
@@ -147,6 +288,7 @@ type DiscordCalendarRow = {
 type DiscordQuestionRow = {
   id: string;
   question: string;
+  context: string | null;
   discord_username: string | null;
   status: string;
   created_at: string;
@@ -155,9 +297,36 @@ type DiscordQuestionRow = {
 type DiscordAnswerRow = {
   id: string;
   answer: string;
+  question_id: string;
   discord_username: string | null;
   helpful: boolean;
   created_at: string;
+};
+
+type RagSourceRow = {
+  source_key: string;
+  source_type: string;
+  source_record_id: string | null;
+  source_table: string | null;
+  updated_at: string;
+};
+
+type RagIngestionRunRow = {
+  run_key: string;
+  status: string;
+  started_at: string;
+  finished_at: string | null;
+  failures: number | null;
+};
+
+type RagEvalRunRow = {
+  run_key: string;
+  status: string;
+  total_questions: number;
+  passed: number;
+  failed: number;
+  metrics: Record<string, unknown> | null;
+  finished_at: string | null;
 };
 
 type DiscordGatewayHeartbeatRow = {
@@ -170,12 +339,718 @@ type DiscordGatewayHeartbeatRow = {
   last_close_reason: string | null;
 };
 
+type DiscordJobRegistryRow = {
+  job_key: string;
+  job_name: string;
+  schedule: string | null;
+  owner: string;
+  idempotency_scope: string;
+  max_retries: number;
+  retryable: boolean;
+  enabled: boolean;
+  side_effects: string[] | null;
+  updated_at: string;
+};
+
+type DiscordJobRunRow = {
+  run_key: string;
+  job_key: string;
+  status: string;
+  idempotency_key: string;
+  attempt: number;
+  max_retries: number;
+  next_retry_at: string | null;
+  error_code: string | null;
+  error_message: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  created_at: string;
+};
+
+type DiscordJobDeadLetterRow = {
+  id: string;
+  run_key: string;
+  job_key: string;
+  reason: string;
+  retryable: boolean;
+  resolved_at: string | null;
+  retry_run_key: string | null;
+  created_at: string;
+};
+
+type DiscordPremiumReviewRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  review_type: string;
+  status: string;
+  priority: number;
+  summary: string;
+  assigned_to: string | null;
+  sla_due_at: string | null;
+  completed_at: string | null;
+  follow_up_due_at?: string | null;
+  response_quality_score: number | null;
+  created_at: string;
+};
+
+type DiscordPremiumWorkflowEventRow = {
+  id: string;
+  request_id: string | null;
+  event_type: string;
+  actor: string | null;
+  status: string | null;
+  note: string | null;
+  created_at: string;
+};
+
+type DiscordOfficeHoursRow = {
+  id: string;
+  discord_user_id: string;
+  discord_username: string | null;
+  status: string;
+  priority: number;
+  question: string;
+  premium_member: boolean;
+  created_at: string;
+};
+
+type DiscordFinalScorecardRunRow = {
+  run_key: string;
+  status: string;
+  average_score: number;
+  blocked_below_95: string[] | null;
+  created_at: string;
+};
+
+type ProofRehearsalLaneRow = {
+  key: string;
+  title: string;
+  command: string;
+  evidencePath: string;
+  mutationMode: string;
+  requiredContracts: string[];
+  checks: Record<string, boolean>;
+  ok: boolean;
+  latestEvidence: {
+    path: string;
+    ok: boolean;
+    timestamp: string | null;
+    ageHours: number | null;
+  } | null;
+  note: string;
+};
+
+type ProofRehearsalReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  lanes: ProofRehearsalLaneRow[];
+  missingOrStale: Array<{ key: string; failedChecks: string[] }>;
+};
+
+type ContentFactoryReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
+  sourceEvidence: string;
+  dryRun: boolean;
+  planned: number;
+  created: number;
+  skipped: number;
+  failed: number;
+  draftCount: number;
+  minQualityScore: number | null;
+  channelCoverage: string[];
+  draftTypeCoverage: string[];
+  topicCoverageCount: number;
+  operatingContractCoverage: string[];
+  proofLaneTargetCoverage: string[];
+  proofEligibleDrafts: number;
+  approvalGate: {
+    noPublicPublish: boolean;
+    adminApprovalRequired: boolean;
+    readOnly: boolean;
+  };
+  failures: string[];
+  releaseMeaning: string;
+};
+
+type ChannelMatrixReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
+  channelCount: number;
+  approvedMemberChannelCount: number;
+  preApprovalChannels: string[];
+  premiumChannels: string[];
+  staffPrivateChannels: string[];
+  dailyChannels: string[];
+  weeklyChannels: string[];
+  proofLaneCoverage: string[];
+  categoryCoverage: string[];
+  postingModeCoverage: string[];
+  ownerCoverage: string[];
+  pinnedAssetCoverage: {
+    channelsWithPinnedAssets: number;
+    minimumPinnedAssetsPerChannel: number;
+  };
+  botJobCoverage: {
+    channelsWithBotJobs: number;
+    totalBotJobs: number;
+  };
+  antiSprawlCoverage: {
+    channelsWithRules: number;
+    examples: Array<{ channel: string; rule: string }>;
+  };
+  contentFactoryTargeting: {
+    ok: boolean;
+    knownChannelCount: number;
+    targetableChannelCount: number;
+    plannedSlotCount: number;
+    unknownChannels: string[];
+    blockedChannels: Array<{ channel: string; reason: string }>;
+    blockedVisibilityPolicy: Array<{ visibility: string; reason: string }>;
+  };
+  operatingChecks: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
+type ReadinessCheck = {
+  name: string;
+  passed: boolean;
+  evidence: string;
+};
+
+type PremiumWorkflowReadiness = {
+  ok: boolean;
+  version: string;
+  generatedAt: string;
+  mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
+  sourceEvidence: Record<string, string>;
+  checks: ReadinessCheck[];
+  proofSummary: {
+    seededProofOk: boolean;
+    reviewStatus: string | null;
+    qualityScore: number | null;
+    lifecycleEvents: string[];
+    officeHoursPremiumMember: boolean;
+    ragAnswerPresent: boolean;
+    retrievalLogPresent: boolean;
+  };
+  antiFakeRules: string[];
+  nextOperatingProofRequired: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
+type PublicGrowthReadiness = {
+  ok: boolean;
+  version: string;
+  generatedAt: string;
+  mutationMode: string;
+  validation?: {
+    ok: boolean;
+    validator: string;
+    validatedAt: string;
+    failures: string[];
+  };
+  sourceEvidence: Record<string, string>;
+  checks: ReadinessCheck[];
+  proofSummary: {
+    seededProofOk: boolean;
+    privacyBlocksPrivateData: boolean;
+    sourceCreated: boolean;
+    draftCreated: boolean;
+    draftStatus: string | null;
+    privacyScore: number | null;
+    qualityScore: number | null;
+    utmCampaign: string | null;
+  };
+  antiFakeRules: string[];
+  nextOperatingProofRequired: string[];
+  failures: string[];
+  releaseMeaning: string;
+};
+
+type ProofIntakeField = {
+  key: string;
+  label: string;
+  description: string;
+  required: boolean;
+};
+
+type ProofIntakeLane = {
+  key: string;
+  title: string;
+  targetCount: number;
+  adminSurface: string;
+  sourceTables: string[];
+  requiredFields: ProofIntakeField[];
+  acceptanceChecks: string[];
+  rejectionChecks: string[];
+  privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
+  verificationCommands: string[];
+  evidencePaths: string[];
+};
+
+type ProofIntakeReadiness = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  lanes: ProofIntakeLane[];
+  requiredLaneCount: number;
+  requiredFieldCount: number;
+  failures: string[];
+  weeklyIntakeOrder: string[];
+};
+
+type WeeklyProofPacketLane = {
+  key: string;
+  title: string;
+  status: 'passed' | 'blocked';
+  currentCount: number;
+  targetCount: number;
+  remainingCount: number;
+  adminSurface: string;
+  sourceTables: string[];
+  requiredFields: ProofIntakeField[];
+  acceptanceChecks: string[];
+  rejectionChecks: string[];
+  privacyChecks: string[];
+  qualityGates: string[];
+  nonProofExamples: string[];
+  verificationCommands: string[];
+  evidencePaths: string[];
+  intakeTemplate: Record<string, string>;
+};
+
+type WeeklyProofExecutionStep = {
+  priority: number;
+  laneKey: string;
+  laneTitle: string;
+  status: 'passed' | 'blocked';
+  dependency: string | null;
+  operatorAction: string;
+  adminSurface: string;
+  verificationCommand: string;
+  requiredEvidenceFields: string[];
+  exitCriteria: string[];
+  doNotCount: string[];
+};
+
+type WeeklyProofPacket = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  backlogStatus: 'passed' | 'blocked';
+  lanes: WeeklyProofPacketLane[];
+  executionPlan: WeeklyProofExecutionStep[];
+  weeklyIntakeOrder: string[];
+  nextActions: string[];
+  failures: string[];
+};
+
+type ProofCandidateAuditLane = {
+  key: string;
+  title: string;
+  status: 'passed' | 'blocked';
+  currentCount: number;
+  targetCount: number;
+  remainingCount: number;
+  candidateState: 'target_met' | 'needs_review' | 'needs_source_volume';
+  candidateCount: number;
+  sourceTables: string[];
+  adminSurface: string;
+  blockers: string[];
+  nextReviewAction: string;
+  provingCommand: string;
+  requiredEvidenceFields: string[];
+  criticalEvidenceFields: string[];
+};
+
+type ProofCandidateAudit = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'passed' | 'blocked';
+  metricsSnapshot: Record<string, number>;
+  lanes: ProofCandidateAuditLane[];
+  failures: string[];
+  nextActions: string[];
+};
+
+type ProofSourceVolumeScan = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  counts: Record<string, number>;
+  laneReadiness: Record<string, {
+    current: number;
+    target: number;
+    blocker: string | null;
+    reviewableCandidates?: number;
+    approvedKnowledgeAvailable?: number;
+    premiumMembers?: number;
+    premiumReviews?: number;
+    officeHours?: number;
+  }>;
+  errors: Array<{ label: string; error: string }>;
+  nextActions: string[];
+};
+
+type ProofSourceRecoveryPlan = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'passed' | 'blocked';
+  summary: {
+    laneCount: number;
+    blockedLaneCount: number;
+    totalShortfall: number;
+    nextLane: string | null;
+  };
+  lanes: Array<{
+    key: string;
+    status: 'passed' | 'blocked';
+    current: number;
+    target: number;
+    shortfall: number;
+    priority: number;
+    sourceVolumeState: string;
+    evidenceToCollect: string[];
+    collectionCadence: string[];
+    acceptanceChecklist: string[];
+    doNotCount: string[];
+    adminSurface: string;
+    safeLocalCommand: string;
+    liveActionRequired: string;
+    verificationCommand: string;
+    blocker: string | null;
+  }>;
+  immediateActionOrder: string[];
+  antiFakeRules: string[];
+  failures: string[];
+};
+
+type ApprovedKnowledgeOperatingPacket = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'ready_for_collection' | 'needs_source_scan' | 'target_met' | 'missing';
+  target: {
+    current: number;
+    target: number;
+    remaining: number;
+    reviewableCandidates: number;
+    sourceVolumeState: string;
+  };
+  adminSurface: string;
+  fields: Array<{
+    key: string;
+    label: string;
+    required: boolean;
+    description: string;
+  }>;
+  weeklySlots: Array<{
+    slot: number;
+    targetSourceType: string;
+    minimumQualityScore: number;
+  }>;
+  scoringRubric: {
+    maxScore: number;
+    passScore: number;
+    dimensions: Array<{
+      key: string;
+      points: number;
+      passSignal: string;
+      failSignal: string;
+    }>;
+  };
+  acceptanceChecklist: string[];
+  rejectionChecklist: string[];
+  privacyChecklist: string[];
+  verificationCommands: string[];
+  antiFakeRules: string[];
+  nextActions: string[];
+  failures: string[];
+};
+
+type RagEvalCoverageReadiness = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  latestEvalPath: string;
+  expectedQuestionCount: number;
+  seededQuestionCount: number;
+  evaluatedQuestionCount: number;
+  evaluatedKeyCount: number;
+  missingEvalKeys: string[];
+  unexpectedEvalKeys: string[];
+  releaseReady: boolean;
+  blockers: string[];
+  nextActions: string[];
+};
+
+type RagEvalExecutionPacket = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'approval_required' | 'not_required' | string;
+  coverageStillBlocked: boolean;
+  selectedMatchesCoverage: boolean;
+  expectedQuestionCount: number;
+  evaluatedQuestionCount: number;
+  missingEvalKeys: string[];
+  selectedKeys: string[];
+  commandPlan: {
+    dryRunCommand: string;
+    approvedCommand: string;
+    mutationWarning: string;
+    requiresExplicitApproval: boolean;
+  };
+  preRunChecks: string[];
+  postRunChecks: string[];
+  failureHandling: string[];
+  antiFakeRules: string[];
+};
+
+type RagEvalMissingPreflight = {
+  ok: boolean;
+  version: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: string;
+  selectedMatchesCoverage: boolean;
+  missingEvalKeys: string[];
+  selectedKeys: string[];
+  executionPacketKeys: string[];
+  summary: {
+    missingEvalCount: number;
+    sourceReadyCount: number;
+    termCoverageReadyCount: number;
+    readyForApprovedEvalCount: number;
+    blockerCount: number;
+  };
+  staticSources: Array<{
+    title: string;
+    path: string;
+    exists: boolean;
+    byteLength: number;
+  }>;
+  items: Array<{
+    evalKey: string;
+    category: string;
+    question: string | null;
+    expectedSources: string[];
+    missingSources: string[];
+    requiredTerms: string[];
+    missingRequiredTerms: string[];
+    sourceReady: boolean;
+    termCoverageReady: boolean;
+    readyForApprovedEval: boolean;
+  }>;
+  approvedCommand: string;
+  antiFakeRules: string[];
+  blockers: string[];
+  nextActions: string[];
+};
+
+type RagEvalRecoveryPlan = {
+  ok: boolean;
+  version: string;
+  status: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  coverage: {
+    expectedQuestionCount: number;
+    missingEvalCount: number;
+    missingEvalKeys: string[];
+    releaseReady: boolean;
+    blockers: string[];
+  };
+  latestEval: {
+    failedCount: number;
+    failedKeys: string[];
+  };
+  missingEvalBacklog: Array<{
+    evalKey: string;
+    category: string;
+    readyForApprovedEval: boolean;
+    verificationCommand: string;
+    acceptanceChecklist: string[];
+    doNotCount: string[];
+  }>;
+  failedEvalBacklog: Array<{
+    evalKey: string;
+    failedMetrics: string[];
+    recoveryActions: string[];
+  }>;
+  approvedCommand: string;
+  nextActions: string[];
+  antiFakeRules: string[];
+};
+
+type GatewayCaptureDiagnosis = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  diagnosis: {
+    status: 'healthy' | 'blocked' | 'warning';
+    rootCauses: string[];
+    nextActions: string[];
+  };
+  heartbeat: {
+    latest: {
+      workerId: string;
+      status: string;
+      lastSeenAt: string | null;
+      ageMinutes: number | null;
+      messageContentEnabled: boolean | null;
+      guildMembersEnabled: boolean | null;
+      intents: unknown;
+      lastCloseCode: number | null;
+      lastCloseReason: string | null;
+    } | null;
+  };
+  identify?: {
+    latest?: {
+      messageContentEnabled: boolean | null;
+      intents: number | null;
+      createdAt: string | null;
+    } | null;
+    messageContentSignalSource?: string | null;
+    effectiveMessageContentEnabled?: boolean | null;
+  } | null;
+  counts: Record<string, number>;
+  recentMessages: Array<{
+    id: string;
+    channelBaseName: string | null;
+    authorBot: boolean;
+    authorPresent: boolean;
+    contentLength: number;
+    detectedKind: string | null;
+    capturedAt: string | null;
+    deleted: boolean;
+  }>;
+  errors: Array<{ label: string; error: string }>;
+};
+
+type GatewayOperatingPacket = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseMeaning: string;
+  status: 'proven' | 'ready_for_fresh_message' | 'blocked' | 'missing';
+  target: {
+    current: number;
+    target: number;
+    remaining: number;
+    usableMessageState: string;
+  };
+  adminSurface: string;
+  messageContentSignal: {
+    effectiveEnabled: boolean | null;
+    source: string | null;
+    identifyEnabled: boolean | null;
+    heartbeatEnabled: boolean | null;
+    identifyCreatedAt: string | null;
+  };
+  heartbeat: {
+    workerId: string | null;
+    status: string | null;
+    ageMinutes: number | null;
+    lastSeenAt: string | null;
+    fresh: boolean;
+    lastCloseCode: number | null;
+  };
+  fields: Array<{ key: string; label: string; required: boolean; description: string }>;
+  acceptanceChecklist: string[];
+  rejectionChecklist: string[];
+  antiFakeRules: string[];
+  liveProofSteps: string[];
+  verificationCommands: string[];
+  nextActions: string[];
+  failures: string[];
+};
+
+type DiscordOperatorBriefEvidence = {
+  ok: boolean;
+  generatedAt: string;
+  mutationMode: string;
+  releaseDecision: string;
+  averageScore: number | null;
+  worldClassEligible: boolean;
+  currentReality: string;
+  blockedLaneCount: number;
+  releaseGates: {
+    total: number;
+    passed: number;
+    failures: string[];
+  };
+  actionPlan: {
+    localOnlyCommands: string[];
+    explicitApprovalCommands: string[];
+    liveOperatorActions: string[];
+  };
+  commandOrder: string[];
+  nonClaimRule: string;
+};
+
+const cockpitTabs = [
+  ['overview', 'Overview'],
+  ['members', 'Members'],
+  ['knowledge', 'Knowledge/RAG'],
+  ['content', 'Content'],
+  ['learning', 'Learning'],
+  ['jobs', 'Jobs'],
+  ['premium', 'Premium'],
+  ['quality', 'Quality'],
+  ['audit', 'Audit'],
+] as const;
+
 const statusTone: Record<string, Tone> = {
   approved: 'emerald',
   archived: 'neutral',
+  anonymized: 'emerald',
+  blocked: 'rose',
   captured: 'cyan',
+  canceled: 'neutral',
+  dead_lettered: 'rose',
   draft: 'amber',
   drafted: 'violet',
+  explicit: 'emerald',
   failed: 'rose',
   featured: 'emerald',
   heartbeat_ack: 'emerald',
@@ -184,27 +1059,59 @@ const statusTone: Record<string, Tone> = {
   published: 'emerald',
   ready: 'emerald',
   rejected: 'rose',
+  requeued: 'cyan',
   resumed: 'emerald',
+  running: 'cyan',
+  succeeded: 'emerald',
+  queued: 'amber',
   skipped: 'amber',
+  suppressed: 'neutral',
   triaged: 'cyan',
 };
 
-export default async function AdminDiscordPage() {
+export default async function AdminDiscordPage({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined> }) {
   const { profile } = await requireAdmin();
   const sb = supabaseAdmin();
+  const proofRehearsalReadiness = await loadProofRehearsalReadiness();
+  const channelMatrixReadiness = await loadChannelMatrixReadiness();
+  const contentFactoryReadiness = await loadContentFactoryReadiness();
+  const operatorBrief = await loadDiscordOperatorBrief();
+  const proofIntakeReadiness = await loadProofIntakeReadiness();
+  const weeklyProofPacket = await loadWeeklyProofPacket();
+  const proofCandidateAudit = await loadProofCandidateAudit();
+  const proofSourceVolumeScan = await loadProofSourceVolumeScan();
+  const proofSourceRecoveryPlan = await loadProofSourceRecoveryPlan();
+  const approvedKnowledgePacket = await loadApprovedKnowledgePacket();
+  const ragEvalCoverageReadiness = await loadRagEvalCoverageReadiness();
+  const ragEvalExecutionPacket = await loadRagEvalExecutionPacket();
+  const ragEvalMissingPreflight = await loadRagEvalMissingPreflight();
+  const ragEvalRecoveryPlan = await loadRagEvalRecoveryPlan();
+  const gatewayCaptureDiagnosis = await loadGatewayCaptureDiagnosis();
+  const gatewayOperatingPacket = await loadGatewayOperatingPacket();
+  const publicGrowthReadiness = await loadPublicGrowthReadiness();
+  const premiumWorkflowReadiness = await loadPremiumWorkflowReadiness();
+  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
+  const promptDebug = resolvedSearchParams.promptDebug === '1';
+  const requestedTab = typeof resolvedSearchParams.tab === 'string' ? resolvedSearchParams.tab : 'overview';
+  const activeTab = cockpitTabs.some(([key]) => key === requestedTab) ? requestedTab : 'overview';
 
   const since = new Date();
   since.setDate(since.getDate() - 30);
+  const since7d = new Date();
+  since7d.setDate(since7d.getDate() - 7);
 
   const [
     eventsRes,
     membersRes,
+    memberIntelligenceRes,
+    memberNudgesRes,
     runsRes,
     eventCountRes,
     premiumCountRes,
     pointsRes,
     contentQueueRes,
     contentDraftsRes,
+    ragDraftsRes,
     applicationsRes,
     quizzesRes,
     challengesRes,
@@ -217,6 +1124,41 @@ export default async function AdminDiscordPage() {
     gatewayReactionCountRes,
     gatewayHeartbeatsRes,
     gatewayDeadLetterCountRes,
+    ragSourcesRes,
+    ragSourceCountRes,
+    ragDocumentCountRes,
+    ragChunkCountRes,
+    ragEmbeddedChunkCountRes,
+    newestIngestionRunRes,
+    latestEvalRunRes,
+    latestEvalResultsRes,
+    jobRegistryRes,
+    jobRunsRes,
+    jobDeadLettersRes,
+    premiumReviewsRes,
+    premiumProofReviewsRes,
+    premiumWorkflowEventsRes,
+    officeHoursRes,
+    publicGrowthDraftsRes,
+    publicProofSourcesRes,
+    growthEventsRes,
+    latestFinalScorecardRes,
+    questionsApprovedCountRes,
+    answersHelpfulCountRes,
+    contentQueuePublishedCountRes,
+    draftsApprovedCountRes,
+    discordRagSourceCountRes,
+    pendingKnowledgeCandidatesCountRes,
+    pendingPublicDraftsCountRes,
+    publishedPublicDraftsCountRes,
+    approvedMemberCountRes,
+    onboardedMemberCountRes,
+    activeMember7dCountRes,
+    applicationsSubmittedCountRes,
+    applicationsApprovedCountRes,
+    publicProofApplyClicksCountRes,
+    premiumReviewProofCountRes,
+    officeHoursProofCountRes,
   ] = await Promise.all([
     sb
       .from('discord_events')
@@ -228,6 +1170,19 @@ export default async function AdminDiscordPage() {
       .select('discord_user_id, username, path_key, level_key, weekly_time_budget, preferred_support, premium_member, premium_status, last_seen_at')
       .order('last_seen_at', { ascending: false })
       .limit(80),
+    sb
+      .from('discord_member_intelligence_profiles')
+      .select('discord_user_id, username, segment, segment_confidence, segment_reasons, next_best_action, next_nudge_key, next_nudge_reason, risk_flags, strengths, total_points, current_streak, onboarding_steps_completed, last_activity_at, calculated_at')
+      .order('segment_confidence', { ascending: false })
+      .order('calculated_at', { ascending: false })
+      .limit(24),
+    sb
+      .from('discord_member_nudge_queue')
+      .select('id, discord_user_id, discord_username, nudge_key, reason, status, priority, rate_limit_until, created_at, metadata')
+      .in('status', ['queued', 'approved'])
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(24),
     sb
       .from('discord_scheduled_runs')
       .select('run_key, kind, status, message_id, posted_at')
@@ -248,17 +1203,23 @@ export default async function AdminDiscordPage() {
       .limit(1000),
     sb
       .from('discord_content_queue')
-      .select('id, idea, source, discord_username, status, priority, created_at')
+      .select('id, idea, angle, source, source_message_id, source_classification_action, source_classification_category, discord_username, status, priority, metadata, created_at')
       .order('priority', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(20),
     sb
       .from('discord_content_drafts')
-      .select('id, draft_type, target_channel_base_name, title, body, status, quality_score, created_at')
-      .in('status', ['draft', 'pending_approval'])
+      .select('id, content_queue_id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
+      .in('status', ['draft', 'pending_approval', 'approved'])
       .order('quality_score', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(12),
+    sb
+      .from('discord_content_drafts')
+      .select('id, content_queue_id, draft_type, target_channel_base_name, title, body, status, quality_score, prompt_version, metadata, created_at')
+      .in('status', ['draft', 'pending_approval', 'approved', 'published', 'rejected'])
+      .order('created_at', { ascending: false })
+      .limit(30),
     sb
       .from('discord_member_applications')
       .select('id, discord_user_id, discord_username, goal, experience, intended_build, path_key, level_key, timezone, weekly_time_budget, preferred_support, status, submitted_at')
@@ -288,14 +1249,14 @@ export default async function AdminDiscordPage() {
       .limit(7),
     sb
       .from('discord_questions')
-      .select('id, question, discord_username, status, created_at')
+      .select('id, question, context, discord_username, status, created_at')
       .order('created_at', { ascending: false })
-      .limit(10),
+      .limit(20),
     sb
       .from('discord_answers')
-      .select('id, answer, discord_username, helpful, created_at')
+      .select('id, question_id, answer, discord_username, helpful, created_at')
       .order('created_at', { ascending: false })
-      .limit(10),
+      .limit(20),
     sb
       .from('discord_gateway_events')
       .select('id', { count: 'exact', head: true }),
@@ -314,14 +1275,174 @@ export default async function AdminDiscordPage() {
       .from('discord_gateway_dead_letters')
       .select('id', { count: 'exact', head: true })
       .is('resolved_at', null),
+    sb
+      .from('rag_sources')
+      .select('source_key, source_type, source_record_id, source_table, updated_at')
+      .in('source_type', ['discord_question', 'discord_answer', 'discord_content_queue', 'lesson', 'resource', 'admin_note'])
+      .limit(1000),
+    sb.from('rag_sources').select('id', { count: 'exact', head: true }),
+    sb.from('rag_documents').select('id', { count: 'exact', head: true }),
+    sb.from('rag_chunks').select('id', { count: 'exact', head: true }),
+    sb.from('rag_chunks').select('id', { count: 'exact', head: true }).not('embedding_local', 'is', null),
+    sb
+      .from('rag_ingestion_runs')
+      .select('run_key, status, started_at, finished_at, failures')
+      .order('started_at', { ascending: false })
+      .limit(1),
+    sb
+      .from('rag_eval_runs')
+      .select('run_key, status, total_questions, passed, failed, metrics, finished_at')
+      .order('started_at', { ascending: false })
+      .limit(1),
+    sb
+      .from('rag_eval_results')
+      .select('id, passed, score, citation_coverage, faithfulness, metadata, answer_id, retrieval_log_id, rag_eval_questions(eval_key, question)')
+      .order('passed', { ascending: true })
+      .order('created_at', { ascending: false })
+      .limit(12),
+    sb
+      .from('discord_job_registry')
+      .select('job_key, job_name, schedule, owner, idempotency_scope, max_retries, retryable, enabled, side_effects, updated_at')
+      .order('owner', { ascending: true })
+      .order('job_key', { ascending: true })
+      .limit(40),
+    sb
+      .from('discord_job_runs')
+      .select('run_key, job_key, status, idempotency_key, attempt, max_retries, next_retry_at, error_code, error_message, started_at, finished_at, created_at')
+      .order('created_at', { ascending: false })
+      .limit(30),
+    sb
+      .from('discord_job_dead_letters')
+      .select('id, run_key, job_key, reason, retryable, resolved_at, retry_run_key, created_at')
+      .is('resolved_at', null)
+      .order('created_at', { ascending: false })
+      .limit(20),
+    sb
+      .from('discord_premium_review_requests')
+      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, assigned_to, sla_due_at, completed_at, response_quality_score, created_at')
+      .in('status', ['queued', 'in_review'])
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(20),
+    sb
+      .from('discord_premium_review_requests')
+      .select('id, discord_user_id, discord_username, review_type, status, priority, summary, assigned_to, sla_due_at, completed_at, follow_up_due_at, response_quality_score, created_at')
+      .in('status', ['answered', 'closed'])
+      .order('completed_at', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(12),
+    sb
+      .from('discord_premium_workflow_events')
+      .select('id, request_id, event_type, actor, status, note, created_at')
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
+      .from('discord_office_hours_queue')
+      .select('id, discord_user_id, discord_username, status, priority, question, premium_member, created_at')
+      .in('status', ['queued', 'selected'])
+      .order('premium_member', { ascending: false })
+      .order('priority', { ascending: false })
+      .order('created_at', { ascending: true })
+      .limit(20),
+    sb
+      .from('discord_public_growth_drafts')
+      .select('id, draft_type, title, body, status, privacy_score, quality_score, utm_campaign, reviewer_email, reviewed_at, published_at, created_at, discord_public_proof_sources(title, source_type, permission_status, privacy_score)')
+      .in('status', ['draft', 'pending_approval', 'approved'])
+      .order('quality_score', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
+      .from('discord_public_proof_sources')
+      .select('id, source_type, source_table, source_record_id, title, summary, permission_status, privacy_score, created_at, updated_at')
+      .order('privacy_score', { ascending: true })
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
+      .from('discord_growth_events')
+      .select('id, event_type, source, utm_campaign, path, created_at')
+      .order('created_at', { ascending: false })
+      .limit(16),
+    sb
+      .from('discord_final_scorecard_runs')
+      .select('run_key, status, average_score, blocked_below_95, created_at')
+      .order('created_at', { ascending: false })
+      .limit(1),
+    sb
+      .from('discord_questions')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['answered', 'closed']),
+    sb
+      .from('discord_answers')
+      .select('id', { count: 'exact', head: true })
+      .eq('helpful', true),
+    sb
+      .from('discord_content_queue')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'published'),
+    sb
+      .from('discord_content_drafts')
+      .select('status, quality_score, content_queue_id, metadata')
+      .in('status', ['approved', 'published'])
+      .gte('quality_score', 80)
+      .limit(1000),
+    sb
+      .from('rag_sources')
+      .select('id', { count: 'exact', head: true })
+      .or('source_type.in.(discord_question,discord_answer,discord_content_queue),source_table.eq.discord_content_drafts'),
+    sb
+      .from('discord_content_queue')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['captured', 'candidate', 'pending_review']),
+    sb
+      .from('discord_public_growth_drafts')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'pending_approval'),
+    sb
+      .from('discord_public_growth_drafts')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'published'),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .eq('academy_member', true),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .not('onboarding_completed_at', 'is', null),
+    sb
+      .from('discord_members')
+      .select('discord_user_id', { count: 'exact', head: true })
+      .gte('last_seen_at', since7d.toISOString()),
+    sb
+      .from('discord_member_applications')
+      .select('id', { count: 'exact', head: true }),
+    sb
+      .from('discord_member_applications')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    sb
+      .from('discord_growth_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('event_type', 'apply_click'),
+    sb
+      .from('discord_premium_review_requests')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['answered', 'completed']),
+    sb
+      .from('discord_office_hours_queue')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['completed']),
   ]);
 
   const events = (eventsRes.data ?? []) as DiscordEventRow[];
   const members = (membersRes.data ?? []) as DiscordMemberRow[];
+  const memberIntelligence = (memberIntelligenceRes.data ?? []) as DiscordMemberIntelligenceProfileRow[];
+  const memberNudges = (memberNudgesRes.data ?? []) as DiscordMemberNudgeQueueRow[];
   const runs = (runsRes.data ?? []) as DiscordRunRow[];
   const pointsRows = (pointsRes.data ?? []) as DiscordPointsRow[];
   const contentQueue = (contentQueueRes.data ?? []) as DiscordContentQueueRow[];
   const contentDrafts = (contentDraftsRes.data ?? []) as DiscordContentDraftRow[];
+  const ragDrafts = (ragDraftsRes.data ?? []) as DiscordContentDraftRow[];
   const applications = (applicationsRes.data ?? []) as DiscordApplicationRow[];
   const quizzes = (quizzesRes.data ?? []) as DiscordQuizRow[];
   const challenges = (challengesRes.data ?? []) as DiscordChallengeRow[];
@@ -329,12 +1450,148 @@ export default async function AdminDiscordPage() {
   const calendar = (calendarRes.data ?? []) as DiscordCalendarRow[];
   const questions = (questionsRes.data ?? []) as DiscordQuestionRow[];
   const answers = (answersRes.data ?? []) as DiscordAnswerRow[];
+  const ragSources = (ragSourcesRes.data ?? []) as RagSourceRow[];
+  const jobRegistry = (jobRegistryRes.data ?? []) as DiscordJobRegistryRow[];
+  const jobRuns = (jobRunsRes.data ?? []) as DiscordJobRunRow[];
+  const jobDeadLetters = (jobDeadLettersRes.data ?? []) as DiscordJobDeadLetterRow[];
+  const premiumReviews = (premiumReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
+  const premiumProofReviews = (premiumProofReviewsRes.data ?? []) as DiscordPremiumReviewRow[];
+  const premiumWorkflowEvents = (premiumWorkflowEventsRes.data ?? []) as DiscordPremiumWorkflowEventRow[];
+  const officeHours = (officeHoursRes.data ?? []) as DiscordOfficeHoursRow[];
+  const publicGrowthDrafts = (publicGrowthDraftsRes.data ?? []) as DiscordPublicGrowthDraftRow[];
+  const publicProofSources = (publicProofSourcesRes.data ?? []) as DiscordPublicProofSourceRow[];
+  const growthEvents = (growthEventsRes.data ?? []) as DiscordGrowthEventRow[];
+  const latestFinalScorecard = ((latestFinalScorecardRes.data ?? []) as DiscordFinalScorecardRunRow[])[0] ?? null;
+  const approvedDiscordKnowledgeSources = (questionsApprovedCountRes.count ?? 0)
+    + (answersHelpfulCountRes.count ?? 0)
+    + (contentQueuePublishedCountRes.count ?? 0)
+    + ((draftsApprovedCountRes.data ?? []) as Array<{
+      status?: string | null;
+      quality_score?: number | null;
+      content_queue_id?: string | null;
+      metadata?: Record<string, unknown> | null;
+    }>).filter(isApprovedDiscordContentDraft).length;
+  const proofBacklog = buildDiscordProofBacklogReport({
+    generatedAt: new Date().toISOString(),
+    metrics: {
+      approvedDiscordKnowledgeSources,
+      ragDiscordSources: discordRagSourceCountRes.count ?? 0,
+      pendingKnowledgeCandidates: pendingKnowledgeCandidatesCountRes.count ?? 0,
+      pendingPublicDrafts: pendingPublicDraftsCountRes.count ?? 0,
+      publishedPublicDrafts: publishedPublicDraftsCountRes.count ?? 0,
+      approvedMembers: approvedMemberCountRes.count ?? 0,
+      onboardedMembers: onboardedMemberCountRes.count ?? 0,
+      activeMembers7d: activeMember7dCountRes.count ?? 0,
+      premiumMembers: premiumCountRes.count ?? 0,
+      premiumWorkflowProofs: (premiumReviewProofCountRes.count ?? 0)
+        + (officeHoursProofCountRes.count ?? 0),
+      applicationsSubmitted: applicationsSubmittedCountRes.count ?? 0,
+      applicationsApproved: applicationsApprovedCountRes.count ?? 0,
+      publicProofApplyClicks: publicProofApplyClicksCountRes.count ?? 0,
+    },
+  });
+  const localScorecard = buildDiscordFinalScorecard();
+  const localScorecardSummary = buildDiscordFinalScorecardSummary(localScorecard);
+  const worldClassReadiness = buildWorldClassReadinessReport({
+    generatedAt: new Date().toISOString(),
+    averageScore: localScorecardSummary.averageScore,
+    worldClassThreshold: localScorecardSummary.worldClassThreshold,
+    worldClassEligible: localScorecardSummary.worldClassEligible,
+    scorecard: localScorecard,
+    releaseGates: [
+      {
+        name: 'rag_eval_latest',
+        passed: ragEvalCoverageReadiness.releaseReady === true,
+        evidence: `${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount} evaluated`,
+      },
+      {
+        name: 'rag_eval_coverage_readiness',
+        passed: ragEvalCoverageReadiness.releaseReady === true,
+        evidence: `${ragEvalCoverageReadiness.missingEvalKeys.length} missing eval keys`,
+      },
+    ],
+    operatingBlockers: proofBacklog.lanes
+      .filter((lane) => lane.status === 'blocked')
+      .map(formatProofLaneOperatingBlocker)
+      .filter((blocker): blocker is string => Boolean(blocker)),
+    requiredOperatingProof: localScorecardSummary.requiredOperatingProof,
+    ragEvalMissingPreflight: {
+      status: ragEvalMissingPreflight.status,
+      ok: ragEvalMissingPreflight.ok,
+      missingEvalCount: ragEvalMissingPreflight.summary.missingEvalCount,
+      readyForApprovedEvalCount: ragEvalMissingPreflight.summary.readyForApprovedEvalCount,
+      selectedMatchesCoverage: ragEvalMissingPreflight.selectedMatchesCoverage,
+      approvedCommand: ragEvalMissingPreflight.approvedCommand,
+      releaseMeaning: ragEvalMissingPreflight.releaseMeaning,
+    },
+    ragEvalRecoveryPlan: {
+      status: ragEvalRecoveryPlan.status,
+      ok: ragEvalRecoveryPlan.ok,
+      missingEvalCount: ragEvalRecoveryPlan.coverage.missingEvalCount,
+      readyMissingEvalCount: ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length,
+      failedEvalCount: ragEvalRecoveryPlan.latestEval.failedCount,
+      approvedCommand: ragEvalRecoveryPlan.approvedCommand,
+      releaseMeaning: ragEvalRecoveryPlan.releaseMeaning,
+    },
+    proofSourceRecoveryPlan: {
+      status: proofSourceRecoveryPlan.status,
+      ok: proofSourceRecoveryPlan.ok,
+      totalShortfall: proofSourceRecoveryPlan.summary.totalShortfall,
+      blockedLaneCount: proofSourceRecoveryPlan.summary.blockedLaneCount,
+      nextLaneKey: proofSourceRecoveryPlan.summary.nextLane,
+      releaseMeaning: proofSourceRecoveryPlan.releaseMeaning,
+    },
+    gatewayOperatingPacket: {
+      status: gatewayOperatingPacket.status,
+      current: gatewayOperatingPacket.target.current,
+      target: gatewayOperatingPacket.target.target,
+      remaining: gatewayOperatingPacket.target.remaining,
+      usableMessageState: gatewayOperatingPacket.target.usableMessageState,
+      messageContentEnabled: gatewayOperatingPacket.messageContentSignal.effectiveEnabled,
+      messageContentSignalSource: gatewayOperatingPacket.messageContentSignal.source,
+      heartbeatFresh: gatewayOperatingPacket.heartbeat.fresh,
+      workerId: gatewayOperatingPacket.heartbeat.workerId,
+      nextActions: gatewayOperatingPacket.nextActions,
+      releaseMeaning: gatewayOperatingPacket.releaseMeaning,
+    },
+  });
+  const worldClassReadinessValidation = validateWorldClassReadinessReport(worldClassReadiness);
+  const latestIngestionRun = ((newestIngestionRunRes.data ?? []) as RagIngestionRunRow[])[0] ?? null;
+  const latestEvalRun = ((latestEvalRunRes.data ?? []) as RagEvalRunRow[])[0] ?? null;
+  const ragEvalDrilldown = ((latestEvalResultsRes.data ?? []) as any[]).map(buildRagEvalDrilldownRow);
+  const discordRagSourceKeys = new Set(ragSources.map((source) => source.source_key));
+  const corpusItems = [
+    ...questions.map((question) => buildDiscordCorpusQuestionItem(question, discordRagSourceKeys)),
+    ...answers.map((answer) => buildDiscordCorpusAnswerItem(answer, discordRagSourceKeys)),
+    ...contentQueue.map((item) => buildDiscordCorpusQueueItem(item, discordRagSourceKeys)),
+    ...ragDrafts.map((draft) => buildDiscordCorpusDraftItem(draft, discordRagSourceKeys)),
+  ].sort(sortCorpusItems);
+  const corpusHealth = summarizeDiscordCorpusHealth(
+    corpusItems,
+    ragSources.filter((source) => source.source_type.startsWith('discord_') || source.source_table === 'discord_content_drafts').length,
+  );
+  const ragOperationalHealth = summarizeRagCorpusHealth({
+    sources: ragSourceCountRes.count ?? 0,
+    documents: ragDocumentCountRes.count ?? 0,
+    chunks: ragChunkCountRes.count ?? 0,
+    embeddedChunks: ragEmbeddedChunkCountRes.count ?? 0,
+    blockedDiscordCandidates: corpusHealth.blocked,
+    newestIngestionRun: latestIngestionRun,
+    latestEvalRun,
+  });
+  const observabilityQuality = await loadDiscordObservabilityQualityRollup({ windowHours: 24, persist: false });
   const gatewayHeartbeats = (gatewayHeartbeatsRes.data ?? []) as DiscordGatewayHeartbeatRow[];
   const failures = events.filter((event) => event.event_type.includes('failed')).length;
   const openDeadLetters = gatewayDeadLetterCountRes.count ?? 0;
   const activeWorker = gatewayHeartbeats.some((heartbeat) => ['ready', 'resumed', 'heartbeat_ack'].includes(heartbeat.status));
   const pendingDrafts = contentDrafts.filter((draft) => draft.status === 'pending_approval').length;
-  const pendingReviews = applications.length + pendingDrafts + challengeSubmissions.filter((item) => item.status === 'pending').length;
+  const pendingReviews = applications.length
+    + pendingDrafts
+    + challengeSubmissions.filter((item) => item.status === 'pending').length
+    + memberNudges.filter((item) => item.status === 'queued').length
+    + premiumReviews.length
+    + officeHours.length
+    + jobDeadLetters.length;
   const capturedMessages = gatewayMessageCountRes.count ?? 0;
   const operatingScore = scoreOperatingHealth({
     activeWorker,
@@ -354,6 +1611,21 @@ export default async function AdminDiscordPage() {
         fullName={profile.full_name}
       />
       <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8" data-testid="admin-discord">
+        <nav className="mb-4 flex flex-wrap gap-2" aria-label="Discord cockpit sections">
+          {cockpitTabs.map(([key, label]) => (
+            <a
+              key={key}
+              href={`/admin/discord?tab=${key}${promptDebug ? '&promptDebug=1' : ''}`}
+              className={`inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium transition ${
+                activeTab === key
+                  ? 'border-[#22d3ee]/50 bg-[#06b6d4]/15 text-[#67e8f9]'
+                  : 'border-[#27272a] bg-[#111116] text-[#a1a1aa] hover:border-[#3f3f46] hover:text-[#fafafa]'
+              }`}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
         <section className="relative overflow-hidden rounded-lg border border-[#27272a] bg-[#0c0c10]">
           <div className="absolute inset-x-0 top-0 h-px bg-[#22d3ee]" />
           <div className="grid gap-6 p-5 lg:grid-cols-[1.45fr_0.55fr] lg:p-6">
@@ -362,6 +1634,12 @@ export default async function AdminDiscordPage() {
                 <Badge tone="cyan" className="uppercase tracking-wider">SageBot OS</Badge>
                 <Badge tone={activeWorker ? 'emerald' : 'rose'}>{activeWorker ? 'worker live' : 'worker down'}</Badge>
                 <Badge tone={pendingReviews > 0 ? 'amber' : 'neutral'}>{pendingReviews} review items</Badge>
+                <a
+                  href={promptDebug ? '/admin/discord' : '/admin/discord?promptDebug=1'}
+                  className="inline-flex h-6 items-center rounded border border-[#3f3f46] px-2 text-[11px] font-medium text-[#d4d4d8] transition hover:border-[#22d3ee] hover:text-[#fafafa]"
+                >
+                  Prompt debug {promptDebug ? 'on' : 'off'}
+                </a>
               </div>
               <div className="mt-5 max-w-4xl">
                 <h1 className="text-2xl font-semibold tracking-tight text-[#fafafa] sm:text-3xl">
@@ -376,6 +1654,10 @@ export default async function AdminDiscordPage() {
                 <MetricCard icon={Users} label="Tracked members" value={members.length} detail={`${premiumCountRes.count ?? 0} premium`} />
                 <MetricCard icon={MessageCircle} label="Captured messages" value={capturedMessages} detail={`${gatewayEventCountRes.count ?? 0} events / ${gatewayReactionCountRes.count ?? 0} reactions`} />
                 <MetricCard icon={Inbox} label="Open review queue" value={pendingReviews} tone={pendingReviews ? 'amber' : 'emerald'} />
+                <MetricCard icon={Radio} label="Durable jobs" value={jobRegistry.length} detail={`${jobDeadLetters.length} open dead letters`} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
+                <MetricCard icon={BookOpenCheck} label="RAG corpus health" value={`${corpusHealth.healthScore}%`} detail={`${corpusHealth.authoritativeSources} authoritative / ${corpusHealth.missing} missing`} tone={corpusHealth.healthScore >= 85 ? 'emerald' : corpusHealth.healthScore >= 65 ? 'amber' : 'rose'} />
+                <MetricCard icon={HeartPulse} label="RAG ops health" value={ragOperationalHealth.status} detail={`${Math.round(ragOperationalHealth.embeddingCoverage * 100)}% embedded / ${latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} eval` : 'no eval'}`} tone={ragOperationalHealth.status === 'healthy' ? 'emerald' : ragOperationalHealth.status === 'watch' ? 'amber' : 'rose'} />
+                <MetricCard icon={Activity} label="Quality intelligence" value={`${observabilityQuality.healthScore}%`} detail={`${Math.round(observabilityQuality.traceCoverage * 100)}% traced / $${observabilityQuality.cost.estimatedUsd.toFixed(4)}`} tone={observabilityQuality.status === 'healthy' ? 'emerald' : observabilityQuality.status === 'watch' ? 'amber' : 'rose'} />
               </div>
             </div>
             <Card className="rounded-lg border-[#2a2a31] bg-[#111116]">
@@ -391,12 +1673,1306 @@ export default async function AdminDiscordPage() {
                 </div>
                 <div className="mt-5 space-y-3">
                   <HealthLine label="Gateway worker" value={activeWorker ? 'Online' : 'Needs attention'} tone={activeWorker ? 'emerald' : 'rose'} />
-                  <HealthLine label="Open dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
+                  <HealthLine label="Gateway dead letters" value={String(openDeadLetters)} tone={openDeadLetters ? 'rose' : 'emerald'} />
+                  <HealthLine label="Job dead letters" value={String(jobDeadLetters.length)} tone={jobDeadLetters.length ? 'rose' : 'emerald'} />
                   <HealthLine label="Last scheduled run" value={lastRun ? `${lastRun.kind} / ${lastRun.status}` : 'No run yet'} tone={lastRun?.status === 'failed' ? 'rose' : lastRun ? 'emerald' : 'amber'} />
+                  <HealthLine
+                    label="Final scorecard"
+                    value={latestFinalScorecard ? `${latestFinalScorecard.average_score}/100` : 'No run'}
+                    tone={!latestFinalScorecard ? 'amber' : latestFinalScorecard.average_score >= 95 ? 'emerald' : latestFinalScorecard.average_score >= 85 ? 'amber' : 'rose'}
+                  />
+                  <HealthLine
+                    label="95+ blockers"
+                    value={latestFinalScorecard ? String(latestFinalScorecard.blocked_below_95?.length ?? 0) : 'unknown'}
+                    tone={!latestFinalScorecard ? 'amber' : (latestFinalScorecard.blocked_below_95?.length ?? 0) === 0 ? 'emerald' : 'rose'}
+                  />
                 </div>
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.8fr_1.2fr]" data-testid="discord-proof-backlog">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#f59e0b]/30 bg-[#f59e0b]/10 text-[#fbbf24]">
+                  <AlertTriangle className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">World-class proof backlog</h2>
+                  <p className="text-xs text-[#71717a]">The exact proof lanes blocking a 95+ claim.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2">
+                <HealthLine
+                  label="Release claim"
+                  value={proofBacklog.status === 'passed' ? 'eligible' : 'blocked'}
+                  tone={proofBacklog.status === 'passed' ? 'emerald' : 'rose'}
+                />
+                <HealthLine
+                  label="Blocked lanes"
+                  value={String(proofBacklog.lanes.filter((lane) => lane.status === 'blocked').length)}
+                  tone={proofBacklog.status === 'passed' ? 'emerald' : 'amber'}
+                />
+                <HealthLine
+                  label="Source of truth"
+                  value="live counts"
+                  tone="cyan"
+                />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                This panel reads current database counts. It does not count dry-run content, raw unapproved Discord chatter, or synthetic smoke rows as world-class proof.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Proof lanes"
+            meta={`${proofBacklog.lanes.filter((lane) => lane.status === 'blocked').length} blocked / ${proofBacklog.lanes.length} total`}
+            empty="All proof lanes have met their current target."
+          >
+            {proofBacklog.lanes.map((lane) => (
+              <ProofBacklogLaneRow key={lane.key} lane={lane} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="Weekly proof checklist"
+            meta={`${proofBacklog.weeklyChecklist.length} operator steps`}
+            empty="No blocked proof lanes. Keep running weekly scorecard verification."
+          >
+            {proofBacklog.weeklyChecklist.map((step) => (
+              <ProofChecklistStepRow key={step.laneKey} step={step} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-operator-brief">
+          <Panel
+            icon={ClipboardCheck}
+            title="Operator brief"
+            meta={operatorBrief.ok
+              ? `${operatorBrief.averageScore ?? 'n/a'}/100 / ${operatorBrief.blockedLaneCount} blocked`
+              : 'missing evidence'}
+            empty="Operator brief evidence has not been generated. Run npm run discord:operator-brief."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={operatorBrief.worldClassEligible ? 'emerald' : 'rose'}>
+                    {operatorBrief.releaseDecision.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone="neutral">{operatorBrief.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{operatorBrief.currentReality}</p>
+                <div className="mt-3 rounded-md border border-[#f59e0b]/25 bg-[#f59e0b]/10 px-3 py-2 text-xs leading-5 text-[#facc15]">
+                  {operatorBrief.nonClaimRule}
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Command order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {operatorBrief.commandOrder.slice(0, 8).map((command, index) => (
+                    <li key={command} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <code className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-1.5 py-0.5 text-[#d4d4d8]">{command}</code>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Release gates</div>
+                  <div className="mt-1 text-[11px] text-[#71717a]">These gates decide whether a 95+ claim is allowed.</div>
+                </div>
+                <Badge tone={operatorBrief.releaseGates.failures.length ? 'rose' : 'emerald'}>
+                  {operatorBrief.releaseGates.passed}/{operatorBrief.releaseGates.total} passed
+                </Badge>
+              </div>
+              {operatorBrief.releaseGates.failures.length ? (
+                <div className="mt-3 grid gap-2 md:grid-cols-2">
+                  {operatorBrief.releaseGates.failures.map((failure) => (
+                    <div key={failure} className="rounded-md border border-[#7f1d1d] bg-[#450a0a] px-3 py-2 text-xs text-[#fecaca]">
+                      {failure}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-3 rounded-md border border-[#10b981]/25 bg-[#10b981]/10 px-3 py-2 text-xs text-[#34d399]">
+                  No release gate failures are present in the current operator brief.
+                </div>
+              )}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <ActionBoundaryPlan
+                title="Permission-boundary action plan"
+                localOnlyCommands={operatorBrief.actionPlan.localOnlyCommands}
+                explicitApprovalCommands={operatorBrief.actionPlan.explicitApprovalCommands}
+                liveOperatorActions={operatorBrief.actionPlan.liveOperatorActions}
+              />
+            </div>
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-intake-readiness">
+          <Panel
+            icon={FileCheck2}
+            title="Proof intake readiness"
+            meta={proofIntakeReadiness.ok
+              ? `${proofIntakeReadiness.requiredLaneCount} lanes / ${proofIntakeReadiness.requiredFieldCount} fields`
+              : `${proofIntakeReadiness.failures.length} failures`}
+            empty="Proof intake readiness has not been generated. Run npm run discord:proof-intake-readiness."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofIntakeReadiness.ok ? 'emerald' : 'rose'}>{proofIntakeReadiness.ok ? 'contract ready' : 'missing contract'}</Badge>
+                  <Badge tone="neutral">{proofIntakeReadiness.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofIntakeReadiness.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Weekly intake order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofIntakeReadiness.weeklyIntakeOrder.slice(0, 6).map((step, index) => (
+                    <li key={step} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            {proofIntakeReadiness.lanes.map((lane) => (
+              <ProofIntakeLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofIntakeReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-weekly-proof-packet">
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Weekly proof packet"
+            meta={weeklyProofPacket.ok
+              ? `${weeklyProofPacket.lanes.filter((lane) => lane.status === 'blocked').length} blocked / ${weeklyProofPacket.lanes.length} lanes`
+              : `${weeklyProofPacket.failures.length} failures`}
+            empty="Weekly proof packet has not been generated. Run npm run discord:weekly-proof-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={weeklyProofPacket.backlogStatus === 'passed' ? 'emerald' : 'rose'}>{weeklyProofPacket.backlogStatus}</Badge>
+                  <Badge tone={weeklyProofPacket.ok ? 'emerald' : 'rose'}>{weeklyProofPacket.ok ? 'packet ready' : 'packet invalid'}</Badge>
+                  <Badge tone="neutral">{weeklyProofPacket.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{weeklyProofPacket.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {weeklyProofPacket.nextActions.slice(0, 5).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="px-3 py-3">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Execution plan</div>
+                <div className="mt-3 grid gap-2">
+                  {weeklyProofPacket.executionPlan.slice(0, 5).map((step) => (
+                    <div key={`${step.priority}:${step.laneKey}`} className="grid gap-2 rounded-md border border-[#27272a] bg-[#0f0f12] p-2.5 lg:grid-cols-[36px_1fr_auto]">
+                      <Badge tone={step.status === 'passed' ? 'emerald' : 'rose'}>{step.priority}</Badge>
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-sm font-semibold text-[#fafafa]">{step.laneTitle}</span>
+                          {step.dependency ? <Badge tone="neutral">after {step.dependency}</Badge> : null}
+                        </div>
+                        <p className="mt-1 text-xs leading-5 text-[#a1a1aa]">{step.operatorAction}</p>
+                        <div className="mt-1 text-[11px] text-[#71717a]">Exit: {step.exitCriteria[0]}</div>
+                      </div>
+                      <div className="max-w-[280px] text-[11px] leading-4 text-[#71717a] lg:text-right">
+                        <div>{step.adminSurface}</div>
+                        <div className="mt-1 text-[#a1a1aa]">{step.verificationCommand}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {weeklyProofPacket.lanes.map((lane) => (
+              <WeeklyProofPacketLaneRow key={lane.key} lane={lane} />
+            ))}
+            {weeklyProofPacket.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-candidate-audit">
+          <Panel
+            icon={ClipboardCheck}
+            title="Proof candidate audit"
+            meta={proofCandidateAudit.ok
+              ? `${proofCandidateAudit.lanes.filter((lane) => lane.candidateState === 'needs_source_volume').length} source-volume gaps`
+              : `${proofCandidateAudit.failures.length} failures`}
+            empty="Proof candidate audit has not been generated. Run npm run discord:proof-candidate-audit."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofCandidateAudit.status === 'passed' ? 'emerald' : 'rose'}>{proofCandidateAudit.status}</Badge>
+                  <Badge tone={proofCandidateAudit.ok ? 'emerald' : 'rose'}>{proofCandidateAudit.ok ? 'audit ready' : 'audit invalid'}</Badge>
+                  <Badge tone="neutral">{proofCandidateAudit.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofCandidateAudit.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Current proof counts</div>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  {Object.entries(proofCandidateAudit.metricsSnapshot).slice(0, 8).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                      <span className="truncate text-[#71717a]">{key}</span>
+                      <span className="font-semibold text-[#fafafa]">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {proofCandidateAudit.lanes.map((lane) => (
+              <ProofCandidateAuditLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofCandidateAudit.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-source-volume-scan">
+          <Panel
+            icon={Radio}
+            title="Proof source volume scan"
+            meta={proofSourceVolumeScan.ok
+              ? `${proofSourceVolumeScan.counts['discord_messages.all'] ?? 0} messages / ${proofSourceVolumeScan.counts['discord_content_queue.all'] ?? 0} queue`
+              : `${proofSourceVolumeScan.errors.length} scan errors`}
+            empty="Proof source volume scan has not been generated. Run npm run discord:proof-source-scan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofSourceVolumeScan.ok ? 'emerald' : 'rose'}>{proofSourceVolumeScan.ok ? 'scan ok' : 'scan failed'}</Badge>
+                  <Badge tone="neutral">{proofSourceVolumeScan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofSourceVolumeScan.releaseMeaning}</p>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next source-volume actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofSourceVolumeScan.nextActions.slice(0, 4).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 md:grid-cols-2 xl:grid-cols-4">
+              {Object.entries(proofSourceVolumeScan.laneReadiness).map(([key, lane]) => (
+                <div key={key} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{key}</div>
+                    <Badge tone={lane.current >= lane.target ? 'emerald' : 'rose'}>{lane.current}/{lane.target}</Badge>
+                  </div>
+                  {typeof lane.reviewableCandidates === 'number' ? (
+                    <div className="mt-2 text-[11px] text-[#71717a]">reviewable candidates: {lane.reviewableCandidates}</div>
+                  ) : null}
+                  {typeof lane.approvedKnowledgeAvailable === 'number' ? (
+                    <div className="mt-2 text-[11px] text-[#71717a]">approved knowledge: {lane.approvedKnowledgeAvailable}</div>
+                  ) : null}
+                  {lane.blocker ? <p className="mt-3 text-xs leading-5 text-[#fca5a5]">{lane.blocker}</p> : null}
+                </div>
+              ))}
+            </div>
+            {proofSourceVolumeScan.errors.map((error) => (
+              <div key={`${error.label}:${error.error}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {error.label}: {error.error}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-source-recovery-plan">
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Proof source recovery plan"
+            meta={`${proofSourceRecoveryPlan.summary.totalShortfall} total shortfall / next ${proofSourceRecoveryPlan.summary.nextLane ?? 'none'}`}
+            empty="Proof source recovery plan has not been generated. Run npm run discord:proof-source-recovery-plan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={proofSourceRecoveryPlan.status === 'passed' ? 'emerald' : 'rose'}>{proofSourceRecoveryPlan.status}</Badge>
+                  <Badge tone={proofSourceRecoveryPlan.ok ? 'emerald' : 'rose'}>{proofSourceRecoveryPlan.ok ? 'plan valid' : 'plan invalid'}</Badge>
+                  <Badge tone="neutral">{proofSourceRecoveryPlan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{proofSourceRecoveryPlan.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Blocked lanes" value={`${proofSourceRecoveryPlan.summary.blockedLaneCount}/${proofSourceRecoveryPlan.summary.laneCount}`} tone={proofSourceRecoveryPlan.summary.blockedLaneCount ? 'rose' : 'emerald'} />
+                  <HealthLine label="Total shortfall" value={String(proofSourceRecoveryPlan.summary.totalShortfall)} tone={proofSourceRecoveryPlan.summary.totalShortfall ? 'rose' : 'emerald'} />
+                  <HealthLine label="Next lane" value={proofSourceRecoveryPlan.summary.nextLane ?? 'none'} tone={proofSourceRecoveryPlan.summary.nextLane ? 'amber' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Immediate action order</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {proofSourceRecoveryPlan.immediateActionOrder.slice(0, 5).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 md:grid-cols-2 xl:grid-cols-4">
+              {proofSourceRecoveryPlan.lanes.map((lane) => (
+                <div key={lane.key} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{lane.key}</div>
+                    <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.current}/{lane.target}</Badge>
+                  </div>
+                  <div className="mt-2 text-[11px] text-[#71717a]">{lane.sourceVolumeState} / shortfall {lane.shortfall}</div>
+                  <p className="mt-3 text-xs leading-5 text-[#d4d4d8]">{lane.liveActionRequired}</p>
+                  <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
+                    {lane.verificationCommand}
+                  </div>
+                  <div className="mt-3 grid gap-3">
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-[#fafafa]">Cadence</div>
+                      <ul className="mt-2 space-y-1 text-[11px] leading-4 text-[#a1a1aa]">
+                        {lane.collectionCadence.slice(0, 2).map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-[#fafafa]">Acceptance</div>
+                      <ul className="mt-2 space-y-1 text-[11px] leading-4 text-[#a1a1aa]">
+                        {lane.acceptanceChecklist.slice(0, 2).map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  {lane.blocker ? <p className="mt-3 text-xs leading-5 text-[#fca5a5]">{lane.blocker}</p> : null}
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Do not count</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {proofSourceRecoveryPlan.antiFakeRules.map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="approved-knowledge-operating-packet">
+          <Panel
+            icon={BookOpenCheck}
+            title="Approved knowledge operating packet"
+            meta={`${approvedKnowledgePacket.target.current}/${approvedKnowledgePacket.target.target} approved / ${approvedKnowledgePacket.weeklySlots.length} slots`}
+            empty="Approved knowledge packet has not been generated. Run npm run discord:approved-knowledge-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={approvedKnowledgePacket.ok ? 'emerald' : 'rose'}>{approvedKnowledgePacket.ok ? 'packet valid' : 'packet invalid'}</Badge>
+                  <Badge tone={approvedKnowledgePacket.status === 'target_met' ? 'emerald' : 'amber'}>{approvedKnowledgePacket.status}</Badge>
+                  <Badge tone="neutral">{approvedKnowledgePacket.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{approvedKnowledgePacket.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Approved knowledge" value={`${approvedKnowledgePacket.target.current}/${approvedKnowledgePacket.target.target}`} tone={approvedKnowledgePacket.target.remaining ? 'rose' : 'emerald'} />
+                  <HealthLine label="Remaining" value={String(approvedKnowledgePacket.target.remaining)} tone={approvedKnowledgePacket.target.remaining ? 'amber' : 'emerald'} />
+                  <HealthLine label="Reviewable candidates" value={String(approvedKnowledgePacket.target.reviewableCandidates)} tone={approvedKnowledgePacket.target.reviewableCandidates ? 'cyan' : 'neutral'} />
+                  <HealthLine label="Required fields" value={String(approvedKnowledgePacket.fields.filter((field) => field.required).length)} tone="cyan" />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {approvedKnowledgePacket.nextActions.slice(0, 5).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+                <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
+                  {approvedKnowledgePacket.verificationCommands.slice(0, 4).join(' && ')}
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 md:grid-cols-2 xl:grid-cols-5">
+              {approvedKnowledgePacket.weeklySlots.map((slot) => (
+                <div key={slot.slot} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Slot {slot.slot}</div>
+                    <Badge tone="cyan">{slot.targetSourceType}</Badge>
+                  </div>
+                  <div className="mt-2 text-[11px] text-[#71717a]">min quality {slot.minimumQualityScore}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-3">
+              <ProofRuleGroup title="Accept" items={approvedKnowledgePacket.acceptanceChecklist.slice(0, 5)} tone="emerald" />
+              <ProofRuleGroup title="Reject" items={approvedKnowledgePacket.rejectionChecklist.slice(0, 5)} tone="rose" />
+              <ProofRuleGroup title="Privacy" items={approvedKnowledgePacket.privacyChecklist.slice(0, 5)} tone="cyan" />
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {approvedKnowledgePacket.antiFakeRules.map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="gateway-operating-packet">
+          <Panel
+            icon={Radio}
+            title="Gateway operating packet"
+            meta={`${gatewayOperatingPacket.target.current}/${gatewayOperatingPacket.target.target} usable messages`}
+            empty="Gateway operating packet has not been generated. Run npm run discord:gateway-operating-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={gatewayOperatingPacket.status === 'proven' ? 'emerald' : gatewayOperatingPacket.status === 'ready_for_fresh_message' ? 'amber' : 'rose'}>
+                    {gatewayOperatingPacket.status}
+                  </Badge>
+                  <Badge tone={gatewayOperatingPacket.ok ? 'emerald' : 'rose'}>{gatewayOperatingPacket.ok ? 'packet ok' : 'packet failed'}</Badge>
+                  <Badge tone="neutral">{gatewayOperatingPacket.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{gatewayOperatingPacket.releaseMeaning}</p>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                    <span className="text-[#71717a]">target</span>
+                    <span className="font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.current}/{gatewayOperatingPacket.target.target}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                    <span className="text-[#71717a]">remaining</span>
+                    <span className="font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.remaining}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1 sm:col-span-2">
+                    <span className="text-[#71717a]">state</span>
+                    <span className="truncate font-semibold text-[#fafafa]">{gatewayOperatingPacket.target.usableMessageState}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Proof signals</div>
+                <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  <div>worker: {gatewayOperatingPacket.heartbeat.workerId ?? 'missing'}</div>
+                  <div>heartbeat fresh: {String(gatewayOperatingPacket.heartbeat.fresh)}</div>
+                  <div>heartbeat age: {gatewayOperatingPacket.heartbeat.ageMinutes ?? '?'} minutes</div>
+                  <div>effective message content: {String(gatewayOperatingPacket.messageContentSignal.effectiveEnabled)}</div>
+                  <div>signal source: {gatewayOperatingPacket.messageContentSignal.source ?? 'missing'}</div>
+                  <div>required fields: {gatewayOperatingPacket.fields.filter((field) => field.required).length}</div>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-3">
+              <ProofRuleGroup title="Live proof steps" items={gatewayOperatingPacket.liveProofSteps.slice(0, 5)} tone="cyan" />
+              <ProofRuleGroup title="Next actions" items={gatewayOperatingPacket.nextActions.slice(0, 5)} tone="amber" />
+              <ProofRuleGroup title="Reject if" items={gatewayOperatingPacket.rejectionChecklist.slice(0, 5)} tone="rose" />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Verification commands</div>
+                <div className="mt-3 rounded border border-[#27272a] bg-black px-2 py-1 text-[11px] text-[#a1a1aa]">
+                  {gatewayOperatingPacket.verificationCommands.join(' && ')}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                  {gatewayOperatingPacket.antiFakeRules.slice(0, 6).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-gateway-capture-diagnosis">
+          <Panel
+            icon={MessageCircle}
+            title="Gateway capture diagnosis"
+            meta={gatewayCaptureDiagnosis.ok
+              ? gatewayCaptureDiagnosis.diagnosis.status
+              : `${gatewayCaptureDiagnosis.errors.length} errors`}
+            empty="Gateway capture diagnosis has not been generated. Run npm run discord:gateway-capture-diagnosis."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={gatewayCaptureDiagnosis.diagnosis.status === 'healthy' ? 'emerald' : gatewayCaptureDiagnosis.diagnosis.status === 'warning' ? 'amber' : 'rose'}>
+                    {gatewayCaptureDiagnosis.diagnosis.status}
+                  </Badge>
+                  <Badge tone={gatewayCaptureDiagnosis.ok ? 'emerald' : 'rose'}>{gatewayCaptureDiagnosis.ok ? 'diagnosis ok' : 'diagnosis failed'}</Badge>
+                  <Badge tone="neutral">{gatewayCaptureDiagnosis.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{gatewayCaptureDiagnosis.releaseMeaning}</p>
+                <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa] sm:grid-cols-2">
+                  {Object.entries(gatewayCaptureDiagnosis.counts).slice(0, 8).map(([key, value]) => (
+                    <div key={key} className="flex items-center justify-between gap-3 rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1">
+                      <span className="truncate text-[#71717a]">{key}</span>
+                      <span className="font-semibold text-[#fafafa]">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Gateway heartbeat</div>
+                {gatewayCaptureDiagnosis.heartbeat.latest ? (
+                  <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                    <div>worker: {gatewayCaptureDiagnosis.heartbeat.latest.workerId}</div>
+                    <div>status: {gatewayCaptureDiagnosis.heartbeat.latest.status}</div>
+                    <div>age: {gatewayCaptureDiagnosis.heartbeat.latest.ageMinutes ?? '?'} minutes</div>
+                    <div>heartbeat message content: {String(gatewayCaptureDiagnosis.heartbeat.latest.messageContentEnabled)}</div>
+                    <div>last close: {gatewayCaptureDiagnosis.heartbeat.latest.lastCloseCode ?? 'none'}</div>
+                  </div>
+                ) : (
+                  <div className="mt-3 text-xs text-[#fca5a5]">No gateway heartbeat evidence found.</div>
+                )}
+                <div className="mt-4 border-t border-[#27272a] pt-3 text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Identify intent signal</div>
+                <div className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  <div>effective message content: {String(gatewayCaptureDiagnosis.identify?.effectiveMessageContentEnabled ?? null)}</div>
+                  <div>signal source: {gatewayCaptureDiagnosis.identify?.messageContentSignalSource ?? 'unknown'}</div>
+                  <div>identify message content: {String(gatewayCaptureDiagnosis.identify?.latest?.messageContentEnabled ?? null)}</div>
+                  <div>identify intents: {gatewayCaptureDiagnosis.identify?.latest?.intents ?? 'unknown'}</div>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <ProofRuleGroup title="Root causes" items={gatewayCaptureDiagnosis.diagnosis.rootCauses.length ? gatewayCaptureDiagnosis.diagnosis.rootCauses : ['No root cause detected from local evidence.']} tone={gatewayCaptureDiagnosis.diagnosis.rootCauses.length ? 'rose' : 'emerald'} />
+              <ProofRuleGroup title="Next actions" items={gatewayCaptureDiagnosis.diagnosis.nextActions} tone="cyan" />
+            </div>
+            {gatewayCaptureDiagnosis.recentMessages.length ? (
+              <div className="border-t border-[#27272a] px-3 py-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Recent captured messages</div>
+                <div className="mt-3 grid gap-2">
+                  {gatewayCaptureDiagnosis.recentMessages.slice(0, 6).map((message) => (
+                    <div key={message.id} className="grid gap-2 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-[1fr_auto]">
+                      <span>{message.channelBaseName ?? 'unknown'} / {message.detectedKind ?? 'unknown'} / content length {message.contentLength}</span>
+                      <span className="text-[#71717a]">{message.authorBot ? 'bot' : 'member'} / {message.capturedAt ? formatDateTime(message.capturedAt) : '-'}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {gatewayCaptureDiagnosis.errors.map((error) => (
+              <div key={`${error.label}:${error.error}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {error.label}: {error.error}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-proof-rehearsal-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Proof rehearsal readiness"
+            meta={`${proofRehearsalReadiness.lanes.filter((lane) => lane.ok).length}/${proofRehearsalReadiness.lanes.length} rehearsal lanes ready`}
+            empty="Proof rehearsal readiness has not been generated. Run npm run discord:proof-rehearsal-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {proofRehearsalReadiness.releaseMeaning}
+            </div>
+            {proofRehearsalReadiness.lanes.map((lane) => (
+              <ProofRehearsalLaneRow key={lane.key} lane={lane} />
+            ))}
+            {proofRehearsalReadiness.missingOrStale.map((item) => (
+              <div key={item.key} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {item.key}: {item.failedChecks.join(', ')}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-channel-matrix-readiness">
+          <Panel
+            icon={Layers3}
+            title="Channel matrix readiness"
+            meta={channelMatrixReadiness.ok
+              ? `${channelMatrixReadiness.channelCount} channels / ${channelMatrixReadiness.approvedMemberChannelCount} approved-member / ${channelMatrixReadiness.contentFactoryTargeting.targetableChannelCount} content targets`
+              : `${channelMatrixReadiness.failures.length} readiness failures`}
+            empty="Channel matrix readiness has not been generated. Run npm run discord:channel-matrix-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {channelMatrixReadiness.releaseMeaning}
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-4">
+              <HealthLine
+                label="Validation"
+                value={channelMatrixReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'}
+                tone={channelMatrixReadiness.validation?.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Pre-approval"
+                value={channelMatrixReadiness.preApprovalChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.preApprovalChannels.length === 1 && channelMatrixReadiness.preApprovalChannels[0] === 'start-here' ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Premium"
+                value={channelMatrixReadiness.premiumChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.premiumChannels.length >= 2 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Staff private"
+                value={channelMatrixReadiness.staffPrivateChannels.join(', ') || 'none'}
+                tone={channelMatrixReadiness.staffPrivateChannels.length === 1 && channelMatrixReadiness.staffPrivateChannels[0] === 'team-ops' ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Factory targeting"
+                value={`${channelMatrixReadiness.contentFactoryTargeting.targetableChannelCount} safe / ${channelMatrixReadiness.contentFactoryTargeting.knownChannelCount} known`}
+                tone={channelMatrixReadiness.contentFactoryTargeting.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Daily cadence"
+                value={`${channelMatrixReadiness.dailyChannels.length} channels`}
+                tone={channelMatrixReadiness.dailyChannels.length >= 4 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Weekly cadence"
+                value={`${channelMatrixReadiness.weeklyChannels.length} channels`}
+                tone={channelMatrixReadiness.weeklyChannels.length >= 8 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Bot jobs"
+                value={`${channelMatrixReadiness.botJobCoverage.totalBotJobs} jobs`}
+                tone={channelMatrixReadiness.botJobCoverage.channelsWithBotJobs === channelMatrixReadiness.channelCount ? 'emerald' : 'amber'}
+              />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-3">
+              <ProofRuleGroup title="Proof lanes" items={channelMatrixReadiness.proofLaneCoverage} tone="cyan" />
+              <ProofRuleGroup title="Blocked visibility policy" items={channelMatrixReadiness.contentFactoryTargeting.blockedVisibilityPolicy.map((item) => `${item.visibility}: ${item.reason}`)} tone="amber" />
+              <ProofRuleGroup title="Operating checks" items={channelMatrixReadiness.operatingChecks} tone="emerald" />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_auto]">
+              <div>
+                <div className="font-semibold text-[#fafafa]">Categories</div>
+                <div className="mt-1">{channelMatrixReadiness.categoryCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Anti-sprawl examples</div>
+                <div className="mt-1">{channelMatrixReadiness.antiSprawlCoverage.examples.slice(0, 2).map((item) => `${item.channel}: ${item.rule}`).join(' / ') || 'none'}</div>
+              </div>
+              <div className="lg:text-right">
+                <div className="font-semibold text-[#fafafa]">Refresh</div>
+                <div className="mt-1">npm run discord:channel-matrix-readiness</div>
+              </div>
+            </div>
+            {channelMatrixReadiness.contentFactoryTargeting.blockedChannels.map((blocked) => (
+              <div key={`${blocked.channel}:${blocked.reason}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                blocked target: {blocked.channel} / {blocked.reason}
+              </div>
+            ))}
+            {channelMatrixReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-content-factory-readiness">
+          <Panel
+            icon={CalendarDays}
+            title="Content factory readiness"
+            meta={contentFactoryReadiness.ok
+              ? `${contentFactoryReadiness.planned} planned / min quality ${contentFactoryReadiness.minQualityScore ?? 'n/a'}`
+              : `${contentFactoryReadiness.failures.length} readiness failures`}
+            empty="Content factory readiness has not been generated. Run npm run discord:content-factory-readiness."
+          >
+            <div className="border-b border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa]">
+              {contentFactoryReadiness.releaseMeaning}
+            </div>
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-4">
+              <HealthLine
+                label="Dry run"
+                value={contentFactoryReadiness.dryRun ? 'yes' : 'no'}
+                tone={contentFactoryReadiness.dryRun ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Validation"
+                value={contentFactoryReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'}
+                tone={contentFactoryReadiness.validation?.ok ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Drafts"
+                value={`${contentFactoryReadiness.planned} planned / ${contentFactoryReadiness.created} created`}
+                tone={contentFactoryReadiness.created === 0 ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Quality"
+                value={contentFactoryReadiness.minQualityScore === null ? 'missing' : `${contentFactoryReadiness.minQualityScore}/100`}
+                tone={(contentFactoryReadiness.minQualityScore ?? 0) >= 90 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Approval gate"
+                value={contentFactoryReadiness.approvalGate.adminApprovalRequired ? 'required' : 'missing'}
+                tone={contentFactoryReadiness.approvalGate.adminApprovalRequired ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Contracts"
+                value={contentFactoryReadiness.operatingContractCoverage.includes('review_then_approve_or_reject') ? 'review paths' : 'missing'}
+                tone={contentFactoryReadiness.operatingContractCoverage.includes('review_then_approve_or_reject') ? 'emerald' : 'rose'}
+              />
+              <HealthLine
+                label="Proof slots"
+                value={`${contentFactoryReadiness.proofEligibleDrafts} candidates`}
+                tone={contentFactoryReadiness.proofEligibleDrafts >= 4 ? 'emerald' : 'amber'}
+              />
+              <HealthLine
+                label="Proof lanes"
+                value={`${contentFactoryReadiness.proofLaneTargetCoverage.length} targeted`}
+                tone={contentFactoryReadiness.proofLaneTargetCoverage.length >= 4 ? 'emerald' : 'amber'}
+              />
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 text-xs leading-5 text-[#a1a1aa] lg:grid-cols-[1fr_1fr_1fr_1fr_auto]">
+              <div>
+                <div className="font-semibold text-[#fafafa]">Channels</div>
+                <div className="mt-1">{contentFactoryReadiness.channelCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Draft types</div>
+                <div className="mt-1">{contentFactoryReadiness.draftTypeCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Operating contract</div>
+                <div className="mt-1">{contentFactoryReadiness.operatingContractCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div>
+                <div className="font-semibold text-[#fafafa]">Proof lanes</div>
+                <div className="mt-1">{contentFactoryReadiness.proofLaneTargetCoverage.join(', ') || 'none'}</div>
+              </div>
+              <div className="lg:text-right">
+                <div className="font-semibold text-[#fafafa]">Refresh</div>
+                <div className="mt-1">npm run discord:content-factory-readiness</div>
+              </div>
+            </div>
+            {contentFactoryReadiness.failures.map((failure) => (
+              <div key={failure} className="px-3 py-3 text-xs text-[#fca5a5]">
+                {failure}
+              </div>
+            ))}
+            {contentFactoryReadiness.validation?.failures?.map((failure) => (
+              <div key={`validation:${failure}`} className="px-3 py-3 text-xs text-[#fca5a5]">
+                validation: {failure}
+              </div>
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-world-class-readiness-triage">
+          <Panel
+            icon={Trophy}
+            title="World-class readiness triage"
+            meta={`${worldClassReadiness.summary.categoriesBelow95} below 95 / ${worldClassReadiness.summary.releaseGateFailures.length} release blockers`}
+            empty="All scorecard categories are at or above the current world-class threshold."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-3">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={worldClassReadiness.releaseDecision === 'eligible_for_world_class_claim' ? 'emerald' : 'rose'}>
+                    {worldClassReadiness.releaseDecision.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={worldClassReadiness.worldClassEligible ? 'emerald' : 'amber'}>
+                    avg {worldClassReadiness.averageScore}/100
+                  </Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Release gates" value={`${worldClassReadiness.summary.releaseGatesPassed}/${worldClassReadiness.summary.releaseGateCount}`} tone={worldClassReadiness.summary.releaseGateFailures.length ? 'rose' : 'emerald'} />
+                  <HealthLine label="Readiness validation" value={worldClassReadinessValidation.ok ? 'passed' : `${worldClassReadinessValidation.failures.length} failures`} tone={worldClassReadinessValidation.ok ? 'emerald' : 'rose'} />
+                  <HealthLine label="Operating blockers" value={String(worldClassReadiness.summary.operatingBlockers.length)} tone={worldClassReadiness.summary.operatingBlockers.length ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">RAG eval blocker</div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Missing evals" value={`${worldClassReadiness.ragEvalMissingPreflight.readyForApprovedEvalCount}/${worldClassReadiness.ragEvalMissingPreflight.missingEvalCount} preflighted`} tone={worldClassReadiness.ragEvalMissingPreflight.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Recovery backlog" value={`${worldClassReadiness.ragEvalRecoveryPlan.readyMissingEvalCount}/${worldClassReadiness.ragEvalRecoveryPlan.missingEvalCount} ready`} tone={worldClassReadiness.ragEvalRecoveryPlan.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Failed eval backlog" value={String(worldClassReadiness.ragEvalRecoveryPlan.failedEvalCount)} tone={worldClassReadiness.ragEvalRecoveryPlan.failedEvalCount ? 'rose' : 'emerald'} />
+                  <HealthLine label="Keys match" value={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'} tone={worldClassReadiness.ragEvalMissingPreflight.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Proof source blocker</div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Shortfall" value={String(worldClassReadiness.proofSourceRecoveryPlan.totalShortfall)} tone={worldClassReadiness.proofSourceRecoveryPlan.totalShortfall ? 'rose' : 'emerald'} />
+                  <HealthLine label="Next lane" value={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ?? 'none'} tone={worldClassReadiness.proofSourceRecoveryPlan.nextLaneKey ? 'amber' : 'emerald'} />
+                  <HealthLine label="Gateway packet" value={worldClassReadiness.gatewayOperatingPacket.status} tone={worldClassReadiness.gatewayOperatingPacket.remaining ? 'amber' : 'emerald'} />
+                  <HealthLine label="Usable messages" value={`${worldClassReadiness.gatewayOperatingPacket.current}/${worldClassReadiness.gatewayOperatingPacket.target}`} tone={worldClassReadiness.gatewayOperatingPacket.remaining ? 'rose' : 'emerald'} />
+                  <HealthLine label="Message content" value={String(worldClassReadiness.gatewayOperatingPacket.messageContentEnabled)} tone={worldClassReadiness.gatewayOperatingPacket.messageContentEnabled ? 'emerald' : 'rose'} />
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              {!worldClassReadinessValidation.ok ? (
+                <div className="mb-3 rounded-md border border-[#ef4444]/30 bg-[#ef4444]/10 px-3 py-2 text-xs leading-5 text-[#fecaca]">
+                  Readiness validation failed: {worldClassReadinessValidation.failures.join(', ')}
+                </div>
+              ) : null}
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Immediate action order</div>
+              <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                {worldClassReadiness.immediateActionOrder.slice(0, 5).map((action, index) => (
+                  <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                    <span className="text-[#71717a]">{index + 1}.</span>
+                    <span>{action}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <ActionBoundaryPlan
+                title="World-class action boundaries"
+                localOnlyCommands={worldClassReadiness.actionPlan.localOnlyCommands}
+                explicitApprovalCommands={worldClassReadiness.actionPlan.explicitApprovalCommands}
+                liveOperatorActions={worldClassReadiness.actionPlan.liveOperatorActions}
+              />
+            </div>
+            {worldClassReadiness.categories.slice(0, 8).map((category) => (
+              <WorldClassReadinessCategoryRow key={category.category} category={category} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" data-testid="rag-health-eval-drilldown">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#8b5cf6]/30 bg-[#8b5cf6]/10 text-[#a78bfa]">
+                  <HeartPulse className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">RAG operational health</h2>
+                  <p className="text-xs text-[#71717a]">Live source, chunk, embedding, ingestion, and eval posture.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Sources" value={String(ragOperationalHealth.sources)} tone={ragOperationalHealth.sources ? 'emerald' : 'rose'} />
+                <HealthLine label="Documents" value={`${ragOperationalHealth.documents} / ${ragOperationalHealth.missingDocuments} missing`} tone={ragOperationalHealth.missingDocuments ? 'amber' : 'emerald'} />
+                <HealthLine label="Chunks" value={`${ragOperationalHealth.chunks} / ${ragOperationalHealth.missingChunks} missing`} tone={ragOperationalHealth.missingChunks ? 'amber' : 'emerald'} />
+                <HealthLine label="Embeddings" value={`${ragOperationalHealth.embeddedChunks} / ${ragOperationalHealth.missingEmbeddings} missing`} tone={ragOperationalHealth.missingEmbeddings ? 'rose' : 'emerald'} />
+                <HealthLine label="Latest ingestion" value={latestIngestionRun ? `${latestIngestionRun.status} / ${latestIngestionRun.run_key}` : 'none'} tone={latestIngestionRun?.status === 'failed' ? 'rose' : latestIngestionRun ? 'emerald' : 'amber'} />
+                <HealthLine label="Latest eval" value={latestEvalRun ? `${latestEvalRun.passed}/${latestEvalRun.total_questions} passed` : 'none'} tone={latestEvalRun?.status === 'failed' ? 'rose' : latestEvalRun ? 'emerald' : 'amber'} />
+              </div>
+              <div className="mt-4 space-y-2">
+                {ragOperationalHealth.issues.length ? ragOperationalHealth.issues.slice(0, 4).map((issue) => (
+                  <div key={issue} className="rounded-md border border-[#f59e0b]/25 bg-[#f59e0b]/10 px-3 py-2 text-xs leading-5 text-[#facc15]">
+                    {issue}
+                  </div>
+                )) : (
+                  <div className="rounded-md border border-[#10b981]/25 bg-[#10b981]/10 px-3 py-2 text-xs leading-5 text-[#34d399]">
+                    RAG source, chunk, embedding, ingestion, and eval posture is currently healthy.
+                  </div>
+                )}
+              </div>
+              <form action={syncDiscordRagSourcesAction} className="mt-4">
+                <ActionButton data-testid="rag-health-sync-now" tone="emerald" type="submit">Sync approved Discord knowledge</ActionButton>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={ClipboardCheck}
+            title="RAG eval coverage readiness"
+            meta={`${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount} evaluated`}
+            empty="RAG eval coverage readiness has not been generated. Run npm run rag:evaluate:coverage-readiness."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalCoverageReadiness.releaseReady ? 'emerald' : 'rose'}>
+                    {ragEvalCoverageReadiness.releaseReady ? 'coverage ready' : 'coverage blocked'}
+                  </Badge>
+                  <Badge tone="neutral">{ragEvalCoverageReadiness.mutationMode}</Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Seeded" value={`${ragEvalCoverageReadiness.seededQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount}`} tone={ragEvalCoverageReadiness.seededQuestionCount >= ragEvalCoverageReadiness.expectedQuestionCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Evaluated" value={`${ragEvalCoverageReadiness.evaluatedQuestionCount}/${ragEvalCoverageReadiness.expectedQuestionCount}`} tone={ragEvalCoverageReadiness.evaluatedQuestionCount >= ragEvalCoverageReadiness.expectedQuestionCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Missing keys" value={String(ragEvalCoverageReadiness.missingEvalKeys.length)} tone={ragEvalCoverageReadiness.missingEvalKeys.length ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Next eval actions</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalCoverageReadiness.nextActions.slice(0, 3).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            {ragEvalCoverageReadiness.missingEvalKeys.length ? (
+              <div className="border-t border-[#27272a] px-3 py-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Missing eval keys</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {ragEvalCoverageReadiness.missingEvalKeys.map((key) => (
+                    <span key={key} className="rounded border border-[#7f1d1d] bg-[#450a0a] px-2 py-1 text-[11px] font-medium text-[#fecaca]">
+                      {key}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {ragEvalCoverageReadiness.blockers.map((blocker) => (
+              <div key={blocker} className="border-t border-[#27272a] px-3 py-2 text-xs text-[#fca5a5]">
+                {blocker}
+              </div>
+            ))}
+          </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="RAG eval execution packet"
+            meta={`${ragEvalExecutionPacket.selectedKeys.length} selected / ${ragEvalExecutionPacket.missingEvalKeys.length} missing`}
+            empty="RAG eval execution packet is missing. Run npm run rag:evaluate:execution-packet."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalExecutionPacket.status === 'approval_required' ? 'amber' : 'emerald'}>
+                    {ragEvalExecutionPacket.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone="neutral">{ragEvalExecutionPacket.mutationMode}</Badge>
+                </div>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Selected matches coverage" value={ragEvalExecutionPacket.selectedMatchesCoverage ? 'yes' : 'no'} tone={ragEvalExecutionPacket.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                  <HealthLine label="Explicit approval" value={ragEvalExecutionPacket.commandPlan.requiresExplicitApproval ? 'required' : 'not required'} tone={ragEvalExecutionPacket.commandPlan.requiresExplicitApproval ? 'amber' : 'emerald'} />
+                  <HealthLine label="Coverage state" value={ragEvalExecutionPacket.coverageStillBlocked ? 'blocked' : 'ready'} tone={ragEvalExecutionPacket.coverageStillBlocked ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalExecutionPacket.commandPlan.approvedCommand}
+                </code>
+                <p className="mt-3 text-[11px] leading-5 text-[#fbbf24]">
+                  {ragEvalExecutionPacket.commandPlan.mutationWarning}
+                </p>
+              </div>
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-2">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Pre-run checks</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalExecutionPacket.preRunChecks.slice(0, 4).map((check, index) => (
+                    <li key={check} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{check}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Post-run proof checks</div>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalExecutionPacket.postRunChecks.slice(0, 4).map((check, index) => (
+                    <li key={check} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{check}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-3 border-t border-[#27272a] px-3 py-3 lg:grid-cols-[1fr_1fr]">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Selected eval keys</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {ragEvalExecutionPacket.selectedKeys.length ? ragEvalExecutionPacket.selectedKeys.map((key) => (
+                    <span key={key} className="rounded border border-[#713f12] bg-[#451a03] px-2 py-1 text-[11px] font-medium text-[#fde68a]">
+                      {key}
+                    </span>
+                  )) : (
+                    <span className="text-[11px] text-[#71717a]">No missing eval keys selected.</span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Failure handling</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fbbf24]">
+                  {ragEvalExecutionPacket.failureHandling.slice(0, 4).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+                <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                  {ragEvalExecutionPacket.antiFakeRules.slice(0, 4).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+            </div>
+          </Panel>
+
+          <Panel
+            icon={ClipboardCheck}
+            title="RAG missing eval preflight"
+            meta={`${ragEvalMissingPreflight.summary.readyForApprovedEvalCount}/${ragEvalMissingPreflight.summary.missingEvalCount} ready`}
+            empty="RAG missing eval preflight is missing. Run npm run rag:evaluate:missing-preflight."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalMissingPreflight.status === 'ready_for_explicitly_approved_eval' ? 'emerald' : 'rose'}>
+                    {ragEvalMissingPreflight.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={ragEvalMissingPreflight.ok ? 'emerald' : 'rose'}>{ragEvalMissingPreflight.ok ? 'preflight ok' : 'preflight blocked'}</Badge>
+                  <Badge tone="neutral">{ragEvalMissingPreflight.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{ragEvalMissingPreflight.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Keys match packet" value={ragEvalMissingPreflight.selectedMatchesCoverage ? 'yes' : 'no'} tone={ragEvalMissingPreflight.selectedMatchesCoverage ? 'emerald' : 'rose'} />
+                  <HealthLine label="Sources ready" value={`${ragEvalMissingPreflight.summary.sourceReadyCount}/${ragEvalMissingPreflight.summary.missingEvalCount}`} tone={ragEvalMissingPreflight.summary.sourceReadyCount === ragEvalMissingPreflight.summary.missingEvalCount ? 'emerald' : 'rose'} />
+                  <HealthLine label="Terms ready" value={`${ragEvalMissingPreflight.summary.termCoverageReadyCount}/${ragEvalMissingPreflight.summary.missingEvalCount}`} tone={ragEvalMissingPreflight.summary.termCoverageReadyCount === ragEvalMissingPreflight.summary.missingEvalCount ? 'emerald' : 'rose'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalMissingPreflight.approvedCommand}
+                </code>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalMissingPreflight.nextActions.slice(0, 3).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-2 border-t border-[#27272a] px-3 py-3 md:grid-cols-2 xl:grid-cols-3">
+              {ragEvalMissingPreflight.items.map((item) => (
+                <div key={item.evalKey} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="truncate text-xs font-semibold text-[#fafafa]">{item.evalKey}</div>
+                    <Badge tone={item.readyForApprovedEval ? 'emerald' : 'rose'}>{item.readyForApprovedEval ? 'ready' : 'blocked'}</Badge>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <Badge tone={item.sourceReady ? 'emerald' : 'rose'}>sources</Badge>
+                    <Badge tone={item.termCoverageReady ? 'emerald' : 'rose'}>terms</Badge>
+                    <Badge tone="neutral">{item.category}</Badge>
+                  </div>
+                  {item.missingSources.length ? (
+                    <p className="mt-3 text-[11px] leading-4 text-[#fca5a5]">missing sources: {item.missingSources.join(', ')}</p>
+                  ) : null}
+                  {item.missingRequiredTerms.length ? (
+                    <p className="mt-3 text-[11px] leading-4 text-[#fca5a5]">missing terms: {item.missingRequiredTerms.join(', ')}</p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {ragEvalMissingPreflight.antiFakeRules.slice(0, 4).map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="RAG eval recovery plan"
+            meta={`${ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length}/${ragEvalRecoveryPlan.coverage.missingEvalCount} missing evals ready`}
+            empty="RAG eval recovery plan is missing. Run npm run rag:evaluate:recovery-plan."
+          >
+            <div className="grid gap-3 px-3 py-3 lg:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone={ragEvalRecoveryPlan.status === 'passed' ? 'emerald' : 'rose'}>
+                    {ragEvalRecoveryPlan.status.replaceAll('_', ' ')}
+                  </Badge>
+                  <Badge tone={ragEvalRecoveryPlan.ok ? 'emerald' : 'rose'}>{ragEvalRecoveryPlan.ok ? 'plan valid' : 'plan invalid'}</Badge>
+                  <Badge tone="neutral">{ragEvalRecoveryPlan.mutationMode}</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#a1a1aa]">{ragEvalRecoveryPlan.releaseMeaning}</p>
+                <div className="mt-3 grid gap-2 text-xs">
+                  <HealthLine label="Coverage ready" value={ragEvalRecoveryPlan.coverage.releaseReady ? 'yes' : 'no'} tone={ragEvalRecoveryPlan.coverage.releaseReady ? 'emerald' : 'rose'} />
+                  <HealthLine label="Missing eval backlog" value={`${ragEvalRecoveryPlan.missingEvalBacklog.filter((item) => item.readyForApprovedEval).length}/${ragEvalRecoveryPlan.coverage.missingEvalCount}`} tone={ragEvalRecoveryPlan.coverage.missingEvalCount ? 'amber' : 'emerald'} />
+                  <HealthLine label="Failed eval backlog" value={String(ragEvalRecoveryPlan.latestEval.failedCount)} tone={ragEvalRecoveryPlan.latestEval.failedCount ? 'rose' : 'emerald'} />
+                </div>
+              </div>
+              <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Approved command after explicit approval</div>
+                <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-3 py-2 text-[11px] leading-5 text-[#d4d4d8]">
+                  {ragEvalRecoveryPlan.approvedCommand}
+                </code>
+                <ol className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+                  {ragEvalRecoveryPlan.nextActions.slice(0, 4).map((action, index) => (
+                    <li key={action} className="grid grid-cols-[18px_1fr] gap-2">
+                      <span className="text-[#71717a]">{index + 1}.</span>
+                      <span>{action}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className="grid gap-2 border-t border-[#27272a] px-3 py-3 md:grid-cols-2 xl:grid-cols-3">
+              {ragEvalRecoveryPlan.missingEvalBacklog.map((item) => (
+                <div key={item.evalKey} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="truncate text-xs font-semibold text-[#fafafa]">{item.evalKey}</div>
+                    <Badge tone={item.readyForApprovedEval ? 'emerald' : 'rose'}>{item.readyForApprovedEval ? 'ready' : 'blocked'}</Badge>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <Badge tone="neutral">{item.category}</Badge>
+                    <Badge tone="cyan">{item.acceptanceChecklist.length} checks</Badge>
+                    <Badge tone="amber">{item.doNotCount.length} do-not-count rules</Badge>
+                  </div>
+                  <code className="mt-3 block whitespace-pre-wrap break-words rounded border border-[#27272a] bg-black px-2 py-1.5 text-[10px] leading-4 text-[#d4d4d8]">
+                    {item.verificationCommand}
+                  </code>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[#27272a] px-3 py-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Anti-fake rules</div>
+              <ul className="mt-3 space-y-1.5 text-[11px] leading-4 text-[#fca5a5]">
+                {ragEvalRecoveryPlan.antiFakeRules.slice(0, 4).map((rule) => (
+                  <li key={rule}>{rule}</li>
+                ))}
+              </ul>
+            </div>
+          </Panel>
+
+          <Panel
+            icon={BookOpenCheck}
+            title="RAG eval drilldown"
+            meta={latestEvalRun ? `${latestEvalRun.run_key} / ${latestEvalRun.failed} failed` : 'No eval run yet'}
+            empty="No eval results found yet. Run the RAG smoke or full eval to populate this table."
+          >
+            {ragEvalDrilldown.map((row) => (
+              <RagEvalRow key={row.id} row={row} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" id="quality" data-testid="discord-observability-quality">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#22d3ee]/30 bg-[#06b6d4]/10 text-[#67e8f9]">
+                  <Activity className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">Observability, cost, and quality</h2>
+                  <p className="text-xs text-[#71717a]">Last {observabilityQuality.window.hours}h trace, DeepSeek usage, eval, content, premium, and job posture.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Trace coverage" value={`${Math.round(observabilityQuality.traceCoverage * 100)}%`} tone={observabilityQuality.traceCoverage >= 0.8 ? 'emerald' : 'amber'} />
+                <HealthLine label="DeepSeek estimated cost" value={`$${observabilityQuality.cost.estimatedUsd.toFixed(4)}`} tone={observabilityQuality.cost.estimatedUsd <= 5 ? 'emerald' : 'amber'} />
+                <HealthLine label="RAG eval pass rate" value={`${Math.round(observabilityQuality.quality.ragEvalPassRate * 100)}%`} tone={observabilityQuality.quality.ragEvalPassRate >= 0.8 ? 'emerald' : 'amber'} />
+                <HealthLine label="Content quality" value={`${Math.round(observabilityQuality.quality.avgContentQuality)} / 100`} tone={observabilityQuality.quality.avgContentQuality >= 80 ? 'emerald' : observabilityQuality.quality.avgContentQuality > 0 ? 'amber' : 'neutral'} />
+                <HealthLine label="Premium quality" value={`${Math.round(observabilityQuality.quality.avgPremiumQuality)} / 100`} tone={observabilityQuality.quality.avgPremiumQuality >= 80 ? 'emerald' : observabilityQuality.quality.avgPremiumQuality > 0 ? 'amber' : 'neutral'} />
+                <HealthLine label="Job success" value={`${Math.round(observabilityQuality.jobs.successRate * 100)}%`} tone={observabilityQuality.jobs.successRate >= 0.9 ? 'emerald' : 'rose'} />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                Cost is estimated from persisted DeepSeek usage tokens in `rag_answers.metadata.usage`. Trace coverage counts recent RAG answers, retrieval logs, durable job runs, and content drafts with `ai_trace_id` or Langfuse trace metadata.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Quality alerts"
+            meta={`${observabilityQuality.alerts.length} active / ${observabilityQuality.status}`}
+            empty="No Phase 17 quality, cost, trace, or job alerts in the current window."
+          >
+            {observabilityQuality.alerts.map((alert) => (
+              <CompactRow
+                key={alert}
+                eyebrow="phase 17 alert"
+                title={alert}
+                detail={`${observabilityQuality.trace.tracedArtifacts}/${observabilityQuality.trace.totalTraceableArtifacts} traced / ${observabilityQuality.cost.totalTokens} tokens / ${observabilityQuality.jobs.openDeadLetters} dead letters`}
+                meta={<Badge tone={observabilityQuality.status === 'critical' ? 'rose' : 'amber'}>{observabilityQuality.status}</Badge>}
+              />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.85fr_1.15fr]" data-testid="discord-rag-corpus-ops">
+          <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-md border border-[#10b981]/30 bg-[#10b981]/10 text-[#34d399]">
+                  <BookOpenCheck className="size-4" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-[#fafafa]">Authoritative RAG corpus health</h2>
+                  <p className="text-xs text-[#71717a]">Approval-gated Discord knowledge only. Raw messages are excluded.</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HealthLine label="Synced sources" value={String(corpusHealth.synced)} tone={corpusHealth.synced ? 'emerald' : 'neutral'} />
+                <HealthLine label="Eligible to sync" value={String(corpusHealth.eligible)} tone={corpusHealth.eligible ? 'cyan' : 'neutral'} />
+                <HealthLine label="Stale eligible" value={String(corpusHealth.stale)} tone={corpusHealth.stale ? 'amber' : 'emerald'} />
+                <HealthLine label="Blocked candidates" value={String(corpusHealth.blocked)} tone={corpusHealth.blocked ? 'amber' : 'emerald'} />
+              </div>
+              <div className="mt-4 rounded-md border border-[#27272a] bg-[#0b0b0e] p-3 text-xs leading-5 text-[#a1a1aa]">
+                Approving here changes the source row into the Phase 5 approved state. Syncing creates or updates `rag_sources` and `rag_documents`.
+              </div>
+              <form action={syncDiscordRagSourcesAction} className="mt-4">
+                <ActionButton data-testid="rag-sync-now" tone="emerald" type="submit">Sync RAG now</ActionButton>
+              </form>
+            </CardContent>
+          </Card>
+
+          <Panel
+            icon={BookOpenCheck}
+            title="RAG knowledge approval desk"
+            meta={`${corpusItems.length} candidates / ${corpusHealth.missing} missing from RAG`}
+            empty="No Discord knowledge candidates found yet."
+          >
+            {corpusItems.slice(0, 18).map((item) => (
+              <RagCorpusRow key={`${item.kind}:${item.id}`} item={item} />
+            ))}
+          </Panel>
         </section>
 
         <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
@@ -412,13 +2988,110 @@ export default async function AdminDiscordPage() {
           </Panel>
 
           <Panel
+            icon={HeartPulse}
+            title="Member intelligence"
+            meta={`${memberIntelligence.length} profiles`}
+            empty="No member intelligence profiles yet. Run the rebuild job after members have activity."
+          >
+            {memberIntelligence.map((member) => (
+              <MemberIntelligenceRow key={member.discord_user_id} member={member} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Panel
+            icon={Inbox}
+            title="Member nudge queue"
+            meta={`${memberNudges.length} active nudges`}
+            empty="No queued member nudges. Stuck, inactive, or pending-review members will appear here after the rebuild job runs."
+          >
+            {memberNudges.map((nudge) => (
+              <MemberNudgeRow key={nudge.id} nudge={nudge} />
+            ))}
+          </Panel>
+
+          <Panel
             icon={Sparkles}
             title="AI content approval"
             meta={`${contentDrafts.length} drafts`}
             empty="No generated drafts waiting for approval."
           >
             {contentDrafts.map((draft) => (
-              <DraftRow key={draft.id} draft={draft} />
+              <DraftRow key={draft.id} draft={draft} promptDebug={promptDebug} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-public-growth-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Public growth readiness"
+            meta={`${publicGrowthReadiness.checks.filter((check) => check.passed).length}/${publicGrowthReadiness.checks.length} checks`}
+            empty="Public growth readiness evidence is missing. Run the readiness command before operating this lane."
+          >
+            <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="space-y-2">
+                <HealthLine label="Readiness" value={publicGrowthReadiness.ok ? 'local wiring proven' : 'blocked'} tone={publicGrowthReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Validation" value={publicGrowthReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'} tone={publicGrowthReadiness.validation?.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Mutation mode" value={publicGrowthReadiness.mutationMode} tone="neutral" />
+                <HealthLine label="Draft status" value={publicGrowthReadiness.proofSummary.draftStatus ?? 'none'} tone={publicGrowthReadiness.proofSummary.draftStatus === 'pending_approval' ? 'amber' : 'neutral'} />
+                <HealthLine label="Quality / privacy" value={`${publicGrowthReadiness.proofSummary.qualityScore ?? 0}/${publicGrowthReadiness.proofSummary.privacyScore ?? 0}`} tone={publicGrowthReadiness.proofSummary.qualityScore && publicGrowthReadiness.proofSummary.privacyScore ? 'emerald' : 'amber'} />
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <ProofRuleGroup title="Next proof" items={publicGrowthReadiness.nextOperatingProofRequired} tone="cyan" />
+                <ProofRuleGroup title="Do not count" items={publicGrowthReadiness.antiFakeRules} tone="amber" />
+              </div>
+            </div>
+            <p className="mt-3 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#a1a1aa]">
+              {publicGrowthReadiness.releaseMeaning}
+            </p>
+            {publicGrowthReadiness.failures.length ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {publicGrowthReadiness.failures.map((failure) => (
+                  <Badge key={failure} tone="rose">{failure}</Badge>
+                ))}
+              </div>
+            ) : null}
+            {publicGrowthReadiness.validation?.failures?.length ? (
+              <ProofRuleGroup title="Validation failures" items={publicGrowthReadiness.validation.failures} tone="rose" />
+            ) : null}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]" data-testid="discord-public-proof-growth-lane">
+          <Panel
+            icon={FileCheck2}
+            title="Public proof source permissions"
+            meta={`${publicProofSources.length} recent sources`}
+            empty="No public proof sources yet. Approve community knowledge first, then run the operating cycle."
+          >
+            {publicProofSources.map((source) => (
+              <PublicProofSourceRow key={source.id} source={source} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={GitPullRequestArrow}
+            title="Public proof growth drafts"
+            meta={`${publicGrowthDrafts.length} approval-gated drafts`}
+            empty="No public proof drafts waiting for review. Run the operating cycle after approving source material."
+          >
+            {publicGrowthDrafts.map((draft) => (
+              <PublicGrowthDraftRow key={draft.id} draft={draft} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-public-proof-growth-events">
+          <Panel
+            icon={Activity}
+            title="Public proof growth event ledger"
+            meta={`${growthEvents.length} recent events`}
+            empty="No tracked public proof growth events yet."
+          >
+            {growthEvents.map((event) => (
+              <GrowthEventRow key={event.id} event={event} />
             ))}
           </Panel>
         </section>
@@ -502,6 +3175,114 @@ export default async function AdminDiscordPage() {
           </Panel>
         </section>
 
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]" id="jobs" data-testid="discord-durable-jobs">
+          <Panel
+            icon={Radio}
+            title="Durable job control"
+            meta={`${jobRegistry.length} registered / ${jobRuns.length} recent runs`}
+            empty="No durable Discord jobs registered yet. Run the Phase 14 registry sync or durable job smoke."
+          >
+            {jobRegistry.map((job) => (
+              <DurableJobRegistryRow
+                key={job.job_key}
+                job={job}
+                latestRun={jobRuns.find((run) => run.job_key === job.job_key) ?? null}
+              />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={AlertTriangle}
+            title="Job dead letters"
+            meta={`${jobDeadLetters.length} open`}
+            empty="No unresolved durable job dead letters."
+          >
+            {jobDeadLetters.map((deadLetter) => (
+              <JobDeadLetterRow key={deadLetter.id} deadLetter={deadLetter} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6" data-testid="discord-premium-workflow-readiness">
+          <Panel
+            icon={ShieldCheck}
+            title="Premium workflow readiness"
+            meta={`${premiumWorkflowReadiness.checks.filter((check) => check.passed).length}/${premiumWorkflowReadiness.checks.length} checks`}
+            empty="Premium workflow readiness evidence is missing. Run the readiness command before operating this lane."
+          >
+            <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="space-y-2">
+                <HealthLine label="Readiness" value={premiumWorkflowReadiness.ok ? 'local wiring proven' : 'blocked'} tone={premiumWorkflowReadiness.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Validation" value={premiumWorkflowReadiness.validation?.ok ? 'self-check passed' : 'missing or failed'} tone={premiumWorkflowReadiness.validation?.ok ? 'emerald' : 'rose'} />
+                <HealthLine label="Mutation mode" value={premiumWorkflowReadiness.mutationMode} tone="neutral" />
+                <HealthLine label="Review status" value={premiumWorkflowReadiness.proofSummary.reviewStatus ?? 'none'} tone={premiumWorkflowReadiness.proofSummary.reviewStatus === 'answered' ? 'emerald' : 'amber'} />
+                <HealthLine label="Quality score" value={`${premiumWorkflowReadiness.proofSummary.qualityScore ?? 0}`} tone={(premiumWorkflowReadiness.proofSummary.qualityScore ?? 0) >= 90 ? 'emerald' : 'amber'} />
+                <HealthLine label="RAG proof" value={premiumWorkflowReadiness.proofSummary.ragAnswerPresent && premiumWorkflowReadiness.proofSummary.retrievalLogPresent ? 'answer + retrieval' : 'missing'} tone={premiumWorkflowReadiness.proofSummary.ragAnswerPresent && premiumWorkflowReadiness.proofSummary.retrievalLogPresent ? 'emerald' : 'rose'} />
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <ProofRuleGroup title="Next proof" items={premiumWorkflowReadiness.nextOperatingProofRequired} tone="cyan" />
+                <ProofRuleGroup title="Do not count" items={premiumWorkflowReadiness.antiFakeRules} tone="amber" />
+              </div>
+            </div>
+            <p className="mt-3 rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#a1a1aa]">
+              {premiumWorkflowReadiness.releaseMeaning}
+            </p>
+            {premiumWorkflowReadiness.failures.length ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {premiumWorkflowReadiness.failures.map((failure) => (
+                  <Badge key={failure} tone="rose">{failure}</Badge>
+                ))}
+              </div>
+            ) : null}
+            {premiumWorkflowReadiness.validation?.failures?.length ? (
+              <ProofRuleGroup title="Validation failures" items={premiumWorkflowReadiness.validation.failures} tone="rose" />
+            ) : null}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]" id="premium">
+          <Panel
+            icon={Sparkles}
+            title="Premium operations"
+            meta={`${premiumReviews.length} reviews / ${officeHours.length} office-hours`}
+            empty="No active premium review or office-hours queue items."
+          >
+            {[
+              ...premiumReviews.map((review) => ({ kind: 'review' as const, item: review })),
+              ...officeHours.map((slot) => ({ kind: 'office-hours' as const, item: slot })),
+            ].map((entry) => (
+              <PremiumOpsRow key={`${entry.kind}:${entry.item.id}`} entry={entry} />
+            ))}
+          </Panel>
+
+          <Panel
+            icon={FileCheck2}
+            title="Premium proof ledger"
+            meta={`${premiumProofReviews.length} fulfilled reviews / ${premiumWorkflowEvents.length} events`}
+            empty="No fulfilled premium review proof yet. Complete one premium review or seeded premium scenario to create proof."
+          >
+            {premiumProofReviews.map((review) => (
+              <PremiumProofReviewRow key={review.id} review={review} />
+            ))}
+            {premiumWorkflowEvents.slice(0, Math.max(0, 8 - premiumProofReviews.length)).map((event) => (
+              <PremiumWorkflowEventRow key={event.id} event={event} />
+            ))}
+          </Panel>
+        </section>
+
+        <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+          <Panel
+            icon={Users}
+            title="Premium leads"
+            meta={`${memberIntelligence.filter((member) => member.segment === 'premium_lead').length} leads`}
+            empty="No premium leads identified yet."
+          >
+            {memberIntelligence.filter((member) => ['premium_lead', 'premium_member'].includes(member.segment)).slice(0, 12).map((member) => (
+              <MemberIntelligenceRow key={`premium:${member.discord_user_id}`} member={member} />
+            ))}
+          </Panel>
+        </section>
+
         <section className="mt-6 grid gap-6 xl:grid-cols-3">
           <Panel icon={Zap} title="Quiz bank" meta={`${quizzes.length} loaded`} empty="No quizzes seeded yet.">
             {quizzes.map((quiz) => (
@@ -577,7 +3358,7 @@ export default async function AdminDiscordPage() {
             ))}
           </Panel>
 
-          <Panel icon={Activity} title="Event stream" meta={`${eventCountRes.count ?? 0} events, 30d`} empty="No Discord events recorded yet.">
+          <Panel icon={Activity} title="Audit stream" meta={`${eventCountRes.count ?? 0} events, 30d`} empty="No Discord audit events recorded yet.">
             {events.slice(0, 18).map((event) => (
               <CompactRow
                 key={event.id}
@@ -592,6 +3373,613 @@ export default async function AdminDiscordPage() {
       </main>
     </>
   );
+}
+
+async function loadProofRehearsalReadiness(): Promise<ProofRehearsalReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'proof-rehearsal-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofRehearsalReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof rehearsal readiness evidence is missing. Run npm run discord:proof-rehearsal-readiness.',
+      lanes: [],
+      missingOrStale: [{ key: 'proof_rehearsal_readiness_missing', failedChecks: ['evidence_present'] }],
+    };
+  }
+}
+
+async function loadChannelMatrixReadiness(): Promise<ChannelMatrixReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-channel-matrix-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ChannelMatrixReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'discord-channel-matrix-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['channel_matrix_readiness_missing'],
+      },
+      channelCount: 0,
+      approvedMemberChannelCount: 0,
+      preApprovalChannels: [],
+      premiumChannels: [],
+      staffPrivateChannels: [],
+      dailyChannels: [],
+      weeklyChannels: [],
+      proofLaneCoverage: [],
+      categoryCoverage: [],
+      postingModeCoverage: [],
+      ownerCoverage: [],
+      pinnedAssetCoverage: {
+        channelsWithPinnedAssets: 0,
+        minimumPinnedAssetsPerChannel: 0,
+      },
+      botJobCoverage: {
+        channelsWithBotJobs: 0,
+        totalBotJobs: 0,
+      },
+      antiSprawlCoverage: {
+        channelsWithRules: 0,
+        examples: [],
+      },
+      contentFactoryTargeting: {
+        ok: false,
+        knownChannelCount: 0,
+        targetableChannelCount: 0,
+        plannedSlotCount: 0,
+        unknownChannels: [],
+        blockedChannels: [],
+        blockedVisibilityPolicy: [],
+      },
+      operatingChecks: [],
+      failures: ['channel_matrix_readiness_missing'],
+      releaseMeaning: 'Channel matrix readiness evidence is missing. Run npm run discord:channel-matrix-readiness.',
+    };
+  }
+}
+
+async function loadContentFactoryReadiness(): Promise<ContentFactoryReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'content-factory-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ContentFactoryReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'discord-content-factory-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['content_factory_readiness_missing'],
+      },
+      sourceEvidence: 'docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json',
+      dryRun: false,
+      planned: 0,
+      created: 0,
+      skipped: 0,
+      failed: 0,
+      draftCount: 0,
+      minQualityScore: null,
+      channelCoverage: [],
+      draftTypeCoverage: [],
+      topicCoverageCount: 0,
+      operatingContractCoverage: [],
+      proofLaneTargetCoverage: [],
+      proofEligibleDrafts: 0,
+      approvalGate: {
+        noPublicPublish: false,
+        adminApprovalRequired: false,
+        readOnly: false,
+      },
+      failures: ['content_factory_readiness_missing'],
+      releaseMeaning: 'Content factory readiness evidence is missing. Run npm run discord:content-factory-readiness.',
+    };
+  }
+}
+
+async function loadDiscordOperatorBrief(): Promise<DiscordOperatorBriefEvidence> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-operator-brief-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as DiscordOperatorBriefEvidence;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseDecision: 'do_not_claim_world_class',
+      averageScore: null,
+      worldClassEligible: false,
+      currentReality: 'Operator brief evidence is missing. Run npm run discord:operator-brief before making release or quality claims.',
+      blockedLaneCount: 0,
+      releaseGates: {
+        total: 0,
+        passed: 0,
+        failures: ['operator_brief_missing'],
+      },
+      actionPlan: {
+        localOnlyCommands: ['npm run discord:operator-brief'],
+        explicitApprovalCommands: [],
+        liveOperatorActions: [],
+      },
+      commandOrder: ['npm run discord:operator-brief'],
+      nonClaimRule: 'Do not claim world-class, 95+, production-complete, or operating-proof complete until the operator brief is regenerated from current evidence.',
+    };
+  }
+}
+
+async function loadPremiumWorkflowReadiness(): Promise<PremiumWorkflowReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'premium-workflow-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as PremiumWorkflowReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'premium-workflow-readiness-v1',
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'premium-workflow-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['premium_workflow_readiness_missing'],
+      },
+      sourceEvidence: {},
+      checks: [],
+      proofSummary: {
+        seededProofOk: false,
+        reviewStatus: null,
+        qualityScore: null,
+        lifecycleEvents: [],
+        officeHoursPremiumMember: false,
+        ragAnswerPresent: false,
+        retrievalLogPresent: false,
+      },
+      antiFakeRules: ['Missing readiness evidence cannot count as premium workflow proof.'],
+      nextOperatingProofRequired: ['Run npm run discord:premium-workflow-readiness, then fulfill a real or explicitly seeded premium item.'],
+      failures: ['premium_workflow_readiness_missing'],
+      releaseMeaning: 'Premium workflow readiness evidence is missing. Run npm run discord:premium-workflow-readiness before claiming premium workflow proof.',
+    };
+  }
+}
+
+async function loadPublicGrowthReadiness(): Promise<PublicGrowthReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'public-growth-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as PublicGrowthReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'public-growth-readiness-v1',
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      validation: {
+        ok: false,
+        validator: 'public-growth-readiness-validator-v1',
+        validatedAt: new Date(0).toISOString(),
+        failures: ['public_growth_readiness_missing'],
+      },
+      sourceEvidence: {},
+      checks: [],
+      proofSummary: {
+        seededProofOk: false,
+        privacyBlocksPrivateData: false,
+        sourceCreated: false,
+        draftCreated: false,
+        draftStatus: null,
+        privacyScore: null,
+        qualityScore: null,
+        utmCampaign: null,
+      },
+      antiFakeRules: ['Missing readiness evidence cannot count as public growth proof.'],
+      nextOperatingProofRequired: ['Run npm run discord:public-growth-readiness, then complete real public proof cycles from approved Discord sources.'],
+      failures: ['public_growth_readiness_missing'],
+      releaseMeaning: 'Public growth readiness evidence is missing. Run npm run discord:public-growth-readiness before claiming public growth loop proof.',
+    };
+  }
+}
+
+async function loadProofIntakeReadiness(): Promise<ProofIntakeReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-intake-readiness-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofIntakeReadiness;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof intake readiness evidence is missing. Run npm run discord:proof-intake-readiness. This does not satisfy real operating proof lanes.',
+      lanes: [],
+      requiredLaneCount: 0,
+      requiredFieldCount: 0,
+      failures: ['proof_intake_readiness_missing'],
+      weeklyIntakeOrder: ['Run npm run discord:proof-intake-readiness before operating proof intake.'],
+    };
+  }
+}
+
+async function loadWeeklyProofPacket(): Promise<WeeklyProofPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-weekly-proof-packet-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as WeeklyProofPacket;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Weekly proof packet evidence is missing. Run npm run discord:weekly-proof-packet. This does not create or satisfy operating proof.',
+      backlogStatus: 'blocked',
+      lanes: [],
+      executionPlan: [],
+      weeklyIntakeOrder: ['Run npm run discord:weekly-proof-packet before weekly proof review.'],
+      nextActions: ['Generate the weekly proof packet from current backlog and proof-intake evidence.'],
+      failures: ['weekly_proof_packet_missing'],
+    };
+  }
+}
+
+async function loadProofCandidateAudit(): Promise<ProofCandidateAudit> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-candidate-audit-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofCandidateAudit;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof candidate audit evidence is missing. Run npm run discord:proof-candidate-audit. This does not create, approve, sync, publish, or satisfy operating proof.',
+      status: 'blocked',
+      metricsSnapshot: {
+        approvedDiscordKnowledgeSources: 0,
+        ragDiscordSources: 0,
+        pendingKnowledgeCandidates: 0,
+        pendingPublicDrafts: 0,
+        publishedPublicDrafts: 0,
+        premiumMembers: 0,
+        premiumWorkflowProofs: 0,
+      },
+      lanes: [],
+      failures: ['proof_candidate_audit_missing'],
+      nextActions: ['Generate the proof candidate audit from current operating-cycle and weekly packet evidence.'],
+    };
+  }
+}
+
+async function loadProofSourceVolumeScan(): Promise<ProofSourceVolumeScan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-volume-scan-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofSourceVolumeScan;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof source volume scan evidence is missing. Run npm run discord:proof-source-scan. This reads live Supabase counts only and does not satisfy operating proof.',
+      counts: {},
+      laneReadiness: {
+        approvedDiscordKnowledge: { current: 0, target: 10, reviewableCandidates: 0, blocker: 'Run the read-only source-volume scan.' },
+        ragDiscordSources: { current: 0, target: 10, approvedKnowledgeAvailable: 0, blocker: 'Run the read-only source-volume scan.' },
+        publicProofAssets: { current: 0, target: 4, approvedKnowledgeAvailable: 0, blocker: 'Run the read-only source-volume scan.' },
+        premiumWorkflowProof: { current: 0, target: 1, premiumMembers: 0, premiumReviews: 0, officeHours: 0, blocker: 'Run the read-only source-volume scan.' },
+      },
+      errors: [{ label: 'proof_source_volume_scan_missing', error: 'missing evidence' }],
+      nextActions: ['Run npm run discord:proof-source-scan to read current Supabase source-volume counts.'],
+    };
+  }
+}
+
+async function loadProofSourceRecoveryPlan(): Promise<ProofSourceRecoveryPlan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-proof-source-recovery-plan-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ProofSourceRecoveryPlan;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Proof source recovery plan evidence is missing. Run npm run discord:proof-source-recovery-plan. This writes local planning evidence only and does not satisfy operating proof.',
+      status: 'blocked',
+      summary: {
+        laneCount: 4,
+        blockedLaneCount: 4,
+        totalShortfall: 25,
+        nextLane: 'approvedDiscordKnowledge',
+      },
+      lanes: [],
+      immediateActionOrder: ['Run npm run discord:proof-source-scan, then npm run discord:proof-source-recovery-plan.'],
+      antiFakeRules: ['Do not count dry-run, smoke, synthetic, rejected, or raw unapproved rows as operating proof.'],
+      failures: ['proof_source_recovery_plan_missing'],
+    };
+  }
+}
+
+async function loadApprovedKnowledgePacket(): Promise<ApprovedKnowledgeOperatingPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'approved-knowledge-operating-packet-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as ApprovedKnowledgeOperatingPacket;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Approved knowledge operating packet is missing. Run npm run discord:approved-knowledge-packet. This writes local guidance only and does not approve records or satisfy operating proof.',
+      status: 'missing',
+      target: {
+        current: 0,
+        target: 10,
+        remaining: 10,
+        reviewableCandidates: 0,
+        sourceVolumeState: 'missing_evidence',
+      },
+      adminSurface: '/admin/discord -> RAG knowledge approval desk, Content Queue, Drafts, Questions, Challenges',
+      fields: [],
+      weeklySlots: [],
+      scoringRubric: {
+        maxScore: 100,
+        passScore: 80,
+        dimensions: [],
+      },
+      acceptanceChecklist: [],
+      rejectionChecklist: [],
+      privacyChecklist: [],
+      verificationCommands: ['npm run discord:approved-knowledge-packet'],
+      antiFakeRules: ['Do not count a missing packet as operating proof.'],
+      nextActions: ['Run npm run discord:approved-knowledge-packet after proof source scan and recovery plan evidence exist.'],
+      failures: ['approved_knowledge_packet_missing'],
+    };
+  }
+}
+
+async function loadRagEvalCoverageReadiness(): Promise<RagEvalCoverageReadiness> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-coverage-readiness.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalCoverageReadiness;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-coverage-readiness-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval coverage readiness evidence is missing. Run npm run rag:evaluate:coverage-readiness. This reads local evidence only and does not run generation.',
+      latestEvalPath: 'docs/evidence/rag/eval-latest.json',
+      expectedQuestionCount: 65,
+      seededQuestionCount: 0,
+      evaluatedQuestionCount: 0,
+      evaluatedKeyCount: 0,
+      missingEvalKeys: [],
+      unexpectedEvalKeys: [],
+      releaseReady: false,
+      blockers: ['rag_eval_coverage_readiness_missing'],
+      nextActions: ['Run npm run rag:evaluate:coverage-readiness to inspect latest eval coverage before claiming RAG eval readiness.'],
+    };
+  }
+}
+
+async function loadRagEvalExecutionPacket(): Promise<RagEvalExecutionPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-execution-packet.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalExecutionPacket;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-execution-packet-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval execution packet evidence is missing. Run npm run rag:evaluate:execution-packet. This writes local planning evidence only and does not run the eval.',
+      status: 'approval_required',
+      coverageStillBlocked: true,
+      selectedMatchesCoverage: false,
+      expectedQuestionCount: 65,
+      evaluatedQuestionCount: 0,
+      missingEvalKeys: [],
+      selectedKeys: [],
+      commandPlan: {
+        dryRunCommand: 'npm run rag:evaluate:missing-plan && npm run rag:evaluate:coverage-readiness',
+        approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing && npm run rag:evaluate:coverage-readiness && npm run discord:smoke-final-scorecard && npm run verify:local:evidence',
+        mutationWarning: 'Approved command can call DeepSeek, run retrieval, upsert rag_eval_questions, insert rag_eval_runs/results, and update local eval evidence.',
+        requiresExplicitApproval: true,
+      },
+      preRunChecks: ['Run npm run rag:evaluate:execution-packet before running any non-dry-run eval command.'],
+      postRunChecks: ['Regenerate eval coverage readiness and final scorecard evidence after the eval run.'],
+      failureHandling: ['Keep RAG eval gates blocked until every seeded eval key is represented and thresholds pass.'],
+      antiFakeRules: ['Dry-run, seed-only, smoke-only, or plan-only outputs do not satisfy eval coverage.'],
+    };
+  }
+}
+
+async function loadRagEvalMissingPreflight(): Promise<RagEvalMissingPreflight> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-missing-preflight.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalMissingPreflight;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-missing-eval-preflight-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG missing eval preflight evidence is missing. Run npm run rag:evaluate:missing-preflight. This writes local evidence only and does not run the eval.',
+      status: 'blocked',
+      selectedMatchesCoverage: false,
+      missingEvalKeys: [],
+      selectedKeys: [],
+      executionPacketKeys: [],
+      summary: {
+        missingEvalCount: 0,
+        sourceReadyCount: 0,
+        termCoverageReadyCount: 0,
+        readyForApprovedEvalCount: 0,
+        blockerCount: 1,
+      },
+      staticSources: [],
+      items: [],
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing',
+      antiFakeRules: ['Preflight-only evidence does not satisfy eval coverage.'],
+      blockers: ['rag_missing_eval_preflight_missing'],
+      nextActions: ['Run npm run rag:evaluate:missing-preflight before any approved missing eval command.'],
+    };
+  }
+}
+
+async function loadRagEvalRecoveryPlan(): Promise<RagEvalRecoveryPlan> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'rag', 'eval-recovery-plan.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as RagEvalRecoveryPlan;
+  } catch {
+    return {
+      ok: false,
+      version: 'rag-eval-recovery-plan-v1',
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'RAG eval recovery plan evidence is missing. Run npm run rag:evaluate:recovery-plan. This writes local guidance only and does not run the eval.',
+      status: 'blocked',
+      coverage: {
+        expectedQuestionCount: 0,
+        missingEvalCount: 0,
+        missingEvalKeys: [],
+        releaseReady: false,
+        blockers: ['rag_eval_recovery_plan_missing'],
+      },
+      latestEval: {
+        failedCount: 0,
+        failedKeys: [],
+      },
+      missingEvalBacklog: [],
+      failedEvalBacklog: [],
+      approvedCommand: 'SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:missing',
+      nextActions: ['Run npm run rag:evaluate:recovery-plan before any approved missing eval command.'],
+      antiFakeRules: ['Recovery-plan-only evidence does not satisfy eval coverage.'],
+    };
+  }
+}
+
+async function loadGatewayCaptureDiagnosis(): Promise<GatewayCaptureDiagnosis> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'discord-gateway-capture-diagnosis-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as GatewayCaptureDiagnosis;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Gateway capture diagnosis evidence is missing. Run npm run discord:gateway-capture-diagnosis. This reads live Supabase gateway/message rows only and does not satisfy operating proof.',
+      diagnosis: {
+        status: 'blocked',
+        rootCauses: ['Gateway capture diagnosis evidence is missing.'],
+        nextActions: ['Run npm run discord:gateway-capture-diagnosis to inspect message capture health.'],
+      },
+      heartbeat: { latest: null },
+      identify: {
+        latest: { messageContentEnabled: null, intents: null, createdAt: null },
+        messageContentSignalSource: 'missing',
+        effectiveMessageContentEnabled: null,
+      },
+      counts: {},
+      recentMessages: [],
+      errors: [{ label: 'gateway_capture_diagnosis_missing', error: 'missing evidence' }],
+    };
+  }
+}
+
+async function loadGatewayOperatingPacket(): Promise<GatewayOperatingPacket> {
+  try {
+    const raw = await readFile(
+      path.join(process.cwd(), 'docs', 'evidence', 'engineering-loop', 'gateway-operating-packet-latest.json'),
+      'utf8',
+    );
+    return JSON.parse(raw) as GatewayOperatingPacket;
+  } catch {
+    return {
+      ok: false,
+      generatedAt: new Date(0).toISOString(),
+      mutationMode: 'missing_evidence',
+      releaseMeaning: 'Gateway operating packet evidence is missing. Run npm run discord:gateway-operating-packet. This writes local proof guidance only and does not run the worker, post messages, change Discord, mutate Supabase, or satisfy operating proof.',
+      status: 'missing',
+      target: {
+        current: 0,
+        target: 1,
+        remaining: 1,
+        usableMessageState: 'missing_gateway_operating_packet',
+      },
+      adminSurface: '/admin/discord',
+      messageContentSignal: {
+        effectiveEnabled: null,
+        source: null,
+        identifyEnabled: null,
+        heartbeatEnabled: null,
+        identifyCreatedAt: null,
+      },
+      heartbeat: {
+        workerId: null,
+        status: null,
+        ageMinutes: null,
+        lastSeenAt: null,
+        fresh: false,
+        lastCloseCode: null,
+      },
+      fields: [],
+      acceptanceChecklist: [],
+      rejectionChecklist: ['Missing gateway operating packet evidence.'],
+      antiFakeRules: ['Missing packet evidence cannot count as live gateway proof.'],
+      liveProofSteps: ['Run npm run discord:gateway-capture-diagnosis, then npm run discord:gateway-operating-packet.'],
+      verificationCommands: ['npm run discord:gateway-operating-packet'],
+      nextActions: ['Generate the gateway operating packet before evaluating live capture proof.'],
+      failures: ['gateway_operating_packet_missing'],
+    };
+  }
 }
 
 function ApplicationRow({ application }: { application: DiscordApplicationRow }) {
@@ -626,7 +4014,595 @@ function ApplicationRow({ application }: { application: DiscordApplicationRow })
   );
 }
 
-function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
+function MemberIntelligenceRow({ member }: { member: DiscordMemberIntelligenceProfileRow }) {
+  const riskFlags = member.risk_flags ?? [];
+  const strengths = member.strengths ?? [];
+  const reasons = member.segment_reasons ?? [];
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{member.username ?? member.discord_user_id}</div>
+          <Badge tone={segmentTone(member.segment)}>{member.segment}</Badge>
+          <Badge tone={member.segment_confidence >= 85 ? 'emerald' : member.segment_confidence >= 70 ? 'amber' : 'neutral'}>{member.segment_confidence}% confidence</Badge>
+          {member.next_nudge_key ? <Badge tone="cyan">{member.next_nudge_key}</Badge> : null}
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{member.next_best_action}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{member.total_points} pts</span>
+          <span>{member.current_streak} day streak</span>
+          <span>{member.onboarding_steps_completed} onboarding steps</span>
+          {member.last_activity_at ? <span>Last: {formatDateTime(member.last_activity_at)}</span> : null}
+        </div>
+        {reasons.length ? (
+          <div className="mt-2 text-[11px] leading-5 text-[#a1a1aa]">Why: {reasons.slice(0, 2).join(' / ')}</div>
+        ) : null}
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {riskFlags.slice(0, 4).map((risk) => <Badge key={risk} tone="amber">{risk}</Badge>)}
+          {strengths.slice(0, 4).map((strength) => <Badge key={strength} tone="emerald">{strength}</Badge>)}
+        </div>
+      </div>
+      <div className="flex items-center gap-2 lg:justify-end">
+        {member.next_nudge_reason ? <div className="max-w-[220px] text-right text-xs leading-5 text-[#71717a]">{member.next_nudge_reason}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+function MemberNudgeRow({ nudge }: { nudge: DiscordMemberNudgeQueueRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{nudge.discord_username ?? nudge.discord_user_id}</div>
+          <StatusBadge status={nudge.status} />
+          <Badge tone="cyan">{nudge.nudge_key}</Badge>
+          <Badge tone={nudge.priority >= 85 ? 'rose' : nudge.priority >= 70 ? 'amber' : 'neutral'}>{nudge.priority} priority</Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{nudge.reason}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>Queued {formatDateTime(nudge.created_at)}</span>
+          {nudge.rate_limit_until ? <span>Rate limited until {formatDateTime(nudge.rate_limit_until)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {nudge.status === 'queued' ? (
+          <form action={reviewDiscordMemberNudgeAction}>
+            <input type="hidden" name="id" value={nudge.id} />
+            <input type="hidden" name="status" value="approved" />
+            <ActionButton tone="emerald" type="submit">Approve nudge</ActionButton>
+          </form>
+        ) : null}
+        <form action={reviewDiscordMemberNudgeAction}>
+          <input type="hidden" name="id" value={nudge.id} />
+          <input type="hidden" name="status" value="suppressed" />
+          <ActionButton type="submit">Suppress</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function ProofBacklogLaneRow({ lane }: { lane: DiscordProofBacklogLane }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone={lane.currentCount >= lane.targetCount ? 'emerald' : 'amber'}>
+            {lane.currentCount}/{lane.targetCount}
+          </Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{lane.liveActionRequired}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Qualifies" items={lane.qualifyingEvidence} tone="emerald" />
+          <ProofRuleGroup title="Reject" items={lane.rejectionRules} tone="rose" />
+          <ProofRuleGroup title="Weekly steps" items={lane.weeklyOperatorSteps} tone="cyan" />
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {lane.sourceTables.slice(0, 4).map((table) => <span key={table}>{table}</span>)}
+          {lane.safeLocalCommand ? <span>{lane.safeLocalCommand}</span> : null}
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Admin: </span>{lane.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Verify: </span>{lane.verificationCommand}
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {lane.evidenceRequired}
+      </div>
+    </div>
+  );
+}
+
+function ProofRuleGroup({ title, items, tone }: { title: string; items: string[]; tone: Tone }) {
+  return (
+    <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+      <Badge tone={tone}>{title}</Badge>
+      <ul className="mt-2 space-y-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+        {items.slice(0, 3).map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ProofChecklistStepRow({ step }: { step: DiscordProofChecklistStep }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">Step {step.order}</Badge>
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{step.title}</div>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{step.operatorAction}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {step.safeLocalCommand ? <span>check: {step.safeLocalCommand}</span> : null}
+          {step.liveCommand ? <span>live: {step.liveCommand}</span> : null}
+          <span>evidence: {step.evidencePath}</span>
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#a1a1aa] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Admin: </span>{step.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#71717a]">Verify: </span>{step.verificationCommand}
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {step.acceptanceCriteria}
+      </div>
+    </div>
+  );
+}
+
+function ProofRehearsalLaneRow({ lane }: { lane: ProofRehearsalLaneRow }) {
+  const failedChecks = Object.entries(lane.checks).filter(([, passed]) => !passed).map(([key]) => key);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.ok ? 'emerald' : 'rose'}>{lane.ok ? 'ready' : 'attention'}</Badge>
+          <Badge tone="neutral">{lane.mutationMode}</Badge>
+          {lane.latestEvidence ? <Badge tone={lane.latestEvidence.ok ? 'emerald' : 'rose'}>{lane.latestEvidence.ageHours ?? '?'}h old</Badge> : null}
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{lane.note}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title="Contracts" items={lane.requiredContracts} tone="cyan" />
+          <ProofRuleGroup title={failedChecks.length ? 'Failed checks' : 'Checks'} items={failedChecks.length ? failedChecks : Object.keys(lane.checks)} tone={failedChecks.length ? 'rose' : 'emerald'} />
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{lane.command}</span>
+          <span>evidence: {lane.evidencePath}</span>
+        </div>
+      </div>
+      <div className="max-w-[260px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {lane.latestEvidence?.timestamp ? `last proof: ${formatDateTime(lane.latestEvidence.timestamp)}` : 'no proof evidence yet'}
+      </div>
+    </div>
+  );
+}
+
+function ProofIntakeLaneRow({ lane }: { lane: ProofIntakeLane }) {
+  const requiredFields = lane.requiredFields.filter((field) => field.required);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone="cyan">target {lane.targetCount}</Badge>
+          <Badge tone="neutral">{requiredFields.length} required fields</Badge>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.adminSurface}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Required fields" items={requiredFields.slice(0, 6).map((field) => field.label)} tone="cyan" />
+          <ProofRuleGroup title="Acceptance checks" items={lane.acceptanceChecks.slice(0, 5)} tone="emerald" />
+          <ProofRuleGroup title="Privacy checks" items={lane.privacyChecks.slice(0, 5)} tone="amber" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Sources: </span>{lane.sourceTables.join(', ')}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Verify: </span>{lane.verificationCommands[0] ?? 'no verification command'}
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[300px] text-xs leading-5 text-[#71717a] lg:text-right">
+        <div className="text-[#a1a1aa]">Evidence</div>
+        {lane.evidencePaths.slice(0, 3).map((evidencePath) => (
+          <div key={evidencePath} className="break-words">{evidencePath}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WeeklyProofPacketLaneRow({ lane }: { lane: WeeklyProofPacketLane }) {
+  const templateEntries = Object.entries(lane.intakeTemplate);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.55fr)]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone="amber">{lane.currentCount}/{lane.targetCount}</Badge>
+          {lane.remainingCount ? <Badge tone="neutral">remaining {lane.remainingCount}</Badge> : null}
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.adminSurface}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          <ProofRuleGroup title="Accept" items={lane.acceptanceChecks.slice(0, 4)} tone="emerald" />
+          <ProofRuleGroup title="Reject" items={lane.rejectionChecks.slice(0, 4)} tone="rose" />
+          <ProofRuleGroup title="Privacy" items={lane.privacyChecks.slice(0, 4)} tone="amber" />
+        </div>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title="Quality gates" items={lane.qualityGates.slice(0, 4)} tone="cyan" />
+          <ProofRuleGroup title="Does not count" items={lane.nonProofExamples.slice(0, 4)} tone="rose" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Sources: </span>{lane.sourceTables.join(', ')}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Verify: </span>{lane.verificationCommands[0] ?? 'no verification command'}
+          </div>
+        </div>
+      </div>
+      <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Intake template</div>
+        <div className="mt-3 grid gap-1.5 text-[11px] leading-4 text-[#a1a1aa]">
+          {templateEntries.slice(0, 8).map(([key, value]) => (
+            <div key={key} className="grid grid-cols-[minmax(80px,0.45fr)_1fr] gap-2">
+              <span className="break-words text-[#71717a]">{key}</span>
+              <code className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-1.5 py-0.5 text-[#d4d4d8]">{value}</code>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProofCandidateAuditLaneRow({ lane }: { lane: ProofCandidateAuditLane }) {
+  const stateTone: Tone = lane.candidateState === 'target_met'
+    ? 'emerald'
+    : lane.candidateState === 'needs_review'
+      ? 'amber'
+      : 'rose';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.5fr)]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{lane.title}</div>
+          <Badge tone={lane.status === 'passed' ? 'emerald' : 'rose'}>{lane.status}</Badge>
+          <Badge tone={stateTone}>{lane.candidateState.replaceAll('_', ' ')}</Badge>
+          <Badge tone="neutral">{lane.currentCount}/{lane.targetCount}</Badge>
+          <Badge tone="cyan">candidates {lane.candidateCount}</Badge>
+        </div>
+        <p className="mt-2 text-xs leading-5 text-[#a1a1aa]">{lane.nextReviewAction}</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <ProofRuleGroup title={lane.blockers.length ? 'Blockers' : 'No blockers'} items={lane.blockers.length ? lane.blockers : ['No local evidence blocker for this lane.']} tone={lane.blockers.length ? 'rose' : 'emerald'} />
+          <ProofRuleGroup title="Critical fields" items={lane.criticalEvidenceFields} tone="amber" />
+          <ProofRuleGroup title="Required fields" items={lane.requiredEvidenceFields.slice(0, 6)} tone="cyan" />
+        </div>
+        <div className="mt-2 grid gap-2 text-[11px] leading-4 text-[#71717a] md:grid-cols-2">
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Admin: </span>{lane.adminSurface}
+          </div>
+          <div className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-1.5">
+            <span className="text-[#a1a1aa]">Prove: </span>{lane.provingCommand}
+          </div>
+        </div>
+      </div>
+      <div className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">Source tables</div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {lane.sourceTables.map((table) => (
+            <Badge key={table} tone="neutral">{table}</Badge>
+          ))}
+        </div>
+        <div className="mt-3 text-xs leading-5 text-[#a1a1aa]">
+          Remaining: <span className="font-semibold text-[#fafafa]">{lane.remainingCount}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ActionBoundaryPlan({
+  title,
+  localOnlyCommands,
+  explicitApprovalCommands,
+  liveOperatorActions,
+}: {
+  title: string;
+  localOnlyCommands: string[];
+  explicitApprovalCommands: string[];
+  liveOperatorActions: string[];
+}) {
+  const columns = [
+    {
+      title: 'Safe local',
+      description: 'Can be run locally without third-party mutation.',
+      tone: 'emerald' as Tone,
+      items: localOnlyCommands,
+      code: true,
+    },
+    {
+      title: 'Needs approval',
+      description: 'Writes production state, calls paid/model services, or runs non-dry proof.',
+      tone: 'amber' as Tone,
+      items: explicitApprovalCommands,
+      code: true,
+    },
+    {
+      title: 'Live operator',
+      description: 'Requires Discord members, admin review, publishing, or premium fulfillment.',
+      tone: 'rose' as Tone,
+      items: liveOperatorActions,
+      code: false,
+    },
+  ];
+
+  return (
+    <div data-testid="discord-action-boundary-plan">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider text-[#fafafa]">{title}</div>
+          <div className="mt-1 text-[11px] text-[#71717a]">Separates autonomous local work from approval-gated and live operating work.</div>
+        </div>
+        <Badge tone="neutral">
+          {localOnlyCommands.length} local / {explicitApprovalCommands.length} approval / {liveOperatorActions.length} live
+        </Badge>
+      </div>
+      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+        {columns.map((column) => (
+          <div key={column.title} className="rounded-md border border-[#27272a] bg-[#09090b] p-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-xs font-semibold text-[#fafafa]">{column.title}</div>
+              <Badge tone={column.tone}>{column.items.length}</Badge>
+            </div>
+            <div className="mt-1 text-[11px] leading-4 text-[#71717a]">{column.description}</div>
+            <ul className="mt-3 space-y-2 text-[11px] leading-4 text-[#a1a1aa]">
+              {column.items.length ? column.items.slice(0, 6).map((item) => (
+                <li key={item} className="break-words rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1.5">
+                  {column.code ? <code className="text-[#d4d4d8]">{item}</code> : item}
+                </li>
+              )) : (
+                <li className="rounded border border-[#27272a] bg-[#0f0f12] px-2 py-1.5 text-[#71717a]">None in current evidence.</li>
+              )}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WorldClassReadinessCategoryRow({ category }: { category: WorldClassReadinessCategory }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{category.category.replaceAll('_', ' ')}</div>
+          <Badge tone={category.score >= 95 ? 'emerald' : category.score >= 85 ? 'amber' : 'rose'}>{category.score}/100</Badge>
+          <Badge tone={readinessStatusTone(category.status)}>{category.status.replaceAll('_', ' ')}</Badge>
+          {category.scoreGapTo95 ? <Badge tone="amber">gap {category.scoreGapTo95}</Badge> : null}
+        </div>
+        {category.blockerReason ? (
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{category.blockerReason}</p>
+        ) : null}
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{category.evidenceCount} evidence items</span>
+          <span>threshold 95</span>
+        </div>
+      </div>
+      <div className="max-w-[320px] text-xs leading-5 text-[#71717a] lg:text-right">
+        {category.nextAction}
+      </div>
+    </div>
+  );
+}
+
+function readinessStatusTone(status: WorldClassReadinessCategory['status']): Tone {
+  if (status === 'earned_95_plus') return 'emerald';
+  if (status === 'needs_operating_proof') return 'amber';
+  if (status === 'strong_but_not_world_class') return 'cyan';
+  return 'rose';
+}
+
+function DurableJobRegistryRow({ job, latestRun }: { job: DiscordJobRegistryRow; latestRun: DiscordJobRunRow | null }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{job.job_name}</div>
+          <Badge tone={job.enabled ? 'emerald' : 'neutral'}>{job.enabled ? 'enabled' : 'disabled'}</Badge>
+          <Badge tone={job.retryable ? 'cyan' : 'amber'}>{job.retryable ? 'retryable' : 'manual recovery'}</Badge>
+          {latestRun ? <StatusBadge status={latestRun.status} /> : null}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{job.job_key}</span>
+          <span>{job.owner}</span>
+          <span>{job.schedule ?? 'manual'}</span>
+          <span>idempotency: {job.idempotency_scope}</span>
+          <span>{job.max_retries} retries</span>
+        </div>
+        {latestRun?.error_message ? (
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#fb7185]">{latestRun.error_code}: {latestRun.error_message}</p>
+        ) : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {latestRun && ['queued', 'failed'].includes(latestRun.status) ? (
+          <form action={cancelDiscordJobRunAction}>
+            <input type="hidden" name="run_key" value={latestRun.run_key} />
+            <input type="hidden" name="reason" value="Canceled from Discord admin cockpit." />
+            <ActionButton type="submit">Cancel</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function JobDeadLetterRow({ deadLetter }: { deadLetter: DiscordJobDeadLetterRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{deadLetter.job_key}</div>
+          <Badge tone={deadLetter.retryable ? 'amber' : 'rose'}>{deadLetter.retryable ? 'retryable' : 'inspect only'}</Badge>
+          <Badge tone="rose">dead letter</Badge>
+        </div>
+        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{deadLetter.reason}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{deadLetter.run_key}</span>
+          <span>{formatDateTime(deadLetter.created_at)}</span>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {deadLetter.retryable ? (
+          <form action={retryDiscordJobDeadLetterAction}>
+            <input type="hidden" name="id" value={deadLetter.id} />
+            <ActionButton tone="emerald" type="submit">Retry</ActionButton>
+          </form>
+        ) : null}
+        <form action={resolveDiscordJobDeadLetterAction}>
+          <input type="hidden" name="id" value={deadLetter.id} />
+          <input type="hidden" name="notes" value="Resolved from Discord admin cockpit." />
+          <ActionButton type="submit">Resolve</ActionButton>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function PremiumOpsRow({ entry }: {
+  entry:
+    | { kind: 'review'; item: DiscordPremiumReviewRow }
+    | { kind: 'office-hours'; item: DiscordOfficeHoursRow };
+}) {
+  const title = entry.kind === 'review' ? entry.item.summary : entry.item.question;
+  const eyebrow = entry.kind === 'review'
+    ? `${entry.item.review_type} review`
+    : `${entry.item.premium_member ? 'premium' : 'community'} office-hours`;
+  if (entry.kind === 'office-hours') {
+    return (
+      <CompactRow
+        eyebrow={eyebrow}
+        title={title}
+        detail={`${entry.item.discord_username ?? entry.item.discord_user_id} / ${formatDateTime(entry.item.created_at)}`}
+        meta={<StatusBadge status={entry.item.status} />}
+      />
+    );
+  }
+  const overdue = Boolean(entry.item.sla_due_at && new Date(entry.item.sla_due_at).getTime() < Date.now() && !entry.item.completed_at);
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="truncate text-sm font-semibold text-[#fafafa]">{title}</div>
+          <StatusBadge status={entry.item.status} />
+          <Badge tone={overdue ? 'rose' : 'emerald'}>{overdue ? 'SLA overdue' : 'SLA active'}</Badge>
+          {entry.item.response_quality_score !== null ? <Badge tone="emerald">{entry.item.response_quality_score} quality</Badge> : null}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{eyebrow}</span>
+          <span>{entry.item.discord_username ?? entry.item.discord_user_id}</span>
+          {entry.item.assigned_to ? <span>assigned: {entry.item.assigned_to}</span> : null}
+          {entry.item.sla_due_at ? <span>SLA: {formatDateTime(entry.item.sla_due_at)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {entry.item.status === 'queued' ? (
+          <form action={assignDiscordPremiumReviewAction}>
+            <input type="hidden" name="id" value={entry.item.id} />
+            <ActionButton tone="emerald" type="submit">Assign</ActionButton>
+          </form>
+        ) : null}
+        {entry.item.status === 'in_review' ? (
+          <form action={completeDiscordPremiumReviewAction} className="grid w-full min-w-[280px] gap-2 lg:w-[360px]">
+            <input type="hidden" name="id" value={entry.item.id} />
+            <textarea
+              name="response"
+              required
+              minLength={180}
+              rows={4}
+              placeholder="Write the premium review response. Include the recommendation, next step, and key risk or tradeoff."
+              className="min-h-[96px] resize-y rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#fafafa] outline-none placeholder:text-[#52525b] focus:border-[#10b981]"
+            />
+            <textarea
+              name="judgment_basis"
+              required
+              minLength={40}
+              rows={2}
+              placeholder="Explain what artifact, source, or member context this judgment is based on."
+              className="min-h-[56px] resize-y rounded-md border border-[#27272a] bg-[#09090b] px-3 py-2 text-xs leading-5 text-[#fafafa] outline-none placeholder:text-[#52525b] focus:border-[#10b981]"
+            />
+            <div className="flex justify-end">
+              <ActionButton tone="emerald" type="submit">Complete</ActionButton>
+            </div>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function PremiumProofReviewRow({ review }: { review: DiscordPremiumReviewRow }) {
+  const title = review.summary || `${review.review_type} premium review`;
+  const completed = review.completed_at ? formatDateTime(review.completed_at) : 'not completed';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`premium-proof-review-${review.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={review.status} />
+          <Badge tone="violet">{review.review_type}</Badge>
+          {review.response_quality_score !== null ? (
+            <Badge tone={review.response_quality_score >= 80 ? 'emerald' : 'amber'}>{review.response_quality_score} quality</Badge>
+          ) : null}
+          {review.assigned_to ? <Badge tone="neutral">assigned</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{title}</div>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>{review.discord_username ?? review.discord_user_id}</span>
+          <span>completed: {completed}</span>
+          {review.follow_up_due_at ? <span>follow-up: {formatDateTime(review.follow_up_due_at)}</span> : null}
+          {review.sla_due_at ? <span>SLA: {formatDateTime(review.sla_due_at)}</span> : null}
+        </div>
+      </div>
+      <div className="text-xs text-[#71717a] lg:text-right">{formatDateTime(review.created_at)}</div>
+    </div>
+  );
+}
+
+function PremiumWorkflowEventRow({ event }: { event: DiscordPremiumWorkflowEventRow }) {
+  return (
+    <div className="grid gap-2 px-3 py-3 sm:grid-cols-[minmax(0,1fr)_auto]" data-testid={`premium-workflow-event-${event.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">{event.event_type}</Badge>
+          {event.status ? <StatusBadge status={event.status} /> : null}
+          {event.actor ? <Badge tone="neutral">{event.actor}</Badge> : null}
+        </div>
+        <div className="mt-2 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{event.note ?? event.request_id ?? 'premium workflow event'}</div>
+      </div>
+      <div className="text-xs text-[#71717a] sm:text-right">{formatDateTime(event.created_at)}</div>
+    </div>
+  );
+}
+
+function DraftRow({ draft, promptDebug }: { draft: DiscordContentDraftRow; promptDebug: boolean }) {
+  const policyScore = typeof draft.metadata?.policy_score === 'number' ? draft.metadata.policy_score : null;
+  const policyPassed = typeof draft.metadata?.policy_passed === 'boolean' ? draft.metadata.policy_passed : null;
   return (
     <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]">
       <div className="min-w-0">
@@ -638,6 +4614,13 @@ function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
         </div>
         <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{draft.title ?? draft.body}</div>
         <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{draft.body}</p>
+        {promptDebug ? (
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-[#a1a1aa]">
+            <span>Prompt: {draft.prompt_version ?? 'none'}</span>
+            {policyScore !== null ? <span>Policy: {policyScore}</span> : null}
+            {policyPassed !== null ? <Badge tone={policyPassed ? 'emerald' : 'rose'}>{policyPassed ? 'policy pass' : 'policy fail'}</Badge> : null}
+          </div>
+        ) : null}
       </div>
       <div className="flex items-center gap-2 lg:justify-end">
         <form action={reviewDiscordContentDraftAction}>
@@ -650,7 +4633,122 @@ function DraftRow({ draft }: { draft: DiscordContentDraftRow }) {
           <input type="hidden" name="status" value="rejected" />
           <ActionButton type="submit">Reject</ActionButton>
         </form>
+        {draft.status === 'approved' ? (
+          <form action={publishDiscordContentDraftAction}>
+            <input type="hidden" name="id" value={draft.id} />
+            <ActionButton data-testid={`content-draft-publish-${draft.id}`} tone="emerald" type="submit">Publish</ActionButton>
+          </form>
+        ) : null}
       </div>
+    </div>
+  );
+}
+
+function PublicProofSourceRow({ source }: { source: DiscordPublicProofSourceRow }) {
+  const isBlocked = source.permission_status === 'blocked';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-proof-source-${source.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={source.permission_status} />
+          <Badge tone="cyan">{source.source_type}</Badge>
+          <Badge tone={source.privacy_score >= 90 ? 'emerald' : 'rose'}>{source.privacy_score} privacy</Badge>
+          {source.source_table ? <Badge tone="neutral">{source.source_table}</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{source.title}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{source.summary}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {source.source_record_id ? <span>record: {source.source_record_id}</span> : null}
+          <span>updated: {formatDateTime(source.updated_at)}</span>
+          <span>created: {formatDateTime(source.created_at)}</span>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <form action={reviewDiscordPublicProofSourceAction}>
+          <input type="hidden" name="id" value={source.id} />
+          <input type="hidden" name="permission_status" value="anonymized" />
+          <ActionButton data-testid={`public-proof-source-anonymized-${source.id}`} tone="emerald" type="submit">Anonymized</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicProofSourceAction}>
+          <input type="hidden" name="id" value={source.id} />
+          <input type="hidden" name="permission_status" value="explicit" />
+          <ActionButton data-testid={`public-proof-source-explicit-${source.id}`} type="submit">Explicit</ActionButton>
+        </form>
+        {!isBlocked ? (
+          <form action={reviewDiscordPublicProofSourceAction}>
+            <input type="hidden" name="id" value={source.id} />
+            <input type="hidden" name="permission_status" value="blocked" />
+            <ActionButton data-testid={`public-proof-source-block-${source.id}`} type="submit">Block</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function PublicGrowthDraftRow({ draft }: { draft: DiscordPublicGrowthDraftRow }) {
+  const source = draft.discord_public_proof_sources?.[0] ?? null;
+  const canMarkPublished = draft.status === 'approved';
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-growth-draft-${draft.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge status={draft.status} />
+          <Badge tone="cyan">{draft.draft_type}</Badge>
+          <Badge tone={draft.privacy_score >= 90 ? 'emerald' : 'rose'}>{draft.privacy_score} privacy</Badge>
+          <Badge tone={draft.quality_score >= 80 ? 'emerald' : 'amber'}>{draft.quality_score} quality</Badge>
+          <Badge tone="neutral">{draft.utm_campaign}</Badge>
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{draft.title}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#71717a]">{draft.body}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          <span>source: {source?.title ?? 'unknown'}</span>
+          {source?.source_type ? <span>type: {source.source_type}</span> : null}
+          {source?.permission_status ? <span>permission: {source.permission_status}</span> : null}
+          {draft.reviewed_at ? <span>reviewed: {formatDateTime(draft.reviewed_at)}</span> : null}
+          {draft.published_at ? <span>published: {formatDateTime(draft.published_at)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="approved" />
+          <ActionButton data-testid={`public-growth-approve-${draft.id}`} tone="emerald" type="submit">Approve</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="rejected" />
+          <ActionButton data-testid={`public-growth-reject-${draft.id}`} type="submit">Reject</ActionButton>
+        </form>
+        <form action={reviewDiscordPublicGrowthDraftAction}>
+          <input type="hidden" name="id" value={draft.id} />
+          <input type="hidden" name="status" value="archived" />
+          <ActionButton type="submit">Archive</ActionButton>
+        </form>
+        {canMarkPublished ? (
+          <form action={reviewDiscordPublicGrowthDraftAction}>
+            <input type="hidden" name="id" value={draft.id} />
+            <input type="hidden" name="status" value="published" />
+            <ActionButton data-testid={`public-growth-published-${draft.id}`} tone="emerald" type="submit">Mark published</ActionButton>
+          </form>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function GrowthEventRow({ event }: { event: DiscordGrowthEventRow }) {
+  return (
+    <div className="grid gap-2 px-3 py-3 sm:grid-cols-[minmax(0,1fr)_auto]" data-testid={`public-proof-growth-event-${event.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="violet">{event.event_type}</Badge>
+          {event.source ? <Badge tone="neutral">{event.source}</Badge> : null}
+          {event.utm_campaign ? <Badge tone="cyan">{event.utm_campaign}</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-xs text-[#a1a1aa]">{event.path ?? 'internal event'}</div>
+      </div>
+      <div className="text-xs text-[#71717a] sm:text-right">{formatDateTime(event.created_at)}</div>
     </div>
   );
 }
@@ -688,8 +4786,9 @@ function ChallengeSubmissionRow({ submission }: { submission: DiscordChallengeSu
 }
 
 function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
+  const isClassifierCandidate = item.source === 'discord_message_classifier' && Boolean(item.source_message_id) && item.status === 'captured';
   return (
-    <div className="space-y-3 px-3 py-3">
+    <div className="space-y-3 px-3 py-3" data-testid={`content-queue-row-${item.id}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="truncate text-sm font-medium text-[#fafafa]">{item.idea}</div>
@@ -697,11 +4796,35 @@ function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
             <span>{item.source}</span>
             <span>{item.discord_username ?? 'system'}</span>
             <span>priority {item.priority}</span>
+            {item.source_classification_category ? <span>{item.source_classification_category}</span> : null}
+            {item.source_classification_action ? <span>{item.source_classification_action}</span> : null}
           </div>
         </div>
         <StatusBadge status={item.status} />
       </div>
       <div className="flex flex-wrap gap-2">
+        {isClassifierCandidate ? (
+          <>
+            {(['question', 'answer', 'resource', 'content', 'review', 'win'] as const).map((decision) => (
+              <form action={reviewDiscordKnowledgeCandidateAction} key={decision}>
+                <input type="hidden" name="id" value={item.id} />
+                <input type="hidden" name="decision" value={decision} />
+                <ActionButton
+                  data-testid={`knowledge-candidate-${decision}-${item.id}`}
+                  tone={decision === 'content' || decision === 'resource' ? 'emerald' : undefined}
+                  type="submit"
+                >
+                  {decision}
+                </ActionButton>
+              </form>
+            ))}
+            <form action={reviewDiscordKnowledgeCandidateAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <input type="hidden" name="decision" value="reject" />
+              <ActionButton data-testid={`knowledge-candidate-reject-${item.id}`} type="submit">reject</ActionButton>
+            </form>
+          </>
+        ) : null}
         {['triaged', 'drafted', 'published'].map((status) => (
           <form action={updateDiscordContentQueueStatus} key={status}>
             <input type="hidden" name="id" value={item.id} />
@@ -709,6 +4832,104 @@ function ContentQueueRow({ item }: { item: DiscordContentQueueRow }) {
             <ActionButton type="submit">{status}</ActionButton>
           </form>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function RagCorpusRow({ item }: { item: DiscordCorpusItem }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]" data-testid={`rag-corpus-${item.kind}-${item.id}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="cyan">{item.kind.replace('_', ' ')}</Badge>
+          <Badge tone={corpusStateTone(item.state)}>{item.state}</Badge>
+          {item.status ? <StatusBadge status={item.status} /> : null}
+          {typeof item.helpful === 'boolean' ? <Badge tone={item.helpful ? 'emerald' : 'neutral'}>{item.helpful ? 'helpful' : 'not helpful'}</Badge> : null}
+          {typeof item.qualityScore === 'number' ? <Badge tone={item.qualityScore >= 80 ? 'emerald' : 'amber'}>{item.qualityScore} quality</Badge> : null}
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{item.title}</div>
+        <div className="mt-1 truncate text-[11px] text-[#71717a]">{item.sourceKey}</div>
+        {item.blocker ? <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{item.blocker}</p> : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {item.state === 'blocked' ? <ApproveForRagForm item={item} /> : null}
+        {item.state === 'eligible' || item.state === 'stale' ? <Badge tone="amber">sync ready</Badge> : null}
+        {item.state === 'synced' ? <Badge tone="emerald">in RAG</Badge> : null}
+      </div>
+    </div>
+  );
+}
+
+function ApproveForRagForm({ item }: { item: DiscordCorpusItem }) {
+  if (item.kind === 'question') {
+    return (
+      <form action={approveDiscordQuestionForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-question-${item.id}`} tone="emerald" type="submit">Approve for RAG</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'answer') {
+    return (
+      <form action={approveDiscordAnswerForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-answer-${item.id}`} tone="emerald" type="submit">Mark helpful</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'content_queue') {
+    return (
+      <form action={approveDiscordQueueItemForRagAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <ActionButton data-testid={`rag-approve-queue-${item.id}`} tone="emerald" type="submit">Publish for RAG</ActionButton>
+      </form>
+    );
+  }
+  if (item.kind === 'content_draft' && Number(item.qualityScore ?? 0) >= 80) {
+    return (
+      <form action={reviewDiscordContentDraftAction}>
+        <input type="hidden" name="id" value={item.id} />
+        <input type="hidden" name="status" value="approved" />
+        <ActionButton data-testid={`rag-approve-draft-${item.id}`} tone="emerald" type="submit">Approve draft</ActionButton>
+      </form>
+    );
+  }
+  return <Badge tone="neutral">not approvable</Badge>;
+}
+
+function RagEvalRow({ row }: { row: RagEvalDrilldownRow }) {
+  return (
+    <div className="grid gap-3 px-3 py-3 lg:grid-cols-[1fr_auto]" data-testid={`rag-eval-row-${row.evalKey}`}>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone={row.passed ? 'emerald' : row.severity === 'critical' ? 'rose' : 'amber'}>{row.passed ? 'pass' : 'failed'}</Badge>
+          <Badge tone="cyan">{row.evalKey}</Badge>
+          <Badge tone={row.score >= 0.8 ? 'emerald' : row.score >= 0.6 ? 'amber' : 'rose'}>{Math.round(row.score * 100)} score</Badge>
+          <Badge tone={row.retrievalHitRate ? 'emerald' : 'rose'}>{Math.round(row.retrievalHitRate * 100)} retrieval</Badge>
+          <Badge tone={row.citationCoverage >= 0.85 ? 'emerald' : 'amber'}>{Math.round(row.citationCoverage * 100)} citations</Badge>
+        </div>
+        <div className="mt-2 truncate text-sm font-medium text-[#fafafa]">{row.question}</div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#a1a1aa]">{row.suggestedFix}</p>
+        <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#71717a]">
+          {row.missingSources.length ? <span>Missing sources: {row.missingSources.join(', ')}</span> : null}
+          {row.missingRequiredTerms.length ? <span>Missing terms: {row.missingRequiredTerms.join(', ')}</span> : null}
+          {row.traceId ? <span>Trace: {row.traceId.slice(0, 10)}</span> : null}
+          {row.answerId ? <span>Answer: {row.answerId.slice(0, 8)}</span> : null}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        {!row.passed ? (
+          <form action={createRagEvalKnowledgeTaskAction}>
+            <input type="hidden" name="result_id" value={row.id} />
+            <input type="hidden" name="eval_key" value={row.evalKey} />
+            <input type="hidden" name="question" value={row.question} />
+            <input type="hidden" name="suggested_fix" value={row.suggestedFix} />
+            <ActionButton data-testid={`rag-eval-create-task-${row.evalKey}`} tone="emerald" type="submit">Create source task</ActionButton>
+          </form>
+        ) : (
+          <Badge tone="emerald">covered</Badge>
+        )}
       </div>
     </div>
   );
@@ -725,7 +4946,7 @@ function Panel({
   title: string;
   meta: string;
   empty: string;
-  children: ReactNode[];
+  children: ReactNode | ReactNode[];
 }) {
   return (
     <Card className="rounded-lg border-[#27272a] bg-[#0f0f12]">
@@ -742,7 +4963,7 @@ function Panel({
           </div>
           <ChevronRight className="size-4 shrink-0 text-[#3f3f46]" />
         </div>
-        <Rows empty={empty}>{children}</Rows>
+        <Rows empty={empty}>{Array.isArray(children) ? children : [children]}</Rows>
       </CardContent>
     </Card>
   );
@@ -850,6 +5071,20 @@ function StatusBadge({ status }: { status: string }) {
   return <Badge tone={statusTone[status] ?? 'neutral'}>{status}</Badge>;
 }
 
+function segmentTone(segment: string): Tone {
+  if (segment === 'premium_member' || segment === 'mentor_candidate') return 'emerald';
+  if (segment === 'premium_lead' || segment === 'active_builder' || segment === 'helper') return 'cyan';
+  if (segment === 'stuck_onboarding' || segment === 'at_risk_inactive') return 'amber';
+  return 'neutral';
+}
+
+function corpusStateTone(state: DiscordCorpusItem['state']): Tone {
+  if (state === 'synced') return 'emerald';
+  if (state === 'eligible') return 'cyan';
+  if (state === 'stale') return 'amber';
+  return 'neutral';
+}
+
 function Rows({ children, empty }: { children: ReactNode[]; empty: string }) {
   if (children.length === 0) {
     return (
@@ -905,6 +5140,13 @@ function nextOperatorMove(input: {
   if (input.contentDrafts.some((draft) => draft.status === 'pending_approval')) return 'Approve daily content drafts';
   if (input.challengeSubmissions.some((submission) => submission.status === 'pending')) return 'Review challenge submissions';
   return 'Seed the next content cycle';
+}
+
+function sortCorpusItems(a: DiscordCorpusItem, b: DiscordCorpusItem) {
+  const rank = { stale: 0, eligible: 1, blocked: 2, synced: 3 } as Record<DiscordCorpusItem['state'], number>;
+  const byRank = rank[a.state] - rank[b.state];
+  if (byRank !== 0) return byRank;
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 }
 
 function formatDateTime(value: string) {

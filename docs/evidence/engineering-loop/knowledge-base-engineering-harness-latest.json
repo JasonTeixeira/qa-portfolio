@@ -1,0 +1,254 @@
+{
+  "ok": true,
+  "version": "knowledge-base-engineering-harness-v1",
+  "generatedAt": "2026-06-30T13:26:01.757Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This harness reads local evidence and grades the Discord knowledge-base pipeline. It does not approve records, post to Discord, mutate Supabase, sync RAG, call AI models, push, deploy, or satisfy live operating proof.",
+  "status": "locally_verified_waiting_on_live_approval",
+  "score": 76,
+  "targetScoreRange": "95-99",
+  "sourceSeedSummary": {
+    "totalCandidates": 110,
+    "totalApprovalDrafts": 18,
+    "channelsCovered": [
+      "build-lab",
+      "content-queue",
+      "daily-signal",
+      "office-hours",
+      "project-submissions",
+      "questions",
+      "resources"
+    ]
+  },
+  "phases": [
+    {
+      "key": "source_seed_factory",
+      "title": "Source Seed Factory",
+      "gates": [
+        {
+          "key": "career_harness_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "career harness ok=true candidates=50",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:career-content-harness and fix corpus path/readiness failures."
+        },
+        {
+          "key": "sage_kernel_harness_ok",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "sage-kernel harness ok=true candidates=60",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:sage-kernel-content-harness and fix source clone/readiness failures."
+        },
+        {
+          "key": "seed_volume_ready",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "110 source candidates / 18 approval-gated drafts",
+          "requiredForProduction": true,
+          "recovery": "Add or repair source harnesses until at least 80 candidates and 18 approval-gated drafts are available."
+        },
+        {
+          "key": "channel_coverage_ready",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "channels covered: build-lab, content-queue, daily-signal, office-hours, project-submissions, questions, resources",
+          "requiredForProduction": true,
+          "recovery": "Balance source candidates across daily-signal, build-lab, resources, questions, office-hours, and content-queue."
+        }
+      ],
+      "status": "passed",
+      "score": 40,
+      "maxScore": 40
+    },
+    {
+      "key": "approval_contract",
+      "title": "Approval Contract",
+      "gates": [
+        {
+          "key": "drafts_are_approval_gated",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "18 drafts checked for publishAllowedBeforeApproval=false and operatingProofEligible=false",
+          "requiredForProduction": true,
+          "recovery": "Ensure every generated draft is pending admin review and cannot claim operating proof before approval."
+        },
+        {
+          "key": "approved_knowledge_packet_valid",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "approved packet ok=true current=0/10",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:approved-knowledge-packet and fix missing packet fields/checklists."
+        },
+        {
+          "key": "proof_candidate_audit_valid",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "proof candidate audit ok=true lanes=5",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:proof-candidate-audit and fix missing critical proof fields."
+        },
+        {
+          "key": "anti_fake_rules_present",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "source seed and approved-knowledge packet both contain anti-fake proof boundaries",
+          "requiredForProduction": true,
+          "recovery": "Add explicit anti-fake rules blocking generated seeds, dry-runs, smoke rows, and raw messages from counting as proof."
+        },
+        {
+          "key": "e2e_runner_guarded",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "knowledge-base E2E readiness ok=true approval=SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved",
+          "requiredForProduction": true,
+          "recovery": "Run npm run discord:knowledge-base-e2e-readiness and fix guarded runner/spec cleanup contract failures."
+        }
+      ],
+      "status": "passed",
+      "score": 50,
+      "maxScore": 50
+    },
+    {
+      "key": "rag_readiness",
+      "title": "RAG Readiness",
+      "gates": [
+        {
+          "key": "discord_corpus_readiness_valid",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "discord corpus readiness ok=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run rag:discord-corpus-readiness and fix corpus/readiness contract failures."
+        },
+        {
+          "key": "rag_eval_coverage_ready",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "rag eval coverage ok=true releaseReady=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run rag:evaluate:coverage-readiness and repair missing eval coverage before RAG claims."
+        },
+        {
+          "key": "approved_knowledge_target_met",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/10 approved Discord knowledge sources",
+          "requiredForProduction": true,
+          "recovery": "Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG."
+        },
+        {
+          "key": "rag_sources_target_met",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/10 Discord RAG sources",
+          "requiredForProduction": true,
+          "recovery": "With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals."
+        }
+      ],
+      "status": "blocked",
+      "score": 20,
+      "maxScore": 40
+    },
+    {
+      "key": "operating_proof",
+      "title": "Operating Proof",
+      "gates": [
+        {
+          "key": "local_verification_passes",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "local verification ok=true summary=true",
+          "requiredForProduction": true,
+          "recovery": "Run npm run verify:local:evidence and fix release evidence failures."
+        },
+        {
+          "key": "autonomous_loop_state_current",
+          "status": "passed",
+          "score": 10,
+          "maxScore": 10,
+          "evidence": "loop state ok=true average=83",
+          "requiredForProduction": true,
+          "recovery": "Run npm run loop:audit and fix stale or missing autonomous loop state."
+        },
+        {
+          "key": "public_proof_target_met",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/4 public proof assets",
+          "requiredForProduction": true,
+          "recovery": "Create and approve four privacy-safe public proof assets from approved Discord knowledge."
+        },
+        {
+          "key": "premium_workflow_target_met",
+          "status": "blocked",
+          "score": 0,
+          "maxScore": 10,
+          "evidence": "0/1 premium workflow proofs",
+          "requiredForProduction": true,
+          "recovery": "Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence."
+        }
+      ],
+      "status": "blocked",
+      "score": 20,
+      "maxScore": 40
+    }
+  ],
+  "productionStopConditions": [
+    "approved_knowledge_target_met: Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.",
+    "rag_sources_target_met: With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.",
+    "public_proof_target_met: Create and approve four privacy-safe public proof assets from approved Discord knowledge.",
+    "premium_workflow_target_met: Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence."
+  ],
+  "safeLocalCommands": [
+    "npm run discord:career-content-harness",
+    "npm run discord:sage-kernel-content-harness",
+    "npm run discord:knowledge-base-e2e-readiness",
+    "npm run discord:release-local",
+    "npm run discord:knowledge-base-harness",
+    "npm run loop:knowledge-base:once",
+    "npm run loop:knowledge-base:full"
+  ],
+  "explicitApprovalCommands": [
+    "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e"
+  ],
+  "liveOperatorActions": [
+    "Approve 10 high-signal Discord knowledge items through the admin review workflow.",
+    "Sync approved Discord knowledge into authoritative RAG only after explicit approval.",
+    "Approve or publish four privacy-safe public proof assets from approved knowledge.",
+    "Complete one premium workflow proof with authorization, SLA, and fulfillment evidence.",
+    "Run the guarded knowledge-base E2E command only against an approved Supabase environment."
+  ],
+  "antiFakeRules": [
+    "Source seeds and generated drafts are curriculum fuel only; they are not approved Discord knowledge.",
+    "Raw Discord messages, dry-run rows, smoke rows, and generated templates cannot satisfy operating proof.",
+    "RAG can cite only approved, privacy-safe, source-linked knowledge records.",
+    "The system cannot claim 95-99 until live approval, RAG sync, public proof, premium proof, and final scorecard evidence pass.",
+    "E2E readiness is not the same as live E2E execution; the guarded Playwright command must pass before claiming admin workflow proof."
+  ],
+  "failures": [
+    "rag_readiness:approved_knowledge_target_met",
+    "rag_readiness:rag_sources_target_met",
+    "operating_proof:public_proof_target_met",
+    "operating_proof:premium_workflow_target_met"
+  ]
+}

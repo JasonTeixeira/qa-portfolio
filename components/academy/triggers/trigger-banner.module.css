@@ -1,0 +1,151 @@
+/* Trigger banner — a slim nudge row above the journey hero. Flat hairline
+   surface, no glow. The tone color lives on a single left rule + the icon/CTA,
+   used semantically (urgent = danger, warm = accent, neutral = pending) so the
+   color carries meaning, not decoration. Motion is compositor-only (opacity +
+   transform) and fully suppressed under prefers-reduced-motion. */
+
+.banner {
+  --tone: var(--ac-pending, #e8b75a);
+
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 1.25rem;
+  padding: 0.7rem 0.9rem 0.7rem 1.05rem;
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+  border-left: 3px solid var(--tone);
+  border-radius: 10px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.02));
+  will-change: transform, opacity;
+  animation: trigger-in var(--ac-dur, 300ms) var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+@keyframes trigger-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tone -> semantic color. Urgent leans on danger, warm on accent, neutral on the
+   in-progress/pending hue. */
+.urgent {
+  --tone: var(--ac-danger, #ff5436);
+}
+.warm {
+  --tone: var(--ac-accent, #3d6bff);
+}
+.neutral {
+  --tone: var(--ac-pending, #e8b75a);
+}
+
+.icon {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+  color: var(--tone);
+}
+
+.message {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+  font-family: var(--ac-font-body);
+  font-size: var(--ac-step--1, 0.9rem);
+  line-height: 1.35;
+  color: var(--ac-ink-soft, #c0c0ca);
+}
+
+.cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--ac-font-body);
+  font-size: var(--ac-step--1, 0.9rem);
+  font-weight: 600;
+  white-space: nowrap;
+  /* Accent AS TEXT must use the readable accent-text token (AA on dark). */
+  color: var(--ac-accent-text, #8fa0ff);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+
+.cta:hover {
+  border-bottom-color: currentColor;
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--ac-accent, #3d6bff);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.dismiss {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--ac-ink-faint, #8a8b96);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color var(--ac-dur-fast, 150ms) var(--ac-ease, ease),
+    background-color var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+
+.dismiss:hover {
+  color: var(--ac-ink, #f2efe9);
+  background: var(--ac-surface-2, rgba(255, 255, 255, 0.04));
+}
+
+.dismiss:focus-visible {
+  outline: 2px solid var(--ac-accent, #3d6bff);
+  outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+  .banner {
+    flex-wrap: wrap;
+  }
+  .message {
+    flex-basis: 100%;
+    order: 2;
+  }
+  .icon {
+    order: 1;
+  }
+  .cta {
+    order: 3;
+  }
+  .dismiss {
+    order: 1;
+    margin-left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner {
+    animation: none;
+    will-change: auto;
+  }
+  .cta,
+  .dismiss {
+    transition: none;
+  }
+}

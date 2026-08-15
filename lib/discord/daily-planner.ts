@@ -10,8 +10,14 @@ import {
   buildNewsToActionSourcePolicyLine,
 } from './news-to-action';
 import { DISCORD_NEWS_TO_ACTION_INGESTION_VERSION, fetchNewsToActionCandidates } from './news-ingestion';
+import {
+  SAGEBOT_PERSONALITY_VERSION,
+  SAGEBOT_PROMPT_VERSIONS,
+  sageBotDailySignalSystemPrompt,
+  scoreSageBotPolicyOutput,
+} from './sagebot-personality';
 
-export const DISCORD_DAILY_PLANNER_PROMPT_VERSION = 'discord-daily-planner-v1';
+export const DISCORD_DAILY_PLANNER_PROMPT_VERSION = SAGEBOT_PROMPT_VERSIONS.dailySignal;
 export const DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION = 'discord-daily-signal-scheduler-v1';
 
 export const dailySignalWeeklyThemes = [
@@ -48,6 +54,11 @@ export type DiscordDailyPlannerResult = {
   model: string | null;
   title: string;
   bodyPreview: string;
+  observability?: {
+    traceId: string;
+    observationId: string;
+    provider: 'langfuse' | 'local';
+  };
 };
 
 export type DiscordDailySignalScheduleResult = {
@@ -83,6 +94,7 @@ export function buildDailyPlannerPrompt(input: {
     'Create a high-signal Discord daily education post for Sage Ideas Academy.',
     'Audience: builders learning AI apps, websites, automation, cloud, SEO/content, and growth.',
     'Style: practical, specific, no hype, no generic motivation, no engagement bait.',
+    'Model policy: do not recommend OpenAI, ChatGPT, or GPT models unless a seed explicitly requires it. Use DeepSeek or provider-neutral LLM language when a model is needed.',
     'Every section must create a concrete action a member can take today.',
     'Format exactly:',
     '# Daily Signal',
@@ -164,7 +176,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     messages: [
       {
         role: 'system',
-        content: 'You produce approval-ready Discord education drafts. Return only the post body.',
+        content: sageBotDailySignalSystemPrompt(),
       },
       { role: 'user', content: prompt },
     ],
@@ -172,6 +184,8 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     maxTokens: 520,
   });
   const body = generation.content.trim();
+  const policyScore = scoreSageBotPolicyOutput(body, { maxLength: 1900 });
+  const qualityScore = Math.min(scoreDailyPlannerDraft(body), policyScore.score);
   const draft = await createDiscordContentDraft({
     draftType: 'daily_signal',
     targetChannelBaseName: 'daily-signal',
@@ -179,7 +193,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     body,
     model: generation.model,
     promptVersion: DISCORD_DAILY_PLANNER_PROMPT_VERSION,
-    qualityScore: scoreDailyPlannerDraft(body),
+    qualityScore,
     status: 'pending_approval',
     metadata: {
       planner_date: dateKey,
@@ -187,6 +201,12 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
       post_types: dailySignalPostTypes,
       source: 'discord_daily_planner',
       usage: generation.usage,
+      personality_version: SAGEBOT_PERSONALITY_VERSION,
+      prompt_version: DISCORD_DAILY_PLANNER_PROMPT_VERSION,
+      policy_score: policyScore.score,
+      policy_passed: policyScore.passed,
+      policy_reasons: policyScore.reasons,
+      policy_flags: policyScore.flags,
       scheduler_version: DISCORD_DAILY_SIGNAL_SCHEDULER_VERSION,
       news_registry_version: DISCORD_NEWS_TO_ACTION_REGISTRY_VERSION,
       news_ingestion_version: DISCORD_NEWS_TO_ACTION_INGESTION_VERSION,
@@ -200,6 +220,10 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
         selected_source_url: news.items[0]?.draft.sourceUrl ?? null,
         error_count: news.errors.length,
       },
+      ai_trace_id: generation.observability.traceId,
+      ai_observation_id: generation.observability.observationId,
+      ai_observability_provider: generation.observability.provider,
+      langfuse_trace_id: generation.observability.provider === 'langfuse' ? generation.observability.traceId : null,
       ...(input.metadata ?? {}),
     },
   });
@@ -212,6 +236,7 @@ export async function createDailyPlannerDraft(input: DiscordDailyPlannerInput = 
     model: generation.model,
     title: `Daily Signal - ${dateKey}`,
     bodyPreview: body.slice(0, 300),
+    observability: generation.observability,
   };
 }
 
@@ -275,7 +300,12 @@ export async function publishApprovedDailySignalDraft(input: {
     };
   }
 
-  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body);
+  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body, {
+    embed: true,
+    title: 'Daily Signal',
+    variant: 'signal',
+    footer: 'Sage Ideas daily build rhythm',
+  });
   await supabaseAdmin()
     .from('discord_content_drafts')
     .update({

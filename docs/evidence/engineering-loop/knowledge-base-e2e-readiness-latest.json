@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "version": "knowledge-base-e2e-readiness-v1",
+  "generatedAt": "2026-06-29T18:42:49.868Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This readiness check verifies the guarded Playwright E2E runner and target specs without running Playwright, creating Supabase rows, posting to Discord, syncing RAG, deploying, pushing, or publishing.",
+  "guardedRunner": "scripts/discord/run-knowledge-base-e2e.mjs",
+  "approvalEnvRequiredForLiveE2e": "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved",
+  "liveE2eCommand": "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e",
+  "specs": [
+    {
+      "path": "tests/e2e/admin/discord-knowledge-candidates.spec.ts",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "path": "tests/e2e/admin/discord-rag-corpus.spec.ts",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "path": "tests/e2e/admin/discord-rag-health.spec.ts",
+      "ok": true,
+      "failures": []
+    }
+  ],
+  "verifiedContracts": [
+    "Runner refuses to execute without explicit env approval.",
+    "Runner discloses temporary Supabase row mutation and cleanup scope.",
+    "Specs use admin auth fixture and unique e2e run ids.",
+    "Specs click /admin/discord workflows and poll database effects.",
+    "Specs include finally cleanup paths for temporary rows."
+  ],
+  "failures": []
+}

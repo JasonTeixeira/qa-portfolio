@@ -59,7 +59,6 @@ const SPAM_RE = /\b(free money|airdrop|crypto pump|guaranteed profit|dm me|click
 
 export function classifyDiscordMessage(input: DiscordMessageClassifierInput): DiscordMessageClassification {
   const content = input.content.trim();
-  const lower = content.toLowerCase();
   const wordCount = content ? content.split(/\s+/).length : 0;
   const linkCount = Math.max(0, Number(input.linkCount ?? 0));
   const attachmentCount = Math.max(0, Number(input.attachmentCount ?? 0));

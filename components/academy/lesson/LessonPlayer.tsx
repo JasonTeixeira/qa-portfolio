@@ -1,65 +1,43 @@
 'use client'
 
-import { useEffect, useState, useTransition, type ReactNode, type CSSProperties } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { topic } from '@/lib/academy/topics'
 import type { Course, Lesson, LessonBlock } from '@/data/academy/sample-course'
 import { markLessonComplete } from '@/app/academy/_actions/progress'
+import { CelebrationToast } from '@/components/academy/celebration/CelebrationToast'
+import type { Celebration } from '@/lib/academy/gamification-logic'
+import { StateBadge } from '@/components/academy/shell/StateBadge'
+import { ScoreCapMeter } from '@/components/academy/shell/ScoreCapMeter'
+import type { UnitState } from '@/lib/academy/evidence-events-logic'
+import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
+import { NotesPanel } from './NotesPanel'
+import type { LessonNote } from '@/lib/academy/notes'
+import { Icon } from '@/components/academy/ui/Icon'
+import { CourseRail } from './CourseRail'
+import { SageDiagram } from '@/components/academy/visuals/SageDiagram'
+import { NarratedDiagram } from '@/components/academy/visuals/NarratedDiagram'
+import { SageViz } from '@/components/academy/visuals/SageViz'
+import { SageCodeWalkthrough } from '@/components/academy/visuals/SageCodeWalkthrough'
+import { SageCompare } from '@/components/academy/visuals/SageCompare'
+import { RevealStagger } from '@/components/academy/visuals/reveal'
+import { LessonSpine, blockAnchorId } from './LessonSpine'
+import { CodeSurface } from './CodeSurface'
 import styles from './lesson.module.css'
+import arc from './archetype.module.css'
 
-const PY_KW = ['if', 'elif', 'else', 'for', 'while', 'def', 'return', 'import', 'from', 'in', 'not', 'and', 'or', 'True', 'False', 'None', 'print', 'class', 'with', 'as', 'try', 'except']
-const JS_KW = ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'import', 'from', 'export', 'await', 'async', 'new', 'class', 'true', 'false', 'null', 'undefined']
-
-/** Lightweight, safe (no innerHTML) syntax highlighter for the sample blocks. Shiki swaps in later for full fidelity. */
-function highlightLine(line: string, lang: string): ReactNode[] {
-  const kw = lang === 'python' ? PY_KW : JS_KW
-  const comment = lang === 'python' ? '#' : '//'
-  const re = new RegExp(`("[^"]*"|'[^']*'|${comment === '#' ? '#' : '//'}.*$|\\b(?:${kw.join('|')})\\b|\\b\\d+(?:\\.\\d+)?\\b)`, 'g')
-  const out: ReactNode[] = []
-  let last = 0
-  let m: RegExpExecArray | null
-  while ((m = re.exec(line)) !== null) {
-    if (m.index > last) out.push(line.slice(last, m.index))
-    const tk = m[0]
-    let cls = styles.kw
-    if (tk.startsWith('"') || tk.startsWith("'")) cls = styles.str
-    else if (tk.startsWith(comment)) cls = styles.cmt
-    else if (/^\d/.test(tk)) cls = styles.num
-    out.push(<span key={m.index} className={cls}>{tk}</span>)
-    last = m.index + tk.length
-    if (m.index === re.lastIndex) re.lastIndex++
-  }
-  if (last < line.length) out.push(line.slice(last))
-  return out
-}
-
+/** The lesson's `code` block now renders through the shared CodeSurface well
+ *  (line-number gutter + language chip + token highlighting + copy control). */
 function CodeBlock({ block }: { block: Extract<LessonBlock, { type: 'code' }> }) {
-  const [copied, setCopied] = useState(false)
   return (
-    <div className={styles.code}>
-      <div className={styles.codeBar}>
-        <span className={styles.dots} aria-hidden="true"><i /><i /><i /></span>
-        <span className={styles.codeName}>{block.filename}</span>
-        <button
-          type="button"
-          className={styles.copy}
-          onClick={() => {
-            navigator.clipboard?.writeText(block.code)
-            setCopied(true)
-            window.setTimeout(() => setCopied(false), 1400)
-          }}
-        >
-          {copied ? 'copied' : 'copy'}
-        </button>
-      </div>
-      <pre className={styles.codeBody}>
-        {block.code.split('\n').map((line, i) => (
-          <code key={i} className={styles.codeLine}>{highlightLine(line, block.language)}</code>
-        ))}
-      </pre>
-    </div>
+    <CodeSurface
+      code={block.code}
+      language={block.language}
+      filename={block.filename}
+      copyable
+      ariaLabel={`Code — ${block.filename}`}
+    />
   )
 }
 
@@ -68,8 +46,8 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
   const [checked, setChecked] = useState(false)
   const correct = selected === block.answer
   return (
-    <div className={styles.quiz}>
-      <span className={styles.quizKicker}>◇ Quick check</span>
+    <div className={`${arc.panel} ${styles.quiz}`}>
+      <span className={`${arc.badge} ${arc.badgeAction}`}><Icon name="sparkle" size={12} /> Quick check</span>
       <p className={styles.quizQ}>{block.question}</p>
       <ul className={styles.quizOptions}>
         {(block.options ?? []).map((opt, i) => {
@@ -86,12 +64,12 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
         })}
       </ul>
       {!checked ? (
-        <button type="button" className={styles.quizCheck} disabled={selected === null} onClick={() => setChecked(true)}>
-          Check answer
+        <button type="button" className={arc.btnPrimary} disabled={selected === null} onClick={() => setChecked(true)}>
+          Check answer <Icon name="arrow-right" size={15} />
         </button>
       ) : (
         <div className={styles.quizResult} data-correct={correct} role="status" aria-live="polite">
-          <strong>{correct ? '✓ Correct!' : '✗ Not quite.'}</strong>
+          <strong>{correct ? (<><Icon name="check" size={15} /> Correct!</>) : (<><Icon name="x" size={15} /> Not quite.</>)}</strong>
           {block.explanation ? <p>{block.explanation}</p> : null}
           {!correct ? (
             <button type="button" className={styles.quizRetry} onClick={() => { setChecked(false); setSelected(null) }}>Try again</button>
@@ -102,44 +80,144 @@ function QuizBlock({ block }: { block: Extract<LessonBlock, { type: 'quiz' }> })
   )
 }
 
-function Block({ block, labHref }: { block: LessonBlock; labHref: string }) {
+function Block({
+  block,
+  labHref,
+  courseSlug,
+  lessonSlug,
+}: {
+  block: LessonBlock
+  labHref: string
+  courseSlug?: string
+  lessonSlug?: string
+}) {
   switch (block.type) {
     case 'prose':
-      return <p className={styles.prose}>{block.text}</p>
+      return (
+        <div className={arc.narrative}>
+          <p className={arc.narrativeBody}>{block.text}</p>
+        </div>
+      )
     case 'code':
       return <CodeBlock block={block} />
     case 'video':
+      // No video player is wired yet — render an honest, non-interactive placeholder
+      // (a real Play control would announce an action it can't perform).
       return (
         <figure className={styles.video}>
-          <button type="button" className={styles.play} aria-label={`Play: ${block.title}`}>
-            <span aria-hidden="true">▶</span>
-          </button>
-          <figcaption className={styles.videoCap}>WATCH · {block.duration} · {block.title}</figcaption>
+          <div className={styles.play} aria-hidden="true">
+            <Icon name="play" size={20} />
+          </div>
+          <figcaption className={styles.videoCap}>{block.title} · video walkthrough coming soon</figcaption>
         </figure>
       )
     case 'lab':
       return (
-        <div className={styles.lab}>
+        <div className={`${arc.panel} ${styles.lab}`}>
           <div>
-            <span className={styles.labKicker}>⬡ Guided lab · in-browser</span>
+            <span className={`${arc.badge} ${arc.badgeProof}`}><Icon name="bolt" size={12} /> Guided lab · in-browser</span>
             <h3 className={styles.labTitle}>{block.title}</h3>
             <p className={styles.labSummary}>{block.summary}</p>
           </div>
-          <Link href={labHref} className={styles.labBtn}>Open lab →</Link>
+          <Link href={labHref} className={`${arc.btnPrimary} ${arc.btnProof}`}>Open lab <Icon name="arrow-right" size={16} /></Link>
         </div>
       )
     case 'callout':
       return (
-        <aside className={styles.callout}>
+        <aside className={styles.callout} data-tone={block.tone}>
           <span className={styles.calloutTag}>{block.tone === 'tip' ? 'TIP' : 'NOTE'}</span>
           <p>{block.text}</p>
         </aside>
       )
     case 'quiz':
       return <QuizBlock block={block} />
+    case 'diagram': {
+      // Branded system-map renderer; the reveal wrapper fades the figure up in
+      // the house motion language (reduced-motion → final state instantly).
+      // visualBleed widens it past the 680px prose column (node labels stay legible).
+      // When the diagram carries a NARRATION storyboard, render the NarratedDiagram
+      // engine so the figure explains itself beat-by-beat (voice-sync-ready); else
+      // the standard SageDiagram.
+      const storyboard = Array.isArray(block.storyboard) && block.storyboard.length > 0 ? block.storyboard : null
+      return (
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
+          <RevealStagger>
+            {storyboard ? (
+              <NarratedDiagram
+                title={block.title}
+                subtitle={block.subtitle}
+                nodes={block.nodes}
+                edges={block.edges}
+                legend={block.legend}
+                rankdir={block.rankdir}
+                caption={block.caption}
+                height={block.height}
+                storyboard={storyboard}
+              />
+            ) : (
+              <SageDiagram
+                title={block.title}
+                subtitle={block.subtitle}
+                nodes={block.nodes}
+                edges={block.edges}
+                legend={block.legend}
+                rankdir={block.rankdir}
+                caption={block.caption}
+                height={block.height}
+              />
+            )}
+          </RevealStagger>
+        </div>
+      )
+    }
+    case 'viz':
+      return (
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
+          <RevealStagger>
+            <SageViz
+              title={block.title}
+              subtitle={block.subtitle}
+              chart={block.chart}
+              data={block.data}
+              unit={block.unit}
+            />
+          </RevealStagger>
+        </div>
+      )
+    case 'code-walkthrough':
+      // Animated, terminal-look code stepper; self-contained (own controls +
+      // reduced-motion static state), so no reveal wrapper needed.
+      return (
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
+          <SageCodeWalkthrough
+            title={block.title}
+            subtitle={block.subtitle}
+            filename={block.filename}
+            language={block.language}
+            code={block.code}
+            steps={block.steps}
+            caption={block.caption}
+          />
+        </div>
+      )
+    case 'compare':
+      return (
+        <div className={`${styles.visualBleed} ${arc.vizBlock}`} data-viz="wide">
+          <RevealStagger>
+            <SageCompare
+              title={block.title}
+              subtitle={block.subtitle}
+              left={block.left}
+              right={block.right}
+              mono={block.mono}
+              caption={block.caption}
+            />
+          </RevealStagger>
+        </div>
+      )
     default:
       // Sage Learning Engine V2 sprint sections render themselves.
-      return <SprintBlock block={block} />
+      return <SprintBlock block={block} courseSlug={courseSlug} lessonSlug={lessonSlug} />
   }
 }
 
@@ -150,6 +228,9 @@ export function LessonPlayer({
   initialCompleted = false,
   locked = false,
   labHref,
+  unitState,
+  unitScore,
+  notes = [],
 }: {
   course: Course
   lesson: Lesson
@@ -158,24 +239,53 @@ export function LessonPlayer({
   locked?: boolean
   /** Override the lab URL (used by the off-catalog flagship sprint). */
   labHref?: string
+  /** Tier-0 evidence-spine unit state for the header chip. */
+  unitState?: UnitState
+  /** Tier-0 capped mastery score for the header meter (null when no user). */
+  unitScore?: ScoreResolution | null
+  /** The current learner's notes for this lesson (empty when signed out). */
+  notes?: LessonNote[]
 }) {
   const resolvedLabHref = labHref ?? `/academy/learn/${course.slug}/${lesson.slug}/lab`
-  const t = topic(course.topic)
   const router = useRouter()
   const [completed, setCompleted] = useState(initialCompleted)
+  const [celebration, setCelebration] = useState<Celebration | null>(null)
   const [pending, startTransition] = useTransition()
   const pct = course.lessonsTotal ? Math.round((course.lessonsDone / course.lessonsTotal) * 100) : 0
-  const rootStyle = { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
 
   const lessonHref = (slug: string) => `/academy/learn/${course.slug}/${slug}`
+
+  // PROOF GATE (blocker #4). The footer primary only promotes to a real
+  // "Mark complete" once the sprint's proofs are satisfied. Proofs are satisfied
+  // when the evidence-spine unit is 'complete', or the lesson was already
+  // completed, or this lesson isn't evidence-tracked at all (no unitState —
+  // e.g. a plain content lesson), so we never trap a learner with no gate to clear.
+  const proofsMet = completed || !unitState || unitState === 'complete'
+
+  // Quiet advance: move to the next section WITHOUT marking complete. Used by the
+  // gated footer while proofs are still outstanding, so a learner can read ahead
+  // but cannot skip the proof by hitting the primary CTA.
+  const onAdvance = () => {
+    if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug))
+    else router.refresh()
+  }
 
   const onComplete = () => {
     startTransition(async () => {
       const res = await markLessonComplete(course.slug, lesson.slug)
       if (res.ok) {
         setCompleted(true)
-        if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug)) // advance to the next lesson
-        else router.refresh()
+        const advance = () => {
+          if (lesson.nextSlug) router.push(lessonHref(lesson.nextSlug)) // advance to the next lesson
+          else router.refresh()
+        }
+        // Show the dopamine payoff first, then advance once it's been seen.
+        if (res.celebration) {
+          setCelebration(res.celebration)
+          setTimeout(advance, 2000)
+        } else {
+          advance()
+        }
       }
     })
   }
@@ -188,61 +298,67 @@ export function LessonPlayer({
       if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return
       if (e.key === 'j' && lesson.nextSlug) { e.preventDefault(); router.push(lessonHref(lesson.nextSlug)) }
       else if (e.key === 'k' && lesson.prevSlug) { e.preventDefault(); router.push(lessonHref(lesson.prevSlug)) }
-      else if (e.key === 'c' && signedIn && !completed && !pending) { e.preventDefault(); onComplete() }
+      // `c` marks complete only once proofs are met; before that it's inert so
+      // the shortcut can't bypass the proof gate (mirrors the footer promotion).
+      else if (e.key === 'c' && signedIn && !completed && !pending && proofsMet) { e.preventDefault(); onComplete() }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson.nextSlug, lesson.prevSlug, signedIn, completed, pending])
+  }, [lesson.nextSlug, lesson.prevSlug, signedIn, completed, pending, proofsMet])
 
   return (
-    <div className={styles.root} style={rootStyle}>
-      {/* top bar */}
+    <div className={styles.root}>
+      <CelebrationToast value={celebration} onClear={() => setCelebration(null)} />
+      {/* top bar — mono breadcrumb strip with the ◆ mark + mastery chip (design) */}
       <header className={styles.topbar}>
-        <span className={styles.crumbCourse}>{course.title.toUpperCase()}</span>
-        <span className={styles.crumbSep}>/ {lesson.title}</span>
-        <span className={styles.spacer} />
-        <span className={styles.topProgress} aria-hidden="true">
-          <span className={styles.topProgressFill} style={{ width: `${pct}%` }} />
+        <Link href="/academy/dashboard" className={styles.topbarBrand}>
+          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <span className={styles.brandLabel}>← dashboard</span>
+        </Link>
+        <span className={styles.crumb}>
+          {course.title} <span className={styles.crumbSlash} aria-hidden="true">/</span>{' '}
+          <span className={styles.crumbHere}>{lesson.title}</span>
         </span>
-        <span className={styles.topPct}>{pct}%</span>
-        <span className={styles.avatar} aria-hidden="true" />
+        <span className={styles.spacer} />
+        {unitScore ? (
+          <span className={styles.masteryChip} data-capped={unitScore.binding !== null || undefined}>
+            mastery {unitScore.score}{unitScore.binding !== null ? ' · capped' : ''}
+          </span>
+        ) : null}
       </header>
 
-      {/* outline sidebar */}
-      <aside className={styles.sidebar}>
-        <h2 className={styles.courseTitle}>{course.title}</h2>
-        <p className={styles.courseSub}>{course.subtitle.toUpperCase()}</p>
-        <div className={styles.bar} aria-hidden="true"><span style={{ width: `${pct}%` }} /></div>
-        <p className={styles.barLabel}>{pct}% complete · {course.lessonsDone} / {course.lessonsTotal} lessons</p>
-
-        {course.modules.map((mod) => (
-          <div key={mod.title} className={styles.module}>
-            <p className={styles.moduleTitle}>{mod.title}</p>
-            <ul className={styles.lessonList}>
-              {mod.lessons.map((l) => (
-                <li key={l.slug}>
-                  <Link
-                    href={lessonHref(l.slug)}
-                    className={`${styles.lessonItem} ${l.status === 'current' ? styles.lessonOn : ''}`}
-                    data-status={l.status}
-                    aria-current={l.status === 'current' ? 'page' : undefined}
-                  >
-                    <span className={styles.lessonDot} aria-hidden="true">{l.status === 'done' ? '✓' : ''}</span>
-                    <span className={styles.lessonName}>{l.title}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </aside>
+      {/* course side-menu: collapsible module → lesson tree (desktop rail + mobile drawer) */}
+      <CourseRail course={course} lessonHref={lessonHref} />
 
       {/* main */}
       <main className={styles.main}>
-        <article className={styles.lesson}>
-          <p className={styles.eyebrow}>{lesson.eyebrow}</p>
-          <h1 className={styles.title}>{lesson.title}</h1>
+        <article className={`${styles.lesson} ${arc.scope}`}>
+          <header className={styles.lessonHeader}>
+            <p className={styles.eyebrow}>{lesson.eyebrow}</p>
+            <h1 className={styles.title}>{lesson.title}</h1>
+          </header>
+          {(unitState || unitScore) ? (
+            <div className={styles.masteryRow}>
+              <div className={styles.masteryLine}>
+                {unitState ? <StateBadge state={unitState} /> : null}
+                {unitScore ? (
+                  <div className={styles.masteryMeter}>
+                    {/* Labeled "Best mastery" so the number reads as prior/best —
+                        NOT this-session progress (blocker #5 reconciliation). */}
+                    <ScoreCapMeter resolution={unitScore} label="Best mastery" />
+                  </div>
+                ) : null}
+              </div>
+              {/* Reconcile the two numbers a learner sees at once (blocker #5):
+                  "Best mastery" = the prior/best capped score for this unit; the
+                  sidebar % + the in-lesson "Step N of M" are THIS session's
+                  position. Mastery is evidence-gated, not completion-gated. */}
+              <p className={styles.masteryNote}>
+                Best mastery is your prior best for this unit — evidence-gated, not the same as this session&rsquo;s progress. Complete the sprint proofs to lift it toward 100.
+              </p>
+            </div>
+          ) : null}
           {locked ? (
             <div className={styles.paywall} role="region" aria-label="Membership required">
               {/* a teaser: the first block, then the gate */}
@@ -252,52 +368,94 @@ export function LessonPlayer({
                 </div>
               ) : null}
               <div className={styles.gate}>
-                <span className={styles.gateKicker}>◆ All-access</span>
+                <span className={styles.gateKicker}><Icon name="lock" size={13} /> All-access</span>
                 <h2 className={styles.gateTitle}>Unlock this lesson</h2>
                 <p className={styles.gateBody}>
                   This lesson is part of Sage Academy all-access. One membership opens every course,
                   lab, and certificate.
                 </p>
-                <Link href="/academy/join" className={styles.gateBtn}>See membership →</Link>
+                <Link href="/academy/join" className={styles.gateBtn}>See membership <Icon name="arrow-right" size={16} /></Link>
                 {!signedIn ? (
                   <a href="/login?next=/academy/join" className={styles.gateLink}>Already a member? Sign in</a>
                 ) : null}
               </div>
             </div>
           ) : (
-            lesson.blocks.map((b, i) => (
-              <Block key={i} block={b} labHref={resolvedLabHref} />
-            ))
+            <>
+              <LessonSpine blocks={lesson.blocks} />
+              {lesson.blocks.map((b, i) => (
+                <div key={i} id={blockAnchorId(i)} data-block-index={i}>
+                  <Block block={b} labHref={resolvedLabHref} courseSlug={course.slug} lessonSlug={lesson.slug} />
+                </div>
+              ))}
+            </>
           )}
+          {!locked ? (
+            <section className={styles.notesSlot} aria-label="Your notes">
+              <NotesPanel
+                courseSlug={course.slug}
+                lessonSlug={lesson.slug}
+                signedIn={signedIn}
+                notes={notes}
+              />
+            </section>
+          ) : null}
         </article>
       </main>
 
       {/* footer */}
       <footer className={styles.footer}>
         {lesson.prevSlug ? (
-          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}>← {lesson.prevLabel}</Link>
+          <Link className={styles.prev} href={lessonHref(lesson.prevSlug)}><Icon name="arrow-left" size={13} /> {lesson.prevLabel}</Link>
         ) : (
           <span />
         )}
+        {/* course-progress track — the design footer's 4px accent bar */}
+        <span className={styles.footerBar} aria-hidden="true">
+          <span className={styles.footerBarFill} style={{ width: `${pct}%` }} />
+        </span>
         <span className={styles.kbdHint} aria-hidden="true">
-          <kbd>j</kbd>/<kbd>k</kbd> move · <kbd>c</kbd> complete
+          <kbd>j</kbd>/<kbd>k</kbd> move{proofsMet && !completed ? (<> · <kbd>c</kbd> complete</>) : null}
         </span>
         {locked ? (
-          <Link className={styles.complete} href="/academy/join">Unlock all-access →</Link>
-        ) : signedIn ? (
+          // Membership unlock is the one place the footer carries a true primary CTA.
+          <Link className={`${arc.btnPrimary} ${styles.footerCta}`} href="/academy/join">Unlock all-access <Icon name="arrow-right" size={16} /></Link>
+        ) : signedIn && completed ? (
+          // Already complete → a quiet, verified "continue" (no re-complete).
           <button
             type="button"
-            className={`${styles.complete} ${completed ? styles.completeDone : ''}`}
+            className={`${arc.btnGhost} ${styles.footerComplete} ${styles.footerCompleteDone}`}
+            onClick={onAdvance}
+          >
+            <Icon name="check" size={15} /> Completed · continue <Icon name="arrow-right" size={15} />
+          </button>
+        ) : signedIn && !proofsMet ? (
+          // PROOF GATE (blocker #4): proofs still outstanding. The footer does NOT
+          // offer "Mark complete" — only a QUIET "Next section" that advances
+          // WITHOUT recording completion, so the in-lesson proofs stay the gate.
+          <button
+            type="button"
+            className={`${arc.btnGhost} ${styles.footerNext}`}
+            onClick={onAdvance}
+            title="Advances without marking complete — clear the sprint proofs to unlock completion"
+          >
+            Next section <Icon name="arrow-right" size={15} />
+          </button>
+        ) : signedIn ? (
+          // Proofs satisfied → PROMOTE to the filled primary "Mark complete".
+          <button
+            type="button"
+            className={`${arc.btnPrimary} ${arc.btnVerify} ${styles.footerComplete}`}
             onClick={onComplete}
             disabled={pending}
             aria-busy={pending}
             aria-keyshortcuts="c"
           >
-            {completed ? '✓ Completed · continue →' : pending ? 'Saving…' : 'Mark complete & continue  →'}
+            {pending ? 'Saving…' : (<>Mark complete &amp; continue <Icon name="arrow-right" size={15} /></>)}
           </button>
         ) : (
-          <a className={styles.complete} href="/login?next=/academy/preview">
-            Sign in to save progress  →
+          <a className={`${arc.btnPrimary} ${styles.footerCta}`} href="/login?next=/academy/preview">
+            Sign in to save progress <Icon name="arrow-right" size={16} />
           </a>
         )}
       </footer>

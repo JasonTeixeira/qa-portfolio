@@ -14,6 +14,29 @@ export type Prototype = {
   workflow: Array<{ step: string; detail: string }>
   screens: string[]
   personalization: string[]
+  visual?: {
+    theme: 'healthcare' | 'legal' | 'support'
+    eyebrow: string
+    headline: string
+    lede: string
+    inputLabel: string
+    outputLabel: string
+    inputs: string[]
+    outputs: string[]
+    core: string
+    result: string
+  }
+  demo?: {
+    primaryCta: string
+    proofStatus: string[]
+    steps: Array<{
+      label: string
+      before: string
+      system: string
+      result: string
+      buyerAction: string
+    }>
+  }
 }
 
 export const prototypes: Prototype[] = [
@@ -83,9 +106,9 @@ export const prototypes: Prototype[] = [
     packageTier: 'Consultation funnel build',
     buyer: 'Med spas, salons, aesthetic clinics, wellness studios',
     outcome: 'Move treatment interest into compliant consultation bookings and nurture sequences.',
-    headline: 'A premium consultation path for high-trust aesthetic services.',
+    headline: 'Turn treatment interest into booked consultations.',
     narrative:
-      'This prototype turns treatment curiosity into booked consults with education, package framing, compliant copy, and follow-up automation.',
+      'A visual med spa funnel that helps visitors choose the right treatment path, understand the consult, and book without risky claims or generic beauty-site copy.',
     metrics: [
       { label: 'Consult paths', value: '6', note: 'treatment-specific' },
       { label: 'Follow-ups', value: '5', note: 'nurture sequence' },
@@ -100,6 +123,52 @@ export const prototypes: Prototype[] = [
     ],
     screens: ['Treatment finder', 'Consult booking', 'Package explainer', 'Before/after-safe proof', 'Follow-up dashboard'],
     personalization: ['Treatment menu', 'brand tone', 'location', 'provider trust proof', 'compliance guardrails'],
+    visual: {
+      theme: 'healthcare',
+      eyebrow: 'Visual consult path',
+      headline: 'A treatment visitor should know the next safe step in seconds.',
+      lede: 'The page turns scattered beauty interest into a guided consultation path without making risky medical claims.',
+      inputLabel: 'Visitor intent',
+      outputLabel: 'Booked consult path',
+      inputs: ['Skin concern', 'Injectables interest', 'Membership question', 'Price hesitation'],
+      outputs: ['Treatment finder', 'Provider trust', 'Compliant consult', 'Nurture follow-up'],
+      core: 'Consult router',
+      result: 'Visitor sees the right path, understands the consult, and books when ready.',
+    },
+    demo: {
+      primaryCta: 'Book consultation',
+      proofStatus: ['Route screenshot captured', 'Accessibility checked', 'Mobile layout checked'],
+      steps: [
+        {
+          label: 'Choose concern',
+          before: 'The visitor sees a treatment menu and has to guess what fits.',
+          system: 'The funnel asks for concern, readiness, and appointment intent without promising a result.',
+          result: 'The visitor lands on the safest consult path.',
+          buyerAction: 'Start treatment finder',
+        },
+        {
+          label: 'Match treatment path',
+          before: 'Generic pages mix education, pricing, and before/after content.',
+          system: 'The system separates education, provider trust, pricing expectations, and consult next step.',
+          result: 'The visitor understands what happens before booking.',
+          buyerAction: 'View safe consult path',
+        },
+        {
+          label: 'Book safely',
+          before: 'Booking is buried after long copy and risky claims.',
+          system: 'The CTA stays focused on consultation, eligibility, and provider review.',
+          result: 'The clinic gets a cleaner consult request.',
+          buyerAction: 'Reserve consult slot',
+        },
+        {
+          label: 'Nurture follow-up',
+          before: 'Visitors who hesitate disappear after the first visit.',
+          system: 'The follow-up sequence routes by interest, safety notes, and seasonal offer.',
+          result: 'Warm leads keep moving without aggressive claims.',
+          buyerAction: 'Send nurture sequence',
+        },
+      ],
+    },
   },
   {
     slug: 'law-firm-intake-system',
@@ -111,9 +180,9 @@ export const prototypes: Prototype[] = [
     packageTier: 'Trust and intake system',
     buyer: 'Boutique law firms and high-ticket professional services',
     outcome: 'Convert qualified visitors into consultations with trust proof, practice-area routing, and intake control.',
-    headline: 'A consultation funnel for serious service firms where trust comes first.',
+    headline: 'Turn serious legal visitors into qualified consultations.',
     narrative:
-      'This prototype clarifies who the firm helps, routes visitors by matter type, captures urgency, and preserves professional tone.',
+      'A trust-first intake system that routes visitors by matter type, captures urgency, sets expectations, and moves qualified prospects toward a consultation.',
     metrics: [
       { label: 'Matter routes', value: '8', note: 'practice areas' },
       { label: 'Intake fields', value: '11', note: 'qualified only' },
@@ -128,6 +197,52 @@ export const prototypes: Prototype[] = [
     ],
     screens: ['Practice router', 'Matter intake', 'Trust page', 'Consult scheduler', 'Follow-up ledger'],
     personalization: ['Practice areas', 'jurisdiction', 'attorney proof', 'response SLA', 'risk language'],
+    visual: {
+      theme: 'legal',
+      eyebrow: 'Trust-first intake',
+      headline: 'Serious visitors need confidence, routing, and a clear consultation path.',
+      lede: 'The system separates matter type, urgency, fit, and next step before a prospect gets lost on a generic contact page.',
+      inputLabel: 'Matter signals',
+      outputLabel: 'Qualified consult',
+      inputs: ['Practice area', 'Urgency', 'Jurisdiction', 'Fit concern'],
+      outputs: ['Matter route', 'Attorney proof', 'Expectation set', 'Consult request'],
+      core: 'Intake router',
+      result: 'The firm sees what matters, who is urgent, and why the next conversation is qualified.',
+    },
+    demo: {
+      primaryCta: 'Request consultation',
+      proofStatus: ['Route screenshot captured', 'Accessibility checked', 'Mobile layout checked'],
+      steps: [
+        {
+          label: 'Pick matter type',
+          before: 'The visitor lands on a generic contact form with no confidence.',
+          system: 'The intake flow routes by practice area, urgency, and jurisdiction fit.',
+          result: 'The firm sees the right matter category before the first call.',
+          buyerAction: 'Select practice area',
+        },
+        {
+          label: 'Capture urgency',
+          before: 'Important deadlines and risk signals are buried in a long message.',
+          system: 'The system asks for deadline, opposing party, and urgency without giving advice.',
+          result: 'Qualified matters rise above casual inquiries.',
+          buyerAction: 'Mark urgency',
+        },
+        {
+          label: 'Build trust',
+          before: 'The prospect has to hunt for process, attorney credibility, and next steps.',
+          system: 'Trust proof, consultation expectations, and response timing sit beside the intake.',
+          result: 'The prospect knows what happens next.',
+          buyerAction: 'Review consultation path',
+        },
+        {
+          label: 'Schedule consult',
+          before: 'The firm loses serious buyers to friction and uncertainty.',
+          system: 'The CTA moves qualified visitors into a consultation request with clear boundaries.',
+          result: 'The firm gets a cleaner consult queue.',
+          buyerAction: 'Send consult request',
+        },
+      ],
+    },
   },
   {
     slug: 'ai-support-agent-dashboard',
@@ -139,9 +254,9 @@ export const prototypes: Prototype[] = [
     packageTier: 'AI operations cockpit',
     buyer: 'SaaS, ecommerce, support-heavy service teams',
     outcome: 'Deflect repetitive support, escalate risky cases, and measure resolution quality.',
-    headline: 'An AI support cockpit that shows exactly what the assistant handled and why.',
+    headline: 'Turn support volume into a controlled AI operations cockpit.',
     narrative:
-      'This prototype demonstrates triage, retrieval-backed answers, human escalation, quality scoring, and customer outcome reporting.',
+      'A visual support command center that shows what AI handled, what humans reviewed, where risk escalated, and how resolution quality is measured.',
     metrics: [
       { label: 'Deflection', value: '38%', note: 'safe automation' },
       { label: 'Escalations', value: '17', note: 'human-reviewed' },
@@ -156,6 +271,52 @@ export const prototypes: Prototype[] = [
     ],
     screens: ['Support inbox', 'Knowledge match', 'Draft answer', 'Escalation queue', 'Quality dashboard'],
     personalization: ['Support categories', 'knowledge base', 'risk policy', 'tone', 'escalation rules'],
+    visual: {
+      theme: 'support',
+      eyebrow: 'Support control loop',
+      headline: 'AI support should reduce volume without hiding risk.',
+      lede: 'The dashboard makes every answer, escalation, policy gap, and quality signal visible before automation scales.',
+      inputLabel: 'Incoming support',
+      outputLabel: 'Controlled resolution',
+      inputs: ['Ticket queue', 'Live chat', 'Help docs', 'Refund risk'],
+      outputs: ['Safe draft', 'Human escalation', 'QA review', 'Trend report'],
+      core: 'AI cockpit',
+      result: 'Repetitive work moves faster while edge cases stay visible to humans.',
+    },
+    demo: {
+      primaryCta: 'Resolve ticket',
+      proofStatus: ['Route screenshot captured', 'Accessibility checked', 'Mobile layout checked'],
+      steps: [
+        {
+          label: 'Classify ticket',
+          before: 'Every request hits the same inbox, whether it is simple or risky.',
+          system: 'The cockpit detects intent, urgency, policy risk, and confidence.',
+          result: 'Simple requests move fast and risky ones stay visible.',
+          buyerAction: 'Classify request',
+        },
+        {
+          label: 'Match knowledge',
+          before: 'Agents answer from memory or search scattered docs.',
+          system: 'The system matches approved knowledge, citations, and policy notes.',
+          result: 'Drafts are grounded before anyone sends them.',
+          buyerAction: 'Open matched source',
+        },
+        {
+          label: 'Escalate risk',
+          before: 'Refunds, cancellations, and angry customers get mixed with routine tickets.',
+          system: 'Low-confidence or policy-sensitive cases route to human review.',
+          result: 'Automation does not hide the cases that need judgment.',
+          buyerAction: 'Escalate case',
+        },
+        {
+          label: 'Measure quality',
+          before: 'The team only sees volume, not response quality or policy drift.',
+          system: 'QA scores, deflection, escalation reasons, and knowledge gaps stay visible.',
+          result: 'The team improves the support system each week.',
+          buyerAction: 'Review QA dashboard',
+        },
+      ],
+    },
   },
 ]
 

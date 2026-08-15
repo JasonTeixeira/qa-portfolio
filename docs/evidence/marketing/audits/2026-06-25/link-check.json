@@ -1,0 +1,1605 @@
+[
+  {
+    "href": "http://127.0.0.1:3051/",
+    "source": "/lab",
+    "text": "Sage Ideas",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work",
+    "source": "/lab",
+    "text": "Workcase studies",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/pricing",
+    "source": "/lab",
+    "text": "Pricingtiers + retainers",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book",
+    "source": "/lab",
+    "text": "Book call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_hero_business",
+    "source": "/",
+    "text": "Build this for my business→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/revenue-os",
+    "source": "/showcase/compare",
+    "text": "Open demo",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/contractor-quote-engine",
+    "source": "/showcase/compare",
+    "text": "Open demo",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_route_intake",
+    "source": "/",
+    "text": "Intake flow packageAutomate intakeCollect the right details, score the opportunity, and send clean next steps without a back-office scramble.View route →",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_route_support",
+    "source": "/",
+    "text": "Support dashboard buildLaunch AI supportGive customers answers, escalation, and operator visibility without turning support into a black box.View route →",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_route_conversion",
+    "source": "/",
+    "text": "Conversion rebuildImprove website conversionTurn a vague site into a buyer path with proof, sharp CTAs, and a working demo people can click.View route →",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services",
+    "source": "/lab",
+    "text": "Servicesfixed-scope builds",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact?engagement=audit&source=home_funnel",
+    "source": "/",
+    "text": "Start with the Sage Audit, $750→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/founder",
+    "source": "/lab",
+    "text": "Founderoperator profile",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_references",
+    "source": "/",
+    "text": "Ask for references→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_final",
+    "source": "/",
+    "text": "Book a call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact",
+    "source": "/lab",
+    "text": "Contactdirect line",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab",
+    "source": "/lab",
+    "text": "Labowned products",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/trust",
+    "source": "/lab",
+    "text": "Trust centersecurity + process",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/engineering-os",
+    "source": "/lab",
+    "text": "Engineering OShow it ships",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog",
+    "source": "/lab",
+    "text": "Journalbuild notes",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics",
+    "source": "/lab",
+    "text": "Topic hubsSEO library",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/tools/route-finder",
+    "source": "/lab",
+    "text": "Route finderdiagnostic",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/tools/seo-audit",
+    "source": "/lab",
+    "text": "Run audit",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/studio",
+    "source": "/lab",
+    "text": "Studiohow this works",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries",
+    "source": "/lab",
+    "text": "Industriesvertical routes",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/compare",
+    "source": "/lab",
+    "text": "Comparebuying paths",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/privacy",
+    "source": "/lab",
+    "text": "Privacy",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/terms",
+    "source": "/lab",
+    "text": "Terms",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/cookies",
+    "source": "/lab",
+    "text": "Cookies",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/msa",
+    "source": "/lab",
+    "text": "MSA",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/nda",
+    "source": "/lab",
+    "text": "NDA",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal/sow-template",
+    "source": "/lab",
+    "text": "SOW",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=home_sticky",
+    "source": "/",
+    "text": "Book a call →",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=services_hero",
+    "source": "/services",
+    "text": "book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/audit",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/site-starter",
+    "source": "/services",
+    "text": "launchSite / Brand sprintdays-weeksI need a premium site, offer, or launch surface.Positioning, site architecture, conversion flow, and a production-ready surface.starts$3.5k+best whenI need a premium site, offer, or launch surface.Shape the launch→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-agent-development",
+    "source": "/services",
+    "text": "automateAI automation build3-4 weeksI need AI inside the business, not a toy demo.Agents, retrieval, workflow automation, internal tools, and measurable operating lift.starts$2.6k+best whenI need AI inside the business, not a toy demo.Build the workflow→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/studio-engagement",
+    "source": "/services",
+    "text": "buildProduct build4-12 weeksI need a real app, SaaS, or product system built.Database, auth, billing, product UI, observability, launch, and iteration loop.startsscopedbest whenI need a real app, SaaS, or product system built.Scope the product→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/site-care",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ship",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=automate",
+    "source": "/services",
+    "text": "Buy Automate",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/automate",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/seo-sprint",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=content-engine",
+    "source": "/services",
+    "text": "Subscribe to Content Engine",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/content-engine",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/brand-sprint",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=scale",
+    "source": "/services",
+    "text": "Subscribe to Scale",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/scale",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=build",
+    "source": "/services",
+    "text": "Book a Discovery Call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/build",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=app-development",
+    "source": "/services",
+    "text": "Book a Discovery Call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/app-development",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?tier=operate",
+    "source": "/services",
+    "text": "Subscribe to Operate",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/operate",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-reliability-audit",
+    "source": "/pricing",
+    "text": "AI Reliability AuditFind out if your AI feature actually works — in two weeks.from $4,5002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/rag-engineering",
+    "source": "/pricing",
+    "text": "RAG Systems EngineeringProductionize the prototype your team has been demoing for six months.from $9,5004–6 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/agent-ops",
+    "source": "/pricing",
+    "text": "Agent OpsKeep your agent from burning $400 in a loop overnight.from $7,5003–4 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/internal-ai-copilot",
+    "source": "/pricing",
+    "text": "Internal AI CopilotA Slack/Teams bot trained on your docs that actually answers questions.from $9,5004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/prompt-eval-library",
+    "source": "/pricing",
+    "text": "Prompt & Eval Library SetupStop versioning prompts in Notion. Treat them like code.from $3,5002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/rag-as-a-service",
+    "source": "/pricing",
+    "text": "RAG-as-a-ServiceYour docs, searchable by an agent that cites every answer.from $1,8002–3 weeks setup→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/churn-prediction-model",
+    "source": "/pricing",
+    "text": "Churn Prediction ModelKnow which customers are about to leave — while you can still save them.from $3,8004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ops-automation-sprint",
+    "source": "/pricing",
+    "text": "Ops Automation SprintFive workflows shipped in one week. Boring, reliable, no no-code toys.$4,5001 week→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/incident-postmortem-pipeline",
+    "source": "/pricing",
+    "text": "Incident → Postmortem PipelineSentry alert → Slack thread → Notion postmortem → Linear actions. All automatic.from $5,5002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/release-notes-automation",
+    "source": "/pricing",
+    "text": "Release Notes AutomationPRs → categorized changelog → customer email — automatically.$3,5001 week→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/customer-feedback-router",
+    "source": "/pricing",
+    "text": "Customer Feedback RouterIntercom + Zendesk + email → deduped, categorized Linear tickets with frequency counts.from $6,5003 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/data-hygiene-bot",
+    "source": "/pricing",
+    "text": "Data Hygiene BotFind the broken data in Stripe, HubSpot, and Salesforce before your CFO does.from $4,5002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-meeting-notes-sync",
+    "source": "/pricing",
+    "text": "AI Meeting Notes + CRM SyncEvery call summarized, every action item assigned, every CRM field updated.from $9002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/stripe-integration-sprint",
+    "source": "/pricing",
+    "text": "Stripe Integration SprintProduction-grade billing in one week.from $1,8001 week→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/auth-billing-foundation",
+    "source": "/pricing",
+    "text": "Auth + Billing FoundationThe boring 2 weeks every SaaS skips and regrets.from $3,2002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/docs-as-product",
+    "source": "/pricing",
+    "text": "Docs-as-a-ProductYour docs as an AI search experience that knows what your users keep asking.from $7,5003 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-onboarding-concierge",
+    "source": "/pricing",
+    "text": "AI Onboarding ConciergeIn-app guided activation that adapts to what each new user is trying to do.from $9,5004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/support-deflection",
+    "source": "/pricing",
+    "text": "Support Deflection LayerTier-1 answers with citations. Clean handoff. Eval loop you trust.from $9,5004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-sdr-agent",
+    "source": "/pricing",
+    "text": "AI SDR AgentOutbound prospecting that researches before it writes.from $2,4004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-support-agent",
+    "source": "/pricing",
+    "text": "AI Customer Support AgentTriages every ticket, drafts every reply, escalates the hard ones.from $2,2003 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-knowledge-bot",
+    "source": "/pricing",
+    "text": "AI Internal Knowledge BotA Slack bot that knows your SOPs better than half your team does.from $1,4002 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-quality-retainer",
+    "source": "/pricing",
+    "text": "AI Quality RetainerMonthly evals, regression report, one upgrade, one fix. Your AI ages well.$2,500/moQuarterly minimum→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/automation-retainer",
+    "source": "/pricing",
+    "text": "Automation RetainerTwo new pipelines per month plus maintenance of everything we ship.$2,000/moQuarterly minimum→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/reliability-retainer",
+    "source": "/pricing",
+    "text": "Reliability RetainerOwn your alerting hygiene, run a quarterly chaos drill, ship a monthly scorecard.$3,000/moQuarterly minimum→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/founders-tech-partner",
+    "source": "/pricing",
+    "text": "Founder's Tech PartnerWeekly strategy + async Slack + one ship per month. Half the price of fractional.$3,500/moTwo-month minimum→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/ai-readiness-assessment",
+    "source": "/pricing",
+    "text": "48-Hour AI Readiness AssessmentA one-page scorecard that tells you where AI helps and where it doesn't.$1,50048 hours→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/stack-xray",
+    "source": "/pricing",
+    "text": "Stack X-RayTooling spend + integration debt audit. Find $X/month and 5 automation wins.$1,2005 business days→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/hallucination-hunt",
+    "source": "/pricing",
+    "text": "Hallucination HuntTwo-day stress test of your AI feature. Ranked vulnerability list at the end.$2,00048 hours→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/soc2-readiness-sprint",
+    "source": "/pricing",
+    "text": "SOC 2 Type 1 Readiness SprintAudit-ready in 6 weeks. Not 12 months.from $5,5006 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/hipaa-readiness-audit",
+    "source": "/pricing",
+    "text": "HIPAA Readiness AuditFind out where you are non-compliant before a regulator does.from $4,2003 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/seo-foundation-sprint",
+    "source": "/pricing",
+    "text": "SEO Foundation SprintThe four-week SEO base every site should have shipped two years ago.from $2,4004 weeks→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/fractional-cto-retainer",
+    "source": "/pricing",
+    "text": "Fractional CTO RetainerSeasoned technical leadership without the $300k headcount.from $4,800/moMonthly · cancel any time→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/studio-package",
+    "source": "/pricing",
+    "text": "The Studio PackageDone-for-you AI-native stack. 90 days. One number. One contract.from $45,00090 days + 6 mo retainer→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/bespoke-build",
+    "source": "/pricing",
+    "text": "Bespoke BuildCustom-scoped. Free 30-min call → 48-hour proposal → fixed price or capped T&M.customcustom→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/nexural",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/jobpoise",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/alphastream",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/brand-care",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/services/content-care",
+    "source": "/how-it-works",
+    "text": "Service details",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/nexural",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/alphastream",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/jobpoise",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/pov",
+    "source": "/services",
+    "text": "principle05Receipts, not promisesEvery change reversible in 30s; the person pitching is the person typing→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact?source=services_final&engagement=custom",
+    "source": "/services",
+    "text": "Send the context→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=pricing_hero",
+    "source": "/pricing",
+    "text": "Open demos first",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=pricing_prototype_sprint",
+    "source": "/pricing",
+    "text": "Book this path",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=pricing_conversion_build",
+    "source": "/pricing",
+    "text": "Book this path",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=pricing_revenue_os_build",
+    "source": "/pricing",
+    "text": "Book this path",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/tools/route-finder?source=pricing_catalog",
+    "source": "/pricing",
+    "text": "run the route finder→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=pricing_final",
+    "source": "/pricing",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=pricing_final",
+    "source": "/pricing",
+    "text": "Open the prototype warehouse→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=pricing_final_showcase",
+    "source": "/pricing",
+    "text": "See live systems",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact?type=consult&source=book",
+    "source": "/book?source=marketing_audit",
+    "text": "Start intake→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/pricing?source=book_footer",
+    "source": "/book?source=marketing_audit",
+    "text": "Compare pricing→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=contact_sidebar",
+    "source": "/contact",
+    "text": "Book a call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/quality-telemetry",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/process",
+    "source": "/trust",
+    "text": "See our process→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_hero",
+    "source": "/work",
+    "text": "Build conversationBook the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_nexural",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_alphastream",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_jobpoise",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/trayd",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_trayd",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/aws-landing-zone",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_aws-landing-zone",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_quality-telemetry",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/brand-sprint-rebuild",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_brand-sprint-rebuild",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/work/site-care-retainer",
+    "source": "/work",
+    "text": "Open proof→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work_site-care-retainer",
+    "source": "/work",
+    "text": "Build around this→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase",
+    "source": "/showcase/ai-support-agent-dashboard",
+    "text": "View all prototypes",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=work",
+    "source": "/work",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=founder",
+    "source": "/founder",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=founder-footer",
+    "source": "/founder",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=industries",
+    "source": "/industries",
+    "text": "Book the build call->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries/fintech",
+    "source": "/industries",
+    "text": "Fintech/fintechFintech & Financial ServicesShip money-moving software without breaking compliance.We have shipped production fintech for five years — payments, ledgers, brokerage UX, KYC flows, and Stripe integrations that actually reconcile. Sage Ideas builds money-moving software with the boring discipline regulators expect: idempotent webhooks...View route->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries/saas",
+    "source": "/industries",
+    "text": "SaaS/saasSaaS & B2B SoftwareMulti-tenant infrastructure, billing that actually nets, and SEO that compounds.We build B2B SaaS the way it should have been built the first time — multi-tenant from line one, usage-based billing that survives a scale event, retention dashboards your CS team will actually open, and a content engine that ranks for the queries yo...View route->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries/ecommerce",
+    "source": "/industries",
+    "text": "E-commerce/ecommerceE-commerce & DTCFaster checkouts, programmatic category pages, lifecycle that converts.Storefront performance is conversion. Programmatic SEO is your unit-economics weapon. Lifecycle email is your retention floor. Sage Ideas builds the engineering layer underneath your DTC brand — Shopify Hydrogen or custom Next.js, Stripe and Shop Pay...View route->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries/healthcare",
+    "source": "/industries",
+    "text": "Healthcare/healthcareHealthcare & HealthTechHIPAA-aware engineering. Audit-ready by default. Calm under regulatory pressure.Healthcare software fails differently. A bug here is not a degraded user experience — it is a HIPAA violation, a delayed diagnosis, or a missing audit trail at the worst possible moment. Sage Ideas builds HealthTech with the deliberate cadence the do...View route->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/industries/ai-startups",
+    "source": "/industries",
+    "text": "AI Startups/ai-startupsAI Startups & ML PlatformsLLM-native engineering, real evals, and infra cost discipline.Most AI startups burn the same way: a brilliant prototype, a six-month effort to \"make it production,\" and an OpenAI bill that grows faster than revenue. Sage Ideas builds AI-native systems the way they should be built — RAG pipelines with measurable...View route->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact?source=industries",
+    "source": "/industries",
+    "text": "Send the context->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=process",
+    "source": "/process",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=process-footer",
+    "source": "/process",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works",
+    "source": "/how-it-works",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-audit",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-ship",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-automate",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-seo-sprint",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-content-engine",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-brand-sprint",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-scale",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-build",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-operate",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-app-development",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-site-care",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-brand-care",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-content-care",
+    "source": "/how-it-works",
+    "text": "Book build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=how-it-works-footer",
+    "source": "/how-it-works",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/proof",
+    "source": "/showcase/compare",
+    "text": "View proof wall",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=showcase_index",
+    "source": "/showcase",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/revenue-os",
+    "source": "/showcase",
+    "text": "Packet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/revenue-os/preview",
+    "source": "/showcase",
+    "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/contractor-quote-engine",
+    "source": "/showcase",
+    "text": "Packet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/contractor-quote-engine/preview",
+    "source": "/showcase",
+    "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/med-spa-consultation-funnel",
+    "source": "/showcase/compare",
+    "text": "Open demo",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/med-spa-consultation-funnel",
+    "source": "/showcase",
+    "text": "Packet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/med-spa-consultation-funnel/preview",
+    "source": "/showcase",
+    "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/law-firm-intake-system",
+    "source": "/showcase/compare",
+    "text": "Open demo",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/law-firm-intake-system",
+    "source": "/showcase",
+    "text": "Packet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/law-firm-intake-system/preview",
+    "source": "/showcase",
+    "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/ai-support-agent-dashboard",
+    "source": "/showcase/compare",
+    "text": "Open demo",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/ai-support-agent-dashboard",
+    "source": "/showcase",
+    "text": "Packet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/private/ai-support-agent-dashboard/preview",
+    "source": "/showcase",
+    "text": "Preview",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=showcase_proof",
+    "source": "/showcase/proof",
+    "text": "Book after you inspect it",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=proof_revenue-os",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=proof_contractor-quote-engine",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=proof_med-spa-consultation-funnel",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=proof_law-firm-intake-system",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=proof_ai-support-agent-dashboard",
+    "source": "/showcase/proof",
+    "text": "Build my version",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase/compare",
+    "source": "/showcase/proof",
+    "text": "Compare systems",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=showcase_proof_final",
+    "source": "/showcase/proof",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=showcase_compare",
+    "source": "/showcase/compare",
+    "text": "Map my system",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=compare_revenue-os",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=compare_contractor-quote-engine",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=compare_med-spa-consultation-funnel",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=compare_law-firm-intake-system",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=compare_ai-support-agent-dashboard",
+    "source": "/showcase/compare",
+    "text": "Build this",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=showcase_compare_final",
+    "source": "/showcase/compare",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=revenue_os_showcase",
+    "source": "/showcase/revenue-os",
+    "text": "Book a Revenue OS walkthrough",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=contractor_quote_engine_showcase",
+    "source": "/showcase/contractor-quote-engine",
+    "text": "Book a contractor funnel walkthrough",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=med-spa-consultation-funnel_showcase",
+    "source": "/showcase/med-spa-consultation-funnel",
+    "text": "Build this for my business",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=med-spa-consultation-funnel_prototype_demo",
+    "source": "/showcase/med-spa-consultation-funnel",
+    "text": "Book consultation",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=med-spa-consultation-funnel_final_cta",
+    "source": "/showcase/med-spa-consultation-funnel",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=law-firm-intake-system_showcase",
+    "source": "/showcase/law-firm-intake-system",
+    "text": "Build this for my business",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=law-firm-intake-system_prototype_demo",
+    "source": "/showcase/law-firm-intake-system",
+    "text": "Request consultation",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=law-firm-intake-system_final_cta",
+    "source": "/showcase/law-firm-intake-system",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=ai-support-agent-dashboard_showcase",
+    "source": "/showcase/ai-support-agent-dashboard",
+    "text": "Build this for my business",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=ai-support-agent-dashboard_prototype_demo",
+    "source": "/showcase/ai-support-agent-dashboard",
+    "text": "Resolve ticket",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=ai-support-agent-dashboard_final_cta",
+    "source": "/showcase/ai-support-agent-dashboard",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/contact?source=legal",
+    "source": "/legal",
+    "text": "Ask directly→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/tools/route-finder?source=legal",
+    "source": "/legal",
+    "text": "Run the diagnostic→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/legal",
+    "source": "/legal/sow-template",
+    "text": "← Back to legal documents",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=blog_hero",
+    "source": "/blog",
+    "text": "Open working demos->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/what-an-ai-native-studio-actually-builds",
+    "source": "/blog",
+    "text": "01 · featuredopen article ->What an AI-Native Studio Actually BuildsAn AI-native studio is not a prompt shop. It builds the product surface, the operating system underneath it, and the measurement loop that keeps it honest.AI Engineering·9 min read·Jun 18, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/the-ai-implementation-audit-before-you-build",
+    "source": "/blog",
+    "text": "01ai engineeringThe AI Implementation Audit Before You BuildBefore you build an AI agent, copilot, RAG system, or workflow automation, audit the workflow, data, risk, cost, and measurement loop.AI Engineering·10 min read·Jun 18, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/seo-as-an-engineering-system-not-a-blog-calendar",
+    "source": "/blog",
+    "text": "02product systemsSEO as an Engineering System, Not a Blog CalendarThe useful SEO system is technical health, content architecture, internal links, proof assets, measurement, and distribution working together.Growth·9 min read·Jun 18, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/build-a-product-surface-and-system-map",
+    "source": "/blog",
+    "text": "03product systemsBuild a Product Surface and System MapA product is easier to build, sell, and teach when you separate the visible surface from the operating system underneath it.Product Systems·8 min read·Jun 18, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/testing-qa",
+    "source": "/topics",
+    "text": "0109 postsTesting & QAField notes on API testing, flaky tests, automation frameworks, OWASP checks, and quality systems that survive production.QA automationAPI testingtest strategyOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/ai-engineering",
+    "source": "/topics",
+    "text": "0208 postsAI EngineeringPractical writing on agents, AI apps, automation, evaluation, and production workflows from a solo AI-native studio.AI engineeringAI agentsAI automationOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/fintech-trading",
+    "source": "/topics",
+    "text": "0313 postsFintech & Trading SystemsArchitecture notes on Nexural, AlphaStream, backtesting, risk math, feature engineering, and fintech platform trade-offs.fintech softwaretrading systemsbacktesting engineOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/cloud-infra",
+    "source": "/topics",
+    "text": "0410 postsCloud & InfrastructureDeep dives on AWS, Supabase, Terraform, Docker, monitoring, CI/CD, and production infrastructure patterns.cloud infrastructureAWS TerraformSupabase productionOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/solo-studio",
+    "source": "/topics",
+    "text": "0507 postsSolo Studio Operating SystemWriting on solo engineering, building in public, career leverage, LLC operations, documentation, and durable personal systems.solo engineerone-person studiobuilding in publicOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/topics/product-systems",
+    "source": "/topics",
+    "text": "0615 postsProduct SystemsArchitecture, product strategy, documentation, and launch notes for building software that feels coherent end to end.product systemssoftware architectureproduct engineeringOpen hub ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/turning-customer-receipts-into-seo-assets",
+    "source": "/blog",
+    "text": "04product systemsTurning Customer Receipts Into SEO AssetsCustomer proof should not sit in a screenshot folder. It can become a search asset when you structure it with source, query intent, internal links, and disclaimers.Growth·8 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/the-proof-page-system-behind-nexurals-track-record",
+    "source": "/blog",
+    "text": "05fintech tradingThe Proof Page System Behind Nexural's Track RecordA breakdown of the proof architecture behind Nexural’s track-record page: receipts, member quotes, methodology, disclaimers, and conversion paths.Fintech·9 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/the-difference-between-testimonials-and-proof",
+    "source": "/blog",
+    "text": "06solo studioThe Difference Between Testimonials and ProofTestimonials are quotes. Proof is a system: source, context, receipt, methodology, limits, and next action.Strategy·7 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/the-ai-agent-boundary-problem",
+    "source": "/blog",
+    "text": "07ai engineeringThe AI Agent Boundary ProblemThe hard part of AI agents is not giving them tools. It is deciding where the agent stops, where software starts, and where a human must stay accountable.AI·8 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/rag-evaluation-without-the-benchmark-theater",
+    "source": "/blog",
+    "text": "08ai engineeringRAG Evaluation Without the Benchmark TheaterA grounded way to evaluate retrieval-augmented generation: source coverage, citation faithfulness, refusal behavior, and task-level usefulness.AI·10 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/how-to-evaluate-ai-features-before-you-ship-them",
+    "source": "/blog",
+    "text": "09ai engineeringHow to Evaluate AI Features Before You Ship ThemA practical evaluation loop for AI features: define the promise, build a failure set, test the boring cases, and keep a human in the loop until the system earns trust.AI·9 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/how-to-build-a-wall-of-love-that-doesnt-feel-fake",
+    "source": "/blog",
+    "text": "10product systemsHow to Build a Wall of Love That Does Not Feel FakeA proof page works when it shows source, method, receipts, and limits. Here is the system behind a testimonial wall that does not feel manufactured.Product·8 min read·Jun 16, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/designing-a-185-table-database-schema-lessons-from-building-nexural",
+    "source": "/blog",
+    "text": "11fintech tradingDesigning a 185-Table Database Schema: Lessons from Building NexuralHow I designed a normalized database schema for a fintech platform with 7 interconnected systems. Schema phases, RLS policies, denormalization trade-offs, and migration strategies.Architecture·12 min read·Apr 22, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/building-a-fintech-platform-solo-185-tables-69-apis-7-systems",
+    "source": "/blog",
+    "text": "12fintech tradingBuilding a Fintech Platform Solo: 185 Tables, 69 APIs, 7 SystemsThe full story of architecting and building the Nexural ecosystem from scratch — database design, API architecture, Stripe integration, and lessons from being the sole engineer on a production fintech platform.Architecture·14 min read·Apr 20, 2026",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/blog/page/1",
+    "source": "/blog",
+    "text": "Browse the full archive ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=blog_reader_routes",
+    "source": "/blog",
+    "text": "Buyer proofOpen the working systemsSkip the archive if you are evaluating Sage Ideas for a build. Start with the interactive demos and proof pages.Continue ->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/tools/route-finder?source=blog_final",
+    "source": "/blog",
+    "text": "Find your route→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=blog_final",
+    "source": "/blog",
+    "text": "Book the build call→",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=topics_hero",
+    "source": "/topics",
+    "text": "Open working demos->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=topics_reader_routing",
+    "source": "/topics",
+    "text": "Book the build call->",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/showcase?source=lab_hero",
+    "source": "/lab",
+    "text": "Open client-facing demos",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/book?source=lab_hero",
+    "source": "/lab",
+    "text": "Book the build call",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/ai-readiness",
+    "source": "/lab",
+    "text": "AI Readiness Score10-question diagnostic across data, infra, process, talent, and ROI clarity. Personalized next step.",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/calculators",
+    "source": "/lab",
+    "text": "ROI calculatorsFive interactive estimates: AI SDR, support agent, RAG, voice, churn prediction.",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/trayd",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/voza",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  },
+  {
+    "href": "http://127.0.0.1:3051/lab/owly",
+    "source": "/lab",
+    "text": "View tearsheet",
+    "status": 200,
+    "ok": true
+  }
+]

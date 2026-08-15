@@ -1,0 +1,767 @@
+{
+  "ok": true,
+  "version": "discord-proof-intake-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:49.332Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "Proof intake readiness only defines the review contract. It does not satisfy real operating proof lanes until real approved community/premium/growth records exist.",
+  "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "targetCount": 1,
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts",
+      "sourceTables": [
+        "discord_gateway_heartbeats",
+        "discord_gateway_events",
+        "discord_messages",
+        "discord_gateway_dead_letters"
+      ],
+      "requiredFields": [
+        {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "worker_id",
+          "label": "Worker id",
+          "description": "Gateway worker id that captured the message or wrote the heartbeat.",
+          "required": true
+        },
+        {
+          "key": "message_content_enabled",
+          "label": "Message content enabled",
+          "description": "Boolean confirmation from heartbeat metadata and Discord Developer Portal state.",
+          "required": true
+        },
+        {
+          "key": "usable_message_id",
+          "label": "Usable message id",
+          "description": "Fresh non-bot Discord message id captured with non-empty visible content.",
+          "required": true
+        },
+        {
+          "key": "capture_health",
+          "label": "Capture health",
+          "description": "healthy, warning, or blocked with root cause.",
+          "required": true
+        }
+      ],
+      "acceptanceChecks": [
+        "Gateway heartbeat is fresh and tied to the current worker build.",
+        "Message Content Intent metadata is present and enabled.",
+        "At least one fresh non-bot message is captured with non-empty content.",
+        "No recent dead letters or close codes invalidate the capture proof."
+      ],
+      "rejectionChecks": [
+        "Deleted, bot-only, or empty-content messages.",
+        "Stale heartbeat rows or worker metadata that does not expose Message Content Intent state.",
+        "Gateway close codes, dead letters, or invalid sessions that make capture unreliable."
+      ],
+      "privacyChecks": [
+        "Use only content that is visible in approved free/community channels.",
+        "Do not promote private, deleted, moderation-sensitive, or member-identifying content into public proof without review."
+      ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Heartbeat and identify evidence must come from the same deployed worker family or the mismatch must be explained.",
+        "Usable message proof must be fresh, non-bot, non-empty, and not deleted."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "A gateway identify event with Message Content Intent but no captured non-empty message.",
+        "A stale heartbeat from a one-shot local worker."
+      ],
+      "verificationCommands": [
+        "npm run discord:gateway-capture-diagnosis",
+        "npm run discord:proof-source-scan",
+        "npm run discord:proof-backlog"
+      ],
+      "evidencePaths": [
+        "docs/evidence/engineering-loop/discord-gateway-capture-diagnosis-latest.json",
+        "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+        "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
+      ]
+    },
+    {
+      "key": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "targetCount": 10,
+      "adminSurface": "/admin/discord -> Knowledge/RAG -> candidate review",
+      "sourceTables": [
+        "discord_questions",
+        "discord_answers",
+        "discord_content_queue",
+        "discord_content_drafts"
+      ],
+      "requiredFields": [
+        {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "source_type",
+          "label": "Source type",
+          "description": "question, answer, resource, win, review, build, or approved draft.",
+          "required": true
+        },
+        {
+          "key": "reuse_category",
+          "label": "Reuse category",
+          "description": "Lesson, resource, FAQ, checklist, challenge, or prompt.",
+          "required": true
+        },
+        {
+          "key": "rag_safe",
+          "label": "RAG safe",
+          "description": "Boolean confirmation that the item can be cited later without leaking private context.",
+          "required": true
+        }
+      ],
+      "acceptanceChecks": [
+        "Contains a specific member problem, answer, build, review, win, or resource.",
+        "Has enough context to be useful outside the original thread.",
+        "Reviewer wrote a concrete decision reason.",
+        "Privacy status is public, anonymized, or permissioned."
+      ],
+      "rejectionChecks": [
+        "Generic chatter, low-context praise, or unsupported claims.",
+        "Private/member-sensitive content without consent or anonymization.",
+        "Moderation-sensitive material or content that should not become a teaching asset."
+      ],
+      "privacyChecks": [
+        "Remove names, screenshots, private business details, credentials, and contact information unless explicitly permissioned.",
+        "Do not approve DMs or private-channel content as public knowledge without explicit consent."
+      ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Knowledge must be approved through admin review before it can count.",
+        "Knowledge must contain enough context to be reused without asking the original member for missing details."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Raw Discord messages that were captured but not reviewed.",
+        "Generic introductions, greetings, or low-context praise."
+      ],
+      "verificationCommands": [
+        "npm run discord:proof-backlog",
+        "npm run discord:operator-brief"
+      ],
+      "evidencePaths": [
+        "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+        "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
+      ]
+    },
+    {
+      "key": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "targetCount": 10,
+      "adminSurface": "/admin/discord -> RAG Health -> Sync approved Discord knowledge",
+      "sourceTables": [
+        "rag_sources",
+        "rag_documents",
+        "rag_chunks"
+      ],
+      "requiredFields": [
+        {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "rag_source_key",
+          "label": "RAG source key",
+          "description": "Stable source key created by the approved Discord sync.",
+          "required": true
+        },
+        {
+          "key": "chunk_count",
+          "label": "Chunk count",
+          "description": "Number of chunks produced from the approved source.",
+          "required": true
+        },
+        {
+          "key": "eval_or_retrieval_proof",
+          "label": "Eval or retrieval proof",
+          "description": "Evidence that the synced item can be retrieved or cited.",
+          "required": true
+        }
+      ],
+      "acceptanceChecks": [
+        "Source was approved before RAG sync.",
+        "RAG source points back to approved Discord provenance.",
+        "Generated chunks are searchable and citeable.",
+        "Latest RAG eval or retrieval smoke still passes after sync."
+      ],
+      "rejectionChecks": [
+        "Raw Discord messages synced without review.",
+        "Rejected, deleted, private, or low-quality sources.",
+        "Sources with no provenance back to the approved item."
+      ],
+      "privacyChecks": [
+        "RAG text must use the anonymized/approved version of the source, not raw private text.",
+        "Citations should identify the source type and approved title, not private member identity."
+      ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "RAG source must trace back to an approved Discord knowledge item.",
+        "Retrieval/eval proof must be generated after the approved sync."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Existing docs/blog RAG chunks that do not come from approved Discord knowledge.",
+        "Dry-run RAG sync output with zero persisted Discord sources."
+      ],
+      "verificationCommands": [
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+        "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+        "npm run discord:smoke-final-scorecard"
+      ],
+      "evidencePaths": [
+        "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+        "docs/evidence/rag/eval-latest.json",
+        "docs/evidence/discord-ai-os/phase-20-final-scorecard.json"
+      ]
+    },
+    {
+      "key": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "targetCount": 4,
+      "adminSurface": "/admin/discord -> Content -> public proof sources and public growth drafts",
+      "sourceTables": [
+        "discord_public_proof_sources",
+        "discord_public_growth_drafts",
+        "discord_growth_events"
+      ],
+      "requiredFields": [
+        {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "asset_type",
+          "label": "Asset type",
+          "description": "Article, newsletter, social post, proof card, recap, or showcase item.",
+          "required": true
+        },
+        {
+          "key": "utm_campaign",
+          "label": "UTM campaign",
+          "description": "Campaign key used to track applications or engagement from the asset.",
+          "required": true
+        },
+        {
+          "key": "publish_status",
+          "label": "Publish status",
+          "description": "pending_approval, approved, published, or rejected.",
+          "required": true
+        },
+        {
+          "key": "growth_tracking_status",
+          "label": "Growth tracking status",
+          "description": "Tracked, pending_first_click, pending_application, or not_counted with the reason.",
+          "required": true
+        },
+        {
+          "key": "conversion_snapshot",
+          "label": "Conversion snapshot",
+          "description": "Applications, approvals, active members, or other growth metric tied to the asset.",
+          "required": false
+        }
+      ],
+      "acceptanceChecks": [
+        "Asset is tied to an approved Discord source.",
+        "Public draft has privacy-safe source provenance.",
+        "Admin approved the draft before publishing externally.",
+        "Growth event or UTM path is recorded for the weekly cycle."
+      ],
+      "rejectionChecks": [
+        "Generic public content not tied to approved community activity.",
+        "Private member details, screenshots, names, or business context without permission.",
+        "External publishing without explicit admin approval."
+      ],
+      "privacyChecks": [
+        "Use anonymized summaries by default.",
+        "Require explicit permission before using member names, screenshots, or identifiable stories."
+      ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Public proof asset must trace to approved source material and explicit admin approval.",
+        "Growth proof must include UTM/campaign evidence or an explicit note that conversion is not proven yet."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "Generic marketing content that is not tied to approved community activity.",
+        "A draft that was generated but never approved or published."
+      ],
+      "verificationCommands": [
+        "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+        "npm run discord:proof-backlog"
+      ],
+      "evidencePaths": [
+        "docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json",
+        "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
+      ]
+    },
+    {
+      "key": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "targetCount": 1,
+      "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence",
+      "sourceTables": [
+        "discord_members",
+        "discord_premium_review_requests",
+        "discord_office_hours_queue"
+      ],
+      "requiredFields": [
+        {
+          "key": "proof_cycle_key",
+          "label": "Proof cycle key",
+          "description": "Weekly operating cycle key, for example 2026-W26.",
+          "required": true
+        },
+        {
+          "key": "source_record_id",
+          "label": "Source record id",
+          "description": "Stable database id, Discord message id, or evidence artifact id.",
+          "required": true
+        },
+        {
+          "key": "source_url_or_path",
+          "label": "Source URL or path",
+          "description": "Discord link, admin URL, or local evidence path that lets the reviewer inspect the source.",
+          "required": true
+        },
+        {
+          "key": "source_created_at",
+          "label": "Source created at",
+          "description": "Original source timestamp proving the item came from the current operating window or a reviewed backlog.",
+          "required": true
+        },
+        {
+          "key": "title",
+          "label": "Reusable title",
+          "description": "Short title describing the reusable teaching/proof value.",
+          "required": true
+        },
+        {
+          "key": "summary",
+          "label": "Reusable summary",
+          "description": "Two to four sentence summary of why this item matters.",
+          "required": true
+        },
+        {
+          "key": "reviewer",
+          "label": "Reviewer",
+          "description": "Admin/operator who approved, rejected, or escalated the item.",
+          "required": true
+        },
+        {
+          "key": "reviewed_at",
+          "label": "Reviewed at",
+          "description": "ISO timestamp for the approval or rejection decision.",
+          "required": true
+        },
+        {
+          "key": "decision_reason",
+          "label": "Decision reason",
+          "description": "Specific reason the item qualifies or fails the proof lane.",
+          "required": true
+        },
+        {
+          "key": "evidence_artifact_path",
+          "label": "Evidence artifact path",
+          "description": "Evidence JSON, screenshot, dashboard URL, or audit artifact that supports the proof claim.",
+          "required": true
+        },
+        {
+          "key": "operator_attestation",
+          "label": "Operator attestation",
+          "description": "Plain-language statement of what was verified and what was not verified.",
+          "required": true
+        },
+        {
+          "key": "privacy_status",
+          "label": "Privacy status",
+          "description": "One of public, anonymized, permissioned, private_blocked, or rejected.",
+          "required": true
+        },
+        {
+          "key": "premium_path",
+          "label": "Premium path",
+          "description": "premium_review, deeper_answer, office_hours, or premium_role_sync.",
+          "required": true
+        },
+        {
+          "key": "authorization_evidence",
+          "label": "Authorization evidence",
+          "description": "Premium role, paid status, or intentionally seeded scenario marker.",
+          "required": true
+        },
+        {
+          "key": "sla_status",
+          "label": "SLA status",
+          "description": "queued, in_review, answered, scheduled, completed, or breached.",
+          "required": true
+        },
+        {
+          "key": "fulfillment_summary",
+          "label": "Fulfillment summary",
+          "description": "What was delivered and where the outcome is recorded.",
+          "required": true
+        }
+      ],
+      "acceptanceChecks": [
+        "Authorization is visible and non-premium bypass is blocked.",
+        "Request status and SLA state are recorded.",
+        "Fulfillment outcome is logged.",
+        "Smoke test still proves the premium authorization path."
+      ],
+      "rejectionChecks": [
+        "Premium interest without a fulfilled workflow.",
+        "Unverified payment/role state.",
+        "Free member can access premium-only workflow."
+      ],
+      "privacyChecks": [
+        "Premium reviews may contain sensitive artifacts; default to private/admin-only evidence.",
+        "Public repurposing requires separate public proof approval and anonymization."
+      ],
+      "qualityGates": [
+        "Proof must come from real operating data or explicitly approved historical backlog, not synthetic smoke data.",
+        "Proof must have a reviewer, timestamp, source id, evidence artifact, and decision reason.",
+        "Proof must be tied to a blocked proof lane and weekly cycle key.",
+        "Proof must be reproducible from the listed admin surface, source table, or evidence path.",
+        "Premium workflow must prove authorization and fulfillment, not only interest.",
+        "Seeded premium scenarios must be labeled as seeded and cannot count as paid conversion proof."
+      ],
+      "nonProofExamples": [
+        "Unit tests, typecheck, lint, build, and dry-run scripts by themselves.",
+        "Seed rows, smoke rows, deleted rows, local-only mock rows, or intentionally synthetic examples.",
+        "Screenshots or summaries without a source id and reviewer decision.",
+        "AI-generated content that was not approved by an admin/operator.",
+        "A premium role or checkout setup without a fulfilled review/deeper answer/office-hours workflow.",
+        "Premium workflow smoke tests without a real or explicitly seeded premium scenario."
+      ],
+      "verificationCommands": [
+        "npm run discord:smoke-premium-workflows",
+        "npm run discord:proof-backlog"
+      ],
+      "evidencePaths": [
+        "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+        "docs/evidence/engineering-loop/discord-proof-backlog-latest.json"
+      ]
+    }
+  ],
+  "requiredLaneCount": 5,
+  "requiredFieldCount": 78,
+  "failures": [],
+  "weeklyIntakeOrder": [
+    "Confirm gateway capture is healthy before reviewing downstream knowledge candidates.",
+    "Review candidates and fill required proof fields.",
+    "Reject private, generic, low-context, or unsupported material.",
+    "Approve reusable knowledge and sync only approved items into RAG.",
+    "Create privacy-safe public proof assets from approved sources.",
+    "Fulfill and log one premium path when premium activity exists.",
+    "Rerun operating cycle, proof backlog, operator brief, and final scorecard."
+  ],
+  "validation": {
+    "ok": true,
+    "failures": [],
+    "validator": "discord-proof-intake-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:49.333Z"
+  }
+}

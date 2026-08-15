@@ -4,7 +4,7 @@ import crypto from 'crypto'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { academyTracks } from '@/data/academy/tracks'
 import enMessages from '@/lib/i18n/messages/en.json'
-import { locales, defaultLocale, type Locale } from '@/lib/i18n/config'
+import { locales, defaultLocale } from '@/lib/i18n/config'
 
 /**
  * The accuracy/completeness audit — one command that verifies EVERY content piece is

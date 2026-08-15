@@ -1,0 +1,339 @@
+/* Quests — compact Today + This week lists. Flat hairline surface, no glow.
+   Reads as a ledger that sits below the habit/stat cards, quieter than them.
+   Done = mastery-green check + fill. Motion is compositor-only (width set once,
+   color transitions only; honors prefers-reduced-motion). */
+
+.panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.4rem;
+  margin: 0 0 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.group {
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  background: var(--ac-surface, rgba(255, 255, 255, 0.02));
+}
+
+/* -- variable-ratio bonus banner (the panel LEAD) -------------------------
+   Spans both columns above the two quest groups and reads as today's claimable
+   prize, not a status strip: a large headline value, a prominent icon, and an
+   honest "varies daily" tease. Depth via a hairline + accent wash + soft inset,
+   no glow, no loot-box theatre. Armed = accent; collected flips to mastery-green
+   (the banked payoff). Motion is opacity/transform only + reduced-motion safe. */
+.bonusWrap {
+  grid-column: 1 / -1;
+}
+
+.bonus {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.05rem;
+  padding: 1.15rem 1.3rem;
+  border: 1px solid var(--ac-accent-strong, #3d6bff);
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      130% 100% at 0% 0%,
+      color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 18%, transparent),
+      transparent 58%
+    ),
+    var(--ac-surface, rgba(255, 255, 255, 0.02));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 22%, transparent);
+}
+
+/* A thin top accent edge so the prize reads as the lead even at a glance. */
+.bonus::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(
+    90deg,
+    var(--ac-accent-strong, #3d6bff),
+    color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 20%, transparent)
+  );
+}
+
+.bonusDone {
+  border-color: var(--ac-mastery, #2dd4bf);
+  background:
+    radial-gradient(
+      130% 100% at 0% 0%,
+      color-mix(in oklab, var(--ac-mastery, #2dd4bf) 20%, transparent),
+      transparent 58%
+    ),
+    var(--ac-surface, rgba(255, 255, 255, 0.02));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--ac-mastery, #2dd4bf) 26%, transparent);
+}
+
+.bonusDone::before {
+  background: linear-gradient(
+    90deg,
+    var(--ac-mastery, #2dd4bf),
+    color-mix(in oklab, var(--ac-mastery, #2dd4bf) 20%, transparent)
+  );
+}
+
+.bonusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--ac-accent-text, #9db4ff);
+  border: 1px solid var(--ac-accent-strong, #3d6bff);
+  background: color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 16%, transparent);
+}
+
+/* Collected is the payoff beat: the icon fills mastery-green and pops once.
+   Compositor-only (transform), and suppressed under reduced-motion below. */
+.bonusDone .bonusIcon {
+  color: #04140d;
+  border-color: var(--ac-mastery, #2dd4bf);
+  background: var(--ac-mastery, #2dd4bf);
+  animation: bonusPop 0.32s var(--ease-out-back, cubic-bezier(0.34, 1.56, 0.64, 1)) 1;
+}
+
+@keyframes bonusPop {
+  0% {
+    transform: scale(0.82);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bonusBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.bonusKicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ac-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-accent-text, #9db4ff);
+}
+
+.bonusDone .bonusKicker {
+  color: var(--ac-mastery, #2dd4bf);
+}
+
+/* "armed" / "collected" word, boxed so the state never relies on color alone. */
+.bonusState {
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 55%, transparent);
+  background: color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 12%, transparent);
+}
+
+.bonusDone .bonusState {
+  border-color: color-mix(in oklab, var(--ac-mastery, #2dd4bf) 60%, transparent);
+  background: color-mix(in oklab, var(--ac-mastery, #2dd4bf) 14%, transparent);
+}
+
+.bonusHeadlineRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* The prize number — the largest type in the panel. This is what makes the
+   banner read as a reward and carries the per-day variability at a glance. */
+.bonusHeadline {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ac-text, #f2efe9);
+  font-variant-numeric: tabular-nums;
+}
+
+.bonusLabel {
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ac-text, #f2efe9);
+}
+
+.bonusHint {
+  display: block;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+/* The honest "varies daily / resets" tease — quieter than the arm/collect
+   instruction but always present, so the return-tomorrow hook is felt. */
+.bonusTease {
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+.bonusArm {
+  color: var(--ac-accent-text, #9db4ff);
+  font-weight: 600;
+}
+
+.bonusBanked {
+  color: var(--ac-mastery, #2dd4bf);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bonusDone .bonusIcon {
+    animation: none;
+  }
+}
+
+.groupHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.kicker {
+  font-family: var(--ac-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ac-accent-text, #9db4ff);
+}
+
+.summary {
+  font-family: var(--ac-font-mono);
+  font-size: 0.68rem;
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+/* The single "what to do now" — one spotlighted row per board. A flush-left
+   accent rule + a touch more breathing room gives it primacy without shouting.
+   Suppressed once the row is done (no point pointing at a finished task). */
+.rowLead:not(.rowDone) {
+  margin-left: -1.1rem;
+  margin-right: -1.1rem;
+  padding: 0.4rem 1.1rem 0.4rem 0.85rem;
+  border-left: 3px solid var(--ac-accent-strong, #3d6bff);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in oklab, var(--ac-accent-strong, #3d6bff) 8%, transparent);
+}
+
+.rowLead:not(.rowDone) .label {
+  font-weight: 600;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  line-height: 1;
+  color: var(--ac-text-dim, #8a8b96);
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.12));
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.rowDone .check {
+  color: #04140d;
+  background: var(--ac-mastery, #2dd4bf);
+  border-color: var(--ac-mastery, #2dd4bf);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.86rem;
+  line-height: 1.25;
+  color: var(--ac-text, #f2efe9);
+}
+
+.rowDone .label {
+  color: var(--ac-text-dim, #c4c5cd);
+}
+
+.track {
+  height: 4px;
+  border-radius: 100px;
+  overflow: hidden;
+  background: var(--ac-surface-2, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.1));
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: var(--ac-accent-strong, #3d6bff);
+  transition: background 0.2s ease;
+}
+
+.rowDone .fill {
+  background: var(--ac-mastery, #2dd4bf);
+}
+
+.count {
+  font-family: var(--ac-font-mono);
+  font-size: 0.74rem;
+  white-space: nowrap;
+  color: var(--ac-text, #f2efe9);
+}
+
+.countDim {
+  color: var(--ac-text-dim, #8a8b96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check,
+  .fill {
+    transition: none;
+  }
+}

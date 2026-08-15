@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { ArrowRight, CheckCircle2, Clock3, FileText, MonitorPlay, MousePointer2, Send, Sparkles } from 'lucide-react'
 import type { Prototype } from '../prototype-catalog'
 import styles from './prototype-detail.module.css'
@@ -14,6 +16,8 @@ const sampleBySlug: Record<string, {
   output: string
   proof: string
   conversion: string
+  signals: string[]
+  stateLabel: string
 }> = {
   'contractor-quote-engine': {
     account: 'IronPeak Roofing',
@@ -24,6 +28,8 @@ const sampleBySlug: Record<string, {
     output: 'A mobile-first quote page with emergency routing, before/after proof, warranty framing, and a two-step estimate request.',
     proof: 'Before/after gallery, local reviews, service-area map, and 12-minute response promise.',
     conversion: 'Quote request ready',
+    signals: ['Emergency keyword', '$7.8k estimate range', '12 minute response path', 'Storm-area proof matched'],
+    stateLabel: 'Walkthrough queue',
   },
   'med-spa-consultation-funnel': {
     account: 'Vela Med Spa',
@@ -34,6 +40,8 @@ const sampleBySlug: Record<string, {
     output: 'A compliant treatment finder that routes by concern, readiness, budget range, and preferred appointment window.',
     proof: 'Provider credentials, treatment education, safety notes, consult expectations, and nurture follow-up.',
     conversion: 'Consult booked',
+    signals: ['Concern selected', 'Provider proof shown', 'Claim-safe language', 'Nurture path ready'],
+    stateLabel: 'Consult queue',
   },
   'law-firm-intake-system': {
     account: 'Northline Legal',
@@ -44,6 +52,8 @@ const sampleBySlug: Record<string, {
     output: 'A practice-area intake flow that captures urgency, conflict-safe basics, response expectations, and consultation intent.',
     proof: 'Attorney profile, case-safe process summary, jurisdiction fit, and response SLA.',
     conversion: 'Qualified consult',
+    signals: ['Matter type captured', 'Deadline risk marked', 'Jurisdiction checked', 'Consult path ready'],
+    stateLabel: 'Matter queue',
   },
   'ai-support-agent-dashboard': {
     account: 'HelioCart Support',
@@ -54,6 +64,8 @@ const sampleBySlug: Record<string, {
     output: 'A support cockpit that drafts grounded answers, cites knowledge matches, escalates uncertain tickets, and scores QA quality.',
     proof: 'Knowledge citation, policy match, confidence score, escalation trail, and resolution analytics.',
     conversion: 'Ticket resolved',
+    signals: ['Intent classified', 'Knowledge cited', 'Risk escalated', 'QA score recorded'],
+    stateLabel: 'Support queue',
   },
 }
 
@@ -64,6 +76,7 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
   const sample = sampleBySlug[prototype.slug] ?? sampleBySlug['contractor-quote-engine']
 
   const selectedFlow = prototype.workflow[activeStep] ?? prototype.workflow[0]
+  const selectedDemo = prototype.demo?.steps[activeStep] ?? prototype.demo?.steps[0]
   const packetState = sent ? 'Live handoff sent' : approved ? 'Approved packet' : 'Draft packet'
   const progress = Math.min(100, 38 + activeStep * 14 + (approved ? 18 : 0) + (sent ? 16 : 0))
 
@@ -74,14 +87,14 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
   ], [prototype.personalization, prototype.screens.length, sample.proof])
 
   return (
-    <section className={styles.prototypeEmbed} aria-label={`${prototype.name} embedded prototype`}>
+    <section id="live-prototype" className={styles.prototypeEmbed} aria-label={`${prototype.name} embedded prototype`}>
       <div className={styles.embedHeader}>
         <div>
-          <span className={styles.kicker}>Embedded live prototype</span>
-          <h2>{prototype.name} you can click through.</h2>
+          <span className={styles.kicker}>Live buyer workflow</span>
+          <h2>Open the version a prospect would understand.</h2>
           <p>
-            This is the usable product layer inside the showcase, with real states, sample data, proof assets, and
-            a buyer-ready handoff path.
+            Click the steps, approve the packet, and send the handoff. The demo shows how the
+            business problem turns into a visible workflow, not a static mockup.
           </p>
         </div>
         <div className={styles.embedStatus}>
@@ -90,6 +103,66 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
           <span>{progress}% workflow proof</span>
         </div>
       </div>
+
+      {prototype.demo ? (
+        <div className={styles.decisionDemo} aria-label={`${prototype.name} decision demo`}>
+          <div className={styles.decisionSteps}>
+            {prototype.demo.steps.map((step, index) => (
+              <button
+                key={step.label}
+                className={`${styles.decisionStep} ${activeStep === index ? styles.decisionStepActive : ''}`}
+                onClick={() => setActiveStep(index)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{step.label}</strong>
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.decisionBoard}>
+            <article>
+              <span>Before</span>
+              <p>{selectedDemo?.before}</p>
+            </article>
+            <div className={styles.decisionCore}>
+              <span>{prototype.name}</span>
+              <strong>{selectedDemo?.system}</strong>
+            </div>
+            <article>
+              <span>Result</span>
+              <p>{selectedDemo?.result}</p>
+            </article>
+          </div>
+
+          <div className={styles.decisionFooter}>
+            <div>
+              <span>Buyer action</span>
+              <strong>{selectedDemo?.buyerAction}</strong>
+            </div>
+            <button onClick={() => setActiveStep((current) => (current + 1) % (prototype.demo?.steps.length ?? 1))}>
+              Next step <ArrowRight size={16} />
+            </button>
+          </div>
+
+          <div className={styles.liveStateBoard} aria-label={`${prototype.name} live state board`}>
+            <article>
+              <span>{sample.stateLabel}</span>
+              <strong>{sample.conversion}</strong>
+              <p>{sample.signals[activeStep] ?? sample.signals[0]}</p>
+            </article>
+            <article>
+              <span>Operator view</span>
+              <strong>{approved ? 'Approved' : 'Needs review'}</strong>
+              <p>{approved ? 'The packet can be sent with proof and next-step context.' : 'Review the generated path before sending anything to a buyer.'}</p>
+            </article>
+            <article>
+              <span>Handoff</span>
+              <strong>{sent ? 'Sent' : 'Waiting'}</strong>
+              <p>{sent ? 'The workflow has a visible follow-up state.' : 'The system keeps the next action visible until the handoff is complete.'}</p>
+            </article>
+          </div>
+        </div>
+      ) : null}
 
       <div className={styles.playground}>
         <div className={styles.prototypeRail}>
@@ -152,9 +225,9 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
               <div className={styles.screenChips}>
                 {prototype.screens.map((screen) => (
                   <button key={screen} onClick={() => setActiveStep((current) => (current + 1) % prototype.workflow.length)}>
-                    {screen}
-                  </button>
-                ))}
+                {screen}
+              </button>
+            ))}
               </div>
             </article>
 
@@ -180,6 +253,31 @@ export function PrototypePlayground({ prototype }: { prototype: Prototype }) {
           </div>
         </div>
       </div>
+
+      {prototype.demo ? (
+        <div className={styles.proofStatus} aria-label={`${prototype.name} verified proof status`}>
+          <span>Evidence-backed proof status</span>
+          <div>
+            {prototype.demo.proofStatus.map((item) => (
+              <strong key={item}>
+                <CheckCircle2 size={15} />
+                {item}
+              </strong>
+            ))}
+          </div>
+          <LinkButton href={`/book?source=${prototype.slug}_prototype_demo`}>
+            {prototype.demo.primaryCta}
+          </LinkButton>
+        </div>
+      ) : null}
     </section>
+  )
+}
+
+function LinkButton({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link className={styles.demoBookLink} href={href}>
+      {children} <ArrowRight size={16} />
+    </Link>
   )
 }

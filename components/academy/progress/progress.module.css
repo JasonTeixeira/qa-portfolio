@@ -1,0 +1,362 @@
+/* Progress — "The honest picture." OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Progress.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Fonts route through next/font
+   vars with the --sa-* stacks as fallbacks (player aliasing grammar).
+   NOTE: the design sets the skill-graph caption/due labels in #4A4A54 (ghost
+   ink); lifted to --sa-ink-faint for WCAG AA, matching the player reskin. */
+
+.page {
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  max-width: var(--sa-shell-max);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px;
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Designed-in keyboard focus: 2px #8FA0FF, 2px offset, 4px radius. */
+.page a:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+  border-radius: var(--sa-focus-radius);
+}
+
+/* ── header — huge serif with the italic accent word ── */
+
+.title {
+  margin: 0 0 6px;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: var(--sa-text-display-tracking);
+}
+
+.titleAccent {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--sa-accent-text);
+}
+
+.sub {
+  margin: 0 0 32px;
+  color: var(--sa-ink-muted);
+  max-width: 60ch;
+}
+
+/* ── surfaces — quiet hairline cards, radius canon md ── */
+
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
+  padding: 26px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+
+/* ── honest empty state ("No numbers yet — that's honest too.") ── */
+.emptyWrap {
+  border: 1px dashed var(--sa-edge);
+  border-radius: 18px; /* design-literal hero-card radius */
+  background: var(--sa-surface-1);
+  padding: clamp(36px, 6vw, 64px);
+  text-align: center;
+}
+.emptyOrb {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--sa-radius-pill);
+  border: 1px solid rgba(110, 131, 255, 0.3); /* design-literal orb ring */
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(110, 131, 255, 0.5),
+    rgba(61, 90, 254, 0.15) 55%,
+    var(--sa-bg) 80%
+  );
+}
+.emptyTitle {
+  margin: 18px auto 8px;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(24px, 2.8vw, 32px);
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+.emptyLead {
+  margin: 0 auto;
+  color: var(--sa-ink-muted);
+  max-width: 48ch;
+  font-size: 14.5px;
+  text-wrap: pretty;
+}
+.emptyCta {
+  display: inline-flex;
+  margin-top: 24px;
+  color: #fff;
+  background: var(--sa-accent);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: var(--sa-radius-md);
+  transition: background var(--sa-dur-ui) var(--sa-ease);
+}
+.emptyCta:hover {
+  background: var(--sa-accent-hover);
+}
+
+/* ── mastery chart ── */
+
+.chartHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.legend {
+  display: flex;
+  gap: 18px;
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-muted);
+}
+
+.chartSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG axis / annotation labels — mono, honest axes. */
+.chartText {
+  font-family: var(--sa-mono-live);
+}
+
+/* ── grid of side panels ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 18px;
+}
+
+/* ── per-course panel ── */
+
+.coursePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.courseRow {
+  display: block;
+}
+
+.courseTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+
+.courseName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.courseScore {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.barTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sa-surface-3);
+}
+
+.barFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+
+.courseFoot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.courseMeta {
+  color: var(--sa-ink-faint);
+}
+
+.courseAction {
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity var(--sa-dur-ui) var(--sa-ease);
+}
+
+.courseAction:hover {
+  text-decoration: underline;
+}
+
+/* ── evidence velocity ── */
+
+.velocityBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 110px;
+  margin-top: 20px;
+}
+
+.velCol {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 6px;
+}
+
+.velBar {
+  border-radius: 4px 4px 2px 2px;
+}
+
+.velLabel {
+  font-family: var(--sa-mono-live);
+  font-size: 8.5px;
+  color: var(--sa-ink-faint);
+  text-align: center;
+}
+
+.velCaption {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--sa-ink-faint);
+}
+
+/* ── skill graph · recall ── */
+
+.recallCard {
+  margin-top: 28px;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-md);
+  background: var(--sa-surface-1);
+  overflow: hidden;
+}
+
+.recallHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--sa-rule);
+  flex-wrap: wrap;
+}
+
+.recallHeadNote {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-warning);
+}
+
+.recallRow {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(160px, 2fr) auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--sa-rule);
+}
+
+.recallRow:last-of-type {
+  border-bottom: none;
+}
+
+.recallName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recallTrack {
+  position: relative;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--sa-surface-3);
+  overflow: hidden;
+}
+
+.recallFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+.recallDecay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.recallScore {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.recallDue {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
+  white-space: nowrap;
+}
+
+.recallAction {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity var(--sa-dur-ui) var(--sa-ease);
+}
+
+.recallAction:hover {
+  text-decoration: underline;
+}
+
+.recallCaption {
+  padding: 13px 24px;
+  border-top: 1px solid var(--sa-rule);
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint); /* lifted from design's #4A4A54 for AA */
+  font-style: italic;
+}

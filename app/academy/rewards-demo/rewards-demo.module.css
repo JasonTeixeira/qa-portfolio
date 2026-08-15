@@ -1,0 +1,98 @@
+.page {
+  min-height: 100vh;
+  background: var(--ac-bg, #0b0b0e);
+  color: var(--ac-ink, #f2efe9);
+  padding: clamp(2rem, 1rem + 6vw, 6rem) var(--ac-gutter, 1.5rem);
+  max-width: var(--ac-maxw-shell, 1320px);
+  margin-inline: auto;
+}
+
+.head {
+  max-width: var(--ac-maxw-prose, 68ch);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+
+.h1 {
+  margin: 0.4rem 0 0;
+  font-family: var(--ac-font-display, Georgia, serif);
+  font-size: var(--ac-step-6, 3rem);
+  line-height: 1.05;
+}
+
+.lede {
+  margin: 0.8rem 0 0;
+  font-size: var(--ac-step-0, 1rem);
+  color: var(--ac-ink-soft, #c0c0ca);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+}
+
+.trigger {
+  padding: 0.6rem 1.35rem;
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--ac-accent-strong, #3458e0);
+  border: 1px solid var(--ac-accent-strong, #3458e0);
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    filter var(--ac-dur-fast, 150ms) var(--ac-ease, ease),
+    transform var(--ac-dur-fast, 150ms) var(--ac-ease, ease);
+}
+.trigger:hover {
+  filter: brightness(1.08);
+}
+.trigger:active {
+  transform: scale(0.98);
+}
+.trigger:focus-visible {
+  outline: 2px solid var(--ac-accent, #3d6bff);
+  outline-offset: 3px;
+}
+
+.systemStrip {
+  margin-top: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  padding-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border-top: 1px solid var(--ac-rule, #1e1e24);
+}
+
+.stripLabel {
+  margin: 0 0 clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  font-family: var(--ac-font-mono, ui-monospace, monospace);
+  font-size: var(--ac-step--1, 0.83rem);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-ink-faint, #8a8b96);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* baseline-align tiles so the magnitude size-step is legible across the row */
+  align-items: end;
+  gap: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+  justify-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger:active {
+    transform: none;
+  }
+}

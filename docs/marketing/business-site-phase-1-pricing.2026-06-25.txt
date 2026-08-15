@@ -1,0 +1,143 @@
+SAGE IDEAS BUSINESS SITE - PHASE 1 PRICING POLISH
+Date: 2026-06-25
+Route: /pricing
+Status: Complete for Phase 1
+
+OBJECTIVE
+
+Rebuild pricing from a dense service catalog into a high-intent buyer decision page.
+
+The intended buyer read:
+"I understand the three ways to buy, I can choose a path without decoding a huge menu, I can open proof first, and I know exactly how to book the build call."
+
+WHAT CHANGED
+
+1. Replaced the dense pricing-first layout with a premium three-path decision system:
+   - Prototype Sprint
+   - Conversion System Build
+   - Revenue OS Build
+
+2. Moved the full catalog lower on the page so it supports the decision instead of overwhelming the first screen.
+
+3. Added a decision-map section that explains how a buyer should choose:
+   - First proof asset
+   - Core conversion system
+   - Full operating system
+
+4. Strengthened CTA hierarchy:
+   - Compare paths
+   - Open demos first
+   - Book this path
+   - Book the build call
+
+5. Preserved source-tagged booking links:
+   - /book?source=pricing_prototype_sprint
+   - /book?source=pricing_conversion_build
+   - /book?source=pricing_revenue_os_build
+   - /book?source=pricing_final
+
+6. Added an accessible Pricing decision map region for proof automation and screen-reader navigation.
+
+7. Kept the FAQ and service catalog available without letting them dominate the buying decision.
+
+FILES CHANGED
+
+- app/pricing/pricing-el.tsx
+- docs/marketing/business-front-end-page-score-matrix.2026-06-25.txt
+- docs/marketing/business-site-completion-audit.2026-06-25.txt
+- docs/marketing/business-site-scorecard.2026-06-25.txt
+
+RELATED GATE FIXES NEEDED BY GLOBAL VERIFICATION
+
+- lib/academy/leagues.ts
+- components/academy/notifications/PushOptIn.tsx
+
+These were not pricing features. They were small repo-wide TypeScript/lint blockers that had to be fixed so the global gates could honestly pass.
+
+PROOF CAPTURED
+
+Pricing screenshots:
+- docs/evidence/marketing/screenshots/2026-06-25/pricing-phase-1/pricing-desktop.png
+- docs/evidence/marketing/screenshots/2026-06-25/pricing-phase-1/pricing-mobile.png
+
+Pricing proof JSON:
+- docs/evidence/marketing/audits/2026-06-25/pricing-phase-1-check.json
+- docs/evidence/marketing/audits/2026-06-25/pricing-phase-1-accessibility-metadata.json
+- docs/evidence/marketing/audits/2026-06-25/lighthouse-pricing.json
+
+COMMANDS PASSED
+
+- npm run lint
+- npm run typecheck
+- npm run build
+- PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts --config=playwright.e2e.config.ts --project=chromium
+- Pricing desktop/mobile screenshot and route proof script
+- Pricing axe/metadata proof script
+- npm exec -- lighthouse http://127.0.0.1:3041/pricing --only-categories=performance,accessibility,best-practices,seo --preset=desktop --output=json --output-path=docs/evidence/marketing/audits/2026-06-25/lighthouse-pricing.json --chrome-flags='--headless=new --no-sandbox'
+
+EARNED RESULTS
+
+Pricing route proof:
+- Desktop horizontal overflow: none
+- Mobile horizontal overflow: none
+- Three buying paths present: yes
+- Pricing decision map present: yes
+- Final CTA present: yes
+- Pricing booking links found: 5
+- Pricing showcase/demo links found: 3
+
+Accessibility / metadata:
+- Axe violations: 0
+- Title: present
+- Description: present
+- H1: present
+- Canonical: present
+- JSON-LD count: 5
+
+Lighthouse:
+- Performance: 97
+- Accessibility: 100
+- Best Practices: 100
+- SEO: 100
+- LCP: 1248 ms
+- CLS: 0
+- TBT: 0 ms
+
+UPDATED SCORE
+
+Previous pricing posture:
+92 / 100
+
+Current earned pricing posture:
+95 / 100
+
+Category score:
+- Offer clarity: 95
+- Business-owner language: 95
+- Visual design: 94
+- Visual storytelling: 94
+- CTA clarity: 95
+- Trust/proof: 93
+- SEO: 96
+- Mobile/accessibility: 100
+- Performance: 97
+- Overall: 95
+
+BRUTAL READ
+
+This page is now legitimately strong and commercially usable. It is no longer the highest-priority weakness in the business funnel.
+
+It is not a 99 because:
+- There is no live buyer analytics proof showing which pricing path converts best.
+- There is no real customer quote or sales-cycle evidence on the page yet.
+- Pricing could eventually benefit from lightweight interaction, such as "show me my path," but the current static decision flow is clean and fast.
+
+NEXT PHASE
+
+Phase 2 should be /work and /work/[slug].
+
+Goal:
+Turn work/case studies into the proof bridge between the demos and buyer trust.
+
+Why:
+Pricing now tells buyers how to buy. Work needs to prove Sage Ideas has taste, process, and real transformation evidence.

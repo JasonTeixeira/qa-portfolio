@@ -116,3 +116,38 @@ async function staleWhileRevalidate(req, cacheName) {
     .catch(() => null)
   return cached || (await network) || new Response('Resource unavailable offline', { status: 503 })
 }
+
+// --- Web push (academy streak-save + engagement reminders) ---
+self.addEventListener('push', (event) => {
+  let data = {}
+  try {
+    data = event.data ? event.data.json() : {}
+  } catch {
+    data = { title: 'Sage Academy', body: event.data ? event.data.text() : '' }
+  }
+  const title = data.title || 'Sage Academy'
+  const options = {
+    body: data.body || '',
+    tag: data.tag || 'sage-academy',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
+    data: { url: data.url || '/academy/dashboard' },
+  }
+  event.waitUntil(self.registration.showNotification(title, options))
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  const url = (event.notification.data && event.notification.data.url) || '/academy/dashboard'
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if ('focus' in client) {
+          client.navigate(url)
+          return client.focus()
+        }
+      }
+      return self.clients.openWindow(url)
+    }),
+  )
+})

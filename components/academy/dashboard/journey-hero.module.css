@@ -1,0 +1,290 @@
+/* "YOUR JOURNEY" — the goal band. OFFICIAL Sage Academy skin.
+   Source of truth: design-source/sage-academy-2026/Sage Dashboard Cockpit.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*).
+
+   Design grammar applied here:
+   - quiet mono kicker at 10px / 0.14em over the name (never 0.2em)
+   - Fraunces at the design's headline weight (600), sized BELOW the page h1 —
+     the bento's "next best action" tile is the page's only hero, so this band
+     is a supporting panel and must not compete with it
+   - buttons are body-font 600 in a 24px pill, not display-serif 700
+   - radius canon 7 / 14 / 24 (+16 to match the bento tiles it sits under)
+   - the band sits in a flex column with its own gap, so it owns no margin */
+
+.hero {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: clamp(20px, 1rem + 1.4vw, 30px) clamp(18px, 0.9rem + 1.4vw, 26px);
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(61, 90, 254, 0.05), transparent 60%),
+    var(--sa-surface-1);
+}
+
+/* -- has-goal band -------------------------------------------------- */
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(16px, 0.5rem + 2vw, 38px);
+}
+
+.lead {
+  min-width: 0;
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+
+.goalLabel {
+  margin: 9px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--sa-ink);
+  text-wrap: balance;
+}
+
+/* next milestone — the clear call-to-action */
+.nextCta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 10px 17px;
+  border: 1px solid var(--sa-accent-border);
+  border-radius: var(--sa-radius-lg);
+  background: var(--sa-accent-node-bg);
+  text-decoration: none;
+  transition: border-color var(--sa-dur-ui) var(--sa-ease),
+    background var(--sa-dur-ui) var(--sa-ease), transform var(--sa-dur-ui) var(--sa-ease);
+}
+.nextCta:hover {
+  border-color: var(--sa-accent-node-border);
+  background: var(--sa-accent-soft);
+  transform: translateX(2px);
+}
+.nextCta:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}
+.nextKicker {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-accent-text);
+}
+.nextLabel {
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--sa-ink);
+}
+.nextArrow {
+  display: inline-grid;
+  place-items: center;
+  align-self: center;
+  color: var(--sa-accent-text);
+  transition: transform var(--sa-dur-ui) var(--sa-ease);
+}
+.nextCta:hover .nextArrow {
+  transform: translateX(3px);
+}
+
+.nextDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  font-size: 14.5px;
+  color: var(--sa-ink-subtle);
+}
+.nextCheck {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--sa-radius-pill);
+  background: var(--sa-success-soft);
+  color: var(--sa-success);
+}
+
+/* -- progress ring -------------------------------------------------- */
+.ringWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.ring {
+  display: block;
+}
+.ringPct {
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: 20px;
+  fill: var(--sa-ink);
+}
+.ringCaption {
+  font-family: var(--sa-mono-live, var(--sa-font-mono));
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+
+/* -- milestone trail ------------------------------------------------ */
+.trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 11px;
+  margin: 22px 0 0;
+  padding: 18px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--sa-rule);
+}
+.milestone {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid var(--sa-rule);
+  border-radius: var(--sa-radius-lg);
+  font-size: 13px;
+  line-height: 1.2;
+}
+.mGlyph {
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+}
+.mLabel {
+  font-family: var(--sa-body-live, var(--sa-font-body));
+}
+
+/* tone pairs, straight from the design's semantic set */
+.mDone {
+  border-color: var(--sa-success-border);
+  background: var(--sa-success-soft);
+}
+.mDone .mGlyph {
+  color: var(--sa-success);
+}
+.mDone .mLabel {
+  color: var(--sa-ink-subtle);
+}
+
+.mNext {
+  border-color: var(--sa-accent-border);
+  background: var(--sa-accent-soft);
+}
+.mNext .mGlyph {
+  color: var(--sa-accent-text);
+}
+.mNext .mLabel {
+  color: var(--sa-ink);
+  font-weight: 600;
+}
+
+.mUpcoming .mGlyph {
+  color: var(--sa-ink-ghost);
+}
+.mUpcoming .mLabel {
+  color: var(--sa-ink-faint);
+}
+
+/* -- no-goal prompt ------------------------------------------------- */
+.promptBand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+}
+.promptTitle {
+  margin: 5px 0 0;
+  font-family: var(--sa-display-live, var(--sa-font-display));
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--sa-ink);
+  text-wrap: balance;
+}
+.promptBody {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}
+/* design button grammar: body font 600, 24px pill, accent glow, #6E83FF hover */
+.promptCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 12px 22px;
+  border-radius: 24px;
+  background: var(--sa-accent);
+  color: #ffffff;
+  font-family: var(--sa-body-live, var(--sa-font-body));
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  box-shadow: 0 0 22px rgba(61, 90, 254, 0.35);
+  transition: transform var(--sa-dur-ui) var(--sa-ease),
+    background var(--sa-dur-ui) var(--sa-ease);
+}
+.promptCta:hover {
+  background: var(--sa-accent-hover);
+  transform: translateY(-1px);
+}
+.promptCta:focus-visible {
+  outline: var(--sa-focus-outline);
+  outline-offset: var(--sa-focus-offset);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 560px) {
+  .band {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nextCta,
+  .nextArrow,
+  .promptCta {
+    transition: none;
+  }
+  .nextCta:hover,
+  .promptCta:hover {
+    transform: none;
+  }
+}

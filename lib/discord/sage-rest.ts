@@ -1,5 +1,6 @@
 import { sageLevelOptions, sagePathOptions, type SageLevelKey, type SagePathKey } from './sage-content';
 import { planDiscordRoleRouting, type DiscordRoleRoutingInput, type DiscordRoleRoutingPlan } from './role-routing';
+import { buildSageContentEmbed, type DiscordMessagePayload } from './message-formatting';
 
 const DISCORD_API = 'https://discord.com/api/v10';
 
@@ -129,14 +130,30 @@ export async function applyDiscordRoleRouting(
   return plan;
 }
 
-export async function postToChannelByBaseName(name: string, content: string): Promise<string | null> {
+export async function postMessageToChannelByBaseName(name: string, payload: DiscordMessagePayload): Promise<string | null> {
   const channelId = await findChannelIdByBaseName(name);
   if (!channelId) return null;
   const message = await discordApi<{ id: string }>(`/channels/${channelId}/messages`, {
     method: 'POST',
-    body: JSON.stringify({ content: content.slice(0, 2000) }),
+    body: JSON.stringify(payload),
   });
   return message.id;
+}
+
+export async function postToChannelByBaseName(
+  name: string,
+  content: string,
+  options: { embed?: boolean; title?: string | null; variant?: 'sage' | 'signal' | 'answer' | 'win' | 'warning'; footer?: string | null } = {},
+): Promise<string | null> {
+  if (options.embed) {
+    return postMessageToChannelByBaseName(name, buildSageContentEmbed({
+      title: options.title,
+      body: content,
+      variant: options.variant,
+      footer: options.footer,
+    }));
+  }
+  return postMessageToChannelByBaseName(name, { content: content.slice(0, 2000) });
 }
 
 export async function getRecentChannelMessages(

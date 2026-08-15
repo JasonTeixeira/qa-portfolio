@@ -1,8 +1,9 @@
 'use server';
 
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
+import { attributeReferral } from '@/lib/academy/referrals';
 import { logAudit } from '@/lib/admin-guard';
 import { sendWelcomeEmail } from '@/lib/welcomeEmail';
 import { checkRateLimitFromHeaders } from '@/lib/rate-limit';
@@ -24,13 +25,25 @@ function rateLimitMessage(retryAfterSeconds: number): string {
   return `Too many attempts. Please try again in ${minutes} minute${minutes === 1 ? '' : 's'}.`;
 }
 
+/**
+ * Sanitize a post-auth `next` destination. Only same-origin relative paths are allowed —
+ * absolute URLs and protocol-relative ('//evil.com', '/\evil.com') are rejected so a crafted
+ * login link can't redirect an authenticated user off-site (open-redirect).
+ */
+function safeNext(raw: FormDataEntryValue | null | undefined): string {
+  const v = String(raw ?? '/auth/redirect').trim();
+  if (!v.startsWith('/')) return '/auth/redirect';
+  if (v.startsWith('//') || v.startsWith('/\\')) return '/auth/redirect';
+  return v;
+}
+
 export async function signInWithMagicLink(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!email) redirect('/login?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:magic' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:magic' });
   if (!rl.ok) {
     redirect(`/login?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}&next=${encodeURIComponent(next)}`);
   }
@@ -56,7 +69,7 @@ export async function signInWithMagicLink(formData: FormData): Promise<void> {
 export async function signInWithPassword(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const password = String(formData.get('password') ?? '');
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!email || !password) {
     redirect(
       `/login?error=${encodeURIComponent('Email and password are required.')}&next=${encodeURIComponent(next)}`,
@@ -64,7 +77,7 @@ export async function signInWithPassword(formData: FormData): Promise<void> {
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signin' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signin' });
   if (!rl.ok) {
     redirect(
       `/login?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}&next=${encodeURIComponent(next)}`,
@@ -99,7 +112,7 @@ export async function requestPasswordReset(formData: FormData): Promise<void> {
   if (!email) redirect('/auth/forgot-password?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:reset' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:reset' });
   if (!rl.ok) {
     redirect(`/auth/forgot-password?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -139,7 +152,7 @@ export async function updatePassword(formData: FormData): Promise<void> {
 
 export async function signInWithProvider(formData: FormData): Promise<void> {
   const provider = String(formData.get('provider') ?? '') as Provider;
-  const next = String(formData.get('next') ?? '/auth/redirect');
+  const next = safeNext(formData.get('next'));
   if (!['google', 'github', 'linkedin_oidc'].includes(provider)) {
     redirect('/login?error=invalid_provider');
   }
@@ -171,7 +184,7 @@ export async function signUpWithMagicLink(formData: FormData): Promise<void> {
   if (!email) redirect('/signup?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup-magic' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup-magic' });
   if (!rl.ok) {
     redirect(`/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -227,7 +240,7 @@ export async function signUpWithPassword(formData: FormData): Promise<void> {
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:signup' });
   if (!rl.ok) {
     redirect(`/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -273,7 +286,7 @@ export async function resendVerification(formData: FormData): Promise<void> {
   if (!email) redirect('/onboarding?error=missing_email');
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:resend' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:resend' });
   if (!rl.ok) {
     redirect(`/onboarding?email=${encodeURIComponent(email)}&error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -305,19 +318,19 @@ export async function resendVerification(formData: FormData): Promise<void> {
 export async function signUpAcademy(formData: FormData): Promise<void> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const password = String(formData.get('password') ?? '');
-  const fullName = String(formData.get('full_name') ?? '').trim();
+  const fullName = String(formData.get('full_name') ?? '').trim().slice(0, 200);
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     redirect(`/academy/signup?error=${encodeURIComponent('Enter a valid email address.')}`);
   }
-  if (!password || password.length < 8) {
+  if (!password || password.length < 8 || password.length > 128) {
     redirect(
-      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be at least 8 characters.')}`,
+      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Password must be 8–128 characters.')}`,
     );
   }
 
   const h = await headers();
-  const rl = checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:academy-signup' });
+  const rl = await checkRateLimitFromHeaders(h, { ...AUTH_LIMIT, prefix: 'auth:academy-signup' });
   if (!rl.ok) {
     redirect(`/academy/signup?error=${encodeURIComponent(rateLimitMessage(rl.retryAfterSeconds))}`);
   }
@@ -331,7 +344,10 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
   });
   const alreadyExists = createError != null && /already|exists|registered/i.test(createError.message);
   if (createError && !alreadyExists) {
-    redirect(`/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent(createError.message)}`);
+    console.error('[auth] academy createUser failed', createError);
+    redirect(
+      `/academy/signup?email=${encodeURIComponent(email)}&error=${encodeURIComponent('Could not create your account. Please try again.')}`,
+    );
   }
 
   const supabase = await createSupabaseServerClient();
@@ -357,7 +373,24 @@ export async function signUpAcademy(formData: FormData): Promise<void> {
   }
   if (!alreadyExists) void sendWelcomeEmail({ to: email, fullName }).catch(() => undefined);
 
-  redirect('/academy/dashboard');
+  // Referral attribution: a new learner who arrived via a ?ref code (captured to
+  // the `sage_ref` cookie) is credited to their referrer + paid the welcome bonus.
+  if (!alreadyExists && data.user) {
+    const cookieStore = await cookies();
+    const ref = cookieStore.get('sage_ref')?.value;
+    if (ref) {
+      try {
+        await attributeReferral(data.user.id, ref);
+      } catch (err) {
+        console.error('[auth] referral attribution failed', err);
+      }
+      cookieStore.delete('sage_ref');
+    }
+  }
+
+  // New academy learners go through onboarding (the "understand the game" first run);
+  // returning learners go straight to their dashboard.
+  redirect(alreadyExists ? '/academy/dashboard' : '/academy/onboarding');
 }
 
 export async function signOut(): Promise<void> {

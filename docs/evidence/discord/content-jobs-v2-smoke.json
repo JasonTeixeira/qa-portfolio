@@ -1,0 +1,153 @@
+{
+  "ok": true,
+  "runId": "phase10-content-jobs-1782339012741",
+  "queueId": "b0978bef-75cf-47ba-a6f8-9b90734b03ab",
+  "draftId": "b7f4badd-f6ff-452e-a9c6-afe9b9bca248",
+  "generated": {
+    "ok": true,
+    "draftId": "b7f4badd-f6ff-452e-a9c6-afe9b9bca248",
+    "jobType": "resource_drop",
+    "draftType": "resource_drop",
+    "targetChannelBaseName": "resources",
+    "title": "From Question to Resource: The Approval-Gated Knowledge Capture Workflow",
+    "qualityScore": 90,
+    "sourceIds": [
+      "discord_content_queue:b0978bef-75cf-47ba-a6f8-9b90734b03ab"
+    ],
+    "model": "deepseek-v4-flash",
+    "observability": {
+      "traceId": "af5773a6cf9ffa9cd97d32f34ddc84e2",
+      "observationId": "b3a85cdab13ea365",
+      "provider": "local"
+    }
+  },
+  "draft": {
+    "id": "b7f4badd-f6ff-452e-a9c6-afe9b9bca248",
+    "status": "published",
+    "draft_type": "resource_drop",
+    "target_channel_base_name": "resources",
+    "title": "From Question to Resource: The Approval-Gated Knowledge Capture Workflow",
+    "quality_score": 100,
+    "published_message_id": "1519464724226637825",
+    "metadata": {
+      "phase": 10,
+      "smoke": true,
+      "topic": "approval-gated Discord knowledge capture",
+      "usage": {
+        "total_tokens": 855,
+        "prompt_tokens": 459,
+        "completion_tokens": 396,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 459
+      },
+      "run_id": "phase10-content-jobs-1782339012741",
+      "source": "discord-content-jobs-v2",
+      "job_type": "resource_drop",
+      "source_ids": [
+        "discord_content_queue:b0978bef-75cf-47ba-a6f8-9b90734b03ab"
+      ],
+      "ai_trace_id": "af5773a6cf9ffa9cd97d32f34ddc84e2",
+      "source_refs": [
+        {
+          "id": "S1",
+          "body": "Turn one approved Discord knowledge candidate into a reusable resource drop.\n\nExplain the approval boundary: capture useful member questions, review them, approve only source-grounded material, then turn the source into a concrete action.\n\nA useful Discord content engine captures real questions, queues them for review, approves source-grounded knowledge, and turns the approved source into one action a builder can complete today.",
+          "title": "Turn one approved Discord knowledge candidate into a reusable resource drop.",
+          "recordId": "b0978bef-75cf-47ba-a6f8-9b90734b03ab",
+          "sourceId": "discord_content_queue:b0978bef-75cf-47ba-a6f8-9b90734b03ab",
+          "createdAt": "2026-06-24T22:10:13.255986+00:00",
+          "sourceType": "discord_content_queue",
+          "sourceTable": "discord_content_queue",
+          "qualityScore": 96,
+          "channelBaseName": "resources"
+        }
+      ],
+      "published_at": "2026-06-24T22:10:21.126Z",
+      "published_by": "phase10_content_jobs_v2_smoke",
+      "policy_passed": true,
+      "prompt_version": "sagebot_content_jobs_v2",
+      "quality_gates_v2": [
+        {
+          "key": "expected_type",
+          "passed": true,
+          "reason": "Draft type must be resource_drop."
+        },
+        {
+          "key": "expected_channel",
+          "passed": true,
+          "reason": "Target channel must be resources."
+        },
+        {
+          "key": "source_ids_allowed",
+          "passed": true,
+          "reason": "Every source ID must come from the approved source registry."
+        },
+        {
+          "key": "citation_for_each_source",
+          "passed": true,
+          "reason": "Every selected source must have a citation object."
+        },
+        {
+          "key": "body_cites_sources",
+          "passed": true,
+          "reason": "Body must cite at least one source marker such as [S1]."
+        },
+        {
+          "key": "specific_action",
+          "passed": true,
+          "reason": "Draft must include a concrete action."
+        },
+        {
+          "key": "privacy_guard",
+          "passed": true,
+          "reason": "Draft must not leak private contact data, secrets, or raw internal IDs."
+        },
+        {
+          "key": "policy_gate",
+          "passed": true,
+          "reason": "Policy gate must pass: specific; actionable; sourceGrounded; builderOriented"
+        },
+        {
+          "key": "quality_gate",
+          "passed": true,
+          "reason": "Content quality gate must pass: ok"
+        }
+      ],
+      "quality_score_v2": 90,
+      "ai_observation_id": "b3a85cdab13ea365",
+      "quality_reasons_v2": [],
+      "personality_version": "sagebot-personality-v1",
+      "source_registry_version": "discord-content-jobs-v2",
+      "upstream_prompt_versions": {
+        "answer": "sagebot_answer_v2",
+        "dailySignal": "sagebot_daily_signal_v2",
+        "weeklyRecap": "sagebot_weekly_recap_v2",
+        "quizGenerator": "sagebot_quiz_generator_v2",
+        "challengeGenerator": "sagebot_challenge_generator_v2"
+      },
+      "ai_observability_provider": "local"
+    }
+  },
+  "firstPublish": {
+    "ok": true,
+    "posted": true,
+    "skipped": false,
+    "draftId": "b7f4badd-f6ff-452e-a9c6-afe9b9bca248",
+    "targetChannelBaseName": "resources",
+    "messageId": "1519464724226637825"
+  },
+  "secondPublish": {
+    "ok": true,
+    "posted": false,
+    "skipped": true,
+    "reason": "already_published",
+    "draftId": "b7f4badd-f6ff-452e-a9c6-afe9b9bca248",
+    "targetChannelBaseName": "resources",
+    "messageId": "1519464724226637825"
+  },
+  "cleanedUp": true,
+  "startedAt": "2026-06-24T22:10:12.740Z",
+  "finishedAt": "2026-06-24T22:10:22.019Z"
+}

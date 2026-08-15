@@ -1,0 +1,1208 @@
+SAGE IDEAS DISCORD RAG, ML, AND AI OPERATING SYSTEM MASTER PLAN
+Version: 2026-06-24
+Scope: Sage Ideas Discord, SageBot, RAG, ML scoring, content engine, engagement engine, admin operations, observability, evaluation, and high-end community management.
+
+PURPOSE
+Build Sage Ideas Discord into a world-class education community operating system.
+
+The system should not feel like a Discord with a bot attached. It should feel like a live academy, build lab, coaching layer, content studio, and intelligence dashboard running together.
+
+The final system must:
+1. Keep the server lean and easy to understand.
+2. Approve and route members cleanly.
+3. Know what each member is trying to build.
+4. Answer questions from verified knowledge.
+5. Capture useful questions, answers, builds, reviews, wins, and resources.
+6. Turn community activity into daily posts, quizzes, challenges, recaps, articles, and lessons.
+7. Reward genuinely useful participation.
+8. Detect weak, generic, unsafe, or unsupported AI output before it reaches members.
+9. Give admins one operating dashboard for members, content, approvals, RAG health, jobs, points, challenges, and premium workflows.
+10. Prove quality with tests, evals, traces, evidence files, and live verification.
+
+NORTH STAR
+SageBot should become the operating system for the server:
+
+member joins -> application -> approval -> onboarding -> path/level routing -> first-week checklist -> daily prompt -> quiz/challenge -> project submission -> feedback -> points -> leaderboard -> content queue -> RAG sync -> daily/weekly content -> public growth loop -> improved curriculum
+
+NON-NEGOTIABLE QUALITY BAR
+1. No generic AI content reaches public channels.
+2. Every AI answer cites retrieved source chunks when it claims facts.
+3. Every generated draft passes a quality/eval gate before posting.
+4. Every admin action logs actor, target, timestamp, result, and failure reason.
+5. Every role action is backed by database state or Discord-native approval state.
+6. Every point action has an idempotency key and anti-farming guard.
+7. Every scheduled job is idempotent and visible in admin.
+8. Every failure path writes evidence: log, event row, dead letter, or dashboard warning.
+9. No unapproved member should see free-member channels.
+10. RAG must prefer approved docs/resources/content queue items over random unreviewed chatter.
+11. Community content should come from real member activity, not empty calendar filler.
+12. "Done" means tested, verified, and evidence captured.
+
+CURRENT FOUNDATION IN REPO
+Existing pieces already found in code:
+1. Supabase-backed Discord members, applications, points, quizzes, challenges, content queue, messages, gateway events, content drafts, and RAG tables.
+2. RAG source/document/chunk/retrieval/answer/eval tables in `supabase/migrations/0065_rag_foundation.sql`.
+3. Local embedding pipeline in `lib/rag/embeddings.ts` and `scripts/rag/embed-chunks-local.ts`.
+4. Hybrid RAG retrieval in `lib/rag/retrieval.ts`.
+5. DeepSeek generation wrapper in `lib/rag/deepseek.ts`.
+6. Discord `/ask-sage` command path in `lib/discord/ask-sage.ts`.
+7. Discord message classifier in `lib/discord/message-classifier.ts`.
+8. Content queue automation in `lib/discord/content-queue-automation.ts`.
+9. Content quality evaluator in `lib/discord/content-quality.ts`.
+10. Member intelligence profiles in `lib/discord/member-intelligence.ts`.
+11. Daily planner, news ingestion, weekly recap, quizzes, challenges, premium workflows, and admin review paths.
+12. Gateway worker and message capture foundation.
+13. Native-approved role sync and approved-member onboarding nudges.
+
+KEY SDKS, REPOS, AND TOOLS TO USE
+
+Primary stack to keep:
+1. Next.js / TypeScript
+2. Supabase Postgres + pgvector
+3. DeepSeek for generation
+4. Discord API/Gateway
+5. Current SageBot command and admin dashboard architecture
+
+Add in phases:
+1. Langfuse
+   - Purpose: LLM observability, traces, prompt versions, eval scores, cost/latency tracking.
+   - Docs: https://langfuse.com/docs
+   - Use for: every `/ask-sage`, draft generation, retrieval, eval, content approval, and admin action trace.
+
+2. DeepEval
+   - Purpose: CI-style LLM/RAG tests.
+   - Docs: https://deepeval.com/
+   - Use for: answer correctness, hallucination, contextual relevance, tone/personality, content quality regression tests.
+
+3. Ragas
+   - Purpose: RAG retrieval/answer metrics.
+   - Docs: https://docs.ragas.io/
+   - Use for: context precision, context recall, faithfulness, response relevance, noise sensitivity.
+
+4. Vercel AI SDK
+   - Purpose: TypeScript model abstraction, tools, telemetry, streaming, provider switching.
+   - Docs: https://ai-sdk.dev/docs/introduction
+   - Use for: unifying DeepSeek calls, future model fallback, structured generation, and trace metadata.
+
+5. Zod structured outputs
+   - Purpose: strict schemas for AI-generated quizzes, challenges, drafts, profile updates, classifications, and content queue items.
+   - Already installed.
+   - Use for: every AI output that becomes database state.
+
+6. Instructor.js or equivalent structured-output helper
+   - Purpose: typed LLM JSON extraction with validation/retry ergonomics.
+   - Repo: https://github.com/567-labs/instructor-js
+   - Use only if Zod + direct DeepSeek JSON handling becomes too repetitive.
+
+7. LlamaIndex.TS
+   - Purpose: advanced TypeScript RAG ingestion/query abstractions.
+   - Docs: https://developers.llamaindex.ai/typescript/framework/
+   - Use selectively for document ingestion, metadata extraction, and query workflows if the corpus grows beyond current scripts.
+
+8. LangGraph
+   - Purpose: durable stateful agent workflows and human-in-the-loop orchestration.
+   - Docs: https://docs.langchain.com/oss/python/langgraph/overview
+   - Use later, only if multi-step agent workflows become complex enough to justify it.
+
+9. Trigger.dev
+   - Purpose: TypeScript-native background jobs, retries, scheduled tasks, long-running AI workflows.
+   - Docs: https://trigger.dev/
+   - Recommended first durable job runner for this repo.
+
+10. Temporal TypeScript SDK
+   - Purpose: strongest durable execution model.
+   - Docs: https://docs.temporal.io/develop/typescript
+   - Use later if Trigger.dev is not enough for resume/retry/human approval workflows.
+
+11. BullMQ
+   - Purpose: Redis queue, rate limits, repeatable jobs.
+   - Docs: https://docs.bullmq.io/
+   - Use only if self-managed queue control is preferred over Trigger.dev.
+
+12. Sentry and OpenTelemetry
+   - Purpose: app errors, traces, metrics.
+   - Sentry is already installed.
+   - Use alongside Langfuse: Sentry for app failures, Langfuse for LLM behavior.
+
+ARCHITECTURE DECISION
+Do not rewrite the system into Haystack, RAGFlow, or a Python-first stack right now.
+
+Decision:
+Keep the current TypeScript/Supabase/Discord architecture and add the missing quality, eval, observability, and workflow layers.
+
+Reason:
+1. The current repo already has working Discord, Supabase, RAG, DeepSeek, commands, admin dashboard, and smoke tests.
+2. A rewrite would delay the actual operating system.
+3. The biggest gap is not framework choice. The gap is proof, observability, evals, reranking, personality, and workflow hardening.
+
+Allowed exceptions:
+1. Use Python-only tooling only if it produces clear eval artifacts and does not become the main runtime.
+2. Use LangGraph/Temporal only when the simpler TypeScript job runner becomes insufficient.
+
+PHASE MODEL
+To build this correctly, use 15 phases.
+
+Each phase has:
+1. Objective
+2. Deliverables
+3. Implementation instructions
+4. Data model changes
+5. Tests
+6. Proof/evidence
+7. Exit criteria
+8. Stop conditions
+
+Do not move to the next phase until exit criteria pass or the remaining gap is explicitly accepted.
+
+PHASE 0: BASELINE, LOCKFILE, AND CURRENT STATE PROOF
+Objective:
+Freeze the current known-good state before adding new SDKs and intelligence layers.
+
+Deliverables:
+1. Current architecture map.
+2. Current command inventory.
+3. Current database table/migration inventory.
+4. Current RAG corpus inventory.
+5. Current Discord member/access audit.
+6. Current smoke/evidence index.
+7. Baseline scores for every category.
+
+Implementation instructions:
+1. Run `git status --short` and document unrelated dirty files.
+2. Run current Discord proof commands:
+   - `npm run discord:approval-audit`
+   - `npm run discord:role-sync`
+   - `npm run discord:smoke`
+3. Run current RAG proof commands:
+   - `npm run rag:migration-check`
+   - `npm run rag:sync-sources`
+   - `npm run rag:chunk`
+   - `npm run rag:embed`
+   - `npm run rag:smoke-retrieval`
+   - `npm run rag:smoke-answer`
+4. Run current quality gates:
+   - `npm run typecheck`
+   - `npm run test:unit`
+   - `npm run build`
+5. Write evidence to `docs/evidence/discord-ai-os/phase-0-baseline.json`.
+
+Tests:
+1. All existing unit tests pass.
+2. Existing RAG smoke tests pass.
+3. Existing Discord smoke tests pass.
+
+Proof:
+1. Evidence file contains command, timestamp, pass/fail, and key output summary.
+2. No claims are made without command output.
+
+Exit criteria:
+1. Baseline is documented.
+2. Current gaps are explicitly listed.
+3. Dirty files are identified as related or unrelated.
+
+Stop conditions:
+1. RAG corpus cannot sync.
+2. Discord approval audit fails.
+3. Unit tests fail from unrelated work.
+
+PHASE 1: OBSERVABILITY FOUNDATION WITH LANGFUSE AND SENTRY DISCIPLINE
+Objective:
+Make every AI and bot workflow traceable.
+
+Deliverables:
+1. Langfuse installed and configured.
+2. Environment variables documented:
+   - `LANGFUSE_PUBLIC_KEY`
+   - `LANGFUSE_SECRET_KEY`
+   - `LANGFUSE_BASEURL`
+3. LLM trace wrapper for DeepSeek calls.
+4. RAG trace wrapper for retrieval.
+5. Discord operation trace events.
+6. Admin-visible trace IDs on generated drafts and RAG answers.
+7. Evidence file proving one traced `/ask-sage` and one traced content draft.
+
+Implementation instructions:
+1. Install Langfuse SDK.
+2. Add `lib/ai/observability.ts`.
+3. Wrap:
+   - `deepSeekChat`
+   - `retrieveRagChunks`
+   - `answerRagQuestion`
+   - daily planner generation
+   - quiz/challenge generation
+   - content quality evaluation
+4. Persist trace IDs in:
+   - `rag_retrieval_logs.metadata.langfuse_trace_id`
+   - `rag_answers.metadata.langfuse_trace_id`
+   - `discord_content_drafts.metadata.langfuse_trace_id`
+   - `discord_events.metadata.langfuse_trace_id`
+5. Add no-op mode when env vars are absent so local tests do not fail.
+
+Data model changes:
+1. Prefer JSON metadata fields first.
+2. Add dedicated columns only if queries need them.
+
+Tests:
+1. Unit test no-op observability when env missing.
+2. Unit test trace payload builder redacts secrets.
+3. Smoke traced `/ask-sage`.
+4. Smoke traced daily draft generation.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-1-observability.json`
+2. Include trace IDs, answer IDs, draft IDs, and command outputs.
+
+Exit criteria:
+1. Every AI path can produce a trace ID.
+2. Missing Langfuse env does not break tests.
+3. No secrets appear in evidence.
+
+Stop conditions:
+1. SDK forces browser-only behavior.
+2. Trace wrapper leaks prompts with sensitive user data into public logs.
+
+PHASE 2: RAG EVALUATION HARNESS
+Objective:
+Stop guessing if RAG works. Measure it.
+
+Deliverables:
+1. Golden eval question set seeded into `rag_eval_questions`.
+2. Eval runner script.
+3. Metrics:
+   - retrieval hit rate
+   - citation coverage
+   - answer faithfulness
+   - answer groundedness
+   - context precision
+   - answer usefulness
+   - refusal correctness when context is missing
+4. CI-friendly command:
+   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
+5. Smoke command:
+   - `npm run rag:evaluate:smoke`
+6. Evidence file for eval run.
+
+Implementation instructions:
+1. Create 50 initial eval questions:
+   - 10 onboarding/access/rules questions
+   - 10 content engine questions
+   - 10 quiz/challenge/points questions
+   - 10 premium workflow questions
+   - 10 RAG/AI/build education questions
+2. Each eval question must include:
+   - `eval_key`
+   - `question`
+   - expected source types
+   - expected source titles or source keys
+   - expected answer notes
+   - tags
+3. Create `scripts/rag/evaluate-rag.ts`.
+4. Use current `answerRagQuestion` first.
+5. Persist:
+   - `rag_eval_runs`
+   - `rag_eval_results`
+6. Add scoring without external LLM first.
+7. Add DeepEval/Ragas integration after deterministic metrics pass.
+
+SDK choices:
+1. First pass: TypeScript deterministic evaluator.
+2. Second pass: DeepEval and Ragas, possibly via Python script or Node subprocess if needed.
+
+Tests:
+1. Unit test eval scoring functions.
+2. Smoke test 3 questions.
+3. Full eval test over 50 questions.
+4. Regression threshold test:
+   - retrieval hit rate >= 85%
+   - citation coverage >= 80%
+   - hallucination/unsupported answer rate <= 5%
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-2-rag-eval.json`
+2. Store failing examples.
+3. Store top missed sources.
+
+Exit criteria:
+1. Full eval suite runs repeatably.
+2. Failures are visible and actionable.
+3. `/ask-sage` cannot be considered improved unless eval score improves.
+
+Stop conditions:
+1. Eval data is too vague to score.
+2. Eval runner mutates live user content.
+
+PHASE 3: RAG RETRIEVAL UPGRADE WITH RERANKING AND QUERY REWRITING
+Objective:
+Improve answer quality by improving what context reaches DeepSeek.
+
+Deliverables:
+1. Query normalization and rewrite layer.
+2. Multi-query retrieval option.
+3. Reranking layer over top 20 chunks.
+4. Source priority policy.
+5. Admin/debug view of retrieved chunks.
+6. Eval comparison:
+   - before vs after reranking
+   - before vs after query rewrite
+
+Implementation instructions:
+1. Add `lib/rag/query-planning.ts`.
+2. Add `lib/rag/reranking.ts`.
+3. Retrieval flow:
+   - normalize query
+   - detect intent
+   - optionally rewrite into 2-3 search queries
+   - retrieve top 20 hybrid chunks
+   - rerank to top 5-8
+   - answer only from selected chunks
+4. Source priority:
+   - highest: approved docs, runbooks, rules, approved resources
+   - high: approved content queue resources, featured challenge writeups
+   - medium: high-quality Discord Q/A marked helpful
+   - low: raw captured messages
+   - excluded: unapproved chatter, deleted, ignored, low quality, moderation-sensitive content
+5. Add metadata to retrieval logs:
+   - original_query
+   - rewritten_queries
+   - reranker_version
+   - source_priority_policy
+   - selected_source_types
+
+SDK choices:
+1. Start deterministic/rule reranker.
+2. Add local cross-encoder or hosted reranker only after baseline improves.
+3. Consider Cohere/Jina/Voyage rerankers only if cost and privacy are acceptable.
+
+Tests:
+1. Unit tests for query planner.
+2. Unit tests for source priority.
+3. Unit tests for reranker ordering.
+4. RAG eval before/after comparison.
+5. Smoke `/ask-sage` answer with citations.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-3-reranking.json`
+2. Include eval delta.
+
+Exit criteria:
+1. Retrieval hit rate improves or stays stable.
+2. Citation coverage improves or stays stable.
+3. No increase in unsupported answer rate.
+
+Stop conditions:
+1. Reranker makes answers worse.
+2. Query rewrite introduces unsupported meaning.
+
+PHASE 4: SAGEBOT PERSONALITY KERNEL AND RESPONSE POLICY
+Objective:
+Make SageBot feel consistent, useful, high-grade, and specific.
+
+Deliverables:
+1. Versioned SageBot personality spec.
+2. Response policy:
+   - concise teaching style
+   - direct but respectful tone
+   - evidence-first claims
+   - no generic hype
+   - no fake certainty
+   - asks for missing context when needed
+   - refuses unsupported RAG claims
+3. Prompt version registry.
+4. Tone/personality eval tests.
+5. Admin toggle to view prompt version on answers/drafts.
+
+Implementation instructions:
+1. Add `lib/discord/sagebot-personality.ts`.
+2. Add `docs/SAGEBOT_PERSONALITY_KERNEL.txt`.
+3. Define prompt versions:
+   - `sagebot_answer_v2`
+   - `sagebot_daily_signal_v2`
+   - `sagebot_quiz_generator_v2`
+   - `sagebot_challenge_generator_v2`
+   - `sagebot_weekly_recap_v2`
+4. Add output rubric:
+   - specific
+   - actionable
+   - source-grounded
+   - builder-oriented
+   - not preachy
+   - not filler
+   - not engagement bait
+5. Store prompt version in all generated outputs.
+
+Tests:
+1. Unit tests for prompt assembly.
+2. Snapshot tests for response policy.
+3. Eval tests for bad responses:
+   - generic answer
+   - unsupported answer
+   - too long answer
+   - condescending answer
+   - no action answer
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-4-personality-kernel.json`
+
+Exit criteria:
+1. Every AI path has a prompt version.
+2. Every public post path has quality/tone scoring.
+3. SageBot responses feel consistent across `/ask-sage`, `/daily`, `/quiz`, `/challenge`, and recaps.
+
+Stop conditions:
+1. Personality prompt becomes huge and degrades retrieval.
+2. Tone rules override factual accuracy.
+
+PHASE 5: STRUCTURED OUTPUTS AND AI CONTRACTS
+Objective:
+No AI prose should become database state without validation.
+
+Deliverables:
+1. Zod schemas for:
+   - RAG answer
+   - daily signal draft
+   - quiz
+   - challenge
+   - weekly recap
+   - content queue item
+   - member profile insight
+   - moderation classification
+2. Structured generation helper.
+3. Retry-on-invalid with strict cap.
+4. Failure rows when validation fails.
+5. Admin view for invalid AI outputs.
+
+Implementation instructions:
+1. Add `lib/ai/structured-output.ts`.
+2. Add `lib/discord/schemas.ts`.
+3. Force model output format where DeepSeek supports JSON.
+4. Parse and validate with Zod.
+5. Store validation error in metadata/dead-letter table.
+6. Never post invalid structured output.
+
+Tests:
+1. Unit tests for every schema.
+2. Invalid output rejection tests.
+3. Retry cap tests.
+4. Smoke generation for quiz/challenge/daily signal.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-5-structured-outputs.json`
+
+Exit criteria:
+1. All generated object-like content validates before persistence.
+2. Invalid AI output is visible and blocked.
+
+Stop conditions:
+1. Schema is too loose to catch bad output.
+2. Retry loop can run indefinitely.
+
+PHASE 6: CONTENT OPERATING SYSTEM V2
+Objective:
+Make the server produce useful content from real activity every day.
+
+Deliverables:
+1. Content source taxonomy.
+2. Content queue scoring v2.
+3. Daily content planner v2.
+4. Weekly theme manager.
+5. Admin content calendar.
+6. Content lifecycle:
+   - captured
+   - candidate
+   - enriched
+   - drafted
+   - evaluated
+   - approved
+   - published
+   - archived
+   - synced_to_rag
+7. Generated assets:
+   - Discord post
+   - article outline
+   - social post
+   - resource card
+   - lesson idea
+   - quiz
+   - challenge
+
+Implementation instructions:
+1. Extend `discord_content_queue` workflow.
+2. Add content queue status transitions.
+3. Add admin actions:
+   - enrich with RAG
+   - draft Discord post
+   - draft article
+   - draft social
+   - approve
+   - reject
+   - sync to RAG
+4. Add source-first rule:
+   - every generated content asset links back to source message/question/project/resource.
+5. Add quality rule:
+   - public posting requires approved draft and passing eval.
+
+Tests:
+1. Unit tests for queue scoring.
+2. Unit tests for lifecycle transitions.
+3. Smoke: captured message -> queue item -> draft -> eval -> approval -> publish.
+4. Playwright admin content queue workflow.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-6-content-os-v2.json`
+
+Exit criteria:
+1. At least one real or seeded source becomes a draft and passes approval.
+2. No unapproved queue item enters authoritative RAG.
+3. Admin can see why content was recommended.
+
+Stop conditions:
+1. Generated content has no source link.
+2. Admin cannot reject or edit drafts.
+
+PHASE 7: MEMBER INTELLIGENCE V2 AND NEXT-BEST-ACTION ENGINE
+Objective:
+Know members well enough to route, nudge, reward, and support them.
+
+Deliverables:
+1. Member profile v2.
+2. Member segments:
+   - new_unactivated
+   - approved_default_route
+   - onboarded_inactive
+   - active_builder
+   - helper
+   - project_submitter
+   - premium_candidate
+   - premium_member
+   - at_risk
+3. Next-best-action engine.
+4. Admin member profile page.
+5. Member nudge job.
+6. Privacy controls for profile data.
+
+Implementation instructions:
+1. Extend `discord_member_intelligence_profiles`.
+2. Add computed features:
+   - days since approval
+   - onboarding completion
+   - path/level
+   - questions asked
+   - answers given
+   - helpful answers
+   - points earned
+   - challenges attempted
+   - projects submitted
+   - last activity
+   - premium interest
+3. Add `lib/discord/member-next-action.ts`.
+4. Add nudge types:
+   - run_onboard
+   - ask_first_question
+   - submit_first_build
+   - attempt_quiz
+   - submit_challenge
+   - help_answer_question
+   - consider_premium_review
+5. Add caps:
+   - no more than one public nudge per user per 24 hours
+   - no more than one DM per user per 72 hours
+
+Tests:
+1. Unit tests for segmentation.
+2. Unit tests for next-best-action.
+3. Smoke rebuild member intelligence.
+4. Smoke nudge job idempotency.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-7-member-intelligence-v2.json`
+
+Exit criteria:
+1. Every approved member gets a segment and next best action.
+2. Admin can see stuck members.
+3. Nudges are idempotent and not spammy.
+
+Stop conditions:
+1. Member profile stores unnecessary private information.
+2. Nudges annoy members or repeat too often.
+
+PHASE 8: QUIZ, CHALLENGE, AND LEARNING ENGINE V2
+Objective:
+Make daily interaction genuinely educational and rewarding.
+
+Deliverables:
+1. RAG-grounded quiz generator.
+2. RAG-grounded challenge generator.
+3. Difficulty progression by level.
+4. Path-specific learning prompts.
+5. Anti-farming point rules.
+6. Explanation feedback for quiz answers.
+7. Challenge rubric and admin review.
+8. Weekly challenge winner workflow.
+
+Implementation instructions:
+1. Generate quizzes from:
+   - approved resources
+   - recent high-quality Q/A
+   - current weekly theme
+   - path/level context
+2. Generate challenges from:
+   - member needs
+   - recurring questions
+   - content calendar
+   - RAG source material
+3. Use strict schemas.
+4. Quality eval blocks weak quizzes/challenges.
+5. Points only award after:
+   - correct first quiz attempt
+   - approved challenge
+   - helpful answer marked by admin/member threshold
+
+Tests:
+1. Unit tests for generated quiz schema.
+2. Unit tests for challenge scoring.
+3. Anti-farming tests.
+4. Smoke quiz/challenge generator.
+5. Smoke approved-member slash flows.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-8-learning-engine-v2.json`
+
+Exit criteria:
+1. Generated quiz/challenge is source-grounded.
+2. Duplicate attempts cannot farm points.
+3. Challenge reviews feed wins-showcase and content queue.
+
+Stop conditions:
+1. Quiz answer is ambiguous.
+2. Challenge is generic or not buildable.
+
+PHASE 9: ADMIN OPERATING COCKPIT
+Objective:
+Give the owner/admin one place to run the server.
+
+Deliverables:
+1. Discord Ops dashboard.
+2. Tabs:
+   - Overview
+   - Members
+   - Applications
+   - Onboarding
+   - RAG Health
+   - Eval Runs
+   - Content Queue
+   - Drafts
+   - Quizzes
+   - Challenges
+   - Points
+   - Leaderboard
+   - Premium
+   - Jobs
+   - Alerts
+   - Settings
+3. One-click actions:
+   - sync roles
+   - nudge stuck members
+   - run RAG sync
+   - run RAG eval
+   - generate daily draft
+   - approve/reject draft
+   - publish approved draft
+   - rebuild member intelligence
+   - create weekly recap
+   - feature challenge submission
+   - reverse bad point award
+4. Every action logs actor/result.
+
+Implementation instructions:
+1. Extend `/admin/discord`.
+2. Add server actions with admin auth.
+3. Add status cards:
+   - approved members
+   - stuck onboarding
+   - RAG chunks
+   - eval score
+   - pending drafts
+   - failed jobs
+   - content queue size
+   - weekly points
+4. Add empty states that explain exactly what is missing.
+
+Tests:
+1. Server component smoke.
+2. Server action auth tests.
+3. Playwright admin dashboard smoke.
+4. Playwright action smoke for one non-destructive action.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-9-admin-cockpit.json`
+2. Screenshots if UI changes are material.
+
+Exit criteria:
+1. Admin can operate the server without jumping between Discord, Supabase, and logs for common actions.
+2. Failed jobs and eval failures are visible.
+
+Stop conditions:
+1. Mutating actions lack auth.
+2. Dashboard invents metrics instead of reading live data.
+
+PHASE 10: DURABLE JOB RUNNER AND WORKFLOW HARDENING
+Objective:
+Make daily/weekly jobs and AI workflows reliable at scale.
+
+Deliverables:
+1. Job runner decision:
+   - recommended first: Trigger.dev
+   - later if needed: Temporal
+2. Durable workflows:
+   - daily draft generation
+   - daily approved publish
+   - news ingestion
+   - quiz generation
+   - challenge generation
+   - weekly leaderboard snapshot
+   - weekly recap draft
+   - member intelligence rebuild
+   - RAG sync
+   - RAG eval
+   - content queue enrichment
+3. Retry/backoff policy.
+4. Dead-letter policy.
+5. Job dashboard integration.
+
+Implementation instructions:
+1. Start with current Vercel cron endpoints.
+2. Add durable job abstraction:
+   - job key
+   - idempotency key
+   - lease/lock
+   - status
+   - retries
+   - error
+   - trace id
+3. Migrate high-value jobs to Trigger.dev if Vercel cron is too shallow.
+4. Keep publish actions approval-gated.
+
+Tests:
+1. Unit tests for idempotency keys.
+2. Smoke job run.
+3. Duplicate job run test.
+4. Failure/dead-letter test.
+5. Dashboard failed-job visibility test.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-10-durable-jobs.json`
+
+Exit criteria:
+1. Duplicate scheduled runs do not duplicate posts.
+2. Failed runs are visible.
+3. Retried jobs preserve trace context.
+
+Stop conditions:
+1. Job runner posts publicly without approval.
+2. Failed jobs disappear silently.
+
+PHASE 11: DISCORD GATEWAY AND REAL-TIME COMMUNITY INTELLIGENCE
+Objective:
+Make live message/reaction/thread activity feed the operating system safely.
+
+Deliverables:
+1. Gateway worker production health.
+2. Message capture proof.
+3. Reaction capture proof.
+4. Thread capture proof.
+5. Message classifier production job.
+6. Question/answer linking.
+7. Helpful-answer candidate detection.
+8. Moderation/safety candidate detection.
+
+Implementation instructions:
+1. Confirm Message Content Intent remains enabled.
+2. Confirm gateway worker heartbeat writes.
+3. Confirm dead letters work.
+4. Classify captured messages.
+5. Route classifications:
+   - question -> questions table/content queue
+   - answer -> answer table/helpful candidate
+   - resource -> resource candidate
+   - project -> project candidate
+   - win -> wins content candidate
+   - spam/low quality -> moderation candidate
+6. Never auto-promote raw messages into authoritative RAG without review.
+
+Tests:
+1. Gateway smoke with message content.
+2. Classifier smoke.
+3. Content queue smoke.
+4. Dead-letter smoke.
+5. Rate limit test.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-11-gateway-intelligence.json`
+
+Exit criteria:
+1. Real Discord message appears in database.
+2. Classification row appears.
+3. Useful item enters content queue.
+4. Admin can approve or reject.
+
+Stop conditions:
+1. Gateway disconnects without reconnect.
+2. Message content intent fails.
+3. Private/sensitive content is promoted into public workflows.
+
+PHASE 12: PREMIUM INTELLIGENCE AND HIGH-TOUCH WORKFLOWS
+Objective:
+Make premium feel clearly better without hurting free member experience.
+
+Deliverables:
+1. Premium review workflow.
+2. Premium deeper answer workflow.
+3. Office-hours queue.
+4. Premium member dashboard view.
+5. Premium response SLA tracking.
+6. Premium content ideas from recurring premium needs.
+7. Stripe role sync proof.
+
+Implementation instructions:
+1. Premium answers use:
+   - RAG retrieval
+   - deeper implementation structure
+   - risks
+   - next steps
+   - citations
+2. Premium reviews require:
+   - submitted artifact
+   - requested review type
+   - status
+   - admin response
+   - optional content queue candidate
+3. Keep premium role independent from path/level roles.
+
+Tests:
+1. Premium workflow smoke.
+2. Stripe webhook role sync smoke.
+3. Premium authorization tests.
+4. Office-hours queue tests.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-12-premium-intelligence.json`
+
+Exit criteria:
+1. Premium member can request deeper review.
+2. Non-premium member cannot access premium-only workflows.
+3. Stripe role sync is proven.
+
+Stop conditions:
+1. Premium bypasses approval or safety gates.
+2. Premium promise is vague or not visible.
+
+PHASE 13: PUBLIC GROWTH AND CONTENT REPURPOSING LOOP
+Objective:
+Turn Discord activity into public proof and acquisition.
+
+Deliverables:
+1. Public Discord landing page.
+2. Public weekly recap page or archive.
+3. Approved wins/showcase feed.
+4. Article/social draft generator from approved content queue.
+5. Newsletter draft generator.
+6. Public content approval workflow.
+7. Growth metrics:
+   - join applications
+   - approval rate
+   - onboard completion
+   - active members
+   - content queue output
+   - public posts generated
+
+Implementation instructions:
+1. Use approved source material only.
+2. Never expose private member info without explicit approval.
+3. Generate platform-native drafts:
+   - website article
+   - X post/thread
+   - LinkedIn post
+   - newsletter item
+4. Require admin approval before publishing externally.
+
+Tests:
+1. Content privacy tests.
+2. Draft generation tests.
+3. Admin approval tests.
+4. Public page Playwright smoke.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-13-growth-loop.json`
+
+Exit criteria:
+1. At least one approved Discord source becomes a public draft.
+2. Public draft includes source provenance.
+3. No private member data leaks.
+
+Stop conditions:
+1. External publishing happens without explicit approval.
+2. Content is generic or detached from source material.
+
+PHASE 14: LOAD, SECURITY, PRIVACY, AND FAILURE TESTING
+Objective:
+Prove the system can survive growth and failure.
+
+Deliverables:
+1. Load test plan.
+2. Discord API rate-limit plan.
+3. Supabase query performance review.
+4. RLS/security review.
+5. Secrets review.
+6. Privacy/data retention policy.
+7. Backup/export plan.
+8. Incident runbook.
+9. Rollback plan.
+
+Implementation instructions:
+1. Simulate:
+   - 100 members
+   - 1,000 members
+   - 5,000 members
+   - high message volume
+   - repeated slash commands
+   - duplicated cron runs
+   - Discord API 429
+   - Supabase failure
+   - DeepSeek failure
+   - Langfuse failure
+2. Confirm graceful degradation:
+   - no duplicate points
+   - no duplicate posts
+   - no leaked pending member access
+   - no crash loop without alert
+3. Review all env vars and logs for secrets.
+
+Tests:
+1. Unit failure tests.
+2. Worker failure tests.
+3. Job idempotency tests.
+4. RLS tests.
+5. Build and Playwright smoke.
+6. Security review checklist.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-14-load-security-failure.json`
+
+Exit criteria:
+1. System fails visibly, not silently.
+2. Duplicate events are safe.
+3. Secrets are not logged.
+4. Admin has a runbook for incidents.
+
+Stop conditions:
+1. RLS gaps expose member data.
+2. Failed jobs can post stale content.
+3. Rate limits can crash the worker.
+
+PHASE 15: SCORECARD, WORLD-CLASS POLISH, AND OPERATING RHYTHM
+Objective:
+Turn the build into a repeatable operating system, not a one-time project.
+
+Deliverables:
+1. Final scorecard.
+2. Weekly admin checklist.
+3. Monthly system review.
+4. Quarterly RAG/eval refresh.
+5. Content strategy operating rhythm.
+6. Member activation operating rhythm.
+7. Premium operating rhythm.
+8. Continuous improvement backlog.
+
+Score categories:
+1. Server structure and clarity
+2. Approval and onboarding
+3. Role routing
+4. RAG retrieval quality
+5. Answer faithfulness
+6. SageBot personality
+7. Content engine
+8. Quiz/challenge learning engine
+9. Leaderboard and rewards
+10. Member intelligence
+11. Admin dashboard
+12. Job reliability
+13. Observability
+14. Evaluation coverage
+15. Premium workflows
+16. Growth loop
+17. Security/privacy
+18. Scale readiness
+
+Target scores:
+1. Minimum acceptable: 85/100
+2. High quality: 92/100
+3. World-class target: 95-99/100
+4. Never claim 100/100 unless there is ongoing production proof at real scale.
+
+Weekly operating checklist:
+1. Review new applications.
+2. Approve/reject pending members.
+3. Check stuck onboarding members.
+4. Review content queue.
+5. Approve/reject daily/weekly drafts.
+6. Review failed jobs.
+7. Review RAG eval failures.
+8. Feature one strong member build or answer.
+9. Check leaderboard anomalies.
+10. Update content calendar.
+
+Monthly operating checklist:
+1. Refresh RAG sources.
+2. Add new eval questions from real failures.
+3. Review top questions and unanswered topics.
+4. Review premium conversion and premium requests.
+5. Review member churn/inactivity.
+6. Review top content outputs.
+7. Update personality/prompt versions only with eval proof.
+
+Tests:
+1. Full command gate:
+   - `npm run typecheck`
+   - `npm run test:unit`
+   - `npm run build`
+   - `npm run discord:smoke`
+   - `npm run discord:approval-audit`
+   - `npm run rag:smoke-retrieval`
+   - `npm run rag:smoke-answer`
+   - `SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing`
+2. Admin Playwright smoke.
+3. Discord live smoke where possible.
+
+Proof:
+1. `docs/evidence/discord-ai-os/phase-15-final-scorecard.json`
+2. Final category scores with command evidence.
+
+Exit criteria:
+1. All categories >= 95 except explicitly blocked external/live-scale items.
+2. Every remaining gap has owner, blocker, and next action.
+3. Operating rhythm is documented and usable.
+
+GLOBAL BUILD ORDER
+1. Phase 0: Baseline and current proof.
+2. Phase 1: Langfuse observability.
+3. Phase 2: RAG eval harness.
+4. Phase 3: Reranking/query rewriting.
+5. Phase 4: SageBot personality kernel.
+6. Phase 5: Structured outputs.
+7. Phase 6: Content OS v2.
+8. Phase 7: Member intelligence v2.
+9. Phase 8: Learning engine v2.
+10. Phase 9: Admin cockpit.
+11. Phase 10: Durable jobs.
+12. Phase 11: Gateway intelligence.
+13. Phase 12: Premium intelligence.
+14. Phase 13: Public growth loop.
+15. Phase 14: Load/security/failure testing.
+16. Phase 15: Final scorecard and operating rhythm.
+
+DEPENDENCY INSTALL PLAN
+Install only when entering the relevant phase.
+
+Phase 1:
+1. Langfuse SDK.
+2. No hard dependency on Langfuse env in tests.
+
+Phase 2:
+1. DeepEval/Ragas support.
+2. Prefer isolated eval script if Python dependencies are needed.
+3. Do not add heavy Python runtime to production app unless necessary.
+
+Phase 3:
+1. No reranker SDK at first.
+2. Add hosted/local reranker only after deterministic baseline.
+
+Phase 5:
+1. Zod already installed.
+2. Instructor.js optional only if schema handling becomes repetitive.
+
+Phase 10:
+1. Trigger.dev first if durable jobs are needed.
+2. Temporal only if workflows require stronger resume semantics.
+3. BullMQ only if choosing Redis/self-managed queues.
+
+MINIMUM COMMAND GATE PER PHASE
+Every phase must run:
+1. `npm run typecheck`
+2. `npm run test:unit`
+3. Relevant smoke command
+4. `npm run build` if app/admin/UI changed
+5. Playwright smoke if admin/public UI changed
+6. Evidence JSON validation
+7. `git diff` review
+
+EVIDENCE RULE
+Every phase writes a JSON evidence file in:
+`docs/evidence/discord-ai-os/`
+
+Evidence file must include:
+1. phase
+2. timestamp
+3. git commit or working tree note
+4. commands run
+5. command results
+6. live mutations performed
+7. created records
+8. deleted cleanup records
+9. external blockers
+10. remaining gaps
+
+QUALITY SCORE RULE
+Scores are earned, not asserted.
+
+Score requirements:
+1. 70-79: implemented but weak proof.
+2. 80-89: implemented with tests and smoke proof.
+3. 90-94: implemented, tested, observable, admin-visible, idempotent.
+4. 95-99: implemented, tested, observable, admin-visible, idempotent, live-proven, eval-covered, failure-tested.
+5. 100: avoid claiming. Real production systems keep residual risk.
+
+WHAT TO BUILD FIRST
+Start with Phase 0, then Phase 1 and Phase 2.
+
+Reason:
+1. Without baseline, we cannot prove improvement.
+2. Without observability, we cannot debug the AI system.
+3. Without evals, we cannot know whether RAG, personality, reranking, and content generation are actually better.
+
+FIRST THREE PHASES IN DETAIL
+
+Phase 0 first-day actions:
+1. Create `docs/evidence/discord-ai-os/`.
+2. Run baseline commands.
+3. Capture current scores.
+4. List current blockers.
+5. Commit only scoped baseline docs/evidence if clean.
+
+Phase 1 first-day actions:
+1. Install Langfuse SDK.
+2. Add no-op trace adapter.
+3. Wrap DeepSeek call.
+4. Wrap RAG retrieval and answer generation.
+5. Smoke `/ask-sage`.
+6. Confirm trace metadata persists.
+
+Phase 2 first-day actions:
+1. Seed first 25 eval questions.
+2. Build deterministic eval runner.
+3. Run eval against current RAG.
+4. Add failing cases to evidence.
+5. Set thresholds.
+
+FINAL DONE DEFINITION
+The system is not "ultimate" because it has more features. It is high-end when:
+1. Members know exactly what to do next.
+2. Admins know exactly what is happening.
+3. SageBot answers from trusted sources.
+4. Generated content is specific and useful.
+5. Bad output is blocked before public posting.
+6. Useful participation is rewarded fairly.
+7. Real community activity becomes reusable content and curriculum.
+8. Jobs are reliable and observable.
+9. The dashboard exposes failures.
+10. Evals prevent regressions.
+11. The server can scale without becoming noisy or chaotic.

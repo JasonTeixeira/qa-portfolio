@@ -1,0 +1,38 @@
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1140px;
+  margin: 0 auto 1.4rem;
+  padding: 1.1rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+.action {
+  background: linear-gradient(180deg, rgba(61, 107, 255, 0.1), rgba(255, 255, 255, 0.008));
+  border-color: color-mix(in srgb, #3d6bff 38%, transparent);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.action:hover { transform: translateY(-2px); border-color: color-mix(in srgb, #3d6bff 65%, transparent); }
+.done {
+  background: linear-gradient(180deg, rgba(45, 212, 191, 0.1), rgba(255, 255, 255, 0.008));
+  border-color: color-mix(in srgb, #2dd4bf 38%, transparent);
+}
+.glyph {
+  flex-shrink: 0; width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: 10px; background: rgba(255, 255, 255, 0.05); font-size: 1.2rem; color: #3d6bff;
+}
+.done .glyph { color: #2dd4bf; }
+.copy { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.title { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; color: #f2efe9; }
+.sub { font-size: 0.82rem; color: #8a8b96; line-height: 1.4; }
+.cta {
+  margin-left: auto; flex-shrink: 0;
+  font-family: var(--font-mono), monospace; font-size: 0.8rem; color: #3d6bff; white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .cta { display: none; }
+}

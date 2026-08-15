@@ -2,13 +2,13 @@
   "ok": true,
   "dateKey": "2099-01-02",
   "model": "deepseek-v4-flash",
-  "quizDraftId": "abcee618-8bf8-49d0-85ce-6b00c77b437a",
-  "challengeDraftId": "39464b33-f264-4ca9-ae2c-1a8f4dc5bc0c",
-  "quizPreview": "In an approval-gated AI automation, what is the primary purpose of the human-in-the-loop step?",
-  "challengePreview": "Build an Approval-Gated Social Media Post Generator",
+  "quizDraftId": "dffd9bc9-4e2f-4064-933b-70d4106b73cf",
+  "challengeDraftId": "d4364d9c-e958-448d-9a23-38925032a521",
+  "quizPreview": "You are building an approval-gated AI automation for a client. The system generates draft blog posts using a large language model, then sends them to a human reviewer for approval before publishing. Which of the following design choices best ensures that the human reviewer can meaningfully evaluate the draft without being overwhelmed?",
+  "challengePreview": "Approval-Gated Content Drafting Workflow",
   "theme": "approval-gated AI automations",
   "smoke": true,
   "cleanedUp": true,
-  "startedAt": "2026-06-21T02:36:53.352Z",
-  "finishedAt": "2026-06-21T02:36:59.684Z"
+  "startedAt": "2026-06-24T18:18:08.580Z",
+  "finishedAt": "2026-06-24T18:18:14.760Z"
 }

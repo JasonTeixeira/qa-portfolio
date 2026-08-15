@@ -16,7 +16,7 @@ function json(status: number, body: unknown) {
 
 export async function POST(req: NextRequest) {
   try {
-    const limited = rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'newsletter' });
+    const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'newsletter' });
     if (limited) return limited;
 
     const body = await req.json().catch(() => ({}));
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
 
     return json(200, { ok: true });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : 'Subscription failed';
-    return json(500, { error: msg });
+    console.error('[newsletter/subscribe] subscription failed', e);
+    return json(500, { error: 'Subscription failed. Please try again.' });
   }
 }

@@ -1,0 +1,37 @@
+---
+slug: your-rag-eval-is-lying-to-you
+title: "Your RAG eval is lying to you (and how to catch it)"
+date: 2026-06-08
+category: AI
+tags: [rag, evaluation, retrieval, llm]
+summary: Your retrieval scores 0.91 on the eval set and the demo answers a question the docs never contained. The eval isn't wrong — it's measuring the wrong thing, and here's the read that catches it.
+---
+
+The eval says 0.91. The retriever looks great. Then someone asks the system a question the knowledge base has no answer to, and it confidently makes one up — grounded in a chunk that is topically adjacent and factually irrelevant. The eval didn't catch it because the eval was never testing for that. It was testing whether retrieval finds *a* relevant chunk, not whether the retrieved chunk *actually supports the specific answer*.
+
+## The gap between "relevant" and "sufficient"
+
+Most RAG evals score retrieval on relevance: does the retrieved passage relate to the query? That's the wrong bar. The bar that matters is sufficiency: does the retrieved context contain the facts needed to answer *this* question correctly, and does the model's answer stay inside those facts?
+
+A passage about "invoice retry behavior" is relevant to "why did the invoice send twice." It is not sufficient if it never mentions idempotency keys. A relevance-based eval gives you a green checkmark. The user gets a plausible, wrong answer.
+
+## Three failure modes a relevance eval hides
+
+1. **The confident hallucination.** Retrieval returns adjacent-but-insufficient context; the model fills the gap from its parameters. Your eval scores retrieval as correct and never looks at whether the *answer* was entailed by the context.
+2. **The right answer for the wrong reason.** The model answers correctly from its own training, ignoring the retrieved chunk entirely. Your RAG pipeline gets credit for something retrieval didn't do. Swap in a fresh fact the model can't know, and the whole thing collapses.
+3. **The distractor poisoning.** A retrieved chunk is topically on-target but contains a subtly wrong fact. The model faithfully repeats the wrong fact. Faithfulness is high, correctness is zero. A faithfulness-only metric calls this a success.
+
+## The read that catches all three
+
+Split the evaluation into two independent questions and never collapse them:
+
+- **Context sufficiency**: given only the retrieved chunks, could a careful human answer the question correctly? This isolates retrieval. If a human can't, the model definitely can't, and any correct answer is a hallucination that happened to land.
+- **Answer faithfulness**: is every claim in the answer supported by the retrieved context, with nothing added? This isolates generation.
+
+You need both, scored separately, per example. Sufficiency high + faithfulness low means your generator is inventing. Sufficiency low + correctness high means your model is bypassing retrieval — a fragile win that breaks on any fact it wasn't trained on.
+
+## Build the trap on purpose
+
+Add a **known-unanswerable** slice to your eval set: questions your knowledge base genuinely cannot answer. The correct behavior is refusal — "I don't have that." A healthy RAG system scores near zero on *answering* these and near 100% on *declining* them. If your system answers them fluently, your eval has been rewarding confident fabrication the whole time, and your 0.91 was measuring the wrong thing.
+
+Relevance is easy to score and comfortable to report. Sufficiency and refusal are the metrics that tell you whether the thing is safe to ship. Measure what breaks in production, not what's convenient to compute.

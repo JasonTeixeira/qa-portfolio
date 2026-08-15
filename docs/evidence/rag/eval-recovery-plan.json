@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "version": "rag-eval-recovery-plan-v1",
+  "generatedAt": "2026-06-30T13:25:41.937Z",
+  "mutationMode": "local_file_evidence_only",
+  "status": "ready",
+  "releaseMeaning": "This recovery plan reads local RAG eval evidence only. It does not seed Supabase, call DeepSeek, run retrieval, write eval results, or satisfy eval coverage.",
+  "latestEval": {
+    "ok": true,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "passRate": 1,
+    "failedCount": 0
+  },
+  "coverage": {
+    "expectedQuestionCount": 65,
+    "missingEvalCount": 0,
+    "missingEvalKeys": [],
+    "releaseReady": true,
+    "blockers": []
+  },
+  "missingEvalBacklog": [],
+  "failedEvalBacklog": [],
+  "antiFakeRules": [
+    "This plan is not an eval run and must not be counted as eval coverage.",
+    "Dry-run, preflight, source-only, or plan-only output does not close rag_eval_latest or rag_eval_coverage_readiness.",
+    "Every missing eval key needs a persisted non-dry-run eval result after explicit approval.",
+    "Every failed eval needs either source, retrieval, citation, faithfulness, or usefulness remediation before score claims improve."
+  ],
+  "approvedCommand": "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+  "nextActions": [
+    "No local eval recovery action is pending. Keep adding real failure-derived evals during weekly operations.",
+    "Regenerate eval coverage readiness, final scorecard, world-class readiness, and local verification after any approved eval run."
+  ],
+  "validation": {
+    "ok": true,
+    "failures": []
+  },
+  "failures": [],
+  "sourceEvidence": {
+    "latestEval": "docs/evidence/rag/eval-latest.json",
+    "coverageReadiness": "docs/evidence/rag/eval-coverage-readiness.json",
+    "missingPreflight": "docs/evidence/rag/eval-missing-preflight.json"
+  }
+}

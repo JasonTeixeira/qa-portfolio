@@ -1,0 +1,1452 @@
+{
+  "ok": true,
+  "runKey": "content-factory-2026-06-30-2026-06-30T13-25-46-065Z",
+  "version": "discord-content-factory-v1",
+  "dryRun": true,
+  "sourcePolicy": {
+    "sourceKind": "editorial_seed",
+    "operatingProofEligible": false,
+    "requiresApprovedSourceBeforePublicProof": true
+  },
+  "channelValidation": {
+    "ok": true,
+    "unknownChannels": [],
+    "blockedChannels": [],
+    "knownChannelCount": 20,
+    "targetableChannelCount": 16
+  },
+  "created": 0,
+  "planned": 36,
+  "skipped": 0,
+  "failed": 0,
+  "drafts": [
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Content engines from real questions",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Content engines from real questions",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Content engines from real questions",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Content engines from real questions",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Content engines from real questions",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Content engines from real questions",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Content engines from real questions",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Content engines from real questions",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Cloud and automation reliability",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 1,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Cloud and automation reliability",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 1,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Cloud and automation reliability",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 1,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-01:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Cloud and automation reliability",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Cloud and automation reliability",
+      "dayOffset": 1,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-02:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Review-driven building",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Review-driven building",
+      "dayOffset": 2,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-02:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Review-driven building",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Review-driven building",
+      "dayOffset": 2,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-02:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Review-driven building",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Review-driven building",
+      "dayOffset": 2,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-02:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Review-driven building",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Review-driven building",
+      "dayOffset": 2,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-03:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Growth loops and public proof",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 3,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-03:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Growth loops and public proof",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 3,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-03:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Growth loops and public proof",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 3,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-03:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Growth loops and public proof",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Growth loops and public proof",
+      "dayOffset": 3,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-04:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Weekly synthesis",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Weekly synthesis",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-04:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Weekly synthesis",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Weekly synthesis",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-04:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Weekly synthesis",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Weekly synthesis",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-04:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Weekly synthesis",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Weekly synthesis",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-05:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Approval-gated AI apps",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 5,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-05:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Approval-gated AI apps",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 5,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-05:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Approval-gated AI apps",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 5,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-05:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Approval-gated AI apps",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Approval-gated AI apps",
+      "dayOffset": 5,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-06:daily-signal",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Signal - Websites that convert from proof",
+      "targetChannelBaseName": "daily-signal",
+      "draftType": "daily_signal",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 6,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "One concrete build action, answer, artifact, or blocker tied to the daily prompt.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-06:daily-question",
+      "draftId": null,
+      "status": "planned",
+      "title": "Daily Question - Websites that convert from proof",
+      "targetChannelBaseName": "questions",
+      "draftType": "announcement",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 6,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A specific question with context, attempted solution, blocker, and desired decision.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-06:build-lab",
+      "draftId": null,
+      "status": "planned",
+      "title": "Build Lab - Websites that convert from proof",
+      "targetChannelBaseName": "build-lab",
+      "draftType": "challenge",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 6,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A small build artifact, spec, screenshot, repo, or implementation update.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-07-06:resource-drop",
+      "draftId": null,
+      "status": "planned",
+      "title": "Resource Drop - Websites that convert from proof",
+      "targetChannelBaseName": "resources",
+      "draftType": "resource_drop",
+      "topic": "Websites that convert from proof",
+      "dayOffset": 6,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "daily",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A reusable checklist, template, link, or tool with why it is useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:weekly-announcement",
+      "draftId": null,
+      "status": "planned",
+      "title": "Weekly Launch - what to build, ask, and submit",
+      "targetChannelBaseName": "announcements",
+      "draftType": "announcement",
+      "topic": "Weekly operating rhythm",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "Member acknowledgement, commitment, or reply that identifies what they will build this week.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "weekly_recap_input"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": false
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:intro-prompt",
+      "draftId": null,
+      "status": "planned",
+      "title": "Intro Prompt - make your first ask useful",
+      "targetChannelBaseName": "introductions",
+      "draftType": "announcement",
+      "topic": "Member activation",
+      "dayOffset": 0,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "Path, level, current build, blocker, and first useful help request.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": false
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:project-submissions",
+      "draftId": null,
+      "status": "planned",
+      "title": "Project Submission Window - ship one artifact",
+      "targetChannelBaseName": "project-submissions",
+      "draftType": "challenge",
+      "topic": "Project proof",
+      "dayOffset": 2,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A submitted artifact with goal, target user, changed work, proof link, and next risk.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "public_proof_candidate",
+          "weekly_recap_input"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:review-queue",
+      "draftId": null,
+      "status": "planned",
+      "title": "Review Queue - request specific critique",
+      "targetChannelBaseName": "review-queue",
+      "draftType": "announcement",
+      "topic": "Review-driven building",
+      "dayOffset": 3,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A focused critique request naming the artifact, review type, and decision needed.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources"
+        ],
+        "collectionInstruction": "Capture the member source, approval decision, privacy status, reusable summary, and RAG-safe status before counting this as knowledge.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:content-queue",
+      "draftId": null,
+      "status": "planned",
+      "title": "Content Queue - turn a question into a durable asset",
+      "targetChannelBaseName": "content-queue",
+      "draftType": "lesson",
+      "topic": "Content engine from real activity",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A candidate question, answer, resource gap, review lesson, build, or win worth turning into durable content.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "rag_candidate",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "approved_discord_knowledge",
+          "rag_discord_sources",
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:office-hours",
+      "draftId": null,
+      "status": "planned",
+      "title": "Office Hours Queue - bring the real blocker",
+      "targetChannelBaseName": "office-hours",
+      "draftType": "announcement",
+      "topic": "Live help",
+      "dayOffset": 4,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A blocker, artifact, question, and decision that would make the live session useful.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "content_queue_candidate",
+          "weekly_recap_input"
+        ],
+        "proofLaneTargets": [
+          "premium_workflow_proof"
+        ],
+        "collectionInstruction": "Capture the request, authorization state, SLA status, and fulfilled outcome before counting this as premium proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": false
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:accountability",
+      "draftId": null,
+      "status": "planned",
+      "title": "Accountability Check - what shipped this week",
+      "targetChannelBaseName": "accountability",
+      "draftType": "announcement",
+      "topic": "Shipping rhythm",
+      "dayOffset": 5,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "What was committed, what shipped, what slipped, and the next smallest action.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "weekly_recap_input",
+          "public_proof_candidate"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    },
+    {
+      "factoryKey": "discord-content-factory-v1:2026-06-30:weekly-recap",
+      "draftId": null,
+      "status": "planned",
+      "title": "Weekly Recap - builds, questions, wins, and next challenge",
+      "targetChannelBaseName": "wins-showcase",
+      "draftType": "weekly_recap",
+      "topic": "Weekly synthesis",
+      "dayOffset": 6,
+      "qualityScore": 90,
+      "operatingContract": {
+        "cadence": "weekly",
+        "adminAction": "review_then_approve_or_reject",
+        "expectedMemberResponse": "A finished ship, useful answer, win, or before/after with permission-safe proof.",
+        "proofPromotionPath": [
+          "member_reply",
+          "admin_review",
+          "public_proof_candidate",
+          "weekly_recap_input"
+        ],
+        "proofLaneTargets": [
+          "public_proof_assets"
+        ],
+        "collectionInstruction": "Capture the member source, privacy status, approval decision, and publish/UTM status before counting this as public proof.",
+        "requiredEvidenceBeforeProof": [
+          "approved draft id",
+          "published Discord message id",
+          "member response or submission id",
+          "admin approval actor and timestamp",
+          "privacy review result",
+          "proof lane target",
+          "operator attestation"
+        ],
+        "pointsEligibleAfterReview": true
+      },
+      "error": null
+    }
+  ],
+  "safety": {
+    "dryRun": true,
+    "readOnly": true,
+    "noPublicPublish": true,
+    "adminApprovalRequired": true,
+    "plannedSlots": 36,
+    "createdDrafts": 0,
+    "skippedDrafts": 0,
+    "failedDrafts": 0,
+    "canonicalChannels": true,
+    "unknownChannels": [],
+    "channelCoverage": [
+      "accountability",
+      "announcements",
+      "build-lab",
+      "content-queue",
+      "daily-signal",
+      "introductions",
+      "office-hours",
+      "project-submissions",
+      "questions",
+      "resources",
+      "review-queue",
+      "wins-showcase"
+    ],
+    "draftTypeCoverage": [
+      "announcement",
+      "challenge",
+      "daily_signal",
+      "lesson",
+      "resource_drop",
+      "weekly_recap"
+    ],
+    "topicCoverage": [
+      "Approval-gated AI apps",
+      "Cloud and automation reliability",
+      "Content engine from real activity",
+      "Content engines from real questions",
+      "Growth loops and public proof",
+      "Live help",
+      "Member activation",
+      "Project proof",
+      "Review-driven building",
+      "Shipping rhythm",
+      "Websites that convert from proof",
+      "Weekly operating rhythm",
+      "Weekly synthesis"
+    ],
+    "operatingContractCoverage": [
+      "admin_review",
+      "content_queue_candidate",
+      "daily",
+      "member_reply",
+      "public_proof_candidate",
+      "rag_candidate",
+      "review_then_approve_or_reject",
+      "weekly",
+      "weekly_recap_input"
+    ],
+    "proofLaneTargetCoverage": [
+      "approved_discord_knowledge",
+      "premium_workflow_proof",
+      "public_proof_assets",
+      "rag_discord_sources"
+    ],
+    "draftsWithOperatingContracts": 36,
+    "proofEligibleDrafts": 11,
+    "minQualityScore": 90,
+    "maxQualityScore": 90
+  },
+  "startedAt": "2026-06-30T13:25:46.063Z",
+  "finishedAt": "2026-06-30T13:25:46.070Z"
+}

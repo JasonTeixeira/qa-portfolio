@@ -2,25 +2,27 @@
   "ok": true,
   "question": "What is the right Discord onboarding path for an education community?",
   "model": "deepseek-v4-flash",
-  "answerPreview": "Based on the provided context, the right Discord onboarding path for an education community (specifically Sage Ideas Academy) is a structured, gated flow that starts in the `start-here` channel [2][3]. The steps are:\n\n1.  Read the quality bar and rules in `start-here` [3].\n2.  Run `/apply` and answer the application questions [3].\n3.  Confirm rules acceptance in the command [3].\n4.  Wait for manual approval [3].\n5.  After approval, run `/onboard` to choose a path and level [3][4].\n6.  Post an in",
+  "answerPreview": "The correct Discord onboarding path for an education community is:\n\n1. **Apply** – Use Discord native **Apply to Join**, answer the application, accept the rules, and wait for manual approval [1].\n2. **Approve** – An approvable application names the member's goal, shows what they are trying to build or learn, confirms the rules/quality bar, and includes enough context to route them [1].\n3. **Onboard** – After approval, read `start-here`, run `/onboard`, complete the first-week checklist, and beg",
   "citationCount": 5,
-  "retrievalLogId": "03801e23-4226-4b2f-9dc6-f3c00eaee19e",
-  "answerId": "87796550-2cd2-4015-b3db-d80dee838c70",
+  "retrievalLogId": "06d50f11-caff-49d5-b736-3ca1b17e60df",
+  "answerId": "3fc1a9c9-d1da-488f-b0f3-eebf07b74b21",
+  "traceId": "8d54303a3e37ad64f59b89d43709d9ff",
+  "observabilityProvider": "local",
   "citations": [
     {
-      "chunk_id": "da115927-8cf8-4f65-a22f-45c4ace6e451",
-      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "chunk_id": "b9bd6fdb-cea3-4258-85ed-22f037035eab",
+      "title": "SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "source_url": "/docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "source_type": "resource"
+    },
+    {
+      "chunk_id": "3f18ade9-2e6c-429b-a88a-6a5eadbba24e",
+      "title": "SAGEBOT_DISCORD_OPERATING_FAQ.md",
+      "source_url": "/docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md",
       "source_type": "resource"
     },
     {
       "chunk_id": "64b40667-5fde-47c6-9009-5834939d0415",
-      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
-      "source_type": "resource"
-    },
-    {
-      "chunk_id": "56a30e56-ae63-456a-88a0-ecedb7bef24c",
       "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource"
@@ -32,12 +34,12 @@
       "source_type": "resource"
     },
     {
-      "chunk_id": "782fbcf7-55aa-49a8-aae1-0574f6760350",
-      "title": "DISCORD_EDUCATION_SERVER_RUNBOOK.md",
-      "source_url": "/docs/DISCORD_EDUCATION_SERVER_RUNBOOK.md",
+      "chunk_id": "79623708-1409-402e-8f03-647ed6862950",
+      "title": "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+      "source_url": "/docs/DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
       "source_type": "resource"
     }
   ],
-  "startedAt": "2026-06-21T13:32:53.515Z",
-  "finishedAt": "2026-06-21T13:32:58.214Z"
+  "startedAt": "2026-06-25T20:38:47.997Z",
+  "finishedAt": "2026-06-25T20:38:53.403Z"
 }

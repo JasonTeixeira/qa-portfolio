@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { AcademyLanding } from '@/components/academy/landing/AcademyLanding'
+import { ReferralCapture } from '@/components/academy/referral/ReferralCapture'
 
 const SITE = 'https://www.sageideas.dev'
 
 export const metadata: Metadata = {
   title: 'Sage Academy — learn to build with AI, by building',
   description:
-    'A project-based academy with a learning engine that won’t let you fake it: in-browser labs, adversarial checkpoints, and unlock gates that demand proof. Every course, lab, and certificate for $20/mo or $200/yr.',
+    'A project-based academy and build-note library for learning AI by shipping real systems: interactive courses, labs, mastery loops, and founder-grade technical writing for $25/mo.',
   alternates: { canonical: `${SITE}/academy` },
   openGraph: {
     title: 'Sage Academy — learn to build with AI, by building',
-    description: 'A learning engine, not a video library. In-browser labs, proof-based unlock gates, real certificates. $20/mo · $200/yr.',
+    description: 'A learning engine, not a video library. Interactive courses, proof-based unlock gates, build notes, and real certificates. $25/mo.',
     images: ['/og?title=Sage+Academy&subtitle=Learn+to+build+with+AI%2C+by+building'],
   },
   twitter: {
@@ -20,5 +22,12 @@ export const metadata: Metadata = {
 }
 
 export default function AcademyPage() {
-  return <AcademyLanding />
+  return (
+    <>
+      <Suspense fallback={null}>
+        <ReferralCapture />
+      </Suspense>
+      <AcademyLanding />
+    </>
+  )
 }

@@ -51,7 +51,7 @@ function row(label: string, value: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const limited = rateLimit(request, { limit: 10, windowMs: 60_000, prefix: 'inquiry' })
+    const limited = await rateLimit(request, { limit: 10, windowMs: 60_000, prefix: 'inquiry' })
     if (limited) return limited
     const ip = clientIpForHash(request)
 

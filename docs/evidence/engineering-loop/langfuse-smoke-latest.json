@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "version": "sagebot-langfuse-smoke-v1",
+  "generatedAt": "2026-06-30T13:25:24.616Z",
+  "mutationMode": "langfuse_trace_and_deepseek_generation_only",
+  "releaseMeaning": "Creates one minimal Langfuse trace and one minimal DeepSeek generation to prove credentials, trace export, model name, token usage, nested observation, redaction, and flush behavior. It does not mutate Discord, Supabase, Stripe, Vercel, Railway, or Git.",
+  "configured": true,
+  "mode": "langfuse",
+  "baseUrlConfigured": true,
+  "rootTraceId": "c4bb5f1ad57d4a7013f3dc04251c11c7",
+  "rootObservationId": "6079dfca29d530d6",
+  "generationTraceId": "c4bb5f1ad57d4a7013f3dc04251c11c7",
+  "generationObservationId": "6c401eb5d2683536",
+  "provider": "langfuse",
+  "model": "deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 30,
+    "completion_tokens": 8,
+    "total_tokens": 38,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 30
+  },
+  "outputMatched": true,
+  "startedAt": "2026-06-30T13:25:23.383Z",
+  "finishedAt": "2026-06-30T13:25:24.616Z"
+}

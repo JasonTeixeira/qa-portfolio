@@ -1,0 +1,39 @@
+---
+slug: the-ai-implementation-audit-11-questions
+title: "The AI implementation audit: 11 questions before you ship"
+date: 2026-05-28
+category: Audit
+tags: [ai, audit, production, checklist]
+summary: Most AI features fail in the same eleven predictable places. This is the pre-ship audit — eleven questions that separate a demo from a system you can put in front of customers.
+---
+
+A demo proves the happy path works once. Shipping proves it survives the unhappy path a thousand times a day. Between those two is a gap where most AI features quietly die — not from a dramatic failure, but from an accumulation of unhandled edges nobody audited before launch. Here are the eleven questions that catch them, in the order they tend to bite.
+
+## Correctness and grounding
+
+1. **What's your refusal rate on known-unanswerable inputs?** A system that never says "I don't know" is a system that hallucinates on demand. If you can't state this number, you haven't tested the failure you'll be judged on.
+2. **Is every factual claim traceable to a source?** For anything user-facing and factual, you need grounding you can point at, not vibes you can defend.
+3. **What happens on the adversarial input?** Not the malicious one yet — just the weird one. The empty string, the 40,000-token paste, the question in a language you didn't test.
+
+## Cost and latency
+
+4. **What's your p95 latency, not your average?** Averages hide the tail, and the tail is what users feel. A 2-second average with a 14-second p95 is a bad experience wearing a good number.
+5. **What's the cost per successful outcome, including retries and reruns?** Cost per token is an accounting fiction. Cost per *resolved user task* is the real unit, and retries can triple it.
+6. **What's your fallback when the model provider has an outage?** "The feature is down" is an answer. It just needs to be a chosen one, not a discovered one.
+
+## Safety and control
+
+7. **Can a user make the system do something it shouldn't via the input?** Prompt injection isn't theoretical the moment your input includes anything a user or a document controls.
+8. **Is there a human-reversible step before anything irreversible?** If the AI can send, charge, delete, or publish, there is a confirmation or an undo. No exceptions on irreversible edges.
+9. **What do you log, and can you replay a bad output?** If a user reports a wrong answer and you can't reconstruct the exact inputs and context, you can't debug it, and you can't prove you fixed it.
+
+## Operations
+
+10. **How do you detect quality regression in production?** Models drift, prompts rot, retrieval indexes go stale. Without a live quality signal, you find out from the customer.
+11. **Who owns the eval set, and when did it last change?** An eval set that never grows is an eval set that stopped reflecting reality. The audit isn't a one-time gate — it's a standing question.
+
+## How to use this
+
+Don't treat it as a checklist to tick. Treat it as eleven places to *fail on purpose* in staging. Force the refusal. Send the 40,000-token paste. Kill the provider connection and watch the fallback. The audit's value isn't the questions — it's the eleven controlled failures you run before a customer runs them for you.
+
+A demo answers one question well. A shippable system answers these eleven honestly. The distance between them is exactly the work worth doing.

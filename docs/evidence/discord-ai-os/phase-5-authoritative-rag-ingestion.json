@@ -1,0 +1,118 @@
+{
+  "phase": 5,
+  "name": "Discord knowledge/content ingestion approvals into authoritative RAG",
+  "status": "passed",
+  "approvalPolicy": "discord-authoritative-rag-sync-v1",
+  "completedAt": "2026-06-24T19:12:43.356Z",
+  "capabilityEvals": {
+    "rawDiscordMessagesExcluded": true,
+    "unapprovedDiscordContentExcluded": true,
+    "approvedDiscordContentQueueCanBecomeRagSource": true,
+    "approvedDiscordContentDraftCanBecomeRagSource": true,
+    "approvedSourcesCreateRagDocuments": true,
+    "productionSyncCarriesApprovalPolicyEvidence": true
+  },
+  "liveSmoke": {
+    "command": "npm run rag:smoke-discord-authoritative-sync",
+    "ok": true,
+    "runId": "phase5-1782328055387",
+    "approvedSourceKeys": [
+      "discord_content_queue:d933a9aa-ab67-41de-bd82-635e7e6d42e4",
+      "lesson:discord_content_draft:3b301ca4-cd12-4928-852b-84f4a1667bf5"
+    ],
+    "blockedSourceKeys": [
+      "discord_content_queue:1db171f0-cff6-482a-a7a7-6294485da1ea",
+      "lesson:discord_content_draft:5c21c087-d8ec-486b-b59a-8fb56d36b275"
+    ],
+    "approvedPresent": true,
+    "blockedAbsent": true,
+    "documentsPresent": true,
+    "evidencePath": "docs/evidence/rag/discord-authoritative-sync-smoke.json"
+  },
+  "productionSync": {
+    "command": "npm run rag:sync-sources",
+    "ok": true,
+    "runKey": "rag-source-sync-2026-06-24T19-07-48-036Z",
+    "sourcesSeen": 65,
+    "sourcesUpserted": 65,
+    "documentsUpserted": 65,
+    "approvedDiscordStats": {
+      "questionsSeen": 0,
+      "questionsApproved": 0,
+      "answersSeen": 0,
+      "answersApproved": 0,
+      "contentQueueSeen": 0,
+      "contentQueueApproved": 0,
+      "contentDraftsSeen": 5,
+      "contentDraftsApproved": 0
+    },
+    "honestBlocker": "No approved live Discord knowledge-source rows existed during production sync, so raw/unapproved Discord rows were intentionally excluded.",
+    "evidencePath": "docs/evidence/rag/source-sync-sample.json"
+  },
+  "ragPipelineRegression": {
+    "chunk": {
+      "command": "npm run rag:chunk",
+      "ok": true,
+      "documentsSeen": 65,
+      "documentsChunked": 65,
+      "chunksUpserted": 110,
+      "failures": 0,
+      "evidencePath": "docs/evidence/rag/chunk-run.json"
+    },
+    "embed": {
+      "command": "npm run rag:embed",
+      "ok": true,
+      "model": "Supabase/gte-small",
+      "dimensions": 384,
+      "chunksSeen": 110,
+      "chunksEmbedded": 110,
+      "failures": 0,
+      "evidencePath": "docs/evidence/rag/local-embedding-run.json"
+    },
+    "smokeEval": {
+      "command": "npm run rag:evaluate:smoke",
+      "ok": true,
+      "runKey": "smoke-20260624190905",
+      "evaluatedQuestionCount": 3,
+      "passed": 3,
+      "failed": 0,
+      "passRate": 1
+    },
+    "fullEval": {
+      "command": "npm run rag:evaluate",
+      "ok": true,
+      "runKey": "full-20260624190930",
+      "evaluatedQuestionCount": 50,
+      "passed": 50,
+      "failed": 0,
+      "passRate": 1,
+      "avgScore": 0.889,
+      "retrievalHitRate": 1,
+      "citationCoverage": 1,
+      "faithfulness": 0.95
+    }
+  },
+  "verifiedCommands": [
+    "npm run test:unit",
+    "npm run typecheck",
+    "npm run rag:smoke-discord-authoritative-sync",
+    "npm run rag:sync-sources",
+    "npm run rag:chunk",
+    "npm run rag:embed",
+    "npm run rag:evaluate:smoke",
+    "npm run rag:evaluate"
+  ],
+  "whatIsReal": [
+    "Authoritative Discord RAG ingestion now has an explicit approval policy module.",
+    "Raw Discord messages are not synced directly into authoritative RAG.",
+    "Only answered/closed questions, helpful answers, published content queue rows, and approved/published high-quality drafts can become RAG source inputs.",
+    "Approved Discord draft ingestion also blocks metadata.policy_passed=false.",
+    "A live Supabase smoke proved approved temporary rows entered rag_sources/rag_documents while captured/rejected rows stayed out.",
+    "The current production Discord corpus has no approved knowledge rows yet, so production sync correctly ingested only existing blog/resource sources."
+  ],
+  "whatIsLeft": [
+    "Approve real Discord questions, helpful answers, or content drafts so production sync can ingest real community knowledge instead of only the smoke proof.",
+    "Add an admin dashboard control to mark Discord questions/answers/drafts as authoritative RAG candidates from the UI.",
+    "Phase 6 should build authoritative knowledge review UX and corpus health reporting so admins can see what is eligible, blocked, stale, or missing."
+  ]
+}

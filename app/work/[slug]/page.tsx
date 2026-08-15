@@ -104,7 +104,7 @@ export default async function CaseStudyPage({ params }: Props) {
       <StickyCta
         pitch="Want to build something like this?"
         ctaLabel="Book a 30-min call"
-        ctaHref="/contact"
+        ctaHref={`/book?source=work_${study.slug}`}
       />
     </>
   )

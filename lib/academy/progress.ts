@@ -24,12 +24,70 @@ export async function getCourseProgress(courseSlug: string): Promise<CourseProgr
       signedIn: true,
       completed: new Set((data ?? []).map((r: { lesson_slug: string }) => r.lesson_slug)),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/progress] getCourseProgress failed', err)
     return { signedIn: false, completed: new Set() }
   }
 }
 
-/** The most-recently-touched lesson for "continue where you left off" (catalog resume card). */
+/**
+ * Every lesson slug the current user has completed, across all courses (for the
+ * Content Map). Empty set when logged out. Keyed by lesson slug only — matching
+ * how the map resolves completion.
+ */
+export async function getAllCompletedLessonSlugs(): Promise<Set<string>> {
+  try {
+    const sb = await createSupabaseServerClient()
+    const {
+      data: { user },
+    } = await sb.auth.getUser()
+    if (!user) return new Set()
+    const { data } = await sb
+      .from('academy_progress')
+      .select('lesson_slug')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+    return new Set((data ?? []).map((r: { lesson_slug: string }) => r.lesson_slug))
+  } catch (err) {
+    console.error('[academy/progress] getAllCompletedLessonSlugs failed', err)
+    return new Set()
+  }
+}
+
+/**
+ * Completed-lesson count per course for the current user (RLS-scoped), keyed by
+ * course_slug. Empty map when logged out. One query — used to paint honest
+ * progress bars on every catalog card without a per-course round-trip.
+ */
+export async function getCompletedCountByCourse(): Promise<Map<string, number>> {
+  try {
+    const sb = await createSupabaseServerClient()
+    const {
+      data: { user },
+    } = await sb.auth.getUser()
+    if (!user) return new Map()
+    const { data } = await sb
+      .from('academy_progress')
+      .select('course_slug')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+    const counts = new Map<string, number>()
+    for (const r of (data ?? []) as { course_slug: string }[]) {
+      counts.set(r.course_slug, (counts.get(r.course_slug) ?? 0) + 1)
+    }
+    return counts
+  } catch (err) {
+    console.error('[academy/progress] getCompletedCountByCourse failed', err)
+    return new Map()
+  }
+}
+
+/**
+ * The most-recently-touched lesson that is still IN PROGRESS — the "continue where
+ * you left off" resume point. Only unfinished lessons qualify: a learner who has
+ * completed every lesson returns null (no incoherent "Resume → 100%" card), and the
+ * dominant dashboard action falls through to the next-milestone / catalog CTA.
+ */
 export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: string } | null> {
   try {
     const sb = await createSupabaseServerClient()
@@ -41,11 +99,13 @@ export async function getContinue(): Promise<{ courseSlug: string; lessonSlug: s
       .from('academy_progress')
       .select('course_slug, lesson_slug')
       .eq('user_id', user.id)
+      .eq('status', 'in_progress')
       .order('updated_at', { ascending: false })
       .limit(1)
       .maybeSingle()
     return data ? { courseSlug: data.course_slug, lessonSlug: data.lesson_slug } : null
-  } catch {
+  } catch (err) {
+    console.error('[academy/progress] getContinue failed', err)
     return null
   }
 }

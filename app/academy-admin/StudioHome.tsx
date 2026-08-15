@@ -5,14 +5,20 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { saveCourse } from './_actions'
 import type { AdminCourseRow } from '@/lib/academy/admin'
+import { Icon } from '@/components/academy/ui/Icon'
 import styles from './studio.module.css'
 
 const TOPICS = ['foundations', 'ai-engineering', 'ship-it', 'growth', 'data']
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced']
 
-export function StudioHome({ courses }: { courses: AdminCourseRow[] }) {
+export function StudioHome({ courses, fieldNoteCount }: { courses: AdminCourseRow[]; fieldNoteCount: number }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+
+  // — REAL numbers only, all derived from the loaded courses + field notes —
+  const publishedCount = courses.filter((c) => c.status === 'published').length
+  const draftCount = courses.length - publishedCount
+  const totalLessons = courses.reduce((sum, c) => sum + (c.lessons ?? 0), 0)
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
   const [topic, setTopic] = useState('foundations')
@@ -31,10 +37,40 @@ export function StudioHome({ courses }: { courses: AdminCourseRow[] }) {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.shell}>
+      <header className={styles.appBar}>
+        <Link href="/academy-admin" className={styles.brand}>
+          <span className={styles.logoTile} aria-hidden="true">◆</span>
+          <span className={styles.wordmark}>Sage Studio</span>
+          <span className={styles.authorPill}>Author</span>
+        </Link>
+        <span className={styles.appBarCrumb}>Sage Academy · content studio</span>
+        <div className={styles.appBarRight}>
+          <button type="button" className={styles.publish} onClick={() => setOpen((v) => !v)}>{open ? 'Close' : '+ New course'}</button>
+        </div>
+      </header>
+
+      <div className={styles.statsStrip}>
+        <div className={styles.statsInner} aria-label="Studio content stats">
+          <span className={styles.stat}><span className={styles.statNum}>{courses.length}</span> courses</span>
+          <span className={styles.stat}><span className={styles.statNum}>{publishedCount}</span> live</span>
+          {draftCount > 0 ? <span className={styles.stat}><span className={styles.statNum}>{draftCount}</span> draft</span> : null}
+          <span className={styles.stat}><span className={styles.statNum}>{totalLessons}</span> published lessons</span>
+          <span className={styles.stat}><span className={styles.statNum}>{fieldNoteCount}</span> field notes</span>
+          <Link href="/academy-admin/metrics" className={styles.statLink}>measurement →</Link>
+        </div>
+      </div>
+
+      <div className={styles.shellBody}>
       <p className={styles.kicker}>Authoring studio</p>
       <h1 className={styles.h1}>Sage Academy — Studio</h1>
       <p className={styles.sub}>Create and edit courses, lessons, and content blocks. Changes publish to the live academy.</p>
+
+      <nav className={styles.crumb} aria-label="Admin surfaces" style={{ marginTop: '1rem', marginBottom: 0 }}>
+        <Link href="/academy-admin/metrics">Measurement <Icon name="arrow-right" size={13} aria-hidden="true" /></Link>
+        <span aria-hidden="true">·</span>
+        <Link href="/academy-admin/experiments">Experiments <Icon name="arrow-right" size={13} aria-hidden="true" /></Link>
+      </nav>
 
       <div className={styles.section}>
         <div className={styles.sectionHead}>
@@ -91,6 +127,7 @@ export function StudioHome({ courses }: { courses: AdminCourseRow[] }) {
             ))}
           </ul>
         )}
+      </div>
       </div>
     </div>
   )

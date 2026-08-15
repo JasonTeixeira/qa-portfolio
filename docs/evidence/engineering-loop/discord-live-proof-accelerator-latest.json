@@ -1,0 +1,181 @@
+{
+  "ok": true,
+  "version": "discord-live-proof-accelerator-v1",
+  "generatedAt": "2026-06-30T13:26:02.236Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "This accelerator writes local evidence and command plans only. It does not approve knowledge, sync RAG, publish public proof, mutate Discord, or create premium fulfillments.",
+  "status": "proof_acceleration_required",
+  "summary": {
+    "blockedLaneCount": 4,
+    "passedLaneCount": 1,
+    "totalShortfall": 25,
+    "nextBestLane": "approved_discord_knowledge",
+    "nextBestAction": "Approved Discord knowledge: Create more real source volume from member questions, answers, builds, reviews, wins, and resources."
+  },
+  "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "current": 1,
+      "target": 1,
+      "shortfall": 0,
+      "status": "passed",
+      "impact": "critical",
+      "autonomousWork": [
+        "Keep gateway diagnosis, gateway operating packet, classifier, and queue automation in the loop.",
+        "Surface the current gateway packet in the admin dashboard and local evidence."
+      ],
+      "guardedCommands": [
+        "npm run discord:gateway-capture-diagnosis",
+        "npm run discord:gateway-operating-packet",
+        "npm run discord:proof-source-scan"
+      ],
+      "liveApprovalBoundary": [
+        "Requires at least one real non-bot member message in Discord to create fresh capture proof.",
+        "Does not require publishing, but it does require live member activity."
+      ],
+      "acceptanceCriteria": [
+        "Gateway heartbeat is fresh.",
+        "Message Content Intent is effectively enabled.",
+        "At least one non-bot non-empty visible message appears in discord_messages."
+      ]
+    },
+    {
+      "key": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "current": 0,
+      "target": 10,
+      "shortfall": 10,
+      "status": "needs_source_volume",
+      "impact": "critical",
+      "autonomousWork": [
+        "Create more real source volume from member questions, answers, builds, reviews, wins, and resources.",
+        "Queue operator review packets with required privacy, provenance, and RAG-safe fields.",
+        "Reject synthetic, low-context, or private material before it can count."
+      ],
+      "guardedCommands": [
+        "npm run discord:proof-source-scan",
+        "npm run discord:approved-knowledge-packet",
+        "npm run discord:proof-candidate-audit"
+      ],
+      "liveApprovalBoundary": [
+        "Admin must approve reusable Discord knowledge in /admin/discord before it counts.",
+        "Raw messages, local seed drafts, and dry-run rows do not count as approved live knowledge."
+      ],
+      "acceptanceCriteria": [
+        "10 approved sources exist across questions, answers, content queue, or approved Discord drafts.",
+        "Every source has privacy status, decision reason, reviewer evidence, and RAG-safe text."
+      ]
+    },
+    {
+      "key": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "current": 0,
+      "target": 10,
+      "shortfall": 10,
+      "status": "needs_source_volume",
+      "impact": "critical",
+      "autonomousWork": [
+        "Keep RAG corpus health, source sync dry-runs, and eval packets current.",
+        "Prepare the guarded sync/eval command sequence once approved knowledge exists."
+      ],
+      "guardedCommands": [
+        "npm run discord:operating-cycle:dry-run",
+        "npm run rag:discord-corpus-readiness"
+      ],
+      "liveApprovalBoundary": [
+        "Authoritative RAG sync is a production data mutation and must stay behind explicit approval.",
+        "Only approved/anonymized Discord knowledge may be synced."
+      ],
+      "acceptanceCriteria": [
+        "10 RAG sources/chunks have approved Discord provenance.",
+        "RAG eval runs after sync and does not regress groundedness/citation coverage."
+      ]
+    },
+    {
+      "key": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "current": 0,
+      "target": 4,
+      "shortfall": 4,
+      "status": "needs_source_volume",
+      "impact": "high",
+      "autonomousWork": [
+        "Draft privacy-safe proof assets from approved Discord knowledge only.",
+        "Keep public proof readiness and growth attribution checks current."
+      ],
+      "guardedCommands": [
+        "npm run discord:public-growth-readiness",
+        "npm run discord:operating-cycle:dry-run"
+      ],
+      "liveApprovalBoundary": [
+        "Public proof drafts require explicit admin approval before publishing.",
+        "Member names/screenshots/private details require separate permission before public use."
+      ],
+      "acceptanceCriteria": [
+        "4 pending-approved or published public proof assets exist.",
+        "Each asset has source provenance, privacy score, and growth attribution path."
+      ]
+    },
+    {
+      "key": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "current": 0,
+      "target": 1,
+      "shortfall": 1,
+      "status": "needs_source_volume",
+      "impact": "high",
+      "autonomousWork": [
+        "Keep premium smoke coverage, premium readiness, and admin premium queue evidence current.",
+        "Prepare one deliberate premium proof scenario without granting live access automatically."
+      ],
+      "guardedCommands": [
+        "npm run discord:smoke-premium-workflows",
+        "npm run discord:premium-readiness"
+      ],
+      "liveApprovalBoundary": [
+        "A real or explicitly seeded premium review/office-hours fulfillment must be approved before it counts.",
+        "Role-only premium status does not count as workflow proof."
+      ],
+      "acceptanceCriteria": [
+        "At least one premium review or office-hours request is answered/completed.",
+        "Authorization, SLA/status, fulfillment, and no-free-member-bypass evidence are visible."
+      ]
+    }
+  ],
+  "autonomousCommandPlan": [
+    "npm run discord:proof-source-scan",
+    "npm run discord:approved-knowledge-packet",
+    "npm run discord:proof-candidate-audit",
+    "npm run discord:live-proof-accelerator",
+    "npm run discord:sageforge-institutional-harness"
+  ],
+  "explicitApprovalCommandPlan": [
+    "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+    "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+    "npm run discord:register",
+    "npm run discord:pin-posts"
+  ],
+  "operatorChecklist": [
+    "1. Approved Discord knowledge: current 0/10; shortfall 10.",
+    "   Local work: Create more real source volume from member questions, answers, builds, reviews, wins, and resources.",
+    "   Boundary: Admin must approve reusable Discord knowledge in /admin/discord before it counts.",
+    "2. Discord knowledge synced into RAG: current 0/10; shortfall 10.",
+    "   Local work: Keep RAG corpus health, source sync dry-runs, and eval packets current.",
+    "   Boundary: Authoritative RAG sync is a production data mutation and must stay behind explicit approval.",
+    "3. Public proof growth assets: current 0/4; shortfall 4.",
+    "   Local work: Draft privacy-safe proof assets from approved Discord knowledge only.",
+    "   Boundary: Public proof drafts require explicit admin approval before publishing.",
+    "4. Premium workflow proof: current 0/1; shortfall 1.",
+    "   Local work: Keep premium smoke coverage, premium readiness, and admin premium queue evidence current.",
+    "   Boundary: A real or explicitly seeded premium review/office-hours fulfillment must be approved before it counts."
+  ],
+  "antiFakeRules": [
+    "Do not count local drafts, smoke rows, dry-run rows, raw captured messages, or generated templates as live proof.",
+    "Do not claim 95-99+ until live proof lanes meet target and final scorecard evidence passes.",
+    "Do not sync raw Discord text into authoritative RAG; sync only approved, anonymized, RAG-safe source material.",
+    "Do not publish public proof assets without explicit admin approval and privacy review.",
+    "Do not count premium role presence as premium workflow proof."
+  ],
+  "failures": []
+}

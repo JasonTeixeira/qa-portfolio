@@ -7,6 +7,8 @@ export type DiscordSignatureInput = {
   signature: string | null;
   timestamp: string | null;
   body: string;
+  nowMs?: number;
+  maxAgeSeconds?: number;
 };
 
 function hexToBuffer(value: string, expectedBytes: number): Buffer | null {
@@ -17,6 +19,7 @@ function hexToBuffer(value: string, expectedBytes: number): Buffer | null {
 
 export function verifyDiscordRequestSignature(input: DiscordSignatureInput): boolean {
   if (!input.signature || !input.timestamp) return false;
+  if (!timestampFresh(input.timestamp, input.nowMs ?? Date.now(), input.maxAgeSeconds ?? 300)) return false;
 
   const publicKeyBytes = hexToBuffer(input.publicKey.trim(), 32);
   const signatureBytes = hexToBuffer(input.signature.trim(), 64);
@@ -34,6 +37,13 @@ export function verifyDiscordRequestSignature(input: DiscordSignatureInput): boo
   } catch {
     return false;
   }
+}
+
+export function timestampFresh(timestamp: string, nowMs = Date.now(), maxAgeSeconds = 300): boolean {
+  if (!/^\d+$/.test(timestamp)) return false;
+  const timestampMs = Number(timestamp) * 1000;
+  if (!Number.isFinite(timestampMs)) return false;
+  return Math.abs(nowMs - timestampMs) <= Math.max(1, maxAgeSeconds) * 1000;
 }
 
 export function constantTimeEquals(a: string, b: string): boolean {

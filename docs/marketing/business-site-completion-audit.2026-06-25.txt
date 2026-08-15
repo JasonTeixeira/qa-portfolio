@@ -1,0 +1,158 @@
+SAGE IDEAS BUSINESS SITE COMPLETION AUDIT
+Date: 2026-06-25
+Last evidence refresh: 2026-06-26T03:34:01Z
+Scope: Business front end, marketing copy, showcase pages, proof layer, booking route, legal hub, SEO support routing, and technical verification.
+
+EXECUTIVE POSTURE
+
+Current earned score: 94-96 / 100 for the local business acquisition surface.
+
+This is not a blanket 99/100 claim. The current score is earned for the local production business-site slice because lint, typecheck, clean build, route audit, links, metadata, axe, overflow, screenshots, focused E2E, and Lighthouse all passed. It is not yet high-90s for trust/closing because real customer outcomes and live conversion analytics are not captured.
+
+WHAT WAS COMPLETED AND PROVEN
+
+1. Repo-wide lint:
+Status: Complete.
+Proof: PASS npm run lint.
+
+2. Typecheck:
+Status: Complete.
+Proof: PASS npm run typecheck.
+
+3. Clean production build:
+Status: Complete.
+Proof: PASS npm run build:clean.
+Build result: compiled, TypeScript finished, 315 static pages generated.
+
+4. Business route audit:
+Status: Complete.
+Proof: docs/evidence/marketing/audits/2026-06-25/business-site-audit.json
+Result:
+- Base URL: http://127.0.0.1:3051
+- Routes audited: 29
+- Link targets checked: 229
+- Failed internal links: 0
+- Routes with axe violations: 0
+- Serious/critical axe violations: 0
+- Routes with horizontal overflow: 0
+
+5. Lighthouse:
+Status: Complete.
+Proof: docs/evidence/marketing/audits/2026-06-25/lighthouse-business-summary.json
+Result:
+- Routes audited: 18
+- Minimum Performance: 96
+- Minimum Accessibility: 100
+- Minimum Best Practices: 100
+- Minimum SEO: 100
+- CLS: 0 on all routes
+- TBT: 0 on all routes
+
+6. Secondary showcase upgrades:
+Status: Complete for this pass.
+Pages:
+- /showcase/med-spa-consultation-funnel
+- /showcase/law-firm-intake-system
+- /showcase/ai-support-agent-dashboard
+Result:
+- Bespoke visual story per vertical.
+- Click-through prototype state loop.
+- Buyer-facing before/system/result/action framing.
+- Source-tagged booking CTAs.
+- Included in audit and Lighthouse gates.
+Remaining note: These are credible supporting demos, not yet full flagship-depth systems.
+
+7. Services, industries, blog/topics/lab routing:
+Status: Complete for this pass.
+Result:
+- Services routes point toward proof/demo/book paths.
+- Industries route maps vertical leaks to showcase demos.
+- Blog/topics/lab now feed into showcase and booking instead of dead-ending.
+
+8. Legal/trust:
+Status: Technically complete, legally unreviewed.
+Result:
+- /legal is directly Lighthouse-tested.
+- Legal hub is included in audit.
+- Trust page distinguishes local technical proof from missing real outcome proof.
+Remaining note: legal documents still need attorney review.
+
+PROVEN SCORE MATRIX
+
+Category                         Score   Evidence / Rationale
+Offer clarity                    95      Core promise is consistent across business routes.
+Business-owner language          94      Most money pages now use buyer outcomes, not internal implementation notes.
+Visual design                    94      Premium direction is strong; strongest pages are Revenue OS, homepage, pricing, work, and showcase.
+Visual storytelling              94      Visual demos and before/system/result framing are now consistent across showcase pages.
+CTA clarity                      95      Primary demo/book paths are clear and source-linked.
+Funnel continuity                95      Homepage, services, showcase, trust, work, blog/topics/lab, and book form a coherent path.
+Interactive proof quality        95      Revenue OS plus secondary showcases are clickable and tested locally.
+Trust and proof                  91      Local proof is strong; live customer/campaign proof is still missing.
+SEO technical foundation         96      Lighthouse SEO is 100 across 18 routes and metadata/link checks pass.
+SEO content architecture         94      Blog/topics/lab now route into money pages; vertical depth can still improve.
+Mobile readiness                 96      Audit found 0 overflow across 29 routes and screenshots were captured.
+Accessibility                    100     Axe 0 across 29 audited routes; Lighthouse accessibility 100 across 18 routes.
+Performance                     96      Lighthouse minimum performance is 96 across 18 routes.
+Information architecture         94      Business funnel is coherent; Academy remains a separate strategic surface.
+Closing strength                 92      Strong demo-to-book flow; real conversion analytics are required for high 90s.
+
+BRUTAL FINAL READ
+
+What is earned:
+- Site builds cleanly.
+- Repo lint and typecheck pass.
+- 29 business routes render and audit cleanly.
+- 229 internal link targets passed.
+- 0 axe violations on audited routes.
+- 0 overflow routes.
+- 18 Lighthouse routes scored at least 96 Performance and 100 Accessibility/Best Practices/SEO.
+- Secondary showcases are now bespoke, clickable, and buyer-facing.
+
+What is not earned yet:
+- Real client ROI proof.
+- Real demo-to-book conversion proof.
+- Real booked-call lift.
+- Attorney-reviewed legal completeness.
+- Full flagship depth across every vertical showcase.
+
+WHAT IS LEFT
+
+Priority 1: Real proof capture.
+Impact: Moves trust and closing strength from low 90s toward real high 90s.
+Work:
+- Add production analytics for demo clicks, CTA clicks, and booked calls.
+- Add anonymized outreach packets.
+- Add before/after screenshots.
+- Add early buyer feedback and objections.
+- Add case studies with real outcomes.
+
+Priority 2: Flagship depth for secondary showcases.
+Impact: Makes the portfolio feel deeper and more productized.
+Work:
+- Add richer stateful app surfaces for med spa, law, and AI support.
+- Add mobile-specific prototype experiences.
+- Add industry-specific analytics panels.
+- Add final screenshots and E2E checks.
+
+Priority 3: Final human visual review.
+Impact: Catches taste issues automated checks cannot.
+Work:
+- Review screenshots for all 29 audited routes.
+- Tighten any section that feels too dense, too internal, or too generic.
+
+Priority 4: Legal review.
+Impact: Prevents overclaiming.
+Work:
+- Attorney review for privacy, terms, cookies, MSA, NDA, and SOW pages.
+
+Priority 5: Live deployment proof.
+Impact: Turns local proof into production proof.
+Work:
+- Deploy.
+- Run the same business audit against production.
+- Run Lighthouse against production.
+- Confirm analytics, booking, and forms work live.
+
+NEXT POSTURE
+
+The local business-site slice is ready for a deployment candidate. The next serious move is not more local polish; it is production proof plus real buyer/campaign evidence.

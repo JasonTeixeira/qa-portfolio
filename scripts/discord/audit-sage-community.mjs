@@ -18,15 +18,24 @@ const requiredRoles = [
 
 const requiredChannels = [
   'start-here',
+  'academy-roadmap',
+  'introductions',
+  'announcements',
   'daily-signal',
   'questions',
+  'ask-sage',
+  'lesson-discussion',
   'build-lab',
+  'project-submissions',
   'review-queue',
-  'content-lab',
+  'content-queue',
   'live-room',
+  'office-hours',
+  'accountability',
   'resources',
   'wins-showcase',
   'premium',
+  'premium-reviews',
   'team-ops',
 ];
 

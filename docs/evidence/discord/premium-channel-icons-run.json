@@ -1,0 +1,479 @@
+{
+  "ok": true,
+  "guildId": "1516813594468286575",
+  "requiredChannels": [
+    "start-here",
+    "introductions",
+    "daily-signal",
+    "questions",
+    "ask-sage",
+    "build-lab",
+    "review-queue",
+    "content-queue",
+    "resources",
+    "wins-showcase",
+    "live-room",
+    "premium",
+    "team-ops"
+  ],
+  "beforeCount": 16,
+  "afterCount": 23,
+  "createdChannels": [
+    "ask-sage",
+    "content-queue"
+  ],
+  "mutations": [
+    {
+      "action": "move_category",
+      "name": "01 START",
+      "id": "1517246191140606153",
+      "position": 0
+    },
+    {
+      "action": "create_category",
+      "name": "02 SIGNAL",
+      "id": "1519567759334309918"
+    },
+    {
+      "action": "create_category",
+      "name": "03 BUILD",
+      "id": "1519567760777023528"
+    },
+    {
+      "action": "create_category",
+      "name": "04 CONTENT",
+      "id": "1519567762664456242"
+    },
+    {
+      "action": "create_category",
+      "name": "05 LIVE",
+      "id": "1519567763805437993"
+    },
+    {
+      "action": "create_category",
+      "name": "06 PRIVATE",
+      "id": "1519567764975648880"
+    },
+    {
+      "action": "update_channel",
+      "key": "start-here",
+      "from": "start-here",
+      "to": "✦｜start-here",
+      "id": "1517198845530865857",
+      "parent": "01 START"
+    },
+    {
+      "action": "update_channel",
+      "key": "introductions",
+      "from": "introductions",
+      "to": "◇｜introductions",
+      "id": "1517198846328049765",
+      "parent": "01 START"
+    },
+    {
+      "action": "update_channel",
+      "key": "daily-signal",
+      "from": "daily-signal",
+      "to": "◆｜daily-signal",
+      "id": "1517198847120511039",
+      "parent": "02 SIGNAL"
+    },
+    {
+      "action": "update_channel",
+      "key": "questions",
+      "from": "questions",
+      "to": "⌕｜questions",
+      "id": "1517331341132300352",
+      "parent": "02 SIGNAL"
+    },
+    {
+      "action": "create_channel",
+      "key": "ask-sage",
+      "name": "◈｜ask-sage",
+      "id": "1519568011948724404",
+      "parent": "02 SIGNAL"
+    },
+    {
+      "action": "update_channel",
+      "key": "build-lab",
+      "from": "build-lab",
+      "to": "▣｜build-lab",
+      "id": "1517198848034869379",
+      "parent": "03 BUILD"
+    },
+    {
+      "action": "update_channel",
+      "key": "review-queue",
+      "from": "review-queue",
+      "to": "◎｜review-queue",
+      "id": "1517198849410732214",
+      "parent": "03 BUILD"
+    },
+    {
+      "action": "create_channel",
+      "key": "content-queue",
+      "name": "▱｜content-queue",
+      "id": "1519568020769607680",
+      "parent": "04 CONTENT"
+    },
+    {
+      "action": "update_channel",
+      "key": "resources",
+      "from": "resources",
+      "to": "◌｜resources",
+      "id": "1517198852828954857",
+      "parent": "04 CONTENT"
+    },
+    {
+      "action": "update_channel",
+      "key": "wins-showcase",
+      "from": "wins-showcase",
+      "to": "★｜wins-showcase",
+      "id": "1517198854221729802",
+      "parent": "04 CONTENT"
+    },
+    {
+      "action": "update_channel",
+      "key": "live-room",
+      "from": "live-room",
+      "to": "◐｜live-room",
+      "id": "1517198852355133691",
+      "parent": "05 LIVE"
+    },
+    {
+      "action": "update_channel",
+      "key": "premium",
+      "from": "premium",
+      "to": "✧｜premium",
+      "id": "1517198854892552342",
+      "parent": "06 PRIVATE"
+    },
+    {
+      "action": "update_channel",
+      "key": "team-ops",
+      "from": "team-ops",
+      "to": "■｜team-ops",
+      "id": "1517198855555256430",
+      "parent": "06 PRIVATE"
+    }
+  ],
+  "missing": [],
+  "before": [
+    {
+      "id": "1517198845530865857",
+      "name": "start-here",
+      "base": "start-here",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 0
+    },
+    {
+      "id": "1517198846328049765",
+      "name": "introductions",
+      "base": "introductions",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 1
+    },
+    {
+      "id": "1517198847120511039",
+      "name": "daily-signal",
+      "base": "daily-signal",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 2
+    },
+    {
+      "id": "1517198848034869379",
+      "name": "build-lab",
+      "base": "build-lab",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 4
+    },
+    {
+      "id": "1517198849410732214",
+      "name": "review-queue",
+      "base": "review-queue",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 5
+    },
+    {
+      "id": "1517198852355133691",
+      "name": "live-room",
+      "base": "live-room",
+      "type": 0,
+      "parent_id": "1518271297518305421",
+      "position": 8
+    },
+    {
+      "id": "1517198852828954857",
+      "name": "resources",
+      "base": "resources",
+      "type": 0,
+      "parent_id": "1517246195792085115",
+      "position": 6
+    },
+    {
+      "id": "1517198854221729802",
+      "name": "wins-showcase",
+      "base": "wins-showcase",
+      "type": 0,
+      "parent_id": "1517246195792085115",
+      "position": 7
+    },
+    {
+      "id": "1517198854892552342",
+      "name": "premium",
+      "base": "premium",
+      "type": 0,
+      "parent_id": "1518271298986578134",
+      "position": 9
+    },
+    {
+      "id": "1517198855555256430",
+      "name": "team-ops",
+      "base": "team-ops",
+      "type": 0,
+      "parent_id": "1518271298986578134",
+      "position": 10
+    },
+    {
+      "id": "1517246191140606153",
+      "name": "01 START",
+      "base": "01 start",
+      "type": 4,
+      "parent_id": null,
+      "position": 9
+    },
+    {
+      "id": "1517246193623634100",
+      "name": "02 BUILD",
+      "base": "02 build",
+      "type": 4,
+      "parent_id": null,
+      "position": 10
+    },
+    {
+      "id": "1517246195792085115",
+      "name": "03 CONTENT",
+      "base": "03 content",
+      "type": 4,
+      "parent_id": null,
+      "position": 11
+    },
+    {
+      "id": "1517331341132300352",
+      "name": "questions",
+      "base": "questions",
+      "type": 0,
+      "parent_id": "1517246193623634100",
+      "position": 3
+    },
+    {
+      "id": "1518271297518305421",
+      "name": "04 LIVE",
+      "base": "04 live",
+      "type": 4,
+      "parent_id": null,
+      "position": 13
+    },
+    {
+      "id": "1518271298986578134",
+      "name": "05 PRIVATE",
+      "base": "05 private",
+      "type": 4,
+      "parent_id": null,
+      "position": 14
+    }
+  ],
+  "after": [
+    {
+      "id": "1517198845530865857",
+      "name": "✦｜start-here",
+      "base": "start-here",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 0
+    },
+    {
+      "id": "1517246191140606153",
+      "name": "01 START",
+      "base": "01 start",
+      "type": 4,
+      "parent_id": null,
+      "position": 0
+    },
+    {
+      "id": "1517198846328049765",
+      "name": "◇｜introductions",
+      "base": "introductions",
+      "type": 0,
+      "parent_id": "1517246191140606153",
+      "position": 1
+    },
+    {
+      "id": "1519567759334309918",
+      "name": "02 SIGNAL",
+      "base": "02 signal",
+      "type": 4,
+      "parent_id": null,
+      "position": 1
+    },
+    {
+      "id": "1517198847120511039",
+      "name": "◆｜daily-signal",
+      "base": "daily-signal",
+      "type": 0,
+      "parent_id": "1519567759334309918",
+      "position": 2
+    },
+    {
+      "id": "1519567760777023528",
+      "name": "03 BUILD",
+      "base": "03 build",
+      "type": 4,
+      "parent_id": null,
+      "position": 2
+    },
+    {
+      "id": "1517331341132300352",
+      "name": "⌕｜questions",
+      "base": "questions",
+      "type": 0,
+      "parent_id": "1519567759334309918",
+      "position": 3
+    },
+    {
+      "id": "1519567762664456242",
+      "name": "04 CONTENT",
+      "base": "04 content",
+      "type": 4,
+      "parent_id": null,
+      "position": 3
+    },
+    {
+      "id": "1519567763805437993",
+      "name": "05 LIVE",
+      "base": "05 live",
+      "type": 4,
+      "parent_id": null,
+      "position": 4
+    },
+    {
+      "id": "1519568011948724404",
+      "name": "◈｜ask-sage",
+      "base": "ask-sage",
+      "type": 0,
+      "parent_id": "1519567759334309918",
+      "position": 4
+    },
+    {
+      "id": "1517198848034869379",
+      "name": "▣｜build-lab",
+      "base": "build-lab",
+      "type": 0,
+      "parent_id": "1519567760777023528",
+      "position": 5
+    },
+    {
+      "id": "1519567764975648880",
+      "name": "06 PRIVATE",
+      "base": "06 private",
+      "type": 4,
+      "parent_id": null,
+      "position": 5
+    },
+    {
+      "id": "1517198849410732214",
+      "name": "◎｜review-queue",
+      "base": "review-queue",
+      "type": 0,
+      "parent_id": "1519567760777023528",
+      "position": 6
+    },
+    {
+      "id": "1519568020769607680",
+      "name": "▱｜content-queue",
+      "base": "content-queue",
+      "type": 0,
+      "parent_id": "1519567762664456242",
+      "position": 7
+    },
+    {
+      "id": "1517198852828954857",
+      "name": "◌｜resources",
+      "base": "resources",
+      "type": 0,
+      "parent_id": "1519567762664456242",
+      "position": 8
+    },
+    {
+      "id": "1517198854221729802",
+      "name": "★｜wins-showcase",
+      "base": "wins-showcase",
+      "type": 0,
+      "parent_id": "1519567762664456242",
+      "position": 9
+    },
+    {
+      "id": "1517198852355133691",
+      "name": "◐｜live-room",
+      "base": "live-room",
+      "type": 0,
+      "parent_id": "1519567763805437993",
+      "position": 10
+    },
+    {
+      "id": "1517246193623634100",
+      "name": "02 BUILD",
+      "base": "02 build",
+      "type": 4,
+      "parent_id": null,
+      "position": 10
+    },
+    {
+      "id": "1517198854892552342",
+      "name": "✧｜premium",
+      "base": "premium",
+      "type": 0,
+      "parent_id": "1519567764975648880",
+      "position": 11
+    },
+    {
+      "id": "1517246195792085115",
+      "name": "03 CONTENT",
+      "base": "03 content",
+      "type": 4,
+      "parent_id": null,
+      "position": 11
+    },
+    {
+      "id": "1517198855555256430",
+      "name": "■｜team-ops",
+      "base": "team-ops",
+      "type": 0,
+      "parent_id": "1519567764975648880",
+      "position": 12
+    },
+    {
+      "id": "1518271297518305421",
+      "name": "04 LIVE",
+      "base": "04 live",
+      "type": 4,
+      "parent_id": null,
+      "position": 13
+    },
+    {
+      "id": "1518271298986578134",
+      "name": "05 PRIVATE",
+      "base": "05 private",
+      "type": 4,
+      "parent_id": null,
+      "position": 14
+    }
+  ],
+  "note": "Added ask-sage and content-queue, renamed lean channels with restrained symbol prefixes, and reapplied approval-gated permissions.",
+  "finishedAt": "2026-06-25T05:00:52.452Z"
+}

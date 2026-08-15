@@ -4,8 +4,14 @@ import { buildWeeklyRecapContent } from './sage-commands';
 import { recordDiscordEvent, recordDiscordScheduledRun } from './analytics';
 import { postToChannelByBaseName } from './sage-rest';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import {
+  SAGEBOT_PERSONALITY_VERSION,
+  SAGEBOT_PROMPT_VERSIONS,
+  sageBotWeeklyRecapPolicyLine,
+  scoreSageBotPolicyOutput,
+} from './sagebot-personality';
 
-export const DISCORD_WEEKLY_RECAP_PROMPT_VERSION = 'discord-weekly-recap-automation-v1';
+export const DISCORD_WEEKLY_RECAP_PROMPT_VERSION = SAGEBOT_PROMPT_VERSIONS.weeklyRecap;
 
 export type WeeklyRecapDraftInput = {
   now?: Date;
@@ -57,7 +63,8 @@ export async function createWeeklyRecapDraft(input: WeeklyRecapDraftInput = {}):
   const weekKey = discordWeekKey(now);
   const leaderboardSnapshot = await createLeaderboardSnapshot({ now, periodKey: weekKey, limit: 10 });
   const body = await buildWeeklyRecapContent();
-  const qualityScore = scoreWeeklyRecap(body);
+  const policyScore = scoreSageBotPolicyOutput(body, { maxLength: 4000 });
+  const qualityScore = Math.min(scoreWeeklyRecap(body), policyScore.score);
   const draft = await createDiscordContentDraft({
     draftType: 'weekly_recap',
     targetChannelBaseName: 'wins-showcase',
@@ -71,6 +78,13 @@ export async function createWeeklyRecapDraft(input: WeeklyRecapDraftInput = {}):
       leaderboard_snapshot_id: leaderboardSnapshot.id,
       leaderboard_count: leaderboardSnapshot.rankings.length,
       source: 'discord_weekly_recap_automation',
+      personality_version: SAGEBOT_PERSONALITY_VERSION,
+      prompt_version: DISCORD_WEEKLY_RECAP_PROMPT_VERSION,
+      policy_line: sageBotWeeklyRecapPolicyLine(),
+      policy_score: policyScore.score,
+      policy_passed: policyScore.passed,
+      policy_reasons: policyScore.reasons,
+      policy_flags: policyScore.flags,
       ...(input.metadata ?? {}),
     },
   });
@@ -130,7 +144,12 @@ export async function publishApprovedWeeklyRecapDraft(input: {
     };
   }
 
-  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body);
+  const messageId = await postToChannelByBaseName(approved.target_channel_base_name, approved.body, {
+    embed: true,
+    title: 'Weekly Recap',
+    variant: 'win',
+    footer: 'Sage Ideas weekly rhythm',
+  });
   await supabaseAdmin()
     .from('discord_content_drafts')
     .update({

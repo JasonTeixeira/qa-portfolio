@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "checks": {
+    "permission_audit_passes_safe_matrix": true,
+    "permission_audit_fails_bad_matrix": true,
+    "admin_actions_require_admin": true,
+    "prompt_injection_blocked": true,
+    "privacy_guard_blocks_private_data": true,
+    "abuse_classifier_routes_spam": true,
+    "outbound_mentions_suppressed": true,
+    "signature_freshness_wired": true,
+    "interaction_rate_limit_wired": true,
+    "rag_ai_guard_wired": true,
+    "report_abuse_wired": true,
+    "public_privacy_guard_present": true,
+    "retention_export_delete_runbook_present": true,
+    "live_permission_audit_passed": true,
+    "migration_present": true
+  },
+  "failures": [],
+  "permissionAudit": {
+    "ok": true,
+    "failures": [],
+    "checks": {
+      "unapproved_only_start_here": true,
+      "approved_cannot_see_team_ops": true,
+      "premium_channel_gated": true,
+      "moderators_can_see_team_ops": true,
+      "bot_has_ops_visibility": true
+    }
+  },
+  "badPermissionAudit": {
+    "ok": false,
+    "failures": [
+      "unapproved_only_start_here",
+      "approved_cannot_see_team_ops",
+      "premium_channel_gated",
+      "moderators_can_see_team_ops",
+      "bot_has_ops_visibility"
+    ],
+    "checks": {
+      "unapproved_only_start_here": false,
+      "approved_cannot_see_team_ops": false,
+      "premium_channel_gated": false,
+      "moderators_can_see_team_ops": false,
+      "bot_has_ops_visibility": false
+    }
+  },
+  "livePermissionAudit": {
+    "ok": true,
+    "checks": {
+      "required_roles_exist": true,
+      "required_channels_exist": true,
+      "start_here_open_to_everyone": true,
+      "non_start_channels_deny_everyone": true,
+      "approved_free_channels_allow_academy": true,
+      "premium_channel_denies_everyone_and_allows_premium": true,
+      "team_ops_denies_everyone_and_member_roles": true
+    },
+    "failures": [],
+    "requiredChannels": [
+      "start-here",
+      "academy-roadmap",
+      "introductions",
+      "announcements",
+      "daily-signal",
+      "questions",
+      "ask-sage",
+      "lesson-discussion",
+      "build-lab",
+      "project-submissions",
+      "review-queue",
+      "content-queue",
+      "live-room",
+      "office-hours",
+      "accountability",
+      "resources",
+      "wins-showcase",
+      "premium",
+      "premium-reviews",
+      "team-ops"
+    ],
+    "approvedMissingAccess": [],
+    "nonStartVisibleToEveryone": [],
+    "channelCount": 26,
+    "roleCount": 18
+  },
+  "adminAudit": {
+    "ok": true,
+    "exportedActions": 18,
+    "requireAdminCalls": 18,
+    "failures": []
+  },
+  "promptInjection": {
+    "passed": false,
+    "score": 40,
+    "reasons": [
+      "prompt_injection_instruction"
+    ]
+  },
+  "privacy": {
+    "passed": false,
+    "score": 55,
+    "reasons": [
+      "private_identifier_or_secret"
+    ]
+  },
+  "abuse": {
+    "abuseScore": 35,
+    "category": "spam",
+    "reasons": [
+      "spam_pattern"
+    ]
+  },
+  "sanitized": "@​everyone look at <@​1234567890> and <@&​9876543210>",
+  "auditRowId": "ae62aba0-8c65-475f-990b-2f35d9f7a041",
+  "startedAt": "2026-06-25T14:55:06.792Z",
+  "finishedAt": "2026-06-25T14:55:07.797Z"
+}

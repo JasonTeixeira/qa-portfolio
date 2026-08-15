@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "checks": {
+    "tabs_present": true,
+    "required_surfaces_present": true,
+    "live_tables_queried": true,
+    "safe_actions_authed": true,
+    "durable_migration_present": true
+  },
+  "liveCounts": {
+    "members": 7,
+    "member_profiles": 7,
+    "nudge_queue": 7,
+    "content_queue": 0,
+    "content_drafts": 34,
+    "rag_sources": 66,
+    "eval_runs": 37,
+    "scheduled_runs": 6,
+    "durable_jobs": 12,
+    "durable_runs": 0,
+    "dead_letters": 0,
+    "premium_reviews": 0,
+    "office_hours": 0,
+    "final_scorecard_runs": 8,
+    "events": 53
+  },
+  "requiredTabs": [
+    "overview",
+    "members",
+    "knowledge",
+    "content",
+    "learning",
+    "jobs",
+    "premium",
+    "audit"
+  ],
+  "requiredSurfaces": [
+    "Member approval queue",
+    "Member intelligence",
+    "Member nudge queue",
+    "RAG operational health",
+    "RAG knowledge approval desk",
+    "AI content approval",
+    "Challenge review desk",
+    "Scheduled automation",
+    "Durable job control",
+    "Job dead letters",
+    "Premium operations",
+    "Final scorecard",
+    "95+ blockers",
+    "Audit stream"
+  ],
+  "finishedAt": "2026-06-25T21:15:45.876Z"
+}

@@ -45,6 +45,8 @@ async function main() {
     ok: result.ok && Boolean(result.draftId) && result.bodyPreview.includes('# Daily Signal'),
     smoke,
     cleanedUp,
+    traceId: result.observability?.traceId ?? null,
+    observabilityProvider: result.observability?.provider ?? null,
     startedAt,
     finishedAt: new Date().toISOString(),
   };

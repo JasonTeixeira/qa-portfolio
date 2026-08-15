@@ -74,17 +74,6 @@ const serviceMatrix = [
     cta: 'Keep it running',
     detail: 'Maintenance, measurement, fixes, content support, and steady improvement.',
   },
-  {
-    code: '06',
-    signal: 'I want to learn the system before hiring or building.',
-    route: 'Academy path',
-    price: 'forming',
-    timeline: 'self-paced',
-    mode: 'learn',
-    href: '/academy',
-    cta: 'Enter academy',
-    detail: 'Courses, build notes, templates, and practical lessons from the same studio system.',
-  },
 ] as const
 
 // Real evidence from shipped Lab products / Work case studies. No fabricated
@@ -140,7 +129,7 @@ export function ServicesEl() {
         <div aria-hidden className="sage-depth pointer-events-none absolute inset-0" />
         <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
           <div className="mb-7 flex items-center gap-4">
-            <MonoLabel tone="accent">{'// engagements'}</MonoLabel>
+            <MonoLabel tone="accent">Business systems</MonoLabel>
             <Hairline className="flex-1" strong />
           </div>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
@@ -153,20 +142,19 @@ export function ServicesEl() {
                   lineHeight: 1.0,
                 }}
               >
-                Engineering. AI. Automation.{' '}
-                <span className="italic text-[var(--sage-accent)]">Clear route.</span>
+                Pick the leak.{' '}
+                <span className="italic text-[var(--sage-accent)]">Build the system.</span>
               </h1>
               <p className="mt-6 max-w-[62ch] text-base leading-[1.75] text-[var(--sage-ink-muted)] sm:text-lg">
-                Productized engagements with fixed scope — AI reliability audits, RAG and agent ops,
-                automation pipelines, customer-facing AI products, retainers, diagnostic on-ramps, and
-                full done-for-you bundles. Or scope something custom: free 30-minute call, 48-hour
-                proposal, no asterisks.
+                Choose the business outcome first: more qualified leads, better quote requests,
+                cleaner intake, AI support, or a conversion site buyers can trust. Then open the proof
+                and scope the build.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
-                <CtaLink variant="text" href="/artifacts/sample-audit">see a real sample deliverable</CtaLink>
-                <CtaLink variant="text" href="/pricing">compare every tier</CtaLink>
-                <CtaLink variant="text" href="/capabilities">capability matrix</CtaLink>
-                <CtaLink variant="text" href="/industries">browse by industry</CtaLink>
+                <CtaLink variant="text" href="/showcase/revenue-os">open Revenue OS</CtaLink>
+                <CtaLink variant="text" href="/showcase/contractor-quote-engine">open Quote Engine</CtaLink>
+                <CtaLink variant="text" href="/pricing">compare pricing</CtaLink>
+                <CtaLink variant="text" href="/book?source=services_hero">book the build call</CtaLink>
               </div>
             </div>
             <SystemHeroPanel
@@ -194,11 +182,10 @@ export function ServicesEl() {
       </section>
 
       <Section
-        index="00"
-        eyebrow="service router"
+        eyebrow="Outcome router"
         ariaLabel="Service decision matrix"
-        heading="Choose by situation, not by guessing."
-        lede="The services page should answer the buyer's real question fast: what do I need, what does it cost, how long does it take, and what should I click next?"
+        heading="Choose by what is costing you money."
+        lede="The fastest route is not a menu of services. It is the leak you can name: missed leads, messy quote requests, slow intake, unsupported customers, or a site that does not convert."
       >
         <div className="grid gap-px overflow-hidden rounded-[6px] border border-[var(--sage-border)] bg-[var(--sage-border)] lg:grid-cols-2">
           {serviceMatrix.map((item) => (
@@ -208,14 +195,14 @@ export function ServicesEl() {
               className="group relative min-h-[310px] overflow-hidden bg-[var(--sage-surface-1)] p-5 transition-colors hover:bg-[var(--sage-surface-2)] sm:p-6"
             >
               <SystemFlowOverlay
-                variant={item.mode === 'learn' ? 'academy' : item.mode === 'diagnose' ? 'growth' : 'systems'}
+                variant={item.mode === 'diagnose' ? 'growth' : 'systems'}
                 intensity={item.mode === 'diagnose' ? 'normal' : 'quiet'}
               />
               <div className="relative z-10 flex h-full flex-col">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sage-accent-readable)]">
-                      {item.code} · {item.mode}
+                      {item.mode}
                     </p>
                     <h3
                       className="mt-4 max-w-[18ch] text-3xl font-extrabold leading-none tracking-[-0.03em] text-[var(--sage-ink)] sm:text-4xl"
@@ -261,8 +248,7 @@ export function ServicesEl() {
 
       {/* ── Productized engagements ────────────────────────────────── */}
       <Section
-        index="01"
-        eyebrow="productized · engineering & qa"
+        eyebrow="Build packages"
         ariaLabel="Productized engagements"
         heading={
           <>
@@ -270,7 +256,7 @@ export function ServicesEl() {
             <span className="italic text-[var(--sage-accent)]">Stripe checkout.</span>
           </>
         }
-        lede="The original Sage Ideas catalog — strategy audits, marketing-site sprints, brand work, and platform builds. Audit is the self-serve on-ramp and credits toward a larger engagement."
+        lede="Use these when the route is already clear. If it is not, start with the audit and turn the highest-value bottleneck into a written build plan."
       >
         <TierGrid tiers={tiersOrdered} recommendedSlug={RECOMMENDED_SLUG} />
       </Section>
@@ -278,8 +264,7 @@ export function ServicesEl() {
       {/* ── AI & Automation catalog ────────────────────────────────── */}
       <Section
         id="ai-and-automation"
-        index="02"
-        eyebrow="ai & automation"
+        eyebrow="AI and automation"
         ariaLabel="AI and automation catalog"
         heading={
           <>
@@ -287,7 +272,7 @@ export function ServicesEl() {
             <span className="italic text-[var(--sage-accent)]">we can help.</span>
           </>
         }
-        lede="AI reliability, automation pipelines, customer-facing AI products, productized retainers, diagnostics, and full bundles. Inquiry-first — every engagement is scoped and priced in writing before you commit."
+        lede="AI reliability, automation pipelines, customer-facing AI products, retainers, diagnostics, and full bundles. Every larger engagement is scoped and priced in writing before you commit."
         grain
         className="scroll-mt-20"
       >
@@ -303,8 +288,7 @@ export function ServicesEl() {
 
       {/* ── Proof from the Lab ─────────────────────────────────────── */}
       <Section
-        index="03"
-        eyebrow="proof from the lab"
+        eyebrow="Proof from the lab"
         ariaLabel="Evidence"
         heading={
           <>
@@ -312,14 +296,14 @@ export function ServicesEl() {
             <span className="italic text-[var(--sage-accent)]">ourselves first.</span>
           </>
         }
-        lede="Every offer above is built on a pattern already running in production — in our Lab or in shipped client work. Three concrete examples:"
+        lede="Every offer above is built on a pattern already running in production in the lab or in shipped client work. Three concrete examples:"
       >
         <div className="grid gap-4 md:grid-cols-3">
           {evidenceItems.map((item, i) => (
             <Reveal key={item.href} delay={i * 0.06} className="h-full">
               <Link href={item.href} className="group block h-full">
                 <Surface level={2} interactive className="flex h-full flex-col p-7">
-                  <MonoLabel tone="accent">{`// ${item.category}`}</MonoLabel>
+                  <MonoLabel tone="accent">{item.category}</MonoLabel>
                   <h3
                     className="mt-4 text-lg font-normal leading-snug text-[var(--sage-ink)]"
                     style={{ fontFamily: 'var(--font-display)' }}
@@ -425,13 +409,13 @@ export function ServicesEl() {
       >
         <Reveal className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <CtaLink variant="solid" href="/book" event="cta_click" eventProps={{ location: 'services_final_cta', label: 'book_discovery' }}>
-            ./book
+            Book the build call
           </CtaLink>
           <Link
-            href="/contact?engagement=custom"
+            href="/contact?source=services_final&engagement=custom"
             className="group inline-flex h-12 items-center gap-2.5 rounded-[3px] border border-[var(--sage-border-strong)] px-6 text-[13px] uppercase tracking-[0.08em] text-[var(--sage-ink-muted)] transition-colors duration-200 [font-family:var(--font-mono),ui-monospace,monospace] hover:border-[var(--sage-border-hover)] hover:text-[var(--sage-ink)]"
           >
-            <span>talk to sage</span>
+            <span>Send the context</span>
             <span aria-hidden className="text-[var(--sage-ink-faint)] transition-transform duration-200 group-hover:translate-x-0.5">→</span>
           </Link>
         </Reveal>

@@ -1,0 +1,514 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Dashboard Cockpit"><div data-dc-tpl="6" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 15px; line-height: 1.55; overflow-x: hidden;">
+
+  
+  <header data-dc-tpl="7" style="position: sticky; top: 0px; z-index: 50; border-bottom: 1px solid rgb(30, 30, 36); background: rgba(11, 11, 14, 0.88); backdrop-filter: blur(14px);">
+    <div data-dc-tpl="8" style="max-width: 1280px; margin: 0px auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 8px clamp(16px, 3vw, 32px); min-height: 64px;">
+      <a data-dc-tpl="9" href="Sage Home.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; flex-shrink: 0;">
+        <span data-dc-tpl="10" style="display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 12px; box-shadow: rgba(61, 90, 254, 0.35) 0px 0px 18px;">◆</span>
+        <span data-dc-tpl="11">
+          <span data-dc-tpl="12" style="display: block; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;">Sage Academy</span>
+          <span data-dc-tpl="13" style="display: block; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.16em; color: rgb(149, 152, 162);">The cockpit</span>
+        </span>
+      </a>
+      <nav data-dc-tpl="14" style="display: flex; align-items: center; gap: 2px; margin-left: 8px;">
+        <span data-dc-tpl="15" style="color: rgb(242, 239, 233); font-size: 13.5px; font-weight: 600; padding: 9px 12px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); white-space: nowrap;">My Learning</span>
+        <a data-dc-tpl="16" href="Sage Courses.dc.html" class="scp0" style="color: rgb(182, 182, 192); text-decoration: none; font-size: 13.5px; padding: 9px 12px; border-radius: 9px; white-space: nowrap;">Catalog</a>
+        <a data-dc-tpl="17" href="Sage Evidence Portfolio.dc.html" class="scp0" style="color: rgb(182, 182, 192); text-decoration: none; font-size: 13.5px; padding: 9px 12px; border-radius: 9px; white-space: nowrap;">Evidence</a>
+        <a data-dc-tpl="18" href="Sage Leagues.dc.html" class="scp0" style="color: rgb(182, 182, 192); text-decoration: none; font-size: 13.5px; padding: 9px 12px; border-radius: 9px; white-space: nowrap;">Leagues</a>
+        <a data-dc-tpl="19" href="Sage Progress.dc.html" class="scp0" style="color: rgb(182, 182, 192); text-decoration: none; font-size: 13.5px; padding: 9px 12px; border-radius: 9px; white-space: nowrap;">Progress</a>
+      </nav>
+      <div data-dc-tpl="20" style="margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; min-width: 0px;">
+        <a data-dc-tpl="21" href="Sage Daily Rep.dc.html" class="scp1" style="display: inline-flex; align-items: center; gap: 7px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62); border: 1px solid rgba(224, 169, 62, 0.35); border-radius: 16px; padding: 7px 13px; white-space: nowrap; text-decoration: none;">◆ <span class="sc-interp">12-day streak · rep due</span></a>
+        <span data-dc-tpl="22" style="display: inline-flex; align-items: center; gap: 7px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255); border: 1px solid rgba(61, 90, 254, 0.35); border-radius: 16px; padding: 7px 13px; white-space: nowrap;"><span class="sc-interp">640</span> XP · Gold II</span>
+        <a data-dc-tpl="23" href="Sage Recall Queue.dc.html" class="scp1" style="display: inline-flex; align-items: center; gap: 7px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62); border: 1px solid rgba(224, 169, 62, 0.35); border-radius: 16px; padding: 7px 13px; white-space: nowrap; text-decoration: none;">recall due: <span class="sc-interp">4</span></a>
+        <sage-notify data-dc-tpl="24" hide-due="true"></sage-notify>
+        <a data-dc-tpl="25" href="Sage Settings.dc.html" title="Settings" class="scp2" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, rgb(35, 35, 54), rgb(20, 20, 28)); border: 1px solid rgba(61, 90, 254, 0.4); display: grid; place-items: center; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(143, 160, 255); text-decoration: none;">JT</a>
+      </div>
+    </div>
+  </header>
+
+  <main data-dc-tpl="26" style="max-width: 1280px; margin: 0px auto; padding: clamp(28px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px;">
+
+    
+    <div data-dc-tpl="27" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 24px;">
+      <div data-dc-tpl="28">
+        <div data-dc-tpl="29" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);"><span class="sc-interp">Tuesday · July 1 · sprint week 3</span></div>
+        <h1 data-dc-tpl="30" style="margin: 8px 0px 0px; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(26px, 3vw, 38px); letter-spacing: -0.025em; line-height: 1.05;"><span class="sc-interp">One repair between you and 91.</span></h1>
+      </div>
+      <div data-dc-tpl="31" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">ledger: 14 artifacts · last shipped 2d ago · 1,192 in sprint week 3 with you</span></div>
+    </div>
+
+    
+    <div data-dc-tpl="32" style="opacity: 1; transform: translateY(0px);">
+    <div data-dc-tpl="33" id="bento" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;">
+
+      
+      <div data-dc-tpl="34" style="grid-column: span 7; border: 1px solid rgba(61, 90, 254, 0.4); border-radius: 16px; background: linear-gradient(165deg, rgb(20, 20, 28), rgb(17, 17, 21)); padding: 30px; display: flex; flex-direction: column; gap: 16px; box-shadow: rgba(61, 90, 254, 0.1) 0px 0px 32px;">
+        <div data-dc-tpl="35" style="display: flex; align-items: center; justify-content: space-between;">
+          <span data-dc-tpl="36" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(143, 160, 255);">One arrow · next best action</span>
+          <span data-dc-tpl="37" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(224, 169, 62);"><span class="sc-interp">highest leverage</span></span>
+        </div>
+        <div data-dc-tpl="38" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance;"><span class="sc-interp">Repair your PROOF on Lesson 10 to lift 78 → 91.</span></div>
+        <p data-dc-tpl="39" style="margin: 0px; color: rgb(156, 156, 166); font-size: 14.5px; max-width: 56ch; text-wrap: pretty;"><span class="sc-interp">Your mastery is capped by one failed proof: the decision memo's rollback claim didn't hold. The repair path deep-links to the exact block.</span></p>
+        <div data-dc-tpl="40" style="display: flex; align-items: center; gap: 14px; margin-top: auto; flex-wrap: wrap;">
+          <a data-dc-tpl="41" href="Sage Lab.dc.html" class="scp3" style="display: inline-flex; color: rgb(255, 255, 255); background: rgb(61, 90, 254); text-decoration: none; font-size: 14.5px; font-weight: 600; padding: 13px 24px; border-radius: 24px; box-shadow: rgba(61, 90, 254, 0.35) 0px 0px 22px; white-space: nowrap;"><span class="sc-interp">Open the repair</span></a>
+          <span data-dc-tpl="42" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(149, 152, 162);"><span class="sc-interp">~20 min · lifts the cap</span></span>
+        </div>
+      </div>
+
+      
+      <div data-dc-tpl="43" style="grid-column: span 5; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; display: flex; flex-direction: column; gap: 14px;">
+        <div data-dc-tpl="44" style="display: flex; align-items: center; justify-content: space-between;">
+          <span data-dc-tpl="45" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Continue</span>
+          <a data-dc-tpl="46" href="Sage Course Map.dc.html" class="scp4" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(110, 131, 255); text-decoration: none;">Foundations · Course 00 · map →</a>
+        </div>
+        <div data-dc-tpl="47" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 20px; letter-spacing: -0.015em; line-height: 1.2;"><span class="sc-interp">Course 00 · Map the blast radius before you touch anything</span></div>
+        
+        <div data-dc-tpl="48" style="display: flex; gap: 5px;">
+          
+            <div data-dc-tpl="50" title="Module 1 · Frame &amp; Route" style="flex: 1 1 0%; height: 6px; border-radius: 3px; background: rgb(24, 182, 99);"></div>
+          
+            <div data-dc-tpl="50" title="Module 2 · Map" style="flex: 1 1 0%; height: 6px; border-radius: 3px; background: rgb(24, 182, 99);"></div>
+          
+            <div data-dc-tpl="50" title="Module 3 · Decide &amp; Prove — current" style="flex: 1 1 0%; height: 6px; border-radius: 3px; background: rgb(61, 90, 254);"></div>
+          
+            <div data-dc-tpl="50" title="Module 4 · Review, Repair &amp; Package" style="flex: 1 1 0%; height: 6px; border-radius: 3px; background: rgb(26, 26, 32);"></div>
+          
+        </div>
+        <div data-dc-tpl="51" style="display: flex; justify-content: space-between; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">
+          <span data-dc-tpl="52"><span class="sc-interp">9 of 16 lessons · module 3 of 4</span></span><span data-dc-tpl="53" style="color: rgb(182, 182, 192);"><span class="sc-interp">56%</span></span>
+        </div>
+        
+        <div data-dc-tpl="54" style="border: 1px solid rgb(30, 30, 36); border-radius: 11px; background: rgb(11, 11, 14); padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-top: auto;">
+          <span data-dc-tpl="55" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 16px; color: rgb(110, 131, 255);">¶</span>
+          <div data-dc-tpl="56" style="min-width: 0px; flex: 1 1 0%;">
+            <div data-dc-tpl="57" style="font-size: 13px; font-weight: 600;"><span class="sc-interp">decision-memo.md — your artifact so far</span></div>
+            <div data-dc-tpl="58" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(149, 152, 162);"><span class="sc-interp">3 sections · last edit yesterday · 1 claim needs repair</span></div>
+          </div>
+          <a data-dc-tpl="59" href="Sage Evidence Portfolio.dc.html" class="scp5" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); text-decoration: none; white-space: nowrap;">view →</a>
+        </div>
+      </div>
+
+      
+      <div data-dc-tpl="60" style="grid-column: span 5; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; display: flex; flex-direction: column; gap: 20px;">
+        <div data-dc-tpl="61" style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <span data-dc-tpl="62" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Mastery · honest scoring</span>
+          <sage-share data-dc-tpl="63" label="share →" headline="Mastery, honestly scored" stat="78" sub="capped by my weakest proof · Engineering Judgment" verify="curl sageideas.dev/verify/SA-7F2K-91"></sage-share>
+        </div>
+        
+          <div data-dc-tpl="65">
+            <div data-dc-tpl="66" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+              <span data-dc-tpl="67" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Engineering Judgment</span></span>
+              <span data-dc-tpl="68" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(224, 169, 62);"><span class="sc-interp">78 · capped by PROOF</span></span>
+            </div>
+            <div data-dc-tpl="69" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);">
+              <div data-dc-tpl="70" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 78%; border-radius: 4px; background: linear-gradient(90deg, rgb(61, 90, 254), rgb(110, 131, 255));"></div>
+              
+                <div data-dc-tpl="72" style="position: absolute; left: 78%; top: -3px; bottom: -3px; width: 2px; background: rgb(224, 169, 62);"></div>
+              
+            </div>
+            <div data-dc-tpl="73" style="display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px;">
+              <span data-dc-tpl="74" style="color: rgb(149, 152, 162);"><span class="sc-interp">rollback claim failed review</span></span>
+              <span data-dc-tpl="75" style="color: rgb(24, 182, 99); font-weight: 600; cursor: pointer;"><span class="sc-interp">repair → 91</span></span>
+            </div>
+          </div>
+        
+          <div data-dc-tpl="65">
+            <div data-dc-tpl="66" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+              <span data-dc-tpl="67" style="font-size: 14px; font-weight: 600;"><span class="sc-interp">Concept Maps</span></span>
+              <span data-dc-tpl="68" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99);"><span class="sc-interp">92 · uncapped</span></span>
+            </div>
+            <div data-dc-tpl="69" style="position: relative; height: 7px; border-radius: 4px; background: rgb(26, 26, 32);">
+              <div data-dc-tpl="70" style="position: absolute; left: 0px; top: 0px; bottom: 0px; width: 92%; border-radius: 4px; background: linear-gradient(90deg, rgb(24, 182, 99), rgb(58, 205, 133));"></div>
+              
+            </div>
+            <div data-dc-tpl="73" style="display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px;">
+              <span data-dc-tpl="74" style="color: rgb(149, 152, 162);"><span class="sc-interp">all proofs holding</span></span>
+              <span data-dc-tpl="75" style="color: rgb(149, 152, 162); font-weight: 600; cursor: pointer;"><span class="sc-interp">next check in 3d</span></span>
+            </div>
+          </div>
+        
+      </div>
+
+      
+      <div data-dc-tpl="76" style="grid-column: span 7; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; display: flex; flex-direction: column;">
+        <div data-dc-tpl="77" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <span data-dc-tpl="78" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Evidence ledger · <span class="sc-interp">14 artifacts</span></span>
+          <a data-dc-tpl="79" href="Sage Public Profile.dc.html" class="scp5" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); text-decoration: none;">share portfolio →</a>
+        </div>
+        
+          <div data-dc-tpl="81" style="display: flex; flex-direction: column; flex: 1 1 0%;">
+            
+              <div data-dc-tpl="83" style="display: grid; grid-template-columns: minmax(130px, 1.3fr) minmax(110px, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0px; border-bottom: 1px solid rgb(30, 30, 36);">
+                <span data-dc-tpl="84" style="font-size: 13.5px; font-weight: 500;"><span class="sc-interp">Framed the duplicate-charge incident</span></span>
+                <span data-dc-tpl="85" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">framed-question.md</span></span>
+                <span data-dc-tpl="86" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; color: rgb(24, 182, 99); border: 1px solid rgba(24, 182, 99, 0.4); background: rgba(24, 182, 99, 0.07); white-space: nowrap;"><span class="sc-interp">PASSED</span></span>
+              </div>
+            
+              <div data-dc-tpl="83" style="display: grid; grid-template-columns: minmax(130px, 1.3fr) minmax(110px, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0px; border-bottom: 1px solid rgb(30, 30, 36);">
+                <span data-dc-tpl="84" style="font-size: 13.5px; font-weight: 500;"><span class="sc-interp">Blast-radius map, defended edges</span></span>
+                <span data-dc-tpl="85" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">blast-radius.svg</span></span>
+                <span data-dc-tpl="86" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; color: rgb(24, 182, 99); border: 1px solid rgba(24, 182, 99, 0.4); background: rgba(24, 182, 99, 0.07); white-space: nowrap;"><span class="sc-interp">PASSED</span></span>
+              </div>
+            
+              <div data-dc-tpl="83" style="display: grid; grid-template-columns: minmax(130px, 1.3fr) minmax(110px, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0px; border-bottom: 1px solid rgb(30, 30, 36);">
+                <span data-dc-tpl="84" style="font-size: 13.5px; font-weight: 500;"><span class="sc-interp">Rollback decision memo</span></span>
+                <span data-dc-tpl="85" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">decision-memo.md</span></span>
+                <span data-dc-tpl="86" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; color: rgb(229, 72, 77); border: 1px solid rgba(229, 72, 77, 0.4); background: rgba(229, 72, 77, 0.07); white-space: nowrap;"><span class="sc-interp">NEEDS REPAIR</span></span>
+              </div>
+            
+              <div data-dc-tpl="83" style="display: grid; grid-template-columns: minmax(130px, 1.3fr) minmax(110px, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0px; border-bottom: 1px solid rgb(30, 30, 36);">
+                <span data-dc-tpl="84" style="font-size: 13.5px; font-weight: 500;"><span class="sc-interp">Idempotent retry lab</span></span>
+                <span data-dc-tpl="85" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">retry_lab.py</span></span>
+                <span data-dc-tpl="86" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 8px; border-radius: 5px; color: rgb(24, 182, 99); border: 1px solid rgba(24, 182, 99, 0.4); background: rgba(24, 182, 99, 0.07); white-space: nowrap;"><span class="sc-interp">PASSED</span></span>
+              </div>
+            
+          </div>
+        
+        
+      </div>
+
+      
+      <div data-dc-tpl="91" style="grid-column: span 6; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px;">
+        <div data-dc-tpl="92" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+          <span data-dc-tpl="93" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Momentum · Gold II league</span>
+          <span data-dc-tpl="94" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(24, 182, 99);"><span class="sc-interp">120 XP above the drop line</span></span>
+        </div>
+        <div data-dc-tpl="95" style="display: flex; align-items: flex-end; gap: 7px; height: 92px; margin-bottom: 16px;">
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 55%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W1</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 67%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W2</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 50%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W3</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 82%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W4</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 74%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W5</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 92%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W6</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 84%; border-radius: 4px 4px 2px 2px; background: rgb(38, 38, 46);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W7</span></div>
+            </div>
+          
+            <div data-dc-tpl="97" style="flex: 1 1 0%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 6px;">
+              <div data-dc-tpl="98" style="height: 100%; border-radius: 4px 4px 2px 2px; background: rgb(61, 90, 254);"></div>
+              <div data-dc-tpl="99" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 8.5px; color: rgb(149, 152, 162); text-align: center;"><span class="sc-interp">W8</span></div>
+            </div>
+          
+        </div>
+        <div data-dc-tpl="100" style="display: flex; flex-direction: column; gap: 6px;">
+          
+            <div data-dc-tpl="102" style="display: flex; align-items: center; gap: 12px; padding: 7px 12px; border-radius: 9px; background: transparent; border: 1px solid transparent;">
+              <span data-dc-tpl="103" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); width: 22px;"><span class="sc-interp">04</span></span>
+              <span data-dc-tpl="104" style="font-size: 13px; font-weight: 400; color: rgb(156, 156, 166); flex: 1 1 0%;"><span class="sc-interp">mira.k</span></span>
+              <span data-dc-tpl="105" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);"><span class="sc-interp">820</span> XP</span>
+            </div>
+          
+            <div data-dc-tpl="102" style="display: flex; align-items: center; gap: 12px; padding: 7px 12px; border-radius: 9px; background: rgba(61, 90, 254, 0.1); border: 1px solid rgba(61, 90, 254, 0.4);">
+              <span data-dc-tpl="103" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(143, 160, 255); width: 22px;"><span class="sc-interp">05</span></span>
+              <span data-dc-tpl="104" style="font-size: 13px; font-weight: 700; color: rgb(242, 239, 233); flex: 1 1 0%;"><span class="sc-interp">you</span></span>
+              <span data-dc-tpl="105" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255);"><span class="sc-interp">640</span> XP</span>
+            </div>
+          
+            <div data-dc-tpl="102" style="display: flex; align-items: center; gap: 12px; padding: 7px 12px; border-radius: 9px; background: transparent; border: 1px solid transparent;">
+              <span data-dc-tpl="103" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); width: 22px;"><span class="sc-interp">06</span></span>
+              <span data-dc-tpl="104" style="font-size: 13px; font-weight: 400; color: rgb(156, 156, 166); flex: 1 1 0%;"><span class="sc-interp">dev_ondrej</span></span>
+              <span data-dc-tpl="105" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);"><span class="sc-interp">590</span> XP</span>
+            </div>
+          
+            <div data-dc-tpl="102" style="display: flex; align-items: center; gap: 12px; padding: 7px 12px; border-radius: 9px; background: transparent; border: 1px solid transparent;">
+              <span data-dc-tpl="103" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); width: 22px;"><span class="sc-interp">07</span></span>
+              <span data-dc-tpl="104" style="font-size: 13px; font-weight: 400; color: rgb(156, 156, 166); flex: 1 1 0%;"><span class="sc-interp">sana.builds</span></span>
+              <span data-dc-tpl="105" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);"><span class="sc-interp">520</span> XP</span>
+            </div>
+          
+          <div data-dc-tpl="106" style="display: flex; align-items: center; gap: 10px; padding: 2px 12px;">
+            <div data-dc-tpl="107" style="flex: 1 1 0%; border-top: 1px dashed rgba(229, 72, 77, 0.5);"></div>
+            <span data-dc-tpl="108" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; color: rgb(229, 72, 77);">DROP LINE</span>
+            <div data-dc-tpl="109" style="flex: 1 1 0%; border-top: 1px dashed rgba(229, 72, 77, 0.5);"></div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div data-dc-tpl="110" style="grid-column: span 6; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px; display: flex; flex-direction: column; gap: 16px;">
+        <div data-dc-tpl="111" style="display: flex; align-items: center; justify-content: space-between;">
+          <span data-dc-tpl="112" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162);">Retention · holds under pressure</span>
+          <span data-dc-tpl="113" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(24, 182, 99);"><span class="sc-interp">retention 91%</span></span>
+        </div>
+        <div data-dc-tpl="114" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div data-dc-tpl="115" style="border: 1px solid rgba(224, 169, 62, 0.35); border-radius: 11px; background: rgba(224, 169, 62, 0.05); padding: 16px;">
+            <div data-dc-tpl="116" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 28px; color: rgb(224, 169, 62);"><span class="sc-interp">4</span></div>
+            <div data-dc-tpl="117" style="font-size: 12px; color: rgb(149, 152, 162); margin-top: 2px;">due today · ~<span class="sc-interp">6</span> min</div>
+          </div>
+          <div data-dc-tpl="118" style="border: 1px solid rgb(30, 30, 36); border-radius: 11px; padding: 16px;">
+            <div data-dc-tpl="119" style="font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 28px;"><span class="sc-interp">11</span></div>
+            <div data-dc-tpl="120" style="font-size: 12px; color: rgb(149, 152, 162); margin-top: 2px;">upcoming this week</div>
+          </div>
+        </div>
+        <svg data-dc-tpl="121" viewBox="0 0 400 90" style="width: 100%; height: auto; display: block;">
+          <line data-dc-tpl="122" x1="4" y1="82" x2="396" y2="82" stroke="#1E1E24" stroke-width="1"></line>
+          <polyline data-dc-tpl="123" points="4,40 60,52 96,30 150,48 176,32 240,50 268,34 340,52 396,36" fill="none" stroke="#3D5AFE" stroke-width="2"></polyline>
+          <polyline data-dc-tpl="124" points="4,40 60,52 96,30 150,48 176,32 240,50 268,34 340,52 396,36 396,82 4,82" fill="rgba(61,90,254,0.08)" stroke="none"></polyline>
+        </svg>
+        <a data-dc-tpl="125" href="Sage Recall Queue.dc.html" class="scp6" style="display: inline-flex; align-self: flex-start; color: rgb(255, 255, 255); background: rgb(61, 90, 254); border: 1px solid rgb(61, 90, 254); text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 10px 20px; border-radius: 20px; white-space: nowrap;"><span class="sc-interp">Recall 4 concepts (6 min)</span></a>
+      </div>
+
+      
+      <div data-dc-tpl="126" style="grid-column: span 12; border: 1px solid rgba(61, 90, 254, 0.35); border-radius: 16px; background: linear-gradient(165deg, rgb(20, 20, 28), rgb(17, 17, 21)); padding: 26px; display: flex; align-items: flex-start; gap: 18px; flex-wrap: wrap;">
+        <span data-dc-tpl="127" style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 14px; flex-shrink: 0; box-shadow: rgba(61, 90, 254, 0.35) 0px 0px 18px;">◆</span>
+        <div data-dc-tpl="128" style="flex: 1 1 0%; min-width: 260px;">
+          <div data-dc-tpl="129" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(143, 160, 255); margin-bottom: 8px;">Sprout's weekly read · from your last 7 days</div>
+          <div data-dc-tpl="130" style="font-size: 14.5px; color: rgb(182, 182, 192); max-width: 80ch; text-wrap: pretty;"><span class="sc-interp">The pattern this week: your maps are strong and your rollback claims are the weak edge — gapped twice, both times on the same miss: who reads the state you're restoring. One targeted repair on lesson 10 beats three new lessons. And that case #7 diagnosis was genuinely clean work. — Sprout</span></div>
+        </div>
+        <span data-dc-tpl="131" class="scp7" style="display: inline-flex; align-items: center; color: rgb(143, 160, 255); border: 1px solid rgba(61, 90, 254, 0.4); font-size: 12.5px; font-weight: 600; padding: 10px 18px; border-radius: 20px; cursor: pointer; user-select: none; white-space: nowrap;"><span class="sc-interp">Regenerate ↻</span></span>
+      </div>
+
+      
+      <div data-dc-tpl="132" style="grid-column: span 12; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 22px 26px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <span data-dc-tpl="133" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(149, 152, 162); flex-shrink: 0;">Certificates</span>
+        
+          <div data-dc-tpl="135" style="display: flex; align-items: center; gap: 12px; border: 1px solid rgba(24, 182, 99, 0.35); border-radius: 11px; padding: 12px 16px; background: rgba(24, 182, 99, 0.05);">
+            <span data-dc-tpl="136" style="color: rgb(24, 182, 99); font-size: 15px;"><span class="sc-interp">◆</span></span>
+            <div data-dc-tpl="137">
+              <div data-dc-tpl="138" style="font-size: 13px; font-weight: 600;"><span class="sc-interp">Programming Fundamentals</span></div>
+              <div data-dc-tpl="139" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">SA-3P9D-42 · verifiable</span></div>
+            </div>
+          </div>
+        
+          <div data-dc-tpl="135" style="display: flex; align-items: center; gap: 12px; border: 1px solid rgba(224, 169, 62, 0.3); border-radius: 11px; padding: 12px 16px; background: transparent;">
+            <span data-dc-tpl="136" style="color: rgb(224, 169, 62); font-size: 15px;"><span class="sc-interp">◇</span></span>
+            <div data-dc-tpl="137">
+              <div data-dc-tpl="138" style="font-size: 13px; font-weight: 600;"><span class="sc-interp">Engineering Judgment</span></div>
+              <div data-dc-tpl="139" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">remaining: repair 1 proof + 7 lessons</span></div>
+            </div>
+          </div>
+        
+          <div data-dc-tpl="135" style="display: flex; align-items: center; gap: 12px; border: 1px solid rgb(30, 30, 36); border-radius: 11px; padding: 12px 16px; background: transparent;">
+            <span data-dc-tpl="136" style="color: rgb(74, 74, 84); font-size: 15px;"><span class="sc-interp">◇</span></span>
+            <div data-dc-tpl="137">
+              <div data-dc-tpl="138" style="font-size: 13px; font-weight: 600;"><span class="sc-interp">Backend Engineering</span></div>
+              <div data-dc-tpl="139" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">remaining: modules 3–5</span></div>
+            </div>
+          </div>
+        
+        <a data-dc-tpl="140" href="Sage Certificate.dc.html" class="scp8" style="margin-left: auto; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(24, 182, 99); text-decoration: none; white-space: nowrap;">view certificate →</a>
+        <a data-dc-tpl="141" href="Sage Courses.dc.html" class="scp5" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 11px; color: rgb(143, 160, 255); text-decoration: none; white-space: nowrap;">explore more tracks →</a>
+      </div>
+    </div>
+    </div>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{
+  &quot;firstSession&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;State&quot; },
+  &quot;nbaScenario&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;repair&quot;, &quot;recall&quot;, &quot;continue&quot;, &quot;post-failure&quot;, &quot;promotion-week&quot;], &quot;default&quot;: &quot;repair&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;State&quot; }
+}">
+class Component extends DCLogic {
+  state = { p: 0, live: null, coach: '', coachBusy: false };
+
+  async genCoach() {
+    if (this.state.coachBusy) return;
+    this.setState({ coachBusy: true });
+    let note;
+    try {
+      if (!window.claude || !window.claude.complete) throw new Error('offline');
+      note = await window.claude.complete({
+        system: 'You are Sprout, a warm, plainspoken engineering coach. Given a learner\'s week, write a 3-sentence read: the pattern you see, the single highest-leverage next move, and one genuine encouragement grounded in the data. No emoji, no fluff, no bullet lists.',
+        messages: [{ role: 'user', content: 'My week: mastery 78 capped by a failed rollback proof (gapped twice, both times missed who reads the restored state); repaired case #7 and passed gate rag-core-38 with eval 94; retention 91%; 12-day streak; 640 XP, #4 in Gold II, 180 XP behind #3.' }],
+      });
+    } catch (e) {
+      note = 'The pattern this week: your maps are strong and your rollback claims are the weak edge — gapped twice, both times on the same miss: who reads the state you\'re restoring. One targeted repair on lesson 10 beats three new lessons. And for the record, that case #7 repair at eval 94 was clean work.';
+    }
+    this.setState({ coach: (note || '').trim(), coachBusy: false });
+  }
+
+  componentDidMount() {
+    try {
+      const S = window.SageState;
+      if (S) this.setState({ live: { gate: S.get('gate07Passed', false), lesson: S.get('lesson07Complete', false), due: S.get('recallDue', 4), rep: S.get('dailyRepDone', false), badgeNoHint: S.get('badgeNoHint', false), badgeCleanRep: S.get('badgeCleanRep', false) } });
+    } catch (e) {}
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { this.setState({ p: 1 }); return; }
+    const t0 = performance.now();
+    this._c = setInterval(() => {
+      const p = Math.min(1, (performance.now() - t0) / 900);
+      this.setState({ p: 1 - Math.pow(1 - p, 3) });
+      if (p >= 1) clearInterval(this._c);
+    }, 40);
+  }
+  componentWillUnmount() { clearInterval(this._c); }
+
+  renderVals() {
+    const P = this.state.p;
+    const up = (n) => Math.round(n * P).toLocaleString();
+    const accent = '#3D5AFE', accentText = '#8FA0FF', green = '#18B663', amber = '#E0A93E', red = '#E5484D';
+    const first = this.props.firstSession ?? false;
+    const scenario = this.props.nbaScenario ?? 'repair';
+    const live = this.state.live || {};
+    const gateFixed = !!live.gate && !first;
+    const lessonDone = !!live.lesson && !first;
+    const dueN = live.due === undefined ? 4 : live.due;
+    const repDone = !!live.rep && !first;
+
+    // ---- Next Best Action logic ----
+    let nba;
+    if (first) {
+      nba = { meta: 'first session', metaColor: accentText, title: 'You haven\'t drawn a map yet. Start Course 00.', body: 'In 25 minutes you\'ll turn a messy incident into a decision a reviewer can inspect — and create the first row of your evidence ledger.', cta: 'Start Engineering Judgment', time: '~25 min · ends in your first proof' };
+    } else if (scenario === 'recall') {
+      nba = { meta: 'retention first', metaColor: accentText, title: 'Recall 4 concepts before they fade.', body: 'Four prompts hit their 7-day window today. Six minutes now keeps your retention above 90% — then get back to the sprint.', cta: 'Open the recall queue', time: '~6 min · keeps retention at 91%' };
+    } else if (scenario === 'continue') {
+      nba = { meta: 'mid-lesson', metaColor: accentText, title: 'Continue: Map the blast radius (step 3 of 6).', body: 'You\'re two blocks from the lab. The diagram is drawn; the code walkthrough and the failing starter are next.', cta: 'Resume lesson 07', time: '~15 min · ends in a passing check' };
+    } else if (scenario === 'post-failure') {
+      nba = { meta: 'the morning after', metaColor: red, title: 'Case #7 failed the gate. Repair it while it\'s fresh.', body: 'The eval caught a missing citation on the multi-hop path — the exact failure people get paged for. Yesterday\'s context is still warm; twenty minutes turns red to green, and a repair teaches more than ten clean runs.', cta: 'Open the repair', time: '~20 min · the most valuable lesson you\'ll do this week' };
+    } else if (scenario === 'promotion-week') {
+      nba = { meta: 'promotion week · 4 days left', metaColor: green, title: 'One more shipped proof passes mira.k.', body: 'You\'re 180 XP behind #3. One lab (+100) plus today\'s recalls (+60) closes the gap — XP comes from shipped proofs and held recalls, never from logins.', cta: 'Open the lab', time: '~26 min · +160 XP toward #3' };
+    } else if (gateFixed) {
+      nba = { meta: 'repair shipped · today', metaColor: green, title: 'Cap lifted: 78 → 91. Keep it honest.', body: 'Case #7 passed the gate — the eval reran at 94 and the rollback claim holds. Two lessons left in Module 3; the sprint is yours again.', cta: 'Resume lesson 07', time: '~15 min · back in the sprint' };
+    } else {
+      nba = { meta: 'highest leverage', metaColor: amber, title: 'Repair your PROOF on Lesson 10 to lift 78 → 91.', body: 'Your mastery is capped by one failed proof: the decision memo\'s rollback claim didn\'t hold. The repair path deep-links to the exact block.', cta: 'Open the repair', time: '~20 min · lifts the cap' };
+    }
+
+    const nbaHref = first ? 'Sage Lesson Player.dc.html' : scenario === 'recall' ? 'Sage Recall Queue.dc.html' : (scenario === 'continue' || gateFixed) ? 'Sage Lesson Player.dc.html' : 'Sage Lab.dc.html';
+
+    const evidenceRows = [
+      { claim: 'Framed the duplicate-charge incident', artifact: 'framed-question.md', verdict: 'PASSED', vColor: green, vBorder: 'rgba(24,182,99,0.4)', vBg: 'rgba(24,182,99,0.07)' },
+      { claim: 'Blast-radius map, defended edges', artifact: 'blast-radius.svg', verdict: 'PASSED', vColor: green, vBorder: 'rgba(24,182,99,0.4)', vBg: 'rgba(24,182,99,0.07)' },
+      gateFixed ? { claim: 'Rollback decision memo', artifact: 'decision-memo.md', verdict: 'PASSED', vColor: green, vBorder: 'rgba(24,182,99,0.4)', vBg: 'rgba(24,182,99,0.07)' } : { claim: 'Rollback decision memo', artifact: 'decision-memo.md', verdict: 'NEEDS REPAIR', vColor: red, vBorder: 'rgba(229,72,77,0.4)', vBg: 'rgba(229,72,77,0.07)' },
+      { claim: 'Idempotent retry lab', artifact: 'retry_lab.py', verdict: 'PASSED', vColor: green, vBorder: 'rgba(24,182,99,0.4)', vBg: 'rgba(24,182,99,0.07)' },
+    ];
+
+    return {
+      // top bar
+      streakLabel: first ? 'start your streak — Daily Rep' : repDone ? up(13) + '-day streak · shielded' : up(12) + '-day streak · rep due',
+      streakPillColor: first ? '#9598A2' : repDone ? green : amber,
+      streakPillBorder: first ? '#2A2A33' : repDone ? 'rgba(24,182,99,0.35)' : 'rgba(224,169,62,0.35)',
+      weeklyXp: first ? 0 : up(640),
+      recallDue: first ? 0 : up(dueN),
+
+      gridReveal: {
+        opacity: Math.min(1, P * 1.8),
+        transform: 'translateY(' + Math.round(14 * (1 - Math.min(1, P * 1.8))) + 'px)',
+      },
+      recallPillColor: first ? '#9598A2' : dueN === 0 ? green : amber,
+      recallPillBorder: first ? '#2A2A33' : dueN === 0 ? 'rgba(24,182,99,0.35)' : 'rgba(224,169,62,0.35)',
+
+      dateLine: 'Tuesday · July 1 · sprint week 3',
+      greeting: first ? 'Welcome. Your first win is 25 minutes away.'
+        : scenario === 'post-failure' ? 'Yesterday\'s gate said no. Today\'s plan is one case long.'
+        : scenario === 'promotion-week' ? 'Promotion week. You\'re #4 — top three go up.'
+        : gateFixed ? 'Cap lifted. 91 and climbing.'
+        : 'One repair between you and 91.',
+      ledgerLine: first ? 'evidence ledger: empty — for now · 214 others started this week'
+        : scenario === 'post-failure' ? 'ledger: 14 artifacts · gate rag-core-38 failed yesterday · 6 others repairing case #7 today'
+        : scenario === 'promotion-week' ? 'ledger: 14 artifacts · 180 XP behind #3 · 4 days left in Gold II'
+        : gateFixed ? 'ledger: 15 artifacts · eval-report-94 shipped today · cap lifted'
+        : 'ledger: 14 artifacts · last shipped 2d ago · 1,192 in sprint week 3 with you',
+
+      // NBA
+      coachNote: this.state.coach || 'The pattern this week: your maps are strong and your rollback claims are the weak edge — gapped twice, both times on the same miss: who reads the state you\'re restoring. One targeted repair on lesson 10 beats three new lessons. And that case #7 diagnosis was genuinely clean work. — Sprout',
+      coachBtnLabel: this.state.coachBusy ? 'reading your week…' : 'Regenerate ↻',
+      genCoach: () => this.genCoach(),
+
+      shareHeadline: gateFixed ? 'Cap lifted: 78 → 91' : 'Mastery, honestly scored',
+      shareStat: gateFixed ? '91' : '78',
+      shareSub: gateFixed ? 'uncapped · eval 94 · Engineering Judgment' : 'capped by my weakest proof · Engineering Judgment',
+
+      nbaHref,
+      nbaMeta: nba.meta, nbaMetaColor: nba.metaColor, nbaTitle: nba.title, nbaBody: nba.body, nbaCta: nba.cta, nbaTime: nba.time,
+
+      // continue
+      continueTitle: first ? 'Engineering Judgment & the Sage Learning OS' : 'Course 00 · Map the blast radius before you touch anything',
+      moduleMap: [
+        { flex: 1, color: first ? '#1A1A20' : green, tip: 'Module 1 · Frame & Route' },
+        { flex: 1, color: first ? '#1A1A20' : green, tip: 'Module 2 · Map' },
+        { flex: 1, color: first ? '#1A1A20' : accent, tip: 'Module 3 · Decide & Prove — current' },
+        { flex: 1, color: '#1A1A20', tip: 'Module 4 · Review, Repair & Package' },
+      ],
+      progressLine: first ? '0 of 16 lessons · module 1 of 4' : lessonDone ? '10 of 16 lessons · module 3 of 4' : '9 of 16 lessons · module 3 of 4',
+      progressPct: first ? '0%' : lessonDone ? '62%' : '56%',
+      artifactName: first ? 'decision-memo.md — not started' : 'decision-memo.md — your artifact so far',
+      artifactMeta: first ? 'created in lesson 04' : '3 sections · last edit yesterday · 1 claim needs repair',
+
+      // mastery
+      mastery: first ? [
+        { course: 'Engineering Judgment', scoreLine: '— no score yet', scoreColor: '#9598A2', pct: '0%', barColor: '#1A1A20', capped: false, capReason: 'scores appear after your first proof', lift: '', liftColor: green },
+        { course: 'Concept Maps', scoreLine: 'not enrolled', scoreColor: '#9598A2', pct: '0%', barColor: '#1A1A20', capped: false, capReason: '', lift: '', liftColor: green },
+      ] : [
+        gateFixed ? { course: 'Engineering Judgment', scoreLine: '91 · uncapped', scoreColor: green, pct: '91%', barColor: 'linear-gradient(90deg, #18B663, #3ACD85)', capped: false, capReason: 'repair shipped today — all proofs holding', lift: 'well held', liftColor: '#9598A2' } : { course: 'Engineering Judgment', scoreLine: '78 · capped by PROOF', scoreColor: amber, pct: '78%', barColor: 'linear-gradient(90deg, #3D5AFE, #6E83FF)', capped: true, capReason: 'rollback claim failed review', lift: 'repair → 91', liftColor: green },
+        { course: 'Concept Maps', scoreLine: '92 · uncapped', scoreColor: green, pct: '92%', barColor: 'linear-gradient(90deg, #18B663, #3ACD85)', capped: false, capReason: 'all proofs holding', lift: 'next check in 3d', liftColor: '#9598A2' },
+      ],
+
+      // evidence
+      hasEvidence: !first,
+      noEvidence: first,
+      evidenceCount: first ? '0 artifacts' : '14 artifacts',
+      evidence: evidenceRows,
+
+      // momentum
+      safeLine: first ? 'joins after first XP' : scenario === 'promotion-week' ? '180 XP behind #3 — top 3 promote' : '120 XP above the drop line',
+      safeColor: first ? '#9598A2' : scenario === 'promotion-week' ? amber : green,
+      xpBars: (first ? [0,0,0,0,0,0,0,0] : [420, 510, 380, 620, 560, 700, 640, 760]).map((v, i) => ({
+        h: v === 0 ? '4px' : Math.round((v / 760) * 100) + '%',
+        color: i === 7 && v > 0 ? accent : '#26262E',
+        label: 'W' + (i + 1),
+      })),
+      league: [
+        { rank: '04', name: 'mira.k', xp: 820, bg: 'transparent', border: 'transparent', ink: '#9C9CA6', weight: 400, rankColor: '#4A4A54', xpColor: '#9598A2' },
+        { rank: '05', name: first ? 'you — unranked' : 'you', xp: first ? 0 : 640, bg: 'rgba(61,90,254,0.10)', border: 'rgba(61,90,254,0.4)', ink: '#F2EFE9', weight: 700, rankColor: accentText, xpColor: accentText },
+        { rank: '06', name: 'dev_ondrej', xp: 590, bg: 'transparent', border: 'transparent', ink: '#9C9CA6', weight: 400, rankColor: '#4A4A54', xpColor: '#9598A2' },
+        { rank: '07', name: 'sana.builds', xp: 520, bg: 'transparent', border: 'transparent', ink: '#9C9CA6', weight: 400, rankColor: '#4A4A54', xpColor: '#9598A2' },
+      ],
+
+      // retention
+      retentionPct: first ? '—' : 'retention 91%',
+      dueColor: first ? '#9598A2' : dueN === 0 ? green : amber,
+      dueBorder: first ? '#1E1E24' : dueN === 0 ? 'rgba(24,182,99,0.35)' : 'rgba(224,169,62,0.35)',
+      dueBg: first ? 'transparent' : dueN === 0 ? 'rgba(24,182,99,0.05)' : 'rgba(224,169,62,0.05)',
+      dueMin: first || dueN === 0 ? 0 : 6,
+      upcoming: first ? 0 : 11,
+      retentionCurve: first ? '4,78 396,78' : '4,40 60,52 96,30 150,48 176,32 240,50 268,34 340,52 396,36',
+      retentionArea: first ? '4,78 396,78 396,82 4,82' : '4,40 60,52 96,30 150,48 176,32 240,50 268,34 340,52 396,36 396,82 4,82',
+      recallBtnLabel: first ? 'Recall unlocks after lesson 1' : dueN === 0 ? 'Recall clear — next prompts tomorrow' : 'Recall ' + dueN + ' concepts (6 min)',
+      recallBtnInk: first || dueN === 0 ? '#9598A2' : '#fff',
+      recallBtnBg: first || dueN === 0 ? 'transparent' : accent,
+      recallBtnBorder: first || dueN === 0 ? '#2A2A33' : accent,
+
+      // certificates
+      certs: first ? [
+        { seal: '◇', sealColor: '#4A4A54', name: 'Engineering Judgment', meta: 'earn: 16 lessons + 4 proofs', border: '#1E1E24', bg: 'transparent' },
+        { seal: '◇', sealColor: '#4A4A54', name: 'Concept Maps', meta: 'not enrolled', border: '#1E1E24', bg: 'transparent' },
+      ] : [
+        { seal: '◆', sealColor: green, name: 'Programming Fundamentals', meta: 'SA-3P9D-42 · verifiable', border: 'rgba(24,182,99,0.35)', bg: 'rgba(24,182,99,0.05)' },
+        { seal: '◇', sealColor: amber, name: 'Engineering Judgment', meta: 'remaining: repair 1 proof + 7 lessons', border: 'rgba(224,169,62,0.3)', bg: 'transparent' },
+        { seal: '◇', sealColor: '#4A4A54', name: 'Backend Engineering', meta: 'remaining: modules 3–5', border: '#1E1E24', bg: 'transparent' },
+        ...(live.badgeNoHint ? [{ seal: '★', sealColor: amber, name: 'No-Hint Repair', meta: 'rare · lab passed, zero hints', border: 'rgba(224,169,62,0.35)', bg: 'rgba(224,169,62,0.05)' }] : []),
+        ...(live.badgeCleanRep ? [{ seal: '★', sealColor: amber, name: 'Clean Rep', meta: 'rare · every answer held, first try', border: 'rgba(224,169,62,0.35)', bg: 'rgba(224,169,62,0.05)' }] : []),
+      ],
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>

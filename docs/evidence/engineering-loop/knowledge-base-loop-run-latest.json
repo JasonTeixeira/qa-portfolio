@@ -1,0 +1,477 @@
+{
+  "ok": true,
+  "version": "knowledge-base-engineering-loop-run-v1",
+  "startedAt": "2026-06-29T18:41:18.143Z",
+  "finishedAt": "2026-06-29T18:43:10.522Z",
+  "mutationMode": "local_evidence_and_safe_local_commands_only",
+  "releaseMeaning": "This loop runs only local-safe knowledge-base harness commands. It refuses deploys, pushes, live Discord mutations, Stripe/Supabase production changes, and non-dry RAG eval.",
+  "options": {
+    "dryRun": false,
+    "once": true,
+    "qualityGate": true,
+    "maxCycles": 1
+  },
+  "loopCommands": [
+    "npm run test:unit",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "git diff --check",
+    "npm run ops:approval-boundaries",
+    "npm run discord:career-content-harness",
+    "npm run discord:sage-kernel-content-harness",
+    "npm run discord:knowledge-base-e2e-readiness",
+    "npm run discord:release-local",
+    "npm run loop:audit",
+    "npm run discord:knowledge-base-harness"
+  ],
+  "commandValidation": [
+    {
+      "command": "npm run test:unit",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run typecheck",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run lint",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run build",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "git diff --check",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run ops:approval-boundaries",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:career-content-harness",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:sage-kernel-content-harness",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:knowledge-base-e2e-readiness",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:release-local",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run loop:audit",
+      "ok": true,
+      "failures": []
+    },
+    {
+      "command": "npm run discord:knowledge-base-harness",
+      "ok": true,
+      "failures": []
+    }
+  ],
+  "cycles": [
+    {
+      "cycle": 1,
+      "startedAt": "2026-06-29T18:41:18.144Z",
+      "commands": [
+        {
+          "command": "npm run test:unit",
+          "startedAt": "2026-06-29T18:41:18.144Z",
+          "finishedAt": "2026-06-29T18:41:22.521Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "mped\n  PASS  leagues: nextTier / prevTier clamp at the ends\n  PASS  leagues: tierMeta clamps out-of-range indices\n  PASS  leagues: rankMembers orders by weekly XP desc with 1-based ranks\n  PASS  leagues: rankMembers breaks ties deterministically (earlier joiner wins)\n  PASS  leagues: top 7 promote, bottom 5 relegate, middle holds\n  PASS  leagues: top tier never promotes, bottom tier never relegates\n  PASS  leagues: in a thin league promotion takes precedence over relegation\n  PASS  notify: withinFrequencyCap — never-sent is not capped, recent is capped\n  PASS  notify: isWithinSendWindow respects the waking-hours window\n  PASS  notify: localHourInTz resolves an hour for a known UTC instant\n  PASS  notify: streakAtRisk only fires for a live streak, late in the day, not-yet-active\n  PASS  notify: shouldSendStreakReminder gates on channel, risk, window and cap\n  PASS  leagues rollover: promotes the top, relegates the bottom, holds the middle\n  PASS  leagues rollover: clamps at the tier ends\n  PASS  efficacy: hakeG captures the fraction of available improvement\n  PASS  efficacy: hakeG returns null when there is no headroom (pre = 100)\n  PASS  efficacy: gainBand uses Hake conventional thresholds\n  PASS  efficacy: aggregate refuses to publish below the n-threshold\n  PASS  efficacy: aggregate excludes pairs with undefined gain (pre = 100)\n  PASS  profiles: slugifyHandle produces clean, bounded slugs\n  PASS  profiles: isValidHandle rejects reserved, too-short, and malformed\n  PASS  profiles: deriveHandle pads short seeds and de-reserves\n  PASS  profiles: handleCandidates yields ordered, length-clamped fallbacks\n  PASS  assessment: scoreAssessment is percent-correct, wrong/missing count as 0\n  PASS  assessment: parseQuestions drops malformed entries\n  PASS  assessment: stripAnswers removes the key, isComplete gates submission\n  PASS  referrals: proposeReferralCode is deterministic + bounded from the uuid\n  PASS  referrals: normalizeCode upper-cases, strips junk, bounds length\n  PASS  referrals: candidates are ordered + length-clamped\n  PASS  referrals: attributionCheck blocks self-referral, unknown code, double-attribution\n  PASS  referrals: conversion qualifies only after real engagement\n  PASS  referrals: summarize counts statuses and rewards\n  PASS  community: bumpFriendStreak — same day holds, consecutive +1, gap resets\n  PASS  community: friendStreakAlive is true today or yesterday, false older/null\n  PASS  community: pairKey is order-independent\n  PASS  community: friendRequestCheck blocks self, missing target, existing link\n  PASS  enforcement: scripted evidence sequence drives locked → complete with capped score\n  PASS  caps: empty evidence caps at 70; full evidence + contract gap still binds\n  PASS  enforcement: stray repair_completed does not lift the repair cap; reopened repair holds\n  PASS  grader-logic: buildTeachbackGradingMessages builds a JSON-only system + user prompt\n  PASS  grader-logic: parseGradingVerdict is robust + fails safe\n  PASS  grader-logic: looksLikeInjection flags prompt-injection, allows real explanations\n  PASS  metrics-logic: currRate, evidenceFunnel, aggregateGain honor MIN_AGGREGATE_N\n  PASS  content-map-logic: buildContentMap tags done/current/upcoming + rollups\n  PASS  mastery-logic: deriveMasteryLevel buckets by score + state\n  PASS  search-logic: rankAcademySearch filters + ranks prefix over substring\n  PASS  tutor-logic: buildTutorMessages grounds in KB + fences the user message\n  PASS  tutor-logic: looksLikeTutorInjection flags injections, allows real questions\n  PASS  tutor-logic: isLikelyOnTopic gates off-topic questions (guardrail)\n  PASS  goal-logic: computeGoalProgress milestones, pct, nextMilestone, fallback\n  PASS  badges-logic: earnedBadgeKeys is deterministic + server-derivable from stats\n  PASS  quest-logic: computeQuests clamps + done; variableXpBonus is pure-from-seed\n  PASS  trigger-logic: computeTriggers prioritises nudges + empty when on track\n  PASS  trigger-logic: streak-risk jeopardy uses hoursUntilReset (W5)\n  PASS  leagues-logic: relegationStake + leagueResetAt (W5)\n  PASS  badges-logic: collectionProgress + nextBadges chain (W5)\n  PASS  quest-logic: daily variable reward is deterministic + varies (S1.1)\n  PASS  quest-logic: bonusHeadline + honest variability tease (S1.1r2)\n  PASS  tutor-logic: buildOpenerSuggestions tap-to-resume chips (S1.1r2)\n  PASS  motion-logic: easing + count-up timing (S1.2)\n  PASS  first-win: win is genuine only when a lesson was really started (S1.2)\n  PASS  metrics-logic: retention/activation rates + human time (Stage 2)\n  PASS  experiments-logic: deterministic assignment + balance (Stage 3)\n  PASS  experiments-logic: z-test textbook value + honest insufficient-data guard (Stage 3)\n  PASS  tutor-logic: cross-session memory opener + bounded derive (S1.1)\n  PASS  badges-logic: capstoneBadge is the catalog pinnacle (W5r2)\n  PASS  reward-logic: computeNextRewards near-miss (badge, xp-to-level, rank gap)\n\nResult: 285 passed, 0 failed\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run typecheck",
+          "startedAt": "2026-06-29T18:41:22.521Z",
+          "finishedAt": "2026-06-29T18:41:26.680Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 typecheck\n> tsc --noEmit\n\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run lint",
+          "startedAt": "2026-06-29T18:41:26.680Z",
+          "finishedAt": "2026-06-29T18:41:57.193Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 lint\n> eslint .\n\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run build",
+          "startedAt": "2026-06-29T18:41:57.193Z",
+          "finishedAt": "2026-06-29T18:42:46.223Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "ng-lab/publish\n├ ƒ /api/cron/discord/learning-lab/weekly\n├ ƒ /api/cron/discord/weekly\n├ ƒ /api/cron/dunning\n├ ƒ /api/cron/revenue-os/daily\n├ ƒ /api/cron/revenue-os/workers\n├ ƒ /api/cron/weekly-digest\n├ ƒ /api/deliverable-comments/[commentId]\n├ ƒ /api/deliverable-comments/[commentId]/resolve\n├ ƒ /api/deliverables/[id]/comments\n├ ƒ /api/deliverables/[id]/decision\n├ ƒ /api/discord/interactions\n├ ƒ /api/documents/[id]/pdf\n├ ƒ /api/email/webhook\n├ ƒ /api/health\n├ ƒ /api/health/revenue-os\n├ ƒ /api/inquiry\n├ ƒ /api/invoices/[id]/pdf\n├ ƒ /api/lab/newsletter\n├ ƒ /api/messages/[id]\n├ ƒ /api/messages/[id]/reactions\n├ ƒ /api/messages/send\n├ ○ /api/newsletter/confirm\n├ ƒ /api/newsletter/subscribe\n├ ○ /api/newsletter/unsubscribe\n├ ƒ /api/notification-preferences/update\n├ ƒ /api/notifications\n├ ƒ /api/notifications/all\n├ ƒ /api/notifications/read\n├ ƒ /api/notifications/read-all\n├ ƒ /api/portal/avatar\n├ ƒ /api/portal/avatar/url\n├ ƒ /api/portal/bookings\n├ ƒ /api/portal/bookings/[id]/cancel\n├ ƒ /api/portal/bookings/[id]/ics\n├ ƒ /api/portal/calendar/[id]/ics\n├ ƒ /api/portal/checkout\n├ ƒ /api/portal/documents/[id]/download\n├ ƒ /api/portal/documents/[id]/sign\n├ ƒ /api/portal/engagements/[id]/intake\n├ ƒ /api/portal/engagements/[id]/time-summary\n├ ƒ /api/portal/files\n├ ƒ /api/portal/files/[id]\n├ ƒ /api/portal/files/[id]/download\n├ ƒ /api/portal/files/[id]/versions\n├ ƒ /api/portal/files/list\n├ ƒ /api/portal/health\n├ ƒ /api/portal/inbox/bulk\n├ ƒ /api/portal/messages/attachments\n├ ƒ /api/portal/messages/attachments/url\n├ ƒ /api/portal/proposals/[id]/accept\n├ ƒ /api/portal/proposals/[id]/decline\n├ ƒ /api/portal/threads/create\n├ ƒ /api/profile/update\n├ ƒ /api/quality\n├ ƒ /api/revenue-os/v1/[resource]\n├ ƒ /api/revenue-os/v1/webhooks\n├ ƒ /api/stripe/checkout\n├ ƒ /api/stripe/subscription/[id]/cancel\n├ ƒ /api/stripe/subscription/create\n├ ƒ /api/stripe/webhook\n├ ƒ /api/telemetry/error\n├ ƒ /api/telemetry/perf\n├ ƒ /api/telemetry/slo\n├ ƒ /api/tools/seo-audit\n├ ƒ /api/webhooks/stripe\n├ ƒ /api/welcome-email\n├ ○ /apple-icon\n├ ƒ /artifacts/sample-audit\n├ ƒ /ascent\n├ ƒ /atom.xml\n├ ƒ /auth/callback\n├ ƒ /auth/forgot-password\n├ ƒ /auth/mfa\n├ ƒ /auth/redirect\n├ ƒ /auth/reset\n├ ƒ /blog\n├ ƒ /blog/[slug]\n├ ƒ /blog/page/[n]\n├ ƒ /book\n├ ƒ /capabilities\n├ ƒ /changelog\n├ ƒ /checkout/cancel\n├ ƒ /checkout/success\n├ ƒ /compare\n├ ƒ /compare/[slug]\n├ ƒ /contact\n├ ƒ /content-ops\n├ ƒ /discord\n├ ƒ /engineering-os\n├ ƒ /feed.xml\n├ ● /feed/[cluster]\n│ ├ /feed/testing-qa.xml\n│ ├ /feed/ai-engineering.xml\n│ ├ /feed/fintech-trading.xml\n│ └ [+3 more paths]\n├ ƒ /founder\n├ ƒ /hire-ai-engineer\n├ ƒ /how-it-works\n├ ○ /icon\n├ ƒ /industries\n├ ƒ /industries/[slug]\n├ ƒ /lab\n├ ƒ /lab/[slug]\n├ ƒ /lab/ai-readiness\n├ ƒ /lab/calculators\n├ ƒ /lab/templates\n├ ƒ /lab/templates/[slug]\n├ ƒ /learn\n├ ƒ /learn/email-preview\n├ ƒ /learn/waitlist\n├ ƒ /legal\n├ ƒ /legal/cookies\n├ ƒ /legal/msa\n├ ƒ /legal/nda\n├ ƒ /legal/privacy\n├ ƒ /legal/sow-template\n├ ƒ /legal/terms\n├ ƒ /login\n├ ○ /manifest.webmanifest\n├ ƒ /offline\n├ ƒ /og\n├ ƒ /og/academy\n├ ƒ /onboarding\n├ ƒ /path\n├ ƒ /pending-approval\n├ ƒ /portal\n├ ƒ /portal/[...catchall]\n├ ƒ /portal/billing\n├ ƒ /portal/billing/manage\n├ ƒ /portal/booking\n├ ƒ /portal/calendar\n├ ƒ /portal/catalog\n├ ƒ /portal/documents\n├ ƒ /portal/documents/[id]\n├ ƒ /portal/documents/[id]/sign\n├ ƒ /portal/documents/sign/[id]\n├ ƒ /portal/engagements\n├ ƒ /portal/engagements/[id]\n├ ƒ /portal/help\n├ ƒ /portal/help/[slug]\n├ ƒ /portal/home\n├ ƒ /portal/inbox\n├ ƒ /portal/intake/[engagementId]\n├ ƒ /portal/invoices\n├ ƒ /portal/invoices/[id]\n├ ƒ /portal/invoices/[id]/pay\n├ ƒ /portal/invoices/[id]/pay/cancel\n├ ƒ /portal/invoices/[id]/pay/success\n├ ƒ /portal/messages\n├ ƒ /portal/messages/[engagementId]\n├ ƒ /portal/not-found-render\n├ ƒ /portal/projects\n├ ƒ /portal/projects/[id]\n├ ƒ /portal/proposals\n├ ƒ /portal/proposals/[id]\n├ ƒ /portal/settings\n├ ƒ /portal/settings/audit-log\n├ ƒ /pov\n├ ƒ /pricing\n├ ƒ /process\n├ ƒ /proto\n├ ƒ /reports/ai-search-readiness-2026\n├ ○ /robots.txt\n├ ƒ /services\n├ ƒ /services/[slug]\n├ ƒ /services/[slug]/for/[industry]\n├ ƒ /services/ai-development\n├ ƒ /services/brand-care\n├ ƒ /services/cloud-infrastructure\n├ ƒ /services/content-care\n├ ƒ /services/enterprise-qa\n├ ƒ /services/fintech\n├ ƒ /services/site-care\n├ ƒ /services/site-starter\n├ ƒ /services/studio-engagement\n├ ƒ /services/technical-consulting\n├ ƒ /services/trading-systems\n├ ƒ /showcase\n├ ƒ /showcase/[slug]\n├ ƒ /showcase/admin\n├ ƒ /showcase/admin/[slug]\n├ ƒ /showcase/compare\n├ ƒ /showcase/contractor-quote-engine\n├ ƒ /showcase/private/[slug]\n├ ƒ /showcase/private/[slug]/preview\n├ ƒ /showcase/proof\n├ ƒ /showcase/revenue-os\n├ ƒ /signup\n├ ○ /sitemap.xml\n├ ƒ /stack\n├ ƒ /studio\n├ ƒ /tools/route-finder\n├ ƒ /tools/seo-audit\n├ ƒ /tools/seo-audit/r/[id]\n├ ƒ /topics\n├ ƒ /topics/[hub]\n├ ƒ /trust\n├ ƒ /unsubscribe\n├ ○ /visual-probe\n├ ƒ /work\n└ ƒ /work/[slug]\n\n\nƒ Proxy (Middleware)\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand\n\n",
+          "stderrTail": "⚠ Using edge runtime on a page currently disables static generation for that page\n",
+          "ok": true
+        },
+        {
+          "command": "git diff --check",
+          "startedAt": "2026-06-29T18:42:46.223Z",
+          "finishedAt": "2026-06-29T18:42:46.304Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run ops:approval-boundaries",
+          "startedAt": "2026-06-29T18:42:46.304Z",
+          "finishedAt": "2026-06-29T18:42:46.587Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 ops:approval-boundaries\n> node scripts/ops/check-approval-boundaries.mjs\n\nWrote docs/evidence/engineering-loop/approval-boundary-check-latest.json\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:career-content-harness",
+          "startedAt": "2026-06-29T18:42:46.587Z",
+          "finishedAt": "2026-06-29T18:42:48.917Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "},\n    {\n      \"sourcePath\": \"courses/07_ai_engineering_rag_eval/course_assets/factory_alignment/06_proof_portfolio_interview_map.md\",\n      \"title\": \"Course 07 Factory Alignment: Proof Portfolio Interview Map\",\n      \"category\": \"course\",\n      \"proposedChannel\": \"questions\",\n      \"proposedContentType\": \"quiz\",\n      \"score\": 95,\n      \"humanAppealScore\": 30,\n      \"institutionalScore\": 30,\n      \"discordFitScore\": 25,\n      \"reasons\": [\n        \"human:lab,interview,portfolio,capstone,diagnostic\",\n        \"institutional:validator,test,contract,schema,evidence\",\n        \"discord_fit:readable_markdown\",\n        \"discord_fit:promptable_asset\",\n        \"category_bonus:course\"\n      ],\n      \"operatingProofEligible\": false\n    },\n    {\n      \"sourcePath\": \"curriculum_architecture/MASTER_CURRICULUM_ONTOLOGY.md\",\n      \"title\": \"Master Curriculum Ontology\",\n      \"category\": \"curriculum_architecture\",\n      \"proposedChannel\": \"questions\",\n      \"proposedContentType\": \"quiz\",\n      \"score\": 95,\n      \"humanAppealScore\": 30,\n      \"institutionalScore\": 30,\n      \"discordFitScore\": 25,\n      \"reasons\": [\n        \"human:project,lab,interview,portfolio,capstone\",\n        \"institutional:validator,test,scorecard,contract,evidence\",\n        \"discord_fit:readable_markdown\",\n        \"discord_fit:promptable_asset\",\n        \"category_bonus:curriculum_architecture\"\n      ],\n      \"operatingProofEligible\": false\n    },\n    {\n      \"sourcePath\": \"curriculum_architecture/RUN_EXPANSION_COURSE_BUILD_LOOP_13_19.md\",\n      \"title\": \"Run Expansion Course Build Loop 13-19\",\n      \"category\": \"curriculum_architecture\",\n      \"proposedChannel\": \"questions\",\n      \"proposedContentType\": \"quiz\",\n      \"score\": 95,\n      \"humanAppealScore\": 30,\n      \"institutionalScore\": 30,\n      \"discordFitScore\": 25,\n      \"reasons\": [\n        \"human:project,lab,interview,portfolio,capstone\",\n        \"institutional:validator,test,audit,scorecard,contract\",\n        \"discord_fit:readable_markdown\",\n        \"discord_fit:promptable_asset\",\n        \"category_bonus:curriculum_architecture\"\n      ],\n      \"operatingProofEligible\": false\n    },\n    {\n      \"sourcePath\": \"learning_engine/BOARD_STYLE_WEB_APP_SCHEDULER_SPEC.md\",\n      \"title\": \"Board-Style Mastery Web-App Scheduler Spec\",\n      \"category\": \"learning_engine\",\n      \"proposedChannel\": \"questions\",\n      \"proposedContentType\": \"quiz\",\n      \"score\": 95,\n      \"humanAppealScore\": 30,\n      \"institutionalScore\": 30,\n      \"discordFitScore\": 25,\n      \"reasons\": [\n        \"human:lab,interview,capstone,weekly,practice\",\n        \"institutional:manifest,rubric,validator,contract,schema\",\n        \"discord_fit:readable_markdown\",\n        \"discord_fit:promptable_asset\",\n        \"category_bonus:learning_engine\"\n      ],\n      \"operatingProofEligible\": false\n    }\n  ],\n  \"channelPlan\": [\n    {\n      \"channel\": \"daily-signal\",\n      \"candidateCount\": 5,\n      \"purpose\": \"Short daily build prompts from high-signal source material.\"\n    },\n    {\n      \"channel\": \"build-lab\",\n      \"candidateCount\": 11,\n      \"purpose\": \"Hands-on challenges, labs, projects, and capstone prompts.\"\n    },\n    {\n      \"channel\": \"resources\",\n      \"candidateCount\": 5,\n      \"purpose\": \"Reusable rubrics, templates, checklists, validators, and reference material.\"\n    },\n    {\n      \"channel\": \"questions\",\n      \"candidateCount\": 5,\n      \"purpose\": \"Discussion prompts and diagnostic questions that can become durable knowledge.\"\n    },\n    {\n      \"channel\": \"office-hours\",\n      \"candidateCount\": 19,\n      \"purpose\": \"Live-session prompts built around blockers, artifacts, and decision points.\"\n    },\n    {\n      \"channel\": \"content-queue\",\n      \"candidateCount\": 5,\n      \"purpose\": \"Source-backed ideas for future articles, lessons, public proof, and recaps.\"\n    },\n    {\n      \"channel\": \"project-submissions\",\n      \"candidateCount\": 0,\n      \"purpose\": \"Artifact-driven submission prompts and portfolio proof tasks.\"\n    }\n  ],\n  \"antiFakeRules\": [\n    \"Career OS source candidates are seed material only; they do not count as approved Discord knowledge until an admin approves the specific item.\",\n    \"Seed candidates do not count as live gateway capture, member participation, public proof, or premium workflow proof.\",\n    \"Generated Discord posts must remain approval-gated and quality-scored before publishing.\",\n    \"Only privacy-safe, reviewed, source-linked outputs can be promoted into authoritative RAG.\"\n  ],\n  \"nextActions\": [\n    \"Review top candidates and select the first weekly content seed set.\",\n    \"Turn selected seed candidates into approval-gated Discord drafts, not live posts.\",\n    \"After member replies arrive, approve real member questions/answers separately before syncing them into authoritative RAG.\",\n    \"Use this corpus as educational fuel while keeping operating-proof lanes tied to real Discord activity.\"\n  ],\n  \"failures\": [],\n  \"evidencePath\": \"docs/evidence/engineering-loop/career-content-harness-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:sage-kernel-content-harness",
+          "startedAt": "2026-06-29T18:42:48.917Z",
+          "finishedAt": "2026-06-29T18:42:49.599Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "laim live proof\",\n          \"draft is appropriate for the target Discord channel\",\n          \"factual claims stay grounded in the source artifact\"\n        ],\n        \"proofLaneTargets\": [\n          \"approved_discord_knowledge\",\n          \"rag_discord_sources\"\n        ],\n        \"collectionInstruction\": \"After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate.\"\n      }\n    },\n    {\n      \"draftKey\": \"sage-kernel:apps/dashboard/dashboard-workflows.mjs\",\n      \"sourcePath\": \"apps/dashboard/dashboard-workflows.mjs\",\n      \"sourceTitle\": \"dashboard workflows\",\n      \"targetChannelBaseName\": \"build-lab\",\n      \"draftType\": \"challenge\",\n      \"title\": \"Build Lab - dashboard workflows\",\n      \"body\": \"# Build Lab - dashboard workflows\\n**Source:** sage-kernel/apps/dashboard/dashboard-workflows.mjs\\n**Why it matters:** This turns a real operating-system artifact into one concrete builder action for Sage Ideas members.\\n**Action:** Turn this operating-system pattern into a small artifact: a config, checklist, runbook, test, or dashboard card.\\n**Member deliverable:** Post the artifact, decision, blocker, or checklist item that proves you applied it.\\n\\nHow to participate:\\n1. Read the source-backed prompt.\\n2. Ship or explain one specific artifact.\\n3. Include context, failure mode, and what needs review.\\n\\nReview note: this is a planned source seed. It must be reviewed by an admin before publishing and does not count as approved Discord knowledge or public proof until live evidence exists.\",\n      \"qualityScore\": 90,\n      \"status\": \"planned_for_admin_review\",\n      \"operatingContract\": {\n        \"sourceKind\": \"sage_kernel_source_seed\",\n        \"adminAction\": \"review_then_approve_or_reject\",\n        \"publishAllowedBeforeApproval\": false,\n        \"operatingProofEligible\": false,\n        \"requiredReviewChecks\": [\n          \"source path is real and privacy-safe\",\n          \"draft has one concrete member action\",\n          \"draft does not claim live proof\",\n          \"draft is appropriate for the target Discord channel\",\n          \"factual claims stay grounded in the source artifact\"\n        ],\n        \"proofLaneTargets\": [\n          \"approved_discord_knowledge\",\n          \"rag_discord_sources\"\n        ],\n        \"collectionInstruction\": \"After admin approval and publishing, collect member replies with source path, published Discord message id, privacy status, admin reviewer, and whether the reply can become a RAG candidate.\"\n      }\n    }\n  ],\n  \"channelPlan\": [\n    {\n      \"channel\": \"daily-signal\",\n      \"candidateCount\": 5,\n      \"draftCount\": 3,\n      \"purpose\": \"Short operating-system lessons that turn Sage Kernel concepts into one builder action.\"\n    },\n    {\n      \"channel\": \"build-lab\",\n      \"candidateCount\": 4,\n      \"draftCount\": 3,\n      \"purpose\": \"Hands-on implementation prompts from loops, workers, orchestration, and proof-gate modules.\"\n    },\n    {\n      \"channel\": \"resources\",\n      \"candidateCount\": 27,\n      \"draftCount\": 5,\n      \"purpose\": \"Reusable runbooks, policies, schemas, quality gates, proof checklists, and security boundaries.\"\n    },\n    {\n      \"channel\": \"questions\",\n      \"candidateCount\": 1,\n      \"draftCount\": 1,\n      \"purpose\": \"Diagnostic prompts that help members reason about agent operations, tool design, and failure modes.\"\n    },\n    {\n      \"channel\": \"office-hours\",\n      \"candidateCount\": 4,\n      \"draftCount\": 3,\n      \"purpose\": \"Live-session prompts around blockers, architecture decisions, operating contracts, and reviews.\"\n    },\n    {\n      \"channel\": \"content-queue\",\n      \"candidateCount\": 19,\n      \"draftCount\": 3,\n      \"purpose\": \"Source-backed ideas for future lessons, articles, recaps, and public proof assets.\"\n    }\n  ],\n  \"antiFakeRules\": [\n    \"sage-kernel candidates are source seeds only; they do not count as approved Discord knowledge until an admin approves the specific item.\",\n    \"Planned draft packets do not count as live Discord posts, gateway capture, member participation, public proof, or RAG sync.\",\n    \"Every public post must remain approval-gated, source-linked, quality-scored, and privacy-safe before publishing.\",\n    \"No source file is promoted into authoritative RAG until an admin marks the exact candidate as approved knowledge.\"\n  ],\n  \"nextActions\": [\n    \"Review the approvalDrafts array and choose the first seed set for the Sage Ideas Discord admin queue.\",\n    \"Convert selected drafts into pending approval records only after explicit live Supabase approval.\",\n    \"After publishing, collect member replies and approve real questions, answers, builds, and resources separately.\",\n    \"Use these source-backed drafts to teach operating-system thinking without claiming they are real community proof.\"\n  ],\n  \"failures\": [],\n  \"evidencePath\": \"docs/evidence/engineering-loop/sage-kernel-content-harness-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:knowledge-base-e2e-readiness",
+          "startedAt": "2026-06-29T18:42:49.599Z",
+          "finishedAt": "2026-06-29T18:42:49.876Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "\n> qa-portfolio@0.2.0 discord:knowledge-base-e2e-readiness\n> node scripts/discord/write-knowledge-base-e2e-readiness.mjs\n\nWrote docs/evidence/engineering-loop/knowledge-base-e2e-readiness-latest.json\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:release-local",
+          "startedAt": "2026-06-29T18:42:49.877Z",
+          "finishedAt": "2026-06-29T18:43:09.604Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "uality\",\n      \"retrieval_answer_faithfulness\",\n      \"eval_coverage\",\n      \"sagebot_command_ux_personality\",\n      \"content_engine_quality\",\n      \"quiz_challenge_learning_engine\",\n      \"points_leaderboard_integrity\",\n      \"member_intelligence\",\n      \"admin_dashboard\",\n      \"job_reliability\",\n      \"observability\",\n      \"premium_workflows\",\n      \"growth_loop\",\n      \"security_privacy\",\n      \"scale_readiness\"\n    ],\n    \"latestRunKey\": \"phase-20-final-1782758584001\"\n  },\n  \"gates\": [\n    {\n      \"name\": \"approved_knowledge_available\",\n      \"passed\": false,\n      \"evidence\": \"0/10 approved Discord knowledge sources available\",\n      \"nextAction\": \"Approve high-signal questions, helpful answers, resources, wins, or content queue items.\"\n    },\n    {\n      \"name\": \"approved_knowledge_synced_to_rag\",\n      \"passed\": false,\n      \"evidence\": \"0/10 Discord RAG sources after sync\",\n      \"nextAction\": \"Run approved Discord RAG sync after weekly approvals.\"\n    },\n    {\n      \"name\": \"public_proof_draft_created\",\n      \"passed\": false,\n      \"evidence\": \"0/4 public proof drafts or published assets (0 pending / 0 published)\",\n      \"nextAction\": \"Create four privacy-gated weekly public proof drafts from approved source material.\"\n    },\n    {\n      \"name\": \"growth_metrics_tracked\",\n      \"passed\": false,\n      \"evidence\": \"0/1 public proof apply clicks / 0/1 applications / 0 approved / 7 members / 7 active 7d / 0 premium / 0 premium workflow proofs\",\n      \"nextAction\": \"Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.\"\n    },\n    {\n      \"name\": \"final_scorecard_current\",\n      \"passed\": true,\n      \"evidence\": \"average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness\",\n      \"nextAction\": \"After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing after the operating proof cycle. Use the full rag:evaluate drift check only when source quality changed, not for routine missing-coverage repair.\"\n    },\n    {\n      \"name\": \"world_class_score_threshold\",\n      \"passed\": false,\n      \"evidence\": \"average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness\",\n      \"nextAction\": \"Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard.\"\n    }\n  ],\n  \"nextActions\": [\n    \"Approve high-signal questions, helpful answers, resources, wins, or content queue items.\",\n    \"Run approved Discord RAG sync after weekly approvals.\",\n    \"Create four privacy-gated weekly public proof drafts from approved source material.\",\n    \"Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.\",\n    \"Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard.\"\n  ],\n  \"auditRowId\": null,\n  \"note\": \"Operating cycle ran, but one or more operating gates still need real community volume or admin action.\",\n  \"evidencePath\": \"/Users/Sage/code/active/sageideas.dev/docs/evidence/discord-ai-os/phase-21-operating-proof-cycle.json\"\n}\n\n> qa-portfolio@0.2.0 discord:proof-backlog\n> tsx scripts/discord/write-proof-backlog.ts\n\nWrote docs/evidence/engineering-loop/discord-proof-backlog-latest.json\n\n> qa-portfolio@0.2.0 discord:proof-candidate-audit\n> tsx scripts/discord/write-proof-candidate-audit.ts\n\nWrote docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.json and docs/evidence/engineering-loop/discord-proof-candidate-audit-latest.md\n\n> qa-portfolio@0.2.0 discord:world-class-readiness\n> tsx scripts/discord/write-world-class-readiness.ts\n\nWrote docs/evidence/engineering-loop/world-class-readiness-latest.json\n\n> qa-portfolio@0.2.0 discord:operator-brief\n> tsx scripts/discord/write-operator-brief.ts\n\nWrote docs/evidence/engineering-loop/discord-operator-brief-latest.json and docs/evidence/engineering-loop/discord-operator-brief-latest.md\n\n> qa-portfolio@0.2.0 verify:local:evidence\n> node scripts/ops/write-local-verification-evidence.mjs\n\nWrote docs/evidence/engineering-loop/local-verification-latest.json\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run loop:audit",
+          "startedAt": "2026-06-29T18:43:09.604Z",
+          "finishedAt": "2026-06-29T18:43:09.992Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": "-readiness-latest.json\",\n      \" M docs/evidence/engineering-loop/premium-workflow-readiness-latest.json\",\n      \" M docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json\",\n      \" M docs/evidence/engineering-loop/public-growth-readiness-latest.json\",\n      \" M docs/evidence/engineering-loop/security-privacy-readiness-latest.json\",\n      \" M docs/evidence/engineering-loop/world-class-readiness-latest.json\",\n      \" M docs/evidence/rag/chunk-run.json\",\n      \" M docs/evidence/rag/eval-coverage-readiness.json\",\n      \" M docs/evidence/rag/eval-execution-packet.json\",\n      \" M docs/evidence/rag/eval-latest.json\",\n      \" M docs/evidence/rag/eval-missing-plan.json\",\n      \" M docs/evidence/rag/eval-missing-preflight.json\",\n      \" M docs/evidence/rag/eval-recovery-plan.json\",\n      \" M docs/evidence/rag/eval-seed-dry-run.json\",\n      \" M docs/evidence/rag/eval-seed-quality.json\",\n      \" M docs/evidence/rag/local-embedding-run.json\",\n      \" M docs/evidence/rag/source-sync-sample.json\",\n      \" M lib/discord/engagement.ts\",\n      \" M lib/discord/sage-commands.ts\",\n      \" M lib/rag/query-planning.ts\",\n      \" M lib/rag/retrieval.ts\",\n      \" M package-lock.json\",\n      \" M package.json\",\n      \" M scripts/academy/course00/seed-module-1.ts\",\n      \" M scripts/discord/pin-sage-operating-posts.mjs\",\n      \" M scripts/discord/register-sage-commands.mjs\",\n      \" M scripts/ops/write-local-verification-evidence.mjs\",\n      \" M scripts/rag/evaluate-rag.ts\",\n      \" M scripts/rag/write-eval-execution-packet.ts\",\n      \" M tests/unit/run.mjs\",\n      \" M tools/engineering-loop/audit-state.mjs\",\n      \" M tools/engineering-loop/run-world-class-loop.mjs\",\n      \" M tools/engineering-loop/verify-harness.mjs\",\n      \"?? app/visual-probe/\",\n      \"?? components/academy/visuals/VisualFrame.tsx\",\n      \"?? components/academy/visuals/diagram-edges.tsx\",\n      \"?? components/academy/visuals/diagram-kinds.tsx\",\n      \"?? components/academy/visuals/diagram-layout.ts\",\n      \"?? components/academy/visuals/motion.ts\",\n      \"?? components/academy/visuals/tones.ts\",\n      \"?? docs/evidence/engineering-loop/career-content-harness-latest.json\",\n      \"?? docs/evidence/engineering-loop/knowledge-base-e2e-latest.json\",\n      \"?? docs/evidence/engineering-loop/knowledge-base-e2e-readiness-latest.json\",\n      \"?? docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json\",\n      \"?? docs/evidence/engineering-loop/knowledge-base-loop-run-latest.json\",\n      \"?? docs/evidence/engineering-loop/sage-kernel-content-harness-latest.json\",\n      \"?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.json\",\n      \"?? docs/evidence/engineering-loop/sagebot-institutional-readiness-latest.md\",\n      \"?? lib/discord/career-content-harness.ts\",\n      \"?? lib/discord/knowledge-base-engineering-harness.ts\",\n      \"?? lib/discord/sage-kernel-content-harness.ts\",\n      \"?? scripts/discord/run-knowledge-base-e2e.mjs\",\n      \"?? scripts/discord/write-career-content-harness.ts\",\n      \"?? scripts/discord/write-institutional-readiness.ts\",\n      \"?? scripts/discord/write-knowledge-base-e2e-readiness.mjs\",\n      \"?? scripts/discord/write-knowledge-base-engineering-harness.ts\",\n      \"?? scripts/discord/write-sage-kernel-content-harness.ts\",\n      \"?? tools/engineering-loop/run-knowledge-base-loop.mjs\"\n    ],\n    \"statusError\": null\n  },\n  \"stopReasons\": [\n    \"operating_proof_blocked:approved_discord_knowledge:0/10,rag_discord_sources:0/10,public_proof_assets:0/4,premium_workflow_proof:0/1\",\n    \"score_below_95:83\"\n  ],\n  \"nextHarnessAction\": \"Run safe local loop commands until the fingerprint repeats, then stop at the explicit approval/live proof boundary.\",\n  \"blockerFingerprint\": \"{\\\"score\\\":83,\\\"releaseGateFailures\\\":[],\\\"operatingProofBlockedLanes\\\":[\\\"approved_discord_knowledge:0/10\\\",\\\"rag_discord_sources:0/10\\\",\\\"public_proof_assets:0/4\\\",\\\"premium_workflow_proof:0/1\\\"],\\\"explicitApprovalCommands\\\":[\\\"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\\\",\\\"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\\\"],\\\"liveOperatorActions\\\":[\\\"Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.\\\",\\\"Sync approved Discord candidates into authoritative RAG and rerun retrieval/answer evals.\\\",\\\"Create and approve four privacy-safe public proof assets from approved Discord source material.\\\",\\\"Publish at least one public proof asset with tracked apply/join intent before claiming growth proof.\\\",\\\"Drive at least one measured Discord application from the approval-gated growth funnel.\\\",\\\"Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario.\\\",\\\"Post or request one fresh non-bot member message now that identify evidence shows Message Content Intent enabled.\\\"]}\",\n  \"statePath\": \"docs/evidence/engineering-loop/AUTONOMOUS_LOOP_STATE.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        },
+        {
+          "command": "npm run discord:knowledge-base-harness",
+          "startedAt": "2026-06-29T18:43:09.992Z",
+          "finishedAt": "2026-06-29T18:43:10.521Z",
+          "exitCode": 0,
+          "signal": null,
+          "stdoutTail": " RAG claims.\"\n        },\n        {\n          \"key\": \"approved_knowledge_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/10 approved Discord knowledge sources\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.\"\n        },\n        {\n          \"key\": \"rag_sources_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/10 Discord RAG sources\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.\"\n        }\n      ],\n      \"status\": \"blocked\",\n      \"score\": 20,\n      \"maxScore\": 40\n    },\n    {\n      \"key\": \"operating_proof\",\n      \"title\": \"Operating Proof\",\n      \"gates\": [\n        {\n          \"key\": \"local_verification_passes\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"local verification ok=true summary=true\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run verify:local:evidence and fix release evidence failures.\"\n        },\n        {\n          \"key\": \"autonomous_loop_state_current\",\n          \"status\": \"passed\",\n          \"score\": 10,\n          \"maxScore\": 10,\n          \"evidence\": \"loop state ok=true average=83\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run npm run loop:audit and fix stale or missing autonomous loop state.\"\n        },\n        {\n          \"key\": \"public_proof_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/4 public proof assets\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Create and approve four privacy-safe public proof assets from approved Discord knowledge.\"\n        },\n        {\n          \"key\": \"premium_workflow_target_met\",\n          \"status\": \"blocked\",\n          \"score\": 0,\n          \"maxScore\": 10,\n          \"evidence\": \"0/1 premium workflow proofs\",\n          \"requiredForProduction\": true,\n          \"recovery\": \"Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence.\"\n        }\n      ],\n      \"status\": \"blocked\",\n      \"score\": 20,\n      \"maxScore\": 40\n    }\n  ],\n  \"productionStopConditions\": [\n    \"approved_knowledge_target_met: Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.\",\n    \"rag_sources_target_met: With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.\",\n    \"public_proof_target_met: Create and approve four privacy-safe public proof assets from approved Discord knowledge.\",\n    \"premium_workflow_target_met: Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence.\"\n  ],\n  \"safeLocalCommands\": [\n    \"npm run discord:career-content-harness\",\n    \"npm run discord:sage-kernel-content-harness\",\n    \"npm run discord:knowledge-base-e2e-readiness\",\n    \"npm run discord:release-local\",\n    \"npm run discord:knowledge-base-harness\",\n    \"npm run loop:knowledge-base:once\",\n    \"npm run loop:knowledge-base:full\"\n  ],\n  \"explicitApprovalCommands\": [\n    \"SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle\",\n    \"SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing\",\n    \"SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e\"\n  ],\n  \"liveOperatorActions\": [\n    \"Approve 10 high-signal Discord knowledge items through the admin review workflow.\",\n    \"Sync approved Discord knowledge into authoritative RAG only after explicit approval.\",\n    \"Approve or publish four privacy-safe public proof assets from approved knowledge.\",\n    \"Complete one premium workflow proof with authorization, SLA, and fulfillment evidence.\",\n    \"Run the guarded knowledge-base E2E command only against an approved Supabase environment.\"\n  ],\n  \"antiFakeRules\": [\n    \"Source seeds and generated drafts are curriculum fuel only; they are not approved Discord knowledge.\",\n    \"Raw Discord messages, dry-run rows, smoke rows, and generated templates cannot satisfy operating proof.\",\n    \"RAG can cite only approved, privacy-safe, source-linked knowledge records.\",\n    \"The system cannot claim 95-99 until live approval, RAG sync, public proof, premium proof, and final scorecard evidence pass.\",\n    \"E2E readiness is not the same as live E2E execution; the guarded Playwright command must pass before claiming admin workflow proof.\"\n  ],\n  \"failures\": [\n    \"rag_readiness:approved_knowledge_target_met\",\n    \"rag_readiness:rag_sources_target_met\",\n    \"operating_proof:public_proof_target_met\",\n    \"operating_proof:premium_workflow_target_met\"\n  ],\n  \"evidencePath\": \"docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json\"\n}\n",
+          "stderrTail": "",
+          "ok": true
+        }
+      ],
+      "harnessAfter": {
+        "ok": true,
+        "version": "knowledge-base-engineering-harness-v1",
+        "generatedAt": "2026-06-29T18:43:10.506Z",
+        "mutationMode": "local_file_evidence_only",
+        "releaseMeaning": "This harness reads local evidence and grades the Discord knowledge-base pipeline. It does not approve records, post to Discord, mutate Supabase, sync RAG, call AI models, push, deploy, or satisfy live operating proof.",
+        "status": "locally_verified_waiting_on_live_approval",
+        "score": 76,
+        "targetScoreRange": "95-99",
+        "sourceSeedSummary": {
+          "totalCandidates": 110,
+          "totalApprovalDrafts": 18,
+          "channelsCovered": [
+            "build-lab",
+            "content-queue",
+            "daily-signal",
+            "office-hours",
+            "project-submissions",
+            "questions",
+            "resources"
+          ]
+        },
+        "phases": [
+          {
+            "key": "source_seed_factory",
+            "title": "Source Seed Factory",
+            "gates": [
+              {
+                "key": "career_harness_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "career harness ok=true candidates=50",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:career-content-harness and fix corpus path/readiness failures."
+              },
+              {
+                "key": "sage_kernel_harness_ok",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "sage-kernel harness ok=true candidates=60",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:sage-kernel-content-harness and fix source clone/readiness failures."
+              },
+              {
+                "key": "seed_volume_ready",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "110 source candidates / 18 approval-gated drafts",
+                "requiredForProduction": true,
+                "recovery": "Add or repair source harnesses until at least 80 candidates and 18 approval-gated drafts are available."
+              },
+              {
+                "key": "channel_coverage_ready",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "channels covered: build-lab, content-queue, daily-signal, office-hours, project-submissions, questions, resources",
+                "requiredForProduction": true,
+                "recovery": "Balance source candidates across daily-signal, build-lab, resources, questions, office-hours, and content-queue."
+              }
+            ],
+            "status": "passed",
+            "score": 40,
+            "maxScore": 40
+          },
+          {
+            "key": "approval_contract",
+            "title": "Approval Contract",
+            "gates": [
+              {
+                "key": "drafts_are_approval_gated",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "18 drafts checked for publishAllowedBeforeApproval=false and operatingProofEligible=false",
+                "requiredForProduction": true,
+                "recovery": "Ensure every generated draft is pending admin review and cannot claim operating proof before approval."
+              },
+              {
+                "key": "approved_knowledge_packet_valid",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "approved packet ok=true current=0/10",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:approved-knowledge-packet and fix missing packet fields/checklists."
+              },
+              {
+                "key": "proof_candidate_audit_valid",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "proof candidate audit ok=true lanes=5",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:proof-candidate-audit and fix missing critical proof fields."
+              },
+              {
+                "key": "anti_fake_rules_present",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "source seed and approved-knowledge packet both contain anti-fake proof boundaries",
+                "requiredForProduction": true,
+                "recovery": "Add explicit anti-fake rules blocking generated seeds, dry-runs, smoke rows, and raw messages from counting as proof."
+              },
+              {
+                "key": "e2e_runner_guarded",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "knowledge-base E2E readiness ok=true approval=SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved",
+                "requiredForProduction": true,
+                "recovery": "Run npm run discord:knowledge-base-e2e-readiness and fix guarded runner/spec cleanup contract failures."
+              }
+            ],
+            "status": "passed",
+            "score": 50,
+            "maxScore": 50
+          },
+          {
+            "key": "rag_readiness",
+            "title": "RAG Readiness",
+            "gates": [
+              {
+                "key": "discord_corpus_readiness_valid",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "discord corpus readiness ok=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run rag:discord-corpus-readiness and fix corpus/readiness contract failures."
+              },
+              {
+                "key": "rag_eval_coverage_ready",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "rag eval coverage ok=true releaseReady=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run rag:evaluate:coverage-readiness and repair missing eval coverage before RAG claims."
+              },
+              {
+                "key": "approved_knowledge_target_met",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/10 approved Discord knowledge sources",
+                "requiredForProduction": true,
+                "recovery": "Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG."
+              },
+              {
+                "key": "rag_sources_target_met",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/10 Discord RAG sources",
+                "requiredForProduction": true,
+                "recovery": "With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals."
+              }
+            ],
+            "status": "blocked",
+            "score": 20,
+            "maxScore": 40
+          },
+          {
+            "key": "operating_proof",
+            "title": "Operating Proof",
+            "gates": [
+              {
+                "key": "local_verification_passes",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "local verification ok=true summary=true",
+                "requiredForProduction": true,
+                "recovery": "Run npm run verify:local:evidence and fix release evidence failures."
+              },
+              {
+                "key": "autonomous_loop_state_current",
+                "status": "passed",
+                "score": 10,
+                "maxScore": 10,
+                "evidence": "loop state ok=true average=83",
+                "requiredForProduction": true,
+                "recovery": "Run npm run loop:audit and fix stale or missing autonomous loop state."
+              },
+              {
+                "key": "public_proof_target_met",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/4 public proof assets",
+                "requiredForProduction": true,
+                "recovery": "Create and approve four privacy-safe public proof assets from approved Discord knowledge."
+              },
+              {
+                "key": "premium_workflow_target_met",
+                "status": "blocked",
+                "score": 0,
+                "maxScore": 10,
+                "evidence": "0/1 premium workflow proofs",
+                "requiredForProduction": true,
+                "recovery": "Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence."
+              }
+            ],
+            "status": "blocked",
+            "score": 20,
+            "maxScore": 40
+          }
+        ],
+        "productionStopConditions": [
+          "approved_knowledge_target_met: Approve at least 10 reusable, privacy-safe knowledge items before syncing Discord-derived RAG.",
+          "rag_sources_target_met: With explicit approval, sync approved Discord knowledge into authoritative RAG and rerun evals.",
+          "public_proof_target_met: Create and approve four privacy-safe public proof assets from approved Discord knowledge.",
+          "premium_workflow_target_met: Run one premium review, deeper answer, or office-hours flow with authorization and fulfillment evidence."
+        ],
+        "safeLocalCommands": [
+          "npm run discord:career-content-harness",
+          "npm run discord:sage-kernel-content-harness",
+          "npm run discord:knowledge-base-e2e-readiness",
+          "npm run discord:release-local",
+          "npm run discord:knowledge-base-harness",
+          "npm run loop:knowledge-base:once",
+          "npm run loop:knowledge-base:full"
+        ],
+        "explicitApprovalCommands": [
+          "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle",
+          "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+          "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e"
+        ],
+        "liveOperatorActions": [
+          "Approve 10 high-signal Discord knowledge items through the admin review workflow.",
+          "Sync approved Discord knowledge into authoritative RAG only after explicit approval.",
+          "Approve or publish four privacy-safe public proof assets from approved knowledge.",
+          "Complete one premium workflow proof with authorization, SLA, and fulfillment evidence.",
+          "Run the guarded knowledge-base E2E command only against an approved Supabase environment."
+        ],
+        "antiFakeRules": [
+          "Source seeds and generated drafts are curriculum fuel only; they are not approved Discord knowledge.",
+          "Raw Discord messages, dry-run rows, smoke rows, and generated templates cannot satisfy operating proof.",
+          "RAG can cite only approved, privacy-safe, source-linked knowledge records.",
+          "The system cannot claim 95-99 until live approval, RAG sync, public proof, premium proof, and final scorecard evidence pass.",
+          "E2E readiness is not the same as live E2E execution; the guarded Playwright command must pass before claiming admin workflow proof."
+        ],
+        "failures": [
+          "rag_readiness:approved_knowledge_target_met",
+          "rag_readiness:rag_sources_target_met",
+          "operating_proof:public_proof_target_met",
+          "operating_proof:premium_workflow_target_met"
+        ]
+      },
+      "stoppedEarly": true,
+      "stopReason": "external_approval_or_live_proof_required",
+      "finishedAt": "2026-06-29T18:43:10.522Z"
+    }
+  ],
+  "stopReason": "external_approval_or_live_proof_required",
+  "finalHarnessPath": "docs/evidence/engineering-loop/knowledge-base-engineering-harness-latest.json"
+}

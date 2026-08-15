@@ -81,8 +81,11 @@ export async function getLearnerDashboard(): Promise<LearnerDashboard> {
 
     const lessonsCompleted = rows.filter((r) => r.status === 'completed').length
     const coursesCompleted = courses.filter((c) => c.total > 0 && c.done >= c.total).length
-    const continueTo = rows.find((r) => r.status !== 'completed')
-      ?? rows[0]
+    // Resume only an actually-unfinished lesson. No `?? rows[0]` fallback: a learner
+    // who has completed everything gets a null resume (the dashboard's dominant action
+    // then falls through to the next-milestone / catalog CTA) — never an incoherent
+    // "Resume → 100%" card pointing at a finished lesson.
+    const continueTo = rows.find((r) => r.status !== 'completed') ?? null
     return {
       signedIn: true,
       name,
@@ -94,17 +97,38 @@ export async function getLearnerDashboard(): Promise<LearnerDashboard> {
       certificates,
       paths: (pathsRaw ?? []).map((p) => ({ id: p.id, name: p.name, courseSlugs: (p.course_slugs as string[]) ?? [] })),
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/learner] getLearnerDashboard failed', err)
     return empty
   }
+}
+
+/** One real artifact the learner shipped for this course — the closest thing to a "proof held". */
+export type CertificateArtifact = {
+  title: string
+  /** repo_url ?? demo_url — a real link if one exists, else null. */
+  url: string | null
 }
 
 export type CertificateView = {
   code: string
   recipientName: string
   courseTitle: string
+  courseSlug: string
   topic: TopicKey
   issuedAt: string
+  /** Real: the course's published lesson count (courses.lessons). 0 when unknown. */
+  lessonCount: number
+  /** Real: distinct module titles for this course, in order (derived from academy_lessons). */
+  modules: string[]
+  /** Real: artifacts the learner shipped for this course. May be empty. */
+  artifacts: CertificateArtifact[]
+  /**
+   * There is no revocation column on academy_certificates. A row existing IS the
+   * certificate being valid; revocation is not modeled yet. Always false today —
+   * kept as a field so the public verify shape is honest and future-proof.
+   */
+  revoked: boolean
 }
 
 /** Public, shareable — fetched by code via service role (RLS stays own-only for the dashboard). */
@@ -113,23 +137,56 @@ export async function getCertificate(code: string): Promise<CertificateView | nu
     const admin = supabaseAdmin()
     const { data: cert } = await admin
       .from('academy_certificates')
-      .select('cert_code, course_slug, recipient_name, issued_at')
+      .select('cert_code, course_slug, recipient_name, issued_at, user_id, revoked, revoked_at, revoked_reason')
       .eq('cert_code', code)
       .maybeSingle()
     if (!cert) return null
-    const { data: course } = await admin
-      .from('academy_courses')
-      .select('title, topic')
-      .eq('slug', cert.course_slug)
-      .maybeSingle()
+
+    const [{ data: course }, { data: lessonRows }, { data: artifactRows }] = await Promise.all([
+      admin.from('academy_courses').select('title, topic, lessons').eq('slug', cert.course_slug).maybeSingle(),
+      admin
+        .from('academy_lessons')
+        .select('module_title, module_sort, sort')
+        .eq('course_slug', cert.course_slug)
+        .eq('status', 'published')
+        .order('module_sort', { ascending: true })
+        .order('sort', { ascending: true }),
+      admin
+        .from('academy_artifacts')
+        .select('title, repo_url, demo_url, created_at')
+        .eq('user_id', cert.user_id)
+        .eq('course_slug', cert.course_slug)
+        .order('created_at', { ascending: true }),
+    ])
+
+    // Distinct module titles, preserving first-seen order (real course structure).
+    const modules: string[] = []
+    for (const r of lessonRows ?? []) {
+      const m = (r.module_title as string | null)?.trim()
+      if (m && !modules.includes(m)) modules.push(m)
+    }
+
+    const artifacts: CertificateArtifact[] = (artifactRows ?? [])
+      .map((a) => ({
+        title: (a.title as string | null)?.trim() ?? '',
+        url: (a.repo_url as string | null) ?? (a.demo_url as string | null) ?? null,
+      }))
+      .filter((a) => a.title.length > 0)
+
     return {
       code: cert.cert_code,
       recipientName: cert.recipient_name ?? 'A Sage Academy learner',
       courseTitle: course?.title ?? cert.course_slug,
+      courseSlug: cert.course_slug,
       topic: (course?.topic ?? 'foundations') as TopicKey,
       issuedAt: cert.issued_at,
+      lessonCount: (course?.lessons as number | null) ?? 0,
+      modules,
+      artifacts,
+      revoked: (cert.revoked as boolean | null) ?? false,
     }
-  } catch {
+  } catch (err) {
+    console.error('[academy/learner] getCertificate failed', err)
     return null
   }
 }

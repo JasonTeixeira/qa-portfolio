@@ -1,0 +1,28 @@
+.track {
+  width: 100%;
+  border-radius: 100px;
+  overflow: hidden;
+  background: var(--ac-surface-2, rgba(255, 255, 255, 0.1));
+  border: 1px solid var(--ac-rule, rgba(255, 255, 255, 0.08));
+}
+
+/* compositor-only grow: a full-width fill scaled via scaleX from the left.
+   The component sets the exact transform inline (scaleX(pct)); this only owns
+   the look + the transition curve. ~600ms ease-out, institutional. */
+.fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Reduced-motion: kill the transition only. The component already renders the
+   true scaleX(pct) inline (no transform override here, or it would clobber the
+   real percentage). */
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none !important;
+  }
+}

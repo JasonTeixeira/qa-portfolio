@@ -2,11 +2,31 @@
   "ok": true,
   "responseType": 4,
   "ephemeral": true,
-  "answerId": "77a72a3b-fd02-474f-a513-ea2aa6ace5e2",
-  "retrievalLogId": "d5734b89-76f8-4a72-bad4-cedb717f7c22",
+  "answerId": "a10b1ba9-96ac-40e7-9043-511c8db78b6f",
+  "retrievalLogId": "b81497c5-2383-4c1f-aff4-e10543f1f132",
+  "traceId": "fd3c88cd2dbe1eee00bc69a001162858",
+  "observabilityProvider": "langfuse",
   "queueCount": 1,
   "pointsCount": 1,
-  "answerPreview": "# SageBot answer\n**Question:** How should a high quality education Discord onboard new members?\nBased on the provided context, a high-quality education Discord should onboard new members using a structured, gated process with clear steps and roles. Here is how to do it:\n\n1.  **Gated Application**: New members start in `start-here` and must use `/apply` to submit an application [3]. Approve members who accept the rules, have a clear learning goal, and name a real first build [3]. Reject vague ans",
-  "startedAt": "2026-06-21T02:32:04.379Z",
-  "finishedAt": "2026-06-21T02:32:11.133Z"
+  "answerPreview": "SageBot answered your question. Awarded **3** points for asking something useful.",
+  "embedPreview": {
+    "title": "Sage Ideas Answer",
+    "description": "Good question. Here is the clean path I would take.",
+    "fields": [
+      {
+        "name": "Your question",
+        "valuePreview": "How should a high quality education Discord onboard new members?"
+      },
+      {
+        "name": "Sage take",
+        "valuePreview": "Here is the move for onboarding a new member into a high-quality education Discord like Sage Ideas Academy.\n\n**First, the member uses Discord's native \"Apply to"
+      },
+      {
+        "name": "Sources",
+        "valuePreview": "1. [1] SAGEBOT_DISCORD_OPERATING_FAQ.md - /docs/discord/SAGEBOT_DISCORD_OPERATING_FAQ.md\n2. [2] SAGEBOT_DISCORD_OPERATING_FAQ.md - /docs/discord/SAGEBOT_DISCORD"
+      }
+    ]
+  },
+  "startedAt": "2026-06-30T13:25:27.230Z",
+  "finishedAt": "2026-06-30T13:25:35.342Z"
 }

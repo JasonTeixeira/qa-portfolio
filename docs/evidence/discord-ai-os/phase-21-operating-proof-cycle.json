@@ -1,0 +1,135 @@
+{
+  "ok": false,
+  "status": "blocked",
+  "cycleKey": "2026-W27",
+  "startedAt": "2026-06-30T13:25:53.275Z",
+  "finishedAt": "2026-06-30T13:25:55.031Z",
+  "metricsBefore": {
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 3,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "approvedMembers": 7,
+    "onboardedMembers": 7,
+    "activeMembers7d": 7,
+    "premiumMembers": 0,
+    "premiumWorkflowProofs": 0,
+    "applicationsSubmitted": 0,
+    "applicationsApproved": 0,
+    "publicProofApplyClicks": 0
+  },
+  "metricsAfter": {
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 3,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "approvedMembers": 7,
+    "onboardedMembers": 7,
+    "activeMembers7d": 7,
+    "premiumMembers": 0,
+    "premiumWorkflowProofs": 0,
+    "applicationsSubmitted": 0,
+    "applicationsApproved": 0,
+    "publicProofApplyClicks": 0
+  },
+  "ragSync": {
+    "ok": true,
+    "runKey": "dry-run",
+    "status": "completed",
+    "approvalPolicy": "dry-run",
+    "approvedDiscordStats": null,
+    "stats": {
+      "sourcesSeen": 0,
+      "sourcesUpserted": 0,
+      "documentsUpserted": 0,
+      "failures": 0,
+      "byType": {}
+    },
+    "blocker": null,
+    "sampleSources": [],
+    "error": null
+  },
+  "publicProof": {
+    "created": false,
+    "sourceId": null,
+    "draftId": null,
+    "sourceTable": null,
+    "sourceRecordId": null,
+    "draftType": null,
+    "reusedExistingSource": false,
+    "blocker": "Dry run does not create public proof drafts."
+  },
+  "finalScorecard": {
+    "averageScore": 83,
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ],
+    "latestRunKey": "phase-20-final-1782825951052"
+  },
+  "gates": [
+    {
+      "name": "approved_knowledge_available",
+      "passed": false,
+      "evidence": "0/10 approved Discord knowledge sources available",
+      "nextAction": "Approve high-signal questions, helpful answers, resources, wins, or content queue items."
+    },
+    {
+      "name": "approved_knowledge_synced_to_rag",
+      "passed": false,
+      "evidence": "0/10 Discord RAG sources after sync",
+      "nextAction": "Run approved Discord RAG sync after weekly approvals."
+    },
+    {
+      "name": "public_proof_draft_created",
+      "passed": false,
+      "evidence": "0/4 public proof drafts or published assets (0 pending / 0 published)",
+      "nextAction": "Create four privacy-gated weekly public proof drafts from approved source material."
+    },
+    {
+      "name": "growth_metrics_tracked",
+      "passed": false,
+      "evidence": "0/1 public proof apply clicks / 0/1 applications / 0 approved / 7 members / 7 active 7d / 0 premium / 0 premium workflow proofs",
+      "nextAction": "Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible."
+    },
+    {
+      "name": "final_scorecard_current",
+      "passed": true,
+      "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
+      "nextAction": "After explicit approval, run SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing after the operating proof cycle. Use the full rag:evaluate drift check only when source quality changed, not for routine missing-coverage repair."
+    },
+    {
+      "name": "world_class_score_threshold",
+      "passed": false,
+      "evidence": "average 83, blocked below 95: server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness",
+      "nextAction": "Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard."
+    }
+  ],
+  "nextActions": [
+    "Approve high-signal questions, helpful answers, resources, wins, or content queue items.",
+    "Run approved Discord RAG sync after weekly approvals.",
+    "Create four privacy-gated weekly public proof drafts from approved source material.",
+    "Run public proof/growth cycles until at least one apply click and one application are attributed while active-member counts remain visible.",
+    "Complete four real operating cycles with approved Discord knowledge, public proof, growth metrics, premium fulfillment, and rerun the final scorecard."
+  ],
+  "auditRowId": null,
+  "note": "Operating cycle ran, but one or more operating gates still need real community volume or admin action."
+}

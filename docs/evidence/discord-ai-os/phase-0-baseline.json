@@ -1,0 +1,281 @@
+{
+  "ok": true,
+  "phase": "Phase 0: Baseline, Lockfile, And Current State Proof",
+  "captured_at": "2026-06-24T14:43:42Z",
+  "branch": "feat/community-rag-content-ops-cleanup",
+  "base_commit": "a6e7297",
+  "scope": "Sage Ideas Discord RAG, ML, AI operating system baseline before adding Langfuse, eval harness, reranking, personality kernel, structured outputs, and durable workflows.",
+  "worktree_note": {
+    "status": "dirty_before_phase_0",
+    "phase_0_created_or_updated": [
+      "docs/DISCORD_RAG_ML_OPERATING_SYSTEM_MASTER_PLAN.txt",
+      "docs/evidence/discord-ai-os/phase-0-baseline.json",
+      "docs/evidence/rag/source-sync-sample.json",
+      "docs/evidence/rag/chunk-run.json",
+      "docs/evidence/rag/local-embedding-run.json",
+      "docs/evidence/rag/retrieval-smoke.json",
+      "docs/evidence/rag/answer-smoke.json"
+    ],
+    "pre_existing_unrelated_dirty_files": [
+      "app/globals.css",
+      "app/showcase/revenue-os/revenue-os-showcase.tsx",
+      "app/showcase/revenue-os/revenue-os.module.css",
+      "docs/evidence/discord/challenge-lab-smoke.json",
+      "docs/evidence/discord/content-quality-smoke.json",
+      "docs/evidence/discord/content-queue-automation-smoke.json",
+      "docs/evidence/discord/message-classifier-smoke.json",
+      "docs/evidence/discord/premium-workflows-smoke.json",
+      "docs/evidence/discord/quiz-scoring-smoke.json",
+      "tests/e2e/showcase-revenue-os.spec.ts",
+      "docs/revenue-os-figma-design-checklist.txt",
+      "docs/revenue-os-figma-visual-design-prompt.txt"
+    ]
+  },
+  "commands": [
+    {
+      "command": "npm run discord:approval-audit",
+      "result": "pass",
+      "summary": {
+        "memberCount": 9,
+        "approvedRecords": 7,
+        "pendingApplications": 0,
+        "unapprovedWithAccess": 0,
+        "approvedMissingAccess": 0,
+        "canManageControlledRoles": true,
+        "skipped": {
+          "privileged": 1,
+          "bot": 1
+        }
+      }
+    },
+    {
+      "command": "npm run discord:role-sync",
+      "result": "pass",
+      "summary": {
+        "scannedMembers": 9,
+        "actionableCount": 0,
+        "errors": 0,
+        "skipped": {
+          "already_approved": 7,
+          "privileged": 1,
+          "bot": 1
+        }
+      }
+    },
+    {
+      "command": "npm run discord:smoke",
+      "result": "pass",
+      "summary": {
+        "registeredCommands": 37,
+        "missingCommands": 0,
+        "discord_members": 7,
+        "discord_messages": 9,
+        "discord_gateway_events": 495,
+        "discord_gateway_dead_letters": 0,
+        "discord_gateway_heartbeats": 6
+      }
+    },
+    {
+      "command": "npm run rag:migration-check",
+      "result": "pass",
+      "summary": {
+        "migrations": 79,
+        "ragMigrations": [
+          "0065_rag_foundation.sql",
+          "0067_rag_local_embeddings.sql"
+        ],
+        "duplicateVersions": 0,
+        "missingTables": 0,
+        "missingTerms": 0
+      }
+    },
+    {
+      "command": "npm run rag:sync-sources",
+      "result": "pass_with_known_gap",
+      "summary": {
+        "runKey": "rag-source-sync-2026-06-24T14-44-01-192Z",
+        "sourcesSeen": 65,
+        "sourcesUpserted": 65,
+        "documentsUpserted": 65,
+        "failures": 0,
+        "byType": {
+          "blog_post": 62,
+          "resource": 3
+        },
+        "knownGap": "No Discord knowledge-source rows were available to sync. Message Content Intent/member activity still required for Discord corpus."
+      }
+    },
+    {
+      "command": "npm run rag:chunk",
+      "result": "pass",
+      "summary": {
+        "runKey": "rag-chunk-2026-06-24T14-44-12-807Z",
+        "documentsSeen": 65,
+        "documentsChunked": 65,
+        "chunksUpserted": 110,
+        "obsoleteChunksDeleted": 0,
+        "failures": 0,
+        "totalChunks": 110
+      }
+    },
+    {
+      "command": "npm run rag:embed",
+      "result": "pass",
+      "summary": {
+        "runKey": "rag-local-embed-2026-06-24T14-44-48-841Z",
+        "model": "Supabase/gte-small",
+        "dimensions": 384,
+        "chunksSeen": 110,
+        "chunksEmbedded": 110,
+        "chunksSkipped": 0,
+        "failures": 0,
+        "embeddedCount": 110
+      }
+    },
+    {
+      "command": "npm run rag:smoke-retrieval",
+      "result": "pass",
+      "summary": {
+        "query": "How should we onboard Discord members and keep the community high quality?",
+        "resultCount": 5,
+        "topSourceTypes": [
+          "resource"
+        ],
+        "topSources": [
+          "DISCORD_COMMUNITY_OPERATING_SYSTEM.md",
+          "DISCORD_EDUCATION_SERVER_RUNBOOK.md"
+        ]
+      }
+    },
+    {
+      "command": "npm run rag:smoke-answer",
+      "result": "pass",
+      "summary": {
+        "question": "What is the right Discord onboarding path for an education community?",
+        "model": "deepseek-v4-flash",
+        "citationCount": 5,
+        "retrievalLogId": "294282f5-e0f4-40b0-8d08-15d1d686af7c",
+        "answerId": "4cb67518-57d0-4c54-9fd7-2c6b79a9baef",
+        "answerCheck": "Answer referenced native Discord application, manual approval, /onboard, and cited Discord operating docs."
+      }
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "pass",
+      "summary": "tsc --noEmit completed without errors."
+    },
+    {
+      "command": "npm run test:unit",
+      "result": "pass",
+      "summary": {
+        "passed": 156,
+        "failed": 0
+      }
+    },
+    {
+      "command": "npm run build",
+      "result": "pass_with_warnings",
+      "summary": {
+        "compiled": true,
+        "staticPagesGenerated": 317,
+        "warnings": [
+          "Next.js middleware file convention is deprecated in favor of proxy.",
+          "Existing academy routes log Dynamic server usage warnings because cookies are used during static generation attempts."
+        ],
+        "exitCode": 0
+      }
+    }
+  ],
+  "live_counts_after_phase_0": {
+    "rag_sources": 65,
+    "rag_documents": 65,
+    "rag_chunks": 110,
+    "rag_retrieval_logs": 7,
+    "rag_answers": 7,
+    "rag_eval_questions": 0,
+    "rag_eval_runs": 0,
+    "discord_members": 7,
+    "discord_messages": 9,
+    "discord_gateway_events": 495,
+    "discord_gateway_dead_letters": 0,
+    "discord_content_queue": 0,
+    "discord_content_drafts": 5
+  },
+  "baseline_scores": {
+    "server_structure_and_access_gate": {
+      "score": 92,
+      "basis": "Approval audit passes, 7 approved records, no unapproved access, role hierarchy can manage controlled roles."
+    },
+    "discord_bot_command_surface": {
+      "score": 90,
+      "basis": "Discord smoke sees 37 registered commands and no missing commands."
+    },
+    "rag_corpus_foundation": {
+      "score": 86,
+      "basis": "65 sources/documents and 110 chunks sync/chunk/embed cleanly; corpus is still docs/blog/resource heavy, not Discord-question heavy."
+    },
+    "rag_retrieval_and_answering": {
+      "score": 84,
+      "basis": "Retrieval and DeepSeek answer smoke pass with 5 citations; no formal eval suite or reranking yet."
+    },
+    "ai_observability": {
+      "score": 55,
+      "basis": "Retrieval logs and answers persist, but Langfuse-style traces, prompt versions, cost/latency dashboards, and trace IDs are not implemented yet."
+    },
+    "rag_eval_coverage": {
+      "score": 35,
+      "basis": "RAG eval tables exist, but rag_eval_questions and rag_eval_runs are empty."
+    },
+    "content_engine_foundation": {
+      "score": 78,
+      "basis": "Draft/content quality infrastructure exists, but live content queue is currently empty and source-to-content workflow needs v2 proof."
+    },
+    "member_intelligence_foundation": {
+      "score": 72,
+      "basis": "Member tables and intelligence code exist, but approved members are still mostly default-routed until they run /onboard."
+    },
+    "job_reliability": {
+      "score": 76,
+      "basis": "Scheduled run tables and gateway health exist; durable workflow runner and full failure testing are not yet in Phase 0."
+    },
+    "admin_operability": {
+      "score": 74,
+      "basis": "Admin surfaces exist, but Phase 9 cockpit is not built as a unified operating dashboard yet."
+    }
+  },
+  "phase_0_deliverables": {
+    "current_architecture_map": "Recorded in docs/DISCORD_RAG_ML_OPERATING_SYSTEM_MASTER_PLAN.txt and supported by repo inspection.",
+    "current_command_inventory": "Discord smoke proved 37 commands.",
+    "current_database_table_inventory": "Migration checks and live counts captured.",
+    "current_rag_corpus_inventory": "65 sources, 65 documents, 110 chunks, 110 embeddings.",
+    "current_discord_member_access_audit": "7 approved records, no unapproved access, no approved member missing access.",
+    "current_smoke_evidence_index": "RAG evidence files updated in docs/evidence/rag; Phase 0 summary written here.",
+    "baseline_scores": "Recorded in baseline_scores."
+  },
+  "remaining_gaps_before_phase_1": [
+    "Repo has unrelated dirty files outside this Phase 0 baseline; they were not cleaned or staged.",
+    "Discord RAG corpus still has no approved Discord knowledge-source rows; current RAG is docs/blog/resource weighted.",
+    "Formal RAG eval suite is not implemented yet: rag_eval_questions = 0 and rag_eval_runs = 0.",
+    "Langfuse/AI observability is not installed yet.",
+    "Reranking/query rewriting is not implemented yet.",
+    "SageBot personality kernel and prompt version registry are not implemented yet.",
+    "Approved members still need to run /onboard for precise live path/level routing."
+  ],
+  "phase_0_exit_criteria": {
+    "baseline_documented": true,
+    "current_gaps_listed": true,
+    "dirty_files_identified": true,
+    "required_commands_passed": true,
+    "safe_to_begin_phase_1": true
+  },
+  "next_phase": {
+    "phase": "Phase 1: Observability Foundation With Langfuse And Sentry Discipline",
+    "first_actions": [
+      "Install Langfuse SDK.",
+      "Add no-op trace adapter so tests pass without Langfuse env vars.",
+      "Wrap DeepSeek calls, RAG retrieval, and answer generation.",
+      "Persist trace IDs into metadata.",
+      "Smoke a traced /ask-sage and traced daily draft."
+    ]
+  }
+}

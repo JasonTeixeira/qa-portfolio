@@ -1,0 +1,115 @@
+{
+  "phase": "Phase 2 - RAG evaluation harness",
+  "status": "passed_threshold_with_known_failures",
+  "capturedAt": "2026-06-24T15:42:45Z",
+  "branch": "feat/community-rag-content-ops-cleanup",
+  "baseCommit": "f6dc5ed",
+  "objective": "Seed golden RAG questions, run deterministic RAG evaluation against the live answer path, persist eval runs/results, and write evidence that exposes regressions and failure categories.",
+  "deliverables": [
+    "Added lib/rag/evals.ts with 50 golden questions across onboarding, content engine, quiz/challenge/points, premium, and RAG/AI/build education.",
+    "Added deterministic scoring for retrieval hit rate, citation coverage, context precision, faithfulness, groundedness, answer usefulness, and refusal correctness hooks.",
+    "Added scripts/rag/evaluate-rag.ts to seed rag_eval_questions, create rag_eval_runs, persist rag_eval_results, and write evidence JSON.",
+    "Added npm scripts rag:evaluate and rag:evaluate:smoke.",
+    "Added unit coverage for golden-set integrity and pass/fail scoring behavior.",
+    "Seeded 50 live Supabase rag_eval_questions.",
+    "Ran smoke eval and full 50-question live eval through the real answerRagQuestion path."
+  ],
+  "proof": {
+    "commands": [
+      {
+        "command": "npm run typecheck",
+        "status": "passed",
+        "notes": "tsc --noEmit passed after final eval changes."
+      },
+      {
+        "command": "npm run test:unit",
+        "status": "passed",
+        "notes": "158 passed, 0 failed."
+      },
+      {
+        "command": "npm run rag:evaluate:smoke",
+        "status": "passed",
+        "runId": "4e5dc1b7-927d-4c19-87a7-e74aa6371f05",
+        "runKey": "smoke-20260624154129",
+        "evaluated": 3,
+        "passed": 3,
+        "failed": 0,
+        "passRate": 1,
+        "evidencePath": "docs/evidence/rag/eval-smoke.json"
+      },
+      {
+        "command": "npm run rag:evaluate",
+        "status": "passed_threshold",
+        "runId": "240f42a8-2db9-4d31-8e75-19fbef395caa",
+        "runKey": "full-20260624153910",
+        "evaluated": 50,
+        "passed": 35,
+        "failed": 15,
+        "passRate": 0.7,
+        "avgScore": 0.6964,
+        "retrievalHitRate": 0.72,
+        "citationCoverage": 0.72,
+        "contextPrecision": 0.32,
+        "faithfulness": 0.878,
+        "groundedness": 0.692,
+        "answerUsefulness": 0.6467,
+        "evidencePath": "docs/evidence/rag/eval-latest.json"
+      },
+      {
+        "command": "Supabase verification query",
+        "status": "passed",
+        "ragEvalQuestionCount": 50,
+        "latestCompletedRunId": "240f42a8-2db9-4d31-8e75-19fbef395caa"
+      },
+      {
+        "command": "npm run build",
+        "status": "passed",
+        "notes": "Next build completed. Existing academy dynamic-server-usage warnings appeared and did not fail the build."
+      }
+    ],
+    "thresholds": {
+      "minOverallScore": 0.68,
+      "minPassRate": 0.7,
+      "minRetrievalHitRate": 0.7,
+      "minCitationCoverage": 0.55,
+      "minFaithfulness": 0.65
+    }
+  },
+  "honestResult": {
+    "phaseGatePassed": true,
+    "qualityPosture": "barely passing",
+    "reason": "The final full eval passed exactly at the 70% pass-rate threshold. This is enough to make regressions measurable, but not enough to call RAG world-class.",
+    "fullRun": {
+      "total": 50,
+      "passed": 35,
+      "failed": 15,
+      "passRate": 0.7
+    },
+    "failedEvalKeys": [
+      "rag_ai_010",
+      "rag_content_007",
+      "rag_content_008",
+      "rag_content_009",
+      "rag_content_010",
+      "rag_onboarding_002",
+      "rag_points_001",
+      "rag_points_003",
+      "rag_points_004",
+      "rag_points_005",
+      "rag_points_007",
+      "rag_points_008",
+      "rag_points_009",
+      "rag_points_010",
+      "rag_premium_008"
+    ],
+    "failurePattern": "Failures are concentrated around command/content/reputation questions that should retrieve Discord runbook/community docs but often miss the expected source. This points to retrieval/reranking/query rewriting work, not only generation quality."
+  },
+  "notYetDone": [
+    "No reranker exists yet.",
+    "No query rewriting exists yet.",
+    "No admin UI section exists for eval summaries or failed eval drilldown.",
+    "No model-based judge or RAGAS/DeepEval integration exists yet.",
+    "The eval corpus is seeded and useful, but the system is not high-scoring yet: 15 of 50 evals still fail."
+  ],
+  "nextPhase": "Phase 3 - retrieval upgrade with query rewriting, reranking, before/after eval comparison, and a materially higher pass rate target."
+}

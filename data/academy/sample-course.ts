@@ -10,7 +10,7 @@ export type LessonBlock =
   | { type: 'prose'; text: string }
   | { type: 'code'; filename: string; language: 'python' | 'ts' | 'bash'; code: string }
   | { type: 'video'; title: string; duration: string; playbackId?: string }
-  | { type: 'lab'; title: string; summary: string; href?: string; language?: string; starter?: string; check?: string }
+  | { type: 'lab'; title: string; summary: string; href?: string; language?: string; starter?: string; check?: string; stdin?: string }
   | { type: 'callout'; tone: 'tip' | 'note'; text: string }
   | { type: 'quiz'; question: string; options: string[]; answer: number; explanation?: string }
   // — Sage Learning Engine V2 sprint sections —
@@ -28,6 +28,80 @@ export type LessonBlock =
   | { type: 'transfer'; text: string }
   | { type: 'spaced-review'; schedule?: string[] }
   | { type: 'unlock-gate'; criteria: string[] }
+  // — visual engine blocks (declarative specs → branded SageDiagram / SageViz) —
+  // The `diagram` block is LAYOUT-FREE: nodes carry MEANING only (no x/y); the
+  // dagre engine in SageDiagram computes positions + edge routing by construction.
+  | {
+      type: 'diagram'
+      title: string
+      subtitle?: string
+      nodes: {
+        id: string
+        label: string
+        description?: string
+        kind?: 'service' | 'store' | 'queue' | 'external' | 'client' | 'decision' | 'process'
+        tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'
+      }[]
+      edges: {
+        from: string
+        to: string
+        label?: string
+        kind?: 'sync' | 'async' | 'data' | 'control'
+        dashed?: boolean
+        tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'
+      }[]
+      legend?: { tone: 'default' | 'accent' | 'success' | 'warning' | 'muted'; label: string }[]
+      /** Flow direction; default 'LR'. */
+      rankdir?: 'LR' | 'TB' | 'RL' | 'BT'
+      caption?: string
+      height?: number
+      /**
+       * Optional NARRATION storyboard — makes the figure explain itself beat by
+       * beat (NarratedDiagram engine, voice-sync-ready). Each beat's node/edge refs
+       * are validated against the diagram at authoring time (validate-blocks).
+       */
+      storyboard?: {
+        say: string
+        nodes?: string[]
+        edges?: [string, string][]
+        ms?: number
+        /** Public URL of this beat's narration audio (cloned voice), when generated. */
+        audio?: string
+      }[]
+    }
+  | {
+      type: 'viz'
+      title: string
+      subtitle?: string
+      chart: 'bars' | 'line' | 'area'
+      data: { label: string; value: number }[]
+      unit?: string
+    }
+  // Animated terminal-look code stepper. `steps` highlight 1-based line numbers
+  // with a caption + optional deeper note; the component owns auto-advance,
+  // prev/next controls, and the reduced-motion static state.
+  | {
+      type: 'code-walkthrough'
+      title: string
+      subtitle?: string
+      filename: string
+      language: 'python' | 'ts' | 'bash'
+      code: string
+      steps: { lines: number[]; label: string; note?: string }[]
+      caption?: string
+    }
+  // Animated 2-up comparison (weak-vs-gold / before-after / A-vs-B). Each panel
+  // carries a tone (wash + legend) and a tight list of lines; the contrast is
+  // the teaching signal. `mono` renders the body lines in the mono face.
+  | {
+      type: 'compare'
+      title: string
+      subtitle?: string
+      left: { label: string; tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'; lines: string[]; verdict?: string }
+      right: { label: string; tone?: 'default' | 'accent' | 'success' | 'warning' | 'muted'; lines: string[]; verdict?: string }
+      mono?: boolean
+      caption?: string
+    }
 
 export type LessonStatus = 'done' | 'current' | 'todo'
 

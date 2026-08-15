@@ -1,0 +1,74 @@
+Sage Ideas Business Site Scorecard
+Date: 2026-06-24
+Scope: Business/marketing side, not Academy internals.
+
+Commands run:
+- npm run typecheck: PASS
+- npm run build: PASS
+- PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts tests/e2e/showcase-revenue-os.spec.ts --config=playwright.e2e.config.ts: PASS, 7/7
+- npx eslint <touched business files>: PASS for code files; CSS file ignored by ESLint config
+- npm run lint: FAIL globally due to unrelated Academy, proto, and script lint errors listed below
+
+Screenshots captured:
+- home-desktop.png
+- home-mobile.png
+- services-desktop.png
+- pricing-desktop.png
+- book-revenue-os-desktop.png
+- showcase-revenue-os-desktop.png
+- showcase-revenue-os-mobile.png
+- showcase-contractor-desktop.png
+
+Current scorecard after this pass:
+- Buyer clarity: 88/100
+  Stronger outcome language now appears across homepage, services, pricing, book, contact, trust, and showcase.
+  Remaining gap: several lower legacy pages still use older agency/process language.
+
+- Visual storytelling: 87/100
+  Revenue OS and Contractor Quote Engine now lead with diagrams and clickable demos instead of text walls.
+  Remaining gap: only two flagship visual demos have the new treatment. More templates must be upgraded before the whole site earns 95+.
+
+- CTA hierarchy: 90/100
+  Primary actions now consistently push buyers toward live demos or build calls with source-aware URLs.
+  Remaining gap: global nav still has mixed Academy/business emphasis and some lower sections carry secondary CTAs that compete.
+
+- Business outcome positioning: 89/100
+  Copy is now centered on leaks, booked calls, quote flow, intake, support, and conversion.
+  Remaining gap: proof metrics are still mostly illustrative targets, not live customer outcome data.
+
+- Prototype proof: 91/100
+  Revenue OS and contractor prototypes are native, clickable, tested, and screenshot-captured.
+  Remaining gap: med spa, law firm, and AI support still need the same visual rewrite depth as the first two.
+
+- SEO fundamentals: 84/100
+  Core route metadata was updated for the commercial pages.
+  Remaining gap: needs page-specific schema, stronger internal link graph, real case-study proof pages, and Lighthouse SEO capture.
+
+- Accessibility / interaction proof: 86/100
+  Focused Playwright coverage confirms route visibility, mobile no-overflow, live demo dialogs, prototype clicks, and showcase route coverage.
+  Remaining gap: a full axe run was not completed in this pass; scoped tests verify behavior but not full accessibility compliance.
+
+- Mobile readiness: 88/100
+  Homepage mobile no-overflow E2E passes and screenshots confirm primary hero CTAs fit.
+  Remaining gap: sticky booking bar can cover lower content during scroll; acceptable for conversion but should be tuned page-by-page.
+
+- Production readiness for business pages: 87/100
+  Typecheck, production build, scoped lint, focused E2E, and screenshots are green.
+  Remaining gap: global lint still fails because of unrelated existing files, and full-site E2E/Lighthouse were not run.
+
+Global lint blockers not fixed in this scoped pass:
+- app/academy-admin/LessonEditor.tsx: react-hooks/refs error
+- app/proto/Proto.tsx: no-html-link-for-pages and jsx comment text errors
+- scripts/create-samurai-layers.cjs: require-import lint errors
+- scripts/i18n-verify.ts: require-import lint error
+- Additional warnings in academy/showcase/discord/navigation scripts
+
+Honest posture:
+This pass meaningfully improves the business-side funnel and proves the critical homepage/showcase flows on a production build. It is not yet a verified 95+ full marketing system because the global repo lint is not clean, some non-primary business pages still need the new buyer-first visual system, and Lighthouse/axe/full E2E remain to be captured.
+
+Recommended next iteration:
+1. Fix global lint blockers or scope lint scripts so business releases are not blocked by unrelated Academy/proto/script debt.
+2. Apply the same visual-first pattern to med spa, law firm, and AI support showcase pages.
+3. Add structured data and internal links for the commercial routes.
+4. Run Lighthouse desktop/mobile and axe on /, /services, /pricing, /showcase/revenue-os, and /book.
+5. Convert proof metrics from illustrative examples into real case-study evidence as customers or test campaigns exist.

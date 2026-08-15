@@ -1,0 +1,115 @@
+{
+  "ok": true,
+  "checks": {
+    "deterministic_rollup_healthy": true,
+    "cost_estimate_priced": true,
+    "live_rollup_persisted": true,
+    "live_trace_visible": true,
+    "live_quality_visible": true,
+    "admin_surface_present": true,
+    "migration_present": true
+  },
+  "deterministic": {
+    "version": "discord-observability-quality-v1",
+    "window": {
+      "startedAt": "2026-06-24T23:26:46.357Z",
+      "finishedAt": "2026-06-25T00:26:46.357Z",
+      "hours": 1
+    },
+    "traceCoverage": 1,
+    "trace": {
+      "tracedArtifacts": 4,
+      "totalTraceableArtifacts": 4,
+      "providerBreakdown": {
+        "local": 4
+      }
+    },
+    "cost": {
+      "provider": "deepseek",
+      "estimatedUsd": 0.000764,
+      "promptTokens": 1200,
+      "completionTokens": 400,
+      "totalTokens": 1600,
+      "pricedAnswers": 1,
+      "pricingUsdPer1MTokens": {
+        "input": 0.27,
+        "output": 1.1
+      }
+    },
+    "quality": {
+      "ragEvalPassRate": 1,
+      "avgRagEvalScore": 0.92,
+      "avgCitationCoverage": 0.9,
+      "avgFaithfulness": 0.95,
+      "avgContentQuality": 92,
+      "contentPassRate": 1,
+      "avgPremiumQuality": 94,
+      "premiumSlaOverdue": 0
+    },
+    "jobs": {
+      "totalRuns": 1,
+      "succeeded": 1,
+      "failed": 0,
+      "deadLettered": 0,
+      "successRate": 1,
+      "openDeadLetters": 0,
+      "avgDurationMs": 60000
+    },
+    "healthScore": 100,
+    "status": "healthy",
+    "alerts": []
+  },
+  "liveRollup": {
+    "version": "discord-observability-quality-v1",
+    "window": {
+      "startedAt": "2026-06-24T23:26:46.357Z",
+      "finishedAt": "2026-06-25T00:26:46.357Z",
+      "hours": 1
+    },
+    "traceCoverage": 1,
+    "trace": {
+      "tracedArtifacts": 4,
+      "totalTraceableArtifacts": 4,
+      "providerBreakdown": {
+        "local": 4
+      }
+    },
+    "cost": {
+      "provider": "deepseek",
+      "estimatedUsd": 0.000764,
+      "promptTokens": 1200,
+      "completionTokens": 400,
+      "totalTokens": 1600,
+      "pricedAnswers": 1,
+      "pricingUsdPer1MTokens": {
+        "input": 0.27,
+        "output": 1.1
+      }
+    },
+    "quality": {
+      "ragEvalPassRate": 1,
+      "avgRagEvalScore": 0.92,
+      "avgCitationCoverage": 0.9,
+      "avgFaithfulness": 0.95,
+      "avgContentQuality": 92,
+      "contentPassRate": 1,
+      "avgPremiumQuality": 94,
+      "premiumSlaOverdue": 0
+    },
+    "jobs": {
+      "totalRuns": 1,
+      "succeeded": 1,
+      "failed": 0,
+      "deadLettered": 0,
+      "successRate": 1,
+      "openDeadLetters": 0,
+      "avgDurationMs": 60000
+    },
+    "healthScore": 100,
+    "status": "healthy",
+    "alerts": [],
+    "rollupId": "1c86d5fd-26f8-4118-ace2-7cf5ec22380a"
+  },
+  "startedAt": "2026-06-25T00:25:46.357Z",
+  "finishedAt": "2026-06-25T00:26:49.013Z"
+}

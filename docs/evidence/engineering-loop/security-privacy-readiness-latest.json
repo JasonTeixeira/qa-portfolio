@@ -1,0 +1,97 @@
+{
+  "ok": true,
+  "version": "security-privacy-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:47.516Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "securityPrivacy": "lib/discord/security-privacy.ts",
+    "securitySmoke": "scripts/discord/smoke-security-privacy-abuse.ts",
+    "securityProof": "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json",
+    "runbook": "docs/discord/SECURITY_PRIVACY_ABUSE_RUNBOOK.md",
+    "migration": "supabase/migrations/0092_discord_security_audit_runs.sql",
+    "interactionRoute": "app/api/discord/interactions/route.ts",
+    "signature": "lib/discord/signature.ts",
+    "askSage": "lib/discord/ask-sage.ts",
+    "premiumWorkflows": "lib/discord/premium-workflows.ts",
+    "sageCommands": "lib/discord/sage-commands.ts",
+    "publicProof": "lib/discord/public-proof.ts",
+    "adminActions": "app/admin/discord/actions.ts",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "security_privacy_core_guards_wired",
+      "passed": true,
+      "evidence": "lib/discord/security-privacy.ts"
+    },
+    {
+      "name": "rag_and_premium_inputs_use_security_guard",
+      "passed": true,
+      "evidence": "lib/discord/ask-sage.ts, lib/discord/premium-workflows.ts"
+    },
+    {
+      "name": "discord_interactions_have_signature_freshness_and_rate_limit",
+      "passed": true,
+      "evidence": "lib/discord/signature.ts, app/api/discord/interactions/route.ts"
+    },
+    {
+      "name": "commands_sanitize_outputs_and_route_reports",
+      "passed": true,
+      "evidence": "lib/discord/sage-commands.ts"
+    },
+    {
+      "name": "public_proof_privacy_gate_wired",
+      "passed": true,
+      "evidence": "lib/discord/public-proof.ts"
+    },
+    {
+      "name": "admin_mutations_are_auth_guarded",
+      "passed": true,
+      "evidence": "app/admin/discord/actions.ts"
+    },
+    {
+      "name": "security_audit_schema_and_runbook_wired",
+      "passed": true,
+      "evidence": "supabase/migrations/0092_discord_security_audit_runs.sql, docs/discord/SECURITY_PRIVACY_ABUSE_RUNBOOK.md"
+    },
+    {
+      "name": "phase_18_smoke_proof_covers_live_permission_and_abuse_controls",
+      "passed": true,
+      "evidence": "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json"
+    },
+    {
+      "name": "live_smoke_is_explicit_and_not_in_local_gate",
+      "passed": true,
+      "evidence": "package.json, scripts/discord/smoke-security-privacy-abuse.ts"
+    }
+  ],
+  "proofSummary": {
+    "smokeProofOk": true,
+    "livePermissionAuditPassed": true,
+    "promptInjectionBlocked": true,
+    "privacyGuardBlocksPrivateData": true,
+    "reportAbuseWired": true,
+    "adminActionsGuarded": true,
+    "publicProofPrivacyGate": true
+  },
+  "antiFakeRules": [
+    "Do not count this local readiness file as a fresh live Discord permission audit.",
+    "Do not treat automated abuse classification as a moderator decision or ban/mute action.",
+    "Do not publish public proof unless privacy score passes and permission status is explicit or anonymized.",
+    "Do not process RAG or premium questions that include prompt injection, secrets, credentials, or private member/client data."
+  ],
+  "nextOperatingProofRequired": [
+    "Run the live security/privacy smoke after role, channel permission, interaction, RAG, premium, or public-proof policy changes.",
+    "Review moderator decisions for reported abuse and false positives during each operating cycle.",
+    "Audit unapproved member visibility and premium/team-ops restrictions after Discord channel changes.",
+    "Exercise export/delete handling when a real member privacy request arrives."
+  ],
+  "failures": [],
+  "releaseMeaning": "Security/privacy readiness proves local guard wiring and reviews the latest Phase 18 smoke proof. It does not mutate Supabase, call Discord, create audit rows, moderate members, or prove a fresh live permission audit.",
+  "validation": {
+    "ok": true,
+    "validator": "security-privacy-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:47.517Z",
+    "failures": []
+  }
+}

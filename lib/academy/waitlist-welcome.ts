@@ -32,11 +32,11 @@ export function buildAcademyWelcomeEmail({ email, position, refCode }: Args) {
     ${positionCard(position)}
     ${para(`Move up by inviting builders — ${strong('every friend who joins with your link jumps you 5 spots.')}`)}
     ${refBox(refUrl)}
-    ${button(tweet, 'Share & move up →')}
+    ${button(tweet, 'Share & move up')}
     <div style="height:26px;"></div>
     ${para('A taste of what you’ll actually build — not watch:')}
     ${checklist([
-      'An AI that roasts your code 🔥',
+      'An AI that roasts your code',
       'A website built from a single sentence',
       'A SaaS that charges real money — your first paying users',
       'A clone of your own voice — plus 90+ more guided labs',

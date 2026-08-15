@@ -46,7 +46,7 @@ export const ACADEMY_SEQUENCE: SeqStep[] = [
           '<strong style="color:#f2efe9;">AI Engineering</strong> — the LLM API, prompting, RAG, agents',
           '<strong style="color:#f2efe9;">Ship Real Products</strong> — Next.js, Supabase, auth, payments, deploy',
         ])}
-        ${button(`${SITE}/learn`, 'Preview the academy →')}
+        ${button(`${SITE}/learn`, 'Preview the academy')}
         <div style="height:22px;"></div>
         ${para('Builders move faster together — the founding Discord is open now:')}
         ${discordButton(DISCORD_INVITE)}`
@@ -67,14 +67,14 @@ export const ACADEMY_SEQUENCE: SeqStep[] = [
           `Founding spots (and the $20/mo-for-life price) are limited to the first 1,000. Every builder who joins with your link jumps you ${strong('5 spots')} — and unlocks rewards:`,
         )}
         ${checklist([
-          '3 referrals → first month free',
-          '10 → founding price locked for life',
-          '25 → a 1:1 build session with me',
+          '3 referrals: first month free',
+          '10: founding price locked for life',
+          '25: a 1:1 build session with me',
         ])}
         ${refBox(refUrl)}
         ${button(
           `https://twitter.com/intent/tweet?text=${encodeURIComponent('Sage Academy is coming — learn to build with code & AI, $20/mo. Founding spots open:')}&url=${encodeURIComponent(refUrl)}`,
-          'Share & jump the line →',
+          'Share & jump the line',
         )}
         <div style="height:22px;"></div>
         ${para('Already in the Discord? If not, that’s where the founding crew is building:')}

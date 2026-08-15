@@ -1,0 +1,260 @@
+{
+  "ok": true,
+  "version": "discord-proof-candidate-audit-v1",
+  "generatedAt": "2026-06-30T13:25:56.059Z",
+  "mutationMode": "local_file_evidence_only",
+  "releaseMeaning": "Candidate audit reads current evidence and explains what can be reviewed next. It does not create, approve, sync, publish, or satisfy operating proof.",
+  "status": "blocked",
+  "metricsSnapshot": {
+    "approvedDiscordKnowledgeSources": 0,
+    "ragDiscordSources": 0,
+    "pendingKnowledgeCandidates": 3,
+    "pendingPublicDrafts": 0,
+    "publishedPublicDrafts": 0,
+    "premiumMembers": 0,
+    "premiumWorkflowProofs": 0
+  },
+  "lanes": [
+    {
+      "key": "gateway_capture",
+      "title": "Gateway message capture",
+      "status": "passed",
+      "currentCount": 1,
+      "targetCount": 1,
+      "remainingCount": 0,
+      "candidateState": "target_met",
+      "candidateCount": 1,
+      "sourceTables": [
+        "discord_gateway_heartbeats",
+        "discord_gateway_events",
+        "discord_messages",
+        "discord_gateway_dead_letters"
+      ],
+      "adminSurface": "/admin/discord -> Gateway, Messages, Jobs, and Alerts panels",
+      "blockers": [],
+      "nextReviewAction": "Maintain proof quality and rerun scorecard after the next operating cycle.",
+      "provingCommand": "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet && npm run discord:proof-source-scan && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "worker_id",
+        "message_content_enabled",
+        "usable_message_id",
+        "capture_health"
+      ],
+      "criticalEvidenceFields": [
+        "worker_id",
+        "message_content_enabled",
+        "usable_message_id",
+        "capture_health"
+      ]
+    },
+    {
+      "key": "approved_discord_knowledge",
+      "title": "Approved Discord knowledge",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 10,
+      "remainingCount": 10,
+      "candidateState": "needs_review",
+      "candidateCount": 3,
+      "sourceTables": [
+        "discord_questions",
+        "discord_answers",
+        "discord_content_queue",
+        "discord_content_drafts"
+      ],
+      "adminSurface": "/admin/discord -> Content Queue, Drafts, and Knowledge Candidate review panels",
+      "blockers": [
+        "Current proof is 0/10; lane remains blocked until the target is met.",
+        "Approved knowledge plus pending candidates is 3/10; more real member source material is needed."
+      ],
+      "nextReviewAction": "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
+      "provingCommand": "npm run discord:operating-cycle:dry-run && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "source_type",
+        "reuse_category",
+        "rag_safe"
+      ],
+      "criticalEvidenceFields": [
+        "source_type",
+        "reuse_category",
+        "rag_safe"
+      ]
+    },
+    {
+      "key": "rag_discord_sources",
+      "title": "Discord knowledge synced into RAG",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 10,
+      "remainingCount": 10,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "rag_sources",
+        "rag_documents",
+        "rag_chunks"
+      ],
+      "adminSurface": "/admin/discord -> RAG Health, Corpus Health, and Eval Runs panels",
+      "blockers": [
+        "Current proof is 0/10; lane remains blocked until the target is met.",
+        "Approved Discord knowledge available for RAG sync is 0/10.",
+        "No approved Discord knowledge exists to sync into authoritative RAG.",
+        "Latest RAG sync did not upsert approved Discord sources."
+      ],
+      "nextReviewAction": "Run the approved Discord RAG sync after approving knowledge candidates.",
+      "provingCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "rag_source_key",
+        "chunk_count",
+        "eval_or_retrieval_proof"
+      ],
+      "criticalEvidenceFields": [
+        "rag_source_key",
+        "chunk_count",
+        "eval_or_retrieval_proof"
+      ]
+    },
+    {
+      "key": "public_proof_assets",
+      "title": "Public proof growth assets",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 4,
+      "remainingCount": 4,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_public_proof_sources",
+        "discord_public_growth_drafts",
+        "discord_growth_events"
+      ],
+      "adminSurface": "/admin/discord -> Public Proof Sources and Public Growth Drafts panels",
+      "blockers": [
+        "Current proof is 0/4; lane remains blocked until the target is met.",
+        "Public proof source/draft volume is 0/4.",
+        "Public proof drafts require approved Discord source material first.",
+        "Dry run does not create public proof drafts."
+      ],
+      "nextReviewAction": "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+      "provingCommand": "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "asset_type",
+        "utm_campaign",
+        "publish_status",
+        "growth_tracking_status"
+      ],
+      "criticalEvidenceFields": [
+        "asset_type",
+        "utm_campaign",
+        "publish_status",
+        "growth_tracking_status"
+      ]
+    },
+    {
+      "key": "premium_workflow_proof",
+      "title": "Premium workflow proof",
+      "status": "blocked",
+      "currentCount": 0,
+      "targetCount": 1,
+      "remainingCount": 1,
+      "candidateState": "needs_source_volume",
+      "candidateCount": 0,
+      "sourceTables": [
+        "discord_members",
+        "discord_premium_review_requests",
+        "discord_office_hours_queue"
+      ],
+      "adminSurface": "/admin/discord -> Premium, Office Hours, and Member Intelligence panels",
+      "blockers": [
+        "Current proof is 0/1; lane remains blocked until the target is met.",
+        "No answered/completed premium review or completed office-hours workflow is visible in current evidence.",
+        "Premium proof must show authorization, request/SLA state, and fulfillment outcome together; membership or queued requests alone do not count."
+      ],
+      "nextReviewAction": "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario.",
+      "provingCommand": "npm run discord:smoke-premium-workflows && npm run discord:proof-backlog",
+      "requiredEvidenceFields": [
+        "proof_cycle_key",
+        "source_record_id",
+        "source_url_or_path",
+        "source_created_at",
+        "title",
+        "summary",
+        "reviewer",
+        "reviewed_at",
+        "decision_reason",
+        "evidence_artifact_path",
+        "operator_attestation",
+        "privacy_status",
+        "premium_path",
+        "authorization_evidence",
+        "sla_status",
+        "fulfillment_summary"
+      ],
+      "criticalEvidenceFields": [
+        "premium_path",
+        "authorization_evidence",
+        "sla_status",
+        "fulfillment_summary"
+      ]
+    }
+  ],
+  "failures": [],
+  "nextActions": [
+    "Review pending knowledge candidates and approve only reusable, privacy-safe items.",
+    "Run the approved Discord RAG sync after approving knowledge candidates.",
+    "Create privacy-safe public proof drafts from approved Discord source material and approve/publish them weekly.",
+    "Run one premium review, deeper-answer, or office-hours flow with a real or intentionally seeded premium scenario."
+  ],
+  "validation": {
+    "ok": true,
+    "failures": []
+  }
+}

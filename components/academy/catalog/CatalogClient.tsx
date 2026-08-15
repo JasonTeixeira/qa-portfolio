@@ -1,230 +1,205 @@
 'use client'
 
-import { useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
-import { topic, TOPICS, type TopicKey } from '@/lib/academy/topics'
-import { CATEGORIES, TRACKS, type AcademyTrack } from '@/lib/academy/taxonomy'
-import type { PathItem, CourseItem, Level } from '@/data/academy/learn-catalog'
+import { TOPICS, type TopicKey } from '@/lib/academy/topics'
+import type { PathItem, CourseItem } from '@/data/academy/learn-catalog'
+import { Icon } from '@/components/academy/ui/Icon'
+import { groupByDomain } from './domains'
 import styles from './catalog.module.css'
 
 type ResumeCard = { kicker: string; title: string; sub: string; href: string; pct: number }
 
-const LEVELS: Array<'All' | Level> = ['All', 'Beginner', 'Intermediate', 'Advanced']
+/** 'all' plus every real topic key — the client-side track filter. */
+type TrackFilter = 'all' | TopicKey
 
-function tvars(key: TopicKey): CSSProperties {
-  const t = topic(key)
-  return { '--topic': t.color, '--topic-soft': t.soft } as CSSProperties
+function topicVars(key: TopicKey): CSSProperties {
+  return { '--topic': TOPICS[key].color } as CSSProperties
 }
 
 export function CatalogClient({
   resume,
-  paths,
   courses,
   totalCourses,
+  progress = {},
 }: {
-  resume: ResumeCard
-  paths: PathItem[]
+  resume: ResumeCard | null
+  /** Curated multi-course paths — currently empty until rebuilt; kept for prop stability. */
+  paths?: PathItem[]
   courses: CourseItem[]
   totalCourses: number
+  /** Completed-lesson count per course slug (RLS-scoped, 0 when signed out). */
+  progress?: Record<string, number>
 }) {
-  const [trackFilter, setTrackFilter] = useState<AcademyTrack | null>(null)
-  const [level, setLevel] = useState<'All' | Level>('All')
-  const [query, setQuery] = useState('')
-  const coursesRef = useRef<HTMLElement>(null)
+  const [track, setTrack] = useState<TrackFilter>('all')
 
-  const filtered = useMemo(
-    () =>
-      courses.filter(
-        (c) =>
-          (!trackFilter || c.topic === trackFilter.topic) &&
-          (level === 'All' || c.level === level) &&
-          (!query || c.title.toLowerCase().includes(query.toLowerCase())),
-      ),
-    [courses, trackFilter, level, query],
+  // Real catalog stats for the kicker line — computed, never invented.
+  const totalLessons = useMemo(
+    () => courses.reduce((sum, c) => sum + (c.lessons ?? 0), 0),
+    [courses],
   )
 
-  const liveCategory = CATEGORIES.find((c) => c.status === 'live')!
-  const liveTracks = TRACKS.filter((t) => t.categoryId === liveCategory.id)
+  // The real tracks present, in curriculum order (Foundations → … → Growth).
+  const trackKeys = useMemo(() => groupByDomain(courses), [courses])
 
-  const focusTrack = (t: AcademyTrack) => {
-    setTrackFilter((cur) => (cur?.id === t.id ? null : t))
-    coursesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  const filtered = useMemo(
+    () => (track === 'all' ? courses : courses.filter((c) => c.topic === track)),
+    [courses, track],
+  )
 
   return (
     <div className={styles.page}>
-      {/* hero */}
-      <header className={styles.hero}>
-        <span className={styles.heroKicker}>◆ Sage Academy</span>
-        <h1 className={styles.heroTitle}>
-          Learn to build with AI —<br />
-          <span className={styles.heroEm}>by actually building.</span>
-        </h1>
-        <p className={styles.heroSub}>
-          Project-based tracks, in-browser labs, and a learning engine that won&rsquo;t let you fake it.
-          Browse the curriculum, follow a path, or assemble your own.
+      {/* Header — the catalog stat line + the editorial promise. */}
+      <header className={styles.header}>
+        <p className={styles.kicker}>
+          The catalog · {totalCourses} {totalCourses === 1 ? 'course' : 'courses'} ·{' '}
+          {totalLessons} lessons · {trackKeys.length}{' '}
+          {trackKeys.length === 1 ? 'track' : 'tracks'}
         </p>
-        <div className={styles.heroActions}>
-          <Link href="/academy/engine" className={styles.heroPrimary}>See how a sprint works →</Link>
-          <Link href="/academy/dashboard" className={styles.heroGhost}>My learning</Link>
-          <label className={styles.search}>
-            <span aria-hidden="true">⌕</span>
-            <input
-              type="search"
-              placeholder="Search courses, skills, labs…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search the catalog"
-            />
-          </label>
-        </div>
+        <h1 className={styles.headline}>
+          Every course ends in <em className={styles.headlineEm}>an artifact</em> a reviewer
+          trusts.
+        </h1>
       </header>
 
-      {/* category switcher */}
-      <nav className={styles.categories} aria-label="Categories">
-        {CATEGORIES.map((c) => (
-          <div key={c.id} className={styles.category} data-status={c.status}>
-            <span className={styles.categoryGlyph} aria-hidden="true">{c.glyph}</span>
-            <span className={styles.categoryMeta}>
-              <span className={styles.categoryName}>{c.name}</span>
-              <span className={styles.categoryTag}>{c.tagline}</span>
-            </span>
-            {c.status !== 'live' ? <span className={styles.soon}>Coming soon</span> : <span className={styles.liveDot} aria-hidden="true" />}
+      {/* Continue — only when there is real recorded progress. */}
+      {resume && (
+        <Link href={resume.href} className={styles.resume}>
+          <span className={styles.resumeAccent} aria-hidden="true" />
+          <div className={styles.resumeBody}>
+            <span className={styles.resumeKicker}>{resume.kicker}</span>
+            <span className={styles.resumeTitle}>{resume.title}</span>
+            <span className={styles.resumeSub}>{resume.sub}</span>
           </div>
-        ))}
-      </nav>
+          <div className={styles.resumeMeta}>
+            <span className={styles.resumeBar} aria-hidden="true">
+              <span style={{ width: `${resume.pct}%` }} />
+            </span>
+            <span className={styles.resumeBtn}>
+              {resume.pct > 0 ? 'Resume' : 'Start'}
+              <Icon name="arrow-right" size={16} aria-hidden="true" />
+            </span>
+          </div>
+        </Link>
+      )}
 
-      {/* the tracks — the architecture centerpiece */}
-      <section className={styles.section} aria-labelledby="tracks-h">
-        <div className={styles.sectionHead}>
-          <p className={styles.kicker}>{liveCategory.name}</p>
-          <h2 id="tracks-h" className={styles.h2}>Twelve tracks, one operating system for mastery.</h2>
+      {/* Track filter chips — real tracks, filtered client-side. */}
+      <div
+        className={styles.filterBar}
+        role="group"
+        aria-label="Filter courses by track"
+      >
+        <button
+          type="button"
+          className={`${styles.chip} ${track === 'all' ? styles.chipOn : ''}`}
+          onClick={() => setTrack('all')}
+          aria-pressed={track === 'all'}
+        >
+          All tracks
+        </button>
+        {trackKeys.map((key) => (
+          <button
+            key={key}
+            type="button"
+            className={`${styles.chip} ${track === key ? styles.chipOn : ''}`}
+            onClick={() => setTrack(key)}
+            aria-pressed={track === key}
+          >
+            {TOPICS[key].label}
+          </button>
+        ))}
+        <span className={styles.countLine} role="status">
+          {filtered.length} {filtered.length === 1 ? 'course' : 'courses'}
+        </span>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className={styles.empty}>
+          <span className={styles.emptyGlyph} aria-hidden="true">
+            <Icon name="search" size={22} />
+          </span>
+          <p>No courses in this track yet.</p>
+          <button
+            type="button"
+            className={styles.clearFilter}
+            onClick={() => setTrack('all')}
+          >
+            Show the full catalog
+          </button>
         </div>
-        <div className={styles.trackGrid}>
-          {liveTracks.map((t) => {
-            const live = t.status === 'live'
+      ) : (
+        <ul className={styles.grid}>
+          {filtered.map((c) => {
+            const done = Math.min(progress[c.slug] ?? 0, c.lessons)
+            const started = done > 0
+            const finished = c.lessons > 0 && done >= c.lessons
+            const pct = c.lessons ? Math.round((done / c.lessons) * 100) : 0
+            const action = finished ? 'Review' : started ? 'Continue' : 'Start'
             return (
-              <button
-                key={t.id}
-                type="button"
-                className={styles.trackCard}
-                style={tvars(t.topic)}
-                data-on={trackFilter?.id === t.id}
-                data-status={t.status}
-                onClick={() => (live ? focusTrack(t) : undefined)}
-                aria-pressed={trackFilter?.id === t.id}
-                aria-disabled={!live}
-              >
-                <span className={styles.trackTop}>
-                  <span className={styles.trackGlyph} aria-hidden="true">{t.glyph}</span>
-                  <span className={styles.trackStatus} data-status={t.status}>{live ? 'Live' : 'Building'}</span>
-                </span>
-                <h3 className={styles.trackName}>{t.name}</h3>
-                <p className={styles.trackBlurb}>{t.blurb}</p>
-                <span className={styles.trackOutcome}>→ {t.outcome}</span>
-              </button>
+              <li key={c.slug}>
+                <Link
+                  href={`/academy/course/${c.slug}`}
+                  className={styles.card}
+                  style={topicVars(c.topic)}
+                  data-state={finished ? 'done' : started ? 'active' : 'new'}
+                >
+                  <div className={styles.cardTop}>
+                    <span className={styles.cardTrack}>{TOPICS[c.topic].label}</span>
+                    <span className={styles.cardLevel}>{c.level}</span>
+                  </div>
+
+                  <h2 className={styles.cardTitle}>{c.title}</h2>
+
+                  {c.subtitle ? <p className={styles.cardDesc}>{c.subtitle}</p> : null}
+
+                  {/* Progress only when real recorded progress exists — no fake 0% bars. */}
+                  {started && !finished ? (
+                    <div
+                      className={styles.cardProgress}
+                      role="img"
+                      aria-label={`${done} of ${c.lessons} lessons complete`}
+                    >
+                      <span className={styles.cardProgressBar} aria-hidden="true">
+                        <span style={{ width: `${pct}%` }} />
+                      </span>
+                      <span className={styles.cardProgressLabel}>
+                        {done}/{c.lessons} · {pct}%
+                      </span>
+                    </div>
+                  ) : null}
+
+                  <div className={styles.cardFoot}>
+                    <span className={styles.cardMeta}>
+                      {c.lessons} lessons · {c.hours}h
+                    </span>
+                    <span
+                      className={`${styles.cardAction} ${finished ? styles.cardDone : ''}`}
+                    >
+                      {finished ? (
+                        <>
+                          <Icon name="check" size={14} aria-hidden="true" />
+                          {action}
+                        </>
+                      ) : (
+                        <>
+                          {action}
+                          <Icon name="arrow-right" size={14} aria-hidden="true" />
+                        </>
+                      )}
+                    </span>
+                  </div>
+                </Link>
+              </li>
             )
           })}
-        </div>
-      </section>
+        </ul>
+      )}
 
-      {/* resume */}
-      <Link href={resume.href} className={styles.resume}>
-        <span className={styles.resumeAccent} aria-hidden="true" />
-        <div className={styles.resumeBody}>
-          <span className={styles.resumeKicker}>▸ {resume.kicker}</span>
-          <span className={styles.resumeTitle}>{resume.title}</span>
-        </div>
-        <div className={styles.resumeMeta}>
-          <span className={styles.resumeSub}>{resume.sub}</span>
-          <span className={styles.resumeBar} aria-hidden="true"><span style={{ width: `${resume.pct}%` }} /></span>
-        </div>
-        <span className={styles.resumeBtn}>Resume →</span>
+      {/* Quiet escape hatch — assemble your own path. */}
+      <Link href="/academy/build" className={styles.build}>
+        <Icon name="plus" size={15} aria-hidden="true" />
+        Prefer to assemble your own path? Build one
       </Link>
-
-      {/* curated paths */}
-      <section className={styles.section} aria-labelledby="paths-h">
-        <div className={styles.sectionHead}>
-          <p className={styles.kicker}>Curated paths</p>
-          <h2 id="paths-h" className={styles.h2}>Guided journeys — first line to shipped.</h2>
-        </div>
-        <div className={styles.pathGrid}>
-          {paths.map((p) => (
-            <Link key={p.slug} href="/academy/preview" className={styles.pathCard} style={tvars(p.topic)}>
-              <span className={styles.pathLayers} aria-hidden="true"><i /><i /><i /></span>
-              <span className={styles.pathLevel}>{p.level}</span>
-              <h3 className={styles.pathName}>{p.name}</h3>
-              <span className={styles.pathMeta}>{p.courses} courses · {p.hours} hrs</span>
-              <span className={styles.pathBar} aria-hidden="true">
-                <span style={{ width: `${Math.round((p.progress ?? 0) * 100)}%` }} />
-              </span>
-              <span className={styles.pathCta}>
-                {p.progress ? `${Math.round(p.progress * 100)}% · continue →` : 'Start path →'}
-              </span>
-            </Link>
-          ))}
-          <Link href="/academy/build" className={styles.buildCard}>
-            <span className={styles.buildKicker}>⬡ Modular</span>
-            <h3 className={styles.buildName}>Build your own path</h3>
-            <p className={styles.buildBody}>Pick your outcome, snap together the exact courses + labs you want — your own ordered track.</p>
-            <span className={styles.buildBtn}>Start building →</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* all courses */}
-      <section className={styles.section} aria-labelledby="courses-h" ref={coursesRef}>
-        <div className={styles.browseHead}>
-          <div>
-            <p className={styles.kicker}>{trackFilter ? trackFilter.name : 'All courses'}</p>
-            <h2 id="courses-h" className={styles.h2}>
-              {trackFilter ? (
-                <>Courses in this track. <button type="button" className={styles.clearFilter} onClick={() => setTrackFilter(null)}>clear ✕</button></>
-              ) : (
-                <>Browse the catalog. <span className={styles.count}>{totalCourses}+ courses rolling out</span></>
-              )}
-            </h2>
-          </div>
-          <div className={styles.levels} role="group" aria-label="Filter by level">
-            {LEVELS.map((l) => (
-              <button
-                key={l}
-                type="button"
-                className={`${styles.level} ${level === l ? styles.levelOn : ''}`}
-                onClick={() => setLevel(l)}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className={styles.empty}>
-            <span className={styles.emptyGlyph} aria-hidden="true">◇</span>
-            <p>{trackFilter ? `${trackFilter.name} sprints are rolling out.` : 'No courses match those filters yet.'}</p>
-            <span className={styles.emptySub}>New sprints ship into this engine continuously. {trackFilter ? <button type="button" className={styles.clearFilter} onClick={() => setTrackFilter(null)}>See all courses</button> : 'Widen your filters to see more.'}</span>
-          </div>
-        ) : (
-          <div className={styles.courseGrid}>
-            {filtered.map((c) => (
-              <Link key={c.slug} href={`/academy/course/${c.slug}`} className={styles.courseCard} style={tvars(c.topic)}>
-                <div className={styles.courseTop}>
-                  <span className={styles.courseTag}>{TOPICS[c.topic].label}</span>
-                  <span className={styles.courseLevel}>{c.level}</span>
-                </div>
-                <h3 className={styles.courseTitle}>{c.title}</h3>
-                <span className={styles.skillBar} aria-hidden="true"><i /><i /><i /><i /></span>
-                <span className={styles.courseMeta}>{c.lessons} lessons · {c.hours}h</span>
-                <div className={styles.courseFoot}>
-                  <span className={styles.courseStart}>Start →</span>
-                  <span className={styles.coursePath}>+ add to path</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
     </div>
   )
 }

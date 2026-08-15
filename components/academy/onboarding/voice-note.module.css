@@ -1,0 +1,105 @@
+/* Click-to-play narration pill — Jason's voice on the welcome/onboarding steps. */
+
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.6rem;
+  border: 1px solid var(--line, #1e1e24);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent, #3d5afe) 8%, transparent);
+  color: var(--ink, #f2efe9);
+  font: 500 0.82rem/1 var(--ac-font-body, system-ui);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.note:hover {
+  border-color: color-mix(in oklab, var(--accent, #3d5afe) 55%, var(--line, #1e1e24));
+  background: color-mix(in oklab, var(--accent, #3d5afe) 14%, transparent);
+}
+
+.note:focus-visible {
+  outline: 2px solid var(--accent, #3d5afe);
+  outline-offset: 2px;
+}
+
+.note[data-playing='true'] {
+  border-color: color-mix(in oklab, var(--accent, #3d5afe) 65%, transparent);
+  background: color-mix(in oklab, var(--accent, #3d5afe) 16%, transparent);
+}
+
+.glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: var(--accent, #3d5afe);
+  color: #fff;
+  flex: 0 0 auto;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+/* Four bars that animate only while playing — pure decoration, honest silence when paused. */
+.wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.9rem;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.note[data-playing='true'] .wave {
+  opacity: 1;
+}
+
+.wave i {
+  width: 2px;
+  height: 30%;
+  border-radius: 2px;
+  background: var(--accent-text, #8fa0ff);
+}
+
+.note[data-playing='true'] .wave i {
+  animation: voiceBar 900ms ease-in-out infinite;
+}
+
+.wave i:nth-child(2) {
+  animation-delay: 120ms;
+}
+.wave i:nth-child(3) {
+  animation-delay: 240ms;
+}
+.wave i:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+@keyframes voiceBar {
+  0%,
+  100% {
+    height: 25%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    transition: none;
+  }
+  .note[data-playing='true'] .wave i {
+    animation: none;
+    height: 60%;
+  }
+}

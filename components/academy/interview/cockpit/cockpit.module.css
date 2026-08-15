@@ -1,0 +1,496 @@
+/* Interview Mastery — COCKPIT (real-data) skin.
+   Source of truth: design-source/sage-academy-2026/Sage Interview Cockpit.dc.html
+   Renders inside InterviewShell (.root of interview.module.css), so every --sa-* and
+   --iv-gold* custom property is INHERITED here — no re-declaration, single source.
+   GOLD accent variant of the Sage academy skin. No fabricated numbers ever reach this file;
+   the components decide what is real, the CSS only styles it. */
+
+/* ── FIRST-RUN (onboarded, zero sessions) ─────────────────────────────────── */
+.firstRun {
+  max-width: 720px;
+  margin: clamp(24px, 6vh, 72px) auto 0;
+  text-align: center;
+}
+.orb {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--sa-radius-pill, 50%);
+  background: radial-gradient(circle at 35% 30%, var(--iv-gold-bright, #f0c36a), #8a5e12);
+  box-shadow: 0 0 44px rgba(224, 169, 62, 0.45);
+  font-size: 22px;
+  color: var(--sa-bg);
+}
+.firstRunTitle {
+  margin: 24px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 46px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.firstRunBody {
+  margin: 16px auto 0;
+  color: var(--sa-ink-muted);
+  font-size: 16px;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.ctaRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 48px;
+  text-align: left;
+}
+.stepCard {
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 18px;
+}
+.stepKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--iv-gold);
+}
+.stepBody {
+  font-size: 13.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 6px;
+  text-wrap: pretty;
+}
+
+/* ── SHARED CTA (Start a mock) ────────────────────────────────────────────── */
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright, #f0c36a), var(--iv-gold-deep, #d99a2b));
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--sa-body-live);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 26px;
+  box-shadow: 0 0 26px rgba(224, 169, 62, 0.35);
+  white-space: nowrap;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.ctaPrimary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.ctaPrimary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.ctaGhostLink {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  text-decoration: none;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.ctaGhostLink:hover {
+  color: var(--iv-gold-bright, #f0c36a);
+}
+.startError {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-danger);
+}
+
+/* ── REAL COCKPIT ─────────────────────────────────────────────────────────── */
+.greeting {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.greetKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+.greetTitle {
+  margin: 8px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.greetMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.card {
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  background: var(--sa-surface-1);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.cardGold {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.4));
+  background: linear-gradient(165deg, #17150e, var(--sa-surface-1));
+  box-shadow: 0 0 32px rgba(224, 169, 62, 0.08);
+}
+.colDial {
+  grid-column: span 4;
+  align-items: center;
+  gap: 14px;
+}
+.colHero {
+  grid-column: span 8;
+}
+.colRubric {
+  grid-column: span 5;
+}
+.colHistory {
+  grid-column: span 7;
+}
+@media (max-width: 960px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  .colDial,
+  .colHero,
+  .colRubric,
+  .colHistory {
+    grid-column: auto;
+  }
+}
+
+.panelKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sa-ink-faint);
+}
+.panelKickerGold {
+  color: var(--iv-gold);
+}
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.panelNote {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+}
+
+/* Dial */
+.dialKickerRow {
+  align-self: stretch;
+}
+.dialCapLine {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-align: center;
+  text-wrap: pretty;
+}
+.dialCapName {
+  color: var(--sa-danger);
+  font-weight: 600;
+}
+.dialPending {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-align: center;
+  text-wrap: pretty;
+  max-width: 28ch;
+}
+
+/* Hero (start a mock) */
+.heroTitle {
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(20px, 2.2vw, 27px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.heroBody {
+  margin: 0;
+  color: var(--sa-ink-muted);
+  font-size: 14.5px;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+.recoStrip {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid var(--sa-rule);
+  padding-top: 16px;
+  margin-top: 4px;
+  overflow-x: auto;
+}
+.recoChip {
+  flex: 1;
+  min-width: 150px;
+  border: 1px solid var(--sa-rule);
+  border-radius: 10px;
+  background: var(--sa-bg);
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.recoChip:hover {
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.4));
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.08));
+}
+.recoTrack {
+  font-family: var(--sa-mono-live);
+  font-size: 9px;
+  color: var(--iv-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.recoTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: var(--sa-ink);
+}
+.recoMeta {
+  font-family: var(--sa-mono-live);
+  font-size: 9px;
+  color: var(--sa-ink-faint);
+  margin-top: 3px;
+}
+
+/* Session history */
+.histCard {
+  gap: 0;
+}
+.histHead {
+  margin-bottom: 14px;
+}
+.histRow {
+  display: grid;
+  grid-template-columns: 74px minmax(150px, 1.6fr) minmax(70px, 0.7fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--sa-rule);
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+  transition: background var(--sa-dur-fast, 150ms) ease;
+}
+.histRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+.histDate {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--sa-ink-faint);
+}
+.histWhat {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--sa-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.histDelta {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--sa-ink-faint);
+}
+.histDeltaUp {
+  color: var(--sa-success);
+}
+.histDeltaDown {
+  color: var(--sa-danger);
+}
+.histBadge {
+  font-family: var(--sa-mono-live);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 4px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+  border: 1px solid var(--sa-rule);
+  color: var(--sa-ink-faint);
+}
+.histBadgeHire {
+  color: var(--sa-success);
+  border-color: var(--sa-success-border, rgba(24, 182, 99, 0.4));
+  background: var(--sa-success-soft, rgba(24, 182, 99, 0.1));
+}
+.histBadgeLean {
+  color: var(--iv-gold-bright, #f0c36a);
+  border-color: var(--iv-gold-border, rgba(224, 169, 62, 0.4));
+  background: var(--iv-gold-soft, rgba(224, 169, 62, 0.08));
+}
+.histBadgeNo {
+  color: var(--sa-danger);
+  border-color: var(--sa-danger-border, rgba(229, 72, 77, 0.4));
+  background: var(--sa-danger-soft, rgba(229, 72, 77, 0.1));
+}
+.histBadgePending {
+  color: var(--sa-ink-faint);
+}
+.histLink {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  color: var(--iv-gold-bright, #f0c36a);
+  text-decoration: none;
+}
+
+/* ── READINESS GAUGE ──────────────────────────────────────────────────────── */
+.gaugeWrap {
+  position: relative;
+  width: 172px;
+  height: 172px;
+}
+.gaugeSvg {
+  width: 100%;
+  height: 100%;
+}
+.gaugeCenter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.gaugeScore {
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--sa-ink);
+}
+.gaugeScoreEmpty {
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--sa-ink-ghost, #4a4a54);
+}
+.gaugeSub {
+  font-family: var(--sa-mono-live);
+  font-size: 9.5px;
+  color: var(--sa-ink-faint);
+  margin-top: 4px;
+}
+.gaugeTrend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+}
+.gaugeTrendUp {
+  color: var(--sa-success);
+}
+.gaugeTrendDown {
+  color: var(--sa-danger);
+}
+.gaugeTrendFlat {
+  color: var(--sa-ink-faint);
+}
+
+/* ── RUBRIC BARS ──────────────────────────────────────────────────────────── */
+.rubricList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.rubricRow {
+  display: block;
+}
+.rubricLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.rubricName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sa-ink);
+}
+.rubricCapTag {
+  font-family: var(--sa-mono-live);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sa-danger);
+  border: 1px solid var(--sa-danger-border, rgba(229, 72, 77, 0.4));
+  border-radius: 5px;
+  padding: 1px 6px;
+  margin-left: 8px;
+}
+.rubricScore {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+}
+.rubricTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sa-surface-3, #1a1a20);
+}
+.rubricFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+.rubricMarker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: rgba(240, 195, 106, 0.6);
+}
+.rubricPending {
+  font-size: 13px;
+  color: var(--sa-ink-muted);
+  text-wrap: pretty;
+}

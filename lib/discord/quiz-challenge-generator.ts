@@ -1,7 +1,15 @@
 import { deepSeekChat } from '@/lib/rag/deepseek';
 import { createDiscordContentDraft } from './content-approval';
+import {
+  SAGEBOT_PERSONALITY_VERSION,
+  SAGEBOT_PROMPT_VERSIONS,
+  sageBotLearningGeneratorSystemPrompt,
+  scoreSageBotPolicyOutput,
+} from './sagebot-personality';
 
-export const DISCORD_LEARNING_GENERATOR_PROMPT_VERSION = 'discord-learning-generator-v1';
+export const DISCORD_QUIZ_GENERATOR_PROMPT_VERSION = SAGEBOT_PROMPT_VERSIONS.quizGenerator;
+export const DISCORD_CHALLENGE_GENERATOR_PROMPT_VERSION = SAGEBOT_PROMPT_VERSIONS.challengeGenerator;
+export const DISCORD_LEARNING_GENERATOR_PROMPT_VERSION = DISCORD_QUIZ_GENERATOR_PROMPT_VERSION;
 
 export type GeneratedDiscordLearningItems = {
   quiz: {
@@ -41,6 +49,7 @@ export function buildLearningGeneratorPrompt(input: { theme: string; dateKey: st
     'Generate one Discord education quiz and one build challenge for Sage Ideas Academy.',
     'Audience: builders learning AI apps, full-stack, websites, cloud, automation, SEO/content, and growth.',
     'Keep it practical, specific, and testable. No generic motivation.',
+    'Model policy: do not recommend OpenAI, ChatGPT, or GPT models unless a seed explicitly requires it. Use DeepSeek or provider-neutral LLM language when a model is needed.',
     'Return strict JSON only with this shape:',
     '{"quiz":{"prompt":"...","options":["...","...","...","..."],"correct_answer":"...","explanation":"...","difficulty":"foundation|intermediate|advanced"},"challenge":{"title":"...","prompt":"...","deliverable":"...","points":15}}',
     `Date: ${input.dateKey}`,
@@ -94,19 +103,37 @@ export async function generateDiscordLearningDrafts(input: GenerateDiscordLearni
   const dateKey = date.toISOString().slice(0, 10);
   const generation = await deepSeekChat({
     messages: [
-      { role: 'system', content: 'You generate strict JSON for Discord education content. Return JSON only.' },
+      { role: 'system', content: sageBotLearningGeneratorSystemPrompt() },
       { role: 'user', content: buildLearningGeneratorPrompt({ theme: input.theme, dateKey }) },
     ],
     temperature: 0.35,
-    maxTokens: 520,
+    maxTokens: 900,
   });
   const items = parseGeneratedLearningItems(generation.content);
-  const qualityScore = scoreGeneratedLearningItems(items);
+  const quizBody = [
+    `**Quiz:** ${items.quiz.prompt}`,
+    `Options: ${items.quiz.options.join(' / ')}`,
+    `Answer: ${items.quiz.correct_answer}`,
+    `Explanation: ${items.quiz.explanation}`,
+  ].join('\n');
+  const challengeBody = [
+    `**Challenge:** ${items.challenge.title}`,
+    items.challenge.prompt,
+    '',
+    `Deliverable: ${items.challenge.deliverable}`,
+    `Points: ${items.challenge.points}`,
+  ].join('\n');
+  const structuralScore = scoreGeneratedLearningItems(items);
+  const quizPolicyScore = scoreSageBotPolicyOutput(quizBody, { maxLength: 1400 });
+  const challengePolicyScore = scoreSageBotPolicyOutput(challengeBody, { maxLength: 1400 });
+  const quizQualityScore = Math.min(structuralScore, quizPolicyScore.score);
+  const challengeQualityScore = Math.min(structuralScore, challengePolicyScore.score);
   const commonMetadata = {
     generator_date: dateKey,
     theme: input.theme,
     source: 'discord_learning_generator',
     usage: generation.usage,
+    personality_version: SAGEBOT_PERSONALITY_VERSION,
     ...(input.metadata ?? {}),
   };
   const [quizDraft, challengeDraft] = await Promise.all([
@@ -114,32 +141,37 @@ export async function generateDiscordLearningDrafts(input: GenerateDiscordLearni
       draftType: 'quiz',
       targetChannelBaseName: 'daily-signal',
       title: `Quiz - ${dateKey} - ${input.theme}`,
-      body: [
-        `**Quiz:** ${items.quiz.prompt}`,
-        `Options: ${items.quiz.options.join(' / ')}`,
-        `Answer: ${items.quiz.correct_answer}`,
-        `Explanation: ${items.quiz.explanation}`,
-      ].join('\n'),
+      body: quizBody,
       model: generation.model,
-      promptVersion: DISCORD_LEARNING_GENERATOR_PROMPT_VERSION,
-      qualityScore,
-      metadata: { ...commonMetadata, quiz: items.quiz },
+      promptVersion: DISCORD_QUIZ_GENERATOR_PROMPT_VERSION,
+      qualityScore: quizQualityScore,
+      metadata: {
+        ...commonMetadata,
+        prompt_version: DISCORD_QUIZ_GENERATOR_PROMPT_VERSION,
+        policy_score: quizPolicyScore.score,
+        policy_passed: quizPolicyScore.passed,
+        policy_reasons: quizPolicyScore.reasons,
+        policy_flags: quizPolicyScore.flags,
+        quiz: items.quiz,
+      },
     }),
     createDiscordContentDraft({
       draftType: 'challenge',
       targetChannelBaseName: 'daily-signal',
       title: `Challenge - ${dateKey} - ${items.challenge.title}`,
-      body: [
-        `**Challenge:** ${items.challenge.title}`,
-        items.challenge.prompt,
-        '',
-        `Deliverable: ${items.challenge.deliverable}`,
-        `Points: ${items.challenge.points}`,
-      ].join('\n'),
+      body: challengeBody,
       model: generation.model,
-      promptVersion: DISCORD_LEARNING_GENERATOR_PROMPT_VERSION,
-      qualityScore,
-      metadata: { ...commonMetadata, challenge: items.challenge },
+      promptVersion: DISCORD_CHALLENGE_GENERATOR_PROMPT_VERSION,
+      qualityScore: challengeQualityScore,
+      metadata: {
+        ...commonMetadata,
+        prompt_version: DISCORD_CHALLENGE_GENERATOR_PROMPT_VERSION,
+        policy_score: challengePolicyScore.score,
+        policy_passed: challengePolicyScore.passed,
+        policy_reasons: challengePolicyScore.reasons,
+        policy_flags: challengePolicyScore.flags,
+        challenge: items.challenge,
+      },
     }),
   ]);
 

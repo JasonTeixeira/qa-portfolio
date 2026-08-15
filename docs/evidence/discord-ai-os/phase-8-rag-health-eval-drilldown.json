@@ -1,0 +1,73 @@
+{
+  "phase": 8,
+  "name": "RAG corpus health, eval drilldown, and source-task controls",
+  "completed_at": "2026-06-24T21:43:00Z",
+  "status": "passed",
+  "objective": "Make RAG quality diagnosable and actionable from /admin/discord without requiring Supabase inspection or CLI-only workflows.",
+  "implemented": [
+    "Added lib/rag/admin-health.ts with deterministic RAG corpus health summarization.",
+    "Added eval failure drilldown classification with retrieval hit, citation coverage, faithfulness, missing sources, missing terms, trace ID, answer ID, severity, and suggested fix.",
+    "Extended /admin/discord with a RAG operational health panel showing source/document/chunk/embedding counts, missing coverage, latest ingestion run, latest eval run, and issues.",
+    "Extended /admin/discord with a RAG eval drilldown table for latest eval results.",
+    "Added an authenticated admin action that turns a failed eval into a deduped discord_content_queue knowledge/source task.",
+    "Added Playwright proof that seeds a failed eval, renders the drilldown, clicks Create source task, verifies the content queue row, and cleans up.",
+    "Re-ran the existing Phase 7 dashboard RAG sync E2E to prove no regression."
+  ],
+  "files": [
+    "app/admin/discord/actions.ts",
+    "app/admin/discord/page.tsx",
+    "lib/rag/admin-health.ts",
+    "tests/e2e/admin/discord-rag-health.spec.ts",
+    "tests/unit/run.mjs",
+    "docs/evidence/rag/eval-smoke.json"
+  ],
+  "verification": [
+    {
+      "command": "npm run test:unit",
+      "result": "passed",
+      "evidence": "163 passed, 0 failed"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed",
+      "evidence": "tsc --noEmit completed successfully"
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-rag-health.spec.ts --project=chromium",
+      "result": "passed",
+      "evidence": "1 Chromium test passed. The test proved failed eval drilldown visibility and Create source task action into discord_content_queue."
+    },
+    {
+      "command": "PW_BASE_URL=http://localhost:3040 npm run test:e2e:local -- tests/e2e/admin/discord-rag-corpus.spec.ts --project=chromium",
+      "result": "passed",
+      "evidence": "1 Chromium test passed. Existing Phase 7 dashboard approve/sync RAG flow still works."
+    },
+    {
+      "command": "npm run rag:evaluate:smoke",
+      "result": "passed",
+      "evidence": "runKey smoke-20260624214222; 3/3 passed; passRate 1; retrievalHitRate 1; citationCoverage 1"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed",
+      "evidence": "Next.js production build completed successfully. Existing non-blocking warnings remain for middleware deprecation, edge runtime static generation behavior, and academy cookie-based dynamic rendering."
+    }
+  ],
+  "earned_scores_after_phase": {
+    "rag_corpus_quality": "82-90",
+    "eval_coverage_and_regression_gates": "88-93",
+    "admin_dashboard": "86-92"
+  },
+  "what_is_real": [
+    "Admin can now see live RAG source/document/chunk/embedding counts.",
+    "Admin can see latest ingestion and eval run posture.",
+    "Admin can inspect failed evals with missing source/term details and trace/answer IDs.",
+    "Admin can create a concrete source/content task from a failed eval without leaving /admin/discord."
+  ],
+  "what_is_left": [
+    "Phase 9 must build the real Discord capture pipeline so persistent community questions, answers, resources, and wins become reviewable knowledge candidates.",
+    "One-click chunk/embed/eval job triggers are still not fully dashboard-native; Phase 14 durable jobs should own safe retryable job triggering.",
+    "The broad full RAG eval still needs to remain above the 95% target as the corpus grows; this pass proved the smoke eval and drilldown workflow."
+  ],
+  "next_phase": "Phase 9 - real Discord capture pipeline and knowledge candidate flow"
+}

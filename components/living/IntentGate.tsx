@@ -32,6 +32,24 @@ export function IntentGate() {
   }, [phase])
 
   useEffect(() => {
+    const search = new URLSearchParams(window.location.search)
+    const commercialVisit =
+      search.get('intent') === 'hire' ||
+      search.has('source') ||
+      search.has('utm_source') ||
+      search.has('utm_campaign')
+
+    if (commercialVisit) {
+      try {
+        window.localStorage.setItem(INTENT_KEY, 'hire')
+      } catch {
+        // Non-critical: this only avoids showing the gate again.
+      }
+      document.documentElement.dataset.intent = 'hire'
+      document.body.classList.remove('intent-gating')
+      return
+    }
+
     let stored: string | null = null
     try {
       stored = window.localStorage.getItem(INTENT_KEY)

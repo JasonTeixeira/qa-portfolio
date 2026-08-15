@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "version": "observability-quality-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:47.788Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "aiObservability": "lib/ai/observability.ts",
+    "observabilityQuality": "lib/discord/observability-quality.ts",
+    "observabilitySmoke": "scripts/discord/smoke-observability-quality-v2.ts",
+    "observabilityProof": "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json",
+    "migration": "supabase/migrations/0091_discord_observability_quality_rollups.sql",
+    "adminPage": "app/admin/discord/page.tsx",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "langfuse_local_fallback_and_redaction_wired",
+      "passed": true,
+      "evidence": "lib/ai/observability.ts"
+    },
+    {
+      "name": "rollup_tracks_trace_cost_quality_and_jobs",
+      "passed": true,
+      "evidence": "lib/discord/observability-quality.ts"
+    },
+    {
+      "name": "rollup_reads_expected_live_artifact_tables",
+      "passed": true,
+      "evidence": "lib/discord/observability-quality.ts"
+    },
+    {
+      "name": "database_schema_indexes_and_rls_wired",
+      "passed": true,
+      "evidence": "supabase/migrations/0091_discord_observability_quality_rollups.sql"
+    },
+    {
+      "name": "admin_surface_exposes_trace_cost_quality_and_job_posture",
+      "passed": true,
+      "evidence": "app/admin/discord/page.tsx"
+    },
+    {
+      "name": "phase_17_smoke_proves_rollup_persistence_and_cleanup_path",
+      "passed": true,
+      "evidence": "scripts/discord/smoke-observability-quality-v2.ts, docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json"
+    },
+    {
+      "name": "smoke_command_is_explicit_and_local_gate_is_read_only",
+      "passed": true,
+      "evidence": "package.json"
+    }
+  ],
+  "proofSummary": {
+    "smokeProofOk": true,
+    "deterministicRollupHealthy": true,
+    "liveRollupPersistedInSmoke": true,
+    "localFallbackAndRedaction": true,
+    "traceCostQualityJobRollup": true,
+    "adminSurface": true,
+    "schemaRls": true
+  },
+  "antiFakeRules": [
+    "Do not count this local readiness file as live Langfuse trace coverage.",
+    "Do not treat DeepSeek cost estimates from token metadata as billing truth.",
+    "Do not count smoke-created and cleaned-up rows as production quality, cost, job, or trace health.",
+    "Do not claim 95+ observability until real Discord commands, jobs, RAG answers, content drafts, premium responses, and eval runs all produce current rollups.",
+    "Do not treat an empty alert list as healthy if the current window has no live artifacts."
+  ],
+  "nextOperatingProofRequired": [
+    "Run the live Phase 17 smoke after observability, cost, quality, admin, migration, or job schema changes.",
+    "Configure Langfuse env in production and verify at least one real /ask-sage trace appears in Langfuse and in persisted metadata.",
+    "Verify current-window admin rollups after real scheduled jobs, RAG answers, content drafts, premium responses, and eval runs exist.",
+    "Compare estimated DeepSeek token cost against provider billing during weekly operating review.",
+    "Review open alerts and dead letters from /admin/discord during every operating cycle."
+  ],
+  "failures": [],
+  "releaseMeaning": "Observability/quality readiness proves local wiring, schema, admin surface, latest smoke evidence, trace metadata, cost estimates, and anti-fake boundaries. It does not mutate Supabase, call Discord, call DeepSeek, create Langfuse traces, create rollup rows, or prove current production observability health.",
+  "validation": {
+    "ok": true,
+    "validator": "observability-quality-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:47.789Z",
+    "failures": []
+  }
+}

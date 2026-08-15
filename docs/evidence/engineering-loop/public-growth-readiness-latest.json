@@ -1,0 +1,95 @@
+{
+  "ok": true,
+  "version": "public-growth-readiness-v1",
+  "generatedAt": "2026-06-30T13:25:48.832Z",
+  "mutationMode": "local_file_evidence_only",
+  "sourceEvidence": {
+    "publicProof": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
+    "publicProofLib": "lib/discord/public-proof.ts",
+    "operatingCycle": "lib/discord/operating-proof-cycle.ts",
+    "operatingCycleRules": "lib/discord/operating-proof-cycle-rules.ts",
+    "proofBacklog": "lib/discord/proof-backlog.ts",
+    "adminActions": "app/admin/discord/actions.ts",
+    "adminPage": "app/admin/discord/page.tsx",
+    "landingPage": "app/discord/page.tsx",
+    "migration": "supabase/migrations/0090_discord_public_proof_growth.sql",
+    "packageJson": "package.json"
+  },
+  "checks": [
+    {
+      "name": "seeded_public_growth_proof_passes",
+      "passed": true,
+      "evidence": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json"
+    },
+    {
+      "name": "privacy_and_quality_gates_wired",
+      "passed": true,
+      "evidence": "lib/discord/public-proof.ts"
+    },
+    {
+      "name": "growth_schema_wired",
+      "passed": true,
+      "evidence": "supabase/migrations/0090_discord_public_proof_growth.sql"
+    },
+    {
+      "name": "admin_review_and_publish_actions_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/actions.ts"
+    },
+    {
+      "name": "admin_dashboard_growth_surfaces_wired",
+      "passed": true,
+      "evidence": "app/admin/discord/page.tsx"
+    },
+    {
+      "name": "public_funnel_attribution_wired",
+      "passed": true,
+      "evidence": "app/discord/page.tsx"
+    },
+    {
+      "name": "operating_cycle_tracks_growth_metrics",
+      "passed": true,
+      "evidence": "lib/discord/operating-proof-cycle.ts, lib/discord/operating-proof-cycle-rules.ts"
+    },
+    {
+      "name": "backlog_requires_real_public_proof_cycles",
+      "passed": true,
+      "evidence": "lib/discord/proof-backlog.ts"
+    },
+    {
+      "name": "public_growth_smoke_command_available",
+      "passed": true,
+      "evidence": "package.json"
+    }
+  ],
+  "proofSummary": {
+    "seededProofOk": true,
+    "privacyBlocksPrivateData": true,
+    "sourceCreated": true,
+    "draftCreated": true,
+    "draftStatus": "pending_approval",
+    "privacyScore": 100,
+    "qualityScore": 100,
+    "utmCampaign": "discord_public_proof"
+  },
+  "antiFakeRules": [
+    "Do not count public proof drafts without approved or anonymized source provenance.",
+    "Do not count privacy-blocked or private member content as public growth proof.",
+    "Do not count a public proof asset toward growth proof without UTM/source attribution.",
+    "Do not count seeded smoke proof as four weekly public proof cycles or real application conversion."
+  ],
+  "nextOperatingProofRequired": [
+    "Create four privacy-safe public proof drafts from approved Discord source material.",
+    "Approve or reject each public proof draft in /admin/discord before external publishing.",
+    "Publish at least one approved public proof asset with tracked apply/join attribution.",
+    "Measure applications, approvals, active members, and premium conversions after each public proof cycle."
+  ],
+  "failures": [],
+  "releaseMeaning": "Public growth readiness proves local wiring and seeded smoke proof only. It does not mutate Supabase, publish externally, create growth events, or prove four weekly public proof cycles.",
+  "validation": {
+    "ok": true,
+    "validator": "public-growth-readiness-validator-v1",
+    "validatedAt": "2026-06-30T13:25:48.833Z",
+    "failures": []
+  }
+}

@@ -1,5 +1,5 @@
 import fs from 'fs'
-import path from 'path'
+import { execSync } from 'child_process'
 import { verifyTranslation } from '@/lib/i18n/translate'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { getTranslatedPost } from '@/lib/blog-i18n'
@@ -44,7 +44,6 @@ function pickPosts<T>(all: T[], n: number): T[] {
 }
 
 function reTranslate(slug: string, locale: Locale): void {
-  const { execSync } = require('child_process')
   execSync(`npx tsx scripts/translate-blog.ts --slugs=${slug} --locales=${locale} --force`, { stdio: 'ignore' })
 }
 

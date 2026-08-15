@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getCourseOverview } from '@/lib/academy/content'
 import { getCourseProgress } from '@/lib/academy/progress'
+import { getAssessmentState } from '@/lib/academy/assessments'
 import { CourseOverview } from '@/components/academy/course/CourseOverview'
+import { AssessmentBanner } from '@/components/academy/assessment/AssessmentBanner'
+import { AcademyShell } from '@/components/academy/academy-shell'
 
 export async function generateMetadata({
   params,
@@ -27,7 +31,18 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const doneCount = all.filter((l) => completed.has(l.slug)).length
   const continueSlug = (all.find((l) => !completed.has(l.slug)) ?? all[0])?.slug ?? null
 
+  // Assessment prompt (pretest before start, posttest at finish, gain after) — for signed-in learners.
+  const sb = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await sb.auth.getUser()
+  const assessment = user ? await getAssessmentState(user.id, slug) : null
+  const courseComplete = all.length > 0 && doneCount === all.length
+
   return (
-    <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
+    <AcademyShell active="courses">
+      {assessment ? <AssessmentBanner slug={slug} state={assessment} courseComplete={courseComplete} /> : null}
+      <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
+    </AcademyShell>
   )
 }

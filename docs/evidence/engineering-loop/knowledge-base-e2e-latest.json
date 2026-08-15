@@ -1,0 +1,21 @@
+{
+  "ok": false,
+  "version": "knowledge-base-e2e-v1",
+  "generatedAt": "2026-06-27T23:41:29.586Z",
+  "mutationMode": "blocked_without_explicit_approval",
+  "releaseMeaning": "This E2E runner is guarded. It does not run Playwright or mutate Supabase unless SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved is set for this command.",
+  "requiredApprovalEnv": "SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved",
+  "specs": [
+    "tests/e2e/admin/discord-knowledge-candidates.spec.ts",
+    "tests/e2e/admin/discord-rag-corpus.spec.ts",
+    "tests/e2e/admin/discord-rag-health.spec.ts"
+  ],
+  "status": "approval_required",
+  "failures": [
+    "missing_explicit_knowledge_base_e2e_approval"
+  ],
+  "nextActions": [
+    "If you want live Supabase E2E proof, run SAGE_ALLOW_KNOWLEDGE_BASE_E2E=approved npm run discord:knowledge-base-e2e.",
+    "Confirm the target Supabase environment is acceptable for temporary E2E rows before running."
+  ]
+}

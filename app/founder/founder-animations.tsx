@@ -98,9 +98,9 @@ const quickFacts = [
 ]
 
 const selectedWork = [
-  { href: '/work/nexural-ecosystem', label: 'Nexural', sub: 'Fintech platform · 185 tables · 69 APIs' },
-  { href: '/work/alphastream', label: 'AlphaStream', sub: 'ML trading signals · 28 models · 7 symbols' },
-  { href: '/work', label: 'View all work', sub: '9 case studies across AI, fintech & cloud' },
+  { href: '/showcase/revenue-os', label: 'Revenue OS', sub: 'Lead follow-up and client acquisition demo' },
+  { href: '/showcase/contractor-quote-engine', label: 'Quote Engine', sub: 'Contractor quote qualification demo' },
+  { href: '/work', label: 'View all work', sub: 'Case studies plus interactive proof routes' },
 ]
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -152,8 +152,8 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                 transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.15 }}
                 className="mt-6 text-lg leading-[1.75] text-[var(--sage-ink-muted)] sm:text-xl"
               >
-                Fintech engineer. Studio founder. The person on every Sage Ideas
-                engagement — first call, last commit, signed handoff.
+                Founder, builder, and operator behind Sage Ideas. The person who turns a
+                business leak into a working system buyers can click before they buy.
               </motion.p>
 
               <motion.div
@@ -163,18 +163,14 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                 className="mt-8 space-y-5 text-base leading-[1.75] text-[var(--sage-ink-muted)]"
               >
                 <p>
-                  Five years inside fintech engineering taught me one thing well: the gap between
-                  a product that works in a demo and a product that survives a Stripe webhook
-                  retry storm at 2 a.m. is the entire job. Most agencies sell you the demo. The
-                  studio that grew out of that experience sells you the part nobody likes
-                  building — the idempotency keys, the row-level security, the migrations that
-                  don&apos;t lose data, the CI gates that catch the bug before the customer does.
+                  Sage Ideas exists for buyers who need more than a prettier website. The work is
+                  to show the revenue path: where demand leaks, what the operating system should
+                  do, how a buyer would click it, and what gets built after the call.
                 </p>
                 <p>
-                  Sage Ideas is one operator by design, not by accident. The person who scopes
-                  the work is the person who builds it. There is no offshore bench, no account
-                  manager, no &ldquo;lead consultant&rdquo; who disappears after the kickoff.
-                  You buy the keyboard. That is the whole proposition.
+                  The studio stays direct on purpose. The person who scopes the system is the
+                  person who designs, builds, tests, and hands it off. That keeps the sales story,
+                  the interface, and the engineering pointed at the same business outcome.
                 </p>
               </motion.div>
 
@@ -184,11 +180,11 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                 transition={{ duration: 0.65, ease: EASE_OUT_QUINT, delay: 0.30 }}
                 className="mt-10 flex flex-wrap items-center gap-4"
               >
-                <CtaLink href="/book" variant="solid" event="founder_book_cta">
-                  Book a call
+                <CtaLink href="/book?source=founder" variant="solid" event="founder_book_cta">
+                  Book the build call
                 </CtaLink>
-                <CtaLink href="/contact?source=founder" variant="ghost" event="founder_contact_cta">
-                  Send a message
+                <CtaLink href="/showcase" variant="ghost" event="founder_showcase_cta">
+                  Open the demos
                 </CtaLink>
               </motion.div>
 
@@ -218,8 +214,8 @@ export function FounderAnimations({ capabilities, principles }: Props) {
               >
                 <SystemHeroPanel
                   eyebrow="operator graph"
-                  title="Founder operating system"
-                  nodes={['Scope', 'Build', 'Verify', 'Operate']}
+                  title="Direct build path"
+                  nodes={['Diagnose', 'Prototype', 'Build', 'Verify']}
                   stats={[
                     { label: 'public repos', value: '130+' },
                     { label: 'certs', value: '9' },
@@ -250,18 +246,18 @@ export function FounderAnimations({ capabilities, principles }: Props) {
       <Section
         index="01B"
         eyebrow="operating system"
-        heading="The founder page should prove the operating model."
+        heading="The founder page proves who is actually building."
         ariaLabel="Founder operating system"
       >
         <SurfaceSystemPanel
-          title="Principal ⇄ Product"
-          body="The founder story is not decoration. It explains why clients get senior judgment, production engineering, brand thinking, and AI-native execution from the same operator."
-          cta={{ label: 'Talk directly', href: '/contact?source=founder' }}
+          title="Buyer problem to working system"
+          body="The founder story matters because business owners are not buying a committee. They are buying judgment, product taste, engineering depth, and a clear path from problem to proof."
+          cta={{ label: 'Book the build call', href: '/book?source=founder' }}
           steps={[
-            { label: 'Technical depth', detail: 'Fintech systems, cloud infrastructure, full-stack product work, QA gates, and AI workflows.' },
-            { label: 'Commercial clarity', detail: 'Fixed scope, fixed price, clear handoff, and no account-manager handoff chain.' },
-            { label: 'Brand leverage', detail: 'The same person who builds the product shapes the story, offer, and conversion path.' },
-            { label: 'Operating discipline', detail: 'Documentation, tests, deployment gates, and maintenance posture are treated as product features.' },
+            { label: 'Diagnose', detail: 'Find the leak in leads, quotes, intake, support, or conversion.' },
+            { label: 'Visualize', detail: 'Turn that leak into a workflow the buyer can understand fast.' },
+            { label: 'Build', detail: 'Ship the actual product layer, data flow, and handoff path.' },
+            { label: 'Prove', detail: 'Capture routes, screenshots, tests, and proof assets before launch.' },
           ]}
         />
       </Section>
@@ -464,8 +460,8 @@ export function FounderAnimations({ capabilities, principles }: Props) {
       <Section
         index="07"
         eyebrow="capabilities"
-        heading="What lands on every engagement."
-        lede="The studio is intentionally narrow on offer surface and broad on capability. Whatever the engagement — audit, sprint, build, or operate — these disciplines are on the table."
+        heading="What lands on every serious build."
+        lede="The buyer sees a polished surface. Under it sits the routing, data, approvals, tests, and handoff needed to make the system usable."
         ariaLabel="Capabilities"
       >
         <div className="max-w-3xl">
@@ -486,7 +482,7 @@ export function FounderAnimations({ capabilities, principles }: Props) {
       <Section
         index="08"
         eyebrow="selected work"
-        heading="Shipped projects."
+        heading="Open the proof."
         ariaLabel="Selected work"
         grain
       >
@@ -538,15 +534,15 @@ export function FounderAnimations({ capabilities, principles }: Props) {
                   Ready to start?
                 </h2>
                 <p className="mt-2 text-sm text-[var(--sage-ink-muted)]">
-                  Send a note or book a 30-minute intro call. Both work.
+                  Open the demos first, then book the 30-minute build call when the value is clear.
                 </p>
               </div>
               <div className="flex flex-wrap gap-4">
-                <CtaLink href="/contact?source=founder-footer" variant="solid" event="founder_footer_contact">
-                  Send an inquiry
+                <CtaLink href="/showcase" variant="solid" event="founder_footer_showcase">
+                  Open the demos
                 </CtaLink>
-                <CtaLink href="/book" variant="ghost" event="founder_footer_book">
-                  Book a call
+                <CtaLink href="/book?source=founder-footer" variant="ghost" event="founder_footer_book">
+                  Book the build call
                 </CtaLink>
                 <CtaLink
                   href="https://github.com/JasonTeixeira"

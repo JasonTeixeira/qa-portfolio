@@ -75,52 +75,371 @@ export const sagePathOptions: Array<{
   },
 ];
 
-export const leanDiscordChannels = [
+export type SageChannelVisibility = 'pre_approval' | 'approved_members' | 'premium_members' | 'staff_private';
+export type SageChannelPostingMode = 'read_only' | 'bot_led' | 'member_led' | 'structured_submissions' | 'staff_only';
+export type SageChannelCadence = 'static' | 'daily' | 'weekly' | 'as_needed' | 'live';
+export type SageChannelProofLane =
+  | 'onboarding'
+  | 'approved_discord_knowledge'
+  | 'rag_discord_sources'
+  | 'public_proof_assets'
+  | 'premium_workflow_proof'
+  | 'operating_admin';
+
+export type SageDiscordChannel = {
+  name: string;
+  purpose: string;
+  category: 'entry' | 'academy' | 'engagement' | 'learning' | 'proof' | 'premium' | 'ops';
+  visibility: SageChannelVisibility;
+  postingMode: SageChannelPostingMode;
+  cadence: SageChannelCadence;
+  owner: 'admin' | 'sagebot' | 'members' | 'premium' | 'staff';
+  primaryMemberAction: string;
+  botJobs: string[];
+  proofLanes: SageChannelProofLane[];
+  pinnedAssets: string[];
+  antiSprawlRule: string;
+};
+
+export const leanDiscordChannels: SageDiscordChannel[] = [
   {
     name: 'start-here',
     purpose: 'Read-only welcome, rules, onboarding instructions, and first action.',
+    category: 'entry',
+    visibility: 'pre_approval',
+    postingMode: 'read_only',
+    cadence: 'static',
+    owner: 'admin',
+    primaryMemberAction: 'Read rules, apply through Discord native application, then run onboarding after approval.',
+    botJobs: ['approval_reset_notice', 'onboarding_status_hint'],
+    proofLanes: ['onboarding'],
+    pinnedAssets: ['rules', 'quality bar', 'how to get access', 'first-week checklist'],
+    antiSprawlRule: 'Keep all pre-approval instructions here; do not create extra welcome, rules, or FAQ channels.',
+  },
+  {
+    name: 'academy-roadmap',
+    purpose: 'Read-only Academy map explaining paths, levels, projects, points, premium, and weekly operating rhythm.',
+    category: 'academy',
+    visibility: 'approved_members',
+    postingMode: 'read_only',
+    cadence: 'static',
+    owner: 'admin',
+    primaryMemberAction: 'Pick a path, understand the weekly rhythm, and move into questions or build-lab.',
+    botJobs: ['roadmap_refresh', 'weekly_rhythm_sync'],
+    proofLanes: ['onboarding'],
+    pinnedAssets: ['path map', 'level map', 'points model', 'weekly rhythm'],
+    antiSprawlRule: 'Use this as the single map instead of path-specific channel sprawl.',
+  },
+  {
+    name: 'introductions',
+    purpose: 'Member introductions after approval: goal, skill level, current build, and what help they want first.',
+    category: 'entry',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'as_needed',
+    owner: 'members',
+    primaryMemberAction: 'Post path, level, current build, blocker, and what feedback would help first.',
+    botJobs: ['intro_prompt', 'member_profile_seed', 'onboarding_completion_check'],
+    proofLanes: ['onboarding', 'approved_discord_knowledge'],
+    pinnedAssets: ['intro template', 'good intro example', 'next actions after intro'],
+    antiSprawlRule: 'Do not split intros by path; route path context through roles and profile metadata.',
+  },
+  {
+    name: 'announcements',
+    purpose: 'Read-only Academy updates, challenge launches, live sessions, releases, and important operating notices.',
+    category: 'engagement',
+    visibility: 'approved_members',
+    postingMode: 'read_only',
+    cadence: 'weekly',
+    owner: 'admin',
+    primaryMemberAction: 'Read the weekly launch and follow the linked channel action.',
+    botJobs: ['weekly_launch_draft', 'challenge_launch_draft', 'live_session_notice'],
+    proofLanes: ['public_proof_assets'],
+    pinnedAssets: ['current week', 'challenge rules', 'live schedule'],
+    antiSprawlRule: 'Only announcements with a clear action go here; discussion moves to the linked channel.',
   },
   {
     name: 'daily-signal',
     purpose: 'Bot-posted daily build prompt, AI pattern, and discussion question.',
+    category: 'engagement',
+    visibility: 'approved_members',
+    postingMode: 'bot_led',
+    cadence: 'daily',
+    owner: 'sagebot',
+    primaryMemberAction: 'Take one specific daily build action and reply with a concrete artifact or blocker.',
+    botJobs: ['daily_signal_draft', 'daily_signal_publish_after_approval', 'content_factory_daily_signal'],
+    proofLanes: ['approved_discord_knowledge', 'public_proof_assets'],
+    pinnedAssets: ['daily signal format', 'what counts as a useful reply'],
+    antiSprawlRule: 'Keep daily prompts consolidated here; do not create separate daily question/resource/tool channels.',
   },
   {
     name: 'questions',
     purpose: 'Main member questions, answers, accepted/helpful replies, and unanswered-question tracking.',
+    category: 'learning',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'daily',
+    owner: 'members',
+    primaryMemberAction: 'Ask with goal, attempt, blocker, artifact link, and what answer would unblock you.',
+    botJobs: ['message_classifier', 'question_answer_linking', 'helpful_answer_candidate', 'content_queue_candidate'],
+    proofLanes: ['approved_discord_knowledge', 'rag_discord_sources'],
+    pinnedAssets: ['question template', 'answer quality bar', 'accepted-answer policy'],
+    antiSprawlRule: 'All general questions start here; create threads for depth instead of new question channels.',
+  },
+  {
+    name: 'ask-sage',
+    purpose: 'Dedicated SageBot and RAG question lane for bot-assisted help.',
+    category: 'learning',
+    visibility: 'approved_members',
+    postingMode: 'bot_led',
+    cadence: 'as_needed',
+    owner: 'sagebot',
+    primaryMemberAction: 'Ask SageBot for sourced help, then move unresolved or personal review needs to questions or review-queue.',
+    botJobs: ['ask_sage', 'rag_retrieval_trace', 'answer_quality_logging'],
+    proofLanes: ['rag_discord_sources'],
+    pinnedAssets: ['how to ask SageBot', 'citation policy', 'unsupported answer policy'],
+    antiSprawlRule: 'Keep bot Q&A here so normal human discussion remains readable.',
+  },
+  {
+    name: 'lesson-discussion',
+    purpose: 'Lesson/module discussion so curriculum questions do not get buried in general Q&A.',
+    category: 'academy',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'as_needed',
+    owner: 'members',
+    primaryMemberAction: 'Ask lesson-specific questions with course, lesson, attempt, and unclear step.',
+    botJobs: ['lesson_question_classifier', 'curriculum_gap_candidate'],
+    proofLanes: ['approved_discord_knowledge', 'rag_discord_sources'],
+    pinnedAssets: ['lesson question template', 'course feedback template'],
+    antiSprawlRule: 'Do not create per-course channels until volume proves one lesson lane is overloaded.',
   },
   {
     name: 'build-lab',
     purpose: 'Project specs, shipping updates, technical questions, and general build work.',
+    category: 'learning',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'daily',
+    owner: 'members',
+    primaryMemberAction: 'Share a build update with goal, current artifact, next decision, and requested feedback.',
+    botJobs: ['project_candidate_detection', 'build_update_digest', 'challenge_submission_hint'],
+    proofLanes: ['approved_discord_knowledge', 'public_proof_assets'],
+    pinnedAssets: ['build update template', 'smallest shippable artifact checklist'],
+    antiSprawlRule: 'Use threads for tech-specific depth instead of separate AI, web, cloud, SEO, and growth channels.',
+  },
+  {
+    name: 'project-submissions',
+    purpose: 'Structured project drops for review, progress tracking, points, and showcase candidates.',
+    category: 'proof',
+    visibility: 'approved_members',
+    postingMode: 'structured_submissions',
+    cadence: 'weekly',
+    owner: 'members',
+    primaryMemberAction: 'Submit one artifact with goal, user, link or screenshot, what changed, and next risk.',
+    botJobs: ['submit_project', 'project_review_status', 'points_after_admin_approval', 'showcase_candidate'],
+    proofLanes: ['approved_discord_knowledge', 'public_proof_assets'],
+    pinnedAssets: ['project submission template', 'review rubric', 'points policy'],
+    antiSprawlRule: 'Keep project drops here; build chatter stays in build-lab instead of creating per-project channels.',
   },
   {
     name: 'review-queue',
     purpose: 'Design, code, AI, SEO, cloud, and architecture review requests.',
+    category: 'learning',
+    visibility: 'approved_members',
+    postingMode: 'structured_submissions',
+    cadence: 'weekly',
+    owner: 'members',
+    primaryMemberAction: 'Request one specific critique type and include the artifact, goal, risk, and deadline.',
+    botJobs: ['request_review', 'review_triage', 'review_points_after_completion', 'teaching_material_candidate'],
+    proofLanes: ['approved_discord_knowledge', 'public_proof_assets'],
+    pinnedAssets: ['review request template', 'critique quality bar', 'review statuses'],
+    antiSprawlRule: 'Use one review queue with typed requests instead of many review-specific channels.',
   },
   {
-    name: 'content-lab',
-    purpose: 'Captured questions, lessons, content ideas, resource gaps, and growth work.',
+    name: 'content-queue',
+    purpose: 'Captured questions, content ideas, resource gaps, and approved draft inputs.',
+    category: 'proof',
+    visibility: 'approved_members',
+    postingMode: 'structured_submissions',
+    cadence: 'weekly',
+    owner: 'members',
+    primaryMemberAction: 'Nominate a question, answer, resource gap, build, or confusion that should become durable content.',
+    botJobs: ['capture_content', 'content_queue_scoring', 'admin_approval_workflow', 'rag_candidate_after_approval'],
+    proofLanes: ['approved_discord_knowledge', 'rag_discord_sources', 'public_proof_assets'],
+    pinnedAssets: ['content candidate template', 'source-first rule', 'approval workflow'],
+    antiSprawlRule: 'This is the only content intake lane; drafts and publishing stay approval-gated.',
   },
   {
     name: 'live-room',
     purpose: 'Office-hours queue, live session notes, and replay follow-up.',
+    category: 'engagement',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'live',
+    owner: 'admin',
+    primaryMemberAction: 'Use during live sessions for notes, links, and follow-up actions.',
+    botJobs: ['live_session_notes', 'replay_followup_candidate'],
+    proofLanes: ['approved_discord_knowledge', 'public_proof_assets'],
+    pinnedAssets: ['live session format', 'session notes template'],
+    antiSprawlRule: 'Keep live-session chat here; office-hours planning stays in office-hours.',
+  },
+  {
+    name: 'office-hours',
+    purpose: 'Office-hours schedule, agenda, submitted questions, session notes, and replay links.',
+    category: 'engagement',
+    visibility: 'approved_members',
+    postingMode: 'structured_submissions',
+    cadence: 'weekly',
+    owner: 'admin',
+    primaryMemberAction: 'Queue one blocker with artifact, decision needed, and what would make the session useful.',
+    botJobs: ['office_hours_queue', 'agenda_builder', 'weekly_recap_input'],
+    proofLanes: ['approved_discord_knowledge', 'premium_workflow_proof'],
+    pinnedAssets: ['office-hours schedule', 'queue template', 'replay archive policy'],
+    antiSprawlRule: 'Do not create separate event channels; use one queue plus live-room for the session.',
+  },
+  {
+    name: 'accountability',
+    purpose: 'Weekly goals, check-ins, shipping commitments, and progress nudges.',
+    category: 'engagement',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'weekly',
+    owner: 'members',
+    primaryMemberAction: 'Post commitment, shipped result, what slipped, and smallest next action.',
+    botJobs: ['weekly_checkin_prompt', 'streak_update', 'stuck_member_nudge'],
+    proofLanes: ['approved_discord_knowledge'],
+    pinnedAssets: ['weekly check-in template', 'streak and points rules'],
+    antiSprawlRule: 'Keep goals and check-ins here; wins move to wins-showcase after they are shipped.',
   },
   {
     name: 'resources',
     purpose: 'Templates, stack guides, reading lists, prompts, and useful tools.',
+    category: 'academy',
+    visibility: 'approved_members',
+    postingMode: 'read_only',
+    cadence: 'weekly',
+    owner: 'admin',
+    primaryMemberAction: 'Use approved resources, then ask implementation questions in questions or build-lab.',
+    botJobs: ['resource_drop_draft', 'approved_resource_sync', 'rag_source_candidate'],
+    proofLanes: ['rag_discord_sources'],
+    pinnedAssets: ['resource index', 'template library', 'request a resource path'],
+    antiSprawlRule: 'Keep approved resources centralized; requests go to content-queue, not new resource channels.',
   },
   {
     name: 'wins-showcase',
     purpose: 'Finished ships, member wins, proof screenshots, and weekly recap inputs.',
+    category: 'proof',
+    visibility: 'approved_members',
+    postingMode: 'member_led',
+    cadence: 'weekly',
+    owner: 'members',
+    primaryMemberAction: 'Share finished work, measurable progress, screenshots, or lessons learned.',
+    botJobs: ['weekly_wins_prompt', 'leaderboard_recap', 'public_proof_candidate'],
+    proofLanes: ['public_proof_assets'],
+    pinnedAssets: ['win template', 'privacy-safe showcase policy', 'weekly recap format'],
+    antiSprawlRule: 'Only finished or meaningfully progressed work goes here; drafts stay in build-lab.',
   },
   {
     name: 'premium',
     purpose: 'Premium member critique, advanced drops, replays, and deeper help.',
+    category: 'premium',
+    visibility: 'premium_members',
+    postingMode: 'member_led',
+    cadence: 'as_needed',
+    owner: 'premium',
+    primaryMemberAction: 'Ask for deeper implementation help or priority critique tied to a concrete artifact.',
+    botJobs: ['premium_ask', 'premium_deeper_answer', 'premium_sla_tracking'],
+    proofLanes: ['premium_workflow_proof'],
+    pinnedAssets: ['premium promise', 'premium ask template', 'SLA expectation'],
+    antiSprawlRule: 'Keep premium general help here; formal teardown requests go to premium-reviews.',
+  },
+  {
+    name: 'premium-reviews',
+    purpose: 'Premium-only structured reviews, deeper teardowns, and priority critique queue.',
+    category: 'premium',
+    visibility: 'premium_members',
+    postingMode: 'structured_submissions',
+    cadence: 'weekly',
+    owner: 'premium',
+    primaryMemberAction: 'Submit artifact, review type, desired depth, deadline, and decision you need made.',
+    botJobs: ['premium_review_request', 'premium_review_quality_gate', 'premium_content_candidate'],
+    proofLanes: ['premium_workflow_proof', 'approved_discord_knowledge'],
+    pinnedAssets: ['premium review template', 'review status policy', 'content reuse permission rule'],
+    antiSprawlRule: 'Use one formal premium review queue instead of per-topic premium channels.',
   },
   {
     name: 'team-ops',
     purpose: 'Private moderation, reports, analytics review, and admin operations.',
+    category: 'ops',
+    visibility: 'staff_private',
+    postingMode: 'staff_only',
+    cadence: 'daily',
+    owner: 'staff',
+    primaryMemberAction: 'No member action; staff reviews applications, alerts, queue health, and proof gates.',
+    botJobs: ['admin_alerts', 'failed_job_digest', 'proof_gate_digest', 'moderation_candidate_review'],
+    proofLanes: ['operating_admin'],
+    pinnedAssets: ['admin checklist', 'incident runbook', 'weekly operating rhythm'],
+    antiSprawlRule: 'Keep staff operations private and consolidated; do not duplicate admin dashboard state in public channels.',
   },
 ];
+
+export function validateLeanDiscordChannelOperatingMatrix(channels = leanDiscordChannels): {
+  ok: boolean;
+  failures: string[];
+  coverage: {
+    count: number;
+    dailyChannels: string[];
+    weeklyChannels: string[];
+    proofLanes: SageChannelProofLane[];
+  };
+} {
+  const failures: string[] = [];
+  const names = channels.map((channel) => channel.name);
+  const duplicateNames = names.filter((name, index) => names.indexOf(name) !== index);
+  if (duplicateNames.length) failures.push(`duplicate_channels:${[...new Set(duplicateNames)].join(',')}`);
+
+  const requiredProofLanes: SageChannelProofLane[] = [
+    'onboarding',
+    'approved_discord_knowledge',
+    'rag_discord_sources',
+    'public_proof_assets',
+    'premium_workflow_proof',
+    'operating_admin',
+  ];
+  const proofLanes = [...new Set(channels.flatMap((channel) => channel.proofLanes))].sort() as SageChannelProofLane[];
+  const missingProofLanes = requiredProofLanes.filter((lane) => !proofLanes.includes(lane));
+  if (missingProofLanes.length) failures.push(`missing_proof_lanes:${missingProofLanes.join(',')}`);
+
+  for (const channel of channels) {
+    if (!/^[a-z0-9-]+$/.test(channel.name)) failures.push(`${channel.name}:invalid_channel_name`);
+    if (channel.purpose.length < 40) failures.push(`${channel.name}:purpose_too_thin`);
+    if (channel.primaryMemberAction.length < 40) failures.push(`${channel.name}:primary_action_too_thin`);
+    if (channel.botJobs.length < 1) failures.push(`${channel.name}:missing_bot_jobs`);
+    if (channel.proofLanes.length < 1) failures.push(`${channel.name}:missing_proof_lanes`);
+    if (channel.pinnedAssets.length < 2) failures.push(`${channel.name}:missing_pinned_assets`);
+    if (!/do not|keep|only|instead/i.test(channel.antiSprawlRule)) failures.push(`${channel.name}:weak_anti_sprawl_rule`);
+    if (channel.visibility === 'pre_approval' && channel.name !== 'start-here') failures.push(`${channel.name}:unexpected_pre_approval_channel`);
+    if (channel.visibility === 'staff_private' && channel.postingMode !== 'staff_only') failures.push(`${channel.name}:staff_private_not_staff_only`);
+    if (channel.visibility === 'premium_members' && channel.category !== 'premium') failures.push(`${channel.name}:premium_visibility_non_premium_category`);
+  }
+
+  const dailyChannels = channels.filter((channel) => channel.cadence === 'daily').map((channel) => channel.name);
+  const weeklyChannels = channels.filter((channel) => channel.cadence === 'weekly').map((channel) => channel.name);
+  if (dailyChannels.length < 3) failures.push('insufficient_daily_operating_channels');
+  if (weeklyChannels.length < 8) failures.push('insufficient_weekly_operating_channels');
+
+  return {
+    ok: failures.length === 0,
+    failures,
+    coverage: {
+      count: channels.length,
+      dailyChannels,
+      weeklyChannels,
+      proofLanes,
+    },
+  };
+}
 
 export const sageLevelOptions: Array<{
   key: SageLevelKey;

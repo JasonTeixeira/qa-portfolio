@@ -1,0 +1,136 @@
+SAGE IDEAS BUSINESS SITE - PHASE 2 WORK / CASE STUDIES
+Date: 2026-06-25
+Scope: /work, /work/[slug] template, first audited dynamic case detail /work/nexural.
+
+OBJECTIVE
+
+Turn the Work section from a portfolio-style archive into buyer-facing proof:
+
+1. Show the proof before the pitch.
+2. Make each case explain the leak, system, and result.
+3. Route buyers from case study to related demo or build call.
+4. Keep claims evidence-backed.
+5. Verify desktop, mobile, accessibility, route health, E2E, and Lighthouse.
+
+FILES CHANGED
+
+- app/work/page.tsx
+- app/work/[slug]/page.tsx
+- app/work/[slug]/case-study-content.tsx
+- components/el/work/WorkIndex.tsx
+- components/el/work/MetricRegister.tsx
+- components/work/CaseBuyerBridge.tsx
+- tests/e2e/home-business.spec.ts
+- tests/e2e/work-proof.spec.ts
+- docs/marketing/business-front-end-page-score-matrix.2026-06-25.txt
+- docs/marketing/business-site-completion-audit.2026-06-25.txt
+- docs/marketing/business-site-scorecard.2026-06-25.txt
+
+WHAT CHANGED
+
+1. /work became a proof-first buyer hub.
+   - New headline: "See the proof before the pitch."
+   - Added a proof path map: case -> demo -> call.
+   - Added direct links to Revenue OS, Contractor Quote Engine, and /book?source=work_hero.
+   - Kept the phrase "Open the systems behind the work" for business-funnel E2E continuity.
+
+2. Work cards became buyer-facing proof cards.
+   - Added category filters.
+   - Added leak, system, and result framing.
+   - Added "Open proof" links to /work/[slug].
+   - Added "Build around this" links to /book?source=work_<slug>.
+   - Avoided unsupported revenue/client claims.
+
+3. Case-study detail pages got a buyer proof bridge.
+   - Added before/system/result framing near the top of each /work/[slug] page.
+   - Added "Map my version" CTA to /book?source=work_<slug>.
+   - Added "Open demos" route back to /showcase.
+   - Directly audited /work/nexural as the first dynamic case-study proof route.
+
+4. Accessibility semantics were corrected.
+   - Removed a nested main landmark from the case-study content.
+   - Removed a nested complementary landmark from the sticky sidebar.
+   - Converted visual metric registers away from malformed definition-list semantics.
+
+VERIFICATION RUN
+
+PASS npm run lint
+PASS npm run typecheck
+PASS npm run build
+
+PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/work-proof.spec.ts --config=playwright.e2e.config.ts --project=chromium
+Result: 3 passed.
+
+PASS PW_BASE_URL=http://127.0.0.1:3041 npx playwright test tests/e2e/home-business.spec.ts --config=playwright.e2e.config.ts --project=chromium
+Result: 4 passed.
+
+PASS BASE_URL=http://127.0.0.1:3041 AUDIT_DATE=2026-06-25 node scripts/marketing/business-site-audit.mjs
+Result:
+- Routes audited: 17
+- Internal link targets checked: 180
+- Failed links: 0
+- Routes with axe violations: 0
+- Serious/critical axe violations: 0
+- Routes with horizontal overflow: 0
+
+PHASE-SPECIFIC PROOF
+
+File:
+docs/evidence/marketing/audits/2026-06-25/work-phase-2-check.json
+
+Routes:
+- /work: 200, 0 axe violations, 0 overflow.
+- /work/nexural: 200, 0 axe violations, 0 overflow.
+
+Screenshots:
+docs/evidence/marketing/screenshots/2026-06-25/work-phase-2/work-desktop.png
+docs/evidence/marketing/screenshots/2026-06-25/work-phase-2/work-mobile.png
+docs/evidence/marketing/screenshots/2026-06-25/work-phase-2/work-nexural-desktop.png
+docs/evidence/marketing/screenshots/2026-06-25/work-phase-2/work-nexural-mobile.png
+
+Lighthouse:
+docs/evidence/marketing/audits/2026-06-25/lighthouse-work.json
+docs/evidence/marketing/audits/2026-06-25/lighthouse-work-nexural.json
+
+Scores:
+- /work: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1309ms, CLS 0, TBT 0.
+- /work/nexural: Performance 97, Accessibility 100, Best Practices 100, SEO 100, LCP 1306ms, CLS 0, TBT 0.
+
+EARNED SCORES
+
+/work:
+- Previous score: 91
+- Current score: 95
+- Reason: direct route audit, E2E, screenshots, 0 axe, 0 overflow, complete metadata, source-tagged CTAs, and Lighthouse 97/100/100/100.
+
+/work/nexural:
+- Current score: 94
+- Reason: first audited dynamic case-study detail route with buyer bridge, source-tagged booking path, screenshots, 0 axe, 0 overflow, complete metadata, and Lighthouse 97/100/100/100.
+- Why not 95+: the commercial story still needs stronger external/customer proof and before/after outcome evidence.
+
+Case-study detail template:
+- Previous score: 86
+- Current score: 91
+- Reason: shared template now has better buyer framing and corrected accessibility semantics.
+- Why not 95+: only /work/nexural was directly audited as a dynamic detail page in this phase; each case still needs individual content/proof enrichment.
+
+WHAT REMAINS
+
+1. Audit and enrich every /work/[slug] page individually.
+   Current state: shared template is improved, but only /work/nexural has direct dynamic-detail proof.
+
+2. Add stronger external/customer proof.
+   Current state: technical proof is strong; business outcome proof is still not strong enough to claim high-90 trust.
+
+3. Add more real screenshots or anonymized evidence per case.
+   Current state: the Work section sells the thinking better, but the proof library needs more visual artifacts for non-technical buyers.
+
+4. Tie each case to a related showcase/demo.
+   Current state: /work routes to /showcase generally; next pass should make each case point to the closest live interactive prototype.
+
+NEXT PHASE
+
+Founder page.
+
+Reason:
+/founder is the next trust bottleneck. The site now has stronger pricing and work proof, but the buyer still needs more confidence in the person/operator behind the work. The founder page should become a tight proof-of-operator page: what Jason builds, how he thinks, what he can prove, and why a buyer should trust him with a serious business system.

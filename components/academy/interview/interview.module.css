@@ -1,0 +1,280 @@
+/* Interview Mastery — OFFICIAL Sage skin, gold-accent variant.
+   Source of truth: design-source/sage-academy-2026/Sage Interview *.dc.html
+   Tokens: styles/academy-tokens.css (--sa-*). Fonts route through the root layout's
+   next/font vars (--font-serif / --font-sans / --font-mono) with the --sa-* stacks as
+   fallbacks. The interview brand accent is GOLD (--sa-warning #E0A93E / #F0C36A), which
+   distinguishes the paid add-on from the academy's electric blue — both are on-token. */
+
+.root {
+  --sa-display-live: var(--font-serif, var(--sa-font-display));
+  --sa-body-live: var(--font-sans, var(--sa-font-body));
+  --sa-mono-live: var(--font-mono, var(--sa-font-mono));
+
+  /* Gold interview accent, drawn from the design files (all --sa-warning family). */
+  --iv-gold: var(--sa-warning, #e0a93e);
+  --iv-gold-bright: #f0c36a;
+  --iv-gold-deep: #d99a2b;
+  --iv-gold-border: rgba(224, 169, 62, 0.4);
+  --iv-gold-soft: rgba(224, 169, 62, 0.08);
+
+  min-height: 100vh;
+  background: var(--sa-bg);
+  background-image: var(--sa-bg-wash);
+  color: var(--sa-ink);
+  font-family: var(--sa-body-live);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ── TOP BAR ─────────────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--sa-rule);
+  background: rgba(11, 11, 14, 0.88);
+  backdrop-filter: blur(14px);
+}
+.topbarInner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  padding: 8px clamp(16px, 3vw, 32px);
+  min-height: 64px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--sa-radius-btn);
+  background: linear-gradient(135deg, var(--iv-gold), var(--iv-gold-deep));
+  color: var(--sa-bg);
+  font-size: 12px;
+  box-shadow: 0 0 18px rgba(224, 169, 62, 0.4);
+}
+.brandTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--sa-ink);
+}
+.brandKicker {
+  display: block;
+  font-family: var(--sa-mono-live);
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--iv-gold);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-left: 8px;
+}
+.navLink {
+  color: var(--sa-ink-subtle);
+  text-decoration: none;
+  font-size: 13.5px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  white-space: nowrap;
+  transition: color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.navLink:hover {
+  color: var(--sa-ink);
+  background: rgba(255, 255, 255, 0.04);
+}
+.navLinkActive {
+  color: var(--sa-ink);
+  font-weight: 600;
+  background: var(--iv-gold-soft);
+}
+.spacer {
+  margin-left: auto;
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--sa-ink-subtle);
+  text-decoration: none;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  white-space: nowrap;
+  transition: color var(--sa-dur-fast, 150ms) ease, background var(--sa-dur-fast, 150ms) ease;
+}
+.back:hover {
+  color: var(--sa-ink);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── MAIN ────────────────────────────────────────────────────────────────── */
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px;
+}
+
+/* ── COCKPIT FIRST-RUN EMPTY STATE ───────────────────────────────────────── */
+.firstRun {
+  max-width: 720px;
+  margin: clamp(24px, 6vh, 72px) auto 0;
+  text-align: center;
+}
+.orb {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--sa-radius-pill);
+  background: radial-gradient(circle at 35% 30%, var(--iv-gold-bright), #8a5e12);
+  box-shadow: 0 0 44px rgba(224, 169, 62, 0.45);
+  font-size: 22px;
+  color: var(--sa-bg);
+}
+.firstRunTitle {
+  margin: 24px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 46px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.firstRunBody {
+  margin: 16px auto 0;
+  color: var(--sa-ink-muted);
+  font-size: 16px;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.ctaRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  color: var(--sa-bg);
+  background: linear-gradient(135deg, var(--iv-gold-bright), var(--iv-gold-deep));
+  text-decoration: none;
+  font-size: 15.5px;
+  font-weight: 700;
+  padding: 15px 30px;
+  border-radius: 26px;
+  box-shadow: 0 0 26px rgba(224, 169, 62, 0.35);
+  white-space: nowrap;
+  transition: transform var(--sa-dur-fast, 150ms) ease, filter var(--sa-dur-fast, 150ms) ease;
+}
+.ctaPrimary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.ctaGhost {
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  text-decoration: none;
+  transition: color var(--sa-dur-fast, 150ms) ease;
+}
+.ctaGhost:hover {
+  color: var(--iv-gold-bright);
+}
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 48px;
+  text-align: left;
+}
+.stepCard {
+  border: 1px solid var(--sa-rule);
+  border-radius: 13px;
+  background: var(--sa-surface-1);
+  padding: 18px;
+}
+.stepKicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10px;
+  color: var(--iv-gold);
+}
+.stepBody {
+  font-size: 13.5px;
+  color: var(--sa-ink-subtle);
+  margin-top: 6px;
+  text-wrap: pretty;
+}
+
+/* ── GENERIC HONEST PLACEHOLDER (non-Cockpit surfaces) ───────────────────── */
+.placeholder {
+  max-width: 640px;
+  margin: clamp(24px, 8vh, 96px) auto 0;
+  text-align: center;
+}
+.kicker {
+  font-family: var(--sa-mono-live);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--iv-gold);
+}
+.placeholderTitle {
+  margin: 14px 0 0;
+  font-family: var(--sa-display-live);
+  font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 38px);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.placeholderLine {
+  margin: 14px auto 0;
+  color: var(--sa-ink-muted);
+  font-size: 15.5px;
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+.placeholderCtaRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ── PAYWALL / SIGN-IN NOTICE (public surfaces that still gate the product) ── */
+.notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  font-family: var(--sa-mono-live);
+  font-size: 11px;
+  color: var(--sa-ink-faint);
+  border: 1px solid var(--sa-rule);
+  border-radius: 16px;
+  padding: 8px 14px;
+}

@@ -9,7 +9,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'welcome-email' });
+  const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'welcome-email' });
   if (limited) return limited;
 
   const auth = await requireAdminApi();

@@ -33,7 +33,7 @@ const HEADING_STYLE: React.CSSProperties = {
 
 export default function LabPage() {
   return (
-    <main className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
+    <div className="min-h-screen bg-[var(--sage-bg)] text-[var(--sage-ink)]">
       <section className="border-b border-[var(--sage-border)] px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-24 lg:pt-36">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)] lg:items-end">
@@ -56,6 +56,20 @@ export default function LabPage() {
                 Not decorative mockups. Every product here feeds the product, AI, brand,
                 and growth systems Sage Ideas ships for clients.
               </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/showcase?source=lab_hero"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#f4f7ff] px-6 text-sm font-semibold text-[#05070d] shadow-[0_0_42px_rgba(61,90,254,0.22)] transition hover:bg-white"
+                >
+                  Open client-facing demos
+                </Link>
+                <Link
+                  href="/book?source=lab_hero"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[var(--sage-border-strong)] bg-white/[0.035] px-6 text-sm font-semibold text-[var(--sage-ink)] transition hover:border-[var(--sage-accent)] hover:bg-white/[0.06]"
+                >
+                  Book the build call
+                </Link>
+              </div>
             </div>
             <SystemHeroPanel
               eyebrow="product graph"
@@ -183,6 +197,6 @@ export default function LabPage() {
           <LabGrid products={labProducts} />
         </section>
       </div>
-    </main>
+    </div>
   )
 }

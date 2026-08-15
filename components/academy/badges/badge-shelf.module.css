@@ -1,0 +1,368 @@
+.card {
+  --ink: var(--ac-ink, #f2efe9);
+  --dim: var(--ac-ink-soft, #c0c0ca);
+  --muted: var(--ac-ink-faint, #8a8b96);
+  --line: var(--ac-rule, #1e1e24);
+  --line-strong: var(--ac-rule-strong, #2a2a33);
+  margin-bottom: 1.1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--ac-radius, 16px);
+  background: var(--ac-surface, #111115);
+  color: var(--ink);
+}
+
+.head {
+  margin-bottom: 1.3rem;
+}
+.kicker {
+  margin: 0;
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.title {
+  margin: 0.5rem 0 0;
+  font-family: var(--ac-font-display), var(--ac-font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.sub {
+  margin: 0.6rem 0 0;
+  max-width: 60ch;
+  color: var(--dim);
+  line-height: 1.55;
+  font-size: 0.9rem;
+}
+.count {
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+
+/* Collection meter — the "finish the set" pull. Aggregate earned-of-total + a
+   "N to go" closer, above the next-badge hero. Restrained: a thin full-width bar. */
+.collection {
+  margin: 0 0 1.3rem;
+}
+.collectionTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.collectionCount {
+  font-size: 0.86rem;
+  color: var(--dim);
+}
+.collectionCount strong {
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.collectionGo {
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.collectionBar {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.collectionFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ac-accent, #3d6bff);
+}
+
+/* Capstone marker — the catalog's final badge pinned at 100% so the meter visibly
+   climbs toward a real terminal goal, not an empty "set complete" label. Unlit
+   while the set is incomplete (a goal to reach); lit + accent once the full
+   collection is held. Compositor-only emphasis (transform/opacity). */
+.capstoneMark {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 45%, transparent);
+  background: var(--ac-surface, #111115);
+  font-size: 0.62rem;
+  line-height: 1;
+  color: var(--muted);
+  transform: translate(35%, -50%);
+}
+.capstoneMarkLit {
+  color: var(--ac-accent-text, #8fa0ff);
+  border-color: var(--ac-accent, #3d6bff);
+  transform: translate(35%, -50%) scale(1.12);
+}
+
+/* The honest 100% framing: names the real capstone badge as the goal the meter is
+   climbing toward (incomplete) or the cap on a held full collection (complete).
+   Kept at --dim ≥ AA — no opacity dimming on this text. */
+.capstoneLine {
+  margin: 0.55rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--dim);
+}
+.capstoneStatus {
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.capstoneName {
+  font-family: var(--ac-font-display), var(--ac-font-display);
+  color: var(--ink);
+}
+
+/* NEXT BADGE hero — the pull-forward row above the grid. Closest unearned badge
+   + a literal progress bar toward it. Accent-framed but restrained (no glow). */
+.next {
+  margin: 0 0 1.3rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 38%, transparent);
+  border-radius: 14px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--ac-accent, #3d6bff) 12%, transparent),
+    var(--ac-surface-2, #141418)
+  );
+}
+.nextKicker {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+}
+.nextIcon {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 45%, transparent);
+  background: var(--ac-surface, #111115);
+  font-size: 1.2rem;
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.nextLine {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--dim);
+}
+.nextLine strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.nextName {
+  font-family: var(--ac-font-display), var(--ac-font-display);
+  color: var(--ac-accent-text, #8fa0ff);
+}
+.nextBar {
+  display: block;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  overflow: hidden;
+}
+.nextFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ac-accent, #3d6bff);
+}
+.nextPct {
+  font-family: var(--ac-font-mono), var(--ac-font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* "Then…" trail — the next 1–2 rungs after the hero, so closing one hook re-arms
+   the next. Quieter than the hero (muted text, no bar) but kept at --dim ≥ AA. */
+.trail {
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--ac-accent, #3d6bff) 22%, transparent);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.trailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  /* Progression intensity: 1 at the closest rung (--step 0), receding per step so
+     the chain reads as building toward the hero. Drives glyph scale + accent
+     brightness only — text stays at full --dim for AA. */
+  --intensity: max(0.55, calc(1 - var(--step, 0) * 0.28));
+}
+.trailGlyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  /* Closest rung gets an accent-tinted ring; later rungs recede toward the neutral
+     rule colour as --intensity drops. */
+  border: 1px solid color-mix(
+    in srgb,
+    var(--ac-accent, #3d6bff) calc(var(--intensity) * 55%),
+    var(--line-strong)
+  );
+  background: var(--ac-surface, #111115);
+  font-size: 0.82rem;
+  /* Brighter glyph near the hero, dimmer further out — accent on the decorative
+     glyph only, never on the text. */
+  color: color-mix(
+    in srgb,
+    var(--ac-accent-text, #8fa0ff) calc(var(--intensity) * 100%),
+    var(--muted)
+  );
+  /* Stepped size escalation: closest glyph largest, later ones smaller. Compositor-
+     only (transform), so no layout thrash. */
+  transform: scale(calc(0.86 + var(--intensity) * 0.14));
+  transform-origin: center;
+  will-change: transform;
+}
+.trailText {
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--dim);
+}
+.trailName {
+  font-family: var(--ac-font-display), var(--ac-font-display);
+  color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  height: 100%;
+  padding: 1.1rem 0.9rem;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--ac-surface-2, #141418);
+  transition: transform var(--ac-dur, 200ms) var(--ac-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color var(--ac-dur, 200ms) ease;
+  will-change: transform;
+}
+.earned {
+  border-color: var(--line-strong);
+}
+.earned:hover {
+  transform: translateY(-2px);
+  border-color: var(--ac-accent, #3d6bff);
+}
+/* Dim the locked state via the ICON + surface — NOT a card-wide opacity, which
+   drags the (blurred) label text below AA contrast (axe: 2.47:1). */
+.locked .icon {
+  opacity: 0.5;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--ac-surface, #111115);
+  color: var(--ink);
+}
+.earned .icon {
+  color: var(--ac-accent-text, #8fa0ff);
+  border-color: color-mix(in srgb, var(--ac-accent, #3d6bff) 45%, transparent);
+}
+.locked .icon {
+  color: var(--muted);
+}
+
+.label {
+  font-family: var(--ac-font-display), var(--ac-font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.locked .label {
+  filter: blur(3px);
+  user-select: none;
+  color: var(--muted);
+}
+
+.blurb {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--dim);
+}
+.locked .blurb {
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+  .earned:hover {
+    transform: none;
+  }
+  /* Drop the will-change hint when motion is reduced — the stepped recede stays
+     legible via colour/border intensity alone; no compositor promotion needed. */
+  .trailGlyph {
+    will-change: auto;
+  }
+}

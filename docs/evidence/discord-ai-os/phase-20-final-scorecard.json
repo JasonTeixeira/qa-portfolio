@@ -1,0 +1,879 @@
+{
+  "ok": true,
+  "version": "discord-final-scorecard-v2",
+  "runKey": "phase-20-final-1782825951052",
+  "dryRun": true,
+  "auditRowId": null,
+  "averageScore": 83,
+  "categoryCount": 18,
+  "blockedBelow95": [
+    "server_access_onboarding",
+    "role_routing_member_state",
+    "gateway_capture_classification",
+    "rag_corpus_quality",
+    "retrieval_answer_faithfulness",
+    "eval_coverage",
+    "sagebot_command_ux_personality",
+    "content_engine_quality",
+    "quiz_challenge_learning_engine",
+    "points_leaderboard_integrity",
+    "member_intelligence",
+    "admin_dashboard",
+    "job_reliability",
+    "observability",
+    "premium_workflows",
+    "growth_loop",
+    "security_privacy",
+    "scale_readiness"
+  ],
+  "worldClassEligible": false,
+  "worldClassThreshold": 95,
+  "requiredOperatingProof": [
+    "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+    "Run role/onboarding smoke after changing roles or channel permissions.",
+    "Review weekly capture volume and dead letters.",
+    "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+    "Review failed/low-scoring eval examples monthly and add source fixes.",
+    "Add eval questions from top weekly RAG failures and member questions.",
+    "Run Discord smoke after command changes.",
+    "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+    "Review quiz/challenge completion and quality weekly.",
+    "Audit top point earners weekly for farming or duplicate awards.",
+    "Review stuck/inactive/premium-lead nudges weekly.",
+    "Run Phase 19 dashboard query smoke monthly.",
+    "Review failed/dead-lettered jobs every operating day.",
+    "Review cost, quality, trace coverage, and job success weekly.",
+    "Review open premium requests and SLA weekly.",
+    "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+    "Run security/privacy smoke after permission, command, or RAG policy changes.",
+    "Repeat Phase 19 after each major growth milestone."
+  ],
+  "actionPlan": {
+    "localOnlyCommands": [
+      "npm run rag:evaluate:recovery-plan",
+      "npm run rag:evaluate:missing-preflight",
+      "npm run discord:gateway-capture-diagnosis && npm run discord:gateway-operating-packet",
+      "npm run discord:proof-source-scan && npm run discord:proof-source-recovery-plan",
+      "npm run discord:proof-backlog && npm run discord:proof-candidate-audit",
+      "npm run discord:world-class-readiness && npm run discord:operator-brief && npm run verify:local:evidence"
+    ],
+    "explicitApprovalCommands": [
+      "SAGE_ALLOW_NON_DRY_RAG_EVAL=approved npm run rag:evaluate:approved-missing",
+      "SAGE_ALLOW_DISCORD_OPERATING_CYCLE=approved npm run discord:operating-cycle"
+    ],
+    "liveOperatorActions": [
+      "Post one fresh non-bot member message in Discord and rerun gateway capture diagnosis.",
+      "Approve at least 10 high-signal Discord questions, answers, builds, reviews, wins, or resources as knowledge candidates.",
+      "Sync approved Discord candidates into authoritative RAG, then rerun retrieval, answer, coverage, and scorecard evidence.",
+      "Create and approve four privacy-safe public proof assets from approved Discord source material.",
+      "Publish at least one proof asset with tracked apply/join intent and record one measured application.",
+      "Run one premium review, deeper-answer, or office-hours proof path with a real or deliberately seeded premium scenario."
+    ]
+  },
+  "scorecard": [
+    {
+      "category": "server_access_onboarding",
+      "score": 93,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json",
+        "docs/evidence/discord-ai-os/phase-9-real-discord-capture.json"
+      ],
+      "knownGaps": [
+        "Native Discord application answers remain Discord-managed; SageBot only sees what members later provide or what admins approve."
+      ],
+      "nextAction": "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Native Discord application answers remain Discord-managed; SageBot only sees what members later provide or what admins approve.",
+        "nextAction": "Weekly check pending applications, stuck approvals, and unapproved visibility."
+      }
+    },
+    {
+      "category": "role_routing_member_state",
+      "score": 92,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-13-admin-cockpit-v2-proof.json",
+        "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json"
+      ],
+      "knownGaps": [
+        "Role routing should be rechecked after any manual Discord role hierarchy changes."
+      ],
+      "nextAction": "Run role/onboarding smoke after changing roles or channel permissions.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Role routing should be rechecked after any manual Discord role hierarchy changes.",
+        "nextAction": "Run role/onboarding smoke after changing roles or channel permissions."
+      }
+    },
+    {
+      "category": "gateway_capture_classification",
+      "score": 88,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-9-real-discord-capture.json",
+        "docs/evidence/discord-ai-os/phase-14-railway-gateway-deploy-proof.json"
+      ],
+      "knownGaps": [
+        "Capture quality improves as real member questions accumulate."
+      ],
+      "nextAction": "Review weekly capture volume and dead letters.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Capture quality improves as real member questions accumulate.",
+        "nextAction": "Review weekly capture volume and dead letters."
+      }
+    },
+    {
+      "category": "rag_corpus_quality",
+      "score": 45,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-5-authoritative-rag-ingestion.json",
+        "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json",
+        "docs/evidence/rag/eval-latest.json"
+      ],
+      "knownGaps": [
+        "The authoritative Discord corpus still needs more sustained real member questions, answers, and approved resources."
+      ],
+      "nextAction": "Approve high-signal Discord candidates weekly and re-run RAG sync/re-embed.",
+      "blocker": {
+        "owner": "community operator",
+        "reason": "Corpus quality cannot honestly score 95+ until more real member knowledge exists and is approved into RAG.",
+        "nextAction": "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard."
+      }
+    },
+    {
+      "category": "retrieval_answer_faithfulness",
+      "score": 89,
+      "evidence": [
+        "docs/evidence/rag/eval-latest.json",
+        "docs/evidence/discord-ai-os/phase-3-reranking.json",
+        "docs/evidence/discord-ai-os/phase-4-personality-kernel.json"
+      ],
+      "knownGaps": [
+        "Average usefulness can still improve with more high-quality approved Discord sources."
+      ],
+      "nextAction": "Review failed/low-scoring eval examples monthly and add source fixes.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Average usefulness can still improve with more high-quality approved Discord sources.",
+        "nextAction": "Review failed/low-scoring eval examples monthly and add source fixes."
+      }
+    },
+    {
+      "category": "eval_coverage",
+      "score": 84,
+      "evidence": [
+        "docs/evidence/rag/eval-latest.json",
+        "docs/evidence/rag/eval-seed-quality.json",
+        "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json",
+        "docs/discord/WORLD_CLASS_PROOF_OPERATING_CONTROLS.md"
+      ],
+      "knownGaps": [
+        "Eval set now covers proof controls, but it must keep expanding from real failures."
+      ],
+      "nextAction": "Add eval questions from top weekly RAG failures and member questions.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Eval set now covers proof controls, but it must keep expanding from real failures.",
+        "nextAction": "Add eval questions from top weekly RAG failures and member questions."
+      }
+    },
+    {
+      "category": "sagebot_command_ux_personality",
+      "score": 91,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-4-personality-kernel.json",
+        "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json"
+      ],
+      "knownGaps": [
+        "Slash command UX should be rechecked after every command description update."
+      ],
+      "nextAction": "Run Discord smoke after command changes.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Slash command UX should be rechecked after every command description update.",
+        "nextAction": "Run Discord smoke after command changes."
+      }
+    },
+    {
+      "category": "content_engine_quality",
+      "score": 84,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-10-content-jobs-v2.json",
+        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json",
+        "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json"
+      ],
+      "knownGaps": [
+        "The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early."
+      ],
+      "nextAction": "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "The content factory now has approval-gated dry-run proof, but real approved posts, member responses, public proof drafts, and conversion feedback are still early.",
+        "nextAction": "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes."
+      }
+    },
+    {
+      "category": "quiz_challenge_learning_engine",
+      "score": 87,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-11-learning-lab-v2-proof.json",
+        "docs/evidence/discord-ai-os/phase-12-learning-lab-scheduler-proof.json"
+      ],
+      "knownGaps": [
+        "Needs real learner outcome review as membership grows."
+      ],
+      "nextAction": "Review quiz/challenge completion and quality weekly.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Needs real learner outcome review as membership grows.",
+        "nextAction": "Review quiz/challenge completion and quality weekly."
+      }
+    },
+    {
+      "category": "points_leaderboard_integrity",
+      "score": 86,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-11-learning-lab-v2-proof.json",
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json"
+      ],
+      "knownGaps": [
+        "Leaderboard anomaly checks need weekly human review."
+      ],
+      "nextAction": "Audit top point earners weekly for farming or duplicate awards.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Leaderboard anomaly checks need weekly human review.",
+        "nextAction": "Audit top point earners weekly for farming or duplicate awards."
+      }
+    },
+    {
+      "category": "member_intelligence",
+      "score": 86,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-12-member-intelligence-v2-proof.json",
+        "docs/evidence/discord-ai-os/phase-13-admin-cockpit-v2-proof.json"
+      ],
+      "knownGaps": [
+        "Segmentation improves with larger member activity history."
+      ],
+      "nextAction": "Review stuck/inactive/premium-lead nudges weekly.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Segmentation improves with larger member activity history.",
+        "nextAction": "Review stuck/inactive/premium-lead nudges weekly."
+      }
+    },
+    {
+      "category": "admin_dashboard",
+      "score": 90,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-13-admin-cockpit-v2-proof.json",
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json"
+      ],
+      "knownGaps": [
+        "Dashboard performance should be watched as tables grow."
+      ],
+      "nextAction": "Run Phase 19 dashboard query smoke monthly.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Dashboard performance should be watched as tables grow.",
+        "nextAction": "Run Phase 19 dashboard query smoke monthly."
+      }
+    },
+    {
+      "category": "job_reliability",
+      "score": 88,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-14-durable-jobs-proof.json",
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json"
+      ],
+      "knownGaps": [
+        "Provider outages still require operator review."
+      ],
+      "nextAction": "Review failed/dead-lettered jobs every operating day.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Provider outages still require operator review.",
+        "nextAction": "Review failed/dead-lettered jobs every operating day."
+      }
+    },
+    {
+      "category": "observability",
+      "score": 86,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json",
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json"
+      ],
+      "knownGaps": [
+        "Trace coverage needs monitoring as new jobs are added."
+      ],
+      "nextAction": "Review cost, quality, trace coverage, and job success weekly.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Trace coverage needs monitoring as new jobs are added.",
+        "nextAction": "Review cost, quality, trace coverage, and job success weekly."
+      }
+    },
+    {
+      "category": "premium_workflows",
+      "score": 74,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json"
+      ],
+      "knownGaps": [
+        "Premium promise must be checked against real fulfillment and Stripe economics."
+      ],
+      "nextAction": "Review open premium requests and SLA weekly.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Premium promise must be checked against real fulfillment and Stripe economics.",
+        "nextAction": "Review open premium requests and SLA weekly."
+      }
+    },
+    {
+      "category": "growth_loop",
+      "score": 58,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
+        "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json"
+      ],
+      "knownGaps": [
+        "Growth loop needs real public conversion data from published proof assets and member invites."
+      ],
+      "nextAction": "Publish approved public proof weekly and track applications from it.",
+      "blocker": {
+        "owner": "growth operator",
+        "reason": "Growth cannot honestly be 95+ until published proof outputs produce measurable application/member conversion.",
+        "nextAction": "Run four weekly public proof cycles and measure applications, approvals, and active members."
+      }
+    },
+    {
+      "category": "security_privacy",
+      "score": 88,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json",
+        "docs/discord/SECURITY_PRIVACY_ABUSE_RUNBOOK.md"
+      ],
+      "knownGaps": [
+        "Manual moderation decisions remain operator-owned."
+      ],
+      "nextAction": "Run security/privacy smoke after permission, command, or RAG policy changes.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Manual moderation decisions remain operator-owned.",
+        "nextAction": "Run security/privacy smoke after permission, command, or RAG policy changes."
+      }
+    },
+    {
+      "category": "scale_readiness",
+      "score": 82,
+      "evidence": [
+        "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json",
+        "docs/discord/SCALE_FAILURE_READINESS_RUNBOOK.md"
+      ],
+      "knownGaps": [
+        "Synthetic load is not the same as a real 5,000-member live event."
+      ],
+      "nextAction": "Repeat Phase 19 after each major growth milestone.",
+      "blocker": {
+        "owner": "system operator",
+        "reason": "Synthetic load is not the same as a real 5,000-member live event.",
+        "nextAction": "Repeat Phase 19 after each major growth milestone."
+      }
+    }
+  ],
+  "summary": {
+    "averageScore": 83,
+    "categoryCount": 18,
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ],
+    "worldClassEligible": false,
+    "worldClassThreshold": 95,
+    "requiredOperatingProof": [
+      "Weekly check pending applications, stuck approvals, and unapproved visibility.",
+      "Run role/onboarding smoke after changing roles or channel permissions.",
+      "Review weekly capture volume and dead letters.",
+      "Collect two weeks of real questions/reviews/resources, approve candidates, then rerun eval and scorecard.",
+      "Review failed/low-scoring eval examples monthly and add source fixes.",
+      "Add eval questions from top weekly RAG failures and member questions.",
+      "Run Discord smoke after command changes.",
+      "Run the content factory weekly, approve/reject drafts, publish approved items, and tag member/content outcomes.",
+      "Review quiz/challenge completion and quality weekly.",
+      "Audit top point earners weekly for farming or duplicate awards.",
+      "Review stuck/inactive/premium-lead nudges weekly.",
+      "Run Phase 19 dashboard query smoke monthly.",
+      "Review failed/dead-lettered jobs every operating day.",
+      "Review cost, quality, trace coverage, and job success weekly.",
+      "Review open premium requests and SLA weekly.",
+      "Run four weekly public proof cycles and measure applications, approvals, and active members.",
+      "Run security/privacy smoke after permission, command, or RAG policy changes.",
+      "Repeat Phase 19 after each major growth milestone."
+    ]
+  },
+  "scorecardValidation": {
+    "ok": true,
+    "failures": [],
+    "categoryCount": 18,
+    "averageScore": 83,
+    "blockedBelow95": [
+      "server_access_onboarding",
+      "role_routing_member_state",
+      "gateway_capture_classification",
+      "rag_corpus_quality",
+      "retrieval_answer_faithfulness",
+      "eval_coverage",
+      "sagebot_command_ux_personality",
+      "content_engine_quality",
+      "quiz_challenge_learning_engine",
+      "points_leaderboard_integrity",
+      "member_intelligence",
+      "admin_dashboard",
+      "job_reliability",
+      "observability",
+      "premium_workflows",
+      "growth_loop",
+      "security_privacy",
+      "scale_readiness"
+    ]
+  },
+  "actionPlanValidation": {
+    "ok": true,
+    "failures": []
+  },
+  "operatingRhythm": {
+    "weekly": [
+      "Review pending Discord applications and rejected/approved counts.",
+      "Nudge approved members stuck before /onboard or first contribution.",
+      "Answer or route unanswered questions.",
+      "Approve, reject, or block pending knowledge candidates.",
+      "Review failed RAG evals and create source-fix tasks.",
+      "Approve or reject pending daily/weekly content drafts.",
+      "Retry, resolve, or escalate failed jobs and dead letters.",
+      "Audit leaderboard anomalies and reverse bad point awards with compensating entries.",
+      "Review premium requests, SLA, and office-hours queue.",
+      "Publish approved public proof and track application source."
+    ],
+    "monthly": [
+      "Refresh the RAG eval set from real failures and top community questions.",
+      "Review RAG corpus health and remove stale, private, or low-quality sources.",
+      "Update source registry and news/action themes.",
+      "Review content conversion from Discord proof to applications.",
+      "Review member segments, stuck cohorts, and premium leads.",
+      "Review premium fulfillment quality, SLA, and economics.",
+      "Archive stale drafts, stale candidates, and low-quality content queue items."
+    ],
+    "quarterly": [
+      "Run scale readiness and failure smoke against current table sizes.",
+      "Run security/privacy/permission audit and review abuse reports.",
+      "Review DeepSeek/RAG/job cost posture and budget thresholds.",
+      "Review premium price, margin, fulfillment load, and promise.",
+      "Review community quality bar, moderation decisions, and channel sprawl."
+    ]
+  },
+  "rhythmValidation": {
+    "ok": true,
+    "failures": []
+  },
+  "evidenceValidation": {
+    "ok": true,
+    "missing": [],
+    "failing": [],
+    "evidenceIndex": [
+      {
+        "path": "docs/evidence/discord-ai-os/phase-8-rag-health-eval-drilldown.json",
+        "ok": true,
+        "status": "passed"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-9-real-discord-capture.json",
+        "ok": true,
+        "status": "passed_with_gateway_note"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-10-content-jobs-v2.json",
+        "ok": true,
+        "status": "passed_with_worker_observation_note"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-11-learning-lab-v2-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-12-learning-lab-scheduler-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-12-member-intelligence-v2-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-13-admin-cockpit-v2-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-14-durable-jobs-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-14-railway-gateway-deploy-proof.json",
+        "ok": true,
+        "status": "deployed_and_verified"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-15-premium-workflows-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-16-public-proof-growth-proof.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-17-observability-quality-v2.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-18-security-privacy-abuse.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-19-scale-failure-readiness.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/discord-ai-os/phase-22-content-factory-dry-run.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/rag/eval-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/rag/eval-missing-plan.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/rag/eval-coverage-readiness.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/rag/eval-execution-packet.json",
+        "ok": true,
+        "status": "not_required"
+      },
+      {
+        "path": "docs/evidence/rag/eval-missing-preflight.json",
+        "ok": true,
+        "status": "ready_for_explicitly_approved_eval"
+      },
+      {
+        "path": "docs/evidence/rag/eval-seed-quality.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-source-volume-scan-latest.json",
+        "ok": true,
+        "status": "true"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-source-recovery-plan-latest.json",
+        "ok": true,
+        "status": "blocked"
+      }
+    ]
+  },
+  "readinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "10/10 readiness validators passed",
+    "artifacts": [
+      {
+        "path": "docs/evidence/engineering-loop/discord-channel-matrix-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-channel-matrix-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/content-factory-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-content-factory-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-corpus-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-corpus-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/discord-proof-intake-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "discord-proof-intake-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/durable-jobs-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "durable-jobs-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/observability-quality-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "observability-quality-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/premium-workflow-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "premium-workflow-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/proof-rehearsal-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "proof-rehearsal-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/public-growth-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "public-growth-readiness-validator-v1"
+      },
+      {
+        "path": "docs/evidence/engineering-loop/security-privacy-readiness-latest.json",
+        "ok": true,
+        "validationOk": true,
+        "validator": "security-privacy-readiness-validator-v1"
+      }
+    ]
+  },
+  "databaseValidation": {
+    "ok": true,
+    "checks": {
+      "discord_security_audit_runs": true,
+      "discord_scale_readiness_runs": true,
+      "discord_final_scorecard_runs": true,
+      "discord_job_runs": true,
+      "discord_job_dead_letters": true,
+      "discord_gateway_heartbeats": true,
+      "rag_eval_runs": true,
+      "rag_eval_results": true
+    },
+    "counts": {
+      "discord_security_audit_runs": 8,
+      "discord_scale_readiness_runs": 2,
+      "discord_final_scorecard_runs": 11,
+      "discord_job_runs": 0,
+      "discord_job_dead_letters": 0,
+      "discord_gateway_heartbeats": 9,
+      "rag_eval_runs": 44,
+      "rag_eval_results": 1376
+    }
+  },
+  "ragEvalCoverageReadinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "65/65 evaluated, missing 0, releaseReady=true"
+  },
+  "proofRehearsalValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "5/5 rehearsal lanes ready, mutation=local_file_evidence_only"
+  },
+  "contentFactoryReadinessValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
+  },
+  "proofSourceVolumeScanValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "approved 0/10 / rag 0/10 / public 0/4 / premium 0/1"
+  },
+  "proofSourceRecoveryPlanValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "4 lanes / blocked 4/4 / shortfall 25 / RAG eval guard lanes 4/4"
+  },
+  "proofIntakeAntiFakeValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5 / RAG eval guard lanes 5/5"
+  },
+  "weeklyProofPacketAntiFakeValidation": {
+    "ok": true,
+    "failures": [],
+    "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5 / RAG eval guard lanes 5/5"
+  },
+  "releaseGates": [
+    {
+      "name": "scorecard_schema",
+      "passed": true,
+      "evidence": "18 categories / avg 83"
+    },
+    {
+      "name": "scorecard_action_plan",
+      "passed": true,
+      "evidence": "6 local-only / 2 approval-required / 6 live actions"
+    },
+    {
+      "name": "evidence_index",
+      "passed": true,
+      "evidence": "26/26 required evidence files pass"
+    },
+    {
+      "name": "readiness_validations",
+      "passed": true,
+      "evidence": "10/10 readiness validators passed"
+    },
+    {
+      "name": "operating_rhythm",
+      "passed": true,
+      "evidence": "10 weekly / 7 monthly / 5 quarterly items"
+    },
+    {
+      "name": "rag_eval_latest",
+      "passed": true,
+      "evidence": "65/65 passed, seeded 65/65, dryRun=false, avg 0.9869, context precision 1, usefulness 0.9795"
+    },
+    {
+      "name": "rag_eval_coverage_readiness",
+      "passed": true,
+      "evidence": "65/65 evaluated, missing 0, releaseReady=true"
+    },
+    {
+      "name": "database_release_tables",
+      "passed": true,
+      "evidence": "discord_security_audit_runs, discord_scale_readiness_runs, discord_final_scorecard_runs, discord_job_runs, discord_job_dead_letters, discord_gateway_heartbeats, rag_eval_runs, rag_eval_results"
+    },
+    {
+      "name": "proof_rehearsal_readiness",
+      "passed": true,
+      "evidence": "5/5 rehearsal lanes ready, mutation=local_file_evidence_only"
+    },
+    {
+      "name": "channel_matrix_readiness",
+      "passed": true,
+      "evidence": "20 channels / 16 approved-member / 16 targetable / mutation=local_file_evidence_only"
+    },
+    {
+      "name": "content_factory_readiness",
+      "passed": true,
+      "evidence": "36 planned / min quality 90 / mutation=local_file_evidence_only"
+    },
+    {
+      "name": "proof_source_volume_scan",
+      "passed": true,
+      "evidence": "approved 0/10 / rag 0/10 / public 0/4 / premium 0/1"
+    },
+    {
+      "name": "proof_source_recovery_plan",
+      "passed": true,
+      "evidence": "4 lanes / blocked 4/4 / shortfall 25 / RAG eval guard lanes 4/4"
+    },
+    {
+      "name": "proof_intake_anti_fake_controls",
+      "passed": true,
+      "evidence": "5 lanes / anti-fake lanes 5/5 / required-field lanes 5/5 / RAG eval guard lanes 5/5"
+    },
+    {
+      "name": "weekly_proof_packet_anti_fake_controls",
+      "passed": true,
+      "evidence": "5 lanes / anti-fake lanes 5/5 / template-field lanes 5/5 / RAG eval guard lanes 5/5"
+    },
+    {
+      "name": "migration_present",
+      "passed": true,
+      "evidence": "0094_discord_final_scorecard_release.sql"
+    },
+    {
+      "name": "below_95_scores_have_blockers",
+      "passed": true,
+      "evidence": "server_access_onboarding, role_routing_member_state, gateway_capture_classification, rag_corpus_quality, retrieval_answer_faithfulness, eval_coverage, sagebot_command_ux_personality, content_engine_quality, quiz_challenge_learning_engine, points_leaderboard_integrity, member_intelligence, admin_dashboard, job_reliability, observability, premium_workflows, growth_loop, security_privacy, scale_readiness"
+    }
+  ],
+  "ragEvalLatest": {
+    "ok": true,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "requiredQuestionCount": 65,
+    "summary": {
+      "total": 65,
+      "passed": 65,
+      "failed": 0,
+      "passRate": 1,
+      "avgScore": 0.9869,
+      "retrievalHitRate": 1,
+      "citationCoverage": 1,
+      "contextPrecision": 1,
+      "faithfulness": 0.95,
+      "groundedness": 1,
+      "answerUsefulness": 0.9795
+    }
+  },
+  "ragEvalCoverageReadiness": {
+    "releaseReady": true,
+    "expectedQuestionCount": 65,
+    "seededQuestionCount": 65,
+    "evaluatedQuestionCount": 65,
+    "missingEvalKeys": [],
+    "unexpectedEvalKeys": [],
+    "blockers": [],
+    "nextActions": [
+      "No eval coverage action needed before the next scorecard run."
+    ]
+  },
+  "failures": [],
+  "startedAt": "2026-06-30T13:25:51.052Z",
+  "finishedAt": "2026-06-30T13:25:52.639Z"
+}

@@ -1,0 +1,145 @@
+[
+  {
+    "source_id": "rfc-9110-http-semantics",
+    "title": "RFC 9110: HTTP Semantics",
+    "organization": "IETF",
+    "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "RFC 9110 (June 2022, Internet Standard STD 97; obsoletes RFC 7230-7235)",
+    "excerpt": "A request method is idempotent if the intended effect on the server of multiple identical requests with that method is the same as the effect for a single such request. (Sec 9.2.2) ... Request methods are considered \"safe\" if their defined semantics are essentially read-only. (Sec 9.2.1)",
+    "keywords": ["http semantics", "idempotency", "safe methods", "put", "delete", "post", "get", "http status", "201 created", "202 accepted", "400 bad request", "401 unauthorized", "403 forbidden", "409 conflict", "422 unprocessable content", "500", "503", "4xx client error", "5xx server error", "retry-after"]
+  },
+  {
+    "source_id": "rfc-9457-problem-details",
+    "title": "RFC 9457: Problem Details for HTTP APIs",
+    "organization": "IETF",
+    "url": "https://www.rfc-editor.org/rfc/rfc9457.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "RFC 9457 (July 2023; obsoletes RFC 7807)",
+    "excerpt": "This specification defines simple JSON and XML document formats to describe the specifics of a problem encountered - \"problem details\". ... \"type\" (string) - A URI reference that identifies the problem type. ... \"title\" (string) - A short, human-readable summary of the problem type. ... \"status\" (number) - The HTTP status code. Media type: application/problem+json.",
+    "keywords": ["problem details", "error model", "validation error", "application/problem+json", "type", "title", "status", "detail", "machine-readable error", "error envelope"]
+  },
+  {
+    "source_id": "rfc-6585-additional-status",
+    "title": "RFC 6585: Additional HTTP Status Codes",
+    "organization": "IETF",
+    "url": "https://www.rfc-editor.org/rfc/rfc6585.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "RFC 6585 (April 2012)",
+    "excerpt": "The 429 status code indicates that the user has sent too many requests in a given amount of time (\"rate limiting\"). ... The response representations SHOULD include details explaining the condition, and MAY include a Retry-After header indicating how long to wait before making a new request. (Sec 4) ... The 428 status code indicates that the origin server requires the request to be conditional. (Sec 3)",
+    "keywords": ["429", "too many requests", "rate limiting", "retry-after", "428 precondition required", "431", "backpressure", "http status"]
+  },
+  {
+    "source_id": "rfc-5789-patch",
+    "title": "RFC 5789: PATCH Method for HTTP",
+    "organization": "IETF",
+    "url": "https://www.rfc-editor.org/rfc/rfc5789.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "RFC 5789 (March 2010)",
+    "excerpt": "The PATCH method requests that a set of changes described in the request entity be applied to the resource identified by the Request-URI. ... PATCH is neither safe nor idempotent as defined by [RFC2616], Section 9.1. (Sec 2)",
+    "keywords": ["patch", "partial update", "not idempotent", "http methods", "resource modeling"]
+  },
+  {
+    "source_id": "postgresql-transaction-isolation",
+    "title": "PostgreSQL Documentation: Transaction Isolation",
+    "organization": "PostgreSQL Global Development Group",
+    "url": "https://www.postgresql.org/docs/current/transaction-iso.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "PostgreSQL current docs (Chapter 13.2)",
+    "excerpt": "In PostgreSQL, you can request any of the four standard transaction isolation levels, but internally only three distinct isolation levels are implemented ... Read Committed is the default isolation level in PostgreSQL. ... a SELECT query ... sees only data committed before the query began; it never sees either uncommitted data or changes committed by concurrent transactions during the query's execution.",
+    "keywords": ["postgresql", "transaction", "isolation level", "read committed", "serializable", "repeatable read", "atomicity", "commit", "rollback", "unique constraint"]
+  },
+  {
+    "source_id": "aws-sqs-dead-letter-queues",
+    "title": "Using dead-letter queues in Amazon SQS",
+    "organization": "Amazon Web Services",
+    "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "AWS SQS Developer Guide (current)",
+    "excerpt": "Amazon SQS supports dead-letter queues (DLQs), which source queues can target for messages that are not processed successfully. DLQs are useful for debugging your application because you can isolate unconsumed messages to determine why processing did not succeed. ... Use a redrive policy to specify the maxReceiveCount. The maxReceiveCount is the number of times a consumer can receive a message from a source queue before it is moved to a dead-letter queue.",
+    "keywords": ["dead letter queue", "dlq", "maxreceivecount", "redrive policy", "poison message", "retry cap", "queue worker", "operator evidence"]
+  },
+  {
+    "source_id": "aws-sqs-visibility-timeout",
+    "title": "Amazon SQS visibility timeout",
+    "organization": "Amazon Web Services",
+    "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "AWS SQS Developer Guide (current)",
+    "excerpt": "In both standard and FIFO ... queues, the visibility timeout helps prevent multiple consumers from processing the same message ... However, due to the at-least-once delivery model of Amazon SQS, there's no absolute guarantee that a message won't be delivered more than once during the visibility timeout period.",
+    "keywords": ["at-least-once delivery", "visibility timeout", "redelivery", "exactly-once processing", "duplicate", "idempotent worker", "sqs"]
+  },
+  {
+    "source_id": "openapi-specification",
+    "title": "OpenAPI Specification",
+    "organization": "OpenAPI Initiative (Linux Foundation)",
+    "url": "https://spec.openapis.org/oas/latest.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "OpenAPI Specification v3.2.0 (19 September 2025)",
+    "excerpt": "The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs ... [it] allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic.",
+    "keywords": ["openapi", "api contract", "schema", "interface description", "contract test", "language-agnostic"]
+  },
+  {
+    "source_id": "microservices-transactional-outbox",
+    "title": "Pattern: Transactional outbox",
+    "organization": "microservices.io (Chris Richardson)",
+    "url": "https://microservices.io/patterns/data/transactional-outbox.html",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "microservices.io pattern catalog (current)",
+    "excerpt": "How to ... atomically update the database and send messages to a message broker? ... [The] service that sends the message [must] first store the message in the database as part of the transaction that updates the business entities. A separate process then sends the messages to the message broker.",
+    "keywords": ["transactional outbox", "dual write", "atomic", "enqueue in transaction", "message broker", "outbox table", "background jobs"]
+  },
+  {
+    "source_id": "owasp-api-top-10-2023",
+    "title": "OWASP API Security Top 10 2023",
+    "organization": "OWASP",
+    "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "OWASP API Security Top 10 - 2023 edition",
+    "excerpt": "API1:2023 - Broken Object Level Authorization; API3:2023 - Broken Object Property Level Authorization; API4:2023 - Unrestricted Resource Consumption; API6:2023 - Unrestricted Access to Sensitive Business Flows; API8:2023 - Security Misconfiguration.",
+    "keywords": ["owasp", "api security top 10", "api1", "api3", "api4", "api6", "api8", "broken object level authorization", "security misconfiguration"]
+  },
+  {
+    "source_id": "owasp-api1-bola",
+    "title": "API1:2023 Broken Object Level Authorization",
+    "organization": "OWASP",
+    "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "OWASP API Security Top 10 - 2023 edition",
+    "excerpt": "Every API endpoint that receives an ID of an object, and performs any action on the object, should implement object-level authorization checks.",
+    "keywords": ["broken object level authorization", "bola", "idor", "authorization", "object ownership", "auth boundary", "api1"]
+  },
+  {
+    "source_id": "owasp-api4-resource-consumption",
+    "title": "API4:2023 Unrestricted Resource Consumption",
+    "organization": "OWASP",
+    "url": "https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "OWASP API Security Top 10 - 2023 edition",
+    "excerpt": "It's common to find APIs that do not limit client interactions or resource consumption.",
+    "keywords": ["unrestricted resource consumption", "api4", "rate limit", "denial of service", "uncapped limit", "page size cap", "backpressure"]
+  },
+  {
+    "source_id": "use-the-index-luke-no-offset",
+    "title": "We need tool support for keyset pagination (No Offset)",
+    "organization": "Use The Index, Luke! (Markus Winand)",
+    "url": "https://use-the-index-luke.com/no-offset",
+    "source_tier": 1,
+    "retrieved_at": "2026-07-03",
+    "version": "use-the-index-luke.com (current)",
+    "excerpt": "When using offset to skip the previously fetched entries, you'll get duplicates in case there were new rows inserted between fetching two pages. ... Just use a WHERE clause that selects only data you haven't seen yet ... This approach - called seek method or keyset pagination - solves the problem of drifting results ... and is even faster than offset.",
+    "keywords": ["keyset pagination", "offset", "seek method", "cursor pagination", "drift", "duplicates", "gaps", "deep page"]
+  }
+]

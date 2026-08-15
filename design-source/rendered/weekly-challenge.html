@@ -1,0 +1,135 @@
+
+<div id="dc-root"><div class="sc-host" data-sc-name="Sage Weekly Challenge"><div data-dc-tpl="6" style="min-height: 100vh; background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.035) 0%, transparent 55%) rgb(11, 11, 14); color: rgb(242, 239, 233); font-family: &quot;Hanken Grotesk&quot;, sans-serif; font-size: 15px; line-height: 1.6; overflow-x: hidden;">
+
+  
+  <div data-dc-tpl="7" style="position: sticky; top: 0px; z-index: 50; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(16px, 3vw, 28px); border-bottom: 1px solid rgb(30, 30, 36); background: rgba(11, 11, 14, 0.9); backdrop-filter: blur(14px);">
+    <a data-dc-tpl="8" href="Sage Dashboard Cockpit.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit;">
+      <span data-dc-tpl="9" style="display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: rgb(61, 90, 254); color: rgb(255, 255, 255); font-size: 11px;">◆</span>
+      <span data-dc-tpl="10" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">← cockpit</span>
+    </a>
+    <span data-dc-tpl="11" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(149, 152, 162);">The Monday Incident · one map, all of us</span>
+    <sage-app-nav data-dc-tpl="12" current="challenge"></sage-app-nav>
+    <span data-dc-tpl="13" style="margin-left: auto; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(224, 169, 62); border: 1px solid rgba(224, 169, 62, 0.35); padding: 5px 11px; border-radius: 14px; white-space: nowrap;">closes Sunday 23:59 UTC</span>
+  </div>
+
+  <main data-dc-tpl="14" style="max-width: 940px; margin: 0px auto; padding: clamp(32px, 5vw, 52px) clamp(16px, 3vw, 32px) 88px;">
+
+    
+    <div data-dc-tpl="15" style="margin-bottom: 32px;">
+      <div data-dc-tpl="16" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: rgb(143, 160, 255);">Week 27 · 412 maps submitted · 3 get featured Friday</div>
+      <h1 data-dc-tpl="17" style="margin: 12px 0px 0px; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.025em; line-height: 1.05; max-width: 22ch; text-wrap: balance;">The invoice that emailed itself twice.</h1>
+    </div>
+
+    
+    <div data-dc-tpl="18" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 18px;">
+      <div data-dc-tpl="19" style="border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); padding: 26px;">
+        <div data-dc-tpl="20" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(229, 72, 77); margin-bottom: 14px;">The incident · as reported</div>
+        <p data-dc-tpl="21" style="margin: 0px 0px 14px; font-size: 15px; color: rgb(182, 182, 192); text-wrap: pretty;"><span data-dc-tpl="22" style="font-family: Fraunces, Georgia, serif; font-style: italic; color: rgb(242, 239, 233);">Tuesday, 09:14.</span> Finance says four customers got their monthly invoice email twice. Same invoice ID, same amounts, eleven minutes apart. The billing job ran once — the logs swear it. The email service shows two sends, both "accepted."</p>
+        <p data-dc-tpl="23" style="margin: 0px; font-size: 15px; color: rgb(182, 182, 192); text-wrap: pretty;">Between the billing job and the inbox sit: a message queue, a template renderer, a retry-on-timeout wrapper someone added in March, and a webhook that marks invoices "sent."</p>
+        <div data-dc-tpl="24" style="margin-top: 18px; border-top: 1px solid rgb(30, 30, 36); padding-top: 16px;">
+          <div data-dc-tpl="25" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162); margin-bottom: 10px;">Your map must</div>
+          <div data-dc-tpl="26" style="display: flex; gap: 10px; padding: 5px 0px; font-size: 13.5px; color: rgb(182, 182, 192);"><span data-dc-tpl="27" style="color: rgb(143, 160, 255);">01</span> Name the suspect edge — and why it's cheapest to check first</div>
+          <div data-dc-tpl="28" style="display: flex; gap: 10px; padding: 5px 0px; font-size: 13.5px; color: rgb(182, 182, 192);"><span data-dc-tpl="29" style="color: rgb(143, 160, 255);">02</span> Draw the send path with directions and owners</div>
+          <div data-dc-tpl="30" style="display: flex; gap: 10px; padding: 5px 0px; font-size: 13.5px; color: rgb(182, 182, 192);"><span data-dc-tpl="31" style="color: rgb(143, 160, 255);">03</span> Defend at least one omission in writing</div>
+        </div>
+      </div>
+
+      
+      <div data-dc-tpl="32" style="border: 1px solid rgba(61, 90, 254, 0.4); border-radius: 16px; background: linear-gradient(165deg, rgb(20, 20, 28), rgb(17, 17, 21)); padding: 26px; display: flex; flex-direction: column;">
+        <div data-dc-tpl="33" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(143, 160, 255); margin-bottom: 14px;">Your map · plain text is fine</div>
+        
+          <textarea data-dc-tpl="35" placeholder="suspect edge: the retry wrapper around the email call — timeout ≠ failure…" class="scp0" style="flex: 1 1 0%; min-height: 170px; background: rgb(15, 15, 19); border: 1px solid rgb(42, 42, 51); border-radius: 12px; padding: 14px 16px; font-size: 13.5px; color: rgb(242, 239, 233); font-family: &quot;JetBrains Mono&quot;, monospace; line-height: 1.7; outline: none; resize: vertical;"></textarea>
+          <div data-dc-tpl="36" style="display: flex; align-items: center; gap: 14px; margin-top: 16px; flex-wrap: wrap;">
+            <span data-dc-tpl="37" class="scp1" style="display: inline-flex; color: rgb(255, 255, 255); background: rgb(61, 90, 254); font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 24px; cursor: pointer; user-select: none; white-space: nowrap; box-shadow: rgba(61, 90, 254, 0.35) 0px 0px 22px;">Submit for Friday's review</span>
+            <span data-dc-tpl="38" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84);">+80 XP on submit · featured maps +250</span>
+          </div>
+          
+        
+        
+      </div>
+    </div>
+
+    
+    <div data-dc-tpl="46" style="margin-top: 18px; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); overflow: hidden;">
+      <div data-dc-tpl="47" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 24px; border-bottom: 1px solid rgb(30, 30, 36); flex-wrap: wrap;">
+        <span data-dc-tpl="48" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(224, 169, 62);">★ Last week's featured map · "the cron that ran on two clocks"</span>
+        <span data-dc-tpl="49" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(149, 152, 162);">mira.k · 847 votes</span>
+      </div>
+      <div data-dc-tpl="50" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div data-dc-tpl="51" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span data-dc-tpl="52" style="border: 1px solid rgb(42, 42, 51); border-radius: 7px; padding: 7px 11px; font-size: 12px; color: rgb(182, 182, 192); background: rgb(20, 20, 24); white-space: nowrap;">scheduler A</span>
+          <span data-dc-tpl="53" style="color: rgb(74, 74, 84);">→</span>
+          <span data-dc-tpl="54" style="border: 1.5px solid rgb(224, 169, 62); border-radius: 7px; padding: 7px 11px; font-size: 12px; background: rgba(224, 169, 62, 0.08); white-space: nowrap;">DST boundary · suspect</span>
+          <span data-dc-tpl="55" style="color: rgb(74, 74, 84);">→</span>
+          <span data-dc-tpl="56" style="border: 1.5px solid rgb(24, 182, 99); border-radius: 11px; padding: 7px 11px; font-size: 12px; background: rgba(24, 182, 99, 0.08); white-space: nowrap;">job ledger (truth)</span>
+          <span data-dc-tpl="57" style="margin-left: auto; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(74, 74, 84);">omission defended: replica lag — reads only</span>
+        </div>
+        <div data-dc-tpl="58" style="font-size: 13.5px; color: rgb(156, 156, 166); font-style: italic; max-width: 68ch;">"Why it won: the map ruled out the deploy in one sentence — the duplicate fired at 02:00 in two timezones, and only one system doesn't know what time it is."</div>
+      </div>
+    </div>
+
+    
+    <div data-dc-tpl="59" style="margin-top: 18px; border: 1px solid rgb(30, 30, 36); border-radius: 16px; background: rgb(17, 17, 21); overflow: hidden;">
+      <div data-dc-tpl="60" style="padding: 14px 24px; border-bottom: 1px solid rgb(30, 30, 36); font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgb(149, 152, 162);">This week · most-voted so far</div>
+      
+        <div data-dc-tpl="62" style="display: grid; grid-template-columns: 30px 1fr auto auto; gap: 14px; align-items: center; padding: 13px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <span data-dc-tpl="63" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84);"><span class="sc-interp">01</span></span>
+          <span data-dc-tpl="64" style="min-width: 0px;">
+            <span data-dc-tpl="65" style="display: block; font-size: 13.5px; font-weight: 600;"><span class="sc-interp">The retry wrapper can't tell timeout from failure</span></span>
+            <span data-dc-tpl="66" style="display: block; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">dev_ondrej · Gold II</span></span>
+          </span>
+          <span data-dc-tpl="67" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); white-space: nowrap;"><span class="sc-interp">214</span> votes</span>
+          <span data-dc-tpl="68" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.07em; padding: 4px 9px; border-radius: 5px; color: rgb(24, 182, 99); border: 1px solid rgba(24, 182, 99, 0.4); white-space: nowrap;"><span class="sc-interp">SUSPECT NAMED</span></span>
+        </div>
+      
+        <div data-dc-tpl="62" style="display: grid; grid-template-columns: 30px 1fr auto auto; gap: 14px; align-items: center; padding: 13px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <span data-dc-tpl="63" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84);"><span class="sc-interp">02</span></span>
+          <span data-dc-tpl="64" style="min-width: 0px;">
+            <span data-dc-tpl="65" style="display: block; font-size: 13.5px; font-weight: 600;"><span class="sc-interp">Two "accepted"s, one queue: at-least-once delivery</span></span>
+            <span data-dc-tpl="66" style="display: block; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">sana.builds · Platinum</span></span>
+          </span>
+          <span data-dc-tpl="67" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); white-space: nowrap;"><span class="sc-interp">186</span> votes</span>
+          <span data-dc-tpl="68" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.07em; padding: 4px 9px; border-radius: 5px; color: rgb(143, 160, 255); border: 1px solid rgba(61, 90, 254, 0.4); white-space: nowrap;"><span class="sc-interp">2 OMISSIONS DEFENDED</span></span>
+        </div>
+      
+        <div data-dc-tpl="62" style="display: grid; grid-template-columns: 30px 1fr auto auto; gap: 14px; align-items: center; padding: 13px 24px; border-bottom: 1px solid rgb(30, 30, 36);">
+          <span data-dc-tpl="63" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84);"><span class="sc-interp">03</span></span>
+          <span data-dc-tpl="64" style="min-width: 0px;">
+            <span data-dc-tpl="65" style="display: block; font-size: 13.5px; font-weight: 600;"><span class="sc-interp">The webhook marks "sent" before the send</span></span>
+            <span data-dc-tpl="66" style="display: block; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9.5px; color: rgb(149, 152, 162);"><span class="sc-interp">tomasz.w · Gold I</span></span>
+          </span>
+          <span data-dc-tpl="67" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10.5px; color: rgb(143, 160, 255); white-space: nowrap;"><span class="sc-interp">121</span> votes</span>
+          <span data-dc-tpl="68" style="font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 9px; letter-spacing: 0.07em; padding: 4px 9px; border-radius: 5px; color: rgb(224, 169, 62); border: 1px solid rgba(224, 169, 62, 0.4); white-space: nowrap;"><span class="sc-interp">BOLD CLAIM</span></span>
+        </div>
+      
+      <div data-dc-tpl="69" style="padding: 13px 24px; font-family: &quot;JetBrains Mono&quot;, monospace; font-size: 10px; color: rgb(74, 74, 84); font-style: italic;">votes weigh defended omissions over pretty boxes — the rubric is public</div>
+    </div>
+  </main></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{}">
+class Component extends DCLogic {
+  state = { entry: '', submitted: false, entryError: false };
+
+  renderVals() {
+    return {
+      setEntry: (e) => this.setState({ entry: e.target.value, entryError: false }),
+      submit: () => {
+        if (this.state.entry.trim().length < 12) { this.setState({ entryError: true }); return; }
+        this.setState({ submitted: true, entryError: false });
+        try { if (window.SageState) window.SageState.set('challengeSubmitted', true); } catch (e) {}
+      },
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      entryError: this.state.entryError,
+
+      standings: [
+        { rank: '01', title: 'The retry wrapper can\'t tell timeout from failure', author: 'dev_ondrej · Gold II', votes: 214, tag: 'SUSPECT NAMED', tagColor: '#18B663', tagBorder: 'rgba(24,182,99,0.4)' },
+        { rank: '02', title: 'Two "accepted"s, one queue: at-least-once delivery', author: 'sana.builds · Platinum', votes: 186, tag: '2 OMISSIONS DEFENDED', tagColor: '#8FA0FF', tagBorder: 'rgba(61,90,254,0.4)' },
+        { rank: '03', title: 'The webhook marks "sent" before the send', author: 'tomasz.w · Gold I', votes: 121, tag: 'BOLD CLAIM', tagColor: '#E0A93E', tagBorder: 'rgba(224,169,62,0.4)' },
+      ],
+    };
+  }
+}
+</script>
+
+
+<sage-search></sage-search>

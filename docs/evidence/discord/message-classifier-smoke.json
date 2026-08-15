@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "messageId": "classifier-smoke-1782008069296",
+  "messageId": "classifier-smoke-1782337898449",
   "classification": {
-    "discord_message_id": "classifier-smoke-1782008069296",
+    "discord_message_id": "classifier-smoke-1782337898449",
     "category": "question",
     "recommended_action": "track_question",
     "confidence": 0.8133,
@@ -28,11 +28,11 @@
     },
     "rationale": "question -> track_question because has question, mentions build, content opportunity",
     "classifier_version": "discord-message-classifier-v1",
-    "classified_at": "2026-06-21T02:14:29.501+00:00",
-    "created_at": "2026-06-21T02:14:29.651824+00:00",
-    "updated_at": "2026-06-21T02:14:29.501+00:00"
+    "classified_at": "2026-06-24T21:51:38.698+00:00",
+    "created_at": "2026-06-24T21:51:38.847054+00:00",
+    "updated_at": "2026-06-24T21:51:38.698+00:00"
   },
   "cleanedUp": true,
-  "startedAt": "2026-06-21T02:14:29.294Z",
-  "finishedAt": "2026-06-21T02:14:29.943Z"
+  "startedAt": "2026-06-24T21:51:38.448Z",
+  "finishedAt": "2026-06-24T21:51:39.185Z"
 }

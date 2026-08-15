@@ -111,7 +111,8 @@ export async function POST(req: Request) {
     .select('id, thread_id, body, sender_id, attachments, created_at, parent_id')
     .single();
   if (error || !inserted) {
-    return NextResponse.json({ error: error?.message ?? 'Insert failed' }, { status: 500 });
+    console.error('[messages/send] message insert failed', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 
   await sb

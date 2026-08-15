@@ -64,10 +64,22 @@ function isPortalChrome(pathname: string) {
     pathname.startsWith('/academy-admin') ||
     // The signed-in learner area + academy auth use their own chrome, not the studio nav.
     pathname === '/academy/dashboard' ||
+    pathname === '/academy/onboarding' ||
+    pathname === '/academy/catalog' ||
+    pathname.startsWith('/academy/course/') ||
+    pathname === '/academy/evidence' ||
+    pathname === '/academy/resources' ||
+    pathname === '/academy/review' ||
+    pathname === '/academy/leagues' ||
+    pathname === '/academy/profile' ||
+    pathname === '/academy/refer' ||
+    pathname === '/academy/community' ||
+    pathname === '/academy/build' ||
     pathname === '/academy/my-courses' ||
     pathname === '/academy/signup' ||
     pathname === '/academy/preview' ||
     pathname === '/academy/join' ||
+    pathname === '/academy/legal' ||
     pathname === '/academy/resources/sprint-loop' ||
     pathname === '/artifacts/sample-audit' ||
     pathname.startsWith('/academy/engine') ||
@@ -156,12 +168,53 @@ export async function updateSession(request: NextRequest) {
   // Protected zones.
   const needsAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
   const needsApprovedUser = pathname === '/portal' || pathname.startsWith('/portal/');
+  // Academy authoring studio: must at least be signed in to reach it (the page-level
+  // getAdminUser enforces the academy admin/owner role — the canonical check). Gating
+  // anon here keeps the admin UI bundle/RSC payload from rendering to the public.
+  const needsAcademyAdmin = pathname === '/academy-admin' || pathname.startsWith('/academy-admin/');
+  // The academy PRODUCT (catalog, courses, lessons, labs, dashboard, build, evidence,
+  // resources) requires a signed-in account — you must log in to see the actual academy.
+  // Public stays: the marketing landing (/academy), signup, pricing (/join), the sprint
+  // demo (/engine), the printable sprint-loop, and shareable certificates.
+  const isAcademyPublic =
+    pathname === '/academy' ||
+    pathname === '/academy/signup' ||
+    pathname === '/academy/join' ||
+    pathname === '/academy/engine' ||
+    pathname === '/academy/engine/lab' ||
+    pathname === '/academy/resources/sprint-loop' ||
+    pathname === '/academy/efficacy' ||
+    pathname === '/academy/legal' ||
+    // Interview Mastery add-on: the marketing/pricing landing is public (like /academy + /join).
+    // Every other /academy/interview/* surface stays behind needsAcademyLogin.
+    pathname === '/academy/interview/mastery' ||
+    pathname.startsWith('/academy/voice/') ||
+    pathname.startsWith('/academy/u/') ||
+    pathname.startsWith('/academy/certificate/') ||
+    // Concept pages: programmatic-SEO lesson previews — public by design.
+    pathname === '/academy/concepts' ||
+    pathname.startsWith('/academy/concepts/');
+  const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
-  if (needsAdmin && process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' && !process.env.VERCEL) {
+  if (
+    needsAdmin &&
+    process.env.NODE_ENV !== 'production' &&
+    process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' &&
+    !process.env.VERCEL
+  ) {
     return response;
   }
 
-  if (!user && (needsAdmin || needsApprovedUser)) {
+  // Academy product: just needs a signed-in account (any user), routed to the academy
+  // login door. No approval/role check — academy learners aren't studio-approved.
+  if (!user && needsAcademyLogin) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    url.search = `?audience=academy&next=${encodeURIComponent(pathname + (search || ''))}`;
+    return redirectWithSessionCookies(url, response);
+  }
+
+  if (!user && (needsAdmin || needsApprovedUser || needsAcademyAdmin)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     url.search = `?next=${encodeURIComponent(pathname + (search || ''))}`;

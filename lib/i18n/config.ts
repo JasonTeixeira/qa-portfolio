@@ -1,8 +1,8 @@
 /**
- * i18n configuration (BLOG_SEO_ENGINE §8). Whole-site localization via a middleware
+ * i18n configuration (BLOG_SEO_ENGINE §8). Whole-site localization via the Next.js proxy
  * rewrite: the default locale (en) stays at its current unprefixed URLs so production
  * SEO is untouched; every other locale is served at a `/<locale>/…` prefix that the
- * middleware rewrites back onto the same routes, with the locale carried in a header.
+ * proxy rewrites back onto the same routes, with the locale carried in a header.
  *
  * Top 10 by global internet reach — deliberately includes RTL (ar) and CJK (zh, ja)
  * so the architecture handles the hard cases from day one.

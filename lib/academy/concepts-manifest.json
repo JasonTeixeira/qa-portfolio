@@ -1,0 +1,359 @@
+{
+  "generated": "2026-08-15",
+  "courses": [
+    {
+      "slug": "programming-fundamentals",
+      "title": "Programming Fundamentals",
+      "description": "Become fluent with code, execution, debugging, and clean input handling.",
+      "trackSlug": "foundations"
+    },
+    {
+      "slug": "career-engineering_judgment_foundation",
+      "title": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "description": "Complete Course 00: Engineering Judgment And Sage Learning Operating System with inspectable artifacts, realistic failure repair, proof evidence, explain-back, transfer, and portfolio packaging.",
+      "trackSlug": "foundations"
+    }
+  ],
+  "concepts": [
+    {
+      "slug": "your-first-program",
+      "title": "Your First Program",
+      "question": "How do I write and run my first program?",
+      "summary": "Write and run your very first program: make the computer print an exact line of text on screen, and understand the edit → run → see-output loop that every programmer lives in.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 20
+    },
+    {
+      "slug": "variables-names-for-values",
+      "title": "Variables: Names for Values",
+      "question": "What is a variable in programming and how do I use one?",
+      "summary": "Store a value in a named variable, change it by reassigning, and use a variable in a calculation — so your programs can remember and reuse values instead of repeating them.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "numbers-and-strings-the-everyday-types",
+      "title": "Numbers & Strings: The Everyday Types",
+      "question": "What is the difference between numbers and strings in Python?",
+      "summary": "Tell numbers and text apart, do arithmetic on numbers, convert between text and numbers when you need to, and build a clean formatted line by dropping values into text with an f-string.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 35
+    },
+    {
+      "slug": "reading-input-make-the-program-listen",
+      "title": "Reading Input: Make the Program Listen",
+      "question": "How do I read user input in Python and convert it to a number?",
+      "summary": "Make your program RECEIVE data instead of only using values you typed in: read a line with input(), convert it to a number with int() when you need to do math, and print an exact line built from what you read.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 30
+    },
+    {
+      "slug": "booleans-and-decisions-make-the-program-choose",
+      "title": "Booleans & Decisions: Make the Program Choose",
+      "question": "How do if, elif, and else statements make a program choose?",
+      "summary": "Make your program CHOOSE: compare values to get a True/False answer, combine conditions with and/or/not, and run different code with if / elif / else so the program reacts instead of always doing the same thing.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 35
+    },
+    {
+      "slug": "lists-hold-many-values-at-once",
+      "title": "Lists: Hold Many Values at Once",
+      "question": "How do I store many values in a Python list?",
+      "summary": "Hold many values under one name with a list: create one, read an item by its position, measure it with len(), add to it with append(), and ask whether something is in it.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 35
+    },
+    {
+      "slug": "loops-do-something-for-every-item",
+      "title": "Loops: Do Something for Every Item",
+      "question": "How do for loops and range() work in Python?",
+      "summary": "Do something to every item in a sequence without copy-paste: loop over a list with for, repeat an action a fixed number of times with range(), and build up a result (a total or a count) in a variable as you go.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 40
+    },
+    {
+      "slug": "functions-name-and-reuse-a-block-of-code",
+      "title": "Functions: Name and Reuse a Block of Code",
+      "question": "How do I define a function in Python with def and return?",
+      "summary": "Define your own function with def, give it inputs (parameters), send a value back with return, and call it to reuse a block of code — so you stop copy-pasting the same steps and start naming them.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 40
+    },
+    {
+      "slug": "build-and-ship-a-tiny-program",
+      "title": "Build & Ship a Tiny Program",
+      "question": "How do I combine variables, loops, and functions into a complete program?",
+      "summary": "Combine everything from First Steps — a variable, a list, a loop, an if, and a function — into ONE small program that processes real in-code data and prints a useful result. This is your first genuinely shipped program.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 50
+    },
+    {
+      "slug": "input-validation-trust-nothing-at-the-boundary",
+      "title": "Input Validation: Trust Nothing at the Boundary",
+      "question": "How do I validate untrusted input at the boundary?",
+      "summary": "Write a validator that rejects malformed, wrong-type, out-of-range, and hostile input at the boundary — and explain what belongs at the client, server, and database.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "error-handling-make-failures-loud-safe-and-diagnosable",
+      "title": "Error Handling: Make Failures Loud, Safe, and Diagnosable",
+      "question": "How should I handle exceptions without swallowing errors?",
+      "summary": "Handle errors so failures surface loudly, users get a safe clear message, operators get enough context to diagnose — and you never swallow an exception.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "functions-and-modules-build-small-testable-units",
+      "title": "Functions & Modules: Build Small, Testable Units",
+      "question": "What is a pure function and why is it easier to test?",
+      "summary": "Write a small, single-purpose, PURE function with a clear signature — and a test that proves it — then refactor a side-effecting function to be testable.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "types-and-data-know-what-a-value-really-is",
+      "title": "Types & Data: Know What a Value Really Is",
+      "question": "Why does a value's type matter and how do I convert types safely?",
+      "summary": "Identify a value's type, convert input safely at the boundary, choose the right data structure, and write a function that can't be fooled by a string that looks like a number.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "control-flow-guard-clauses-and-clean-loops",
+      "title": "Control Flow: Guard Clauses & Clean Loops",
+      "question": "What are guard clauses and how do they replace nested if statements?",
+      "summary": "Flatten nested conditionals with guard clauses, write a correct loop, and avoid the classic loop bugs (off-by-one, infinite loop, mutate-while-iterating).",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "files-and-i-o-read-safely-close-always",
+      "title": "Files & I/O: Read Safely, Close Always",
+      "question": "How do I read a file safely in Python with a context manager?",
+      "summary": "Read a file with a context manager so it always closes, parse it into a dict, stream large files instead of loading them, and handle the missing-file case explicitly.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "testing-and-debugging-catch-the-bug-before-prod",
+      "title": "Testing & Debugging: Catch the Bug Before Prod",
+      "question": "How do I write a test that actually catches a real bug?",
+      "summary": "Write the cheapest test that catches a real bug — including the edge/negative case the happy path misses — and turn a bug into a regression test.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "cli-safety-safe-defaults-and-dry-runs",
+      "title": "CLI Safety: Safe Defaults & Dry Runs",
+      "question": "How do I build a CLI tool with safe defaults and a dry-run mode?",
+      "summary": "Build a command that defaults to dry-run, never defaults to production, and requires explicit confirmation for high-blast-radius actions.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "git-fundamentals-atomic-commits-you-can-trust",
+      "title": "Git Fundamentals: Atomic Commits You Can Trust",
+      "question": "What is an atomic Git commit and why does it matter?",
+      "summary": "Make small atomic commits with clear messages, use branches to isolate work, and recover safely when something goes wrong — never panic-force-push a shared branch.",
+      "courseSlug": "programming-fundamentals",
+      "courseTitle": "Programming Fundamentals",
+      "track": "foundations",
+      "durationMin": 75
+    },
+    {
+      "slug": "the-problem-frame",
+      "title": "The Problem Frame",
+      "question": "How do I frame an ambiguous engineering problem before jumping to solutions?",
+      "summary": "Take one ambiguous, real decision you are facing (or a realistic one) and write the Frame: the actual problem in one sentence, the non-negotiable constraint, the decision to be made, and the specific failure you fear — solution-free.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-diagnostic-route",
+      "title": "The Diagnostic Route",
+      "question": "How do I rank hypotheses and design tests to diagnose a failure?",
+      "summary": "Take the feared failure from your Frame and write the Diagnostic Route: at least three ranked hypotheses for the cause, the single test that would DISQUALIFY each, and the order you would run them — cheapest disqualifier first.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-system-map",
+      "title": "The System Map",
+      "question": "How do I map a system to find the blast radius of a failure?",
+      "summary": "Draw the smallest accurate map of the system your decision lives in — components, directed flow, the suspect edge — then name the blast radius if that edge fails.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-retrieval-protocol",
+      "title": "The Retrieval Protocol",
+      "question": "How do I practice engineering decisions from memory with calibrated confidence?",
+      "summary": "Turn the three moves of this module — Frame, Route, Map — into a closed-note Retrieval Protocol you can run from memory on a real decision, logging a calibrated confidence (1–5) on each step and catching where confidence outran reality.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 30
+    },
+    {
+      "slug": "tiny-artifact-make-the-decision-inspectable",
+      "title": "Tiny Artifact: Make the Decision Inspectable",
+      "question": "What is a decision memo and how do I make an engineering decision inspectable?",
+      "summary": "Turn an ambiguous engineering decision into one small, named, inspectable artifact — engineering_judgment_decision_memo.md — that a reviewer can open and judge in under two minutes.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "failure-injection-break-your-own-decision-first",
+      "title": "Failure Injection: Break Your Own Decision First",
+      "question": "How do I stress-test my own engineering decision by injecting failure?",
+      "summary": "Deliberately inject a realistic failure into the decision from your engineering_judgment_decision_memo.md, and add a failure autopsy that names what breaks, how you would detect it, and what you would do — turning a happy-path memo into one that survives reality.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "tradeoff-decision-defend-the-call-under-pressure",
+      "title": "Tradeoff Decision: Defend the Call Under Pressure",
+      "question": "How do I document and defend an engineering tradeoff decision?",
+      "summary": "Turn the decision in your engineering_judgment_decision_memo.md into a defended tradeoff: a comparison of real options against the constraints that actually bind, with a chosen option, a reversal condition, and the risk if you are wrong.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "testa-proof-prove-it-with-the-strongest-evidence",
+      "title": "Testa Proof: Prove It With the Strongest Evidence",
+      "question": "What is the strongest evidence to prove an engineering decision holds?",
+      "summary": "md with a Testa proof: the strongest available evidence that the decision actually holds — executable test, contract/schema check, a domain check (a11y/security/reliability/eval), or a reviewer rubric when execution is impossible — and a one-line portfolio claim that names the proof, not the topic.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "explain-it-back-the-feynman-gate",
+      "title": "Explain It Back: The Feynman Gate",
+      "question": "How do I use the Feynman technique to prove I understand a technical decision?",
+      "summary": "Prove you actually understand a hard decision by teaching it back in a fixed order — problem, context, artifact, failure, proof, tradeoff, repair, transfer — by name, pointing at the exact evidence a reviewer would inspect.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-review-rubric-score-your-own-work",
+      "title": "The Review Rubric: Score Your Own Work",
+      "question": "How do I build a rubric to score my own engineering work?",
+      "summary": "Build a review rubric: a fixed, inspectable scoring contract that turns \"this feels solid\" into a defensible number. Then score your own decision memo with it — honestly, respecting the caps — so a second reviewer applying the same rubric lands within a point of you.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-repair-loop-fix-the-weakest-part",
+      "title": "The Repair Loop: Fix the Weakest Part",
+      "question": "How do I systematically fix the weakest part of my work and prove it improved?",
+      "summary": "Run the repair loop: take the single weakest part your rubric flagged, fix exactly that, re-apply the same rubric, and prove the score moved for the right reason. The output is a repair log that shows pre-score, root cause, the smallest fix that lifts the cap, and the re-tested post-score.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "the-spacing-queue-make-it-stick",
+      "title": "The Spacing Queue: Make It Stick",
+      "question": "How does spaced repetition keep engineering judgment from decaying?",
+      "summary": "Build a spacing queue that keeps your hard-won judgment from decaying: each card is a decision you recall without notes at expanding intervals, interleaved across topics, with calibrated confidence routing shaky-but-confident recalls back into repair.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "transfer-challenge",
+      "title": "Transfer Challenge",
+      "question": "How do I transfer an engineering decision method to an unfamiliar domain?",
+      "summary": "Apply the engineering-judgment pattern — decide, show the artifact, name the failure, prove it, defend it — COLD to a domain you were never taught. Produce a decision memo that survives a reviewer who never saw your original work.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "package-evidence",
+      "title": "Package Evidence",
+      "question": "How do I package evidence so a reviewer can verify my engineering judgment?",
+      "summary": "Turn last lesson's decision into packaged EVIDENCE — a ledgered, inspectable trail that lets a reviewer who was not in the room verify your judgment without taking your word for it. The portfolio claim must name the proof, not the topic.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "unlock-gate",
+      "title": "Unlock Gate",
+      "question": "What is an honest gate and how do I know when my work actually passes?",
+      "summary": "Run an honest unlock gate on your own work: it opens ONLY when the evidence exists, refuses to round a gap up to a pass, and routes every miss to a specific repair before re-checking. Gate yourself the way a reviewer would — and pass or repair honestly.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 25
+    },
+    {
+      "slug": "capstone-rehearsal",
+      "title": "Capstone Rehearsal",
+      "question": "How do I assemble a mastery packet that proves engineering judgment end to end?",
+      "summary": "Rehearse the whole course as one gate. Assemble a mastery packet that proves every capability Course 00 built — decide under ambiguity, package evidence, gate honestly, transfer judgment — and defend it the way you would in a real review. Pass it for real and you have earned what comes next.",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "courseTitle": "Course 00: Engineering Judgment And Sage Learning Operating System",
+      "track": "foundations",
+      "durationMin": 30
+    }
+  ]
+}

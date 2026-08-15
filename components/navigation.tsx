@@ -139,6 +139,13 @@ const resourcesMega: MegaSection[] = [
         badge: 'FORMING',
       },
       {
+        href: '/interview',
+        label: 'Interview Mastery',
+        description: 'Unlimited AI mock interviews, honestly scored',
+        icon: BookOpen,
+        badge: 'NEW',
+      },
+      {
         href: '/pov',
         label: 'POV',
         description: 'Opinions, hot takes, principles',

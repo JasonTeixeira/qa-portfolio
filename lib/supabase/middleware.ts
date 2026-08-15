@@ -190,7 +190,10 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/interview/mastery' ||
     pathname.startsWith('/academy/voice/') ||
     pathname.startsWith('/academy/u/') ||
-    pathname.startsWith('/academy/certificate/');
+    pathname.startsWith('/academy/certificate/') ||
+    // Concept pages: programmatic-SEO lesson previews — public by design.
+    pathname === '/academy/concepts' ||
+    pathname.startsWith('/academy/concepts/');
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
   if (

@@ -176,12 +176,16 @@ const LAB_STARTER = `def validate_age(value):
 
 
 # --- test harness (do not edit) ---
+outcomes = []
 for v in [25, "25", -3, 200]:
     try:
         validate_age(v)
         print(f"accepted: {v!r}")
+        outcomes.append("accepted")
     except ValueError as e:
         print(f"rejected {v!r}: {e}")
+        outcomes.append("rejected")
+print(f"PASS: {outcomes == ['accepted', 'rejected', 'rejected', 'rejected']}")
 `
 
 const blocks = [
@@ -272,10 +276,10 @@ const blocks = [
     type: 'lab',
     title: 'Write the validator',
     summary:
-      'Implement validate_age(value): accept only an int in 0–120, otherwise raise ValueError with a clear message. The harness then throws four inputs at it — including the hostile string "25". Make it reject what should be rejected.',
+      'Implement validate_age(value): accept only an int in 0–120, otherwise raise ValueError with a clear message. The harness then throws four inputs at it — including the hostile string "25". Accept the valid 25, reject the rest.',
     language: 'python',
     starter: LAB_STARTER,
-    check: "rejected '25'",
+    check: 'PASS: True',
   },
   {
     type: 'debug',
@@ -381,12 +385,21 @@ const ERROR_LAB_STARTER = `def safe_divide(a, b):
 
 
 # --- test harness (do not edit) ---
+ok = False
 try:
-    print("ok:", safe_divide(10, 2))
+    result = safe_divide(10, 2)
+    ok = result == 5.0
+    print("ok:", result)
+except ValueError:
+    print("BUG: dividing 10 by 2 raised an error!")
+surfaced = False
+try:
     safe_divide(10, 0)
     print("BUG: no error raised — it was swallowed!")
 except ValueError as e:
     print(f"error surfaced: {e}")
+    surfaced = True
+print(f"PASS: {ok and surfaced}")
 `
 
 const errorHandlingBlocks = [
@@ -475,10 +488,10 @@ def charge_card(user_id, amount):
     type: 'lab',
     title: 'Make the failure loud',
     summary:
-      'Implement safe_divide(a, b) like the worked example: catch ZeroDivisionError, log operator context, and `raise ValueError("cannot divide by zero") from e` — never swallow it. The checkpoint proves the error SURFACES; the verification list below then confirms you caught, logged, and chained it.',
+      'Implement safe_divide(a, b) like the worked example: catch ZeroDivisionError, log operator context, and `raise ValueError("cannot divide by zero") from e` — never swallow it. The checkpoint proves BOTH that the happy path still returns 5.0 AND that the error SURFACES; the verification list below then confirms you caught, logged, and chained it.',
     language: 'python',
     starter: ERROR_LAB_STARTER,
-    check: 'error surfaced: cannot divide by zero',
+    check: 'PASS: True',
   },
   {
     type: 'debug',
@@ -888,7 +901,7 @@ const typesBlocks = [
     type: 'lab',
     title: "Don't be fooled by a string",
     summary:
-      "Implement total_quantity(values) where values is a list of strings like ['2','3','5']. Convert each to an int and RETURN the sum — '2'+'3' must give 5, not '23'. Reject any value that isn't a whole number.",
+      "Implement total_quantity(values) where values is a list of strings like ['2','3','5']. Convert each to an int and RETURN the sum — the elements '2' and '3' must contribute 5 to the sum, not concatenate to '23'. Reject any value that isn't a whole number.",
     language: 'python',
     starter: TYPES_LAB_STARTER,
     check: 'PASS: True',
@@ -940,7 +953,7 @@ const typesBlocks = [
     intro: 'Prove it — no vibes:',
     items: [
       "total_quantity(['2','3','5']) returns 10 (an int, not '235')",
-      "'2' + '3' produces 5, not '23' — values are converted, not concatenated",
+      "total_quantity(['2','3']) returns 5 — elements are converted with int() before summing, never concatenated",
       'A non-numeric value is REJECTED with a ValueError',
       'The function returns the right TYPE (int, not str)',
       'A test covers a normal case AND a bad-input case',
@@ -1253,19 +1266,20 @@ const filesBlocks = [
   },
   {
     type: 'diagram',
-    title: 'The `with` block guarantees the close — on every exit',
-    subtitle: 'Whether the body succeeds, raises, or hits a missing file, the context manager releases the handle. A bare `open()` only closes on the happy path.',
+    title: 'The `with` block guarantees the close — once the file is open',
+    subtitle: 'Once open succeeds, the context manager releases the handle whether the body succeeds or raises. A failed open never acquires a handle — the error surfaces with nothing to close. A bare `open()` only closes on the happy path.',
     rankdir: 'LR',
     nodes: [
       { id: 'open', label: 'with open(path)', description: 'acquire the handle', kind: 'process', tone: 'accent' },
       { id: 'missing', label: 'Missing file?', description: 'FileNotFoundError surfaces', kind: 'decision', tone: 'warning' },
       { id: 'stream', label: 'for line in f', description: 'stream, not .read()', kind: 'process', tone: 'success' },
       { id: 'raise', label: 'Parse error?', description: 'exception mid-read', kind: 'decision', tone: 'warning' },
-      { id: 'close', label: 'Handle closed', description: 'guaranteed on every path', kind: 'store', tone: 'success' },
+      { id: 'close', label: 'Handle closed', description: 'guaranteed once open succeeded', kind: 'store', tone: 'success' },
+      { id: 'noopen', label: 'FileNotFoundError surfaces', description: 'open failed — no handle was ever acquired, nothing to close', kind: 'store', tone: 'warning' },
     ],
     edges: [
       { from: 'open', to: 'missing', label: 'try to open', kind: 'sync' },
-      { from: 'missing', to: 'close', label: 'raises → still closes', kind: 'control', tone: 'warning' },
+      { from: 'missing', to: 'noopen', label: 'raises — nothing was opened', kind: 'control', tone: 'warning' },
       { from: 'missing', to: 'stream', label: 'opened', kind: 'data', tone: 'success' },
       { from: 'stream', to: 'raise', label: 'per line', kind: 'sync' },
       { from: 'raise', to: 'close', label: 'error → still closes', kind: 'control', tone: 'warning' },
@@ -1274,7 +1288,7 @@ const filesBlocks = [
     legend: [
       { tone: 'accent', label: 'acquire' },
       { tone: 'success', label: 'stream + guaranteed close' },
-      { tone: 'warning', label: 'errors surface, handle still released' },
+      { tone: 'warning', label: 'errors surface; handle released only if it was acquired' },
     ],
   },
   {
@@ -1530,7 +1544,7 @@ assert average([2, 4, 6]) == 4`,
   },
   {
     type: 'compare',
-    title: 'You found a bug: just fix it vs fix it AND add a test',
+    title: 'You found a bug: fix it AND add a test vs just fix it',
     subtitle: 'Same patch ships. Only one stops the bug from coming back.',
     left: {
       label: 'Fix + regression test',
@@ -1909,7 +1923,7 @@ const gitBlocks = [
       { id: 'revert', label: 'git revert', description: 'undo ONE change safely', kind: 'process', tone: 'success' },
       { id: 'bisect', label: 'git bisect', description: 'find the bad commit fast', kind: 'process', tone: 'success' },
       { id: 'reflog', label: 'git reflog', description: 'recover a "lost" commit', kind: 'store', tone: 'success' },
-      { id: 'force', label: 'force-push shared', description: 'rewrites others history', kind: 'external', tone: 'warning' },
+      { id: 'force', label: 'force-push shared', description: "rewrites others' history", kind: 'external', tone: 'warning' },
     ],
     edges: [
       { from: 'atomic', to: 'revert', label: 'enables', kind: 'data', tone: 'success' },
@@ -2050,7 +2064,7 @@ async function main() {
       subtitle: 'Become fluent with code, execution, debugging, and clean input handling.',
       topic: 'engineering',
       level: 'Beginner',
-      hours: 1,
+      hours: 11,
       sort: 0,
       status: 'published',
       pretest,

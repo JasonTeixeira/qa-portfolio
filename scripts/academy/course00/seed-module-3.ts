@@ -203,7 +203,7 @@ const explainBackBlocks: LessonBlock[] = [
     task:
       'Name what is broken in this explain-back. Which of the eight moves are missing or fake, and which named evidence would a reviewer demand that this engineer cannot produce?',
     fix:
-      'It skips ARTIFACT (no memo, no config to inspect), skips FAILURE (no named failure mode, so nothing to watch), and fakes PROOF — "works on my machine" and "demo went fine" are not parity-against-a-control measurements; they are happy-path anecdotes. The TRADEOFF is also self-serving ("I know the new framework") rather than risk-based. Repair: produce the artifact, name the most likely failure, replace the anecdote with a real proof metric vs. a control, and re-justify the tradeoff on blast radius, not personal comfort. Only then does the transfer ("rewrite the others") earn the right to exist.',
+      'It skips ARTIFACT (no memo, no config to inspect), skips FAILURE (no named failure mode, so nothing to watch), skips REPAIR (nothing was ever deliberately broken and fixed, so the claim was never stress-tested), and fakes PROOF — "works on my machine" and "demo went fine" are not parity-against-a-control measurements; they are happy-path anecdotes. The TRADEOFF is also self-serving ("I know the new framework") rather than risk-based. Repair: produce the artifact, name the most likely failure, replace the anecdote with a real proof metric vs. a control, and re-justify the tradeoff on blast radius, not personal comfort. Only then does the transfer ("rewrite the others") earn the right to exist.',
   },
   {
     type: 'quiz',
@@ -318,6 +318,7 @@ const reviewRubricBlocks: LessonBlock[] = [
       { id: 'proof', label: 'Proof', description: '"demo went fine" = anecdote', kind: 'decision', tone: 'warning' },
       { id: 'tradeoff', label: 'Tradeoff', description: 'chosen + rejected + reversal', kind: 'process', tone: 'success' },
       { id: 'repair', label: 'Repair path', description: 'flips at threshold', kind: 'process', tone: 'success' },
+      { id: 'transfer', label: 'Transfer', description: 'same gate elsewhere', kind: 'process', tone: 'success' },
       { id: 'cap', label: 'CAP 78', description: 'ceiling set by weakest', kind: 'store', tone: 'warning' },
       { id: 'score', label: 'Score = 78', description: 'NOT an average', kind: 'store', tone: 'accent' },
     ],
@@ -326,6 +327,7 @@ const reviewRubricBlocks: LessonBlock[] = [
       { from: 'failure', to: 'score', label: 'pass', kind: 'data', tone: 'muted' },
       { from: 'tradeoff', to: 'score', label: 'pass', kind: 'data', tone: 'muted' },
       { from: 'repair', to: 'score', label: 'pass', kind: 'data', tone: 'muted' },
+      { from: 'transfer', to: 'score', label: 'pass', kind: 'data', tone: 'muted' },
       { from: 'proof', to: 'cap', label: 'FAIL caps at 78', kind: 'control', tone: 'warning' },
       { from: 'cap', to: 'score', label: 'ceiling wins', kind: 'control', tone: 'warning' },
     ],
@@ -403,9 +405,9 @@ const reviewRubricBlocks: LessonBlock[] = [
  Average of the six = 7.5, so I'm scoring it 90/100. Approve."`,
     language: 'bash',
     task:
-      'This score is wrong even though the per-dimension reads are reasonable. Name the two structural errors in how the rubric was applied.',
+      'This score is wrong even though the per-dimension reads are reasonable. Name the three errors in how the rubric was applied.',
     fix:
-      'First, it AVERAGES past the caps: a failure-case of 3 and a proof that is "just a screenshot" should CAP the artifact (around 78–82), not get diluted into a 7.5 average that rounds up to 90. Second, it scores "Writing" and "Effort" — author/charisma dimensions that do not belong in an artifact review; they inflate the number with things a stranger acting on the memo at 3am does not care about. Repair: drop the author dimensions, apply the proof and failure caps, and the real score lands near 78 with an obvious repair target — add a real proof measurement and a named failure mode.',
+      'First, it AVERAGES past the caps: a failure-case of 3 and a proof that is "just a screenshot" should CAP the artifact (around 78–82), not get diluted into a 7.5/10 average — which is 75/100 anyway; jumping 7.5 to 90 is not rounding, it is the second error: the reviewer inflated even their own broken average. Third, it scores "Writing" and "Effort" — author/charisma dimensions that do not belong in an artifact review; they inflate the number with things a stranger acting on the memo at 3am does not care about. Repair: drop the author dimensions, apply the proof and failure caps, and the real score lands near 78 with an obvious repair target — add a real proof measurement and a named failure mode.',
   },
   {
     type: 'quiz',
@@ -659,13 +661,13 @@ Each card = one hard-won judgment to recall WITHOUT notes, then re-score honestl
 card                          | due (same/3/7/30) | last recall | confidence
 ------------------------------|-------------------|-------------|-----------
 checkout flag: proof-vs-control | day 7            | passed      | 4
-tax-line failure autopsy        | day 3            | shaky       | 2  → repair
+tax-line failure autopsy        | day 3            | shaky       | 4  → repair
 rubric cap rule (no averaging)  | day 30           | passed      | 5
 repair = root cause, re-test    | day 7            | passed      | 4
 explain-back: the 8 moves       | day 3            | passed      | 4
 
 Rules:
-1. Expanding intervals: same-day → day 3 → day 7 → day 30. A miss resets the card.
+1. Expanding intervals: day 1 → day 3 → day 7 → day 30. A miss resets the card.
 2. INTERLEAVE: shuffle cards across topics; never review in lesson order.
 3. Calibrate: confidence 4–5 + a wrong/shaky recall → that card goes to repair (Lesson 11).
 4. Due-only: review what is due, not everything — spacing is the point.`
@@ -697,7 +699,7 @@ const spacingQueueBlocks: LessonBlock[] = [
     prompt:
       'You nail a hard decision in review today, completely cold. Your instinct: "Got it — locked in, move on." When are you actually most at risk of having lost it, and what does that imply about reviewing it again tomorrow?',
     reveal:
-      'You are most at risk right after you stop reviewing — recall today proves almost nothing about recall in three weeks, which is when the new hire asks. And reviewing it AGAIN tomorrow is nearly wasted effort: massed practice (cramming the same card on consecutive days) feels productive but barely moves long-term retention. The counterintuitive truth: the right time to review is just as you are about to forget — at an EXPANDING gap (day 3, day 7, day 30), not the next day. Easy, well-timed effort beats hard, mistimed effort.',
+      'You are most at risk right after you stop reviewing — recall today proves almost nothing about recall in three weeks, which is when the new hire asks. And reviewing it AGAIN tomorrow is nearly wasted effort: massed practice (cramming the same card on consecutive days) feels productive but barely moves long-term retention. The counterintuitive truth: the right time to review is just as you are about to forget — at an EXPANDING gap (day 3, day 7, day 30), not the next day. Fewer, well-timed, effortful reviews beat many mistimed easy ones.',
   },
   {
     type: 'concept',
@@ -741,7 +743,7 @@ const spacingQueueBlocks: LessonBlock[] = [
     steps: [
       { lines: [3], label: 'What a card is', note: 'One hard-won judgment to recall WITHOUT notes, then re-score honestly. Recognition is not recall.' },
       { lines: [5, 6], label: 'The table header', note: 'Each row: card · due (same/3/7/30) · last recall · confidence. The schedule and the calibration live together.' },
-      { lines: [8], label: 'A shaky card', note: 'The tax-line autopsy: due day 3, recall "shaky", confidence 2 → flagged for repair. The queue catches decay.' },
+      { lines: [8], label: 'A shaky card', note: 'The tax-line autopsy: due day 3, recall "shaky", confidence 4 → flagged for repair. Confident-but-shaky is exactly the case Rule 3 exists to catch.' },
       { lines: [9], label: 'A mastered card', note: 'The rubric cap rule: passed at confidence 5, pushed all the way out to day 30. Earned its long interval.' },
       { lines: [14, 15], label: 'Rules 1–2: expand + interleave', note: 'Same-day → 3 → 7 → 30, a miss resets; shuffle cards across topics so lesson order never leaks the answer.' },
       { lines: [16, 17], label: 'Rules 3–4: calibrate + due-only', note: 'Confidence 4–5 + a wrong recall routes to repair (Lesson 11). Review only what is due — spacing is the point.' },

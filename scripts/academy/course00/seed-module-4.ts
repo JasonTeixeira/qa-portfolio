@@ -158,7 +158,7 @@ const transferChallengeBlocks: LessonBlock[] = [
   {
     type: 'code-walkthrough',
     title: 'A real transfer, worked line by line',
-    subtitle: 'Decision: add a 200ms cache to an AUTH endpoint to cut load. Watch the load re-derive the whole memo.',
+    subtitle: 'Decision: add a cache in front of a slow AUTH endpoint to cut load. Watch the load re-derive the whole memo.',
     filename: DECISION_MEMO,
     language: 'bash',
     code: AUTH_CACHE_MEMO,
@@ -168,7 +168,7 @@ const transferChallengeBlocks: LessonBlock[] = [
       { lines: [11, 12, 13], label: 'The domain-specific failure', note: 'Not "it might be slow." A revoked session stays valid for the TTL window — sharp, auth-specific, and invisible in staging where nobody gets revoked.' },
       { lines: [15, 16], label: 'The strongest available proof', note: 'A contract test asserting revoked sessions are never served from cache. The proof is chosen for THIS failure, not pasted from the last memo.' },
       { lines: [18, 19], label: 'Reversal matched to reversibility', note: 'Cheaply reversible, so: any auth-bypass report flips the cache off immediately — no meeting. Re-derived, not inherited.' },
-      { lines: [21, 22, 23, 24, 25, 26], label: 'Skeleton vs load, named', note: 'The two explicit sections the proof demands — what you carried unchanged, and what this domain forced you to re-derive.' },
+      { lines: [21, 22, 23, 25, 26, 27], label: 'Skeleton vs load, named', note: 'The two explicit sections the proof demands — what you carried unchanged, and what this domain forced you to re-derive.' },
     ],
     caption: 'Every load-bearing line is domain-specific. If a line would survive a find-and-replace into a different memo, it was not transferred.',
   },
@@ -255,8 +255,8 @@ const transferChallengeBlocks: LessonBlock[] = [
 
 // The FILLED evidence ledger — a real git-tracked artifact, made the hero of a
 // stepped walkthrough.
-const EVIDENCE_LEDGER_FILLED = `# Append this decision to the course evidence ledger and commit it,
-# so the proof is timestamped and reviewable — not a claim in your head.
+const EVIDENCE_LEDGER_FILLED = `# Append this decision to the course evidence ledger, commit it, and PUSH it,
+# so the proof is timestamped by the remote — not a claim in your head.
 
 cat >> evidence_ledger.md <<'ENTRY'
 
@@ -269,7 +269,8 @@ cat >> evidence_ledger.md <<'ENTRY'
 ENTRY
 
 git add evidence_ledger.md ${DECISION_MEMO}
-git commit -m "evidence: auth-cache decision memo + predicted failure autopsy"`
+git commit -m "evidence: auth-cache decision memo + predicted failure autopsy"
+git push   # the remote records WHEN it received this — that part you cannot backdate`
 
 const packageEvidenceBlocks: LessonBlock[] = [
   {
@@ -327,7 +328,7 @@ const packageEvidenceBlocks: LessonBlock[] = [
     ],
     legend: [
       { tone: 'accent', label: 'claim phrased as a proof' },
-      { tone: 'warning', label: 'failure predicted in advance (git proves order)' },
+      { tone: 'warning', label: 'failure predicted in advance (pushed before the outcome)' },
       { tone: 'success', label: 'the inspectable package' },
     ],
   },
@@ -339,13 +340,13 @@ const packageEvidenceBlocks: LessonBlock[] = [
     language: 'bash',
     code: EVIDENCE_LEDGER_FILLED,
     steps: [
-      { lines: [6], label: 'The claim — a proof, not a topic', note: '"I can decide under incomplete evidence and defend the failure case," not "I know about decision memos." A reviewer can check the first; the second is unfalsifiable.' },
-      { lines: [7], label: 'The link to the artifact', note: 'A path a skeptic can open. The claim is worthless if it does not end in something inspectable.' },
-      { lines: [8], label: 'The strongest available proof', note: 'A contract test here — not "I tested it." Name the check, not the feeling.' },
-      { lines: [9], label: 'The predicted failure', note: 'The stale-revoked-session case, marked predicted-in-advance. This single line is what separates judgment from a post-hoc story.' },
-      { lines: [13, 14], label: 'The commit that makes it un-fakeable', note: 'git timestamps the order. A failure autopsy committed before the outcome is the most credible artifact you can own — the history makes "I knew that would happen" impossible to fake.' },
+      { lines: [7], label: 'The claim — a proof, not a topic', note: '"I can decide under incomplete evidence and defend the failure case," not "I know about decision memos." A reviewer can check the first; the second is unfalsifiable.' },
+      { lines: [8], label: 'The link to the artifact', note: 'A path a skeptic can open. The claim is worthless if it does not end in something inspectable.' },
+      { lines: [9], label: 'The strongest available proof', note: 'A contract test here — not "I tested it." Name the check, not the feeling.' },
+      { lines: [10], label: 'The predicted failure', note: 'The stale-revoked-session case, marked predicted-in-advance. This single line is what separates judgment from a post-hoc story.' },
+      { lines: [14, 15, 16], label: 'Commit, then push — the timestamp a skeptic trusts', note: 'A local commit proves nothing on its own — commit dates are freely settable and history can be rewritten. The push is what matters: the shared remote records when it RECEIVED the autopsy, and a pre-outcome prediction is hard to dispute once pushed.' },
     ],
-    caption: 'Commit the predicted failure early, on purpose. The order of commits is the part a skeptic cannot argue with.',
+    caption: 'Push the predicted failure early, on purpose. The remote\'s record of when it arrived is the part a skeptic cannot argue with.',
   },
   {
     type: 'compare',
@@ -380,7 +381,7 @@ const packageEvidenceBlocks: LessonBlock[] = [
   {
     type: 'callout',
     tone: 'tip',
-    text: 'The pro move beginners miss: timestamp the predicted failure BEFORE the outcome and let git prove the order. Anyone can write "I knew that would happen" after a system breaks — that is a story, not evidence. A failure autopsy committed before the outcome is known is the single most credible artifact you can own, because the commit history makes it impossible to fake. Reviewers have seen a thousand post-hoc rationalizations; a timestamped pre-mortem stops the conversation.',
+    text: 'The pro move beginners miss: get the predicted failure onto a shared remote BEFORE the outcome. Anyone can write "I knew that would happen" after a system breaks — and anyone can backdate a local commit, so a prediction that never left your machine is still just a story. Push it, or open a PR: the remote\'s received timestamp is set by the server, which makes backdating impractical. Reviewers have seen a thousand post-hoc rationalizations; a pre-mortem that reached the remote before the outcome stops the conversation.',
   },
   {
     type: 'quiz',
@@ -403,7 +404,7 @@ const packageEvidenceBlocks: LessonBlock[] = [
       'Your ledger entry names a CLAIM phrased as a proof, not a topic.',
       'The entry links to the actual memo artifact (a path a reviewer can open).',
       'The PROOF method is the strongest one available for this artifact (test / contract / telemetry / reviewer rubric).',
-      'The PREDICTED FAILURE was written before the outcome — and git history can show it.',
+      'The PREDICTED FAILURE was written before the outcome — and was pushed to a shared remote before the outcome, so the order is checkable.',
       'The whole package is committed and timestamped, not living in private notes.',
       'A skeptic could verify your judgment from the ledger alone, with no questions for you.',
     ],
@@ -518,7 +519,7 @@ const unlockGateBlocks: LessonBlock[] = [
     steps: [
       { lines: [4, 5], label: 'Each PASS names its evidence', note: 'Not "I think so." Retrieval is checked against the concept block; the artifact is a file that opens. A PASS you cannot point at is not a PASS.' },
       { lines: [6], label: 'The honest red', note: 'A reviewer rubric you have never actually run past anyone is not proof — it is a plan. REPAIR, not a generous PASS.' },
-      { lines: [9, 10], label: 'Why 4/5 does not open it', note: 'The gate is a conjunction, not a percentage. One required REPAIR closes it regardless of how many others pass.' },
+      { lines: [10, 11], label: 'Why 4/5 does not open it', note: 'The gate is a conjunction, not a percentage. One required REPAIR closes it regardless of how many others pass.' },
       { lines: [13, 14, 15], label: 'Route the red to a named repair', note: 'proof → verification repair: get the rubric applied. "Do better" is not a route; "run the rubric past a reviewer" is.' },
       { lines: [16], label: 'Re-check before declaring open', note: 'The gate reopens only when proof is genuinely PASS — not when you feel finished. That re-check is the whole discipline.' },
     ],
@@ -557,7 +558,7 @@ const unlockGateBlocks: LessonBlock[] = [
   {
     type: 'callout',
     tone: 'note',
-    text: 'What pros internalize: the gate is most valuable exactly when it is most inconvenient. A gate that only ever passes is decoration — it has never once stopped anything, so it proves nothing. The first time your own gate forces you to hold a release you wanted to ship, that is the gate doing its entire job. And under deadline pressure the default is to HOLD the line — "repair later" is where evidence goes to die. If you cannot name the reversal condition for shipping with thin proof, you do not get to ship with thin proof.',
+    text: 'What pros internalize: a gate that only ever passes is decoration — it has never once stopped anything, so it proves nothing. Under deadline pressure the default is to HOLD the line, because "repair later" is where evidence goes to die. If you cannot name the reversal condition for shipping with thin proof, you do not get to ship with thin proof.',
   },
   {
     type: 'quiz',
@@ -613,7 +614,7 @@ const MASTERY_PACKET_FILLED = `# Mastery Packet — Course 00: Engineering Judgm
 ## 2. Decision memo     — ${DECISION_MEMO} (Module 2)
 ## 3. Failure autopsy   — the failure I predicted in advance (Module 3)
 ## 4. Proof             — strongest check the repaired version survived (Module 3)
-## 5. Reviewer objection answered — hardest pushback + my answer
+## 5. Reviewer objection answered — hardest pushback + my answer (Module 2)
 ## 6. Transfer case     — judgment carried to a new domain (Module 4 · transfer)
 ## 7. Evidence ledger   — claims as proofs, linked + timestamped (Module 4 · package)
 
@@ -639,7 +640,7 @@ const capstoneRehearsalBlocks: LessonBlock[] = [
     intensity: 'capstone',
     time: '25–35 min',
     proof:
-      'A mastery packet — diagnostic + decision memo + failure autopsy + reviewer objection answered + transfer case + evidence ledger + honest unlock gate — in one inspectable bundle that a reviewer who has never met you could read and agree: this person owns engineering judgment.',
+      'A mastery packet — diagnostic + decision memo + failure autopsy + proof + reviewer objection answered + transfer case + evidence ledger + honest unlock gate — in one inspectable bundle that a reviewer who has never met you could read and agree: this person owns engineering judgment.',
     unlock:
       'Your packet clears your own honest gate across ALL of it: every claim names a proof, every memo survives an objection, every gap is repaired or honestly red. You can defend the whole thing out loud without a single hedge.',
     doNotClaim:
@@ -663,17 +664,17 @@ const capstoneRehearsalBlocks: LessonBlock[] = [
   {
     type: 'concept',
     title: 'The mastery packet: one bundle that proves the whole course, gated honestly',
-    text: 'Not six documents — one defensible argument. Diagnostic, decision memo, failure autopsy, reviewer objection answered, transfer case, evidence ledger — bound by one honest gate run across all of it: "I own engineering judgment, and here is the inspectable proof, gated the way a reviewer would."',
+    text: 'Not seven documents — one defensible argument. Diagnostic, decision memo, failure autopsy, proof, reviewer objection answered, transfer case, evidence ledger — bound by one honest gate run across all of it: "I own engineering judgment, and here is the inspectable proof, gated the way a reviewer would."',
   },
   {
     type: 'diagram',
     title: 'The roll-call — every module contributes one provable piece',
     subtitle:
-      'Each module of Course 00 feeds one inspectable piece into a single packet, bound by one honest gate. Read end to end, it is not six documents — it is one argument a skeptic can verify clause by clause.',
+      'Each module of Course 00 feeds one inspectable piece into a single packet, bound by one honest gate. Read end to end, it is not seven documents — it is one argument a skeptic can verify clause by clause.',
     rankdir: 'LR',
     nodes: [
       { id: 'm1', label: 'Module 1', description: 'recognize the decision → DIAGNOSTIC', kind: 'process', tone: 'accent' },
-      { id: 'm2', label: 'Module 2', description: 'make + defend → DECISION MEMO', kind: 'process', tone: 'accent' },
+      { id: 'm2', label: 'Module 2', description: 'make + defend → DECISION MEMO + OBJECTION ANSWERED', kind: 'process', tone: 'accent' },
       { id: 'm3', label: 'Module 3', description: 'break · prove · repair → AUTOPSY + PROOF', kind: 'process', tone: 'accent' },
       { id: 'm4', label: 'Module 4', description: 'transfer · package → TRANSFER CASE + LEDGER', kind: 'process', tone: 'accent' },
       { id: 'packet', label: 'Mastery packet', description: 'one inspectable bundle', kind: 'store', tone: 'success' },
@@ -682,7 +683,7 @@ const capstoneRehearsalBlocks: LessonBlock[] = [
     ],
     edges: [
       { from: 'm1', to: 'packet', label: 'diagnostic', kind: 'data', tone: 'accent' },
-      { from: 'm2', to: 'packet', label: 'decision memo', kind: 'data', tone: 'accent' },
+      { from: 'm2', to: 'packet', label: 'memo + objection', kind: 'data', tone: 'accent' },
       { from: 'm3', to: 'packet', label: 'autopsy + proof', kind: 'data', tone: 'accent' },
       { from: 'm4', to: 'packet', label: 'transfer + ledger', kind: 'data', tone: 'accent' },
       { from: 'packet', to: 'gate', label: 'run the conjunction', kind: 'control', tone: 'warning' },
@@ -703,10 +704,10 @@ const capstoneRehearsalBlocks: LessonBlock[] = [
     code: MASTERY_PACKET_FILLED,
     steps: [
       { lines: [4, 5, 6, 7], label: 'Modules 1–3 contribute their proof', note: 'Diagnostic, decision memo, failure autopsy, proof — the recognize / decide / break-prove-repair arc, each a real artifact you produced, not a fresh stand-in.' },
-      { lines: [8, 9, 10], label: 'Module 4 contributes transfer + ledger', note: 'The reviewer objection answered, the cold-domain transfer, and the evidence ledger that links every claim to an inspectable artifact.' },
-      { lines: [12, 13, 14, 15, 16, 17, 18, 19], label: 'The honest gate, AND-ed', note: 'Seven required lines. every_claim_names_proof is the through-line of the whole course — a claim that names a topic instead of a proof is an automatic REPAIR.' },
-      { lines: [20], label: 'One REPAIR closes it', note: 'The capstone IS the gate: it opens only when every line is PASS by inspectable evidence. No averaging, no "most are green."' },
-      { lines: [22, 23], label: 'Commit the whole packet', note: 'git timestamps the bundle. The mastery packet becomes the template for every review, promotion, and design defense you will ever walk into.' },
+      { lines: [8, 9, 10], label: 'Modules 2 & 4: objection, transfer, ledger', note: 'The reviewer objection answered (Module 2), then Module 4\'s cold-domain transfer and the evidence ledger that links every claim to an inspectable artifact.' },
+      { lines: [12, 13, 14, 15, 16, 17, 18, 19, 20], label: 'The honest gate, AND-ed', note: 'Seven required lines. every_claim_names_proof is the through-line of the whole course — a claim that names a topic instead of a proof is an automatic REPAIR.' },
+      { lines: [21], label: 'One REPAIR closes it', note: 'The capstone IS the gate: it opens only when every line is PASS by inspectable evidence. No averaging, no "most are green."' },
+      { lines: [23, 24], label: 'Commit the whole packet', note: 'git timestamps the bundle — this commit is the artifact you will reuse in every future review.' },
     ],
     caption: 'Read end to end, the packet says "this person can decide, prove, defend, repair, transfer, and gate" — and a skeptic can verify every clause.',
   },

@@ -6,8 +6,8 @@
  * JUDGMENT course (decision-making under ambiguity), not a coding course — so the
  * "win" each lesson produces is a REVIEWABLE ARTIFACT (a decision memo), not a
  * passing Pyodide lab. The artifact bar is expressed through sprint-contract +
- * calibration + verification; the real decision through tradeoff; flawed
- * reasoning through debug; a worked judgment call through worked-example.
+ * verification; strong-vs-weak reasoning through compare; the worked judgment
+ * call through code-walkthrough (the memo grown one line at a time).
  *
  *   tsx scripts/academy/course00/seed-module-1.ts                              # dry-run (default)
  *   tsx --env-file=.env.local scripts/academy/course00/seed-module-1.ts --apply
@@ -59,7 +59,7 @@ const FRAME_MEMO_TEMPLATE = `# Engineering Judgment Decision Memo
 - Feared failure (what "wrong" looks like in production):
 - Reversibility: <one-way door | two-way door>
 
-<!-- Sections 2–5 are added in Lessons 2, 3, 4 and the capstone. -->`
+<!-- Sections 2–4 are added in Lessons 2, 3 and the capstone (Lesson 4). -->`
 
 const problemFrameBlocks: LessonBlock[] = [
   {
@@ -131,12 +131,12 @@ const problemFrameBlocks: LessonBlock[] = [
     language: 'bash',
     code: FRAME_MEMO_TEMPLATE,
     steps: [
-      { lines: [3], label: 'The header', note: 'This memo threads all four lessons — one artifact, grown a section at a time.' },
-      { lines: [6], label: 'Decision + deadline', note: 'Name the call and when it is due. "ship | rollback | instrument | redesign" — pick the verb, not a hunch.' },
-      { lines: [7], label: 'The problem line', note: 'One sentence, no solution in it. If it names a technology or an action you would take, you smuggled in the answer.' },
-      { lines: [8], label: 'The hard constraint', note: 'The one thing that is NOT negotiable — and it must rule out at least one plausible option, or it is decoration.' },
-      { lines: [9], label: 'Feared failure', note: 'Specific enough to recognize in a dashboard. The strong version names both a false-positive and a false-negative.' },
-      { lines: [10], label: 'Reversibility', note: 'One-way vs two-way door sets how much proof the later lessons demand.' },
+      { lines: [1], label: 'The header', note: 'This memo threads all four lessons — one artifact, grown a section at a time.' },
+      { lines: [4], label: 'Decision + deadline', note: 'Name the call and when it is due. "ship | rollback | instrument | redesign" — pick the verb, not a hunch.' },
+      { lines: [5], label: 'The problem line', note: 'One sentence, no solution in it. If it names a technology or an action you would take, you smuggled in the answer.' },
+      { lines: [6], label: 'The hard constraint', note: 'The one thing that is NOT negotiable — and it must rule out at least one plausible option, or it is decoration.' },
+      { lines: [7], label: 'Feared failure', note: 'Specific enough to recognize in a dashboard. The strong version names both a false-positive and a false-negative.' },
+      { lines: [8], label: 'Reversibility', note: 'One-way vs two-way door sets how much proof the later lessons demand.' },
     ],
     caption: 'A peer should read these five lines and restate the problem back to you without correction.',
   },
@@ -262,8 +262,8 @@ const diagnosticRouteBlocks: LessonBlock[] = [
     rankdir: 'LR',
     nodes: [
       { id: 'feared', label: 'Feared failure', description: 'from the Frame', kind: 'process', tone: 'muted' },
-      { id: 'rank', label: 'Rank hypotheses', description: 'A lag · B silent-fail · C stale-cache · D mapping-drop', kind: 'process', tone: 'accent' },
-      { id: 'cheapest', label: 'Cheapest kill-test', description: 'B: compare newest index vs DB timestamp', kind: 'decision', tone: 'accent' },
+      { id: 'rank', label: 'Rank hypotheses', description: 'A lag · B silent-fail · C stale-cache', kind: 'process', tone: 'accent' },
+      { id: 'cheapest', label: 'Cheapest kill-test', description: 'A: compare newest index vs DB timestamp', kind: 'decision', tone: 'accent' },
       { id: 'eliminate', label: 'Eliminate branch', description: 'a passing test is pure profit', kind: 'process', tone: 'success' },
       { id: 'stop', label: 'Stop rule', description: 'time/evidence box → decide', kind: 'decision', tone: 'warning' },
       { id: 'cause', label: 'Leading cause', description: '"index lags 5h"', kind: 'store', tone: 'success' },
@@ -450,8 +450,8 @@ const systemMapBlocks: LessonBlock[] = [
 [Client] --request--> [API Gateway] --> [Orders Service] --writes--> [Postgres]
                                               |
                                               +--emits event--> [Index Worker] --> [Search Index]
-                                                                       ^
-              [Client] --query-------- + (reads here)
+                                                                                         ^
+              [Client] --query-----------------------------------------------------------+ (reads here)
 - Suspect edge: Orders write -> Index Worker -> Search Index
 - Blast radius if it fails: search shows stale catalog; conversions drop; no data loss
 - Boundary we will NOT cross: the payments path is out of scope`,
@@ -615,7 +615,7 @@ const retrievalProtocolBlocks: LessonBlock[] = [
     steps: [
       { lines: [2], label: 'Frame, from memory (L1)', note: 'Problem · constraint · feared failure, no notes. Score how sure you are BEFORE you check it.' },
       { lines: [3], label: 'Route, from memory (L2)', note: 'Three ranked hypotheses, a kill-test each, cheapest first. The timestamp compare was the cheapest disqualifier.' },
-      { lines: [4], label: 'Map, from memory (L3)', note: 'Directed flow, suspect edge, blast radius, boundary. This is the step the worked run scored 3/5 — and still too high.' },
+      { lines: [4], label: 'Map, from memory (L3)', note: 'Directed flow, suspect edge, blast radius, boundary. This is the step self-scores overclaim most — grade it harshly.' },
       { lines: [5], label: 'Decide', note: 'Chosen (fix the lagging worker + backfill), rejected (full reindex — violates no-daytime-downtime), reversal condition (off-hours reindex if backfill misses 30 min).' },
       { lines: [8, 9], label: 'Calibration: confidence vs reality', note: 'The Map missed the Index Worker also feeds Analytics. 3/5 was too confident — that honest miss is the most useful line here.' },
       { lines: [10], label: 'The repair', note: 'A reusable rule, not "be more careful": "before declaring blast radius, ask who else reads from this node."' },

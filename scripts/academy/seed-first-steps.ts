@@ -44,7 +44,7 @@ const FIRST_PROGRAM_LAB_STARTER = `# Make the program print this EXACT line:
 #     Hello, world!
 # Type your print(...) below, then press Run.
 
-  # your code here
+# your code here
 `
 
 const firstProgramBlocks = [
@@ -157,7 +157,7 @@ print("I just ran my first program.")`,
     language: 'python',
     brokenCode: `print(Hello, world!)`,
     task: 'Find why the computer refuses to run this one line.',
-    fix: 'The text is missing its quotes. Without quotes the computer reads Hello and world! as commands to look up, not text to show — and there is no such command, so it errors. Wrap the literal text in quotes: print("Hello, world!"). Quotes turn it into a string the computer will simply display.',
+    fix: 'The text is missing its quotes. Without quotes the computer cannot even read this line as code — the ! is not valid Python, so it stops with a SyntaxError before running anything. Wrap the literal text in quotes: print("Hello, world!"). Quotes turn the whole thing into a string the computer will simply display.',
   },
   {
     type: 'quiz',
@@ -209,7 +209,7 @@ const VARIABLES_LAB_STARTER = `# A box holds 12 apples per crate. You have 4 cra
 # 3. Store the TOTAL apples (per_crate times crates) in a variable called  total
 # 4. Print  total  on its own line.
 
-  # your code here
+# your code here
 `
 
 const variablesBlocks = [
@@ -381,7 +381,7 @@ const NUMBERS_STRINGS_LAB_STARTER = `# You are building one line of a receipt.
 item = "Coffee"
 price = 4
 qty = 3
-  # your code here
+# your code here
 `
 
 const numbersStringsBlocks = [
@@ -566,7 +566,7 @@ const READING_INPUT_LAB_STARTER = `# This program will read TWO lines the user "
 #       Sam, you have 3 items.
 # (input() hands you each line in order; the count must be a real number.)
 
-  # your code here
+# your code here
 `
 
 const readingInputBlocks = [
@@ -741,7 +741,7 @@ const BOOLEANS_LAB_STARTER = `# A score is stored for you below.
 # Use if / elif / else. Do NOT print more than one line.
 
 score = 84
-  # your code here
+# your code here
 `
 
 const booleansBlocks = [
@@ -844,6 +844,11 @@ else:
   {
     type: 'callout',
     tone: 'tip',
+    text: 'Three small words let one condition build on another. and needs BOTH sides True: if name == "sage" and code == 1234: signs you in only when the name AND the code are right. or needs EITHER side True: if day == "Sat" or day == "Sun": catches the whole weekend. not flips a value: not is_raining is True exactly when is_raining is False. Each one takes True/False values and produces a single True/False your if can act on — try one in the lab by combining two comparisons with and.',
+  },
+  {
+    type: 'callout',
+    tone: 'tip',
     text: 'In most languages, curly braces { } mark what is "inside" a branch. Python deletes the braces and uses the indentation itself — which means in Python, whitespace is not style, it is syntax. The colon at the end of the line opens the branch; the four-space indent underneath says "these lines belong to it." A stray colon or a wrong indent does not look wrong, but it silently puts code in the wrong branch. When an if misbehaves, check the colon and the indentation before anything else.',
   },
   {
@@ -857,7 +862,7 @@ else:
   },
   {
     type: 'debug',
-    symptom: 'This should print Adult for age 20, but it prints nothing — or errors — instead.',
+    symptom: 'This should print Adult for age 20, but pressing Run gives a SyntaxError instead.',
     language: 'python',
     brokenCode: `age = 20
 if age = 18:
@@ -919,7 +924,7 @@ const LISTS_LAB_STARTER = `# Below is a list of three cart items.
 #   4
 
 cart = ["milk", "bread", "apples"]
-  # your code here
+# your code here
 `
 
 const listsBlocks = [
@@ -1091,7 +1096,7 @@ const LOOPS_LAB_STARTER = `# Below is a list of prices.
 
 prices = [10, 25, 5, 20]
 total = 0
-  # your code here
+# your code here
 `
 
 const loopsBlocks = [
@@ -1268,7 +1273,7 @@ const FUNCTIONS_LAB_STARTER = `# A function packages a block of code under a nam
 # 3. Print EXACTLY this line, using an f-string:
 #       6 items = $42
 
-  # your code here
+# your code here
 `
 
 const functionsBlocks = [
@@ -1451,7 +1456,7 @@ const SHIP_LAB_STARTER = `# CAPSTONE — ship a tiny gradebook in one small prog
 #   Average: 70
 
 scores = [40, 80, 95, 50, 85]
-  # your code here
+# your code here
 `
 
 const shipBlocks = [
@@ -1606,10 +1611,10 @@ print(f"Average: {int(summarize(scores))}")`,
     type: 'verification',
     intro: 'Prove it — no vibes (this is your shipped program):',
     items: [
-      'Your program defines a function and CALLS it (Lesson 7)',
-      'It loops over the list once, with an accumulator set up before the loop (Lessons 2 & 6)',
-      'It uses an if INSIDE the loop to count only the passing scores (Lessons 4 & 6)',
-      'It computes the average AFTER the loop and formats output with f-strings (Lessons 3 & 6)',
+      'Your program defines a function and CALLS it (Lesson 8)',
+      'It loops over the list once, with an accumulator set up before the loop (Lessons 2 & 7)',
+      'It uses an if INSIDE the loop to count only the passing scores (Lessons 5 & 7)',
+      'It computes the average AFTER the loop and formats output with f-strings (Lessons 3 & 7)',
       'It prints EXACTLY two lines — Passed: 3 of 5 then Average: 70 — with every number computed from the data, nothing typed in',
     ],
   },

@@ -207,12 +207,12 @@ const tinyArtifactBlocks: LessonBlock[] = [
     type: 'quiz',
     question: 'What makes a decision artifact "tiny" in the sense this lesson means?',
     options: [
-      'It is short because the engineer did not do much analysis.',
-      'It is shrunk to the smallest form a reviewer can inspect in about two minutes, while still carrying the decision, the rejected option, and the proof.',
-      'It contains only the final decision, with the reasoning kept verbal.',
-      'It is a long, exhaustive document so nothing is left out.',
+      'It is short because the engineer did not do much analysis and wants that fact hidden.',
+      'It contains only the final decision itself, with all supporting reasoning kept verbal.',
+      'It is shrunk to the smallest form a reviewer can fully inspect in about two minutes.',
+      'It is a long, exhaustive document written so that nothing important is ever left out.',
     ],
-    answer: 1,
+    answer: 2,
     explanation:
       '"Tiny" is about reviewability, not laziness or omission. The artifact is deliberately small so a second pair of eyes can check it fast — but it still must carry the decision, the credible rejected option, and the planned proof. Drop those and it is small but worthless; pad it and it stops being reviewable.',
   },
@@ -404,12 +404,12 @@ const failureInjectionBlocks: LessonBlock[] = [
     type: 'quiz',
     question: 'Why does this lesson insist the injected failure be a realistic production failure, not a toy one?',
     options: [
-      'Toy failures are easier to write up, which saves time.',
-      'Because the purpose is to harden the decision: a realistic failure changes what you would watch and do, while a toy failure lets you feel thorough without improving anything.',
-      'Realistic failures are required by company policy.',
-      'There is no real difference; any failure works as long as one is listed.',
+      'Only a realistic failure changes what you would actually watch and do; a toy one just feels thorough.',
+      'Toy failures are easier to write up quickly, and the time saved can go into the response plan.',
+      'Realistic failures are the only kind most incident-review policies allow engineers to document.',
+      'There is no real difference in practice; any listed failure satisfies the autopsy requirement.',
     ],
-    answer: 1,
+    answer: 0,
     explanation:
       'The autopsy only earns its place if it changes the decision — adds a detection signal, a response, or surfaces a gap. A toy failure ("the building floods") cannot be dismissed AND cannot be acted on, so it changes nothing. A realistic one ("rollback masks a downstream cause") forces a concrete response and often reveals you cannot even detect it — which is the highest-value finding.',
   },
@@ -474,7 +474,7 @@ Customer-facing latency event: the cost of being slow now exceeds the cost of
 losing the new feature for an hour. Time-to-recover dominates.
 
 ## Choice — by the constraint, not a pro/con tally
-A: fastest, fully reversible. B: flag not wired for payments (the L06 failure)
+A: fastest, fully reversible. B: flag not wired for payments (the L05 rejected-option risk)
 -> double-charge risk. C: keeps the pain live. Under time-to-recover, A wins.
 
 ## Reversal condition (the specific change that flips it)
@@ -602,7 +602,8 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
         '  biggest risk for a 3-person team',
         'Reversal: ~10k msg/s sustained OR need replay',
         '  -> Kafka earns its cost; migrate',
-        'Risk if wrong: 256KB limit -> alert at 200KB',
+        'Risk if wrong: 256KiB default msg-size cap',
+        '  (raisable to 1MiB) -> alert at 200KB',
       ],
       verdict: 'The constraint decides; the reversal is concrete',
     },
@@ -623,12 +624,12 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
     type: 'quiz',
     question: 'What is the clearest sign that a written "tradeoff" is actually a decision already made and dressed up?',
     options: [
-      'It picks the more popular technology.',
-      'One option carries only upsides and the other only downsides, and a pro/con tally — not a binding constraint — does the deciding.',
-      'It includes more than two options.',
-      'It was written quickly under time pressure.',
+      'It picks the more popular or more fashionable technology over the boring alternative.',
+      'It includes more than two options, spreading the analysis too thin to be trustworthy.',
+      'It was written quickly and under time pressure, before every stakeholder could weigh in.',
+      'One option is all upside, the other all downside, and a pro/con tally does the deciding.',
     ],
-    answer: 1,
+    answer: 3,
     explanation:
       'Real options each win under some condition. When one is all upside and the other all downside, the alternative was never credible — it is set dressing. And when the decision rests on counting pros rather than on a binding constraint, no real selection happened. A genuine tradeoff names the constraint that decides and the condition that would reverse the call.',
   },
@@ -679,24 +680,24 @@ const tradeoffDecisionBlocks: LessonBlock[] = [
 // diagram (the Testa mode ladder, strongest-first) ·
 // compare (weakest-proof-as-rigor vs named-strongest-mode).
 
-const PROOF_SECTION = `## Proof (Testa mode: executable test + contract check)
+const PROOF_SECTION = `## Proof (Testa mode: executable check + contract check)
 # Capstone close. Strongest available evidence — and honesty about which it is.
 
-## Executable test (strongest mode available)
-Hot-path test asserts p99 < 300ms.
-FAILED pre-cache (740ms) -> PASSES cached (210ms). Both runs attached.
+## Executable check (strongest mode available)
+Alert query asserts p99 < 350ms on v2.3.9 through the NEXT traffic peak.
+FAILED on v2.4.0 (910ms) -> PASSES post-rollback (peak p99 285ms). Both runs attached.
 
-## Contract check (closes the L06 failure)
-10k sampled reads: cached price == source-of-truth price.
-Result: 0 mismatches over 24h. (Proves the L06 stale-price failure absent.)
+## Contract check (closes the L06 injected failure)
+Contract: if the spike was a downstream cache eviction, v2.3.9 re-spikes at peak.
+Result: no re-spike through two traffic peaks over 24h. The release WAS the cause.
 
 ## Calibrated confidence
-4/5. Not 5: load test was synthetic; real hot-key traffic not yet reproduced.
-What would raise it: replay production traffic shape against the cache.
+4/5. Not 5: only two peaks observed; downstream cache metrics not yet audited.
+What would raise it: a clean week of peaks + the downstream eviction dashboard.
 
 ## Portfolio claim (names the proof, not the topic)
-"Cut checkout p99 740ms -> 210ms with a targeted TTL cache, and proved
-correctness under the stale-price failure with a 24h contract check (0 mismatches)."
+"Rolled back a checkout release under a live p99 spike (910ms -> 240ms in 5 min),
+then proved the release was the cause: no re-spike through the next two peaks."
 
 ## Module roll-call — the four-part artifact, complete
 Inspectable (L05) -> Failure injected + detected (L06) ->
@@ -738,15 +739,15 @@ const testaProofBlocks: LessonBlock[] = [
   {
     type: 'code-walkthrough',
     title: 'The Proof section, line by line',
-    subtitle: 'Prove the caching decision. Watch the strongest available mode get selected, the L06 failure closed, and confidence calibrated to the evidence.',
+    subtitle: 'Prove the rollback decision. Watch the strongest available mode get selected, the L06 failure closed, and confidence calibrated to the evidence.',
     filename: MEMO,
     language: 'bash',
     code: PROOF_SECTION,
     steps: [
-      { lines: [4, 5, 6], label: 'Executable: strongest mode available', note: 'Running code exists, so a reviewer rubric would be cheating. The test FAILED pre-cache (740ms) and PASSES cached (210ms) — failed-then-passed is the proof, not "it works".' },
-      { lines: [8, 9, 10], label: 'Contract check closes L06', note: 'The Lesson 06 injected failure was stale prices. 10k sampled reads, 0 mismatches over 24h — this proves the injected failure does not occur. The module closes its own loop.' },
-      { lines: [12, 13], label: 'Calibrate confidence to the proof', note: '4/5, not 5 — the load test used synthetic traffic. Confidence tracks the evidence, and you say out loud what would raise it.' },
-      { lines: [16, 17], label: 'Portfolio claim names the PROOF', note: 'Not "I worked on caching" — "cut p99 740ms -> 210ms and proved correctness with a 24h contract check (0 mismatches)." Interview-ready: X under constraint Y, proved with Z.' },
+      { lines: [4, 5, 6], label: 'Executable: strongest mode available', note: 'A runnable alert query exists, so a reviewer rubric would be cheating. The check FAILED on v2.4.0 (910ms) and PASSES on v2.3.9 through the peak (285ms) — failed-then-passed is the proof, not "it works".' },
+      { lines: [8, 9, 10], label: 'Contract check closes L06', note: 'The Lesson 06 injected failure was a downstream cache eviction the rollback merely masked. No re-spike on v2.3.9 through two traffic peaks — the exact L06 detection signal — proves that failure did not occur. The module closes its own loop.' },
+      { lines: [12, 13], label: 'Calibrate confidence to the proof', note: '4/5, not 5 — only two traffic peaks observed so far. Confidence tracks the evidence, and you say out loud what would raise it.' },
+      { lines: [16, 17], label: 'Portfolio claim names the PROOF', note: 'Not "I handled an incident" — "rolled back under a live spike (910ms -> 240ms in 5 min) and proved the release was the cause (no re-spike through two peaks)." Interview-ready: X under constraint Y, proved with Z.' },
       { lines: [20, 21], label: 'Module roll-call', note: 'Inspectable (L05) -> injected + detected (L06) -> defended with reversal (L07) -> proven (L08). The four-part artifact, complete — what the course capstone asks for on demand.' },
     ],
     caption: 'Proven means strongest-available-and-named, with confidence that tracks the evidence. That standard, applied honestly, is the judgment this course exists to build.',
@@ -824,12 +825,12 @@ const testaProofBlocks: LessonBlock[] = [
     type: 'quiz',
     question: 'Under the Testa discipline, what makes a proof "the strongest available"?',
     options: [
-      'It is the proof that was fastest and easiest to produce.',
-      'It is the strongest mode the situation actually allows (executable > contract > domain check > reviewer rubric), run for real and named so its strength is legible.',
-      'It is any proof that results in a PASS.',
-      'It is a reviewer giving verbal approval.',
+      'It is the proof that was fastest and easiest to produce with the tooling already in place.',
+      'It is any proof that produces a PASS when run against the current state of the artifact.',
+      'It is the strongest mode the situation actually allows, run for real and explicitly named.',
+      'It is a proof that a sufficiently senior reviewer has read and given explicit verbal approval.',
     ],
-    answer: 1,
+    answer: 2,
     explanation:
       'Testa ranks modes by strength and demands you reach for the strongest the situation permits — not the cheapest. If code exists, an executable test that failed-then-passed beats a rubric; choosing the rubric anyway is weak proof dressed up. And you must NAME the mode, so a reviewer can judge how much the proof is worth and your confidence can be calibrated to it.',
   },

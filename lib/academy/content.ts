@@ -139,24 +139,45 @@ export type CourseOverview = {
 }
 
 /** Full course for the overview/syllabus page. */
+// When the DB is unreachable, supabase-js takes ~7s to surface the failure —
+// which becomes the whole TTFB of every course page. Cap each attempt and trip
+// a short circuit breaker so back-to-back renders skip the wait entirely.
+const DB_ATTEMPT_MS = 1200
+let dbDeadUntil = 0
+async function raced<T>(q: PromiseLike<T>): Promise<T | null> {
+  if (Date.now() < dbDeadUntil) return null
+  const r = await Promise.race([
+    q,
+    new Promise<null>((resolve) => setTimeout(() => resolve(null), DB_ATTEMPT_MS)),
+  ])
+  if (r === null) dbDeadUntil = Date.now() + 60_000
+  return r
+}
+
 export async function getCourseOverview(slug: string): Promise<CourseOverview | null> {
   try {
     const sb = await createSupabaseServerClient()
-    const { data: course } = await sb
-      .from('academy_courses')
-      .select('slug, title, subtitle, topic, level, hours')
-      .eq('slug', slug)
-      .eq('status', 'published')
-      .maybeSingle()
+    const courseRes = await raced(
+      sb
+        .from('academy_courses')
+        .select('slug, title, subtitle, topic, level, hours')
+        .eq('slug', slug)
+        .eq('status', 'published')
+        .maybeSingle(),
+    )
+    const course = courseRes?.data
     if (!course) return null
 
-    const { data: lessons } = await sb
-      .from('academy_lessons')
-      .select('slug, title, module_title, module_sort, sort, est_minutes, is_free_preview')
-      .eq('course_slug', slug)
-      .eq('status', 'published')
-      .order('module_sort')
-      .order('sort')
+    const lessonsRes = await raced(
+      sb
+        .from('academy_lessons')
+        .select('slug, title, module_title, module_sort, sort, est_minutes, is_free_preview')
+        .eq('course_slug', slug)
+        .eq('status', 'published')
+        .order('module_sort')
+        .order('sort'),
+    )
+    const lessons = lessonsRes?.data
 
     const ls = lessons ?? []
     const order: string[] = []

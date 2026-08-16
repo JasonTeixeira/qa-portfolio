@@ -76,13 +76,34 @@ function taxonomyFallback(): AcademyStats {
   return { coursesCount: courses.length, lessonsCount, courses }
 }
 
+// The catalog query must never hold the page hostage: when the DB is
+// unreachable, supabase-js takes ~7s to surface the fetch failure, which was
+// the entire TTFB of / and /academy. Cap the attempt and memoize the result
+// per server instance so only one request per window pays even the cap.
+const DB_ATTEMPT_MS = 1200
+const MEMO_MS = 120_000
+let memo: { at: number; stats: AcademyStats } | null = null
+
 export async function getAcademyStats(): Promise<AcademyStats> {
+  if (memo && Date.now() - memo.at < MEMO_MS) return memo.stats
+  const stats = await fetchStats()
+  memo = { at: Date.now(), stats }
+  return stats
+}
+
+async function fetchStats(): Promise<AcademyStats> {
   try {
     const admin = supabaseAdmin()
-    const { data, error } = await admin
+    const query = admin
       .from('academy_courses')
       .select('slug, title, subtitle, topic, level, lessons, status')
       .eq('status', 'published')
+    const raced = await Promise.race([
+      query,
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), DB_ATTEMPT_MS)),
+    ])
+    if (!raced) return taxonomyFallback()
+    const { data, error } = raced
 
     if (error || !data || data.length === 0) return taxonomyFallback()
 

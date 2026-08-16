@@ -6,6 +6,7 @@ import { Icon } from '@/components/academy/ui/Icon'
 import { SageDiagram, type SageDiagramNode, type SageDiagramEdge } from '@/components/academy/visuals/SageDiagram'
 import { SageCompare } from '@/components/academy/visuals/SageCompare'
 import { LoopMap } from '@/components/academy/diagrams/LoopMap'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { getAcademyStats, type AcademyCourseCard } from './stats'
 import styles from './landing.module.css'
 
@@ -102,6 +103,8 @@ export async function AcademyLanding() {
   const liveTrackCount = TRACKS.filter((t) => t.status === 'live').length
 
   return (
+    <>
+    <AcademyNav />
     <main className={styles.root}>
       {/* ============ HERO ============ */}
       <header className={styles.hero} aria-labelledby="academy-hero-title">
@@ -509,5 +512,7 @@ export async function AcademyLanding() {
         <span>one engine · one proof standard</span>
       </div>
     </main>
+    <AcademyFooter />
+    </>
   )
 }

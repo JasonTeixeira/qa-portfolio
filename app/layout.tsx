@@ -231,6 +231,10 @@ export default async function RootLayout({
     isInterviewProduct
   const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
+  // Academy marketing home (design: Sage Academy Download/Sage Home.dc.html)
+  // carries its OWN nav + footer (AcademyChrome) — the studio MarketingChrome
+  // must never wrap it. Cookie banner still renders.
+  const isAcademyHome = pathname === '/' || pathname === '/academy'
   return (
     <html
       lang={localeHrefLang[locale]}
@@ -260,10 +264,10 @@ export default async function RootLayout({
         <LocaleProvider locale={locale} messages={messages}>
           <PostHogProvider>
             {!isPortal && <AttributionCapture />}
-            {!isCinematicPath && <MarketingChrome position="top" />}
-            {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
-            {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+            {!isCinematicPath && !isAcademyHome && <MarketingChrome position="top" />}
+            {!isPortal && !isCinematicPath && !isAcademyHome && <Breadcrumbs pathname={pathname} />}
+            {isCinematicPath || isAcademyHome ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+            {!isCinematicPath && !isAcademyHome && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
             {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
             {!isPortal && !isPremiumLanding && <ExitIntentModal />}
             <WebVitalsReporter />

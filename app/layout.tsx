@@ -249,17 +249,6 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>
       <body className="font-sans antialiased min-h-screen flex flex-col" suppressHydrationWarning>
-        {/* Pre-paint intro state — sets body.living-intro synchronously on the
-            first homepage visit so the cinematic splash covers from frame 1.
-            Without this, the homepage hero paints for one frame before JS adds
-            the class (the visible "flash"). Returning visitors + reduced-motion
-            skip it cleanly, so they never see a flash either. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "(function(){try{if(location.pathname!=='/')return;var p=new URLSearchParams(location.search);if(p.get('intent')==='hire'||p.has('source')||p.has('utm_source')||p.has('utm_campaign'))return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=false;try{s=window.sessionStorage.getItem('sage_living_os_boot_seen')==='true'}catch(e){}if(!s)document.body.classList.add('living-intro')}catch(e){}})()",
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -271,10 +260,12 @@ export default async function RootLayout({
         <LocaleProvider locale={locale} messages={messages}>
           <PostHogProvider>
             {!isPortal && <AttributionCapture />}
-            {!isCinematicPath && <MarketingChrome position="top" />}
-            {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
-            {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+            {/* Home v2 carries its own editorial header + footer — render it
+                chromeless like the cinematic paths, but keep the cookie banner. */}
+            {!isCinematicPath && !isLivingHomepage && <MarketingChrome position="top" />}
+            {!isPortal && !isCinematicPath && !isLivingHomepage && <Breadcrumbs pathname={pathname} />}
+            {isCinematicPath || isLivingHomepage ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+            {!isCinematicPath && !isLivingHomepage && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
             {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
             {!isPortal && !isPremiumLanding && <ExitIntentModal />}
             <WebVitalsReporter />

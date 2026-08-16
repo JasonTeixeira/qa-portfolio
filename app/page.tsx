@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { LivingSystemsHome } from '@/components/living/LivingSystemsHome'
+import { HomeV2 } from '@/components/home-v2/HomeV2'
 import { JsonLd } from '@/components/json-ld'
 import { buildWebSite } from '@/lib/seo/jsonld'
 
@@ -28,7 +28,7 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={[buildWebSite()]} />
-      <LivingSystemsHome />
+      <HomeV2 />
     </>
   )
 }

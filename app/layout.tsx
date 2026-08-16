@@ -260,12 +260,10 @@ export default async function RootLayout({
         <LocaleProvider locale={locale} messages={messages}>
           <PostHogProvider>
             {!isPortal && <AttributionCapture />}
-            {/* Home v2 carries its own editorial header + footer — render it
-                chromeless like the cinematic paths, but keep the cookie banner. */}
-            {!isCinematicPath && !isLivingHomepage && <MarketingChrome position="top" />}
-            {!isPortal && !isCinematicPath && !isLivingHomepage && <Breadcrumbs pathname={pathname} />}
-            {isCinematicPath || isLivingHomepage ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
-            {!isCinematicPath && !isLivingHomepage && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
+            {!isCinematicPath && <MarketingChrome position="top" />}
+            {!isPortal && !isCinematicPath && <Breadcrumbs pathname={pathname} />}
+            {isCinematicPath ? children : <MarketingChrome position="children">{children}</MarketingChrome>}
+            {!isCinematicPath && !isFocusedShowcasePath && <MarketingChrome position="bottom" />}
             {!isPortal && !isCinematicPath && !isFocusedShowcasePath && <CookieBanner />}
             {!isPortal && !isPremiumLanding && <ExitIntentModal />}
             <WebVitalsReporter />

@@ -30,6 +30,7 @@ interface Step {
   name: string
   body: string
   tint: string
+  cta?: { href: string; label: string }
   card: React.ReactNode
 }
 
@@ -67,6 +68,9 @@ const STEPS: Step[] = [
     name: 'Prove',
     tint: GREEN,
     body: "A concrete check a skeptic can run. The starter fails; your fix passes; the output can't be faked.",
+    // Conversion beat: at the Prove move, the reader can go run the loop for
+    // real — the public engine demo is the strongest proof this page has.
+    cta: { href: '/academy/engine', label: 'Try this move live — free, no account →' },
     card: <ProveCard />,
   },
   {
@@ -176,6 +180,11 @@ export function HowItWorksContent() {
                   </div>
                   <div style={{ ...serif, fontWeight: 600, fontSize: 'clamp(26px, 2.8vw, 36px)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>{s.name}</div>
                   <p style={{ margin: '14px 0 0', color: '#9C9CA6', fontSize: 15, maxWidth: '46ch', textWrap: 'pretty' }}>{s.body}</p>
+                  {s.cta ? (
+                    <Link href={s.cta.href} style={{ ...mono, display: 'inline-block', marginTop: 16, fontSize: 12, color: '#18B663', textDecoration: 'none', borderBottom: '1px solid rgba(24,182,99,0.4)', paddingBottom: 2 }}>
+                      {s.cta.label}
+                    </Link>
+                  ) : null}
                 </div>
               </div>
               {/* visual */}

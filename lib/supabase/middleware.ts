@@ -180,6 +180,8 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy' ||
     // Metadata image routes must stay reachable by link-unfurl crawlers.
     pathname === '/academy/opengraph-image' ||
+    /^\/academy\/(catalog|pricing|why-proof|how-we-audit)\/opengraph-image$/.test(pathname) ||
+    pathname === '/academy/how-we-audit' ||
     pathname === '/academy/signup' ||
     pathname === '/academy/join' ||
     pathname === '/academy/engine' ||

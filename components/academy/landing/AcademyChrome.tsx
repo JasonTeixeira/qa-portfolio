@@ -14,6 +14,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { SageChat, FunnelTelemetry } from './SageChat'
 
 const INK = '#F2EFE9'
 const DIM = '#B6B6C0'
@@ -149,6 +150,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
       { href: '/academy/why-proof', label: 'Why proof' },
       { href: '/academy/pricing', label: 'Pricing' },
       { href: '/interview', label: 'Interview Mastery' },
+      { href: '/academy/how-we-audit', label: 'How we audit' },
       { href: '/academy/onboarding', label: 'Placement test' },
       { href: '/academy/help', label: 'Help center' },
     ],
@@ -318,6 +320,10 @@ export function AcademyFooter() {
           <span>proof, not vibes</span>
         </div>
       </div>
+      {/* Sprout chat dock + funnel telemetry ride with the footer so every
+          academy marketing page gets both with zero extra wiring. */}
+      <SageChat />
+      <FunnelTelemetry />
     </footer>
   )
 }

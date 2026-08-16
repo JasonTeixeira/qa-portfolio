@@ -253,6 +253,22 @@ export default function WhyProofPage() {
               >
                 It was the retry logic.
               </span>
+              {/* Conversion beat at the emotional peak: the stamp just landed. */}
+              <Link
+                href="/academy/engine"
+                style={{
+                  marginLeft: 'auto',
+                  fontFamily: MONO,
+                  fontSize: 11,
+                  color: '#18B663',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid rgba(24,182,99,0.4)',
+                  paddingBottom: 2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                run a check like this yourself →
+              </Link>
             </div>
           </div>
         </figure>

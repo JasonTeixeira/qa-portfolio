@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getAcademyStats } from '@/components/academy/landing/stats'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { ACADEMY_PLANS } from '@/lib/academy/plans'
@@ -392,7 +393,10 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             }}
           >
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-              14-day honest guarantee on every plan: no proof shipped, full refund.
+              14-day honest guarantee on every plan: no proof shipped, full refund.{' '}
+              <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
+                read the plain-language terms →
+              </Link>
             </span>
             <span style={{ fontSize: 12.5, color: '#9C9CA6' }}>
               {coursesCount} courses · {lessonsCount} lessons — every proof verifiable by code

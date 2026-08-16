@@ -27,6 +27,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy/catalog', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/academy/pricing', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/field-notes', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/academy/how-we-audit', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/capabilities', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/industries', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pricing', priority: 0.9, changeFrequency: 'monthly' },

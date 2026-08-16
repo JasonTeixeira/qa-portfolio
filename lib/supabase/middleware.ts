@@ -178,6 +178,8 @@ export async function updateSession(request: NextRequest) {
   // demo (/engine), the printable sprint-loop, and shareable certificates.
   const isAcademyPublic =
     pathname === '/academy' ||
+    // Metadata image routes must stay reachable by link-unfurl crawlers.
+    pathname === '/academy/opengraph-image' ||
     pathname === '/academy/signup' ||
     pathname === '/academy/join' ||
     pathname === '/academy/engine' ||
@@ -194,7 +196,11 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/academy/certificate/') ||
     // Concept pages: programmatic-SEO lesson previews — public by design.
     pathname === '/academy/concepts' ||
-    pathname.startsWith('/academy/concepts/');
+    pathname.startsWith('/academy/concepts/') ||
+    // Course landings are the per-course sell pages — public like /academy.
+    // Exactly one segment after /course/: the lesson player, map, and every
+    // deeper surface stay behind needsAcademyLogin.
+    /^\/academy\/course\/[^/]+$/.test(pathname);
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
   if (

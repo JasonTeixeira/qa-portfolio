@@ -5,6 +5,7 @@ import { ACADEMY_PLANS } from '@/lib/academy/plans'
 import { Icon } from '@/components/academy/ui/Icon'
 import { SageDiagram, type SageDiagramNode, type SageDiagramEdge } from '@/components/academy/visuals/SageDiagram'
 import { SageCompare } from '@/components/academy/visuals/SageCompare'
+import { LoopMap } from '@/components/academy/diagrams/LoopMap'
 import { getAcademyStats, type AcademyCourseCard } from './stats'
 import styles from './landing.module.css'
 
@@ -199,6 +200,9 @@ export async function AcademyLanding() {
             <h2 id="loop-title" className={styles.sectionTitle}>
               Every course is an instance of the loop senior engineers run on autopilot.
             </h2>
+          </div>
+          <div style={{ margin: '0 0 28px' }}>
+            <LoopMap />
           </div>
           <ol className={styles.loopGrid}>
             {LOOP_STEPS.map((step, i) => (
@@ -466,6 +470,23 @@ export async function AcademyLanding() {
               </strong>
               {yearly.note ? <span className={styles.priceNote}>{yearly.note}</span> : null}
             </div>
+            {/* One money story: membership + the Interview Mastery add-on,
+                side by side, so pricing never contradicts /interview. */}
+            <Link
+              href="/interview"
+              className={styles.priceCard}
+              style={{ borderColor: 'rgba(224, 169, 62, 0.45)', textDecoration: 'none', color: 'inherit' }}
+            >
+              <span className={styles.priceLabel} style={{ color: '#E0A93E' }}>
+                Interview Mastery · add-on
+              </span>
+              <strong className={styles.priceValue}>
+                +$39<span>/month</span>
+              </strong>
+              <span className={styles.priceNote}>
+                $24/mo billed yearly · loop-ready guarantee →
+              </span>
+            </Link>
           </div>
 
           <div className={styles.offerActions}>

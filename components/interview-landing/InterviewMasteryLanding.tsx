@@ -10,9 +10,51 @@
  * labeled as a sample; there are no invented member counts or testimonials.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import styles from './interview-landing.module.css'
+
+// Live-session preview script (sample content, same lines as the static mock).
+const AI_LINE =
+  'Your fan-out doubles at 10× traffic. What breaks first — and how do you know before it does?'
+const USER_LINE =
+  'The notification fan-out — it’s synchronous. I’d watch p99 on the write path and shard by…'
+const TYPE_MS = 55
+const PAUSE_TICKS = 18 // beat between question and answer
+const HOLD_TICKS = 40 // hold the finished exchange before looping
+const CYCLE = AI_LINE.length + PAUSE_TICKS + USER_LINE.length + HOLD_TICKS
+const SESSION_START_S = 32 * 60 + 14
+
+/**
+ * Types the sample exchange out in a loop and runs the session clock, so the
+ * mock feels live instead of described. Honors prefers-reduced-motion by
+ * rendering the full static exchange.
+ */
+function useLiveSession() {
+  const [tick, setTick] = useState<number | null>(null)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = setInterval(() => setTick((t) => (t ?? 0) + 1), TYPE_MS)
+    return () => clearInterval(id)
+  }, [])
+
+  // Static fallback (SSR + reduced motion): the complete exchange.
+  if (tick === null) {
+    return { aiText: AI_LINE, userText: USER_LINE, aiTyping: false, userTyping: false, clock: '32:14' }
+  }
+  const phase = tick % CYCLE
+  const aiChars = Math.min(phase, AI_LINE.length)
+  const userChars = Math.max(0, Math.min(phase - AI_LINE.length - PAUSE_TICKS, USER_LINE.length))
+  const seconds = SESSION_START_S + Math.floor((tick * TYPE_MS) / 1000)
+  const clock = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+  return {
+    aiText: AI_LINE.slice(0, aiChars),
+    userText: USER_LINE.slice(0, userChars),
+    aiTyping: aiChars < AI_LINE.length,
+    userTyping: userChars > 0 && userChars < USER_LINE.length,
+    clock,
+  }
+}
 
 
 const STEPS = [
@@ -57,6 +99,7 @@ const FAQ = [
 export function InterviewMasteryLanding() {
   const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly')
   const annual = billing === 'annual'
+  const live = useLiveSession()
 
   return (
     <div className={styles.page}>
@@ -88,21 +131,24 @@ export function InterviewMasteryLanding() {
           <div className={styles.sessionCard} aria-label="Sample of a live mock session">
             <div className={styles.sessionHead}>
               <span className={styles.sessionLive}>● Live mock · System design · L5 bar</span>
-              <span className={styles.monoDim}>32:14</span>
+              <span className={styles.monoDim}>{live.clock}</span>
             </div>
             <div className={styles.sessionBody}>
               <div className={styles.msgRow}>
                 <span className={styles.aiAvatar} aria-hidden />
                 <div className={styles.aiBubble}>
-                  Your fan-out doubles at 10× traffic. What breaks first — and how do you know
-                  before it does?
+                  {live.aiText}
+                  {live.aiTyping ? <span aria-hidden>▍</span> : null}
                 </div>
               </div>
-              <div className={`${styles.msgRow} ${styles.msgRowUser}`}>
+              <div
+                className={`${styles.msgRow} ${styles.msgRowUser}`}
+                style={{ opacity: live.userText ? 1 : 0, transition: 'opacity 300ms ease' }}
+              >
                 <span className={styles.userAvatar}>YOU</span>
                 <div className={styles.userBubble}>
-                  The notification fan-out — it’s synchronous. I’d watch p99 on the write path and
-                  shard by…
+                  {live.userText || ' '}
+                  {live.userTyping ? <span aria-hidden>▍</span> : null}
                 </div>
               </div>
               <div className={styles.listenBar}>

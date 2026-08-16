@@ -100,7 +100,11 @@ export default async function ConceptPage({ params }: { params: Promise<{ slug: 
           <div style={{ ...S.mono, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.12em' }}>
             how the lesson trains it — the Sage loop
           </div>
-          <JudgmentLoopDiagram />
+          {/* Highlight a different loop stage per lesson (stable slug hash) so
+              the 34 pages read as variations on the method, not clones. */}
+          <JudgmentLoopDiagram
+            activeStage={[...concept.slug].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 0) % 5}
+          />
         </div>
 
         <div

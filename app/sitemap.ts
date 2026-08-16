@@ -18,6 +18,9 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy/concepts', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/academy/guarantee', priority: 0.6, changeFrequency: 'monthly' },
   ...(conceptsManifest as { concepts: { slug: string }[] }).concepts.map((c) => ({ path: `/academy/concepts/${c.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
+  // Public per-course sell pages (manifest courses are the floor; DB-published
+  // courses share the same route and become indexable as they ship).
+  ...(conceptsManifest as { courses: { slug: string }[] }).courses.map((c) => ({ path: `/academy/course/${c.slug}`, priority: 0.8, changeFrequency: 'weekly' as const })),
   { path: '/engineering-os', priority: 0.85, changeFrequency: 'weekly' },
   { path: '/services', priority: 0.95, changeFrequency: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changeFrequency: 'monthly' },

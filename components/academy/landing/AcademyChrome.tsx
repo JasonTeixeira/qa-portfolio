@@ -160,6 +160,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
     links: [
       { href: '/academy/about', label: 'About' },
       { href: '/services', label: 'Hire the studio' },
+      { href: 'https://agency.sageideas.dev', label: 'QA & automation portfolio' },
       { href: '/academy/legal', label: 'Legal' },
       { href: 'mailto:hello@sageideas.dev', label: 'hello@sageideas.dev' },
     ],
@@ -228,7 +229,7 @@ export function AcademyFooter() {
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    {l.href.startsWith('mailto:') ? (
+                    {l.href.startsWith('mailto:') || l.href.startsWith('http') ? (
                       <a href={l.href} style={{ color: '#9C9CA6', textDecoration: 'none', fontSize: 13.5 }}>
                         {l.label}
                       </a>

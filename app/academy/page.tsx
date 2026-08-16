@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { AcademyLanding } from '@/components/academy/landing/AcademyLanding'
+import { SageHome } from '@/components/academy/landing/SageHome'
 import { ReferralCapture } from '@/components/academy/referral/ReferralCapture'
 
 const SITE = 'https://www.sageideas.dev'
@@ -27,7 +27,7 @@ export default function AcademyPage() {
       <Suspense fallback={null}>
         <ReferralCapture />
       </Suspense>
-      <AcademyLanding />
+      <SageHome />
     </>
   )
 }

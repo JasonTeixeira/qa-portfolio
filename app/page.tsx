@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
-import { AcademyLanding } from '@/components/academy/landing/AcademyLanding'
+import { SageHome } from '@/components/academy/landing/SageHome'
 import { ReferralCapture } from '@/components/academy/referral/ReferralCapture'
 import { JsonLd } from '@/components/json-ld'
 import { buildWebSite } from '@/lib/seo/jsonld'
@@ -37,7 +37,7 @@ export default function HomePage() {
       <Suspense fallback={null}>
         <ReferralCapture />
       </Suspense>
-      <AcademyLanding />
+      <SageHome />
     </>
   )
 }

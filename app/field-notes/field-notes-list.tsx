@@ -2,44 +2,20 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import type { FieldNote } from '@/lib/field-notes'
+import type { FieldNoteRow } from './note-meta'
 
-// Palette from the design source (fieldnotes.html).
-const COLORS = {
-  bg: '#0B0B0E',
-  text: '#F2EFE9',
-  muted: '#9598A2',
-  mutedAlt: '#9C9CA6',
-  line: '#1E1E24',
-  lineSoft: '#2A2A33',
-  accent: '#3D5AFE',
-  accentInk: '#8FA0FF',
-  green: '#18B663',
-  arrow: '#4A4A54',
-  rowBg: '#111115',
-} as const
+/**
+ * Filters + note list + "The Monday note" subscribe strip, 1:1 with
+ * "Sage Field Notes.dc.html" (FILTERS + LIST section). The note data is real
+ * (loaded from content/field-notes by the server page); the subscribe box
+ * posts to the real /api/newsletter/subscribe endpoint instead of the mock's
+ * localStorage stub.
+ */
 
-// Category → tag color, one-for-one with the design's tint per category.
-const CATEGORY_TINT: Record<string, string> = {
-  'Repair log': '#E5484D',
-  Systems: '#8FA0FF',
-  AI: '#FF2D9B',
-  Audit: '#E0A93E',
-  Career: '#18B663',
-  Growth: '#7C3AED',
-}
+const MONO = 'var(--font-mono), monospace'
+const SERIF = 'var(--font-serif), Georgia, serif'
 
-// Course sprint each category routes into (mirrors the design's "routes →" line).
-const CATEGORY_ROUTE: Record<string, string> = {
-  'Repair log': 'Backend Engineering',
-  Systems: 'Engineering Judgment',
-  AI: 'AI Engineering & RAG',
-  Audit: 'AI Engineering & RAG',
-  Career: 'Interview & Portfolio',
-  Growth: 'Product Execution',
-}
-
-// Filter chips, in the design's order.
+// Filter chips, in the design's order. Keys match real note categories.
 const FILTERS: { key: string; label: string }[] = [
   { key: 'all', label: 'All notes' },
   { key: 'Systems', label: 'Systems' },
@@ -50,40 +26,47 @@ const FILTERS: { key: string; label: string }[] = [
   { key: 'Growth', label: 'Growth' },
 ]
 
-const MONO = '"JetBrains Mono", monospace'
-const DISPLAY = 'Fraunces, Georgia, serif'
-
-function formatDate(iso: string): string {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })
-}
-
-function tintFor(category: string): string {
-  return CATEGORY_TINT[category] ?? COLORS.accentInk
-}
-
-function routeFor(category: string): string {
-  return CATEGORY_ROUTE[category] ?? 'Sage Academy'
-}
-
 interface FieldNotesListProps {
-  notes: FieldNote[]
-  total: number
+  notes: FieldNoteRow[]
 }
 
-export function FieldNotesList({ notes, total }: FieldNotesListProps) {
+export function FieldNotesList({ notes }: FieldNotesListProps) {
   const [active, setActive] = useState('all')
+  const [email, setEmail] = useState('')
+  const [subState, setSubState] = useState<'idle' | 'busy' | 'done' | 'error'>('idle')
 
   const visible = useMemo(
     () => notes.filter((n) => active === 'all' || n.category === active),
     [notes, active],
   )
 
+  // Honesty: the mock hardcodes "62 notes" — we show the real published count.
   const countLine =
     active === 'all'
-      ? `${total} notes · showing latest ${notes.length}`
+      ? `${notes.length} notes · showing all ${notes.length}`
       : `${visible.length} shown of this category`
+
+  async function subscribe() {
+    const v = email.trim()
+    if (!v || v.indexOf('@') < 1) {
+      setSubState('error')
+      setTimeout(() => setSubState('idle'), 1400)
+      return
+    }
+    setSubState('busy')
+    try {
+      const res = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: v, source: 'field-notes' }),
+      })
+      setSubState(res.ok ? 'done' : 'error')
+      if (!res.ok) setTimeout(() => setSubState('idle'), 1600)
+    } catch {
+      setSubState('error')
+      setTimeout(() => setSubState('idle'), 1600)
+    }
+  }
 
   return (
     <section
@@ -102,13 +85,14 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
               key={f.key}
               type="button"
               onClick={() => setActive(f.key)}
+              className="fn-chip"
               style={{
                 fontFamily: MONO,
                 fontSize: 11.5,
                 padding: '9px 16px',
                 borderRadius: 20,
-                border: `1px solid ${on ? 'rgba(61,90,254,0.6)' : COLORS.line}`,
-                color: on ? COLORS.text : COLORS.mutedAlt,
+                border: `1px solid ${on ? 'rgba(61,90,254,0.6)' : '#1E1E24'}`,
+                color: on ? '#F2EFE9' : '#9C9CA6',
                 background: on ? 'rgba(61,90,254,0.12)' : 'transparent',
                 cursor: 'pointer',
                 userSelect: 'none',
@@ -125,7 +109,7 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
             alignSelf: 'center',
             fontFamily: MONO,
             fontSize: 11,
-            color: COLORS.muted,
+            color: '#9598A2',
           }}
         >
           {countLine}
@@ -133,19 +117,20 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
       </div>
 
       {/* Note rows */}
-      <div style={{ border: `1px solid ${COLORS.line}`, borderRadius: 14, overflow: 'hidden' }}>
+      <div style={{ border: '1px solid #1E1E24', borderRadius: 14, overflow: 'hidden' }}>
         {visible.map((note) => (
           <Link
             key={note.slug}
             href={`/field-notes/${note.slug}`}
+            className="fn-row"
             style={{
               display: 'grid',
               gridTemplateColumns: 'minmax(90px, 120px) 1fr auto',
               gap: 18,
               alignItems: 'center',
               padding: '19px 24px',
-              background: COLORS.rowBg,
-              borderBottom: `1px solid ${COLORS.line}`,
+              background: '#111115',
+              borderBottom: '1px solid #1E1E24',
               textDecoration: 'none',
               color: 'inherit',
             }}
@@ -155,7 +140,7 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
                 fontFamily: MONO,
                 fontSize: 10,
                 letterSpacing: '0.08em',
-                color: tintFor(note.category),
+                color: note.tint,
                 textTransform: 'uppercase',
               }}
             >
@@ -165,7 +150,7 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
               <span
                 style={{
                   display: 'block',
-                  fontFamily: DISPLAY,
+                  fontFamily: SERIF,
                   fontWeight: 600,
                   fontSize: 18,
                   letterSpacing: '-0.012em',
@@ -182,38 +167,109 @@ export function FieldNotesList({ notes, total }: FieldNotesListProps) {
                   marginTop: 4,
                   fontFamily: MONO,
                   fontSize: 10.5,
-                  color: COLORS.muted,
+                  color: '#9598A2',
                 }}
               >
-                <span>{formatDate(note.date)}</span>
-                <span style={{ color: COLORS.green }}>routes → {routeFor(note.category)}</span>
+                <span>{note.dateLabel}</span>
+                <span>{note.readMin} min</span>
+                <span style={{ color: '#18B663' }}>routes → {note.route}</span>
               </span>
             </span>
-            <span style={{ color: COLORS.arrow }}>→</span>
+            <span style={{ color: '#4A4A54' }}>→</span>
           </Link>
         ))}
       </div>
 
-      {/* Cadence strip */}
+      {/* The Monday note — subscribe strip */}
       <div
         style={{
           marginTop: 18,
-          border: `1px dashed ${COLORS.lineSoft}`,
-          borderRadius: 12,
-          padding: '16px 22px',
+          border: '1px solid rgba(61,90,254,0.3)',
+          borderRadius: 14,
+          background: 'linear-gradient(115deg, #10131F 0%, #111115 70%)',
+          padding: '22px 26px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 14,
+          gap: 18,
           flexWrap: 'wrap',
         }}
       >
-        <span style={{ fontSize: 13.5, color: COLORS.mutedAlt }}>
-          A new note ships every Monday — the same incident the weekly challenge maps.
+        <span style={{ minWidth: 240, flex: 1 }}>
+          <span
+            style={{
+              display: 'block',
+              fontFamily: MONO,
+              fontSize: 10,
+              textTransform: 'uppercase',
+              letterSpacing: '0.14em',
+              color: '#8FA0FF',
+              marginBottom: 6,
+            }}
+          >
+            The Monday note
+          </span>
+          <span style={{ display: 'block', fontSize: 14, color: '#9C9CA6' }}>
+            A new incident, mapped in public, every Monday — the same one the{' '}
+            <Link href="/academy/challenge" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
+              weekly challenge
+            </Link>{' '}
+            runs.
+          </span>
         </span>
-        <span style={{ fontFamily: MONO, fontSize: 11, color: COLORS.accentInk, whiteSpace: 'nowrap' }}>
-          RSS · newsletter →
-        </span>
+        {subState === 'done' ? (
+          <span style={{ fontFamily: MONO, fontSize: 11.5, color: '#18B663', whiteSpace: 'nowrap' }}>
+            ✓ you&apos;re in — see you Monday
+          </span>
+        ) : (
+          <span style={{ display: 'flex', gap: 8, flex: 1, minWidth: 260, maxWidth: 360 }}>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') subscribe()
+              }}
+              type="email"
+              placeholder="you@work.dev"
+              aria-label="Email for the Monday note"
+              style={{
+                flex: 1,
+                minWidth: 0,
+                background: '#0F0F13',
+                border: `1px solid ${subState === 'error' ? 'rgba(229,72,77,0.6)' : '#2A2A33'}`,
+                borderRadius: 10,
+                padding: '11px 14px',
+                fontSize: 13.5,
+                color: '#F2EFE9',
+                fontFamily: 'inherit',
+                outline: 'none',
+              }}
+            />
+            <button
+              type="button"
+              onClick={subscribe}
+              disabled={subState === 'busy'}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: '#3D5AFE',
+                color: '#fff',
+                border: 0,
+                borderRadius: 10,
+                padding: '0 18px',
+                fontSize: 13.5,
+                fontWeight: 600,
+                fontFamily: 'inherit',
+                cursor: subState === 'busy' ? 'wait' : 'pointer',
+                whiteSpace: 'nowrap',
+                userSelect: 'none',
+                opacity: subState === 'busy' ? 0.7 : 1,
+              }}
+            >
+              {subState === 'busy' ? 'Sending…' : 'Subscribe'}
+            </button>
+          </span>
+        )}
       </div>
     </section>
   )

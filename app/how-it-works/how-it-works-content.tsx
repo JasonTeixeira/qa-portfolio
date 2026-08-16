@@ -1,114 +1,101 @@
-'use client'
+import Link from 'next/link'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 
-import * as React from 'react'
+/**
+ * "How it works" — the mastery loop, implemented 1:1 from
+ * "Sage Academy Download/Sage How It Works.dc.html": section order, markup,
+ * inline styles, copy (the DCLogic 'en' strings verbatim), step visuals, and
+ * artwork (localized to /art/academy). Design-internal links map to real
+ * routes; chrome is the shared AcademyNav / AcademyFooter.
+ *
+ * The 78 / 71→94 numbers in the Review and Repair cards are the design's
+ * illustrative lesson-score geometry (same sample UI the home page ships),
+ * not user metrics.
+ */
 
-/* ── Design palette (exact hex from Sage Academy "How It Works" source) ──── */
-const C = {
-  bg: '#0B0B0E',
-  surface: '#111115',
-  panel: '#08080A',
-  text: '#F2EFE9',
-  sub: '#9C9CA6',
-  muted: '#9598A2',
-  faint: '#4A4A54',
-  line: '#1E1E24',
-  lineStrong: '#2A2A33',
-  accent: '#3D5AFE',
-  accentSoft: '#8FA0FF',
-  green: '#18B663',
-  gold: '#E0A93E',
-  coral: '#E5484D',
-} as const
+const ACCENT = '#3D5AFE'
+const GREEN = '#18B663'
+const AMBER = '#E0A93E'
+const CORAL = '#E5484D'
+const INK = '#F2EFE9'
+const LINE = '#1E1E24'
+const LINE_STRONG = '#2A2A33'
+const MUTED = '#9598A2'
+const FAINT = '#4A4A54'
 
-const SERIF = 'Fraunces, Georgia, serif'
-const MONO = '"JetBrains Mono", ui-monospace, monospace'
-
-/* Accent color per step marker (matches the source step index colors). */
-type Accent = 'accent' | 'gold' | 'green' | 'coral'
-const ACCENT_HEX: Record<Accent, string> = {
-  accent: C.accentSoft,
-  gold: C.gold,
-  green: C.green,
-  coral: C.coral,
-}
+const mono = { fontFamily: 'var(--font-mono), monospace' } as const
+const serif = { fontFamily: 'var(--font-serif), Georgia, serif' } as const
 
 interface Step {
-  n: string
   name: string
   body: string
-  accent: Accent
+  tint: string
   card: React.ReactNode
 }
 
-/* ── Loop steps: title + copy + illustration card (operator-authored) ────── */
+/*
+ * Step copy + per-visual data, verbatim from the design's dict().en
+ * (steps + v.frame…v.pkg). Tints follow renderVals():
+ * [accent, accent, amber, accent, green, amber, coral, accent, accent, green].
+ */
 const STEPS: Step[] = [
   {
-    n: '01',
     name: 'Frame',
-    accent: 'accent',
+    tint: '#8FA0FF',
     body: 'Turn a messy stake into a precise, falsifiable question. Most engineers debug the wrong problem beautifully — framing is the skill that stops that.',
     card: <FrameCard />,
   },
   {
-    n: '02',
     name: 'Route',
-    accent: 'accent',
+    tint: '#8FA0FF',
     body: 'Choose where to look first: cheapest disproof wins. Two paths get ruled out on paper before you touch anything.',
     card: <RouteCard />,
   },
   {
-    n: '03',
     name: 'Map',
-    accent: 'gold',
+    tint: AMBER,
     body: 'Draw the system with directions, owners, and defended omissions. The failure becomes a location, not a vibe.',
     card: <MapCard />,
   },
   {
-    n: '04',
     name: 'Decide',
-    accent: 'accent',
+    tint: '#8FA0FF',
     body: 'Commit in writing: options, costs, and the constraint that forced your hand. A memo, not a hunch.',
     card: <DecideCard />,
   },
   {
-    n: '05',
     name: 'Prove',
-    accent: 'green',
+    tint: GREEN,
     body: "A concrete check a skeptic can run. The starter fails; your fix passes; the output can't be faked.",
     card: <ProveCard />,
   },
   {
-    n: '06',
     name: 'Review',
-    accent: 'gold',
+    tint: AMBER,
     body: 'Your artifact is read the way a staff engineer reads it — your score is capped by the weakest claim.',
     card: <ReviewCard />,
   },
   {
-    n: '07',
     name: 'Repair',
-    accent: 'coral',
+    tint: CORAL,
     body: 'Broken cases are the curriculum. One repair lifts the cap — and teaches more than ten passing runs.',
     card: <RepairCard />,
   },
   {
-    n: '08',
     name: 'Space',
-    accent: 'accent',
+    tint: '#8FA0FF',
     body: "Recall prompts arrive on the forgetting curve's schedule, not yours. Six minutes, then back to work.",
     card: <SpaceCard />,
   },
   {
-    n: '09',
     name: 'Transfer',
-    accent: 'accent',
+    tint: '#8FA0FF',
     body: "The same move, applied in a new domain. That's the moment knowledge becomes judgment.",
     card: <TransferCard />,
   },
   {
-    n: '10',
     name: 'Package',
-    accent: 'green',
+    tint: GREEN,
     body: 'The artifact joins your ledger: claim, artifact, verdict. Shareable, verifiable, yours.',
     card: <PackageCard />,
   },
@@ -116,315 +103,166 @@ const STEPS: Step[] = [
 
 export function HowItWorksContent() {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background:
-          'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.035) 0%, transparent 55%) ' +
-          C.bg,
-        color: C.text,
-        fontFamily: '"Hanken Grotesk", var(--font-sans), sans-serif',
-        fontSize: 16,
-        lineHeight: 1.6,
-        overflowX: 'hidden',
-      }}
-    >
-      {/* Hero */}
-      <header
-        style={{
-          maxWidth: 920,
-          margin: '0 auto',
-          padding:
-            'clamp(96px, 11vw, 152px) clamp(20px, 4vw, 48px) clamp(40px, 5vw, 64px)',
-          textAlign: 'center',
-        }}
-      >
-        <div
-          style={{
-            fontFamily: MONO,
-            fontSize: 11.5,
-            textTransform: 'uppercase',
-            letterSpacing: '0.16em',
-            color: C.accentSoft,
-          }}
-        >
-          The mastery loop
-        </div>
-        <h1
-          style={{
-            margin: '18px auto 0',
-            fontFamily: SERIF,
-            fontWeight: 600,
-            fontSize: 'clamp(38px, 5.4vw, 72px)',
-            lineHeight: 1,
-            letterSpacing: '-0.028em',
-            maxWidth: '18ch',
-            textWrap: 'balance',
-          }}
-        >
-          Frame it. Map it. Prove it.
-        </h1>
-        <p
-          style={{
-            margin: '22px auto 0',
-            color: C.sub,
-            fontSize: 17,
-            maxWidth: '56ch',
-            textWrap: 'pretty',
-          }}
-        >
-          Every course is an instance of the loop senior engineers run on
-          autopilot. Ten moves, each one visible, each one ending in something a
-          reviewer can inspect.
-        </p>
-      </header>
-
-      {/* The loop */}
-      <section
-        aria-label="The mastery loop"
-        style={{
-          maxWidth: 1100,
-          margin: '0 auto',
-          padding:
-            '24px clamp(20px, 4vw, 48px) clamp(56px, 8vw, 96px)',
-        }}
-      >
-        {STEPS.map((s, i) => (
-          <LoopRow key={s.n} step={s} flip={i % 2 === 1} index={i} />
-        ))}
-      </section>
-
-      {/* Closing CTA */}
-      <section
-        style={{ borderTop: `1px solid ${C.line}`, background: '#0D0D11' }}
-      >
-        <div
-          style={{
-            maxWidth: 780,
-            margin: '0 auto',
-            padding:
-              'clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px)',
-            textAlign: 'center',
-          }}
-        >
-          <h2
-            style={{
-              margin: '0 auto',
-              fontFamily: SERIF,
-              fontWeight: 600,
-              fontSize: 'clamp(28px, 3.4vw, 44px)',
-              lineHeight: 1.06,
-              letterSpacing: '-0.022em',
-              maxWidth: '24ch',
-              textWrap: 'balance',
-            }}
-          >
-            In 25 minutes you&rsquo;ll turn a messy incident into a decision a
-            reviewer can inspect.
-          </h2>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: 12,
-              marginTop: 28,
-              flexWrap: 'wrap',
-            }}
-          >
-            <a
-              href="/academy?source=how-it-works"
-              className="hiw-cta-primary"
-              style={{
-                display: 'inline-flex',
-                color: '#fff',
-                background: C.accent,
-                textDecoration: 'none',
-                fontSize: 15,
-                fontWeight: 600,
-                padding: '15px 28px',
-                borderRadius: 26,
-                boxShadow: '0 0 24px rgba(61,90,254,0.35)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Start with Engineering Judgment
-            </a>
-            <a
-              href="/academy"
-              className="hiw-cta-ghost"
-              style={{
-                display: 'inline-flex',
-                color: C.text,
-                border: `1px solid ${C.lineStrong}`,
-                textDecoration: 'none',
-                fontSize: 15,
-                padding: '14px 28px',
-                borderRadius: 26,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Browse the catalog
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer style={{ borderTop: `1px solid ${C.line}` }}>
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: '0 auto',
-            padding: '30px clamp(20px, 4vw, 48px)',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 16,
-          }}
-        >
-          <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>
-            Sage Academy · frame → route → map → decide → prove
-          </span>
-          <span style={{ fontFamily: MONO, fontSize: 11, color: C.faint }}>
-            © 2026 Sage Ideas LLC
-          </span>
-        </div>
-      </footer>
-
-      <style>{`
-        .hiw-cta-primary { transition: transform .2s ease, box-shadow .2s ease; }
-        .hiw-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 0 32px rgba(61,90,254,0.5); }
-        .hiw-cta-ghost { transition: border-color .2s ease, color .2s ease; }
-        .hiw-cta-ghost:hover { border-color: rgba(61,90,254,0.55); }
-      `}</style>
-    </div>
-  )
-}
-
-/* ── One loop row: copy column + illustration card, alternating sides ────── */
-function LoopRow({
-  step,
-  flip,
-  index,
-}: {
-  step: Step
-  flip: boolean
-  index: number
-}) {
-  return (
-    <div
-      id={`step-${index + 1}`}
-      style={{
-        display: 'grid',
-        gridTemplateColumns:
-          'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
-        gap: 'clamp(20px, 3vw, 44px)',
-        alignItems: 'center',
-        padding: 'clamp(28px, 4vw, 44px) 0',
-        borderBottom: `1px solid ${C.line}`,
-        direction: flip ? 'rtl' : 'ltr',
-      }}
-    >
-      {/* Copy column */}
-      <div style={{ direction: 'ltr', position: 'relative' }}>
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            left: -8,
-            top: -34,
-            fontFamily: SERIF,
-            fontWeight: 700,
-            fontSize: 88,
-            lineHeight: 1,
-            color: 'rgba(255,255,255,0.05)',
-            userSelect: 'none',
-            pointerEvents: 'none',
-          }}
-        >
-          {step.n}
-        </div>
-        <div style={{ position: 'relative' }}>
-          <div
-            style={{
-              fontFamily: MONO,
-              fontSize: 10,
-              textTransform: 'uppercase',
-              letterSpacing: '0.14em',
-              color: ACCENT_HEX[step.accent],
-              marginBottom: 10,
-            }}
-          >
-            {step.n} / 10
-          </div>
-          <div
-            style={{
-              fontFamily: SERIF,
-              fontWeight: 600,
-              fontSize: 'clamp(26px, 2.8vw, 36px)',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.05,
-            }}
-          >
-            {step.name}
-          </div>
-          <p
-            style={{
-              margin: '14px 0 0',
-              color: C.sub,
-              fontSize: 15,
-              maxWidth: '46ch',
-              textWrap: 'pretty',
-            }}
-          >
-            {step.body}
-          </p>
-        </div>
-      </div>
-
-      {/* Illustration card */}
+    <>
+      <AcademyNav />
       <div
         style={{
-          direction: 'ltr',
-          border: `1px solid ${C.line}`,
-          borderRadius: 16,
-          background: C.surface,
-          padding: 24,
-          minHeight: 170,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          gap: 12,
+          minHeight: '100vh',
+          background: '#0B0B0E',
+          backgroundImage: 'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.035) 0%, transparent 55%)',
+          color: INK,
+          fontFamily: 'var(--font-sans), sans-serif',
+          fontSize: 16,
+          lineHeight: 1.6,
+          overflowX: 'clip',
         }}
       >
-        {step.card}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+.hiwCard { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s; }
+.hiwCard:hover { transform: translateY(-3px); border-color: var(--tint); }
+@media (prefers-reduced-motion: reduce) { .hiwCard { transition: none; } .hiwCard:hover { transform: none; } }`,
+          }}
+        />
+
+        {/* ============ HERO ============ */}
+        <header style={{ maxWidth: 920, margin: '0 auto', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 48px) clamp(40px, 5vw, 64px)', textAlign: 'center' }}>
+          <div style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>The mastery loop</div>
+          <h1 style={{ ...serif, margin: '18px auto 0', fontWeight: 600, fontSize: 'clamp(38px, 5.4vw, 72px)', lineHeight: 1.0, letterSpacing: '-0.028em', maxWidth: '18ch', textWrap: 'balance' }}>
+            Frame it. Map it. Prove it.
+          </h1>
+          <p style={{ margin: '22px auto 0', color: '#9C9CA6', fontSize: 17, maxWidth: '56ch', textWrap: 'pretty' }}>
+            Every course is an instance of the loop senior engineers run on autopilot. Ten moves, each one visible, each one ending in something a reviewer can inspect.
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/art/academy/loop-brush.png"
+            alt="The Sage loop: frame, route, map, decide, prove"
+            style={{
+              display: 'block',
+              width: 'min(560px, 88%)',
+              margin: '8px auto -34px',
+              WebkitMaskImage: 'radial-gradient(70% 80% at 50% 50%, #000 42%, transparent 95%)',
+              maskImage: 'radial-gradient(70% 80% at 50% 50%, #000 42%, transparent 95%)',
+            }}
+          />
+        </header>
+
+        {/* ============ THE 10 STEPS — VISUAL STORY ============ */}
+        <section aria-label="The mastery loop, step by step" style={{ maxWidth: 1100, margin: '0 auto', padding: '24px clamp(20px, 4vw, 48px) clamp(56px, 8vw, 96px)' }}>
+          {STEPS.map((s, i) => (
+            <div
+              key={s.name}
+              id={`step-${i + 1}`}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+                gap: 'clamp(20px, 3vw, 44px)',
+                alignItems: 'center',
+                padding: 'clamp(28px, 4vw, 44px) 0',
+                borderBottom: `1px solid ${LINE}`,
+                direction: i % 2 === 0 ? 'ltr' : 'rtl',
+              }}
+            >
+              {/* text */}
+              <div style={{ direction: 'ltr', position: 'relative' }}>
+                <div aria-hidden style={{ ...serif, position: 'absolute', left: -8, top: -34, fontWeight: 700, fontSize: 88, lineHeight: 1, color: 'rgba(255,255,255,0.05)', userSelect: 'none', pointerEvents: 'none' }}>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <div style={{ position: 'relative' }}>
+                  <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: s.tint, marginBottom: 10 }}>
+                    {String(i + 1).padStart(2, '0')} / 10
+                  </div>
+                  <div style={{ ...serif, fontWeight: 600, fontSize: 'clamp(26px, 2.8vw, 36px)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>{s.name}</div>
+                  <p style={{ margin: '14px 0 0', color: '#9C9CA6', fontSize: 15, maxWidth: '46ch', textWrap: 'pretty' }}>{s.body}</p>
+                </div>
+              </div>
+              {/* visual */}
+              <div
+                className="hiwCard"
+                style={{
+                  ['--tint' as string]: s.tint,
+                  direction: 'ltr',
+                  border: `1px solid ${LINE}`,
+                  borderRadius: 16,
+                  background: 'linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 40%), #111115',
+                  padding: 24,
+                  minHeight: 170,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  gap: 12,
+                }}
+              >
+                {s.card}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* ============ STATEMENT BAND ============ */}
+        <section style={{ borderTop: `1px solid ${LINE}`, background: '#0D0D11', overflow: 'hidden' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 48px)', position: 'relative' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/art/academy/loop-band.png"
+              alt=""
+              style={{
+                position: 'absolute',
+                right: -60,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 'min(52%, 580px)',
+                opacity: 0.5,
+                pointerEvents: 'none',
+                WebkitMaskImage: 'radial-gradient(72% 72% at 55% 50%, #000 25%, transparent 80%)',
+                maskImage: 'radial-gradient(72% 72% at 55% 50%, #000 25%, transparent 80%)',
+              }}
+            />
+            <div style={{ position: 'relative' }}>
+              <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', color: MUTED }}>Ten moves · one loop</div>
+              <div style={{ ...serif, marginTop: 18, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(36px, 5.6vw, 76px)', lineHeight: 1.04, letterSpacing: '-0.028em', maxWidth: '15ch', textWrap: 'balance' }}>
+                Every course ends in <span style={{ color: '#8FA0FF' }}>an artifact.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ CTA ============ */}
+        <section style={{ borderTop: `1px solid ${LINE}`, background: '#0D0D11' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto', padding: 'clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px)', textAlign: 'center' }}>
+            <h2 style={{ ...serif, margin: '0 auto', fontWeight: 600, fontSize: 'clamp(28px, 3.4vw, 44px)', lineHeight: 1.06, letterSpacing: '-0.022em', maxWidth: '24ch', textWrap: 'balance' }}>
+              In 25 minutes you&rsquo;ll turn a messy incident into a decision a reviewer can inspect.
+            </h2>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+              <Link
+                href="/academy/course/programming-fundamentals"
+                style={{ display: 'inline-flex', color: '#fff', background: ACCENT, textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '15px 28px', borderRadius: 26, boxShadow: '0 0 24px rgba(61,90,254,0.35)', whiteSpace: 'nowrap' }}
+              >
+                Start with Engineering Judgment
+              </Link>
+              <Link
+                href="/academy/catalog"
+                style={{ display: 'inline-flex', color: INK, border: `1px solid ${LINE_STRONG}`, textDecoration: 'none', fontSize: 15, padding: '14px 28px', borderRadius: 26, whiteSpace: 'nowrap' }}
+              >
+                Browse the catalog
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <AcademyFooter />
       </div>
-    </div>
+    </>
   )
 }
 
-/* ── Illustration cards ──────────────────────────────────────────────────── */
+/* ── Step visuals (design sc-if blocks, one per step) ────────────────────── */
 
-function Chip({
-  children,
-  dashed,
-  color = C.muted,
-}: {
-  children: React.ReactNode
-  dashed?: boolean
-  color?: string
-}) {
+function DashedChip({ children }: { children: React.ReactNode }) {
   return (
-    <span
-      style={{
-        border: `1px ${dashed ? 'dashed' : 'solid'} ${C.lineStrong}`,
-        borderRadius: 6,
-        padding: '7px 12px',
-        fontFamily: MONO,
-        fontSize: 10.5,
-        color,
-      }}
-    >
+    <span style={{ ...mono, border: `1px dashed ${LINE_STRONG}`, borderRadius: 6, padding: '7px 12px', fontSize: 10.5, color: MUTED }}>
       {children}
     </span>
   )
@@ -433,73 +271,24 @@ function Chip({
 function FrameCard() {
   return (
     <>
-      <div
-        style={{ display: 'flex', flexWrap: 'wrap', gap: 8, opacity: 0.6 }}
-      >
-        <Chip dashed>3am pager</Chip>
-        <Chip dashed>angry ticket</Chip>
-        <Chip dashed>red graph</Chip>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, opacity: 0.6 }}>
+        <DashedChip>3am pager</DashedChip>
+        <DashedChip>angry ticket</DashedChip>
+        <DashedChip>red graph</DashedChip>
       </div>
-      <div style={{ color: C.faint, fontSize: 16, paddingLeft: 4 }}>↓</div>
-      <div
-        style={{
-          border: '1.5px solid rgba(61,90,254,0.55)',
-          background: 'rgba(61,90,254,0.07)',
-          borderRadius: 9,
-          padding: '12px 16px',
-          fontSize: 14,
-          color: C.text,
-          fontWeight: 500,
-        }}
-      >
+      <div style={{ color: FAINT, fontSize: 16, paddingLeft: 4 }}>↓</div>
+      <div style={{ border: '1.5px solid rgba(61,90,254,0.55)', background: 'rgba(61,90,254,0.07)', borderRadius: 9, padding: '12px 16px', fontSize: 14, color: INK, fontWeight: 500 }}>
         &ldquo;Where can a charge be issued twice?&rdquo;
       </div>
     </>
   )
 }
 
-function RouteRow({
-  label,
-  active,
-}: {
-  label: string
-  active?: boolean
-}) {
+function RuledOutRow({ label }: { label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <span
-        style={{
-          width: active ? 56 : 34,
-          borderTop: active
-            ? `2px solid ${C.accent}`
-            : `1.5px dashed ${C.lineStrong}`,
-        }}
-      />
-      {active ? (
-        <span
-          style={{
-            border: '1.5px solid rgba(61,90,254,0.55)',
-            background: 'rgba(61,90,254,0.07)',
-            borderRadius: 7,
-            padding: '8px 13px',
-            fontSize: 13,
-            color: C.text,
-          }}
-        >
-          {label}
-        </span>
-      ) : (
-        <span
-          style={{
-            fontFamily: MONO,
-            fontSize: 11,
-            color: C.faint,
-            textDecoration: 'line-through',
-          }}
-        >
-          {label}
-        </span>
-      )}
+      <span style={{ width: 34, borderTop: `1.5px dashed ${LINE_STRONG}` }} />
+      <span style={{ ...mono, fontSize: 11, color: FAINT, textDecoration: 'line-through' }}>{label}</span>
     </div>
   )
 }
@@ -507,9 +296,14 @@ function RouteRow({
 function RouteCard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-      <RouteRow label="check the client" />
-      <RouteRow label="trace the retry path" active />
-      <RouteRow label="blame the CDN" />
+      <RuledOutRow label="check the client" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 56, borderTop: `2px solid ${ACCENT}` }} />
+        <span style={{ border: '1.5px solid rgba(61,90,254,0.55)', background: 'rgba(61,90,254,0.07)', borderRadius: 7, padding: '8px 13px', fontSize: 13, color: INK }}>
+          trace the retry path
+        </span>
+      </div>
+      <RuledOutRow label="blame the CDN" />
     </div>
   )
 }
@@ -517,64 +311,14 @@ function RouteCard() {
 function MapCard() {
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            border: `1px solid ${C.lineStrong}`,
-            borderRadius: 7,
-            padding: '8px 12px',
-            fontSize: 12,
-            color: C.muted,
-            background: '#141418',
-          }}
-        >
-          checkout
-        </span>
-        <span style={{ color: C.faint }}>→</span>
-        <span
-          style={{
-            border: `1.5px solid ${C.gold}`,
-            borderRadius: 7,
-            padding: '8px 12px',
-            fontSize: 12,
-            color: C.text,
-            background: 'rgba(224,169,62,0.08)',
-          }}
-        >
-          retry path
-        </span>
-        <span style={{ color: C.faint }}>→</span>
-        <span
-          style={{
-            border: `1.5px solid ${C.green}`,
-            borderRadius: 11,
-            padding: '8px 12px',
-            fontSize: 12,
-            color: C.text,
-            background: 'rgba(24,182,99,0.08)',
-          }}
-        >
-          ledger
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+        <span style={{ border: `1px solid ${LINE_STRONG}`, borderRadius: 7, padding: '8px 12px', fontSize: 12, color: '#B6B6C0', background: '#141418' }}>checkout</span>
+        <span style={{ color: FAINT }}>→</span>
+        <span style={{ border: `1.5px solid ${AMBER}`, borderRadius: 7, padding: '8px 12px', fontSize: 12, color: INK, background: 'rgba(224,169,62,0.08)' }}>retry path</span>
+        <span style={{ color: FAINT }}>→</span>
+        <span style={{ border: `1.5px solid ${GREEN}`, borderRadius: 11, padding: '8px 12px', fontSize: 12, color: INK, background: 'rgba(24,182,99,0.08)' }}>ledger</span>
       </div>
-      <div
-        style={{
-          fontFamily: MONO,
-          fontSize: 10.5,
-          color: C.muted,
-          borderTop: `1px solid ${C.line}`,
-          paddingTop: 10,
-        }}
-      >
-        every omission carries a written defense
-      </div>
+      <div style={{ ...mono, fontSize: 10.5, color: MUTED, borderTop: `1px solid ${LINE}`, paddingTop: 10 }}>every omission carries a written defense</div>
     </>
   )
 }
@@ -582,60 +326,21 @@ function MapCard() {
 function DecideCard() {
   return (
     <>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 10,
-        }}
-      >
-        <div
-          style={{
-            border: `1px solid ${C.lineStrong}`,
-            borderRadius: 9,
-            padding: 13,
-            fontSize: 12.5,
-            color: C.muted,
-          }}
-        >
-          distributed locks
-        </div>
-        <div
-          style={{
-            border: '1.5px solid rgba(24,182,99,0.55)',
-            background: 'rgba(24,182,99,0.06)',
-            borderRadius: 9,
-            padding: 13,
-            fontSize: 12.5,
-            color: C.text,
-          }}
-        >
-          ✓ idempotency keys
-        </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div style={{ border: `1px solid ${LINE_STRONG}`, borderRadius: 9, padding: 13, fontSize: 12.5, color: MUTED }}>distributed locks</div>
+        <div style={{ border: '1.5px solid rgba(24,182,99,0.55)', background: 'rgba(24,182,99,0.06)', borderRadius: 9, padding: 13, fontSize: 12.5, color: INK }}>✓ idempotency keys</div>
       </div>
-      <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted }}>
-        the &ldquo;why&rdquo; is written down
-      </div>
+      <div style={{ ...mono, fontSize: 10.5, color: MUTED }}>the &ldquo;why&rdquo; is written down</div>
     </>
   )
 }
 
 function ProveCard() {
   return (
-    <div
-      style={{
-        background: C.panel,
-        border: `1px solid ${C.line}`,
-        borderRadius: 10,
-        padding: '14px 16px',
-        fontFamily: MONO,
-        fontSize: 11.5,
-        lineHeight: 1.9,
-      }}
-    >
-      <div style={{ color: C.muted }}>$ npm run check</div>
-      <div style={{ color: C.muted }}>3 retries issued → 1 charge recorded</div>
-      <div style={{ color: C.green }}>✓ PASS — can&rsquo;t be faked</div>
+    <div style={{ ...mono, background: '#08080A', border: `1px solid ${LINE}`, borderRadius: 10, padding: '14px 16px', fontSize: 11.5, lineHeight: 1.9 }}>
+      <div style={{ color: '#B6B6C0' }}>$ npm run check</div>
+      <div style={{ color: MUTED }}>3 retries issued → 1 charge recorded</div>
+      <div style={{ color: GREEN }}>✓ PASS — can&rsquo;t be faked</div>
     </div>
   )
 }
@@ -643,130 +348,27 @@ function ProveCard() {
 function ReviewCard() {
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontFamily: MONO,
-          fontSize: 10.5,
-          color: C.muted,
-        }}
-      >
+      <div style={{ ...mono, display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: MUTED }}>
         <span>MASTERY</span>
-        <span style={{ color: C.gold }}>78</span>
+        <span style={{ color: AMBER }}>78</span>
       </div>
-      <div
-        style={{
-          position: 'relative',
-          height: 8,
-          borderRadius: 4,
-          background: '#1A1A20',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: '78%',
-            borderRadius: 4,
-            background: 'linear-gradient(90deg, #3D5AFE, #6E83FF)',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: '78%',
-            top: -4,
-            bottom: -4,
-            width: 2,
-            background: C.gold,
-          }}
-        />
+      <div style={{ position: 'relative', height: 8, borderRadius: 4, background: '#1A1A20' }}>
+        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '78%', borderRadius: 4, background: 'linear-gradient(90deg, #3D5AFE, #6E83FF)' }} />
+        <div style={{ position: 'absolute', left: '78%', top: -4, bottom: -4, width: 2, background: AMBER }} />
       </div>
-      <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.gold }}>
-        capped by PROOF — one claim didn&rsquo;t hold
-      </div>
+      <div style={{ ...mono, fontSize: 10.5, color: AMBER }}>capped by PROOF — one claim didn&rsquo;t hold</div>
     </>
   )
 }
 
 function RepairCard() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 14,
-        flexWrap: 'wrap',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: SERIF,
-          fontWeight: 600,
-          fontSize: 34,
-          color: C.coral,
-        }}
-      >
-        71
-      </span>
-      <span style={{ color: C.faint, fontSize: 18 }}>→</span>
-      <span
-        style={{
-          fontFamily: SERIF,
-          fontWeight: 600,
-          fontSize: 34,
-          color: C.green,
-        }}
-      >
-        94
-      </span>
-      <span
-        style={{
-          fontFamily: MONO,
-          fontSize: 10.5,
-          color: C.muted,
-          marginLeft: 'auto',
-        }}
-      >
-        the repair IS the lesson
-      </span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+      <span style={{ ...serif, fontWeight: 600, fontSize: 34, color: CORAL }}>71</span>
+      <span style={{ color: FAINT, fontSize: 18 }}>→</span>
+      <span style={{ ...serif, fontWeight: 600, fontSize: 34, color: GREEN }}>94</span>
+      <span style={{ ...mono, fontSize: 10.5, color: MUTED, marginLeft: 'auto' }}>the repair IS the lesson</span>
     </div>
-  )
-}
-
-function SpaceCard() {
-  return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-        <SpaceDot />
-        <span style={{ flex: '1 1 0%', borderTop: '1.5px solid #26262E' }} />
-        <SpaceDot />
-        <span style={{ flex: '2 1 0%', borderTop: '1.5px solid #26262E' }} />
-        <SpaceDot />
-        <span style={{ flex: '4 1 0%', borderTop: '1.5px solid #26262E' }} />
-        <SpaceDot hollow />
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          fontFamily: MONO,
-          fontSize: 10,
-          color: C.muted,
-        }}
-      >
-        <span>1d</span>
-        <span>3d</span>
-        <span>7d</span>
-        <span style={{ color: C.green }}>30d</span>
-      </div>
-      <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted }}>
-        it holds under pressure, not just until the quiz
-      </div>
-    </>
   )
 }
 
@@ -778,131 +380,68 @@ function SpaceDot({ hollow }: { hollow?: boolean }) {
         height: 12,
         borderRadius: '50%',
         flexShrink: 0,
-        ...(hollow
-          ? { border: `2px solid ${C.green}`, background: 'transparent' }
-          : { background: C.accent }),
+        ...(hollow ? { border: `2px solid ${GREEN}`, background: 'transparent' } : { background: ACCENT }),
       }}
     />
   )
 }
 
-function TransferCard() {
+function SpaceCard() {
   return (
     <>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 10,
-          alignItems: 'stretch',
-        }}
-      >
-        <div
-          style={{
-            border: `1px solid ${C.line}`,
-            borderRadius: 9,
-            padding: 13,
-            textAlign: 'center',
-          }}
-        >
-          <TransferGlyph />
-          <div style={{ fontFamily: MONO, fontSize: 10, color: C.muted }}>
-            payments: retries
-          </div>
-        </div>
-        <div
-          style={{
-            border: '1.5px solid rgba(61,90,254,0.4)',
-            borderRadius: 9,
-            padding: 13,
-            textAlign: 'center',
-            background: 'rgba(61,90,254,0.04)',
-          }}
-        >
-          <TransferGlyph />
-          <div style={{ fontFamily: MONO, fontSize: 10, color: C.muted }}>
-            email: duplicate sends
-          </div>
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <SpaceDot />
+        <span style={{ flex: 1, borderTop: '1.5px solid #26262E' }} />
+        <SpaceDot />
+        <span style={{ flex: 2, borderTop: '1.5px solid #26262E' }} />
+        <SpaceDot />
+        <span style={{ flex: 4, borderTop: '1.5px solid #26262E' }} />
+        <SpaceDot hollow />
       </div>
-      <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted }}>
-        same shape, new domain
+      <div style={{ ...mono, display: 'flex', justifyContent: 'space-between', fontSize: 10, color: MUTED }}>
+        <span>1d</span>
+        <span>3d</span>
+        <span>7d</span>
+        <span style={{ color: GREEN }}>30d</span>
       </div>
+      <div style={{ ...mono, fontSize: 10.5, color: MUTED }}>it holds under pressure, not just until the quiz</div>
     </>
   )
 }
 
 function TransferGlyph() {
   return (
-    <div
-      style={{
-        width: 14,
-        height: 14,
-        background: 'rgba(61,90,254,0.5)',
-        border: `1.5px solid ${C.accent}`,
-        transform: 'rotate(45deg)',
-        margin: '4px auto 10px',
-      }}
-    />
+    <div style={{ width: 14, height: 14, background: 'rgba(61,90,254,0.5)', border: `1.5px solid ${ACCENT}`, transform: 'rotate(45deg)', margin: '4px auto 10px' }} />
+  )
+}
+
+function TransferCard() {
+  return (
+    <>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, alignItems: 'stretch' }}>
+        <div style={{ border: `1px solid ${LINE}`, borderRadius: 9, padding: 13, textAlign: 'center' }}>
+          <TransferGlyph />
+          <div style={{ ...mono, fontSize: 10, color: MUTED }}>payments: retries</div>
+        </div>
+        <div style={{ border: '1.5px solid rgba(61,90,254,0.4)', borderRadius: 9, padding: 13, textAlign: 'center', background: 'rgba(61,90,254,0.04)' }}>
+          <TransferGlyph />
+          <div style={{ ...mono, fontSize: 10, color: '#B6B6C0' }}>email: duplicate sends</div>
+        </div>
+      </div>
+      <div style={{ ...mono, fontSize: 10.5, color: MUTED }}>same shape, new domain</div>
+    </>
   )
 }
 
 function PackageCard() {
   return (
-    <div
-      style={{
-        border: `1px solid ${C.line}`,
-        borderRadius: 10,
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '12px 15px',
-          borderBottom: `1px solid ${C.line}`,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 13,
-            color: C.text,
-            fontWeight: 500,
-            flex: '1 1 0%',
-          }}
-        >
-          Can bound a change before shipping
-        </span>
-        <span style={{ fontFamily: MONO, fontSize: 10, color: C.accentSoft }}>
-          decision-memo.md
-        </span>
-        <span
-          style={{
-            fontFamily: MONO,
-            fontSize: 8.5,
-            letterSpacing: '0.08em',
-            padding: '3px 8px',
-            borderRadius: 4,
-            color: C.green,
-            border: '1px solid rgba(24,182,99,0.4)',
-            background: 'rgba(24,182,99,0.07)',
-          }}
-        >
-          PASSED
-        </span>
+    <div style={{ border: `1px solid ${LINE}`, borderRadius: 10, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 15px', borderBottom: `1px solid ${LINE}` }}>
+        <span style={{ fontSize: 13, color: INK, fontWeight: 500, flex: 1 }}>Can bound a change before shipping</span>
+        <span style={{ ...mono, fontSize: 10, color: '#8FA0FF' }}>decision-memo.md</span>
+        <span style={{ ...mono, fontSize: 8.5, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 4, color: GREEN, border: '1px solid rgba(24,182,99,0.4)', background: 'rgba(24,182,99,0.07)' }}>PASSED</span>
       </div>
-      <div
-        style={{
-          padding: '10px 15px',
-          fontFamily: MONO,
-          fontSize: 10,
-          color: C.muted,
-        }}
-      >
-        row 14 of your evidence ledger
-      </div>
+      <div style={{ ...mono, padding: '10px 15px', fontSize: 10, color: MUTED }}>row 14 of your evidence ledger</div>
     </div>
   )
 }

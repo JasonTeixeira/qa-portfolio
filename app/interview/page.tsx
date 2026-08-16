@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { InterviewMasteryLanding } from '@/components/interview-landing/InterviewMasteryLanding'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 
 export const metadata: Metadata = {
   title: 'Interview Mastery — unlimited AI mock interviews, honestly scored | Sage Academy',
@@ -69,7 +70,9 @@ export default function InterviewMasteryPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+      <AcademyNav />
       <InterviewMasteryLanding />
+      <AcademyFooter />
     </>
   )
 }

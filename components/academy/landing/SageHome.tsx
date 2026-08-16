@@ -536,6 +536,42 @@ export async function SageHome() {
           </div>
         </section>
 
+        {/* ============ INTERVIEW MASTERY — gold add-on band ============ */}
+        <section style={{ borderTop: `1px solid ${LINE}`, background: 'radial-gradient(110% 90% at 50% -20%, rgba(224,169,62,0.07) 0%, transparent 55%)' }}>
+          <div style={{ ...container, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }}>
+            <div>
+              <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: AMBER }}>The add-on · Interview Mastery</div>
+              <h2 style={{ ...h2, margin: '14px 0 16px' }}>
+                40 interviews of practice. Before the <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#F0C36A' }}>4 that count.</em>
+              </h2>
+              <p style={{ margin: 0, color: '#9C9CA6', maxWidth: '50ch', textWrap: 'pretty' }}>
+                Voice-first mocks that adapt, interrupt, and pressure-test — scored against a consistent bar, every session ending in a debrief and a drill. Added to your membership, backed by the loop-ready guarantee.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 26, alignItems: 'center' }}>
+                <Link href="/interview" style={{ display: 'inline-flex', alignItems: 'center', color: '#0B0B0E', background: 'linear-gradient(135deg, #F0C36A, #D99A2B)', textDecoration: 'none', fontSize: 15, fontWeight: 700, padding: '15px 26px', borderRadius: 26, boxShadow: '0 0 22px rgba(224,169,62,0.3)', whiteSpace: 'nowrap' }}>
+                  Explore Interview Mastery →
+                </Link>
+                <Link href="/academy/guarantee" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                  loop-ready guarantee
+                </Link>
+              </div>
+            </div>
+            <div style={{ border: '1px solid rgba(224,169,62,0.35)', borderRadius: 14, background: '#111115', padding: 26 }}>
+              <div style={{ ...mono, display: 'flex', justifyContent: 'space-between', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9598A2', marginBottom: 16 }}>
+                <span style={{ color: AMBER }}>● Live mock · System design · L5 bar</span>
+                <span>32:14</span>
+              </div>
+              <div style={{ fontSize: 14.5, color: '#B6B6C0', lineHeight: 1.6 }}>
+                &ldquo;Your fan-out doubles at 10× traffic. What breaks first — and how do you know before it does?&rdquo;
+              </div>
+              <div style={{ ...mono, display: 'flex', gap: 18, marginTop: 18, paddingTop: 14, borderTop: `1px solid ${LINE}`, fontSize: 10.5, color: '#9598A2', flexWrap: 'wrap' }}>
+                <span>coding · system design · behavioral · negotiation</span>
+                <span style={{ marginLeft: 'auto', color: AMBER }}>+$39/mo · $24 annual</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <AcademyFooter />
       </div>
     </>

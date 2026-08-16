@@ -188,6 +188,12 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/efficacy' ||
     pathname === '/academy/legal' ||
     pathname === '/academy/guarantee' ||
+    // Main-menu marketing pages: public sell surfaces in the academy skin.
+    pathname === '/academy/catalog' ||
+    pathname === '/academy/why-proof' ||
+    pathname === '/academy/pricing' ||
+    pathname === '/academy/about' ||
+    pathname === '/academy/help' ||
     // Interview Mastery add-on: the marketing/pricing landing is public (like /academy + /join).
     // Every other /academy/interview/* surface stays behind needsAcademyLogin.
     pathname === '/academy/interview/mastery' ||

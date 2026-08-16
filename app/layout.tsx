@@ -231,10 +231,19 @@ export default async function RootLayout({
     isInterviewProduct
   const isFocusedShowcasePath = pathname === '/showcase/revenue-os'
   const isPremiumLanding = isLivingHomepage || pathname === '/academy' || isCinematicPath
-  // Academy marketing home (design: Sage Academy Download/Sage Home.dc.html)
-  // carries its OWN nav + footer (AcademyChrome) — the studio MarketingChrome
-  // must never wrap it. Cookie banner still renders.
-  const isAcademyHome = pathname === '/' || pathname === '/academy'
+  // Academy marketing surfaces (design: Sage Academy Download/*.dc.html) carry
+  // their OWN nav + footer (AcademyChrome) — the studio MarketingChrome must
+  // never wrap them. Cookie banner still renders.
+  const isAcademyHome =
+    pathname === '/' ||
+    pathname === '/academy' ||
+    pathname === '/academy/catalog' ||
+    pathname === '/academy/why-proof' ||
+    pathname === '/academy/pricing' ||
+    pathname === '/interview' ||
+    pathname === '/how-it-works' ||
+    pathname === '/field-notes' ||
+    pathname.startsWith('/field-notes/')
   return (
     <html
       lang={localeHrefLang[locale]}

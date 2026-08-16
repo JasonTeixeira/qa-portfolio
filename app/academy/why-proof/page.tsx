@@ -1,19 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
-import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 
-const MONO = '"JetBrains Mono", monospace'
-const DISPLAY = 'Fraunces, Georgia, serif'
+const MONO = 'var(--font-mono), monospace'
+const DISPLAY = 'var(--font-serif), Georgia, serif'
 
 // Real routes verified in-repo:
 // - Course 00 "Engineering Judgment" → /academy/course/[slug] with the seed slug
 //   'career-engineering_judgment_foundation' (GATE_COURSE_SLUG in
 //   components/academy/path/PathDomainSection.tsx + course00 seed scripts).
-// - "See the loop" → /academy/resources/sprint-loop (the real sprint-loop explainer;
-//   /academy/how-it-works does not exist as a route).
+//   The mock's CTA copy names this exact course, so it links there rather than
+//   the generic course-landing mapping.
+// - "See the loop" → the mock links to Sage How It Works → /how-it-works.
 const COURSE_00_HREF = '/academy/course/career-engineering_judgment_foundation'
-const SPRINT_LOOP_HREF = '/academy/resources/sprint-loop'
+const HOW_IT_WORKS_HREF = '/how-it-works'
 
 export const metadata: Metadata = {
   title: 'Why proof · Sage Academy',
@@ -65,27 +65,40 @@ export default function WhyProofPage() {
     <div
       style={{
         minHeight: '100vh',
-        background:
-          'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.035) 0%, transparent 55%) #0B0B0E',
+        background: '#0B0B0E',
+        backgroundImage:
+          'radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.035) 0%, transparent 55%)',
         color: '#F2EFE9',
-        fontFamily: '"Hanken Grotesk", sans-serif',
+        fontFamily: 'var(--font-sans), sans-serif',
         fontSize: 16,
         lineHeight: 1.6,
-        overflowX: 'hidden',
+        overflowX: 'clip',
       }}
     >
-      {/* Focus-visible ring for article links. Inline styles cannot express
-          :focus-visible; this scoped rule satisfies SC 2.4.11. */}
+      {/* Page-scoped rules from the mock: focus ring, hero-art breakpoint,
+          the DISPROVEN stamp entrance, and reduced-motion safety. */}
       <style>{`
         main a:focus-visible {
-          outline: 2px solid #3D5AFE;
-          outline-offset: 3px;
+          outline: 2px solid #8FA0FF;
+          outline-offset: 2px;
           border-radius: 4px;
+        }
+        @keyframes stampIn {
+          0% { opacity: 0; transform: rotate(-2deg) scale(2.4); }
+          60% { opacity: 1; transform: rotate(-2deg) scale(0.92); }
+          100% { opacity: 1; transform: rotate(-2deg) scale(1); }
+        }
+        #stamp-disproven {
+          animation: stampIn 0.5s cubic-bezier(0.2, 1.2, 0.4, 1) 0.35s both;
+        }
+        @media (max-width: 1180px) { #proof-hero-art { display: none; } }
+        @media (prefers-reduced-motion: reduce) {
+          #stamp-disproven { animation-duration: 0.01ms; }
         }
       `}</style>
 
       {/* Nav */}
-      <AcademyNav active="why-proof" />
+      <AcademyNav />
 
       {/* Manifesto */}
       <main>
@@ -94,9 +107,29 @@ export default function WhyProofPage() {
           maxWidth: 760,
           margin: '0 auto',
           padding:
-            'clamp(56px, 8vw, 112px) clamp(20px, 4vw, 48px) clamp(64px, 9vw, 110px)',
+            'clamp(64px, 9vw, 128px) clamp(20px, 4vw, 48px) clamp(64px, 9vw, 110px)',
+          position: 'relative',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative
+            absolutely-positioned art from the mock; masked, no layout impact */}
+        <img
+          id="proof-hero-art"
+          src="/art/academy/manifesto-art.png"
+          alt=""
+          style={{
+            position: 'absolute',
+            right: -390,
+            top: 40,
+            width: 460,
+            opacity: 0.65,
+            pointerEvents: 'none',
+            WebkitMaskImage:
+              'radial-gradient(72% 72% at 50% 50%, #000 30%, transparent 82%)',
+            maskImage:
+              'radial-gradient(72% 72% at 50% 50%, #000 30%, transparent 82%)',
+          }}
+        />
         <div
           style={{
             fontFamily: MONO,
@@ -113,7 +146,7 @@ export default function WhyProofPage() {
             margin: '20px 0 0',
             fontFamily: DISPLAY,
             fontWeight: 600,
-            fontSize: 'clamp(44px, 7.5vw, 104px)',
+            fontSize: 'clamp(48px, 7.5vw, 104px)',
             lineHeight: 0.96,
             letterSpacing: '-0.032em',
             textWrap: 'balance',
@@ -199,6 +232,7 @@ export default function WhyProofPage() {
               }}
             >
               <span
+                id="stamp-disproven"
                 style={{
                   fontFamily: MONO,
                   fontSize: 9,
@@ -601,7 +635,7 @@ export default function WhyProofPage() {
             Start with Engineering Judgment
           </Link>
           <Link
-            href={SPRINT_LOOP_HREF}
+            href={HOW_IT_WORKS_HREF}
             style={{
               display: 'inline-flex',
               color: '#F2EFE9',
@@ -619,7 +653,7 @@ export default function WhyProofPage() {
       </article>
       </main>
 
-      <AcademyFooter tagline="frame → route → map → decide → prove" />
+      <AcademyFooter />
     </div>
   )
 }

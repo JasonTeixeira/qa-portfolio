@@ -29,9 +29,11 @@ const NAV_LINKS = [
   { href: '/how-it-works', label: 'How it works' },
   { href: '/academy/catalog', label: 'Courses' },
   { href: '/academy/why-proof', label: 'Why proof' },
-  { href: '/#offer', label: 'Pricing' },
+  // Gold sub-brand: the Interview Mastery add-on gets its accent in the nav.
+  { href: '/interview', label: 'Interview', tint: '#E0A93E' },
+  { href: '/academy/pricing', label: 'Pricing' },
   { href: '/login?audience=academy', label: 'Log in' },
-]
+] as { href: string; label: string; tint?: string }[]
 
 export function AcademyNav() {
   const [hover, setHover] = useState<string | null>(null)
@@ -87,7 +89,7 @@ export function AcademyNav() {
             onMouseEnter={() => setHover(l.label)}
             onMouseLeave={() => setHover(null)}
             style={{
-              color: hover === l.label ? INK : DIM,
+              color: hover === l.label ? (l.tint ?? INK) : l.tint ? '#C9A96A' : DIM,
               background: hover === l.label ? 'rgba(255,255,255,0.04)' : 'transparent',
               textDecoration: 'none',
               fontSize: 14,
@@ -145,7 +147,8 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
     head: 'Product',
     links: [
       { href: '/academy/why-proof', label: 'Why proof' },
-      { href: '/#offer', label: 'Pricing' },
+      { href: '/academy/pricing', label: 'Pricing' },
+      { href: '/interview', label: 'Interview Mastery' },
       { href: '/academy/onboarding', label: 'Placement test' },
       { href: '/academy/help', label: 'Help center' },
     ],
@@ -154,6 +157,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
     head: 'Company',
     links: [
       { href: '/academy/about', label: 'About' },
+      { href: '/services', label: 'Hire the studio' },
       { href: '/academy/legal', label: 'Legal' },
       { href: 'mailto:hello@sageideas.dev', label: 'hello@sageideas.dev' },
     ],

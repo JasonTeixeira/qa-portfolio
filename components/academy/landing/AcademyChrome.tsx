@@ -160,7 +160,6 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
     links: [
       { href: '/academy/about', label: 'About' },
       { href: '/services', label: 'Hire the studio' },
-      { href: 'https://agency.sageideas.dev', label: 'QA & automation portfolio' },
       { href: '/academy/legal', label: 'Legal' },
       { href: 'mailto:hello@sageideas.dev', label: 'hello@sageideas.dev' },
     ],

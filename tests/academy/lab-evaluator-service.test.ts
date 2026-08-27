@@ -5,16 +5,11 @@ import os from 'node:os'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { decideLabSubmissionOutcome } from '../../lib/academy/lab-evaluator/application'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { executePrivateCase } from '../../services/academy-lab-evaluator/src/executor'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { evaluateSubmission } from '../../services/academy-lab-evaluator/src/evaluate'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { loadPrivateSpec } from '../../services/academy-lab-evaluator/src/spec-store'
 
 const NOW = 1_788_194_400_000

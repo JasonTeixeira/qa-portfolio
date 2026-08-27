@@ -100,6 +100,8 @@ Steps 2–5 are logically parallel after Step 1, but file ownership must remain 
 
 ### Step 1 — Establish canonical truth, capability status, and a migration path
 
+**Execution status (2026-08-27):** repository Phase A implemented on local branch `academy/01-canonical-truth`. Canonical snapshot `sha256:874c2f483948e9d0dbead455ca7fd31502895630ad0244733b3cf51add4a6cc3` covers 32 courses / 632 lessons. Read-only live Supabase reconciliation was attempted and returned `TypeError: fetch failed`; runtime publication truth remains explicitly unverified and no database mutation occurred.
+
 **Model tier:** strongest; architecture/data-contract judgment.  
 **Depends on:** none.  
 **Suggested branch:** `academy/01-canonical-truth`.

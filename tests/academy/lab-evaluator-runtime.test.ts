@@ -3,9 +3,7 @@ import path from 'node:path'
 import { describe, it } from 'node:test'
 
 import type { PrivateLabCase } from '../../lib/academy/lab-evaluator/contract'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { loadEvaluatorConfig } from '../../services/academy-lab-evaluator/src/config'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { createReferenceProofCache } from '../../services/academy-lab-evaluator/src/reference-proof'
 
 const PINNED = `registry.example.com/sage/runtime@sha256:${'a'.repeat(64)}`

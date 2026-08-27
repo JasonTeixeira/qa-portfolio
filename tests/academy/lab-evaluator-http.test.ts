@@ -2,10 +2,8 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
 import { EVALUATOR_LIMITS, evaluatorPolicyHash, type EvaluationRequest } from '../../lib/academy/lab-evaluator/contract'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { requestControlledEvaluation } from '../../lib/academy/lab-evaluator/client'
 import { signEvaluatorRequest, signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { ConcurrencyGate, createEvaluatorHttpHandler } from '../../services/academy-lab-evaluator/src/handler'
 
 const SECRET = 'test-only-secret-that-is-at-least-thirty-two-bytes'

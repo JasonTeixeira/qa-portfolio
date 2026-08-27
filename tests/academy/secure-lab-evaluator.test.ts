@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { describe, it } from 'node:test'
 
 import {
@@ -7,7 +8,6 @@ import {
   gradePrivateCases,
   parseEvaluationRequest,
   validatePrivateSpec,
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 } from '../../lib/academy/lab-evaluator/contract'
 import {
   InMemoryReplayGuard,
@@ -15,18 +15,15 @@ import {
   signEvaluatorResponse,
   verifyEvaluatorRequest,
   verifyEvaluatorResponse,
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 } from '../../lib/academy/lab-evaluator/signing'
 import {
   authorizeMasteryEvidence,
   type TrustedLabEvaluation,
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 } from '../../lib/academy/lab-evaluator/trust'
 import {
   BoundedOutput,
   buildDockerRunArgs,
   validatePinnedImage,
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 } from '../../services/academy-lab-evaluator/src/docker-policy'
 
 const SECRET = 'test-only-secret-that-is-at-least-thirty-two-bytes'
@@ -34,6 +31,7 @@ const NOW = 1_788_194_400_000
 const REQUEST_ID = '018f47a2-4b8d-7f31-8c5a-1ccf64d58b20'
 const EVALUATION_ID = '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21'
 const IMAGE = `registry.example.com/sage/python@sha256:${'a'.repeat(64)}`
+const SUBMISSION_DIGEST = createHash('sha256').update('print(42)', 'utf8').digest('hex')
 
 function requestPayload() {
   return {
@@ -42,7 +40,7 @@ function requestPayload() {
     issuedAt: NOW,
     labKey: 'python-basics/variables',
     code: 'print(42)',
-    submissionDigest: 'b'.repeat(64),
+    submissionDigest: SUBMISSION_DIGEST,
   }
 }
 
@@ -53,7 +51,7 @@ function responsePayload() {
     requestId: REQUEST_ID,
     issuedAt: NOW,
     labKey: 'python-basics/variables',
-    submissionDigest: 'b'.repeat(64),
+    submissionDigest: SUBMISSION_DIGEST,
     evaluatorVersion: 'academy-evaluator-v1',
     policyHash: 'c'.repeat(64),
     verdict: 'passed' as const,

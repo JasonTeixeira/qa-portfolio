@@ -1,0 +1,896 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "career-backend_engineering",
+  "title": "Backend Engineering",
+  "contentHash": "sha256:99303d4adc3632533a63bf40acb1c2e900af6699d8447bf1f4eb36f08ae24f1c",
+  "lessonCount": 20,
+  "labTrust": "untrusted_current_runtime",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "1b29a3489fd1da4c",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-request-response"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "537c6ac0020ec74e",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "resource-modeling"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "5dd732cd2a3b462c",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "api-contracts-schemas"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "53b3f917bb4e98cb",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "validation-error-model"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "23bcfe308a5be405",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "http-status-codes"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "32ec5d1ae0548621",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "pagination-filtering-sorting"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "e04f28bde3a41afd",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "idempotency-retry-safety"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ec07f2648e6bac90",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "auth-authorization-boundaries"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "53d3617e03aefe73",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "persistence-repository-boundary"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "421e7204945ee314",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "background-jobs-queue-basics"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ef4c97c213f16b9f",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "worker-state-retries-dlq"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "c1820d0a448ae970",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "event-vs-command"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "bb543b9039f6c98a",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "observability-request-ids-logs-metrics"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "6e92b4fe43e76185",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-testing-contracts"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "24199444a0d139fe",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "rate-limits-backpressure"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, debug, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "7204de16f04963bc",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "versioning-compatibility"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "8a9a5be4682664b6",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "security-privacy-boundaries"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "81689bf9d7c0bf0a",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-debugging-incident-loop"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "dec6104c276a3a38",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-integration-mini-project"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "12ffd312cb98a523",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-capstone"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "fail",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "6032e75961b585da",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-request-response"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0f59bae743c56c9e",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "resource-modeling"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "73ca94ff84847a1b",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "api-contracts-schemas"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5826cb36d1df8737",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "validation-error-model"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1ec52d48719331aa",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "http-status-codes"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3d4b31d77085786d",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "pagination-filtering-sorting"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7d161ddbfd5ce294",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "idempotency-retry-safety"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1d32a14f61b420a7",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "auth-authorization-boundaries"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "97e6cf3da58f1ce3",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "persistence-repository-boundary"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f3d700df76d5c2d5",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "background-jobs-queue-basics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "62b623487ef0bf67",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "worker-state-retries-dlq"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c61b6d4514ff1e23",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "event-vs-command"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "28f14af9c194a477",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "observability-request-ids-logs-metrics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e307aace977c59f7",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-testing-contracts"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b46f666b094c3609",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "rate-limits-backpressure"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "69992eedbfc1ceb4",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "versioning-compatibility"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "a0886ca008ebcc32",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "security-privacy-boundaries"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "97ebe57509057321",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-debugging-incident-loop"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0c05813afa01b614",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-integration-mini-project"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7c15a379acff93f9",
+          "courseSlug": "career-backend_engineering",
+          "lessonSlug": "backend-capstone"
+        }
+      ]
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 88.9,
+  "compositeScore": null,
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "6032e75961b585da",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "backend-request-response"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0f59bae743c56c9e",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "resource-modeling"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "73ca94ff84847a1b",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "api-contracts-schemas"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5826cb36d1df8737",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "validation-error-model"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1ec52d48719331aa",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "http-status-codes"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3d4b31d77085786d",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "pagination-filtering-sorting"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7d161ddbfd5ce294",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "idempotency-retry-safety"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1d32a14f61b420a7",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "auth-authorization-boundaries"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "97e6cf3da58f1ce3",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "persistence-repository-boundary"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f3d700df76d5c2d5",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "background-jobs-queue-basics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "62b623487ef0bf67",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "worker-state-retries-dlq"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c61b6d4514ff1e23",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "event-vs-command"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "28f14af9c194a477",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "observability-request-ids-logs-metrics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e307aace977c59f7",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "backend-testing-contracts"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b46f666b094c3609",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "rate-limits-backpressure"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "69992eedbfc1ceb4",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "versioning-compatibility"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "a0886ca008ebcc32",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "security-privacy-boundaries"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "97ebe57509057321",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "backend-debugging-incident-loop"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0c05813afa01b614",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "backend-integration-mini-project"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7c15a379acff93f9",
+      "courseSlug": "career-backend_engineering",
+      "lessonSlug": "backend-capstone"
+    }
+  ],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "blocked",
+  "certificationStatus": "uncertified"
+}

@@ -10,6 +10,29 @@ run, the unit is **not** at 99 — it is unverified.
 > sample sign-off per phase (see §6). Any claim of "99+" that skips the human sample
 > is theater.
 
+## Current implementation authority (2026-08-27)
+
+`npm run academy:audit:all` is the only command allowed to publish the authoritative
+Academy certification-readiness board. Its output is tied to the canonical registry
+hash and lives under `docs/evidence/academy/certification-v2/`.
+
+Harness V2 expands the rubric into explicit checks for content correctness, structure,
+pedagogy, assessments, sources, labs, accessibility, media, references, metadata,
+duplication, visual quality, UX, performance, and consistency. Each check records both
+its evidence mode—deterministic, supplied runtime evidence, expert, human, or policy—and
+its state: `pass`, `fail`, `pending`, or `not_applicable`.
+
+The legacy `scripts/academy/quality/harness.mjs` and
+`scripts/academy/authoring/audit-courses.ts` are diagnostics only. Their results cannot
+promote lifecycle or certification state. Current labs always emit
+`lab_trust: untrusted_current_runtime`, receive no lab points, and block certification
+until Step 4A provides controlled evaluator evidence.
+
+Harness V2 reports `eligible_for_certification`, never `certified`. Immutable release
+identity and governance sign-off remain separate Step 8 requirements. H6 asset
+provenance remains inside required visual/human review until a deterministic asset
+provenance adapter is implemented; a pending H6 review cannot certify.
+
 ---
 
 ## 1. Unit of measure
@@ -93,27 +116,23 @@ including the worst-scoring passing unit). The harness surfaces the sample + its
 scorecards. A phase is complete only when the board is green **and** the operator
 signs the sample. This is the one step no harness replaces.
 
-## 7. Proof artifact
+## 7. Proof artifacts
 
-Every score writes `proof-artifacts/academy/<unit-id>-scorecard.json`:
+Harness V2 writes one evidence family under
+`docs/evidence/academy/certification-v2/`:
 
-```json
-{
-  "unit": "system-design/capacity-estimation",
-  "kind": "lesson",
-  "ts": "<ISO>",
-  "composite": 99.4,
-  "dimensions": { "content": 99, "arc": 100, "lab": 99, "visual": 99, "voice": "n/a",
-                  "a11y": 100, "ux": 98, "perf": 99, "consistency": 100 },
-  "hardFails": [],
-  "judges": [{ "dim": "ux", "verdict": "pass", "cite": "…", "model": "…" }],
-  "fixlist": [],
-  "pass": true
-}
-```
+- `latest.json` and `latest.md` — authoritative run index and human-readable board;
+- `academy-quality-board.json` — Academy and course rollups;
+- `course-scorecards/<course>.json` — one course-level scorecard per registry course;
+- `lesson-scorecards/<course>.json` — every lesson scorecard for that course;
+- `remediation-backlog.json` — ranked, grouped fixes with affected courses and lessons;
+- `flagship-readiness.json` — provisional blueprint-path readiness, explicitly pending
+  the Step 5 competency graph.
 
-An index (`proof-artifacts/academy/INDEX.json`) rolls units → courses → academy, so the
-board state is one read, not a re-derivation.
+Every artifact carries `harnessVersion`, `registryVersion`, and `generatedAt`.
+Deterministic scores cover only completed deterministic checks and must never be
+presented as a composite quality score. A composite remains `null` while any required
+check is pending or failing.
 
 ## 8. Phase sequence (voice held — content + visual first)
 

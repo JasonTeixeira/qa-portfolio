@@ -123,13 +123,13 @@
     {
       "id": "certification_harness_v2",
       "label": "Authoritative Academy certification harness",
-      "status": "planned_only",
+      "status": "implemented_partial",
       "evidence": [
-        "plans/sage-academy-production-grade-blueprint.md",
-        "scripts/academy/quality/harness.mjs",
-        "scripts/academy/authoring/audit-courses.ts"
+        "scripts/academy/quality/v2/run.ts",
+        "tests/academy/certification-harness-v2.test.ts",
+        "docs/academy/adr/0003-certification-harness-v2-authority.md"
       ],
-      "notes": "Two audit tools exist; Step 2 must select the scoring authority and prevent pending hard-fail dimensions from certifying a course."
+      "notes": "One offline command audits all canonical courses and fails closed on pending evidence and untrusted labs. Full rendered, expert, human, source-governance, and controlled-lab evidence remains incomplete, so no course is certified."
     },
     {
       "id": "immutable_course_releases",
@@ -10636,5 +10636,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:874c2f483948e9d0dbead455ca7fd31502895630ad0244733b3cf51add4a6cc3"
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a"
 }

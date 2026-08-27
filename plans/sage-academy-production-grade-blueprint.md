@@ -140,6 +140,17 @@ Steps 2–5 are logically parallel after Step 1, but file ownership must remain 
 **Depends on:** Step 1.  
 **Suggested branch:** `academy/02-certification-harness`.
 
+**Local execution status (2026-08-27):** implemented and verified in the isolated
+Step 2 worktree. `npm run academy:audit:all` now audits the 32-course/632-lesson
+registry corpus and writes the authoritative V2 evidence family under
+`docs/evidence/academy/certification-v2/`. The first board reports 19 hard-blocked
+courses, 13 courses needing deterministic remediation, 0 eligible courses, and 0
+certified courses. All current labs remain `untrusted_current_runtime`. ADR 0003
+demotes both prior audit outputs to diagnostics. Step 2 does not satisfy Step 3
+source governance, Step 4A controlled lab execution, rendered accessibility or
+performance proof, expert review, human review, immutable releases, or live runtime
+reconciliation.
+
 **Context brief:** Current gates prove structure but do not provide one honest, current answer for all 32 courses. Existing boards are stale, sample only part of the corpus, or leave labs/visual/UX dimensions pending.
 
 **Tasks:**

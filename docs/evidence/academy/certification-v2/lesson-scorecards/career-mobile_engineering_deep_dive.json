@@ -1,0 +1,6522 @@
+[
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "native-vs-cross-platform-decision",
+    "contentHash": "sha256:f895035d0b46961a60ba395cc955b82ef63d690dc4ab0ada95035e5812cf4c18",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "dbe2f3f1406da23f",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "native-vs-cross-platform-decision"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "navigation-and-state-boundaries",
+    "contentHash": "sha256:24772368993393907c0874dc441c7412315cbe27c5acfe43b14eb92c97f54086",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "ad9dd8f7f51a402b",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "navigation-and-state-boundaries"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "feature-modularization",
+    "contentHash": "sha256:aeed4c36d2e9f13875849b14fda6f48e27789d92f6a289945e8f95960a498978",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "1f3fd558ad25a4fa",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "feature-modularization"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "platform-lifecycle-constraints",
+    "contentHash": "sha256:b07587be86fbe28096e8f5dd8ee66aa4586cdb5fa6429fe69dc849d2833853ad",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "4e6c64d5ae89c80d",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "platform-lifecycle-constraints"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "local-database-model",
+    "contentHash": "sha256:c802ec57e724415e39c064287a33b9b292c0f8d15202373be95025f041b723a2",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "0baceccb8985dd17",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "local-database-model"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "repository-sync-contract",
+    "contentHash": "sha256:f90d42318d266d87d72142b18505018a17b16b9f5d81a4aa940ffa9da529dba5",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "dc49bc48fe0eef56",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "repository-sync-contract"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "conflict-resolution",
+    "contentHash": "sha256:6923e176316364589acaf972e9b9593c628f7f4950087f9dccdb63cf6e59710f",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "6d453c6a2053f169",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "conflict-resolution"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "flaky-network-repair",
+    "contentHash": "sha256:3118a14d373fa60b653d0b85e3a82832e67004636cac821c3f21327776bcff08",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "e36f559378fa378c",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "flaky-network-repair"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "secure-token-storage",
+    "contentHash": "sha256:58b8951b156083b65fcf782c6076cba45d94d5310cccdcdfdabb240caf6f1a0e",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "e8833443e21e26d3",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "secure-token-storage"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "permission-boundaries",
+    "contentHash": "sha256:698d182336e96396ba7f05629239bbd72c599d2874240852bcefaccf0ea79840",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "7bb22e5a690b82c4",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "permission-boundaries"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "session-expiry",
+    "contentHash": "sha256:1e7afec24b128768a6035b7433333ee0192988d409a0636f325ce0330c73fef9",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "c4fac56fa29f2be4",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "session-expiry"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "privacy-safe-telemetry",
+    "contentHash": "sha256:5d06acc3a129339c2c25b4a49870a1c2adf4760c64dd936ba586180b1c8b322b",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "b948c7b994159667",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "privacy-safe-telemetry"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "small-screen-workflow",
+    "contentHash": "sha256:9f44e5a98c080a9eb0d56968950b292a252d9b11fd15603cc147ca028eaa675b",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "d84d77bbe70527a5",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "small-screen-workflow"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "loading-empty-error-states",
+    "contentHash": "sha256:14b49140cf02f80d3ea0411c9ddd4f18b3277d8d8f3b308606ec304782e580a9",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "ecdec3db4d734944",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "loading-empty-error-states"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "mobile-accessibility",
+    "contentHash": "sha256:f41837c70c6fd3cf2431e089dd083bf7b57bada183001df85720b127c0544c86",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "ec484a158554b76c",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "mobile-accessibility"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "gesture-and-input-constraints",
+    "contentHash": "sha256:2ee60981376446e4921a0881655ba94a13dd318f93fbfa9c637c9d35ee226e3d",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "4dffed1ee46b8718",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "gesture-and-input-constraints"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "mobile-test-plan",
+    "contentHash": "sha256:f4732a523aa93418c4c7ebce9ee6305026ba11b7f177e933bcc67ac234ffda09",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "7751ec11720985e9",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "mobile-test-plan"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "crash-and-analytics-signals",
+    "contentHash": "sha256:942b94ced67ffbdabe92c02110984a163f7906a8bf5746464743027f777fcd66",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "01af8cafd0c7680f",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "crash-and-analytics-signals"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "app-store-readiness",
+    "contentHash": "sha256:98f3e04fdb619f043d71c394aac4e13f967fdb79206fab10d627999f7a7e2869",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "91d4ed7edbece4a6",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "app-store-readiness"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  },
+  {
+    "schemaVersion": 2,
+    "harnessVersion": "2.0.0",
+    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+    "generatedAt": "2026-08-27T17:08:14.471Z",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "lessonSlug": "post-release-incident-loop",
+    "contentHash": "sha256:07b56e20a1f3e9bb5d133e8c6b5b78e137ab1df4ce39d28bb06d048310a3d85e",
+    "labTrust": "not_applicable",
+    "dimensions": {
+      "structure": {
+        "id": "structure",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "runtime-block-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Runtime block schema is valid."
+          }
+        ],
+        "findings": []
+      },
+      "pedagogy": {
+        "id": "pedagogy",
+        "status": "fail",
+        "score": 0,
+        "checks": [
+          {
+            "id": "learning-loop-arc",
+            "mode": "deterministic",
+            "status": "fail",
+            "required": true,
+            "summary": "The required learning loop is incomplete."
+          },
+          {
+            "id": "expert-pedagogy-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
+          }
+        ],
+        "findings": [
+          {
+            "severity": "high",
+            "category": "pedagogy",
+            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+            "mode": "deterministic",
+            "id": "f1e83e557fbae399",
+            "courseSlug": "career-mobile_engineering_deep_dive",
+            "lessonSlug": "post-release-incident-loop"
+          }
+        ]
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pending",
+            "required": true,
+            "summary": "No source ledger is registered for this course."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No lab is present in this lesson."
+          }
+        ],
+        "findings": []
+      },
+      "accessibility": {
+        "id": "accessibility",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "static-transcript-readiness",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Narrated diagram beats expose transcript text."
+          },
+          {
+            "id": "rendered-axe-wcag-2.2-aa",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered axe WCAG 2.2 AA evidence is pending."
+          },
+          {
+            "id": "keyboard-and-focus",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Keyboard operation, focus order, focus visibility, and trap checks are pending."
+          },
+          {
+            "id": "screen-reader-semantics",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Semantic structure, names, relationships, and screen-reader checks are pending."
+          },
+          {
+            "id": "reduced-motion",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Reduced-motion behavior is pending."
+          },
+          {
+            "id": "zoom-and-reflow",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "200% zoom and reflow evidence is pending."
+          },
+          {
+            "id": "target-size",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "WCAG 2.2 target-size evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "media": {
+        "id": "media",
+        "status": "not_applicable",
+        "score": null,
+        "checks": [
+          {
+            "id": "promised-media-integrity",
+            "mode": "deterministic",
+            "status": "not_applicable",
+            "required": true,
+            "summary": "No audio or video is promised."
+          }
+        ],
+        "findings": []
+      },
+      "references": {
+        "id": "references",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "internal-reference-resolution",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Diagram, storyboard, and lesson-route references resolve."
+          }
+        ],
+        "findings": []
+      },
+      "metadata": {
+        "id": "metadata",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "lesson-metadata",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Required lesson metadata is complete."
+          }
+        ],
+        "findings": []
+      },
+      "duplication": {
+        "id": "duplication",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "substantive-duplication",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "No exact or high-confidence near cross-lesson duplicates were detected."
+          }
+        ],
+        "findings": []
+      },
+      "content_correctness": {
+        "id": "content_correctness",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "expert-correctness-review",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Subject-matter expert correctness review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "visual": {
+        "id": "visual",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "visual-presence",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Every lesson requires at least one substantive code-native visual."
+          },
+          {
+            "id": "human-visual-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human visual-teaching and legibility review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "ux": {
+        "id": "ux",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "human-ux-review",
+            "mode": "human",
+            "status": "pending",
+            "required": true,
+            "summary": "Human comprehension, flow, and appeal review is pending."
+          }
+        ],
+        "findings": []
+      },
+      "performance": {
+        "id": "performance",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-performance",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Production-like performance evidence is pending."
+          }
+        ],
+        "findings": []
+      },
+      "consistency": {
+        "id": "consistency",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "rendered-consistency",
+            "mode": "supplied_evidence",
+            "status": "pending",
+            "required": true,
+            "summary": "Rendered design-system consistency evidence is pending."
+          }
+        ],
+        "findings": []
+      }
+    },
+    "deterministicScore": 77.8,
+    "compositeScore": null,
+    "hardFails": [],
+    "requiredPending": [
+      "pedagogy",
+      "sources",
+      "accessibility",
+      "content_correctness",
+      "visual",
+      "ux",
+      "performance",
+      "consistency"
+    ],
+    "decision": "needs_remediation",
+    "certificationStatus": "uncertified"
+  }
+]

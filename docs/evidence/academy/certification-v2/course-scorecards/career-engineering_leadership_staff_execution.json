@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "career-engineering_leadership_staff_execution",
+  "title": "Engineering Leadership and Staff-Level Execution",
+  "contentHash": "sha256:60e0433dd028afc33379a913b06e43e1398d4343afb11e554f870615e0ea4f73",
+  "lessonCount": 20,
+  "labTrust": "not_applicable",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "2d206f3c650309ea",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "scope-expansion"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "b0eb22c04683f5ef",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "judgment-under-ambiguity"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "a8fc07cf36fbd82a",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "influence-without-authority"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "0722985ed64fe340",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "evidence-backed-leadership"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "98ec41dc1e57eae0",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "strategy-memo"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "c032321c786bb9e9",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "architecture-review"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "fad42622f9e1d094",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "tradeoff-framing"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "890b8f9c34d1e1ab",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "decision-record"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "fc7859e84b8f4edb",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "planning-cadence"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "205ef1bc4f0bdcfc",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "dependency-management"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "f591b9b0d47a1f55",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "risk-register"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "e461205886ca2c7e",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "delivery-review"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "79f6e8bf81936c5d",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "mentoring"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "7276a1de614e59cc",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "feedback"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "be72b538c27edd00",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "conflict-repair"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "e0d8f299dad2ea7d",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "executive-updates"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "58c70004be013189",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "incident-command"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "a3e09adb0442fef2",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "postmortem-quality"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "423b22e3f4f8b1fa",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "systemic-repair"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "d5e762d185bd6a94",
+          "courseSlug": "career-engineering_leadership_staff_execution",
+          "lessonSlug": "operating-cadence"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 77.8,
+  "compositeScore": null,
+  "hardFails": [],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "needs_remediation",
+  "certificationStatus": "uncertified"
+}

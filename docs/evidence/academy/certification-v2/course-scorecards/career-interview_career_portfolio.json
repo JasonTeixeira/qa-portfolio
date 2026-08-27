@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "career-interview_career_portfolio",
+  "title": "Interview, Career, and Portfolio",
+  "contentHash": "sha256:b52c4c8443d0cc8256a30ad9ab177d90165069ddfbab040cb011ccc66cf3b7ed",
+  "lessonCount": 20,
+  "labTrust": "not_applicable",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "9cd17d36a0790ee6",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "role-targeting"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "87b7022b432b11e2",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "market-scan"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "9fbe398ba79505e3",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "resume-positioning"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ec20fc809a9d1c69",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "linkedin-github-positioning"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "7d589bcbd9ccfece",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "portfolio-proof-map"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "38f3485415f70a79",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "project-case-studies"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "1695048513d47454",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "behavioral-story-bank"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "17e391c6275d2c9a",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "technical-explanation"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "f0e4a5a1db724d3b",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "system-design-interview"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "e84652dbd0f8507c",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "coding-interview-loop"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "52fed884fb63c53b",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "debugging-interview"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "cc31805e4a8bde4e",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "architecture-tradeoffs"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "1d94497168196664",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "ai-tooling-interview"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "340d3f83cb328fb4",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "cloud-data-interview"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "6661c50980e5df50",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "take-home-execution"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "0a721170fbae557d",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "outreach-networking"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "492a0891fab491a7",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "application-pipeline"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "33ed19dddd33c66c",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "offer-negotiation"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "aa63113491d409ee",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "feedback-retro"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ab6be588e1ba9106",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "career-capstone"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 77.8,
+  "compositeScore": null,
+  "hardFails": [],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "needs_remediation",
+  "certificationStatus": "uncertified"
+}

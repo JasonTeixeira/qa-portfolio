@@ -1,8 +1,10 @@
 /**
- * academy-quality-harness — scores a course/lesson against docs/academy/ACADEMY_QUALITY_STANDARD.md
- * and writes proof-artifacts/academy/<unit>-scorecard.json. This is the DETERMINISTIC spine:
- * it fills the objective dimensions and flags hard-fails. The subjective dims (4 visual, 7 UX)
- * are captured for a judge panel run by the orchestrator (Workflow/Agent) and merged later.
+ * LEGACY DIAGNOSTIC — this file is not a certification authority.
+ *
+ * Academy Certification Harness V2 (`npm run academy:audit:all`) is the only tool
+ * allowed to publish the authoritative Academy quality board. This legacy script
+ * remains temporarily available for bounded live-render/audio diagnostics and its
+ * proof-artifacts output cannot promote course lifecycle or certification state.
  *
  *   node --env-file=.env.local scripts/academy/quality/harness.mjs <course-slug> [--lesson <slug>]
  *
@@ -48,6 +50,9 @@ if (!requestedCourseSlug) {
   console.error('usage: harness.mjs <course-slug> [--lesson <slug>]')
   process.exit(1)
 }
+console.warn(
+  'legacy diagnostic only — use `npm run academy:audit:all` for the authoritative certification board',
+)
 const academyRegistry = JSON.parse(
   readFileSync('data/academy/registry.json', 'utf8'),
 )
@@ -436,11 +441,9 @@ async function main() {
     (k) => dims[k] === null,
   )
   const deterministicComposite = composite(dims)
-  const pass =
-    deterministicComposite >= GATE &&
-    hardFails.length === 0 &&
-    pendingJudge.length === 0 &&
-    pendingChecks.length === 0
+  // Legacy diagnostics can never issue a certification/pass decision. Harness V2
+  // is the sole authority and separately fails closed on every pending dimension.
+  const pass = false
 
   const card = {
     unit: lessonFilter ? `${courseSlug}/${lessonFilter}` : courseSlug,
@@ -467,6 +470,8 @@ async function main() {
           ],
     },
     pass,
+    authority: 'legacy_diagnostic_only',
+    certificationStatus: 'uncertified',
     gate: GATE,
     generatedBy: 'academy-quality-harness (deterministic spine)',
   }

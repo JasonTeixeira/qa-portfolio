@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "career-security_identity",
+  "title": "Security and Identity Engineering",
+  "contentHash": "sha256:e04f467a014756d68d22f294ed39adfe3de5a099a7d7d7a78312c2205ba69c60",
+  "lessonCount": 20,
+  "labTrust": "not_applicable",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "9e93daf537479677",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-mindset-risk"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "fba165c61041d767",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "identity-authentication"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "eca94a3190e6e47e",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "session-token-security"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "7ebb5a512eadf144",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "authorization-rbac-abac"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "bba351795b67544e",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "object-level-authorization"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "5caacf351c635ce0",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "input-validation-injection"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "36e58c1b13274bd1",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secrets-management"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "3446a51019a83621",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secure-api-design"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ad294573d6435c42",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "threat-modeling"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "4bbee58f5b18ceee",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "attack-trees"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "d39ae2e1242ad15c",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secure-coding-review"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "bd135606acef01eb",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "dependency-supply-chain"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "0a14809a9a91645d",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "cloud-iam-least-privilege"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "94ccd1f52bf5edee",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "network-edge-security"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "9710f5e9d6b278bb",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "data-protection-privacy"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "a5b4546e810d5d56",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "logging-detection-response"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "bc222f42b0eb59e3",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "incident-response"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "4f202ec14db00d66",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "compliance-evidence"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "6bd0a69f936169c9",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-interview-practice"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "c2a50d998a731de4",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-capstone"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 88.9,
+  "compositeScore": null,
+  "hardFails": [],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "needs_remediation",
+  "certificationStatus": "uncertified"
+}

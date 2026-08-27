@@ -1,0 +1,1147 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "nextjs-supabase",
+  "title": "Next.js and Supabase",
+  "contentHash": "sha256:2069bf785b0e692e73b6c5e611569718519582fb930c0871788ba8f4bf667fe9",
+  "lessonCount": 20,
+  "labTrust": "untrusted_current_runtime",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: calibration",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "ed0f3960d28a6c96",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "capstone-rls-crud"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "fail",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "96c39adcbb55b074",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "app-router-model"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "31a4691a3bc42c07",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "app-router-model"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "7e94ad1c83837235",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "server-vs-client-components"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9ce9481d57b07c0c",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "server-vs-client-components"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "f6069ec6f7188e87",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "layouts-loading-error"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "fd82cdbe653080b9",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "layouts-loading-error"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "b6746e67c32757f4",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "data-fetching-server-components"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7e9c7ad213fe744c",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "data-fetching-server-components"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "73d274eeb9a174be",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "server-actions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c2c8da3d06a77278",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "server-actions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "d765b4df16b4afff",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "forms-validation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "4e9cc4d47ebdf394",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "forms-validation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "2ae76e8b0b86ad0b",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "optimistic-updates"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e8d85e2b1904cdc2",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "optimistic-updates"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "8182aa917a7aac06",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "revalidation-caching"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3671b81c206d7293",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "revalidation-caching"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "6a741748eb1c815a",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "supabase-client-setup"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f82eccc0c057c5c9",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "supabase-client-setup"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "fcd4d52f0a34c699",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "postgres-schema-basics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "397b9ecedcd2e736",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "postgres-schema-basics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "56486829763201dd",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "ssr-auth-sessions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "8a4ecffa86b0d6ff",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "ssr-auth-sessions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "41e3b82c76e1735f",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "row-level-security"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1f8c96736aad0c0f",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "row-level-security"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "8d2910818f83010b",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "reads-under-rls"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "64792a4c699d99ae",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "reads-under-rls"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "cb868a0fb82caad0",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "writes-transactions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "96a9f8f693fcb867",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "writes-transactions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "a3b384d29b3f6852",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "realtime"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7b4efc291c2c3a90",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "realtime"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "8efbbd78b9d3eabb",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "storage"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "4e68c0a1a68806af",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "storage"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "8ea92364ddc5d836",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "middleware-route-protection"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9bc94b2c8b1d0912",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "middleware-route-protection"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "259b220183e89fe7",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "env-secrets"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "946d2e867ff960bb",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "env-secrets"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "3db233b307c34c44",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "deploy-vercel"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bdaf47f4eff66c1d",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "deploy-vercel"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "67837ee13b668557",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "capstone-rls-crud"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "68d986bf91b05918",
+          "courseSlug": "nextjs-supabase",
+          "lessonSlug": "capstone-rls-crud"
+        }
+      ]
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "20/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 79.5,
+  "compositeScore": null,
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "96c39adcbb55b074",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "app-router-model"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "31a4691a3bc42c07",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "app-router-model"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "7e94ad1c83837235",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "server-vs-client-components"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9ce9481d57b07c0c",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "server-vs-client-components"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "f6069ec6f7188e87",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "layouts-loading-error"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "fd82cdbe653080b9",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "layouts-loading-error"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "b6746e67c32757f4",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "data-fetching-server-components"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7e9c7ad213fe744c",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "data-fetching-server-components"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "73d274eeb9a174be",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "server-actions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c2c8da3d06a77278",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "server-actions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "d765b4df16b4afff",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "forms-validation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "4e9cc4d47ebdf394",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "forms-validation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "2ae76e8b0b86ad0b",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "optimistic-updates"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e8d85e2b1904cdc2",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "optimistic-updates"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "8182aa917a7aac06",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "revalidation-caching"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3671b81c206d7293",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "revalidation-caching"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "6a741748eb1c815a",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "supabase-client-setup"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f82eccc0c057c5c9",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "supabase-client-setup"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "fcd4d52f0a34c699",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "postgres-schema-basics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "397b9ecedcd2e736",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "postgres-schema-basics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "56486829763201dd",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "ssr-auth-sessions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "8a4ecffa86b0d6ff",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "ssr-auth-sessions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "41e3b82c76e1735f",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "row-level-security"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1f8c96736aad0c0f",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "row-level-security"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "8d2910818f83010b",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "reads-under-rls"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "64792a4c699d99ae",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "reads-under-rls"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "cb868a0fb82caad0",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "writes-transactions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "96a9f8f693fcb867",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "writes-transactions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "a3b384d29b3f6852",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "realtime"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7b4efc291c2c3a90",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "realtime"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "8efbbd78b9d3eabb",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "storage"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "4e68c0a1a68806af",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "storage"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "8ea92364ddc5d836",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "middleware-route-protection"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9bc94b2c8b1d0912",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "middleware-route-protection"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "259b220183e89fe7",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "env-secrets"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "946d2e867ff960bb",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "env-secrets"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "3db233b307c34c44",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "deploy-vercel"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bdaf47f4eff66c1d",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "deploy-vercel"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "67837ee13b668557",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "capstone-rls-crud"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "68d986bf91b05918",
+      "courseSlug": "nextjs-supabase",
+      "lessonSlug": "capstone-rls-crud"
+    }
+  ],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "media",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "blocked",
+  "certificationStatus": "uncertified"
+}

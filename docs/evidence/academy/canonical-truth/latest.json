@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-27",
-  "registryVersion": "sha256:874c2f483948e9d0dbead455ca7fd31502895630ad0244733b3cf51add4a6cc3",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
   "totals": {
     "courses": 32,
     "lessons": 632,
@@ -24,10 +24,10 @@
     "labTrust": "untrusted_current_runtime"
   },
   "capabilities": {
-    "implemented_partial": 8,
+    "implemented_partial": 9,
     "implemented_learner_visible": 1,
     "externally_blocked": 1,
-    "planned_only": 2
+    "planned_only": 1
   },
   "externalReconciliation": {
     "database": "not_verified_in_this_snapshot",

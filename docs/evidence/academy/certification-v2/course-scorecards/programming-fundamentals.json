@@ -1,0 +1,986 @@
+{
+  "schemaVersion": 2,
+  "harnessVersion": "2.0.0",
+  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
+  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "courseSlug": "programming-fundamentals",
+  "title": "Programming Fundamentals",
+  "contentHash": "sha256:fbde3f4d427b6a5ced2307fdd34c9b54bab6cda8b7fd77ed6b36ad1094fab779",
+  "lessonCount": 18,
+  "labTrust": "untrusted_current_runtime",
+  "dimensions": {
+    "content_correctness": {
+      "id": "content_correctness",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-content_correctness",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "structure": {
+      "id": "structure",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-structure",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "18/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "fail",
+      "score": 0,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required micro loop sections: unlock-gate",
+          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "02bf6a3ae8bae042",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "your-first-program"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required micro loop sections: unlock-gate",
+          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "5127a677eaddcb6e",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "variables-and-values"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "368ca9a5dda57100",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "numbers-and-strings"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "c404a62c95a7dd3c",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "reading-input"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "0d9c21fbdf646e1f",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "booleans-and-logic"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "eace186391e0d5f9",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "lists"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "e9bc0b2e6d0c8a91",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "loops"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "a82c8b4d9e910fba",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "functions-basics"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
+          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "eac7dc80e55ee046",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "build-a-tiny-program"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "318b86dbc55546e2",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "input-validation"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "f94a9539b1f89ffc",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "error-handling"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "9ea4d6667df9c3d0",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "functions-and-modules"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "a37569e29c23a4a6",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "types-and-data"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "d1d24f041e3471a6",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "control-flow"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "67c7ed64c77bff04",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "files-and-io"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "fb62190b465e8716",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "testing-and-debugging"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "00141f8f2fa734b4",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "cli-workflow"
+        },
+        {
+          "severity": "high",
+          "category": "pedagogy",
+          "message": "Missing required standard loop sections: worked-example, tradeoff",
+          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "mode": "deterministic",
+          "id": "d16914e78f4ebeba",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "git-fundamentals"
+        }
+      ]
+    },
+    "assessments": {
+      "id": "assessments",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-assessments",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "18/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "sources": {
+      "id": "sources",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-sources",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "labs": {
+      "id": "labs",
+      "status": "fail",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-labs",
+          "mode": "deterministic",
+          "status": "fail",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "c16572d847048b66",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "your-first-program"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "56590f32cbcc9d1b",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "your-first-program"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "61944691d33963fd",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "variables-and-values"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1fabd2befb77c360",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "variables-and-values"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "aea581774f71b815",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "numbers-and-strings"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b8b31477e91975a5",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "numbers-and-strings"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "28a59a10b9659092",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "reading-input"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "8ee7efec84d1b4d2",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "reading-input"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "b8d2af072e9eb0f9",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "booleans-and-logic"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ace47302e54ef1d1",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "booleans-and-logic"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "f47f1741ab1ebe02",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "lists"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "2e4036c920dad06e",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "lists"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "A lab has no private reference solution.",
+          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+          "mode": "deterministic",
+          "id": "1e04d51c8fd32df4",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "loops"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "67b511d6fa2d4cd9",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "loops"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "34d0170a54b74bf6",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "functions-basics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ee13b0512241996f",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "build-a-tiny-program"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b49293a6ddbdffcd",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "input-validation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5b28bc32603205c1",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "error-handling"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e15e50eeb295ee7b",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "functions-and-modules"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1caf8fe7de560bcd",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "types-and-data"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7c3825b32c6f8cd9",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "control-flow"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7c62af653c2d7fa0",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "files-and-io"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e3416af76ce36141",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "testing-and-debugging"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3dc42e3f7eceac20",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "cli-workflow"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9283ade2426e16a0",
+          "courseSlug": "programming-fundamentals",
+          "lessonSlug": "git-fundamentals"
+        }
+      ]
+    },
+    "accessibility": {
+      "id": "accessibility",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-accessibility",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "media": {
+      "id": "media",
+      "status": "not_applicable",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-media",
+          "mode": "deterministic",
+          "status": "not_applicable",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "references": {
+      "id": "references",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-references",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "18/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "metadata": {
+      "id": "metadata",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-metadata",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "18/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "duplication": {
+      "id": "duplication",
+      "status": "pass",
+      "score": 100,
+      "checks": [
+        {
+          "id": "lesson-rollup-duplication",
+          "mode": "deterministic",
+          "status": "pass",
+          "required": true,
+          "summary": "18/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "visual": {
+      "id": "visual",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-visual",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "ux": {
+      "id": "ux",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-ux",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "performance": {
+      "id": "performance",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-performance",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    },
+    "consistency": {
+      "id": "consistency",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-consistency",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/18 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
+    }
+  },
+  "deterministicScore": 77.8,
+  "compositeScore": null,
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "c16572d847048b66",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "your-first-program"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "56590f32cbcc9d1b",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "your-first-program"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "61944691d33963fd",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "variables-and-values"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1fabd2befb77c360",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "variables-and-values"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "aea581774f71b815",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "numbers-and-strings"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b8b31477e91975a5",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "numbers-and-strings"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "28a59a10b9659092",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "reading-input"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "8ee7efec84d1b4d2",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "reading-input"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "b8d2af072e9eb0f9",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "booleans-and-logic"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ace47302e54ef1d1",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "booleans-and-logic"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "f47f1741ab1ebe02",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "lists"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "2e4036c920dad06e",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "lists"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "A lab has no private reference solution.",
+      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+      "mode": "deterministic",
+      "id": "1e04d51c8fd32df4",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "loops"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "67b511d6fa2d4cd9",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "loops"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "34d0170a54b74bf6",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "functions-basics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ee13b0512241996f",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "build-a-tiny-program"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b49293a6ddbdffcd",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "input-validation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5b28bc32603205c1",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "error-handling"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e15e50eeb295ee7b",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "functions-and-modules"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1caf8fe7de560bcd",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "types-and-data"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7c3825b32c6f8cd9",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "control-flow"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7c62af653c2d7fa0",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "files-and-io"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e3416af76ce36141",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "testing-and-debugging"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3dc42e3f7eceac20",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "cli-workflow"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9283ade2426e16a0",
+      "courseSlug": "programming-fundamentals",
+      "lessonSlug": "git-fundamentals"
+    }
+  ],
+  "requiredPending": [
+    "accessibility",
+    "consistency",
+    "content_correctness",
+    "pedagogy",
+    "performance",
+    "sources",
+    "ux",
+    "visual"
+  ],
+  "decision": "blocked",
+  "certificationStatus": "uncertified"
+}

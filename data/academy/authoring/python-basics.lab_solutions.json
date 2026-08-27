@@ -1,0 +1,18 @@
+{
+  "your-first-line": {
+    "language": "python",
+    "code": "print(\"Hello, world!\")"
+  },
+  "variables": {
+    "language": "python",
+    "code": "name = \"Ada\"\nage = 36\nprint(name + \" is \" + str(age) + \" years old.\")"
+  },
+  "logic-conditionals": {
+    "language": "python",
+    "code": "score = 72\ngrade = \"\"\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelif score >= 60:\n    grade = \"D\"\nelse:\n    grade = \"F\"\nprint(\"Grade: \" + grade)"
+  },
+  "loops": {
+    "language": "python",
+    "code": "prices = [10, 20, 30]\ntotal = 0\nfor price in prices:\n    total = total + price\nprint('Total: ' + str(total))"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "functions-basics": {
+    "language": "python",
+    "code": "def shipping_total(item_price, qty, ship_fee):\n    return item_price * qty + ship_fee\n\ntotal = shipping_total(9, 4, 5)\nprint(f\"4 items + shipping = ${total}\")\n"
+  },
+  "build-a-tiny-program": {
+    "language": "python",
+    "code": "def report(readings):\n    total = 0\n    warm = 0\n    for r in readings:\n        total = total + r\n        if r >= 70:\n            warm = warm + 1\n    print(f\"Warm: {warm} of {len(readings)}\")\n    return total / len(readings)\n\nreadings = [50, 72, 88, 64, 91, 61]\navg = report(readings)\nprint(f\"Average: {int(avg)}\")\n"
+  },
+  "input-validation": {
+    "language": "python",
+    "code": "def validate_quantity(value):\n    if not isinstance(value, int) or isinstance(value, bool):\n        raise ValueError(\"quantity must be a whole number\")\n    if value < 1 or value > 99:\n        raise ValueError(\"quantity must be between 1 and 99\")\n    return value\n\n\nfor v in [12, \"12\", 0, 250]:\n    try:\n        validate_quantity(v)\n        print(f\"accepted: {v!r}\")\n    except ValueError as e:\n        print(f\"rejected {v!r}: {e}\")\n"
+  },
+  "error-handling": {
+    "language": "python",
+    "code": "import sys\n\ndef parse_amount(text):\n    try:\n        return int(text)\n    except ValueError as e:\n        print(f\"[parse] bad amount: {text!r} ({e})\", file=sys.stderr)\n        raise ValueError(\"amount must be a whole number\") from e\n\n\ntry:\n    print(\"ok:\", parse_amount(\"42\"))\n    parse_amount(\"oops\")\n    print(\"BUG: bad input was swallowed!\")\nexcept ValueError as e:\n    print(f\"error surfaced: {e}\")\n"
+  },
+  "functions-and-modules": {
+    "language": "python",
+    "code": "tax = 0\n\ndef net_total(price, qty, tax):\n    return price * qty - tax\n\n\ncases = [(10, 2, 3, 17), (5, 4, 0, 20), (8, 1, 2, 6)]\ncorrect = all(net_total(p, q, t) == exp for p, q, t, exp in cases)\nglobals()[\"tax\"] = 99\npure = all(net_total(p, q, t) == exp for p, q, t, exp in cases)\nprint(f\"correct: {correct}\")\nprint(f\"pure (survives a changed global): {pure}\")\nprint(f\"PASS: {correct and pure}\")\n"
+  },
+  "types-and-data": {
+    "language": "python",
+    "code": "def sum_prices(values):\n    total = 0.0\n    for v in values:\n        try:\n            total += float(v)\n        except (ValueError, TypeError):\n            raise ValueError(f\"not a price: {v!r}\")\n    return round(total, 2)\n\n\nprint(\"sum:\", sum_prices([\"3.50\", \"1.25\", \"0.75\"]))\nok = sum_prices([\"3.50\", \"1.25\", \"0.75\"]) == 5.5\ntry:\n    sum_prices([\"3.50\", \"free\"])\n    rejected = False\nexcept ValueError:\n    rejected = True\nprint(f\"PASS: {ok and rejected}\")\n"
+  },
+  "control-flow": {
+    "language": "python",
+    "code": "def open_tickets(tickets):\n    return [t for t in tickets if t[\"status\"] == \"open\" and t[\"priority\"] >= 2]\n\n\ndata = [\n    {\"id\": 1, \"status\": \"open\", \"priority\": 3},\n    {\"id\": 2, \"status\": \"closed\", \"priority\": 3},\n    {\"id\": 3, \"status\": \"open\", \"priority\": 1},\n    {\"id\": 4, \"status\": \"open\", \"priority\": 2},\n]\nids = [t[\"id\"] for t in open_tickets(data)]\nids2 = [t[\"id\"] for t in open_tickets([\n    {\"id\": 9, \"status\": \"open\", \"priority\": 5},\n    {\"id\": 8, \"status\": \"open\", \"priority\": 1},\n])]\nprint(\"kept ids:\", ids)\nprint(f\"PASS: {ids == [1, 4] and ids2 == [9] and len(data) == 4}\")\n"
+  },
+  "files-and-io": {
+    "language": "python",
+    "code": "def load_settings(path):\n    settings = {}\n    with open(path) as f:\n        for line in f:\n            line = line.strip()\n            if not line or line.startswith(\"#\"):\n                continue\n            key, value = line.split(\":\", 1)\n            settings[key.strip()] = value.strip()\n    return settings\n\n\nwith open(\"settings.conf\", \"w\") as f:\n    f.write(\"host : localhost\\n# a comment\\n\\nport: 8080\\n\")\ncfg = load_settings(\"settings.conf\")\nok = cfg == {\"host\": \"localhost\", \"port\": \"8080\"}\ntry:\n    load_settings(\"missing.conf\")\n    missing_handled = False\nexcept FileNotFoundError:\n    missing_handled = True\nprint(\"settings:\", cfg)\nprint(f\"PASS: {ok and missing_handled}\")\n"
+  },
+  "testing-and-debugging": {
+    "language": "python",
+    "code": "def safe_max(numbers):\n    if not numbers:\n        return None\n    return max(numbers)\n\n\nassert safe_max([3, 9, 4]) == 9, \"normal case\"\nassert safe_max([7]) == 7, \"single element\"\nassert safe_max([]) is None, \"EMPTY list must return None, not crash\"\nassert safe_max([-5, -2, -9]) == -2, \"all negatives\"\nprint(\"all assertions passed\")\n"
+  },
+  "cli-workflow": {
+    "language": "python",
+    "code": "def gate(args):\n    if not args.get(\"tests_passed\"):\n        return \"blocked: tests failing\"\n    if args.get(\"branch\") != \"main\":\n        return \"blocked: wrong branch\"\n    if not args.get(\"approved\"):\n        return \"waiting: needs approval\"\n    return \"deploy\"\n\n\ncases = [\n    ({\"tests_passed\": False, \"branch\": \"main\"}, \"blocked: tests failing\"),\n    ({\"tests_passed\": True, \"branch\": \"dev\"}, \"blocked: wrong branch\"),\n    ({\"tests_passed\": True, \"branch\": \"main\"}, \"waiting: needs approval\"),\n    ({\"tests_passed\": True, \"branch\": \"main\", \"approved\": True}, \"deploy\"),\n]\nok = all(gate(a) == exp for a, exp in cases)\nfor a, exp in cases:\n    print(f\"{a} -> {gate(a)!r}\")\nprint(f\"PASS: {ok}\")\n"
+  },
+  "git-fundamentals": {
+    "language": "python",
+    "code": "def review_pr(files_changed, tests_added, description):\n    if files_changed == 0:\n        return \"empty PR\"\n    if not tests_added:\n        return \"needs tests\"\n    if len(description) < 20:\n        return \"describe the change\"\n    return \"ready to review\"\n\n\ncases = [\n    (0, True, \"adds the new signup validation flow\", \"empty PR\"),\n    (3, False, \"adds the new signup validation flow\", \"needs tests\"),\n    (3, True, \"quick fix\", \"describe the change\"),\n    (3, True, \"adds the new signup validation flow\", \"ready to review\"),\n]\nok = all(review_pr(f, t, d) == exp for f, t, d, exp in cases)\nfor f, t, d, exp in cases:\n    print(f\"{f} files -> {review_pr(f, t, d)!r}\")\nprint(f\"PASS: {ok}\")\n"
+  }
+}

@@ -1,0 +1,87 @@
+import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { describe, it } from 'node:test'
+
+// @ts-ignore RED checkpoint: implementation module intentionally absent.
+import { buildTrustedLabPersistence } from '../../lib/academy/lab-evaluator/persistence'
+import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
+import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
+
+const SECRET = 'test-only-secret-that-is-at-least-thirty-two-bytes'
+const NOW = 1_788_194_400_000
+
+describe('academy mastery evidence trust boundary', () => {
+  it('builds an auditable atomic persistence command only from a trusted pass', () => {
+    const request = buildEvaluationRequest({
+      courseSlug: 'python-basics',
+      lessonSlug: 'variables',
+      code: 'print(42)',
+      requestId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b20',
+      issuedAt: NOW,
+    })
+    const payload = {
+      schemaVersion: 1 as const,
+      evaluationId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
+      requestId: request.requestId,
+      issuedAt: NOW,
+      labKey: request.labKey,
+      submissionDigest: request.submissionDigest,
+      evaluatorVersion: 'academy-evaluator-v1',
+      policyHash: 'c'.repeat(64),
+      specRevision: '2026-08-27.1',
+      verdict: 'passed' as const,
+      reason: 'all_private_cases_passed' as const,
+      tests: { passed: 2, total: 2 },
+      resourceUsage: { durationMs: 80, outputBytes: 6 },
+    }
+    const trusted = verifyEvaluatorResponse(signEvaluatorResponse(payload, SECRET), SECRET, request, { now: NOW })
+    const command = buildTrustedLabPersistence({
+      userId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b22',
+      courseSlug: 'python-basics',
+      lessonSlug: 'variables',
+      evaluation: trusted,
+    })
+    assert.equal(command?.rpc, 'record_trusted_academy_lab_result')
+    assert.equal(command?.args.p_evaluation_id, payload.evaluationId)
+    assert.equal(command?.args.p_spec_revision, payload.specRevision)
+    assert.equal(command?.args.p_attestation_signature.length, 64)
+    assert.equal(command?.args.p_verdict, 'passed')
+
+    const failed = verifyEvaluatorResponse(signEvaluatorResponse({
+      ...payload,
+      verdict: 'failed',
+      reason: 'private_case_failed',
+      tests: { passed: 1, total: 2 },
+    }, SECRET), SECRET, request, { now: NOW })
+    assert.equal(buildTrustedLabPersistence({
+      userId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b22',
+      courseSlug: 'python-basics',
+      lessonSlug: 'variables',
+      evaluation: failed,
+    }), null)
+  })
+
+  it('removes the learner-output substring verifier from the application path', () => {
+    const action = readFileSync('app/academy/_actions/evidence.ts', 'utf8')
+    const runner = readFileSync('components/academy/lab/LabRunner.tsx', 'utf8')
+    assert.equal(action.includes('submittedOutput'), false)
+    assert.equal(action.includes('.includes(check'), false)
+    assert.match(action, /requestControlledEvaluation/)
+    assert.match(action, /persistTrustedLabEvaluation/)
+    assert.equal(runner.includes('lastOutputRef'), false)
+    assert.match(runner, /verifyLab\(courseSlug, lessonSlug, code\)/)
+  })
+
+  it('denies generic lab_verified writes and provides an atomic append-only ledger function', () => {
+    const evidenceWriter = readFileSync('lib/academy/evidence-events.ts', 'utf8')
+    const migration = readFileSync('supabase/migrations/0116_academy_trusted_lab_evaluations.sql', 'utf8')
+    assert.match(evidenceWriter, /input\.type === 'lab_verified'/)
+    assert.match(evidenceWriter, /trusted evaluator persistence/i)
+    assert.match(migration, /create table if not exists public\.academy_lab_evaluations/i)
+    assert.match(migration, /record_trusted_academy_lab_result/i)
+    assert.match(migration, /security definer/i)
+    assert.match(migration, /revoke execute.*authenticated/i)
+    assert.match(migration, /academy_evidence_events/i)
+    assert.match(migration, /append-only/i)
+  })
+})

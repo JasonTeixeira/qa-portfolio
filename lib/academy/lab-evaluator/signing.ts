@@ -11,6 +11,7 @@ import {
 export type SignedEnvelope<T> = { payload: T; signature: string }
 
 const trustedResponses = new WeakSet<object>()
+const attestationSignatures = new WeakMap<object, string>()
 
 export type TrustedLabEvaluation = EvaluationResponse & {
   readonly __trustedLabEvaluationBrand?: never
@@ -93,9 +94,14 @@ export function verifyEvaluatorResponse(
   if (payload.labKey !== request.labKey) throw new Error('evaluator lab key mismatch')
   if (payload.submissionDigest !== request.submissionDigest) throw new Error('evaluator submission digest mismatch')
   trustedResponses.add(payload)
+  attestationSignatures.set(payload, envelope.signature)
   return payload as TrustedLabEvaluation
 }
 
 export function isTrustedLabEvaluation(value: unknown): value is TrustedLabEvaluation {
   return typeof value === 'object' && value !== null && trustedResponses.has(value)
+}
+
+export function getTrustedEvaluationAttestation(value: TrustedLabEvaluation): string | null {
+  return isTrustedLabEvaluation(value) ? (attestationSignatures.get(value) ?? null) : null
 }

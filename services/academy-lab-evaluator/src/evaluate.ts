@@ -20,7 +20,7 @@ export type EvaluationDependencies = {
 function baseResponse(
   request: EvaluationRequest,
   deps: EvaluationDependencies,
-  startedAt: number,
+  specRevision: string | null,
 ): Omit<EvaluationResponse, 'verdict' | 'reason' | 'tests' | 'resourceUsage'> {
   const now = deps.now ?? Date.now
   return {
@@ -32,6 +32,7 @@ function baseResponse(
     submissionDigest: request.submissionDigest,
     evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
+    specRevision,
   }
 }
 
@@ -46,21 +47,21 @@ export async function evaluateSubmission(
     spec = await deps.loadSpec(request.labKey)
   } catch {
     return {
-      ...baseResponse(request, deps, startedAt),
+      ...baseResponse(request, deps, null),
       verdict: 'untrusted', reason: 'private_spec_invalid', tests: { passed: 0, total: 0 },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
   }
   if (!spec) {
     return {
-      ...baseResponse(request, deps, startedAt),
+      ...baseResponse(request, deps, null),
       verdict: 'untrusted', reason: 'private_spec_missing', tests: { passed: 0, total: 0 },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
   }
   if (deps.proveSpec && !(await deps.proveSpec(spec))) {
     return {
-      ...baseResponse(request, deps, startedAt),
+      ...baseResponse(request, deps, spec.specRevision),
       verdict: 'untrusted', reason: 'private_spec_invalid', tests: { passed: 0, total: spec.cases.length },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
@@ -82,7 +83,7 @@ export async function evaluateSubmission(
   }
   const grade = gradePrivateCases(results)
   return {
-    ...baseResponse(request, deps, startedAt),
+    ...baseResponse(request, deps, spec.specRevision),
     verdict: grade.verdict,
     reason: grade.reason,
     tests: { passed: grade.passed, total: grade.total },

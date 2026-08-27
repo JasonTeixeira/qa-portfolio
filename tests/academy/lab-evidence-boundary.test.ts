@@ -2,7 +2,6 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { describe, it } from 'node:test'
 
-// @ts-ignore RED checkpoint: implementation module intentionally absent.
 import { buildTrustedLabPersistence } from '../../lib/academy/lab-evaluator/persistence'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
@@ -66,7 +65,7 @@ describe('academy mastery evidence trust boundary', () => {
     const runner = readFileSync('components/academy/lab/LabRunner.tsx', 'utf8')
     assert.equal(action.includes('submittedOutput'), false)
     assert.equal(action.includes('.includes(check'), false)
-    assert.match(action, /requestControlledEvaluation/)
+    assert.match(action, /evaluateLabOnControlledService/)
     assert.match(action, /persistTrustedLabEvaluation/)
     assert.equal(runner.includes('lastOutputRef'), false)
     assert.match(runner, /verifyLab\(courseSlug, lessonSlug, code\)/)
@@ -80,7 +79,7 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(migration, /create table if not exists public\.academy_lab_evaluations/i)
     assert.match(migration, /record_trusted_academy_lab_result/i)
     assert.match(migration, /security definer/i)
-    assert.match(migration, /revoke execute.*authenticated/i)
+    assert.match(migration, /revoke execute[\s\S]*?from public, anon, authenticated/i)
     assert.match(migration, /academy_evidence_events/i)
     assert.match(migration, /append-only/i)
   })

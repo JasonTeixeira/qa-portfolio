@@ -69,6 +69,12 @@ export async function recordEvidenceEvent(
   input: RecordEvidenceInput,
   opts?: { trusted?: boolean },
 ): Promise<void> {
+  // `lab_verified` has a stronger authority boundary than ordinary server-built
+  // events. It may only be inserted atomically with a signed evaluator receipt
+  // through record_trusted_academy_lab_result (persistence-server.ts).
+  if (input.type === 'lab_verified') {
+    throw new Error('lab_verified requires trusted evaluator persistence')
+  }
   // Allowlist the event type — never insert an unknown/forged type.
   if (!EVIDENCE_EVENT_TYPES.includes(input.type)) {
     throw new Error(`evidence insert rejected: unknown event type "${input.type}"`)

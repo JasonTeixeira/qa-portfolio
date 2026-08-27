@@ -81,6 +81,7 @@ export type EvaluationResponse = {
   submissionDigest: string
   evaluatorVersion: string
   policyHash: string
+  specRevision: string | null
   verdict: EvaluationVerdict
   reason: EvaluationReason
   tests: { passed: number; total: number }
@@ -163,7 +164,7 @@ export function parseEvaluationResponse(value: unknown): EvaluationResponse {
   if (!isRecord(value)) throw new Error('evaluation response must be an object')
   assertExactKeys(value, [
     'schemaVersion', 'evaluationId', 'requestId', 'issuedAt', 'labKey', 'submissionDigest',
-    'evaluatorVersion', 'policyHash', 'verdict', 'reason', 'tests', 'resourceUsage',
+    'evaluatorVersion', 'policyHash', 'specRevision', 'verdict', 'reason', 'tests', 'resourceUsage',
   ])
   if (value.schemaVersion !== 1) throw new Error('unsupported evaluation response schema')
   if (typeof value.evaluationId !== 'string' || !UUID_RE.test(value.evaluationId)) throw new Error('invalid evaluation id')
@@ -173,6 +174,9 @@ export function parseEvaluationResponse(value: unknown): EvaluationResponse {
   if (typeof value.submissionDigest !== 'string' || !SHA256_RE.test(value.submissionDigest)) throw new Error('invalid submission digest')
   if (typeof value.evaluatorVersion !== 'string' || value.evaluatorVersion.length > 64) throw new Error('invalid evaluator version')
   if (typeof value.policyHash !== 'string' || !SHA256_RE.test(value.policyHash)) throw new Error('invalid policy hash')
+  if (value.specRevision !== null && (typeof value.specRevision !== 'string' || !/^[a-zA-Z0-9._-]{1,64}$/.test(value.specRevision))) {
+    throw new Error('invalid spec revision')
+  }
   if (!['passed', 'failed', 'untrusted', 'error'].includes(String(value.verdict))) throw new Error('invalid verdict')
   const reasons: EvaluationReason[] = [
     'all_private_cases_passed', 'private_case_failed', 'resource_limit_exceeded', 'runtime_error',

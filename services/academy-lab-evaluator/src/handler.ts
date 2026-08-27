@@ -88,6 +88,7 @@ export function createEvaluatorHttpHandler(deps: {
           submissionDigest: verifiedRequest.submissionDigest,
           evaluatorVersion: EVALUATOR_VERSION,
           policyHash: evaluatorPolicyHash(),
+          specRevision: null,
           verdict: 'error',
           reason: 'evaluator_unavailable',
           tests: { passed: 0, total: 0 },

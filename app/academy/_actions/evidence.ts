@@ -1,10 +1,15 @@
 'use server'
 
+import { headers } from 'next/headers'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
 import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
 import type { EvidenceEventType } from '@/lib/academy/evidence-events-logic'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { deriveRequirements, gradeArtifact } from '@/lib/academy/artifact-logic'
+import { checkRateLimitFromHeaders } from '@/lib/rate-limit'
+import { decideLabSubmissionOutcome } from '@/lib/academy/lab-evaluator/application'
+import { evaluateLabOnControlledService } from '@/lib/academy/lab-evaluator/client-server'
+import { persistTrustedLabEvaluation } from '@/lib/academy/lab-evaluator/persistence-server'
 
 /**
  * Learner-triggered evidence events from the sprint sections (Tier-2 Slice 2).
@@ -13,8 +18,8 @@ import { deriveRequirements, gradeArtifact } from '@/lib/academy/artifact-logic'
  * sprint section may be emitted from the client:
  *   - diagnostic_completed / retrieval_attempted → the pretest reveal (recall-first)
  *   - transfer_attempted → engaging the transfer section
- * `lab_verified` and `sprint_artifact_created` come from the server lab path
- * (a real verified artifact), and grader/admin events (explainBackGraded,
+ * `lab_verified` and the lab's `sprint_artifact_created` come only from the
+ * controlled evaluator persistence path, and grader/admin events (explainBackGraded,
  * externalOutcome, …) must NEVER be client-triggered — they would forge mastery.
  * userId is taken from the authenticated session (never from the client) and the
  * payload is built server-side (empty), per the recordEvidenceEvent caller contract.
@@ -58,31 +63,38 @@ export async function recordSprintEvidence(
 }
 
 /**
- * Server-side lab verification — the anti-cheat write of record for a passing lab.
- *
- * @security The lab `check` string (expected stdout substring) lives in the
- * lesson content server-side. The client may submit its Pyodide stdout, but the
- * PASS/FAIL decision is re-run HERE against the server-held `check` — the client
- * can no longer forge a verified lab by passing a boolean flag. userId is taken
- * from the authenticated session (never from the client); payload is empty.
- *
- * Decoupled from lesson completion: it records the verified-lab fact regardless
- * of whether the lesson is already marked complete, so a late lab pass is never
- * dropped by completion-ordering.
+ * Submit learner code to the separately controlled evaluator. Browser stdout is
+ * never accepted as proof. Only a fresh HMAC-authenticated response bound to this
+ * exact code digest can reach the atomic mastery persistence function.
  */
 export async function verifyLab(
   courseSlug: string,
   lessonSlug: string,
-  submittedOutput: string,
-): Promise<{ ok: boolean; verified: boolean }> {
+  code: string,
+): Promise<{
+  ok: boolean
+  verified: boolean
+  trustStatus: 'controlled_evaluator' | 'practice_only'
+  reason: string
+}> {
   const sb = await createSupabaseServerClient()
   const {
     data: { user },
   } = await sb.auth.getUser()
-  if (!user) return { ok: false, verified: false }
+  if (!user) return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'authentication_required' }
 
   try {
-    // Load the lesson's blocks server-side and pull the lab block's `check`.
+    const rateLimit = await checkRateLimitFromHeaders(await headers(), {
+      limit: 10,
+      windowMs: 60_000,
+      prefix: 'academy-lab-evaluator',
+    })
+    if (!rateLimit.ok) {
+      return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'rate_limited' }
+    }
+
+    // Confirm the submitted slugs resolve to a published lab. The evaluator's
+    // private spec—not this public lesson block—owns expected outputs and cases.
     const admin = supabaseAdmin()
     const { data: lesson } = await admin
       .from('academy_lessons')
@@ -94,36 +106,28 @@ export async function verifyLab(
 
     const blocks = (lesson?.blocks ?? []) as LessonBlock[]
     const labBlock = blocks.find((b): b is Extract<LessonBlock, { type: 'lab' }> => b.type === 'lab')
-    const check = labBlock?.check?.trim()
-
-    // Re-run the SAME comparison the client does, but on trusted server state.
-    const verified = !!check && submittedOutput.toLowerCase().includes(check.toLowerCase())
-
-    if (verified) {
-      // A passing lab means the learner built AND verified a real artifact, so
-      // both events are genuinely earned. unitId = lessonSlug (one lesson = one unit).
-      await recordEvidenceEvent({
-        userId: user.id,
-        courseSlug,
-        lessonSlug,
-        unitId: lessonSlug,
-        type: 'lab_verified',
-        payload: {},
-      })
-      await recordEvidenceEvent({
-        userId: user.id,
-        courseSlug,
-        lessonSlug,
-        unitId: lessonSlug,
-        type: 'sprint_artifact_created',
-        payload: {},
-      })
+    if (!labBlock) {
+      return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'lab_not_found' }
     }
 
-    return { ok: true, verified }
+    const evaluation = await evaluateLabOnControlledService({ courseSlug, lessonSlug, code })
+    const outcome = decideLabSubmissionOutcome(evaluation)
+    if (!evaluation || !outcome.persistMastery) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: outcome.reason }
+    }
+    const persisted = await persistTrustedLabEvaluation({
+      userId: user.id,
+      courseSlug,
+      lessonSlug,
+      evaluation,
+    })
+    if (!persisted) {
+      return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'evidence_persist_failed' }
+    }
+    return { ok: true, verified: true, trustStatus: 'controlled_evaluator', reason: outcome.reason }
   } catch (err) {
     console.error('[academy/evidence] verifyLab failed', err)
-    return { ok: false, verified: false }
+    return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'evaluator_unavailable' }
   }
 }
 

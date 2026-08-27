@@ -54,6 +54,7 @@ function responsePayload() {
     submissionDigest: SUBMISSION_DIGEST,
     evaluatorVersion: 'academy-evaluator-v1',
     policyHash: 'c'.repeat(64),
+    specRevision: '2026-08-27.1',
     verdict: 'passed' as const,
     reason: 'all_private_cases_passed' as const,
     tests: { passed: 2, total: 2 },

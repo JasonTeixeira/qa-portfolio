@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T21:24:02.755Z
-Registry: `sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8`
+Generated: 2026-08-28T21:30:18.918Z
+Registry: `sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -12,11 +12,11 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 - Courses audited: 32
 - Lessons audited: 640
 - Eligible for certification: 0
-- Blocked by hard fails: 31
-- Needs deterministic remediation: 1
+- Blocked by hard fails: 32
+- Needs deterministic remediation: 0
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=647, H3=0, H4=0, H5=0
+- Hard fails: H1=0, H2=667, H3=0, H4=0, H5=0
 
 ## Coverage boundary
 
@@ -64,30 +64,29 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Stripe and Authentication | `stripe-auth` | 20 | blocked | 20 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 90.0 |
 | Interview, Career, and Portfolio | `career-interview_career_portfolio` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Product Execution and Market Feedback | `career-product_execution_market_feedback` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
-| Engineering Leadership and Staff-Level Execution | `career-engineering_leadership_staff_execution` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| Engineering Leadership and Staff-Level Execution | `career-engineering_leadership_staff_execution` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 
 ## Ranked remediation backlog
 
-1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (31 courses; 620 findings)
+1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (32 courses; 640 findings)
 2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (2 courses; 27 findings)
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (2 courses; 17 findings)
-7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (1 courses; 6 findings)
-8. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
-9. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
-10. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
-11. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 640 findings)
-12. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 640 findings)
-13. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 640 findings)
-14. accessibility — Complete required accessibility evidence: target-size. (32 courses; 640 findings)
-15. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 640 findings)
-16. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
-17. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
-18. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
-19. sources — Complete required sources evidence: source-ledger-schema. (8 courses; 146 findings)
-20. media — Complete required media evidence: promised-media-integrity. (5 courses; 104 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (1 courses; 3 findings)
+7. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
+8. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
+9. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
+10. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 640 findings)
+11. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 640 findings)
+12. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 640 findings)
+13. accessibility — Complete required accessibility evidence: target-size. (32 courses; 640 findings)
+14. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 640 findings)
+15. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
+16. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
+17. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
+18. sources — Complete required sources evidence: source-ledger-schema. (7 courses; 126 findings)
+19. media — Complete required media evidence: promised-media-integrity. (5 courses; 104 findings)
 
 ## Flagship competency-path readiness
 

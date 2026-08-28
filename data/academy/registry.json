@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 620,
+    "labBlocks": 640,
     "solutionEntries": 613,
-    "labLessonsWithSolutions": 593,
+    "labLessonsWithSolutions": 613,
     "labLessonsWithoutSolutions": 27,
-    "sourceLedgers": 24
+    "sourceLedgers": 25
   },
   "capabilities": [
     {
@@ -10431,13 +10431,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-engineering_leadership_staff_execution/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -10447,8 +10447,8 @@
           "moduleTitle": "Module 1 · Senior To Staff Operating Model",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/scope-expansion",
           "source": {
@@ -10462,8 +10462,8 @@
           "moduleTitle": "Module 1 · Senior To Staff Operating Model",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/judgment-under-ambiguity",
           "source": {
@@ -10477,8 +10477,8 @@
           "moduleTitle": "Module 1 · Senior To Staff Operating Model",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/influence-without-authority",
           "source": {
@@ -10492,8 +10492,8 @@
           "moduleTitle": "Module 1 · Senior To Staff Operating Model",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/evidence-backed-leadership",
           "source": {
@@ -10507,8 +10507,8 @@
           "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/strategy-memo",
           "source": {
@@ -10522,8 +10522,8 @@
           "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/architecture-review",
           "source": {
@@ -10537,8 +10537,8 @@
           "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/tradeoff-framing",
           "source": {
@@ -10552,8 +10552,8 @@
           "moduleTitle": "Module 2 · Technical Strategy And Architecture Influence",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/decision-record",
           "source": {
@@ -10567,8 +10567,8 @@
           "moduleTitle": "Module 3 · Execution Systems",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/planning-cadence",
           "source": {
@@ -10582,8 +10582,8 @@
           "moduleTitle": "Module 3 · Execution Systems",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/dependency-management",
           "source": {
@@ -10597,8 +10597,8 @@
           "moduleTitle": "Module 3 · Execution Systems",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/risk-register",
           "source": {
@@ -10612,8 +10612,8 @@
           "moduleTitle": "Module 3 · Execution Systems",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/delivery-review",
           "source": {
@@ -10627,8 +10627,8 @@
           "moduleTitle": "Module 4 · People And Communication",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/mentoring",
           "source": {
@@ -10642,8 +10642,8 @@
           "moduleTitle": "Module 4 · People And Communication",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/feedback",
           "source": {
@@ -10657,8 +10657,8 @@
           "moduleTitle": "Module 4 · People And Communication",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/conflict-repair",
           "source": {
@@ -10672,8 +10672,8 @@
           "moduleTitle": "Module 4 · People And Communication",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/executive-updates",
           "source": {
@@ -10687,8 +10687,8 @@
           "moduleTitle": "Module 5 · Incident And Organizational Learning",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/incident-command",
           "source": {
@@ -10702,8 +10702,8 @@
           "moduleTitle": "Module 5 · Incident And Organizational Learning",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/postmortem-quality",
           "source": {
@@ -10717,8 +10717,8 @@
           "moduleTitle": "Module 5 · Incident And Organizational Learning",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/systemic-repair",
           "source": {
@@ -10732,8 +10732,8 @@
           "moduleTitle": "Module 5 · Incident And Organizational Learning",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-engineering_leadership_staff_execution/operating-cadence",
           "source": {
@@ -10744,5 +10744,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8"
+  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee"
 }

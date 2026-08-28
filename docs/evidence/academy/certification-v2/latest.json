@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
-  "generatedAt": "2026-08-28T21:24:02.755Z",
+  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
+  "generatedAt": "2026-08-28T21:30:18.918Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 31,
-    "coursesNeedsRemediation": 1,
+    "coursesBlocked": 32,
+    "coursesNeedsRemediation": 0,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 647,
+      "H2": 667,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -3010,16 +3010,16 @@
       "courseSlug": "career-engineering_leadership_staff_execution",
       "title": "Engineering Leadership and Staff-Level Execution",
       "lessonCount": 20,
-      "contentHash": "sha256:60e0433dd028afc33379a913b06e43e1398d4343afb11e554f870615e0ea4f73",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:e52187bd97edf6e9c674d6addd73e0e28751f19005eb44b9b74a4def1497a415",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -3044,8 +3044,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -3056,7 +3056,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
-  "generatedAt": "2026-08-28T21:24:02.755Z",
+  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
+  "generatedAt": "2026-08-28T21:30:18.918Z",
   "courseSlug": "career-security_identity",
   "title": "Security and Identity Engineering",
   "contentHash": "sha256:6a52afa00d20c957ebc9ac89cfb164f4123e30cc1b4ad4113594109c24308204",

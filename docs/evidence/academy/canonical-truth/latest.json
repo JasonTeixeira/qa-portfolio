@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 620,
+    "labBlocks": 640,
     "solutionEntries": 613,
-    "labLessonsWithSolutions": 593,
+    "labLessonsWithSolutions": 613,
     "labLessonsWithoutSolutions": 27,
-    "sourceLedgers": 24
+    "sourceLedgers": 25
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "27 lab lessons lack same-slug solution entries",
-    "8 courses lack course-level source ledgers",
+    "7 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -615,14 +615,14 @@
       "level": "Advanced",
       "lessons": 20,
       "legacyManifestLessons": 20,
-      "labBlocks": 0,
+      "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-engineering_leadership_staff_execution/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-engineering_leadership_staff_execution"
     }

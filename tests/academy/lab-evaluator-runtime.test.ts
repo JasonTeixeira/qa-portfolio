@@ -38,11 +38,19 @@ describe('academy evaluator standalone runtime', () => {
     assert.equal(config.host, '127.0.0.1')
     assert.equal(config.images.python, PINNED)
     assert.equal(path.isAbsolute(config.privateSpecRoot), true)
+    assert.equal(loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_HOST: '::1' }).host, '::1')
+    assert.equal(loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_HOST: 'localhost' }).host, 'localhost')
 
     assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_LAB_EVALUATOR_SECRET: '' }), /secret/i)
     assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_PRIVATE_SPEC_ROOT: '../specs' }), /absolute/i)
+    assert.throws(() => loadEvaluatorConfig({
+      ...VALID_ENV,
+      ACADEMY_EVALUATOR_JOB_ROOT: '/srv/academy-evaluator/private-specs/jobs',
+    }), /disjoint/i)
     assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_IMAGE_PYTHON: 'python:3.12' }), /digest-pinned/i)
     assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_PORT: '0' }), /port/i)
+    assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_PORT: 'not-a-port' }), /port/i)
+    assert.throws(() => loadEvaluatorConfig({ ...VALID_ENV, ACADEMY_EVALUATOR_HOST: '0.0.0.0' }), /loopback/i)
   })
 
   it('proves each private reference solution once with the same controlled runner', async () => {

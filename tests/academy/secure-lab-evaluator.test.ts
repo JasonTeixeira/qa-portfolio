@@ -5,6 +5,7 @@ import { describe, it } from 'node:test'
 import {
   EVALUATOR_LIMITS,
   buildLabKey,
+  evaluatorPolicyHash,
   gradePrivateCases,
   parseEvaluationRequest,
   validatePrivateSpec,
@@ -53,7 +54,7 @@ function responsePayload() {
     labKey: 'python-basics/variables',
     submissionDigest: SUBMISSION_DIGEST,
     evaluatorVersion: 'academy-evaluator-v1',
-    policyHash: 'c'.repeat(64),
+    policyHash: evaluatorPolicyHash(),
     specRevision: '2026-08-27.1',
     verdict: 'passed' as const,
     reason: 'all_private_cases_passed' as const,
@@ -84,6 +85,11 @@ describe('academy controlled evaluator contract', () => {
       () => parseEvaluationRequest({ ...requestPayload(), extra: 'not allowed' }),
       /unknown field/i,
     )
+    assert.throws(() => parseEvaluationRequest(null), /object/i)
+    assert.throws(() => parseEvaluationRequest({ ...requestPayload(), requestId: 'not-a-uuid' }), /request id/i)
+    assert.throws(() => parseEvaluationRequest({ ...requestPayload(), issuedAt: 0 }), /issuedAt/i)
+    assert.throws(() => parseEvaluationRequest({ ...requestPayload(), labKey: '../escape/value' }), /lab key/i)
+    assert.throws(() => parseEvaluationRequest({ ...requestPayload(), code: '   ' }), /code is required/i)
   })
 
   it('requires private reference solutions and diverse hidden cases', () => {
@@ -105,6 +111,19 @@ describe('academy controlled evaluator contract', () => {
       () => validatePrivateSpec({ ...valid, cases: valid.cases.map((testCase: Record<string, unknown>) => ({ ...testCase, kind: 'happy' })) }),
       /negative/i,
     )
+    assert.throws(() => validatePrivateSpec({ ...valid, language: 'bash' }), /language/i)
+    assert.throws(() => validatePrivateSpec({ ...valid, specRevision: '../secret' }), /revision/i)
+    assert.throws(() => validatePrivateSpec({
+      ...valid,
+      cases: [valid.cases[0], { ...valid.cases[0], kind: 'negative' }],
+    }), /duplicate/i)
+    assert.throws(() => validatePrivateSpec({
+      ...valid,
+      cases: [
+        { ...valid.cases[0], stdin: 'x'.repeat(EVALUATOR_LIMITS.stdinBytes + 1) },
+        valid.cases[1],
+      ],
+    }), /stdin/i)
   })
 
   it('grades exact private-case results and never accepts substring output', () => {
@@ -127,6 +146,13 @@ describe('academy controlled evaluator contract', () => {
       ]).reason,
       'resource_limit_exceeded',
     )
+    assert.equal(
+      gradePrivateCases([
+        { caseId: 'happy', status: 'runtime_error', stdout: '', expectedStdout: '42\n', outputBytes: 0 },
+      ]).reason,
+      'runtime_error',
+    )
+    assert.equal(gradePrivateCases([]).reason, 'private_case_failed')
   })
 
   it('signs requests, rejects tampering and expiry, and consumes nonces once', () => {
@@ -151,6 +177,12 @@ describe('academy controlled evaluator contract', () => {
     const signed = signEvaluatorResponse(responsePayload(), SECRET)
     const trusted = verifyEvaluatorResponse(signed, SECRET, request, { now: NOW })
     assert.equal(trusted.verdict, 'passed')
+    assert.throws(() => {
+      ;(trusted as { verdict: string }).verdict = 'failed'
+    }, /read only|readonly|assign/i)
+    assert.throws(() => {
+      ;(trusted.tests as { passed: number }).passed = 0
+    }, /read only|readonly|assign/i)
 
     assert.throws(
       () => verifyEvaluatorResponse(
@@ -164,6 +196,28 @@ describe('academy controlled evaluator contract', () => {
     assert.throws(
       () => verifyEvaluatorResponse({ ...signed, signature: '0'.repeat(64) }, SECRET, request, { now: NOW }),
       /signature/i,
+    )
+    assert.throws(
+      () => verifyEvaluatorResponse({ ...signed, signature: 'not-a-signature' }, SECRET, request, { now: NOW }),
+      /signature/i,
+    )
+    assert.throws(
+      () => verifyEvaluatorResponse(
+        signEvaluatorResponse({ ...responsePayload(), requestId: EVALUATION_ID }, SECRET),
+        SECRET,
+        request,
+        { now: NOW },
+      ),
+      /request id/i,
+    )
+    assert.throws(
+      () => verifyEvaluatorResponse(
+        signEvaluatorResponse({ ...responsePayload(), labKey: 'python-basics/loops' }, SECRET),
+        SECRET,
+        request,
+        { now: NOW },
+      ),
+      /lab key/i,
     )
   })
 
@@ -196,6 +250,22 @@ describe('academy controlled evaluator contract', () => {
       authorizeMasteryEvidence(responsePayload() as unknown as TrustedLabEvaluation),
       { allowed: false, eventTypes: [] },
     )
+
+    const staleVersion = verifyEvaluatorResponse(
+      signEvaluatorResponse({ ...responsePayload(), evaluatorVersion: 'academy-evaluator-v0' }, SECRET),
+      SECRET,
+      requestPayload(),
+      { now: NOW },
+    )
+    assert.deepEqual(authorizeMasteryEvidence(staleVersion), { allowed: false, eventTypes: [] })
+
+    const unknownPolicy = verifyEvaluatorResponse(
+      signEvaluatorResponse({ ...responsePayload(), policyHash: 'd'.repeat(64) }, SECRET),
+      SECRET,
+      requestPayload(),
+      { now: NOW },
+    )
+    assert.deepEqual(authorizeMasteryEvidence(unknownPolicy), { allowed: false, eventTypes: [] })
   })
 
   it('requires digest-pinned runtime images', () => {
@@ -230,9 +300,26 @@ describe('academy controlled evaluator contract', () => {
     ]) assert.match(joined, new RegExp(required.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
     assert.equal(joined.includes('--privileged'), false)
     assert.equal(joined.includes('--network=host'), false)
+    assert.throws(() => buildDockerRunArgs({
+      containerName: 'invalid', image: IMAGE, language: 'python',
+      sourcePath: '/var/lib/academy-evaluator/jobs/job-1/submission.py',
+    }), /container name/i)
+    assert.throws(() => buildDockerRunArgs({
+      containerName: 'academy-eval-018f47a24b8d7f318c5a1ccf64d58b20', image: IMAGE, language: 'python',
+      sourcePath: '/var/lib/academy-evaluator/jobs/../secrets/submission.py',
+    }), /source path/i)
+    assert.match(buildDockerRunArgs({
+      containerName: 'academy-eval-018f47a24b8d7f318c5a1ccf64d58b20', image: IMAGE, language: 'javascript',
+      sourcePath: '/var/lib/academy-evaluator/jobs/job-1/submission.js',
+    }).join(' '), /submission\.js/)
+    assert.match(buildDockerRunArgs({
+      containerName: 'academy-eval-018f47a24b8d7f318c5a1ccf64d58b20', image: IMAGE, language: 'sql',
+      sourcePath: '/var/lib/academy-evaluator/jobs/job-1/submission.sql',
+    }).join(' '), /run_sql\.py/)
   })
 
   it('stops collecting output at the hard byte limit', () => {
+    assert.throws(() => new BoundedOutput(0), /invalid output limit/i)
     const output = new BoundedOutput(8)
     output.append(Buffer.from('1234'))
     output.append(Buffer.from('5678'))

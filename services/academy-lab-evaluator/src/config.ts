@@ -38,7 +38,9 @@ export function loadEvaluatorConfig(env: Record<string, string | undefined> = pr
   const port = Number(env.ACADEMY_EVALUATOR_PORT ?? '8787')
   if (!Number.isSafeInteger(port) || port < 1 || port > 65_535) throw new Error('invalid evaluator port')
   const host = env.ACADEMY_EVALUATOR_HOST?.trim() || '127.0.0.1'
-  if (!/^[a-zA-Z0-9.:-]+$/.test(host)) throw new Error('invalid evaluator host')
+  if (!['127.0.0.1', '::1', 'localhost'].includes(host)) {
+    throw new Error('evaluator host must be a loopback address')
+  }
   return {
     secret,
     privateSpecRoot,

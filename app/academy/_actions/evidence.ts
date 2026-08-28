@@ -2,7 +2,10 @@
 
 import { headers } from 'next/headers'
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server'
-import { recordEvidenceEvent } from '@/lib/academy/evidence-events'
+import {
+  recordEvidenceEvent,
+  recordNonLabArtifactEvidence,
+} from '@/lib/academy/evidence-events'
 import type { EvidenceEventType } from '@/lib/academy/evidence-events-logic'
 import type { LessonBlock } from '@/data/academy/sample-course'
 import { deriveRequirements, gradeArtifact } from '@/lib/academy/artifact-logic'
@@ -174,12 +177,11 @@ export async function verifyArtifact(
     if (grade.ok) {
       // A produced artifact that covers the contract's required elements = a real sprint
       // artifact. unitId = lessonSlug (one lesson = one unit). Never stores the draft text.
-      await recordEvidenceEvent({
+      await recordNonLabArtifactEvidence({
         userId: user.id,
         courseSlug,
         lessonSlug,
         unitId: lessonSlug,
-        type: 'sprint_artifact_created',
         payload: {},
       })
     }

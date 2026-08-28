@@ -6,9 +6,10 @@ import path from 'node:path'
 import { describe, it } from 'node:test'
 
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
+import { evaluatorPolicyHash } from '../../lib/academy/lab-evaluator/contract'
 import { decideLabSubmissionOutcome } from '../../lib/academy/lab-evaluator/application'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
-import { executePrivateCase } from '../../services/academy-lab-evaluator/src/executor'
+import { executePrivateCase, runBoundedProcess } from '../../services/academy-lab-evaluator/src/executor'
 import { evaluateSubmission } from '../../services/academy-lab-evaluator/src/evaluate'
 import { loadPrivateSpec } from '../../services/academy-lab-evaluator/src/spec-store'
 
@@ -83,6 +84,22 @@ describe('academy evaluator service and application boundary', () => {
     assert.equal(observed.outputLimitBytes, 65_536)
   })
 
+  it('kills subprocesses on output and wall-clock limits', async () => {
+    const outputBomb = await runBoundedProcess(
+      process.execPath,
+      ['-e', 'process.stdout.write("x".repeat(1024))'],
+      { stdin: '', wallTimeMs: 1_000, outputLimitBytes: 8 },
+    )
+    assert.equal(outputBomb.status, 'output_limited')
+
+    const timeout = await runBoundedProcess(
+      process.execPath,
+      ['-e', 'setInterval(() => {}, 1000)'],
+      { stdin: '', wallTimeMs: 25, outputLimitBytes: 1_024 },
+    )
+    assert.equal(timeout.status, 'timed_out')
+  })
+
   it('returns only aggregate results after all hidden cases pass', async () => {
     const request = buildEvaluationRequest({
       courseSlug: 'python-basics', lessonSlug: 'variables', code: 'solution',
@@ -126,6 +143,31 @@ describe('academy evaluator service and application boundary', () => {
       persistMastery: false,
       reason: 'evaluator_unavailable',
     })
+
+    const invalidSpec = await evaluateSubmission(request, {
+      now: () => NOW,
+      newId: () => '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
+      loadSpec: async () => { throw new Error('corrupt private pack') },
+      executeCase: async () => { throw new Error('must not execute') },
+    })
+    assert.equal(invalidSpec.reason, 'private_spec_invalid')
+
+    const failedProof = await evaluateSubmission(request, {
+      now: () => NOW,
+      newId: () => '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
+      loadSpec: async () => validSpec(),
+      proveSpec: async () => false,
+      executeCase: async () => { throw new Error('must not execute') },
+    })
+    assert.equal(failedProof.reason, 'private_spec_invalid')
+
+    const runtimeFailure = await evaluateSubmission(request, {
+      now: () => NOW,
+      newId: () => '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
+      loadSpec: async () => validSpec(),
+      executeCase: async () => { throw new Error('runtime failed') },
+    })
+    assert.equal(runtimeFailure.reason, 'runtime_error')
   })
 
   it('persists mastery only for the exact signed, all-cases-passing response', () => {
@@ -141,7 +183,7 @@ describe('academy evaluator service and application boundary', () => {
       labKey: request.labKey,
       submissionDigest: request.submissionDigest,
       evaluatorVersion: 'academy-evaluator-v1',
-      policyHash: 'c'.repeat(64),
+      policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
       verdict: 'passed' as const,
       reason: 'all_private_cases_passed' as const,

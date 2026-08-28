@@ -1,63 +1,23 @@
--- Step 4A: durable, append-only receipts from the separately controlled lab
--- evaluator. A trusted pass and its mastery events are committed atomically.
+-- Step 4A hardening: forward-only policy pin for databases that may already
+-- have applied 0116. Unknown or stale evaluator policies cannot mint mastery.
 
-create table if not exists public.academy_lab_evaluations (
-  id uuid primary key default gen_random_uuid(),
-  evaluation_id uuid not null unique,
-  user_id uuid not null references auth.users(id) on delete cascade,
-  course_slug text not null,
-  lesson_slug text not null,
-  lab_key text not null,
-  submission_digest text not null check (submission_digest ~ '^[0-9a-f]{64}$'),
-  evaluator_version text not null,
-  policy_hash text not null check (policy_hash ~ '^[0-9a-f]{64}$'),
-  spec_revision text not null,
-  attestation_signature text not null check (attestation_signature ~ '^[0-9a-f]{64}$'),
-  verdict text not null check (verdict = 'passed'),
-  reason text not null check (reason = 'all_private_cases_passed'),
-  tests_passed integer not null check (tests_passed > 0),
-  tests_total integer not null check (tests_total > 0 and tests_passed = tests_total),
-  duration_ms integer not null check (duration_ms >= 0 and duration_ms <= 30000),
-  output_bytes integer not null check (output_bytes >= 0 and output_bytes <= 65536),
-  created_at timestamptz not null default now(),
-  constraint academy_lab_evaluations_key_matches
-    check (lab_key = course_slug || '/' || lesson_slug),
-  constraint academy_lab_evaluations_submission_once
-    unique (user_id, lab_key, submission_digest, evaluator_version, policy_hash, spec_revision)
-);
+alter table public.academy_lab_evaluations
+  drop constraint if exists academy_lab_evaluations_policy_hash_check;
 
-create index if not exists academy_lab_evaluations_user_created_idx
-  on public.academy_lab_evaluations (user_id, created_at desc);
+alter table public.academy_lab_evaluations
+  drop constraint if exists academy_lab_evaluations_evaluator_version_pin;
 
-alter table public.academy_lab_evaluations enable row level security;
+alter table public.academy_lab_evaluations
+  drop constraint if exists academy_lab_evaluations_policy_hash_pin;
 
-drop policy if exists academy_lab_evaluations_own_read on public.academy_lab_evaluations;
-create policy academy_lab_evaluations_own_read on public.academy_lab_evaluations
-  for select to authenticated using (user_id = auth.uid());
+alter table public.academy_lab_evaluations
+  add constraint academy_lab_evaluations_evaluator_version_pin
+    check (evaluator_version = 'academy-evaluator-v1'),
+  add constraint academy_lab_evaluations_policy_hash_pin
+    check (
+      policy_hash = 'c6dbbf7e9bcfa3506fa6aa9c3b233dd89f41aa36b6a7a5c63b7095be2668814c'
+    );
 
-revoke all on public.academy_lab_evaluations from public, anon, authenticated;
-grant select on public.academy_lab_evaluations to authenticated;
-
--- Append-only even for elevated callers. A future retention/deletion policy must
--- deliberately replace this trigger; the auth.users cascade is also blocked.
-create or replace function public.prevent_academy_lab_evaluation_mutation()
-returns trigger
-language plpgsql
-set search_path = ''
-as $$
-begin
-  raise exception 'academy_lab_evaluations is append-only';
-end;
-$$;
-
-drop trigger if exists academy_lab_evaluations_append_only on public.academy_lab_evaluations;
-create trigger academy_lab_evaluations_append_only
-  before update or delete on public.academy_lab_evaluations
-  for each row execute function public.prevent_academy_lab_evaluation_mutation();
-
--- The service-role application calls this only after verifying the evaluator's
--- HMAC response. Authenticated/anonymous roles cannot execute it. The receipt
--- and both evidence events live in one database transaction.
 create or replace function public.record_trusted_academy_lab_result(
   p_user_id uuid,
   p_course_slug text,
@@ -86,6 +46,8 @@ declare
 begin
   if p_verdict <> 'passed'
     or p_reason <> 'all_private_cases_passed'
+    or p_evaluator_version <> 'academy-evaluator-v1'
+    or p_policy_hash <> 'c6dbbf7e9bcfa3506fa6aa9c3b233dd89f41aa36b6a7a5c63b7095be2668814c'
     or p_tests_total < 1
     or p_tests_passed <> p_tests_total
     or p_lab_key <> p_course_slug || '/' || p_lesson_slug then

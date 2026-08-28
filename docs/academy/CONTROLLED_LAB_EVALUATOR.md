@@ -37,6 +37,8 @@ ACADEMY_EVALUATOR_PORT=8787
 
 Never put the shared secret in a `NEXT_PUBLIC_*` variable.
 
+The configured host is enforced as `127.0.0.1`, `::1`, or `localhost`; startup rejects public bind addresses. Rotate the shared secret when either tier is rebuilt or an operator changes. A future asymmetric response-signing upgrade would further separate request authority from response-attestation authority.
+
 ## Private spec format
 
 The filename for `course-slug/lesson-slug` is `course-slug--lesson-slug.json` inside the private spec root.
@@ -79,7 +81,7 @@ Startup fails if Docker is not rootless, a configured image is missing, the root
 
 Do not change the academy-wide `labTrust` state or enable mastery writes in production until:
 
-1. migration `0116_academy_trusted_lab_evaluations.sql` is applied and its RLS/execute grants are verified;
+1. migrations `0116_academy_trusted_lab_evaluations.sql` and `0117_academy_lab_evaluator_policy_pin.sql` are applied in order and their RLS/execute grants are verified;
 2. the application and evaluator share a rotated production secret;
 3. evaluator health and a deliberately broken submission are proven through private ingress;
 4. timeout, output bomb, fork bomb, filesystem write, network access, signature tamper, replay, and hidden-case failure probes all fail as designed;
@@ -87,3 +89,9 @@ Do not change the academy-wide `labTrust` state or enable mastery writes in prod
 6. monitoring covers latency, 429s, resource-limit terminations, spec failures, and evidence-persistence errors.
 
 Until then, the UI deliberately reports practice-only and no new `lab_verified` event can be written through the application.
+
+## Policy upgrades
+
+The application trust check and migration intentionally pin the evaluator version and the SHA-256 hash of its resource-limit policy. Changing `EVALUATOR_LIMITS` or `EVALUATOR_VERSION` requires a reviewed release that updates the application and adds a new migration/allowlist entry. A service running stale or unknown policy remains practice-only and cannot write mastery evidence.
+
+Migration 0117 validates existing receipts while adding the pin. If a database contains receipts from an unknown policy, the migration deliberately fails so an operator can investigate and remediate those rows before retrying; do not bypass the constraint.

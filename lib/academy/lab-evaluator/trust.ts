@@ -2,6 +2,7 @@ import {
   isTrustedLabEvaluation,
   type TrustedLabEvaluation,
 } from './signing'
+import { EVALUATOR_VERSION, evaluatorPolicyHash } from './contract'
 
 export type { TrustedLabEvaluation } from './signing'
 
@@ -16,6 +17,9 @@ export function authorizeMasteryEvidence(
   if (
     !evaluation ||
     !isTrustedLabEvaluation(evaluation) ||
+    evaluation.evaluatorVersion !== EVALUATOR_VERSION ||
+    evaluation.policyHash !== evaluatorPolicyHash() ||
+    !evaluation.specRevision ||
     evaluation.verdict !== 'passed' ||
     evaluation.reason !== 'all_private_cases_passed' ||
     evaluation.tests.total < 1 ||

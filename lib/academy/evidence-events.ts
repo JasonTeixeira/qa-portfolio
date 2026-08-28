@@ -33,6 +33,8 @@ export type RecordEvidenceInput = {
   payload?: EvidencePayload
 }
 
+export type RecordNonLabArtifactEvidenceInput = Omit<RecordEvidenceInput, 'type'>
+
 /**
  * Append one verified evidence event. Service-role only; append-only.
  *
@@ -75,6 +77,56 @@ export async function recordEvidenceEvent(
   if (input.type === 'lab_verified') {
     throw new Error('lab_verified requires trusted evaluator persistence')
   }
+  // Lab artifacts are created by the same atomic evaluator transaction as the
+  // lab_verified event. Generic callers must not be able to lift a lab unit's
+  // state by writing only its artifact signal.
+  if (input.type === 'sprint_artifact_created') {
+    throw new Error('sprint_artifact_created requires a specialized persistence path')
+  }
+
+  await insertEvidenceEvent(input, opts)
+}
+
+/**
+ * Record a server-graded text/design artifact only when the published lesson is
+ * explicitly non-runnable. Lab lessons must use the evaluator's atomic receipt
+ * transaction, which writes both mastery signals together.
+ */
+export async function recordNonLabArtifactEvidence(
+  input: RecordNonLabArtifactEvidenceInput,
+): Promise<void> {
+  const admin = supabaseAdmin()
+  const { data: lesson, error } = await admin
+    .from('academy_lessons')
+    .select('blocks')
+    .eq('course_slug', input.courseSlug)
+    .eq('slug', input.lessonSlug)
+    .eq('status', 'published')
+    .maybeSingle()
+  if (error) throw new Error(`artifact lesson validation failed: ${error.message}`)
+
+  const blocks = Array.isArray(lesson?.blocks) ? lesson.blocks : []
+  const blockTypes = new Set(
+    blocks.flatMap((block) => (
+      typeof block === 'object' && block !== null && typeof block.type === 'string'
+        ? [block.type]
+        : []
+    )),
+  )
+  if (!blockTypes.has('sprint-contract') || blockTypes.has('lab')) {
+    throw new Error('artifact evidence is restricted to published non-lab sprint contracts')
+  }
+
+  await insertEvidenceEvent({
+    ...input,
+    type: 'sprint_artifact_created',
+  })
+}
+
+async function insertEvidenceEvent(
+  input: RecordEvidenceInput,
+  opts?: { trusted?: boolean },
+): Promise<void> {
   // Allowlist the event type — never insert an unknown/forged type.
   if (!EVIDENCE_EVENT_TYPES.includes(input.type)) {
     throw new Error(`evidence insert rejected: unknown event type "${input.type}"`)

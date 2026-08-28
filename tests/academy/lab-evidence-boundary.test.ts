@@ -5,6 +5,10 @@ import { describe, it } from 'node:test'
 import { buildTrustedLabPersistence } from '../../lib/academy/lab-evaluator/persistence'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
+import {
+  EVALUATOR_VERSION,
+  evaluatorPolicyHash,
+} from '../../lib/academy/lab-evaluator/contract'
 
 const SECRET = 'test-only-secret-that-is-at-least-thirty-two-bytes'
 const NOW = 1_788_194_400_000
@@ -26,7 +30,7 @@ describe('academy mastery evidence trust boundary', () => {
       labKey: request.labKey,
       submissionDigest: request.submissionDigest,
       evaluatorVersion: 'academy-evaluator-v1',
-      policyHash: 'c'.repeat(64),
+      policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
       verdict: 'passed' as const,
       reason: 'all_private_cases_passed' as const,
@@ -73,8 +77,13 @@ describe('academy mastery evidence trust boundary', () => {
 
   it('denies generic lab_verified writes and provides an atomic append-only ledger function', () => {
     const evidenceWriter = readFileSync('lib/academy/evidence-events.ts', 'utf8')
+    const action = readFileSync('app/academy/_actions/evidence.ts', 'utf8')
     const migration = readFileSync('supabase/migrations/0116_academy_trusted_lab_evaluations.sql', 'utf8')
+    const policyPinMigration = readFileSync('supabase/migrations/0117_academy_lab_evaluator_policy_pin.sql', 'utf8')
     assert.match(evidenceWriter, /input\.type === 'lab_verified'/)
+    assert.match(evidenceWriter, /input\.type === 'sprint_artifact_created'/)
+    assert.match(evidenceWriter, /recordNonLabArtifactEvidence/)
+    assert.match(action, /recordNonLabArtifactEvidence/)
     assert.match(evidenceWriter, /trusted evaluator persistence/i)
     assert.match(migration, /create table if not exists public\.academy_lab_evaluations/i)
     assert.match(migration, /record_trusted_academy_lab_result/i)
@@ -82,5 +91,9 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(migration, /revoke execute[\s\S]*?from public, anon, authenticated/i)
     assert.match(migration, /academy_evidence_events/i)
     assert.match(migration, /append-only/i)
+    assert.match(policyPinMigration, /create or replace function public\.record_trusted_academy_lab_result/i)
+    assert.match(policyPinMigration, /revoke execute[\s\S]*?from public, anon, authenticated/i)
+    assert.match(policyPinMigration, new RegExp(EVALUATOR_VERSION))
+    assert.match(policyPinMigration, new RegExp(evaluatorPolicyHash()))
   })
 })

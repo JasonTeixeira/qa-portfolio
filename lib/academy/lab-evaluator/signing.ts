@@ -88,14 +88,22 @@ export function verifyEvaluatorResponse(
 ): TrustedLabEvaluation {
   if (!envelope || typeof envelope !== 'object') throw new Error('invalid evaluator envelope')
   assertSignature(signatureFor('response', envelope.payload, secret), envelope.signature)
-  const payload = parseEvaluationResponse(envelope.payload)
-  assertFresh(payload.issuedAt, options.now ?? Date.now())
-  if (payload.requestId !== request.requestId) throw new Error('evaluator request id mismatch')
-  if (payload.labKey !== request.labKey) throw new Error('evaluator lab key mismatch')
-  if (payload.submissionDigest !== request.submissionDigest) throw new Error('evaluator submission digest mismatch')
-  trustedResponses.add(payload)
-  attestationSignatures.set(payload, envelope.signature)
-  return payload as TrustedLabEvaluation
+  const parsed = parseEvaluationResponse(envelope.payload)
+  assertFresh(parsed.issuedAt, options.now ?? Date.now())
+  if (parsed.requestId !== request.requestId) throw new Error('evaluator request id mismatch')
+  if (parsed.labKey !== request.labKey) throw new Error('evaluator lab key mismatch')
+  if (parsed.submissionDigest !== request.submissionDigest) throw new Error('evaluator submission digest mismatch')
+  // Copy and freeze the authenticated values. Branding a mutable response would
+  // let later in-process code change a failed verdict into a passing one while
+  // retaining the WeakSet trust marker.
+  const trusted = Object.freeze({
+    ...parsed,
+    tests: Object.freeze({ ...parsed.tests }),
+    resourceUsage: Object.freeze({ ...parsed.resourceUsage }),
+  }) as TrustedLabEvaluation
+  trustedResponses.add(trusted)
+  attestationSignatures.set(trusted, envelope.signature)
+  return trusted
 }
 
 export function isTrustedLabEvaluation(value: unknown): value is TrustedLabEvaluation {

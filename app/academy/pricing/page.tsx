@@ -11,7 +11,7 @@ import { ACADEMY_PLANS } from '@/lib/academy/plans'
  * match the design file.
  *
  * Honesty deltas (intentional departures, per the no-fake-green rule):
- * - Prices come from ACADEMY_PLANS ($20/mo, $200/yr), not the mock's
+ * - Prices come from ACADEMY_PLANS ($25/mo, $250/yr), not the mock's
  *   $29/$250; the annual note is recomputed (≈ $17/month · billed yearly).
  * - The mock's Team tier showed an invented $190/seat price with no Stripe
  *   backing — shown as "Custom" with the same feature list and contact CTA.

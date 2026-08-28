@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 585,
-    "labLessonsWithSolutions": 414,
-    "labLessonsWithoutSolutions": 56,
-    "sourceLedgers": 11
+    "solutionEntries": 588,
+    "labLessonsWithSolutions": 417,
+    "labLessonsWithoutSolutions": 53,
+    "sourceLedgers": 12
   },
   "capabilities": [
     {
@@ -7455,14 +7455,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/agents-tool-use/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -7472,7 +7471,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/what-an-agent-is",
@@ -7487,7 +7486,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/tool-calling-recap",
@@ -7502,7 +7501,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/observe-decide-act-loop",
@@ -7517,9 +7516,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/tool-schemas-contracts",
           "source": {
             "kind": "derived_from_authoring",
@@ -7532,7 +7531,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/planning-decomposition",
@@ -7547,7 +7546,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/react-pattern",
@@ -7562,7 +7561,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/stopping-conditions-budgets",
@@ -7577,9 +7576,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/state-and-memory",
           "source": {
             "kind": "derived_from_authoring",
@@ -7592,7 +7591,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/tool-errors-recovery",
@@ -7607,7 +7606,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/loop-guards",
@@ -7622,7 +7621,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/argument-validation-bounding",
@@ -7637,7 +7636,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/human-in-the-loop-checkpoints",
@@ -7652,7 +7651,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/multi-tool-workflows",
@@ -7667,7 +7666,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/sub-agents-orchestration",
@@ -7682,7 +7681,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/shared-memory",
@@ -7697,7 +7696,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/concurrency-and-races",
@@ -7712,7 +7711,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/least-privilege-tool-permissions",
@@ -7727,9 +7726,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/injection-via-tool-outputs",
           "source": {
             "kind": "derived_from_authoring",
@@ -7742,7 +7741,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/evaluating-agent-trajectories",
@@ -7757,7 +7756,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/agents-tool-use/capstone-bounded-guardrailed-agent",
@@ -10753,5 +10752,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa"
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f"
 }

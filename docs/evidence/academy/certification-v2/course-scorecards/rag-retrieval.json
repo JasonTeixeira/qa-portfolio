@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
-  "generatedAt": "2026-08-28T19:07:20.677Z",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
+  "generatedAt": "2026-08-28T19:15:09.307Z",
   "courseSlug": "rag-retrieval",
   "title": "RAG and Retrieval",
   "contentHash": "sha256:e18cf9df442f6439d962a874ce0f177ad60dd2bb1c4ce9b5ab2fe71eebafb571",

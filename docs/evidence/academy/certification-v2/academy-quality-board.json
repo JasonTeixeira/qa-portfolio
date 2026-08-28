@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
-  "generatedAt": "2026-08-28T19:07:20.677Z",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
+  "generatedAt": "2026-08-28T19:15:09.307Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 526,
+      "H2": 523,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -2153,16 +2153,16 @@
       "courseSlug": "agents-tool-use",
       "title": "Agents and Tool Use",
       "lessonCount": 20,
-      "contentHash": "sha256:fe89930860fe8a86a506c2d5e9a9039074b1891e428d5559fdb6600dcfbb18d1",
+      "contentHash": "sha256:beefc8970401326e06dfc14f4b2e1f4dc44d55407e3e4bf035fc5ae86f558396",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 80,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 23,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 23,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -2171,7 +2171,6 @@
         "accessibility",
         "consistency",
         "content_correctness",
-        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -2208,7 +2207,7 @@
           "score": null
         },
         "media": {
-          "status": "pending",
+          "status": "not_applicable",
           "score": null
         },
         "references": {

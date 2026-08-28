@@ -865,7 +865,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "agents-tool-use"
+          "courseSlug": "agents-tool-use",
+          "lessonSlugs": [
+            "what-an-agent-is",
+            "tool-calling-recap",
+            "observe-decide-act-loop",
+            "tool-schemas-contracts",
+            "planning-decomposition",
+            "react-pattern",
+            "stopping-conditions-budgets",
+            "state-and-memory",
+            "tool-errors-recovery",
+            "loop-guards",
+            "argument-validation-bounding",
+            "human-in-the-loop-checkpoints",
+            "multi-tool-workflows",
+            "sub-agents-orchestration",
+            "shared-memory",
+            "concurrency-and-races",
+            "least-privilege-tool-permissions",
+            "injection-via-tool-outputs",
+            "evaluating-agent-trajectories",
+            "capstone-bounded-guardrailed-agent"
+          ]
         },
         {
           "courseSlug": "career-ai_engineering_rag_eval"

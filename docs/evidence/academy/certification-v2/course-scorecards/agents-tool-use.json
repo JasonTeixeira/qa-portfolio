@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
-  "generatedAt": "2026-08-28T19:07:20.677Z",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
+  "generatedAt": "2026-08-28T19:15:09.307Z",
   "courseSlug": "agents-tool-use",
   "title": "Agents and Tool Use",
-  "contentHash": "sha256:fe89930860fe8a86a506c2d5e9a9039074b1891e428d5559fdb6600dcfbb18d1",
+  "contentHash": "sha256:beefc8970401326e06dfc14f4b2e1f4dc44d55407e3e4bf035fc5ae86f558396",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -135,17 +135,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "cec6606c3fdcf71e",
-          "courseSlug": "agents-tool-use",
-          "lessonSlug": "tool-schemas-contracts"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -185,17 +174,6 @@
           "id": "2c3089da76cc4051",
           "courseSlug": "agents-tool-use",
           "lessonSlug": "stopping-conditions-budgets"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "b7768710ae94d73c",
-          "courseSlug": "agents-tool-use",
-          "lessonSlug": "state-and-memory"
         },
         {
           "code": "H2",
@@ -311,17 +289,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "c8f461ece11b2fa2",
-          "courseSlug": "agents-tool-use",
-          "lessonSlug": "injection-via-tool-outputs"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -370,13 +337,13 @@
     },
     "media": {
       "id": "media",
-      "status": "pending",
+      "status": "not_applicable",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-media",
           "mode": "deterministic",
-          "status": "pending",
+          "status": "not_applicable",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
@@ -489,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {
@@ -524,17 +491,6 @@
       "id": "a51649dca22dfdcb",
       "courseSlug": "agents-tool-use",
       "lessonSlug": "observe-decide-act-loop"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "cec6606c3fdcf71e",
-      "courseSlug": "agents-tool-use",
-      "lessonSlug": "tool-schemas-contracts"
     },
     {
       "code": "H2",
@@ -579,17 +535,6 @@
       "id": "2c3089da76cc4051",
       "courseSlug": "agents-tool-use",
       "lessonSlug": "stopping-conditions-budgets"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "b7768710ae94d73c",
-      "courseSlug": "agents-tool-use",
-      "lessonSlug": "state-and-memory"
     },
     {
       "code": "H2",
@@ -705,17 +650,6 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "c8f461ece11b2fa2",
-      "courseSlug": "agents-tool-use",
-      "lessonSlug": "injection-via-tool-outputs"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
@@ -750,7 +684,6 @@
     "accessibility",
     "consistency",
     "content_correctness",
-    "media",
     "pedagogy",
     "performance",
     "sources",

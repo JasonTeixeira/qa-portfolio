@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
-  "generatedAt": "2026-08-28T19:07:20.677Z",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
+  "generatedAt": "2026-08-28T19:15:09.307Z",
   "items": [
     {
       "rank": 1,
@@ -47,15 +47,14 @@
       "severity": "blocker",
       "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
       "courseSlugs": [
-        "agents-tool-use",
         "git-the-terminal",
         "nextjs-supabase",
         "programming-fundamentals",
         "stripe-auth"
       ],
-      "lessonCount": 56,
-      "findingCount": 56,
-      "priority": 4050056
+      "lessonCount": 53,
+      "findingCount": 53,
+      "priority": 4040053
     },
     {
       "rank": 3,
@@ -696,7 +695,6 @@
       "severity": "medium",
       "remediation": "Complete required sources evidence: source-ledger-schema.",
       "courseSlugs": [
-        "agents-tool-use",
         "career-architecture_system_design",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
@@ -718,9 +716,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 416,
-      "findingCount": 416,
-      "priority": 2210416
+      "lessonCount": 396,
+      "findingCount": 396,
+      "priority": 2200396
     },
     {
       "rank": 21,
@@ -728,16 +726,15 @@
       "severity": "medium",
       "remediation": "Complete required media evidence: promised-media-integrity.",
       "courseSlugs": [
-        "agents-tool-use",
         "data-structures",
         "git-the-terminal",
         "nextjs-supabase",
         "stripe-auth",
         "system-design"
       ],
-      "lessonCount": 124,
-      "findingCount": 124,
-      "priority": 2060124
+      "lessonCount": 104,
+      "findingCount": 104,
+      "priority": 2050104
     }
   ]
 }

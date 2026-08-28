@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 585,
-    "labLessonsWithSolutions": 414,
-    "labLessonsWithoutSolutions": 56,
-    "sourceLedgers": 11
+    "solutionEntries": 588,
+    "labLessonsWithSolutions": 417,
+    "labLessonsWithoutSolutions": 53,
+    "sourceLedgers": 12
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "56 lab lessons lack same-slug solution entries",
-    "21 courses lack course-level source ledgers",
+    "53 lab lessons lack same-slug solution entries",
+    "20 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -457,14 +457,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 3,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/agents-tool-use/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/agents-tool-use"
     },

@@ -142,7 +142,7 @@ function constrainedShell(language: LabLanguage): string {
     'umask 077',
     ...addressSpaceLimits,
     `ulimit -S -t ${EVALUATOR_LIMITS.cpuSeconds}`,
-    `ulimit -H -t ${EVALUATOR_LIMITS.cpuSeconds}`,
+    `ulimit -H -t ${EVALUATOR_LIMITS.cpuSeconds + 1}`,
     `ulimit -S -u ${EVALUATOR_LIMITS.pids}`,
     `ulimit -H -u ${EVALUATOR_LIMITS.pids}`,
     `ulimit -S -f ${fileBlocks}`,
@@ -228,7 +228,7 @@ export async function executePrivateCaseInVercelSandbox(input: {
 
   let status: PrivateCaseResult['status']
   if (capture.outputLimited) status = 'output_limited'
-  else if (exitCode === 124) status = 'timed_out'
+  else if (exitCode === 124 || exitCode === 152) status = 'timed_out'
   else if (exitCode === 137) status = 'memory_limited'
   else if (executionFailed || exitCode !== 0) status = 'runtime_error'
   else status = 'passed'

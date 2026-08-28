@@ -167,6 +167,10 @@ interface AcademyInput {
   }
   repoRoot: string
   generatedAt: string
+  activation?: {
+    trustedLabKeys: ReadonlySet<string>
+    evidenceByLesson: ReadonlyMap<string, LessonEvidence>
+  }
 }
 
 const DIMENSION_IDS = [
@@ -850,7 +854,11 @@ function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, 'utf8'))
 }
 
-function bundleFromRegistry(course: RegistryCourse, repoRoot: string): AuditBundle {
+function bundleFromRegistry(
+  course: RegistryCourse,
+  repoRoot: string,
+  activationEvidence?: ReadonlyMap<string, LessonEvidence>,
+): AuditBundle {
   const lessonPath = course.authoring?.lessonBundle
   if (!lessonPath) throw new Error(`Registered course '${course.slug}' has no authoring lesson bundle`)
   const resolvedLessonPath = confinedPath(repoRoot, lessonPath)
@@ -865,7 +873,10 @@ function bundleFromRegistry(course: RegistryCourse, repoRoot: string): AuditBund
     sourceLedger: ledgerPath && existsSync(confinedPath(repoRoot, ledgerPath))
       ? (readJson(confinedPath(repoRoot, ledgerPath)) as SourceRow[])
       : null,
-    evidence: {},
+    evidence: Object.fromEntries(course.lessons.flatMap((lesson) => {
+      const evidence = activationEvidence?.get(`${course.slug}/${lesson.slug}`)
+      return evidence ? [[lesson.slug, evidence]] : []
+    })),
   }
 }
 
@@ -892,14 +903,15 @@ function remediationBacklog(courseScorecards: CourseScorecard[]) {
     .map((item, index) => ({ rank: index + 1, ...item }))
 }
 
-export function auditAcademy({ registry, repoRoot, generatedAt }: AcademyInput) {
+export function auditAcademy({ registry, repoRoot, generatedAt, activation }: AcademyInput) {
   const courseIndex = new Map(registry.courses.map((course) => [course.slug, new Set(course.lessons.map((lesson) => lesson.slug))]))
-  const courseScorecards = registry.courses.map((course) => auditCourseBundle(bundleFromRegistry(course, repoRoot), {
+  const courseScorecards = registry.courses.map((course) => auditCourseBundle(bundleFromRegistry(course, repoRoot, activation?.evidenceByLesson), {
     registryVersion: registry.registryVersion,
     generatedAt,
     labTrust: 'untrusted_current_runtime',
     repoRoot,
     courseIndex,
+    trustedLabKeys: activation?.trustedLabKeys,
   }))
   if (courseScorecards.length !== registry.totals.courses) throw new Error(`Audit coverage drift: expected ${registry.totals.courses} courses, audited ${courseScorecards.length}`)
   const lessonsAudited = courseScorecards.reduce((sum, course) => sum + course.lessonCount, 0)
@@ -937,9 +949,11 @@ export function auditAcademy({ registry, repoRoot, generatedAt }: AcademyInput) 
       note: 'Every registered Git-resident bundle was parsed and evaluated independently.',
     },
     currentLabExecution: {
-      scope: 'none_by_policy' as const,
-      executed: 0,
-      note: 'Authored solutions are not executed by V2 until the Step 4A controlled evaluator exists.',
+      scope: activation?.trustedLabKeys.size ? 'attested_partial' as const : 'none_by_policy' as const,
+      executed: activation?.trustedLabKeys.size ?? 0,
+      note: activation?.trustedLabKeys.size
+        ? 'Only labs named by the verified, release-bound activation attestation are accepted as controlled evidence.'
+        : 'No verified activation attestation was supplied; every current lab remains untrusted by policy.',
     },
     externalLinkReachability: {
       scope: 'none_by_policy' as const,

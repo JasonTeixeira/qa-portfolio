@@ -94,6 +94,13 @@ function attestationPayload() {
       javascript: `registry.example/sage-js@sha256:${'2'.repeat(64)}`,
       sql: `registry.example/sage-sql@sha256:${'3'.repeat(64)}`,
     },
+    environment: {
+      rootlessRuntime: 'passed' as const,
+      migrations: ['0116', '0117'] as const,
+      privateHttpsIngress: 'passed' as const,
+      monitoring: 'passed' as const,
+      masteryWriteKillSwitch: 'passed' as const,
+    },
     labs: manifest().labs.map((lab, index) => ({
       labKey: lab.labKey,
       blockIndex: lab.blockIndex,

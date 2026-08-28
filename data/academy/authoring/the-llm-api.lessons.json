@@ -2091,8 +2091,8 @@
       "title": "Validate and dispatch a tool call",
       "summary": "The model returned a tool call. Confirm the tool exists, parse the arguments, check required args, then dispatch to the implementation. Return the result or a precise error.",
       "language": "js",
-      "starter": "const tools = [{ name: \"get_weather\", input_schema: {\n  type: \"object\", required: [\"city\"],\n  properties: { city: { type: \"string\" }, unit: { type: \"string\", enum: [\"C\",\"F\"] } } }}];\nconst impls = { get_weather: ({ city, unit = \"C\" }) => city + \": 21°\" + unit };\nconst call = { name: \"get_weather\", arguments: '{\"city\":\"Paris\"}' };\n// TODO: validate then dispatch; on failure return \"ERROR: <reason>\"\nfunction runToolCall(call, tools, impls) { /* your code */ }\nconst out = runToolCall(call, tools, impls);\nconsole.log(\"result:\", out.result ?? (\"ERROR: \" + out.error));",
-      "check": "result: Paris: 21°C"
+      "starter": "const tools = [{ name: \"get_weather\", input_schema: {\n  type: \"object\", required: [\"city\"],\n  properties: { city: { type: \"string\" }, unit: { type: \"string\", enum: [\"C\",\"F\"] } } }}];\nconst impls = { get_weather: ({ city, unit = \"C\" }) => city + \": 21°\" + unit };\n// TODO: validate then dispatch; on failure return { error: \"<reason>\" }.\nfunction runToolCall(call, tools, impls) { /* your code */ }\nconst raw = typeof process !== \"undefined\" && process.stdin\n  ? require(\"node:fs\").readFileSync(0, \"utf8\").trim()\n  : \"\";\nconst call = raw ? JSON.parse(raw) : { name: \"get_weather\", arguments: '{\"city\":\"Paris\"}' };\nconst out = runToolCall(call, tools, impls);\nconsole.log(out.result ?? (\"ERROR: \" + out.error));",
+      "check": "Paris: 21°C"
     },
     {
       "type": "debug",
@@ -3956,10 +3956,10 @@
     {
       "type": "lab",
       "title": "Price a feature at volume",
-      "summary": "Compute cost per call from input/output tokens at their separate per-million rates, then project to 50,000 calls/day. Print both.",
+      "summary": "Read token counts and daily volume, compute cost per call from the separate per-million input/output rates, then project the daily cost. Reject invalid negative or fractional counts.",
       "language": "js",
-      "starter": "const PRICE = { input: 3.00, output: 15.00 };   // $ per 1,000,000 tokens\nfunction costUsd(inputTokens, outputTokens) { /* your code */ }\nconst perCall = costUsd(12000, 800);\nconsole.log(\"per call $\" + perCall.toFixed(4));\nconsole.log(\"per day (50k) $\" + (perCall * 50000).toFixed(2));",
-      "check": "per call $0.0480\nper day (50k) $2400.00"
+      "starter": "const PRICE = { input: 3.00, output: 15.00 };   // $ per 1,000,000 tokens\nfunction costUsd(inputTokens, outputTokens) { /* your code */ }\nconst raw = typeof process !== \"undefined\" && process.stdin\n  ? require(\"node:fs\").readFileSync(0, \"utf8\").trim()\n  : \"\";\nconst request = raw ? JSON.parse(raw) : { inputTokens: 12000, outputTokens: 800, callsPerDay: 50000 };\nconst perCall = costUsd(request.inputTokens, request.outputTokens);\nconsole.log(\"per call $\" + perCall.toFixed(4));\nconsole.log(\"per day (\" + request.callsPerDay + \") $\" + (perCall * request.callsPerDay).toFixed(2));",
+      "check": "per call $0.0480\nper day (50000) $2400.00"
     },
     {
       "type": "debug",

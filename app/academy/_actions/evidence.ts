@@ -13,6 +13,11 @@ import { checkRateLimitFromHeaders } from '@/lib/rate-limit'
 import { decideLabSubmissionOutcome } from '@/lib/academy/lab-evaluator/application'
 import { evaluateLabOnControlledService } from '@/lib/academy/lab-evaluator/client-server'
 import { persistTrustedLabEvaluation } from '@/lib/academy/lab-evaluator/persistence-server'
+import {
+  FLAGSHIP_ACTIVATION_RELEASE_ID,
+  isFlagshipLabCandidate,
+  masteryPersistenceEnabled,
+} from '@/lib/academy/lab-evaluator/activation'
 
 /**
  * Learner-triggered evidence events from the sprint sections (Tier-2 Slice 2).
@@ -96,6 +101,10 @@ export async function verifyLab(
       return { ok: false, verified: false, trustStatus: 'practice_only', reason: 'rate_limited' }
     }
 
+    if (!isFlagshipLabCandidate(courseSlug, lessonSlug)) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'lab_not_activated' }
+    }
+
     // Confirm the submitted slugs resolve to a published lab. The evaluator's
     // private spec—not this public lesson block—owns expected outputs and cases.
     const admin = supabaseAdmin()
@@ -117,6 +126,9 @@ export async function verifyLab(
     const outcome = decideLabSubmissionOutcome(evaluation)
     if (!evaluation || !outcome.persistMastery) {
       return { ok: true, verified: false, trustStatus: 'practice_only', reason: outcome.reason }
+    }
+    if (!masteryPersistenceEnabled(process.env, FLAGSHIP_ACTIVATION_RELEASE_ID)) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'mastery_writes_disabled' }
     }
     const persisted = await persistTrustedLabEvaluation({
       userId: user.id,

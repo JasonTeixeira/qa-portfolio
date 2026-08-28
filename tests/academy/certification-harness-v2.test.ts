@@ -166,6 +166,29 @@ test('all canonical courses are audited independently and every lesson is repres
   assert(report.courseScorecards.flatMap((course) => course.lessonScorecards).every((lesson) => lesson.registryVersion === registry.registryVersion))
 })
 
+test('the academy audit consumes only explicitly supplied activation evidence', () => {
+  const registry = JSON.parse(readFileSync('data/academy/registry.json', 'utf8'))
+  const labKey = 'programming-fundamentals/input-validation'
+  const report = auditAcademy({
+    registry,
+    repoRoot: process.cwd(),
+    generatedAt: '2026-08-27T12:00:00.000Z',
+    activation: {
+      trustedLabKeys: new Set([labKey]),
+      evidenceByLesson: new Map([[labKey, {
+        lab: { trust: 'controlled_evaluator', results: [{ blockIndex: 7, status: 'pass' }] },
+      }]]),
+    },
+  })
+
+  const lessons = report.courseScorecards.flatMap((course) => course.lessonScorecards)
+  const activated = lessons.find((lesson) => `${lesson.courseSlug}/${lesson.lessonSlug}` === labKey)
+  const adjacent = lessons.find((lesson) => `${lesson.courseSlug}/${lesson.lessonSlug}` === 'programming-fundamentals/functions-basics')
+  assert.equal(activated?.labTrust, 'trusted_controlled_runtime')
+  assert.equal(activated?.dimensions.labs.checks[0].status, 'pass')
+  assert.equal(adjacent?.labTrust, 'untrusted_current_runtime')
+})
+
 test('semantic results are deterministic apart from declared volatile fields', () => {
   const registry = JSON.parse(readFileSync('data/academy/registry.json', 'utf8'))
   const first = auditAcademy({

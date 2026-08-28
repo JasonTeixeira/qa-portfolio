@@ -20,6 +20,10 @@ Application tier:
 ```text
 ACADEMY_LAB_EVALUATOR_URL=https://private-evaluator.example
 ACADEMY_LAB_EVALUATOR_SECRET=<shared random secret, at least 32 bytes>
+ACADEMY_LAB_MASTERY_WRITES_ENABLED=false
+ACADEMY_LAB_ACTIVATION_RELEASE=flagship-labs-2026-08-27.1
+ACADEMY_LAB_STAGING_ATTESTATION_PATH=/run/secrets/academy-activation.json
+ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH=/run/secrets/academy-activation-public.pem
 ```
 
 Evaluator tier:
@@ -89,6 +93,19 @@ Do not change the academy-wide `labTrust` state or enable mastery writes in prod
 6. monitoring covers latency, 429s, resource-limit terminations, spec failures, and evidence-persistence errors.
 
 Until then, the UI deliberately reports practice-only and no new `lab_verified` event can be written through the application.
+
+## Step 4B readiness command
+
+The first candidate is deliberately limited to five labs spanning Python, JavaScript, and SQL. Keep its private directory outside the checkout, owned by the evaluator operator, mode `0700`, and never place it in deployment artifacts.
+
+```bash
+ACADEMY_EVALUATOR_PRIVATE_SPEC_ROOT=/absolute/private/flagship-labs-2026-08-27.1 \
+  npm run academy:lab-evaluator:staging-verify
+```
+
+The command writes a redacted report to `docs/evidence/academy/step-4b/`. It exits successfully when it can produce an honest readiness board; add `-- --require-ready` in a release gate to return a non-zero status while any gate is blocked. A report is ready only when the private HTTPS health check, exact release kill switch, and signed activation attestation all agree. Environment strings alone cannot assert migration, monitoring, isolation, adversarial-probe, or receipt proof.
+
+Certification Harness V2 reads the same attestation and public key paths. If neither is configured, every lab stays untrusted. If only one path is configured or the signature/release/registry/policy does not match, the audit fails closed.
 
 ## Policy upgrades
 

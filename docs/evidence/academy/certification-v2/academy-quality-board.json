@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "generatedAt": "2026-08-28T01:29:59.331Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -32,7 +32,7 @@
     "currentLabExecution": {
       "scope": "none_by_policy",
       "executed": 0,
-      "note": "Authored solutions are not executed by V2 until the Step 4A controlled evaluator exists."
+      "note": "No verified activation attestation was supplied; every current lab remains untrusted by policy."
     },
     "externalLinkReachability": {
       "scope": "none_by_policy",
@@ -250,7 +250,7 @@
       "courseSlug": "programming-fundamentals",
       "title": "Programming Fundamentals",
       "lessonCount": 18,
-      "contentHash": "sha256:fbde3f4d427b6a5ced2307fdd34c9b54bab6cda8b7fd77ed6b36ad1094fab779",
+      "contentHash": "sha256:9ab20f331f01cddc12d4461e2e6b1902e5c89a255859d1819630baaacc980994",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
@@ -1583,7 +1583,7 @@
       "courseSlug": "career-databases_data_modeling",
       "title": "Databases and Data Modeling",
       "lessonCount": 20,
-      "contentHash": "sha256:568e32aa59321fa8f51940c7e07cd60f55f4da0c9461a40a2e3b405ad23fdde6",
+      "contentHash": "sha256:b603e2da619f4c8bbb49a183f1700685deb0d0b51a809bfc7facc69d86cc063e",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
@@ -1868,7 +1868,7 @@
       "courseSlug": "the-llm-api",
       "title": "The LLM API",
       "lessonCount": 20,
-      "contentHash": "sha256:c1d248f0b3d9429472efc2604ce477879a057b64296a9374bd48c2990454cfff",
+      "contentHash": "sha256:f159e493de9486822ac321def3bb24ad99e164f3c8aea48e27ffa395546dd0a2",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",

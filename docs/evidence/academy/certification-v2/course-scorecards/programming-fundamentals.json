@@ -2,10 +2,10 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-27T17:08:14.471Z",
+  "generatedAt": "2026-08-28T01:29:59.331Z",
   "courseSlug": "programming-fundamentals",
   "title": "Programming Fundamentals",
-  "contentHash": "sha256:fbde3f4d427b6a5ced2307fdd34c9b54bab6cda8b7fd77ed6b36ad1094fab779",
+  "contentHash": "sha256:9ab20f331f01cddc12d4461e2e6b1902e5c89a255859d1819630baaacc980994",
   "lessonCount": 18,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {

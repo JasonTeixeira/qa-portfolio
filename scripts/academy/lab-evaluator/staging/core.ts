@@ -1,16 +1,21 @@
 import {
+  createHash,
   createPrivateKey,
   createPublicKey,
   sign,
   verify,
   type KeyLike,
 } from 'node:crypto'
+import { constants } from 'node:fs'
+import { lstat, open, readdir } from 'node:fs/promises'
 import { isAbsolute, resolve, sep } from 'node:path'
 
 import {
   EVALUATOR_VERSION,
   evaluatorPolicyHash,
+  validatePrivateSpec,
   type LabLanguage,
+  type PrivateLabSpec,
 } from '../../../../lib/academy/lab-evaluator/contract'
 
 const SHA256_RE = /^[0-9a-f]{64}$/
@@ -83,6 +88,13 @@ export type ActivationAttestationPayload = {
   policyHash: string
   issuedAt: string
   runtimeImages: Record<LabLanguage, string>
+  environment: {
+    rootlessRuntime: 'passed'
+    migrations: readonly ['0116', '0117']
+    privateHttpsIngress: 'passed'
+    monitoring: 'passed'
+    masteryWriteKillSwitch: 'passed'
+  }
   labs: Array<Pick<FlagshipActivationLab, 'labKey' | 'blockIndex' | 'specRevision' | 'specDigest'> & {
     evaluationId: string
     receiptEvaluationId: string
@@ -135,7 +147,11 @@ export function parseFlagshipActivationManifest(
   exactKeys(value, ['schemaVersion', 'releaseId', 'registryVersion', 'status', 'labs'], 'activation manifest')
   if (value.schemaVersion !== 1) throw new Error('unsupported activation manifest schema')
   if (typeof value.releaseId !== 'string' || !RELEASE_ID_RE.test(value.releaseId)) throw new Error('invalid activation release id')
-  if (typeof value.registryVersion !== 'string' || value.registryVersion !== registry.registryVersion) {
+  if (
+    typeof value.registryVersion !== 'string' ||
+    !REGISTRY_VERSION_RE.test(value.registryVersion) ||
+    value.registryVersion !== registry.registryVersion
+  ) {
     throw new Error('activation registry version mismatch')
   }
   if (value.status !== 'candidate') throw new Error('activation manifest must remain candidate until attested')
@@ -167,6 +183,43 @@ export function validatePrivateSpecRoot(
   if (!info.isDirectory) throw new Error('private spec root must be a directory')
   if (info.isSymbolicLink) throw new Error('private spec root must not be a symbolic link')
   return root
+}
+
+export function privateSpecDigest(spec: unknown): string {
+  return createHash('sha256').update(stableStringify(spec), 'utf8').digest('hex')
+}
+
+export async function validatePrivatePack(
+  manifest: FlagshipActivationManifest,
+  privateSpecRoot: string,
+): Promise<{ specs: Map<string, PrivateLabSpec> }> {
+  const rootInfo = await lstat(privateSpecRoot)
+  if (!rootInfo.isDirectory() || rootInfo.isSymbolicLink()) throw new Error('private pack root must be a real directory')
+  const expectedFiles = new Set(manifest.labs.map((lab) => `${lab.labKey.replace('/', '--')}.json`))
+  const actualFiles = await readdir(privateSpecRoot)
+  if (actualFiles.length !== expectedFiles.size || actualFiles.some((name) => !expectedFiles.has(name))) {
+    throw new Error('private pack contains missing or unexpected spec files')
+  }
+
+  const specs = new Map<string, PrivateLabSpec>()
+  for (const lab of manifest.labs) {
+    const filename = `${lab.labKey.replace('/', '--')}.json`
+    const path = resolve(privateSpecRoot, filename)
+    const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
+    let spec: PrivateLabSpec
+    try {
+      const info = await handle.stat()
+      if (!info.isFile()) throw new Error(`private spec must be a real file: ${lab.labKey}`)
+      spec = validatePrivateSpec(JSON.parse(await handle.readFile('utf8')))
+    } finally {
+      await handle.close()
+    }
+    if (spec.labKey !== lab.labKey || spec.language !== lab.language) throw new Error(`private spec identity mismatch: ${lab.labKey}`)
+    if (spec.specRevision !== lab.specRevision) throw new Error(`private spec revision mismatch: ${lab.labKey}`)
+    if (privateSpecDigest(spec) !== lab.specDigest) throw new Error(`private spec digest mismatch: ${lab.labKey}`)
+    specs.set(lab.labKey, spec)
+  }
+  return { specs }
 }
 
 export function buildStagingProbePlan(): Array<{ id: ProbeId; expected: 'passed' | 'blocked' }> {
@@ -206,7 +259,7 @@ function assertAttestationPayload(
   if (!isRecord(payload)) throw new Error('activation attestation payload must be an object')
   exactKeys(payload, [
     'schemaVersion', 'releaseId', 'registryVersion', 'evaluatorVersion', 'policyHash',
-    'issuedAt', 'runtimeImages', 'labs',
+    'issuedAt', 'runtimeImages', 'environment', 'labs',
   ], 'activation attestation payload')
   if (payload.schemaVersion !== 1) throw new Error('unsupported activation attestation schema')
   if (payload.releaseId !== manifest.releaseId) throw new Error('activation release mismatch')
@@ -219,6 +272,20 @@ function assertAttestationPayload(
   for (const image of Object.values(payload.runtimeImages)) {
     if (typeof image !== 'string' || !PINNED_IMAGE_RE.test(image)) throw new Error('activation runtime image must be digest-pinned')
   }
+  if (!isRecord(payload.environment)) throw new Error('activation environment proof must be an object')
+  exactKeys(payload.environment, [
+    'rootlessRuntime', 'migrations', 'privateHttpsIngress', 'monitoring', 'masteryWriteKillSwitch',
+  ], 'activation environment proof')
+  if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
+  if (
+    !Array.isArray(payload.environment.migrations) ||
+    payload.environment.migrations.length !== 2 ||
+    payload.environment.migrations[0] !== '0116' ||
+    payload.environment.migrations[1] !== '0117'
+  ) throw new Error('activation migration proof is incomplete')
+  if (payload.environment.privateHttpsIngress !== 'passed') throw new Error('activation private ingress proof failed')
+  if (payload.environment.monitoring !== 'passed') throw new Error('activation monitoring proof failed')
+  if (payload.environment.masteryWriteKillSwitch !== 'passed') throw new Error('activation mastery kill-switch proof failed')
   if (!Array.isArray(payload.labs) || payload.labs.length !== manifest.labs.length) throw new Error('activation lab proof coverage mismatch')
 
   const manifestByKey = new Map(manifest.labs.map((lab) => [lab.labKey, lab]))

@@ -2526,8 +2526,8 @@
       "type": "lab",
       "check": "6 items = $42",
       "title": "Write and call a function",
-      "starter": "# A function packages a block of code under a name so you can reuse it.\n# 1. Define a function  total_price(unit_price, qty)  that RETURNS unit_price * qty.\n# 2. Call it with unit_price = 7 and qty = 6, and store the result in a variable  bill.\n# 3. Print EXACTLY this line, using an f-string:\n#       6 items = $42\n\n  # your code here\n",
-      "summary": "Define a function total_price(unit_price, qty) that RETURNS unit_price * qty (use return, do not just print inside it). Call it with 7 and 6, store the returned value in a variable bill, then print exactly this line with an f-string: 6 items = $42. The 42 must come from your function’s return value — do not hardcode it.",
+      "starter": "import json\nimport sys\n\n# Define total_price(unit_price, qty) so it RETURNS the computed total.\ndef total_price(unit_price, qty):\n    ...  # your code here\n\n# The browser uses the visible example. The controlled evaluator supplies other\n# JSON cases over stdin, so hardcoding 42 cannot pass mastery.\nraw = sys.stdin.read().strip()\ncase = json.loads(raw) if raw else {\"unitPrice\": 7, \"qty\": 6}\nbill = total_price(case[\"unitPrice\"], case[\"qty\"])\nprint(f\"{case['qty']} items = ${bill}\")\n",
+      "summary": "Define total_price(unit_price, qty) so it returns unit_price × qty. The visible example is 7 × 6, while the controlled evaluator supplies different JSON inputs over stdin. Print the quantity and computed return value; a hardcoded 42 will fail the hidden cases.",
       "language": "python"
     },
     {
@@ -3227,10 +3227,10 @@
     },
     {
       "type": "lab",
-      "check": "rejected '25'",
+      "check": "rejected: age must be an integer",
       "title": "Write the validator",
-      "starter": "def validate_age(value):\n    # Accept ONLY an int in 0..120. Otherwise raise ValueError with a clear message.\n    # Tip: check the TYPE first, then the range. Don't coerce — reject.\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\nfor v in [25, \"25\", -3, 200]:\n    try:\n        validate_age(v)\n        print(f\"accepted: {v!r}\")\n    except ValueError as e:\n        print(f\"rejected {v!r}: {e}\")\n",
-      "summary": "Implement validate_age(value): accept only an int in 0–120, otherwise raise ValueError with a clear message. The harness then throws four inputs at it — including the hostile string \"25\". Make it reject what should be rejected.",
+      "starter": "import json\nimport sys\n\ndef validate_age(value):\n    # Reject bool and every non-int with: age must be an integer\n    # Reject integers outside 0..120 with: age must be between 0 and 120\n    ...  # your code here\n\nraw = sys.stdin.read().strip()\nvalues = [json.loads(raw)] if raw else [25, \"25\", -3, 200]\nfor value in values:\n    try:\n        print(f\"accepted: {validate_age(value)!r}\")\n    except ValueError as error:\n        print(f\"rejected: {error}\")\n",
+      "summary": "Implement validate_age(value): accept only a real integer in 0–120, rejecting booleans, strings, and out-of-range values with the specified errors. The browser shows four examples; the controlled evaluator supplies additional JSON values over stdin.",
       "language": "python"
     },
     {

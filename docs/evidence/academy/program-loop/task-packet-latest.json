@@ -1,37 +1,38 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
-  "generatedAt": "2026-08-28T18:33:20.247Z",
+  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "generatedAt": "2026-08-28T18:44:16.667Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
+    "baselineRegistryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 14,
-    "phaseId": "cloud-operations",
-    "courseSlug": "career-platform_engineering_internal_developer_platforms",
-    "title": "Platform Engineering and Internal Developer Platforms",
+    "sequence": 15,
+    "phaseId": "applied-ai",
+    "courseSlug": "the-llm-api",
+    "title": "The LLM API",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-platform_engineering_internal_developer_platforms.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-platform_engineering_internal_developer_platforms.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/the-llm-api.lessons.json",
+    "solutionBundle": "data/academy/authoring/the-llm-api.lab_solutions.json",
     "baseline": {
-      "decision": "needs_remediation",
-      "deterministicScore": 77.8,
-      "hardFailCount": 0,
+      "decision": "blocked",
+      "deterministicScore": 70,
+      "hardFailCount": 170,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 27,
         "H3": 0,
         "H4": 0,
-        "H5": 0
+        "H5": 143
       },
       "requiredPending": [
         "accessibility",
         "consistency",
         "content_correctness",
+        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -48,8 +49,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -60,7 +61,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {
@@ -68,12 +69,12 @@
           "score": null
         },
         "media": {
-          "status": "not_applicable",
+          "status": "pending",
           "score": null
         },
         "references": {
-          "status": "pass",
-          "score": 100
+          "status": "fail",
+          "score": 0
         },
         "metadata": {
           "status": "pass",
@@ -105,49 +106,93 @@
   "remediation": {
     "deterministic": [
       {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+        "rank": 1,
+        "category": "labs",
+        "code": "H2",
+        "severity": "blocker",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
         "courseSlugs": [
+          "agents-tool-use",
           "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-concept_maps_real_world_engineering",
+          "career-backend_engineering",
+          "career-cloud_devops_operations",
           "career-data_engineering_analytics",
           "career-databases_data_modeling",
-          "career-engineering_leadership_staff_execution",
-          "career-enterprise_it_saas_admin_business_systems",
+          "career-engineering_judgment_foundation",
           "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-mobile_engineering_deep_dive",
+          "career-networking_fundamentals_advanced_networking",
+          "career-observability_reliability_performance",
           "career-platform_engineering_internal_developer_platforms",
-          "career-product_execution_market_feedback",
+          "career-programming_cs_foundations",
           "career-qa_sdet_test_automation_engineering",
-          "career-ux_ui_product_design_for_engineers"
+          "career-security_identity",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "prompt-engineering",
+          "python-basics",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
         ],
-        "lessonCount": 233,
-        "findingCount": 233,
-        "priority": 3140233
+        "lessonCount": 470,
+        "findingCount": 470,
+        "priority": 4240470
       },
       {
-        "rank": 8,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+        "rank": 2,
+        "category": "labs",
+        "code": "H2",
+        "severity": "blocker",
+        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
         "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-qa_sdet_test_automation_engineering"
+          "agents-tool-use",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "prompt-engineering",
+          "rag-retrieval",
+          "stripe-auth",
+          "the-llm-api"
         ],
-        "lessonCount": 23,
-        "findingCount": 23,
-        "priority": 3090023
+        "lessonCount": 81,
+        "findingCount": 81,
+        "priority": 4080081
+      },
+      {
+        "rank": 3,
+        "category": "references",
+        "code": "H5",
+        "severity": "blocker",
+        "remediation": "Point the asset field at an existing file under public/ or remove the broken promise.",
+        "courseSlugs": [
+          "the-llm-api"
+        ],
+        "lessonCount": 143,
+        "findingCount": 143,
+        "priority": 4010143
+      },
+      {
+        "rank": 22,
+        "category": "media",
+        "severity": "medium",
+        "remediation": "Complete required media evidence: promised-media-integrity.",
+        "courseSlugs": [
+          "agents-tool-use",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "prompt-engineering",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
+        ],
+        "lessonCount": 184,
+        "findingCount": 184,
+        "priority": 2090184
       }
     ],
     "reviewRequired": [
@@ -727,7 +772,6 @@
           "career-interview_career_portfolio",
           "career-mobile_engineering_deep_dive",
           "career-networking_fundamentals_advanced_networking",
-          "career-platform_engineering_internal_developer_platforms",
           "career-product_execution_market_feedback",
           "career-programming_cs_foundations",
           "career-qa_sdet_test_automation_engineering",
@@ -742,9 +786,9 @@
           "stripe-auth",
           "the-llm-api"
         ],
-        "lessonCount": 496,
-        "findingCount": 496,
-        "priority": 2250496
+        "lessonCount": 476,
+        "findingCount": 476,
+        "priority": 2240476
       }
     ]
   },

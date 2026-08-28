@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T18:33:41.863Z",
+  "generatedAt": "2026-08-28T18:44:23.632Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
+  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
   "queueCoverage": "32/32",
-  "currentCourse": "career-platform_engineering_internal_developer_platforms",
+  "currentCourse": "the-llm-api",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

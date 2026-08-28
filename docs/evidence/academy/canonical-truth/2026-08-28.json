@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 560,
-    "labLessonsWithSolutions": 389,
-    "labLessonsWithoutSolutions": 81,
-    "sourceLedgers": 8
+    "solutionEntries": 567,
+    "labLessonsWithSolutions": 396,
+    "labLessonsWithoutSolutions": 74,
+    "sourceLedgers": 9
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "81 lab lessons lack same-slug solution entries",
-    "24 courses lack course-level source ledgers",
+    "74 lab lessons lack same-slug solution entries",
+    "23 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -403,14 +403,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 7,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/the-llm-api/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/the-llm-api"
     },

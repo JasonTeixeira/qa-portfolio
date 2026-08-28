@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 560,
-    "labLessonsWithSolutions": 389,
-    "labLessonsWithoutSolutions": 81,
-    "sourceLedgers": 8
+    "solutionEntries": 567,
+    "labLessonsWithSolutions": 396,
+    "labLessonsWithoutSolutions": 74,
+    "sourceLedgers": 9
   },
   "capabilities": [
     {
@@ -6462,14 +6462,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/the-llm-api/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -6479,9 +6478,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/llm-request-response-contract",
           "source": {
             "kind": "derived_from_authoring",
@@ -6494,9 +6493,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/messages-array-roles",
           "source": {
             "kind": "derived_from_authoring",
@@ -6509,7 +6508,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/tokens-context-window",
@@ -6524,9 +6523,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/generation-parameters",
           "source": {
             "kind": "derived_from_authoring",
@@ -6539,9 +6538,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/streaming-responses",
           "source": {
             "kind": "derived_from_authoring",
@@ -6554,9 +6553,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/structured-outputs-json",
           "source": {
             "kind": "derived_from_authoring",
@@ -6569,7 +6568,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/function-tool-calling",
@@ -6584,7 +6583,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/conversation-state",
@@ -6599,7 +6598,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/errors-status-codes",
@@ -6614,9 +6613,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/retries-backoff-idempotency",
           "source": {
             "kind": "derived_from_authoring",
@@ -6629,7 +6628,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/rate-limits-concurrency",
@@ -6644,7 +6643,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/timeouts-partials",
@@ -6659,7 +6658,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/token-cost-model",
@@ -6674,7 +6673,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/caching-prompt-reuse",
@@ -6689,7 +6688,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/model-selection-fallbacks",
@@ -6704,7 +6703,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/latency-budgets",
@@ -6719,7 +6718,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/safety-moderation",
@@ -6734,7 +6733,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/llm-observability",
@@ -6749,9 +6748,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/secrets-provider-boundary",
           "source": {
             "kind": "derived_from_authoring",
@@ -6764,7 +6763,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/the-llm-api/capstone-resilient-streaming-client",
@@ -10756,5 +10755,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45"
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2"
 }

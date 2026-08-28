@@ -1,7 +1,27 @@
 {
+  "llm-request-response-contract": {
+    "language": "js",
+    "code": "const request = { model: \"claude-haiku-4-5\", messages: [] };\nfunction validate(req) {\n  const problems = [];\n  if (!req.model || typeof req.model !== \"string\") problems.push(\"model must be a non-empty string\");\n  if (!Array.isArray(req.messages) || req.messages.length === 0) problems.push(\"messages must be a non-empty array\");\n  if (!(typeof req.max_tokens === \"number\" && req.max_tokens > 0)) problems.push(\"max_tokens must be a positive number\");\n  return { valid: problems.length === 0, problems };\n}\nconst result = validate(request);\nconsole.log(\"valid:\", result.valid);\nconsole.log(\"problems:\", result.problems.join(\"; \") || \"none\");"
+  },
+  "messages-array-roles": {
+    "language": "js",
+    "code": "const conversation = [\n  { role: \"system\", content: \"Be concise.\" },\n  { role: \"user\", content: \"a\" },\n  { role: \"user\", content: \"b\" },\n  { role: \"assistant\", content: \"c\" },\n];\nfunction firstProblem(messages) {\n  let previous = null;\n  for (let index = 0; index < messages.length; index += 1) {\n    const role = messages[index].role;\n    if (role === \"system\") { if (index !== 0) return index; continue; }\n    if (previous === null && role !== \"user\") return index;\n    if (previous === role) return index;\n    if (previous && !((previous === \"user\" && role === \"assistant\") || (previous === \"assistant\" && role === \"user\"))) return index;\n    previous = role;\n  }\n  return -1;\n}\nconsole.log(\"first problem at index:\", firstProblem(conversation));"
+  },
   "tokens-context-window": {
     "language": "js",
     "code": "const tok = (s) => Math.ceil(s.length / 4);\nconst WINDOW = 8000, RESERVE = 1000;\nconst convo = [\n  { role: \"system\", content: \"x\".repeat(40) },\n  { role: \"user\", content: \"y\".repeat(2000) },\n  { role: \"assistant\", content: \"z\".repeat(1600) },\n];\nfunction headroom(messages, window, reserve, draftChars) {\n  const used = messages.reduce((n, m) => n + tok(m.content), 0);\n  const free = window - reserve - used;\n  const draftTok = tok(\"q\".repeat(draftChars));\n  return { used, free, draftTok, fits: draftTok <= free };\n}\nconst r = headroom(convo, WINDOW, RESERVE, 28000);\nconsole.log(\"used:\", r.used, \"free:\", r.free);\nconsole.log(\"draft tokens:\", r.draftTok, \"fits:\", r.fits);"
+  },
+  "generation-parameters": {
+    "language": "js",
+    "code": "const config = { provider: \"anthropic-modern\", temperature: 0, top_p: 0.9, max_tokens: 512 };\nfunction violations(candidate) {\n  const problems = [];\n  if (candidate.temperature !== undefined && candidate.top_p !== undefined) problems.push(\"tuning two randomness axes (temperature + top_p)\");\n  if (candidate.provider === \"anthropic-modern\" && candidate.temperature !== undefined && candidate.temperature !== 1.0) problems.push(\"temperature deprecated on modern Anthropic (only 1.0 accepted)\");\n  if (candidate.temperature !== undefined && (candidate.temperature < 0 || candidate.temperature > 2)) problems.push(\"temperature out of range\");\n  return problems;\n}\nconsole.log(\"violations:\", violations(config).join(\" | \") || \"none\");"
+  },
+  "streaming-responses": {
+    "language": "js",
+    "code": "const raw = [\n  'data: {\"delta\":\"Hel\"}', 'data: {\"delta\":\"lo, \"}', 'data: {\"delta\":\"world\"}',\n  'data: {\"stop_reason\":\"end_turn\"}', 'data: [DONE]',\n].join(\"\\n\");\nfunction parseSSE(stream) {\n  let text = \"\", events = 0, stop = null;\n  for (const line of stream.split(\"\\n\")) {\n    const payload = line.replace(/^data:\\s*/, \"\");\n    if (payload === \"[DONE]\") break;\n    const event = JSON.parse(payload);\n    if (typeof event.delta === \"string\") { text += event.delta; events += 1; }\n    if (event.stop_reason) stop = event.stop_reason;\n  }\n  return { text, events, stop };\n}\nconst result = parseSSE(raw);\nconsole.log(\"text:\", result.text);\nconsole.log(\"events:\", result.events, \"stop:\", result.stop);"
+  },
+  "structured-outputs-json": {
+    "language": "js",
+    "code": "const schema = { type: \"object\", additionalProperties: false, required: [\"name\", \"age\"], properties: { name: { type: \"string\" }, age: { type: \"number\" } } };\nconst candidate = { name: \"Jane\", age: \"54\", city: \"NYC\" };\nfunction validate(object, contract) {\n  const errors = [];\n  for (const key of contract.required) if (!(key in object)) errors.push(\"missing \" + key);\n  for (const [key, rule] of Object.entries(contract.properties)) if (key in object && typeof object[key] !== rule.type) errors.push(key + \" should be \" + rule.type);\n  if (contract.additionalProperties === false) for (const key of Object.keys(object)) if (!(key in contract.properties)) errors.push(\"unexpected key \" + key);\n  return errors;\n}\nconst errors = validate(candidate, schema);\nconsole.log(\"valid:\", errors.length === 0);\nconsole.log(\"errors:\", errors.join(\"; \") || \"none\");"
   },
   "function-tool-calling": {
     "language": "js",
@@ -14,6 +34,10 @@
   "errors-status-codes": {
     "language": "js",
     "code": "function decide(status) {\n  if (status >= 200 && status < 300) return \"ok\";\n  if (status === 429 || status >= 500) return \"retry\";\n  if (status === 401 || status === 403) return \"fix_auth\";\n  return \"fix_request\";\n}\nfunction walk(stream, maxRetries) {\n  let retries = 0, i = 0;\n  for (; i < stream.length; i++) {\n    const a = decide(stream[i]);\n    if (a === \"retry\") {\n      if (retries >= maxRetries) return { outcome: \"gave_up\", at: i, retries };\n      retries++;\n    } else {\n      return { outcome: a, at: i, retries };\n    }\n  }\n  return { outcome: \"exhausted\", at: i, retries };\n}\nconst r = walk([503, 429, 500, 200], 5);\nconsole.log(\"outcome:\", r.outcome, \"at:\", r.at, \"retries:\", r.retries);\nconst r2 = walk([500, 500, 500], 2);\nconsole.log(\"outcome:\", r2.outcome, \"at:\", r2.at, \"retries:\", r2.retries);"
+  },
+  "retries-backoff-idempotency": {
+    "language": "js",
+    "code": "function makeRng(seed) { let state = seed >>> 0; return () => (state = (state * 1664525 + 1013904223) >>> 0) / 2 ** 32; }\nfunction delays(attempts, baseMs, capMs, retryAfter, seed) {\n  const random = makeRng(seed);\n  const result = [];\n  for (let attempt = 0; attempt < attempts; attempt += 1) {\n    if (typeof retryAfter[attempt] === \"number\") result.push(retryAfter[attempt]);\n    else result.push(Math.floor(random() * Math.min(capMs, baseMs * 2 ** attempt)));\n  }\n  return result;\n}\nconsole.log(\"delays:\", delays(5, 100, 2000, [null, null, 1500, null, null], 42).join(\",\"));"
   },
   "rate-limits-concurrency": {
     "language": "js",
@@ -46,6 +70,10 @@
   "llm-observability": {
     "language": "js",
     "code": "function pct(values, p) {\n  const s = [...values].sort((a, b) => a - b);\n  const i = Math.ceil((p / 100) * s.length) - 1;\n  return s[Math.max(0, i)];\n}\nfunction slo(logs, sloP95Ms, errBudget) {\n  const errs = logs.filter((l) => !l.ok).length;\n  const errRate = errs / logs.length;\n  const p95 = pct(logs.map((l) => l.ms), 95);\n  return { p95, p95Breach: p95 > sloP95Ms, budgetUsedPct: (errRate / errBudget) * 100 };\n}\nconst logs = [\n  { ms: 120, ok: true }, { ms: 340, ok: true }, { ms: 210, ok: false },\n  { ms: 180, ok: true }, { ms: 900, ok: true }, { ms: 260, ok: true },\n  { ms: 150, ok: true }, { ms: 800, ok: false }, { ms: 220, ok: true }, { ms: 300, ok: true },\n];\nconst r = slo(logs, 500, 0.10);\nconsole.log(\"p95 ms:\", r.p95);\nconsole.log(\"p95 breach:\", r.p95Breach);\nconsole.log(\"error budget used:\", r.budgetUsedPct.toFixed(0) + \"%\");"
+  },
+  "secrets-provider-boundary": {
+    "language": "js",
+    "code": "const files = [\n  { name: \"a.js\", code: 'const key = \"' + 'sk-ant-' + 'example-not-a-real-key\";' },\n  { name: \"b.js\", code: 'const key = process.env.LLM_API_KEY;' },\n  { name: \"c.js\", code: 'const token = \"example-literal\";' },\n];\nfunction scan(file) {\n  const issues = [];\n  if (/sk-ant-[A-Za-z0-9-]+/.test(file.code)) issues.push(\"hardcoded secret literal\");\n  if (/\\b(key|token|secret)\\b\\s*=/.test(file.code) && !/process\\.env\\./.test(file.code)) issues.push(\"credential not from env\");\n  return issues;\n}\nfor (const file of files) console.log(file.name + \": \" + (scan(file).join(\"; \") || \"ok\"));"
   },
   "capstone-resilient-streaming-client": {
     "language": "js",

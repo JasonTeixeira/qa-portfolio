@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T18:40:37.597Z
-Registry: `sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45`
+Generated: 2026-08-28T18:54:03.027Z
+Registry: `sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -16,7 +16,7 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 - Needs deterministic remediation: 8
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=551, H3=0, H4=0, H5=143
+- Hard fails: H1=0, H2=544, H3=0, H4=0, H5=0
 
 ## Coverage boundary
 
@@ -52,7 +52,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Databases and Data Modeling | `career-databases_data_modeling` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 98.3 |
 | Data Engineering and Analytics Platforms | `career-data_engineering_analytics` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | AI Engineering, RAG, Evals, Safety, and LLMOps | `career-ai_engineering_rag_eval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
-| The LLM API | `the-llm-api` | 20 | blocked | 170 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 70.0 |
+| The LLM API | `the-llm-api` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Prompt Engineering | `prompt-engineering` | 20 | blocked | 29 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | RAG and Retrieval | `rag-retrieval` | 20 | blocked | 29 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Agents and Tool Use | `agents-tool-use` | 20 | blocked | 23 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
@@ -69,25 +69,25 @@ The deterministic score reports only checks the harness can prove locally. It is
 ## Ranked remediation backlog
 
 1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (24 courses; 470 findings)
-2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (8 courses; 81 findings)
-3. **H5** · references — Point the asset field at an existing file under public/ or remove the broken promise. (1 courses; 143 findings)
-4. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
-5. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
-6. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (13 courses; 214 findings)
-8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (8 courses; 22 findings)
-9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (8 courses; 18 findings)
-10. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
-11. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
-12. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
-13. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 640 findings)
-14. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 640 findings)
-15. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 640 findings)
-16. accessibility — Complete required accessibility evidence: target-size. (32 courses; 640 findings)
-17. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 640 findings)
-18. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
-19. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
-20. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
+2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (7 courses; 74 findings)
+3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
+4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
+5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (13 courses; 214 findings)
+7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (8 courses; 22 findings)
+8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (8 courses; 18 findings)
+9. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
+10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
+11. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
+12. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 640 findings)
+13. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 640 findings)
+14. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 640 findings)
+15. accessibility — Complete required accessibility evidence: target-size. (32 courses; 640 findings)
+16. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 640 findings)
+17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
+18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
+19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (23 courses; 456 findings)
 
 ## Flagship competency-path readiness
 

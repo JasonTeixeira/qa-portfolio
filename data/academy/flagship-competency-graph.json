@@ -737,7 +737,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "the-llm-api"
+          "courseSlug": "the-llm-api",
+          "lessonSlugs": [
+            "llm-request-response-contract",
+            "messages-array-roles",
+            "tokens-context-window",
+            "generation-parameters",
+            "streaming-responses",
+            "structured-outputs-json",
+            "function-tool-calling",
+            "conversation-state",
+            "errors-status-codes",
+            "retries-backoff-idempotency",
+            "rate-limits-concurrency",
+            "timeouts-partials",
+            "token-cost-model",
+            "caching-prompt-reuse",
+            "model-selection-fallbacks",
+            "latency-budgets",
+            "safety-moderation",
+            "llm-observability",
+            "secrets-provider-boundary",
+            "capstone-resilient-streaming-client"
+          ]
         },
         {
           "courseSlug": "prompt-engineering"

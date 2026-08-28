@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
-  "generatedAt": "2026-08-28T18:40:37.597Z",
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+  "generatedAt": "2026-08-28T18:54:03.027Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,10 +16,10 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 551,
+      "H2": 544,
       "H3": 0,
       "H4": 0,
-      "H5": 143
+      "H5": 0
     }
   },
   "executionCoverage": {
@@ -1868,25 +1868,24 @@
       "courseSlug": "the-llm-api",
       "title": "The LLM API",
       "lessonCount": 20,
-      "contentHash": "sha256:f159e493de9486822ac321def3bb24ad99e164f3c8aea48e27ffa395546dd0a2",
+      "contentHash": "sha256:968667a335925117c8de314a545d8d9bafff9471aa8dd3551043abd4d118ad8b",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 70,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 170,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 27,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
-        "H5": 143
+        "H5": 0
       },
       "requiredPending": [
         "accessibility",
         "consistency",
         "content_correctness",
-        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -1923,12 +1922,12 @@
           "score": null
         },
         "media": {
-          "status": "pending",
+          "status": "not_applicable",
           "score": null
         },
         "references": {
-          "status": "fail",
-          "score": 0
+          "status": "pass",
+          "score": 100
         },
         "metadata": {
           "status": "pass",

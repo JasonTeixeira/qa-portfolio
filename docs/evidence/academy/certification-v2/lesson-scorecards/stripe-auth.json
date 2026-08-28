@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "authn-vs-authz",
-    "contentHash": "sha256:154430e34513961fbbdf2b6a9518d2a30aacc8cfc387558b4a3ce061f0abf677",
+    "contentHash": "sha256:bfe35f9acca86f88c50884c37e035f170e579640bc9d902264c37c89d9876d5c",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -69,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -310,7 +310,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -342,11 +342,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "sessions-vs-jwt",
-    "contentHash": "sha256:20e1ce55ad6cd2eb5750c9b6cd335139b9a23b83a403e6ca7494a5235ea02510",
+    "contentHash": "sha256:e43981cb17b72bbbd37a218356d6b9252e0c4f94cf5d7d4c69e59a1b34b806cf",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -409,9 +409,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -650,7 +650,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -682,11 +682,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "password-storage-oauth",
-    "contentHash": "sha256:4cadd379c42f659dcd9387b7fd47f50a9008400adcd508e6ac5518e2d9fce779",
+    "contentHash": "sha256:c8c91767eee0e3ab9c0f88fd2bba8f9526239fa919615279bddfcb91c362348f",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -714,7 +714,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -749,9 +749,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -777,17 +777,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "2f757b49b7f9611c",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "password-storage-oauth"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1001,20 +990,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "2f757b49b7f9611c",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "password-storage-oauth"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1044,11 +1022,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "protecting-routes-server-side",
-    "contentHash": "sha256:a085fc2663f634052ec123cb0ff75c6195f36a227cb92827583522b821c1974a",
+    "contentHash": "sha256:1ddbd9d5a001b9991d9b534154f9c35bb63fd14257f9060f0758cf6945167766",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1076,7 +1054,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1111,9 +1089,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1352,7 +1330,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1384,11 +1362,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "stripe-object-model",
-    "contentHash": "sha256:0aea8e0bed85802c99d52edba63cb70d0c8df4b355614d80293cf2f5d6a94ace",
+    "contentHash": "sha256:e823869ac14fedf517a151b354ba685a66bfe4ac989ea87001a48a3f88a37c9d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1451,9 +1429,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1479,17 +1457,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "650d615fd717f3b3",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "stripe-object-model"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1703,20 +1670,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "650d615fd717f3b3",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "stripe-object-model"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1746,11 +1702,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "hosted-checkout",
-    "contentHash": "sha256:764774d0352311209706612cc99fdb6fbd62bbe777d6f7b6603ae297066126f7",
+    "contentHash": "sha256:7e12f6eb16298aac007304fc02e32e64cd14db4523405314c465f12125f9a72e",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1778,7 +1734,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1813,9 +1769,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1841,17 +1797,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "fc7fbdf5e7ecc05f",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "hosted-checkout"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2065,20 +2010,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "fc7fbdf5e7ecc05f",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "hosted-checkout"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2108,11 +2042,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "success-cancel-flow",
-    "contentHash": "sha256:be6840277058d5922b8988a0c2835cd3b0c889b991b716e3cd5151e026114c94",
+    "contentHash": "sha256:e78bb76ee099025c01f82d24abe1a1f9ce091e2754b7c2f51ccb6bdc716273eb",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2175,9 +2109,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2416,7 +2350,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2448,11 +2382,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "test-mode-key-hygiene",
-    "contentHash": "sha256:c5f4091ea34841dcf3fbdefcc67fe4fe58dbfec51a502970bf55f39d7c209ba8",
+    "contentHash": "sha256:ccb524a207e1122ff986ace08909aa798fb17d4499336d529c82c8e585bcb915",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2480,7 +2414,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2515,9 +2449,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2756,7 +2690,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2788,11 +2722,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "webhooks-source-of-truth",
-    "contentHash": "sha256:a0af915e892757ca262b5887c984a06a500773925065198c080995f0c27fdcb4",
+    "contentHash": "sha256:8cb9644fa2cf28c5d7e274f94787665d8bd3fbef9bd673331cf912892f3edae6",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2820,7 +2754,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2855,9 +2789,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2883,17 +2817,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "fb9b64a074627ad1",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "webhooks-source-of-truth"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3107,20 +3030,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "fb9b64a074627ad1",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "webhooks-source-of-truth"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3150,11 +3062,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "verifying-webhook-signatures",
-    "contentHash": "sha256:d98470cba6055003c9d92a1e06e6284b17519f3d550c9a0f26590d62e47ad3d1",
+    "contentHash": "sha256:316a26481e5027c867b763ba4b4c5524359e61dc132d617c1a470749cd6a54d5",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3182,7 +3094,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3217,9 +3129,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3245,17 +3157,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "a1ea6eb8ef549a12",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "verifying-webhook-signatures"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3469,20 +3370,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "a1ea6eb8ef549a12",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "verifying-webhook-signatures"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3512,11 +3402,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "idempotent-handlers",
-    "contentHash": "sha256:c4ed4485f6fd788bc70fb4d719a9eb2a47a466bbb913b46e077081236b5d645b",
+    "contentHash": "sha256:692eb1aff8ecf92ae8d13ac77f5f6f87a9af1535fed0c60bef369a23fc67c758",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3544,7 +3434,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3579,9 +3469,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3607,17 +3497,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "4765346b3164f7a5",
-            "courseSlug": "stripe-auth",
-            "lessonSlug": "idempotent-handlers"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3831,20 +3710,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "4765346b3164f7a5",
-        "courseSlug": "stripe-auth",
-        "lessonSlug": "idempotent-handlers"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3874,11 +3742,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "reconciling-state",
-    "contentHash": "sha256:bbd0b9502a43cd9ef65b9b2853f27ac2c26dfdcad167e5915da7e3e9c875a0f3",
+    "contentHash": "sha256:ac2e67f4cdc88f8b0c4e020e632807d42504559787de3a6e75ca808c309b5faf",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3906,7 +3774,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3941,9 +3809,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4182,7 +4050,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4214,11 +4082,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "subscription-lifecycle",
-    "contentHash": "sha256:ece9ae4368cdb3990669a91369be7c50569f221035fb99bfc79b330b5ea0d6f6",
+    "contentHash": "sha256:e4c35fc3495e30a733110664979da55371a9991c2977c633e3bd9248976601fe",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4246,7 +4114,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4281,9 +4149,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4522,7 +4390,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4554,11 +4422,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "customer-portal",
-    "contentHash": "sha256:f6bfe9525734e7ca69c9c4c3b4ea9eff4df116abf303e805f73329b94b4b98f6",
+    "contentHash": "sha256:0c3bbe4925ff9686128e8bcb990226ecd464a2dbf85986e369aa7fbf7c2db6d7",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4621,9 +4489,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4862,7 +4730,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4894,11 +4762,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "plan-changes-proration",
-    "contentHash": "sha256:0a64813dc316890ba2329e8363f42b3387aca456f383bb1220e55df0646420ef",
+    "contentHash": "sha256:65fa38c0f51df8a120dbe3e5e8f05dab0577db91826120a48e5489ab017964d6",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4961,9 +4829,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5202,7 +5070,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5234,11 +5102,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "failed-payments-dunning",
-    "contentHash": "sha256:98c8c72225927a7377ae84982c00e65553d6d25f457f9d24fb3b6f70471872b4",
+    "contentHash": "sha256:cee840ed94cbf364d27374463229ac9217aa9d88eff55c7488b4ba661edbcd4e",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5266,7 +5134,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5301,9 +5169,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5542,7 +5410,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5574,11 +5442,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "entitlements",
-    "contentHash": "sha256:b34c71d912943bb22102c60c3aed868e5c653aa0f78472ce88846009392c3f21",
+    "contentHash": "sha256:4a49e8945cabab1a1b9215d0908cf79b88fe214d4e6dbc122fdf716325ee6fe6",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5606,7 +5474,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5641,9 +5509,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5882,7 +5750,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5914,11 +5782,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "pci-scope",
-    "contentHash": "sha256:a0293394e0222598f3fcccc4786431e3818b2b414d18372e983d0e230ef4dc6e",
+    "contentHash": "sha256:2607989bce1b66c93189423e500282af10b8966bbf72a31ba1308724c48e1484",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5946,7 +5814,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5981,9 +5849,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6222,7 +6090,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6254,11 +6122,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "refunds-cancellation",
-    "contentHash": "sha256:6a63da229903d8de51f3089de45039e87877aa406046f4cbf34be4e2de99e8dd",
+    "contentHash": "sha256:701024ca631a5ab528756cb3bbc9a124c4405eca58a23a436a27641347b9c9b4",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6286,7 +6154,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6321,9 +6189,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6562,7 +6430,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6594,11 +6462,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-    "generatedAt": "2026-08-28T21:01:31.852Z",
+    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+    "generatedAt": "2026-08-28T21:16:14.782Z",
     "courseSlug": "stripe-auth",
     "lessonSlug": "capstone-signup-pay-access",
-    "contentHash": "sha256:b1456467ac849697ea18857858c0854e5fcc2e2b586656bbf79fd2de97bc20a0",
+    "contentHash": "sha256:b9599c0504e8c02ccab66df4e5093168c9a6f26f454f0e25a7e8cf5a1fe778fe",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6626,7 +6494,7 @@
             "mode": "deterministic",
             "status": "pass",
             "required": true,
-            "summary": "The standard loop is structurally complete and ordered."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6661,9 +6529,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "21/21 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6902,7 +6770,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
       {

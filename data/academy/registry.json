@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 600,
-    "solutionEntries": 607,
-    "labLessonsWithSolutions": 567,
-    "labLessonsWithoutSolutions": 33,
-    "sourceLedgers": 22
+    "solutionEntries": 613,
+    "labLessonsWithSolutions": 573,
+    "labLessonsWithoutSolutions": 27,
+    "sourceLedgers": 23
   },
   "capabilities": [
     {
@@ -9438,14 +9438,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/stripe-auth/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -9455,7 +9454,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/authn-vs-authz",
@@ -9470,7 +9469,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/sessions-vs-jwt",
@@ -9485,9 +9484,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/password-storage-oauth",
           "source": {
             "kind": "derived_from_authoring",
@@ -9500,7 +9499,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/protecting-routes-server-side",
@@ -9515,9 +9514,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/stripe-object-model",
           "source": {
             "kind": "derived_from_authoring",
@@ -9530,9 +9529,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/hosted-checkout",
           "source": {
             "kind": "derived_from_authoring",
@@ -9545,7 +9544,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/success-cancel-flow",
@@ -9560,7 +9559,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/test-mode-key-hygiene",
@@ -9575,9 +9574,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/webhooks-source-of-truth",
           "source": {
             "kind": "derived_from_authoring",
@@ -9590,9 +9589,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/verifying-webhook-signatures",
           "source": {
             "kind": "derived_from_authoring",
@@ -9605,9 +9604,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/idempotent-handlers",
           "source": {
             "kind": "derived_from_authoring",
@@ -9620,7 +9619,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/reconciling-state",
@@ -9635,7 +9634,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/subscription-lifecycle",
@@ -9650,7 +9649,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/customer-portal",
@@ -9665,7 +9664,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/plan-changes-proration",
@@ -9680,7 +9679,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/failed-payments-dunning",
@@ -9695,7 +9694,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/entitlements",
@@ -9710,7 +9709,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/pci-scope",
@@ -9725,7 +9724,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/refunds-cancellation",
@@ -9740,7 +9739,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/stripe-auth/capstone-signup-pay-access",
@@ -10745,5 +10744,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0"
+  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c"
 }

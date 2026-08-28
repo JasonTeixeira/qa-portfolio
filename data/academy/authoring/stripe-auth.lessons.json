@@ -255,8 +255,8 @@
       "type": "lab",
       "check": "delete 401 not authenticated\nread 200 ok\nupdate 403 forbidden: owner only\nupdate 200 ok\nupdate 403 forbidden: owner only\ndelete 200 ok\ndelete 403 forbidden: not owner or admin",
       "title": "Enforce both gates with the right status",
-      "starter": "// authorize(principal, action, ownerId) -> { status, reason }.\n// Extend the worked example's ordered gates to THREE actions:\n//   \"read\"   any authenticated principal may read\n//   \"update\" ONLY the resource owner (an admin may NOT update someone else's resource)\n//   \"delete\" the owner OR an admin\n// No principal is still a 401; a permitted action is 200 \"ok\"; a denied one is 403.\nfunction authorize(principal, action, ownerId) { /* your code */ }\nconst cases = [\n  { principal: null, action: \"delete\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"read\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u9\", roles: [\"admin\"] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u9\", roles: [\"admin\"] }, action: \"delete\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"delete\", ownerId: \"u1\" },\n];\nfor (const c of cases) {\n  const d = authorize(c.principal, c.action, c.ownerId);\n  console.log(c.action, d.status, d.reason);\n}",
-      "summary": "Extend the ordered access decision to read/update/delete, where update is owner-only and even an admin cannot update another user’s resource. Run seven cases and print each verdict.",
+      "starter": "// authorize(principal, action, ownerId) -> { status, reason }.\n// Extend the worked example's ordered gates to THREE actions:\n//   \"read\"   any authenticated principal may read\n//   \"update\" ONLY the resource owner (an admin may NOT update someone else's resource)\n//   \"delete\" the owner OR an admin\n// No principal is still a 401; a permitted action is 200 \"ok\"; a denied one is 403.\nfunction authorize(principal, action, ownerId) { /* your code */ }\nconst cases = [\n  { principal: null, action: \"delete\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"read\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u9\", roles: [\"admin\"] }, action: \"update\", ownerId: \"u1\" },\n  { principal: { userId: \"u9\", roles: [\"admin\"] }, action: \"delete\", ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [] }, action: \"delete\", ownerId: \"u1\" },\n];\nfor (const c of cases) {\n  const d = authorize(c.principal, c.action, c.ownerId);\n  console.log(c.action, d.status, d.reason);\n}\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Extend the ordered access decision to read/update/delete, where update is owner-only and even an admin cannot update another user’s resource. Run seven cases and print each verdict. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -310,6 +310,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An access decision function that first proves identity, then checks permission, and denies with the correct reason when either fails.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: An unauthenticated request returns 401 and never reaches the authorization check. · An authenticated-but-forbidden request returns 403. · Authorization is evaluated against the specific resource (owner/role), not a global \"is logged in\" flag. · The check runs on the server for every protected action, not only in the UI.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: This ordered decision is the backbone of the later entitlements lesson: there, authZ becomes \"has a paid, active subscription for this feature\" — same second gate, new policy input.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "This ordered decision is the backbone of the later entitlements lesson: there, authZ becomes \"has a paid, active subscription for this feature\" — same second gate, new policy input.",
       "type": "transfer"
     },
@@ -324,10 +332,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Decision returns 401 with no principal, 403 when forbidden, 200 when allowed",
-        "Authorization is resource-aware (owner/admin)",
-        "You can explain 401 vs 403"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Where do you enforce authorization — only in the UI (hide the button) or on the server for every request?.",
+        "Verification evidence — An unauthenticated request returns 401 and never reaches the authorization check. · An authenticated-but-forbidden request returns 403. · Authorization is evaluated against the specific resource (owner/role), not a global \"is logged in\" flag. · The check runs on the server for every protected action, not only in the UI.",
+        "Transfer evidence — This ordered decision is the backbone of the later entitlements lesson: there, authZ becomes \"has a paid, active subscription for this feature\" — same second gate, new policy input."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "sessions-vs-jwt": [
@@ -560,8 +571,8 @@
       "type": "lab",
       "check": "t=50 fresh: true\nt=60 after revoke: false - revoked\nt=150 expired: false - expired",
       "title": "Prove instant revocation vs valid-until-exp",
-      "starter": "// The worked example said a JWT cannot be revoked before exp \"unless you add a denylist\".\n// Build that layer. verifyToken(claims, now, denylist) -> { ok, reason?, userId? }:\n//   an expired token fails with reason \"expired\"\n//   a token whose jti is in the denylist fails with reason \"revoked\"\n//   otherwise it is ok for claims.sub\nfunction verifyToken(claims, now, denylist) { /* your code */ }\nconst denylist = new Set();\nconst token = { sub: \"u1\", jti: \"jwt_A\", exp: 100 };\nconsole.log(\"t=50 fresh:\", verifyToken(token, 50, denylist).ok);\ndenylist.add(\"jwt_A\");                          // revoke this token id\nconst r = verifyToken(token, 60, denylist);\nconsole.log(\"t=60 after revoke:\", r.ok, \"-\", r.reason);\nconst r2 = verifyToken(token, 150, denylist);\nconsole.log(\"t=150 expired:\", r2.ok, \"-\", r2.reason);",
-      "summary": "Build the JWT denylist layer the worked example lacked: an unexpired token still validates until its jti is revoked, and an expired token fails regardless. Print each verdict.",
+      "starter": "// The worked example said a JWT cannot be revoked before exp \"unless you add a denylist\".\n// Build that layer. verifyToken(claims, now, denylist) -> { ok, reason?, userId? }:\n//   an expired token fails with reason \"expired\"\n//   a token whose jti is in the denylist fails with reason \"revoked\"\n//   otherwise it is ok for claims.sub\nfunction verifyToken(claims, now, denylist) { /* your code */ }\nconst denylist = new Set();\nconst token = { sub: \"u1\", jti: \"jwt_A\", exp: 100 };\nconsole.log(\"t=50 fresh:\", verifyToken(token, 50, denylist).ok);\ndenylist.add(\"jwt_A\");                          // revoke this token id\nconst r = verifyToken(token, 60, denylist);\nconsole.log(\"t=60 after revoke:\", r.ok, \"-\", r.reason);\nconst r2 = verifyToken(token, 150, denylist);\nconsole.log(\"t=150 expired:\", r2.ok, \"-\", r2.reason);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Build the JWT denylist layer the worked example lacked: an unexpired token still validates until its jti is revoked, and an expired token fails regardless. Print each verdict. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -614,6 +625,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A revocation check that instantly kills a server session by ID, and shows why an unexpired JWT keeps validating until it expires.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You can revoke a server session with a single store deletion and prove the next request fails. · You can explain why an unexpired JWT keeps validating with no store consulted. · You know the two ways to add revocation to JWTs (short exp + refresh, or a denylist) and their cost.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The next lesson stores passwords; the session/JWT you issue after a correct password check is what carries the authenticated identity into the authZ gate from lesson 1.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The next lesson stores passwords; the session/JWT you issue after a correct password check is what carries the authenticated identity into the authZ gate from lesson 1.",
       "type": "transfer"
     },
@@ -628,20 +647,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Session revoked by store deletion; next verify fails",
-        "JWT valid until exp with no store lookup",
-        "You can name JWT revocation strategies"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend A single monolith needs login with the ability to force-logout users. Server sessions or JWTs?.",
+        "Verification evidence — You can revoke a server session with a single store deletion and prove the next request fails. · You can explain why an unexpired JWT keeps validating with no store consulted. · You know the two ways to add revocation to JWTs (short exp + refresh, or a denylist) and their cost.",
+        "Transfer evidence — The next lesson stores passwords; the session/JWT you issue after a correct password check is what carries the authenticated identity into the authZ gate from lesson 1."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "password-storage-oauth": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A salted-hash verifier that accepts the right password, rejects the wrong one, and shows two users with the SAME password get DIFFERENT stored hashes.",
       "unlock": "You can explain why unique per-user salts defeat precomputed (rainbow) attacks and why the hash must be deliberately slow.",
       "outcome": "Store passwords with a salted, slow hash so a database leak does not reveal passwords, and know when to delegate login to OAuth instead.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim SHA-256 alone is password hashing — a fast, unsalted hash is crackable at billions/sec and shares hashes across identical passwords."
     },
     {
@@ -658,7 +680,7 @@
       "reveal": "Different — because each gets a unique random salt that is hashed together with the password. That means an attacker cannot tell the two users share a password, cannot reuse one crack against the other, and cannot use a precomputed rainbow table. Identical stored hashes (unsalted) would leak all of that at once."
     },
     {
-      "code": "import crypto from \"node:crypto\";\n\n// Slow + salted. bcrypt/scrypt/Argon2 in production; PBKDF2 shown (built-in).\nfunction hashPassword(password: string) {\n  const salt = crypto.randomBytes(16).toString(\"hex\");      // unique per user\n  const hash = crypto.pbkdf2Sync(password, salt, 100_000, 32, \"sha256\").toString(\"hex\");\n  return { salt, hash };                                     // store BOTH, never the password\n}\n\nfunction verifyPassword(password: string, salt: string, expected: string) {\n  const actual = crypto.pbkdf2Sync(password, salt, 100_000, 32, \"sha256\").toString(\"hex\");\n  // constant-time compare avoids leaking how many bytes matched\n  return crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));\n}",
+      "code": "import crypto from \"node:crypto\";\n\n// Slow + salted. bcrypt/scrypt/Argon2 in production; PBKDF2 shown (built-in).\nfunction hashPassword(password: string) {\n  const salt = crypto.randomBytes(16).toString(\"hex\");      // unique per user\n  const hash = crypto.pbkdf2Sync(password, salt, 600_000, 32, \"sha256\").toString(\"hex\");\n  return { salt, hash };                                     // store BOTH, never the password\n}\n\nfunction verifyPassword(password: string, salt: string, expected: string) {\n  const actual = crypto.pbkdf2Sync(password, salt, 600_000, 32, \"sha256\").toString(\"hex\");\n  // constant-time compare avoids leaking how many bytes matched\n  return crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));\n}",
       "type": "worked-example",
       "intro": "A salted, iterated hash (PBKDF2 stands in for bcrypt/Argon2 here) with per-user salts, plus constant-time verification.",
       "steps": [
@@ -840,12 +862,12 @@
       "type": "lab",
       "check": "same password, same hash? false\nverify correct: true\nverify wrong: false",
       "title": "Salted hashing that resists a DB leak",
-      "starter": "const crypto = await import(\"node:crypto\");\n// Fixed salts here so output is deterministic (in production: crypto.randomBytes).\nfunction hash(pw, salt) {\n  // TODO: pbkdf2Sync(pw, salt, 50000, 32, \"sha256\") -> hex\n}\nfunction verify(pw, salt, expected) {\n  // TODO: re-hash and compare (constant time)\n}\nconst A = { salt: \"aaaa\", pw: \"hunter2\" };\nconst B = { salt: \"bbbb\", pw: \"hunter2\" };   // same password, different salt\nconst hA = hash(A.pw, A.salt), hB = hash(B.pw, B.salt);\nconsole.log(\"same password, same hash?\", hA === hB);\nconsole.log(\"verify correct:\", verify(\"hunter2\", A.salt, hA));\nconsole.log(\"verify wrong:\", verify(\"letmein\", A.salt, hA));",
-      "summary": "Hash two users who chose the SAME password with per-user salts (prove the stored hashes differ), then verify a correct and an incorrect attempt. Uses Node crypto (pbkdf2).",
+      "starter": "const crypto = await import(\"node:crypto\");\n// Fixed salts here so output is deterministic (in production: crypto.randomBytes).\nfunction hash(pw, salt) {\n  // TODO: pbkdf2Sync(pw, salt, 600000, 32, \"sha256\") -> hex\n}\nfunction verify(pw, salt, expected) {\n  // TODO: re-hash and compare (constant time)\n}\nconst A = { salt: \"aaaa\", pw: \"hunter2\" };\nconst B = { salt: \"bbbb\", pw: \"hunter2\" };   // same password, different salt\nconst hA = hash(A.pw, A.salt), hB = hash(B.pw, B.salt);\nconsole.log(\"same password, same hash?\", hA === hB);\nconsole.log(\"verify correct:\", verify(\"hunter2\", A.salt, hA));\nconsole.log(\"verify wrong:\", verify(\"letmein\", A.salt, hA));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Hash two users who chose the SAME password with per-user salts (prove the stored hashes differ), then verify a correct and an incorrect attempt. Uses Node crypto (pbkdf2). Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
-      "fix": "const salt = crypto.randomBytes(16).toString(\"hex\");          // unique per user\nconst stored = crypto.pbkdf2Sync(password, salt, 100000, 32, \"sha256\").toString(\"hex\");\n// store { salt, stored }; better: bcrypt/scrypt/argon2",
+      "fix": "const salt = crypto.randomBytes(16).toString(\"hex\");          // unique per user\nconst stored = crypto.pbkdf2Sync(password, salt, 600000, 32, \"sha256\").toString(\"hex\");\n// store { salt, stored }; better: bcrypt/scrypt/argon2",
       "task": "Identical passwords produce identical hashes (unsalted) and it is far too fast. Fix the scheme.",
       "type": "debug",
       "symptom": "A DB leak reveals that every account using \"password123\" has the exact same stored hash — one crack breaks them all.",
@@ -895,6 +917,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A salted-hash verifier that accepts the right password, rejects the wrong one, and shows two users with the SAME password get DIFFERENT stored hashes.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Passwords are never stored in plaintext or a bare fast hash. · Each user has a unique salt, so identical passwords yield different hashes. · The hash is deliberately slow (bcrypt/scrypt/Argon2/PBKDF2 with high work factor). · Verification re-hashes with the stored salt and compares in constant time.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The constant-time comparison (timingSafeEqual) you used here is the exact primitive you will reuse to compare webhook signatures in Module 3 — same defense against timing leaks, different secret.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The constant-time comparison (timingSafeEqual) you used here is the exact primitive you will reuse to compare webhook signatures in Module 3 — same defense against timing leaks, different secret.",
       "type": "transfer"
     },
@@ -909,20 +939,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Same password + different salt => different hash (proven)",
-        "Correct/incorrect attempts verify correctly",
-        "Hash is salted and slow, compared in constant time"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend For a new consumer app, roll your own password login or delegate to OAuth (Google/GitHub)?.",
+        "Verification evidence — Passwords are never stored in plaintext or a bare fast hash. · Each user has a unique salt, so identical passwords yield different hashes. · The hash is deliberately slow (bcrypt/scrypt/Argon2/PBKDF2 with high work factor). · Verification re-hashes with the stored salt and compares in constant time.",
+        "Transfer evidence — The constant-time comparison (timingSafeEqual) you used here is the exact primitive you will reuse to compare webhook signatures in Module 3 — same defense against timing leaks, different secret."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "protecting-routes-server-side": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A middleware chain that short-circuits unauthenticated/forbidden requests and only reaches the handler when both gates pass.",
       "unlock": "You can explain why route protection must run server-side in a middleware layer, not in the client or scattered inside handlers.",
       "outcome": "Guard protected routes with server-side middleware that runs before the handler, so no protected handler executes for an unauthenticated or unauthorized request.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a hidden link protects a route — the endpoint is directly callable, so the guard must live on the server in front of the handler."
     },
     {
@@ -1148,8 +1181,8 @@
       "type": "lab",
       "check": "request 0 stopped at: auth\nrequest 1 stopped at: role\nrequest 2 stopped at: owner\nrequest 3 stopped at: passed",
       "title": "Build a short-circuiting guard chain",
-      "starter": "// The worked example's runChain returned the blocking STATUS. Here, diagnose WHICH guard\n// stopped the request. firstFailure(ctx, guards) walks the guards in order and returns the\n// name of the first one whose pass(ctx) is false, or \"passed\" if every guard allows it.\nfunction firstFailure(ctx, guards) { /* your code */ }\nconst guards = [\n  { name: \"auth\", pass: (c) => c.principal != null },\n  { name: \"role\", pass: (c) => !!c.principal && c.principal.roles.includes(\"admin\") },\n  { name: \"owner\", pass: (c) => !!c.principal && c.principal.userId === c.ownerId },\n];\nconst reqs = [\n  { principal: null, ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [\"user\"] }, ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [\"admin\"] }, ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [\"admin\"] }, ownerId: \"u1\" },\n];\nreqs.forEach((ctx, i) => console.log(\"request \" + i + \" stopped at:\", firstFailure(ctx, guards)));",
-      "summary": "Diagnose WHICH guard blocks each request: walk auth, role, then a new ownership guard and print the name of the first that fails (or \"passed\").",
+      "starter": "// The worked example's runChain returned the blocking STATUS. Here, diagnose WHICH guard\n// stopped the request. firstFailure(ctx, guards) walks the guards in order and returns the\n// name of the first one whose pass(ctx) is false, or \"passed\" if every guard allows it.\nfunction firstFailure(ctx, guards) { /* your code */ }\nconst guards = [\n  { name: \"auth\", pass: (c) => c.principal != null },\n  { name: \"role\", pass: (c) => !!c.principal && c.principal.roles.includes(\"admin\") },\n  { name: \"owner\", pass: (c) => !!c.principal && c.principal.userId === c.ownerId },\n];\nconst reqs = [\n  { principal: null, ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [\"user\"] }, ownerId: \"u1\" },\n  { principal: { userId: \"u2\", roles: [\"admin\"] }, ownerId: \"u1\" },\n  { principal: { userId: \"u1\", roles: [\"admin\"] }, ownerId: \"u1\" },\n];\nreqs.forEach((ctx, i) => console.log(\"request \" + i + \" stopped at:\", firstFailure(ctx, guards)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Diagnose WHICH guard blocks each request: walk auth, role, then a new ownership guard and print the name of the first that fails (or \"passed\"). Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1203,6 +1236,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A middleware chain that short-circuits unauthenticated/forbidden requests and only reaches the handler when both gates pass.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: An unauthenticated direct request is rejected with 401 before the handler runs. · An authenticated-but-forbidden request is rejected with 403 before the handler runs. · Guards live in server-side middleware, not only in the UI or mid-handler. · The same guards are reused across routes rather than re-implemented per handler.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The webhook endpoint in Module 3 is also a route that must reject bad requests before doing work — there the \"guard\" is signature verification, but the shape is identical: verify first, handle only if it passes.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The webhook endpoint in Module 3 is also a route that must reject bad requests before doing work — there the \"guard\" is signature verification, but the shape is identical: verify first, handle only if it passes.",
       "type": "transfer"
     },
@@ -1217,10 +1258,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Chain short-circuits 401 then 403; handler runs only when both pass",
-        "Guards are server-side and before the handler",
-        "Guards are centralized/reusable"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Enforce protection once in middleware, or check auth inside each handler individually?.",
+        "Verification evidence — An unauthenticated direct request is rejected with 401 before the handler runs. · An authenticated-but-forbidden request is rejected with 403 before the handler runs. · Guards live in server-side middleware, not only in the UI or mid-handler. · The same guards are reused across routes rather than re-implemented per handler.",
+        "Transfer evidence — The webhook endpoint in Module 3 is also a route that must reject bad requests before doing work — there the \"guard\" is signature verification, but the shape is identical: verify first, handle only if it passes."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "stripe-object-model": [
@@ -1454,8 +1498,8 @@
       "type": "lab",
       "check": "sub_1: Pro plan 1500c/mo\nsub_2: ERROR price points at unknown product",
       "title": "Resolve customer → price → product and price it",
-      "starter": "const products = { prod_pro: { name: \"Pro plan\" } };\nconst prices = {\n  price_m: { product: \"prod_pro\", unit_amount: 1500, interval: \"month\" },\n  price_y: { product: \"prod_pro\", unit_amount: 18000, interval: \"year\" },\n  price_bad: { product: \"prod_missing\", unit_amount: 999, interval: \"month\" },\n};\nconst subs = {\n  sub_1: { customer: \"cus_1\", price: \"price_y\" },\n  sub_2: { customer: \"cus_2\", price: \"price_bad\" },\n};\n// monthly(subId): { plan, cents } or { error } if the product is missing.\nfunction monthly(subId) { /* your code */ }\nfor (const id of [\"sub_1\", \"sub_2\"]) {\n  const r = monthly(id);\n  console.log(id + \":\", r.error ? (\"ERROR \" + r.error) : (r.plan + \" \" + r.cents + \"c/mo\"));\n}",
-      "summary": "Follow a subscription to its price and product, normalize a yearly price to a monthly amount in cents, and refuse a price whose product is missing. Print the resolved plan and monthly cents.",
+      "starter": "const products = { prod_pro: { name: \"Pro plan\" } };\nconst prices = {\n  price_m: { product: \"prod_pro\", unit_amount: 1500, interval: \"month\" },\n  price_y: { product: \"prod_pro\", unit_amount: 18000, interval: \"year\" },\n  price_bad: { product: \"prod_missing\", unit_amount: 999, interval: \"month\" },\n};\nconst subs = {\n  sub_1: { customer: \"cus_1\", price: \"price_y\" },\n  sub_2: { customer: \"cus_2\", price: \"price_bad\" },\n};\n// monthly(subId): { plan, cents } or { error } if the product is missing.\nfunction monthly(subId) { /* your code */ }\nfor (const id of [\"sub_1\", \"sub_2\"]) {\n  const r = monthly(id);\n  console.log(id + \":\", r.error ? (\"ERROR \" + r.error) : (r.plan + \" \" + r.cents + \"c/mo\"));\n}\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Follow a subscription to its price and product, normalize a yearly price to a monthly amount in cents, and refuse a price whose product is missing. Print the resolved plan and monthly cents. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1509,6 +1553,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A resolver that walks a customer → subscription → price → product and computes the monthly amount, rejecting a price attached to the wrong product.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You can name what each of Customer, Product, Price, Subscription holds. · You reference a price id to charge, never a hardcoded amount. · You can explain why one Product has many Prices. · Your resolver follows customer → subscription → price → product correctly.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: Hosted Checkout in the next lesson takes exactly one of these price ids as its line item — the object model you resolved here is what a Checkout Session is built from.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "Hosted Checkout in the next lesson takes exactly one of these price ids as its line item — the object model you resolved here is what a Checkout Session is built from.",
       "type": "transfer"
     },
@@ -1523,20 +1575,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Resolver follows customer→price→product and prices it",
-        "Missing-product price is refused",
-        "You reference price ids, not amounts"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Offer monthly and annual billing as two Prices under one Product, or two separate Products?.",
+        "Verification evidence — You can name what each of Customer, Product, Price, Subscription holds. · You reference a price id to charge, never a hardcoded amount. · You can explain why one Product has many Prices. · Your resolver follows customer → subscription → price → product correctly.",
+        "Transfer evidence — Hosted Checkout in the next lesson takes exactly one of these price ids as its line item — the object model you resolved here is what a Checkout Session is built from."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "hosted-checkout": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A Checkout Session builder that assembles valid create-params (line_items, mode, success_url, cancel_url) and rejects a params set that mixes a recurring price with mode: payment.",
       "unlock": "You can explain why hosted Checkout means Stripe collects the card, not your server, and how mode must match the price type.",
       "outcome": "Start a payment with a hosted Checkout Session: build the correct create-params for a price + mode, and redirect the customer to the Stripe-hosted page.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim you 'built a payment form' — with hosted Checkout Stripe renders and secures the form; you build the session and the redirect."
     },
     {
@@ -1746,8 +1801,8 @@
       "type": "lab",
       "check": "price_once mode: payment error: none\nprice_sub mode: subscription error: none\nwrong: recurring price requires mode subscription",
       "title": "Build and validate Checkout Session params",
-      "starter": "const prices = {\n  price_once: { type: \"one_time\" },\n  price_sub: { type: \"recurring\" },\n};\n// build(priceId): returns { mode, line_items, success_url, cancel_url }\n// validate(params, priceType): return error string if recurring price has mode !== \"subscription\"\n//   or one_time price has mode !== \"payment\"; else \"\".\nfunction build(priceId) { /* choose mode from prices[priceId].type */ }\nfunction validate(params, priceType) { /* your code */ }\nfor (const id of [\"price_once\", \"price_sub\"]) {\n  const p = build(id);\n  const err = validate(p, prices[id].type);\n  console.log(id, \"mode:\", p.mode, \"error:\", err || \"none\");\n}\n// a deliberately wrong pairing:\nconst wrong = { mode: \"payment\", line_items: [{ price: \"price_sub\", quantity: 1 }] };\nconsole.log(\"wrong:\", validate(wrong, \"recurring\") || \"none\");",
-      "summary": "Assemble create-params for two prices, choosing mode from each price type, and reject a params set that pairs a recurring price with mode payment. Print the mode chosen and any validation error.",
+      "starter": "const prices = {\n  price_once: { type: \"one_time\" },\n  price_sub: { type: \"recurring\" },\n};\n// build(priceId): returns { mode, line_items, success_url, cancel_url }\n// validate(params, priceType): return error string if recurring price has mode !== \"subscription\"\n//   or one_time price has mode !== \"payment\"; else \"\".\nfunction build(priceId) { /* choose mode from prices[priceId].type */ }\nfunction validate(params, priceType) { /* your code */ }\nfor (const id of [\"price_once\", \"price_sub\"]) {\n  const p = build(id);\n  const err = validate(p, prices[id].type);\n  console.log(id, \"mode:\", p.mode, \"error:\", err || \"none\");\n}\n// a deliberately wrong pairing:\nconst wrong = { mode: \"payment\", line_items: [{ price: \"price_sub\", quantity: 1 }] };\nconsole.log(\"wrong:\", validate(wrong, \"recurring\") || \"none\");\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Assemble create-params for two prices, choosing mode from each price type, and reject a params set that pairs a recurring price with mode payment. Print the mode chosen and any validation error. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1801,6 +1856,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A Checkout Session builder that assembles valid create-params (line_items, mode, success_url, cancel_url) and rejects a params set that mixes a recurring price with mode: payment.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: line_items reference price ids, not raw amounts. · mode matches the price type (subscription for recurring, payment for one-time). · success_url and cancel_url are set, and success_url can retrieve the session. · You redirect to session.url; your server never handles the card.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: A completed Checkout Session fires the checkout.session.completed webhook — the event you will verify and act on as the source of truth in Module 3.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "A completed Checkout Session fires the checkout.session.completed webhook — the event you will verify and act on as the source of truth in Module 3.",
       "type": "transfer"
     },
@@ -1815,10 +1878,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Params include line_items + mode + both urls",
-        "mode/price mismatch is rejected",
-        "Card handled by Stripe, not your server"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Collect payment with Stripe-hosted Checkout, or build your own card form with Elements?.",
+        "Verification evidence — line_items reference price ids, not raw amounts. · mode matches the price type (subscription for recurring, payment for one-time). · success_url and cancel_url are set, and success_url can retrieve the session. · You redirect to session.url; your server never handles the card.",
+        "Transfer evidence — A completed Checkout Session fires the checkout.session.completed webhook — the event you will verify and act on as the source of truth in Module 3."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "success-cancel-flow": [
@@ -2057,8 +2123,8 @@
       "type": "lab",
       "check": "s1 grant: false - not paid (unpaid)\ns2 grant: false - session belongs to another user\ns3 grant: true - confirmed paid\ns3 grant: false - already granted",
       "title": "Confirm from the session, grant once",
-      "starter": "// confirmGrant(session, authUserId) -> { grant, reason }. Beyond the worked example's paid +\n// idempotency checks, add the OWNERSHIP check: a paid session whose customer_ref is a\n// different user must NOT grant (reason \"session belongs to another user\"). Deny an unpaid\n// session; grant a paid session that belongs to the caller exactly once.\nconst granted = new Set();\nfunction confirmGrant(session, authUserId) { /* your code */ }\nconst me = \"u_me\";\nconst runs = [\n  { id: \"s1\", payment_status: \"unpaid\", customer_ref: \"u_me\" },\n  { id: \"s2\", payment_status: \"paid\", customer_ref: \"u_other\" },\n  { id: \"s3\", payment_status: \"paid\", customer_ref: \"u_me\" },\n  { id: \"s3\", payment_status: \"paid\", customer_ref: \"u_me\" },   // reload of s3\n];\nfor (const s of runs) {\n  const r = confirmGrant(s, me);\n  console.log(s.id, \"grant:\", r.grant, \"-\", r.reason);\n}",
-      "summary": "Confirm a return with the ownership check the example skipped: deny unpaid, deny a paid session belonging to another user, grant your own paid session exactly once.",
+      "starter": "// confirmGrant(session, authUserId) -> { grant, reason }. Beyond the worked example's paid +\n// idempotency checks, add the OWNERSHIP check: a paid session whose customer_ref is a\n// different user must NOT grant (reason \"session belongs to another user\"). Deny an unpaid\n// session; grant a paid session that belongs to the caller exactly once.\nconst granted = new Set();\nfunction confirmGrant(session, authUserId) { /* your code */ }\nconst me = \"u_me\";\nconst runs = [\n  { id: \"s1\", payment_status: \"unpaid\", customer_ref: \"u_me\" },\n  { id: \"s2\", payment_status: \"paid\", customer_ref: \"u_other\" },\n  { id: \"s3\", payment_status: \"paid\", customer_ref: \"u_me\" },\n  { id: \"s3\", payment_status: \"paid\", customer_ref: \"u_me\" },   // reload of s3\n];\nfor (const s of runs) {\n  const r = confirmGrant(s, me);\n  console.log(s.id, \"grant:\", r.grant, \"-\", r.reason);\n}\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Confirm a return with the ownership check the example skipped: deny unpaid, deny a paid session belonging to another user, grant your own paid session exactly once. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2112,6 +2178,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A return handler that refuses to grant access from the success redirect alone and only confirms after checking the retrieved session's payment_status.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Access is never granted from the success redirect alone. · You retrieve the session server-side and require payment_status paid. · The grant is idempotent, so refresh/back-button does not re-grant. · cancel_url grants nothing and offers a retry.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The idempotent, verify-first grant you built here is a preview of Module 3's webhook handler — same \"confirm then act exactly once\" discipline, driven by the event instead of the redirect.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The idempotent, verify-first grant you built here is a preview of Module 3's webhook handler — same \"confirm then act exactly once\" discipline, driven by the event instead of the redirect.",
       "type": "transfer"
     },
@@ -2126,20 +2200,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "No grant from redirect alone",
-        "Grant requires payment_status paid",
-        "Grant is idempotent on reload"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Confirm the purchase on the success_url retrieve, or wait only for the webhook?.",
+        "Verification evidence — Access is never granted from the success redirect alone. · You retrieve the session server-side and require payment_status paid. · The grant is idempotent, so refresh/back-button does not re-grant. · cancel_url grants nothing and offers a retry.",
+        "Transfer evidence — The idempotent, verify-first grant you built here is a preview of Module 3's webhook handler — same \"confirm then act exactly once\" discipline, driven by the event instead of the redirect."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "test-mode-key-hygiene": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A key-usage linter that flags a secret key placed in client-side config and a live key used where a test key belongs.",
       "unlock": "You can classify any Stripe key (pk vs sk, test vs live) and say where it may appear.",
       "outcome": "Work safely in test mode and keep keys hygienic: know which key goes client vs server, that test/live are isolated, and never leak a secret key.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a key is 'just config' — the secret key can move real money and the publishable key is the only one allowed in the browser."
     },
     {
@@ -2374,8 +2451,8 @@
       "type": "lab",
       "check": "pk_test_1 client -> ok\nsk_live_1 client -> CRITICAL: secret key in client\nwhsec_abc client -> CRITICAL: webhook secret in client\nrk_test_1 client -> WARN: restricted key in client\nsk_test_1 server -> ok",
       "title": "Lint Stripe key placement",
-      "starter": "// auditKey(key, location) -> a verdict string. Extend the worked example past sk_/pk_ to the\n// keys it never covered:\n//   pk_    publishable, safe anywhere            -> \"ok\"\n//   sk_    secret, server only                   -> client is \"CRITICAL: secret key in client\"\n//   whsec_ webhook signing secret, server only   -> client is \"CRITICAL: webhook secret in client\"\n//   rk_    restricted, prefer server             -> client is \"WARN: restricted key in client\"\nfunction auditKey(key, location) { /* your code */ }\nconst cases = [\n  { key: \"pk_test_1\", location: \"client\" },\n  { key: \"sk_live_1\", location: \"client\" },\n  { key: \"whsec_abc\", location: \"client\" },\n  { key: \"rk_test_1\", location: \"client\" },\n  { key: \"sk_test_1\", location: \"server\" },\n];\nfor (const c of cases) console.log(c.key, c.location, \"->\", auditKey(c.key, c.location));",
-      "summary": "Audit key placement across the prefixes the example skipped — publishable, secret, webhook signing secret, and restricted — with the right severity for each. Print the verdict per case.",
+      "starter": "// auditKey(key, location) -> a verdict string. Extend the worked example past sk_/pk_ to the\n// keys it never covered:\n//   pk_    publishable, safe anywhere            -> \"ok\"\n//   sk_    secret, server only                   -> client is \"CRITICAL: secret key in client\"\n//   whsec_ webhook signing secret, server only   -> client is \"CRITICAL: webhook secret in client\"\n//   rk_    restricted, prefer server             -> client is \"WARN: restricted key in client\"\nfunction auditKey(key, location) { /* your code */ }\nconst cases = [\n  { key: \"pk_test_1\", location: \"client\" },\n  { key: \"sk_live_1\", location: \"client\" },\n  { key: \"whsec_abc\", location: \"client\" },\n  { key: \"rk_test_1\", location: \"client\" },\n  { key: \"sk_test_1\", location: \"server\" },\n];\nfor (const c of cases) console.log(c.key, c.location, \"->\", auditKey(c.key, c.location));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Audit key placement across the prefixes the example skipped — publishable, secret, webhook signing secret, and restricted — with the right severity for each. Print the verdict per case. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2429,6 +2506,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A key-usage linter that flags a secret key placed in client-side config and a live key used where a test key belongs.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: The secret key exists only server-side (env var), never in client code or git. · The client uses only the publishable key. · Development and CI run in test mode with magic cards. · You can classify any key by prefix and say where it may appear.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The webhook signing secret (whsec_) in Module 3 is another server-only secret governed by the same rule — never client-side, never committed — and it is what makes signature verification trustworthy.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The webhook signing secret (whsec_) in Module 3 is another server-only secret governed by the same rule — never client-side, never committed — and it is what makes signature verification trustworthy.",
       "type": "transfer"
     },
@@ -2443,20 +2528,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Linter flags secret-in-client and live-in-test",
-        "Secret key is server-only",
-        "Development uses test mode"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend For your CI test suite that exercises Checkout, use test-mode keys or live keys with tiny amounts?.",
+        "Verification evidence — The secret key exists only server-side (env var), never in client code or git. · The client uses only the publishable key. · Development and CI run in test mode with magic cards. · You can classify any key by prefix and say where it may appear.",
+        "Transfer evidence — The webhook signing secret (whsec_) in Module 3 is another server-only secret governed by the same rule — never client-side, never committed — and it is what makes signature verification trustworthy."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "webhooks-source-of-truth": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A fulfillment router that ignores the client redirect as a trigger and only grants on the verified checkout.session.completed event, acknowledging with 2xx.",
       "unlock": "You can explain why the client redirect is unreliable and the server-to-server webhook is the durable truth.",
       "outcome": "Fulfill on the webhook, not on the redirect: understand why the asynchronous checkout.session.completed event — not the client return — is the authoritative signal that money moved.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim the client told you it paid — the browser can close, lose network, or be spoofed; Stripe's server-to-server webhook is what you trust."
     },
     {
@@ -2672,8 +2760,8 @@
       "type": "lab",
       "check": "redirect -> ack 200\ncheckout.session.completed -> ack 200\ninvoice.payment_succeeded -> ack 200\ncustomer.subscription.updated -> ack 200\ngranted: grant:sess_1,extend:in_1",
       "title": "Fulfill on the event, ack with 2xx",
-      "starter": "const granted = [];\nfunction handle(event) {\n  // grant on checkout.session.completed, extend on invoice.payment_succeeded,\n  // ignore other types; ALWAYS return { status: 200 }. Never act on type \"redirect\".\n}\nconst events = [\n  { type: \"redirect\", data: { object: { id: \"sess_x\" } } },        // UX signal — must NOT grant\n  { type: \"checkout.session.completed\", data: { object: { id: \"sess_1\" } } },\n  { type: \"invoice.payment_succeeded\", data: { object: { id: \"in_1\" } } },\n  { type: \"customer.subscription.updated\", data: { object: { id: \"sub_1\" } } },\n];\nfor (const e of events) {\n  const r = handle(e);\n  console.log(e.type, \"->\", \"ack \" + r.status);\n}\nconsole.log(\"granted:\", granted.join(\",\") || \"none\");",
-      "summary": "Route a stream of events: grant on checkout.session.completed, extend on invoice.payment_succeeded, ignore-but-ack others. Never grant from a \"redirect\" signal in the stream. Print the actions and the ack status.",
+      "starter": "const granted = [];\nfunction handle(event) {\n  // grant on checkout.session.completed, extend on invoice.payment_succeeded,\n  // ignore other types; ALWAYS return { status: 200 }. Never act on type \"redirect\".\n}\nconst events = [\n  { type: \"redirect\", data: { object: { id: \"sess_x\" } } },        // UX signal — must NOT grant\n  { type: \"checkout.session.completed\", data: { object: { id: \"sess_1\" } } },\n  { type: \"invoice.payment_succeeded\", data: { object: { id: \"in_1\" } } },\n  { type: \"customer.subscription.updated\", data: { object: { id: \"sub_1\" } } },\n];\nfor (const e of events) {\n  const r = handle(e);\n  console.log(e.type, \"->\", \"ack \" + r.status);\n}\nconsole.log(\"granted:\", granted.join(\",\") || \"none\");\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n// TODO: implement the fail-closed behavior described above without weakening the boundary.\n",
+      "summary": "Route a stream of events: grant on checkout.session.completed, extend on invoice.payment_succeeded, ignore-but-ack others. Never grant from a \"redirect\" signal in the stream. Print the actions and the ack status. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2727,6 +2815,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A fulfillment router that ignores the client redirect as a trigger and only grants on the verified checkout.session.completed event, acknowledging with 2xx.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Access is granted from the webhook event, not the client redirect. · A paying customer whose browser never returns still gets fulfilled. · Your endpoint returns 2xx to acknowledge and stop retries. · The success_url is UX only.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: Trusting the webhook only makes sense once you can prove it really came from Stripe — that is signature verification, the next lesson, where you compute the HMAC yourself.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "Trusting the webhook only makes sense once you can prove it really came from Stripe — that is signature verification, the next lesson, where you compute the HMAC yourself.",
       "type": "transfer"
     },
@@ -2741,20 +2837,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Fulfillment driven by the event, not the redirect",
-        "Endpoint acks with 2xx",
-        "Browser-less payment still fulfilled"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Do the heavy fulfillment work synchronously inside the webhook request, or enqueue it and ack immediately?.",
+        "Verification evidence — Access is granted from the webhook event, not the client redirect. · A paying customer whose browser never returns still gets fulfilled. · Your endpoint returns 2xx to acknowledge and stop retries. · The success_url is UX only.",
+        "Transfer evidence — Trusting the webhook only makes sense once you can prove it really came from Stripe — that is signature verification, the next lesson, where you compute the HMAC yourself."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "verifying-webhook-signatures": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A verifier that ACCEPTS a genuinely-signed payload and REJECTS a tampered payload and an out-of-tolerance timestamp — with the HMAC actually computed via Node crypto.",
       "unlock": "You can describe the Stripe-Signature header format and reconstruct the signed_payload exactly.",
       "outcome": "Verify a Stripe webhook signature yourself: compute an HMAC-SHA256 over timestamp.payload with the signing secret, compare it in constant time to the header, and reject tampered payloads and stale timestamps.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim you 'checked the signature' by comparing strings loosely — you must recompute the HMAC over timestamp.rawBody and compare in constant time, and enforce a timestamp tolerance against replay."
     },
     {
@@ -2996,8 +3095,8 @@
       "type": "lab",
       "check": "genuine: true\ntampered: false\nstale: false",
       "title": "Compute and check a real HMAC signature",
-      "starter": "const crypto = await import(\"node:crypto\");\nconst secret = \"whsec_test_secret\";\nconst rawBody = '{\"id\":\"evt_1\",\"type\":\"checkout.session.completed\"}';\nconst t = 1700000000;\nfunction sign(rawBody, t, secret) {\n  // signed_payload = `${t}.${rawBody}`, HMAC-SHA256 hex with secret as key\n}\nfunction verify(rawBody, header, secret, nowSec, tol = 300) {\n  // parse t + v1; reject if |nowSec - t| > tol; recompute HMAC; constant-time compare to v1\n}\nconst good = \"t=\" + t + \",v1=\" + sign(rawBody, t, secret);\nconsole.log(\"genuine:\", verify(rawBody, good, secret, t + 5).ok);\nconsole.log(\"tampered:\", verify(rawBody.replace(\"evt_1\", \"evt_HACK\"), good, secret, t + 5).ok);\nconsole.log(\"stale:\", verify(rawBody, good, secret, t + 10000).ok);",
-      "summary": "Using Node crypto, sign a payload the way Stripe does, then prove your verifier ACCEPTS the genuine payload, REJECTS a tampered payload, and REJECTS a stale timestamp. The HMAC is actually computed — no shortcuts.",
+      "starter": "const crypto = await import(\"node:crypto\");\nconst secret = \"whsec_test_secret\";\nconst rawBody = '{\"id\":\"evt_1\",\"type\":\"checkout.session.completed\"}';\nconst t = 1700000000;\nfunction sign(rawBody, t, secret) {\n  // signed_payload = `${t}.${rawBody}`, HMAC-SHA256 hex with secret as key\n}\nfunction verify(rawBody, header, secret, nowSec, tol = 300) {\n  // parse t + v1; reject if |nowSec - t| > tol; recompute HMAC; constant-time compare to v1\n}\nconst good = \"t=\" + t + \",v1=\" + sign(rawBody, t, secret);\nconsole.log(\"genuine:\", verify(rawBody, good, secret, t + 5).ok);\nconsole.log(\"tampered:\", verify(rawBody.replace(\"evt_1\", \"evt_HACK\"), good, secret, t + 5).ok);\nconsole.log(\"stale:\", verify(rawBody, good, secret, t + 10000).ok);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n// TODO: implement the fail-closed behavior described above without weakening the boundary.\n",
+      "summary": "Using Node crypto, sign a payload the way Stripe does, then prove your verifier ACCEPTS the genuine payload, REJECTS a tampered payload, and REJECTS a stale timestamp. The HMAC is actually computed — no shortcuts. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3051,6 +3150,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A verifier that ACCEPTS a genuinely-signed payload and REJECTS a tampered payload and an out-of-tolerance timestamp — with the HMAC actually computed via Node crypto.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: A genuinely-signed payload is accepted and a tampered one is rejected. · The HMAC is computed over `${t}.${rawBody}` with the signing secret as key. · The comparison is constant-time and the timestamp tolerance rejects stale events. · Verification uses the raw body, not a re-serialized one.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: A verified event is trustworthy but may arrive more than once — the next lesson makes the handler idempotent so a replayed (and still validly-signed) event does its work only once.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "A verified event is trustworthy but may arrive more than once — the next lesson makes the handler idempotent so a replayed (and still validly-signed) event does its work only once.",
       "type": "transfer"
     },
@@ -3066,20 +3173,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Genuine accepted, tampered + stale rejected",
-        "HMAC over t.rawBody with whsec_ key",
-        "Constant-time compare + tolerance enforced"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Verify webhooks with the Stripe SDK (constructEvent) or hand-roll the HMAC check?.",
+        "Verification evidence — A genuinely-signed payload is accepted and a tampered one is rejected. · The HMAC is computed over `${t}.${rawBody}` with the signing secret as key. · The comparison is constant-time and the timestamp tolerance rejects stale events. · Verification uses the raw body, not a re-serialized one.",
+        "Transfer evidence — A verified event is trustworthy but may arrive more than once — the next lesson makes the handler idempotent so a replayed (and still validly-signed) event does its work only once."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "idempotent-handlers": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A dedup store that processes an event id once and skips every replay — proven by a ledger that grows by one no matter how many times the same event arrives.",
       "unlock": "You can explain why Stripe delivers at-least-once and how an event-id ledger makes side effects safe.",
       "outcome": "Make webhook handling exactly-once: record processed event ids and skip duplicates, so at-least-once delivery does not double-grant, double-charge, or double-ship.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim your handler is safe because it 'usually' sees each event once — Stripe can and does redeliver, so exactly-once is your responsibility, not the network's."
     },
     {
@@ -3297,8 +3407,8 @@
       "type": "lab",
       "check": "evt_1 -> processed\nevt_1 -> skipped duplicate\nevt_2 -> processed\nevt_1 -> skipped duplicate\ndistinct grants: 2",
       "title": "Dedup replays with an event-id ledger",
-      "starter": "const processed = new Set();\nconst grants = [];\nfunction handle(event) {\n  // skip if event.id already processed (still ack); else grant + record; ack.\n}\nconst stream = [\n  { id: \"evt_1\", type: \"checkout.session.completed\" },\n  { id: \"evt_1\", type: \"checkout.session.completed\" },   // redelivery\n  { id: \"evt_2\", type: \"invoice.payment_succeeded\" },\n  { id: \"evt_1\", type: \"checkout.session.completed\" },   // another redelivery\n];\nfor (const e of stream) console.log(e.id, \"->\", handle(e).did);\nconsole.log(\"distinct grants:\", grants.length);",
-      "summary": "Process a stream where one event id arrives three times. Grant only once per id; skip replays; ack every delivery. Print each outcome and prove the grant ledger grew by exactly the number of distinct ids.",
+      "starter": "const processed = new Set();\nconst grants = [];\nfunction handle(event) {\n  // skip if event.id already processed (still ack); else grant + record; ack.\n}\nconst stream = [\n  { id: \"evt_1\", type: \"checkout.session.completed\" },\n  { id: \"evt_1\", type: \"checkout.session.completed\" },   // redelivery\n  { id: \"evt_2\", type: \"invoice.payment_succeeded\" },\n  { id: \"evt_1\", type: \"checkout.session.completed\" },   // another redelivery\n];\nfor (const e of stream) console.log(e.id, \"->\", handle(e).did);\nconsole.log(\"distinct grants:\", grants.length);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n// TODO: implement the fail-closed behavior described above without weakening the boundary.\n",
+      "summary": "Process a stream where one event id arrives three times. Grant only once per id; skip replays; ack every delivery. Print each outcome and prove the grant ledger grew by exactly the number of distinct ids. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3352,6 +3462,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A dedup store that processes an event id once and skips every replay — proven by a ledger that grows by one no matter how many times the same event arrives.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: A redelivered event (same id) does its side effect zero additional times. · The event id is the idempotency key and is recorded with the side effect. · Every delivery, including duplicates, returns 2xx. · You can explain the recorded-but-not-done failure and how atomicity avoids it.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: Idempotent, verified events are the inputs to the next lesson's state machine — where each distinct event advances the subscription state exactly once instead of double-applying a transition.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "Idempotent, verified events are the inputs to the next lesson's state machine — where each distinct event advances the subscription state exactly once instead of double-applying a transition.",
       "type": "transfer"
     },
@@ -3366,20 +3484,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Replays skipped; work done once per id",
-        "Event id used as idempotency key",
-        "Every delivery acked"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Store the event-id ledger separately, or record the id in the same transaction as the side effect?.",
+        "Verification evidence — A redelivered event (same id) does its side effect zero additional times. · The event id is the idempotency key and is recorded with the side effect. · Every delivery, including duplicates, returns 2xx. · You can explain the recorded-but-not-done failure and how atomicity avoids it.",
+        "Transfer evidence — Idempotent, verified events are the inputs to the next lesson's state machine — where each distinct event advances the subscription state exactly once instead of double-applying a transition."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "reconciling-state": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An event-driven state machine that maps checkout.session.completed → active and invoice.payment_failed → past_due, computing the final local state from an event sequence.",
       "unlock": "You can explain why local state is a projection of Stripe events and how to reconcile when they diverge.",
       "outcome": "Drive your local subscription state from webhook events as a state machine — and reconcile against Stripe when you suspect drift, treating Stripe as authoritative.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim your database is the truth — it is a cache of Stripe's state, and when they disagree Stripe wins."
     },
     {
@@ -3599,8 +3720,8 @@
       "type": "lab",
       "check": "checkout.session.completed (t=1) -> active\ninvoice.payment_failed (t=3) -> past_due\ninvoice.payment_succeeded (t=2) -> ignored (stale)\ncustomer.subscription.deleted (t=4) -> canceled",
       "title": "Fold events into subscription state",
-      "starter": "// Webhooks can arrive OUT OF ORDER. applyOrdered(state, event, lastTs) folds one event but\n// IGNORES it when event.created is older than lastTs (the newest timestamp already applied).\n// Return { state, lastTs, applied }: on an applied event, advance state per the machine and\n// set lastTs to event.created; on a stale event, leave both unchanged and applied false.\nfunction applyOrdered(state, event, lastTs) { /* your code */ }\nconst events = [\n  { type: \"checkout.session.completed\", created: 1 },\n  { type: \"invoice.payment_failed\", created: 3 },\n  { type: \"invoice.payment_succeeded\", created: 2 },   // arrives late, older than t=3\n  { type: \"customer.subscription.deleted\", created: 4 },\n];\nlet state = \"none\", lastTs = 0;\nfor (const e of events) {\n  const r = applyOrdered(state, e, lastTs);\n  state = r.state; lastTs = r.lastTs;\n  console.log(e.type, \"(t=\" + e.created + \")\", \"->\", r.applied ? state : \"ignored (stale)\");\n}",
-      "summary": "Fold a webhook stream that arrives OUT OF ORDER: ignore any event older than the newest already applied, and print the resulting state (or \"ignored\") after each.",
+      "starter": "// Webhooks can arrive OUT OF ORDER. applyOrdered(state, event, lastTs) folds one event but\n// IGNORES it when event.created is older than lastTs (the newest timestamp already applied).\n// Return { state, lastTs, applied }: on an applied event, advance state per the machine and\n// set lastTs to event.created; on a stale event, leave both unchanged and applied false.\nfunction applyOrdered(state, event, lastTs) { /* your code */ }\nconst events = [\n  { type: \"checkout.session.completed\", created: 1 },\n  { type: \"invoice.payment_failed\", created: 3 },\n  { type: \"invoice.payment_succeeded\", created: 2 },   // arrives late, older than t=3\n  { type: \"customer.subscription.deleted\", created: 4 },\n];\nlet state = \"none\", lastTs = 0;\nfor (const e of events) {\n  const r = applyOrdered(state, e, lastTs);\n  state = r.state; lastTs = r.lastTs;\n  console.log(e.type, \"(t=\" + e.created + \")\", \"->\", r.applied ? state : \"ignored (stale)\");\n}\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Fold a webhook stream that arrives OUT OF ORDER: ignore any event older than the newest already applied, and print the resulting state (or \"ignored\") after each. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3654,6 +3775,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An event-driven state machine that maps checkout.session.completed → active and invoice.payment_failed → past_due, computing the final local state from an event sequence.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Local subscription state is computed by applying events as transitions. · A failed payment moves state to past_due; a deletion to canceled. · You reconcile against Stripe and treat Stripe as authoritative on conflict. · A missed webhook self-heals via reconciliation instead of drifting forever.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The active/past_due/canceled state you compute here is exactly the input to Module 5's entitlement resolver — access is granted or denied based on this reconciled subscription state.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The active/past_due/canceled state you compute here is exactly the input to Module 5's entitlement resolver — access is granted or denied based on this reconciled subscription state.",
       "type": "transfer"
     },
@@ -3668,20 +3797,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Event stream folds to correct final state",
-        "past_due/canceled transitions handled",
-        "Reconciliation overwrites local from Stripe"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Rely purely on webhooks for local state, or webhooks plus periodic reconciliation?.",
+        "Verification evidence — Local subscription state is computed by applying events as transitions. · A failed payment moves state to past_due; a deletion to canceled. · You reconcile against Stripe and treat Stripe as authoritative on conflict. · A missed webhook self-heals via reconciliation instead of drifting forever.",
+        "Transfer evidence — The active/past_due/canceled state you compute here is exactly the input to Module 5's entitlement resolver — access is granted or denied based on this reconciled subscription state."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "subscription-lifecycle": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An access gate that maps each real Stripe subscription status to grant/block, correctly allowing trialing + active and blocking past_due/unpaid/canceled per policy.",
       "unlock": "You can name the real subscription statuses and justify which grant access.",
       "outcome": "Read a subscription's status correctly and gate access on it: know the real status values and which ones mean \"grant access\" vs \"block\".",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim 'active means paid and anything else means no' — trialing grants access without payment, and past_due is a grace state you must decide about."
     },
     {
@@ -3907,8 +4039,8 @@
       "type": "lab",
       "check": "trialing @now=50 -> grant\nactive @now=999999 -> grant\npast_due @now=172900 -> grant\npast_due @now=345700 -> block\ncanceled @now=50 -> block",
       "title": "Gate access on real subscription statuses",
-      "starter": "// The worked example returned a boolean by status. Add the TIME dimension.\n// hasAccess(status, periodEnd, graceDays, now):\n//   active and trialing always grant\n//   past_due grants only while now is within graceDays (in seconds) past periodEnd\n//   every other status blocks\nconst DAY = 86400;\nfunction hasAccess(status, periodEnd, graceDays, now) { /* your code */ }\nconst rows = [\n  { status: \"trialing\", periodEnd: 100, grace: 3, now: 50 },\n  { status: \"active\", periodEnd: 100, grace: 3, now: 999999 },\n  { status: \"past_due\", periodEnd: 100, grace: 3, now: 100 + 2 * DAY },   // inside grace\n  { status: \"past_due\", periodEnd: 100, grace: 3, now: 100 + 4 * DAY },   // grace expired\n  { status: \"canceled\", periodEnd: 100, grace: 3, now: 50 },\n];\nfor (const r of rows) {\n  console.log(r.status, \"@now=\" + r.now, \"->\", hasAccess(r.status, r.periodEnd, r.grace, r.now) ? \"grant\" : \"block\");\n}",
-      "summary": "Add the time dimension to access: active and trialing always grant, past_due grants only inside its grace window, everything else blocks. Print grant/block per row.",
+      "starter": "// The worked example returned a boolean by status. Add the TIME dimension.\n// hasAccess(status, periodEnd, graceDays, now):\n//   active and trialing always grant\n//   past_due grants only while now is within graceDays (in seconds) past periodEnd\n//   every other status blocks\nconst DAY = 86400;\nfunction hasAccess(status, periodEnd, graceDays, now) { /* your code */ }\nconst rows = [\n  { status: \"trialing\", periodEnd: 100, grace: 3, now: 50 },\n  { status: \"active\", periodEnd: 100, grace: 3, now: 999999 },\n  { status: \"past_due\", periodEnd: 100, grace: 3, now: 100 + 2 * DAY },   // inside grace\n  { status: \"past_due\", periodEnd: 100, grace: 3, now: 100 + 4 * DAY },   // grace expired\n  { status: \"canceled\", periodEnd: 100, grace: 3, now: 50 },\n];\nfor (const r of rows) {\n  console.log(r.status, \"@now=\" + r.now, \"->\", hasAccess(r.status, r.periodEnd, r.grace, r.now) ? \"grant\" : \"block\");\n}\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Add the time dimension to access: active and trialing always grant, past_due grants only inside its grace window, everything else blocks. Print grant/block per row. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3962,6 +4094,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An access gate that maps each real Stripe subscription status to grant/block, correctly allowing trialing + active and blocking past_due/unpaid/canceled per policy.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: It handles all eight real status values, not just active. · trialing grants access; active grants access. · past_due follows an explicit grace policy rather than an accident. · canceled/unpaid/incomplete block access.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The customer portal (next lesson) lets users move themselves between these states — cancel, update card to recover from past_due — and every such change arrives as a webhook that updates the status you gate on.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The customer portal (next lesson) lets users move themselves between these states — cancel, update card to recover from past_due — and every such change arrives as a webhook that updates the status you gate on.",
       "type": "transfer"
     },
@@ -3976,10 +4116,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "All 8 statuses mapped to grant/block",
-        "trialing grants; canceled blocks",
-        "past_due follows an explicit grace policy"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend When a subscription goes past_due, cut off access immediately or grant a grace period?.",
+        "Verification evidence — It handles all eight real status values, not just active. · trialing grants access; active grants access. · past_due follows an explicit grace policy rather than an accident. · canceled/unpaid/incomplete block access.",
+        "Transfer evidence — The customer portal (next lesson) lets users move themselves between these states — cancel, update card to recover from past_due — and every such change arrives as a webhook that updates the status you gate on."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "customer-portal": [
@@ -4217,8 +4360,8 @@
       "type": "lab",
       "check": "no auth: no authenticated customer\nno return_url: return_url required\nbad host: return_url host not allowed\nok: cus_me",
       "title": "Build a scoped portal session",
-      "starter": "// openPortal(authCustomerId, returnUrl, allowedHosts) -> { customer, return_url } or { error }.\n// Keep the worked example's rules (no authenticated customer, missing return_url), then add\n// the open-redirect defense it skipped: the return_url's host must be in allowedHosts, else\n// error \"return_url host not allowed\". A non-URL return_url errors too.\nfunction openPortal(authCustomerId, returnUrl, allowedHosts) { /* your code */ }\nconst allowed = [\"app.example.com\"];\nconst r1 = openPortal(null, \"https://app.example.com/return\", allowed);\nconsole.log(\"no auth:\", r1.error || r1.customer);\nconst r2 = openPortal(\"cus_me\", \"\", allowed);\nconsole.log(\"no return_url:\", r2.error || r2.customer);\nconst r3 = openPortal(\"cus_me\", \"https://evil.example.net/steal\", allowed);\nconsole.log(\"bad host:\", r3.error || r3.customer);\nconst r4 = openPortal(\"cus_me\", \"https://app.example.com/return\", allowed);\nconsole.log(\"ok:\", r4.error || r4.customer);",
-      "summary": "Scope the portal session and add the open-redirect defense the example skipped: reject a return_url whose host is not allow-listed. Print each outcome.",
+      "starter": "// openPortal(authCustomerId, returnUrl, allowedHosts) -> { customer, return_url } or { error }.\n// Keep the worked example's rules (no authenticated customer, missing return_url), then add\n// the open-redirect defense it skipped: the return_url's host must be in allowedHosts, else\n// error \"return_url host not allowed\". A non-URL return_url errors too.\nfunction openPortal(authCustomerId, returnUrl, allowedHosts) { /* your code */ }\nconst allowed = [\"app.example.com\"];\nconst r1 = openPortal(null, \"https://app.example.com/return\", allowed);\nconsole.log(\"no auth:\", r1.error || r1.customer);\nconst r2 = openPortal(\"cus_me\", \"\", allowed);\nconsole.log(\"no return_url:\", r2.error || r2.customer);\nconst r3 = openPortal(\"cus_me\", \"https://evil.example.net/steal\", allowed);\nconsole.log(\"bad host:\", r3.error || r3.customer);\nconst r4 = openPortal(\"cus_me\", \"https://app.example.com/return\", allowed);\nconsole.log(\"ok:\", r4.error || r4.customer);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Scope the portal session and add the open-redirect defense the example skipped: reject a return_url whose host is not allow-listed. Print each outcome. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4272,6 +4415,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A portal-session builder that requires an authenticated customer id and a return_url, and refuses to build a session without a bound customer (no cross-customer access).",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: The customer id is derived from the authenticated user server-side. · A client-supplied foreign customer id can never scope the session. · A return_url is always provided. · Changes made in the portal update your state via webhooks.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: Plan changes made in the portal trigger proration — the subject of the next lesson — and the resulting invoice/subscription events land in the same verified webhook handler.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "Plan changes made in the portal trigger proration — the subject of the next lesson — and the resulting invoice/subscription events land in the same verified webhook handler.",
       "type": "transfer"
     },
@@ -4286,10 +4437,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Session bound to authenticated customer only",
-        "Foreign client id ignored",
-        "return_url required"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Build your own billing-management UI, or use the Stripe customer portal?.",
+        "Verification evidence — The customer id is derived from the authenticated user server-side. · A client-supplied foreign customer id can never scope the session. · A return_url is always provided. · Changes made in the portal update your state via webhooks.",
+        "Transfer evidence — Plan changes made in the portal trigger proration — the subject of the next lesson — and the resulting invoice/subscription events land in the same verified webhook handler."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "plan-changes-proration": [
@@ -4510,8 +4664,8 @@
       "type": "lab",
       "check": "upgrade netNow/deferred: 1000 0\ndowngrade netNow/deferred: 0 1000\nlateral netNow/deferred: 0 0",
       "title": "Compute proration for an upgrade and a downgrade",
-      "starter": "// Stripe's real default: an upgrade is charged immediately, a downgrade DEFERS its credit to\n// the next invoice (nothing owed now). settleNow(oldCents, newCents, daysLeft, daysInPeriod)\n// -> { netNow, deferredCredit }, using remaining = daysLeft / daysInPeriod on rounded amounts:\n//   upgrade   netNow is the extra owed now, deferredCredit 0\n//   downgrade netNow 0, deferredCredit is the unused-value refund carried forward\n//   lateral   both 0\nfunction settleNow(oldCents, newCents, daysLeft, daysInPeriod) { /* your code */ }\nconst up = settleNow(1000, 3000, 15, 30);\nconsole.log(\"upgrade netNow/deferred:\", up.netNow, up.deferredCredit);\nconst down = settleNow(3000, 1000, 15, 30);\nconsole.log(\"downgrade netNow/deferred:\", down.netNow, down.deferredCredit);\nconst lateral = settleNow(2000, 2000, 15, 30);\nconsole.log(\"lateral netNow/deferred:\", lateral.netNow, lateral.deferredCredit);",
-      "summary": "Apply Stripe’s real default: an upgrade is charged now, a downgrade defers its credit to the next invoice. Print netNow and deferredCredit for an upgrade, a downgrade, and a lateral move.",
+      "starter": "// Stripe's real default: an upgrade is charged immediately, a downgrade DEFERS its credit to\n// the next invoice (nothing owed now). settleNow(oldCents, newCents, daysLeft, daysInPeriod)\n// -> { netNow, deferredCredit }, using remaining = daysLeft / daysInPeriod on rounded amounts:\n//   upgrade   netNow is the extra owed now, deferredCredit 0\n//   downgrade netNow 0, deferredCredit is the unused-value refund carried forward\n//   lateral   both 0\nfunction settleNow(oldCents, newCents, daysLeft, daysInPeriod) { /* your code */ }\nconst up = settleNow(1000, 3000, 15, 30);\nconsole.log(\"upgrade netNow/deferred:\", up.netNow, up.deferredCredit);\nconst down = settleNow(3000, 1000, 15, 30);\nconsole.log(\"downgrade netNow/deferred:\", down.netNow, down.deferredCredit);\nconst lateral = settleNow(2000, 2000, 15, 30);\nconsole.log(\"lateral netNow/deferred:\", lateral.netNow, lateral.deferredCredit);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Apply Stripe’s real default: an upgrade is charged now, a downgrade defers its credit to the next invoice. Print netNow and deferredCredit for an upgrade, a downgrade, and a lateral move. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4565,6 +4719,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A proration calculator that credits the unused portion of the old plan and charges the used-forward portion of the new plan, netting to the correct amount.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You compute a remaining-time fraction for the current period. · An upgrade credits unused old-plan time and charges only the remaining new-plan portion. · A downgrade can produce a net credit (negative net). · You can predict the net proration on the invoice, not just trust it.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: A plan change that succeeds emits an updated subscription and invoice via webhook; a plan change whose payment fails leads into the failed-payment/dunning flow of the next lesson.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "A plan change that succeeds emits an updated subscription and invoice via webhook; a plan change whose payment fails leads into the failed-payment/dunning flow of the next lesson.",
       "type": "transfer"
     },
@@ -4579,20 +4741,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Credit/charge computed from remaining fraction",
-        "Upgrade net positive; downgrade net negative",
-        "You can predict the invoiced net"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Apply plan changes immediately with proration, or schedule them for the next renewal (no proration)?.",
+        "Verification evidence — You compute a remaining-time fraction for the current period. · An upgrade credits unused old-plan time and charges only the remaining new-plan portion. · A downgrade can produce a net credit (negative net). · You can predict the net proration on the invoice, not just trust it.",
+        "Transfer evidence — A plan change that succeeds emits an updated subscription and invoice via webhook; a plan change whose payment fails leads into the failed-payment/dunning flow of the next lesson."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "failed-payments-dunning": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A dunning driver that advances through scheduled retry attempts, recovers on a mid-sequence success, and applies the configured terminal action (cancel/unpaid) when retries run out.",
       "unlock": "You can explain the dunning lifecycle from first failure through retries to a terminal state.",
       "outcome": "Handle recurring-payment failure: react to invoice.payment_failed, follow the retry (dunning) schedule, and take the right terminal action when retries are exhausted.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a failed payment means immediate cancellation — Stripe retries on a schedule (Smart Retries) and only the exhausted-retries terminal action ends the subscription."
     },
     {
@@ -4807,8 +4972,8 @@
       "type": "lab",
       "check": "recovers: {\"state\":\"active\",\"retriesUsed\":2,\"emailsSent\":2}\nexhausted: {\"state\":\"canceled\",\"retriesUsed\":3,\"emailsSent\":5}\nlate recover: {\"state\":\"active\",\"retriesUsed\":3,\"emailsSent\":3}",
       "title": "Drive the dunning state machine",
-      "starter": "// Extend the worked example's state machine to also count the dunning EMAILS the customer\n// gets. runDunningNotices(attempts, maxRetries, terminal) -> { state, retriesUsed, emailsSent }:\n// send one initial notice when past_due begins, one more on each failed retry, and a final\n// notice if retries are exhausted (recovery on a \"success\" attempt sends no further email).\nfunction runDunningNotices(attempts, maxRetries, terminal) { /* your code */ }\nconsole.log(\"recovers:\", JSON.stringify(runDunningNotices([\"failure\", \"success\"], 3, \"canceled\")));\nconsole.log(\"exhausted:\", JSON.stringify(runDunningNotices([\"failure\", \"failure\", \"failure\"], 3, \"canceled\")));\nconsole.log(\"late recover:\", JSON.stringify(runDunningNotices([\"failure\", \"failure\", \"success\"], 3, \"unpaid\")));",
-      "summary": "Extend the dunning machine to also count customer emails: an initial notice, one per failed retry, and a final notice on exhaustion. Print the state, retries, and emails for three scenarios.",
+      "starter": "// Extend the worked example's state machine to also count the dunning EMAILS the customer\n// gets. runDunningNotices(attempts, maxRetries, terminal) -> { state, retriesUsed, emailsSent }:\n// send one initial notice when past_due begins, one more on each failed retry, and a final\n// notice if retries are exhausted (recovery on a \"success\" attempt sends no further email).\nfunction runDunningNotices(attempts, maxRetries, terminal) { /* your code */ }\nconsole.log(\"recovers:\", JSON.stringify(runDunningNotices([\"failure\", \"success\"], 3, \"canceled\")));\nconsole.log(\"exhausted:\", JSON.stringify(runDunningNotices([\"failure\", \"failure\", \"failure\"], 3, \"canceled\")));\nconsole.log(\"late recover:\", JSON.stringify(runDunningNotices([\"failure\", \"failure\", \"success\"], 3, \"unpaid\")));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Extend the dunning machine to also count customer emails: an initial notice, one per failed retry, and a final notice on exhaustion. Print the state, retries, and emails for three scenarios. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4862,6 +5027,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A dunning driver that advances through scheduled retry attempts, recovers on a mid-sequence success, and applies the configured terminal action (cancel/unpaid) when retries run out.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: The first failed payment moves the subscription to past_due, not canceled. · A retry success restores the subscription to active. · Access is revoked only on the terminal (retries-exhausted) event. · The terminal behavior (cancel vs unpaid) is a deliberate configuration.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The terminal cancel/unpaid event feeds the entitlements resolver in the next module — that is the moment access is revoked, closing the loop from payment failure to feature lockout.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The terminal cancel/unpaid event feeds the entitlements resolver in the next module — that is the moment access is revoked, closing the loop from payment failure to feature lockout.",
       "type": "transfer"
     },
@@ -4876,20 +5049,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "First failure → past_due, not canceled",
-        "Retry success → active",
-        "Terminal action applied only when retries exhausted"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend On exhausted retries, configure Stripe to cancel the subscription or mark it unpaid?.",
+        "Verification evidence — The first failed payment moves the subscription to past_due, not canceled. · A retry success restores the subscription to active. · Access is revoked only on the terminal (retries-exhausted) event. · The terminal behavior (cancel vs unpaid) is a deliberate configuration.",
+        "Transfer evidence — The terminal cancel/unpaid event feeds the entitlements resolver in the next module — that is the moment access is revoked, closing the loop from payment failure to feature lockout."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "entitlements": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An entitlement resolver that grants a plan's features only when the subscription grants access, and denies a feature the plan does not include even while active.",
       "unlock": "You can explain why entitlements are derived from subscription state, not stored as a separate hand-edited flag.",
       "outcome": "Resolve entitlements from subscription state: map a customer's plan + status to the exact set of features they may use, so access follows payment automatically.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a boolean 'is_paid' flag is entitlements — access must be a function of the live subscription (plan + status), or it drifts the moment billing changes."
     },
     {
@@ -5126,8 +5302,8 @@
       "type": "lab",
       "check": "pro active: [\"api\",\"basic\",\"export\"]\npro canceled: []\npro past_due grace: [\"api\",\"basic\",\"export\"]\npro past_due no grace: []\nfree trialing: [\"basic\"]",
       "title": "Resolve entitlements from plan + status",
-      "starter": "// The worked example resolved ONE feature to a boolean. Here return the whole granted SET.\n// grantedFeatures(plan, status, inGrace) -> a sorted array of the plan's features when the\n// status grants access (active, trialing, or past_due while inGrace), else an empty array.\nconst PLAN_FEATURES = { free: [\"basic\"], pro: [\"basic\", \"export\", \"api\"] };\nfunction grantedFeatures(plan, status, inGrace) { /* your code */ }\nconsole.log(\"pro active:\", JSON.stringify(grantedFeatures(\"pro\", \"active\", false)));\nconsole.log(\"pro canceled:\", JSON.stringify(grantedFeatures(\"pro\", \"canceled\", false)));\nconsole.log(\"pro past_due grace:\", JSON.stringify(grantedFeatures(\"pro\", \"past_due\", true)));\nconsole.log(\"pro past_due no grace:\", JSON.stringify(grantedFeatures(\"pro\", \"past_due\", false)));\nconsole.log(\"free trialing:\", JSON.stringify(grantedFeatures(\"free\", \"trialing\", false)));",
-      "summary": "Return the whole granted feature SET for a (plan, status), honouring past_due-in-grace, instead of a single boolean. Print the sorted set for five combinations.",
+      "starter": "// The worked example resolved ONE feature to a boolean. Here return the whole granted SET.\n// grantedFeatures(plan, status, inGrace) -> a sorted array of the plan's features when the\n// status grants access (active, trialing, or past_due while inGrace), else an empty array.\nconst PLAN_FEATURES = { free: [\"basic\"], pro: [\"basic\", \"export\", \"api\"] };\nfunction grantedFeatures(plan, status, inGrace) { /* your code */ }\nconsole.log(\"pro active:\", JSON.stringify(grantedFeatures(\"pro\", \"active\", false)));\nconsole.log(\"pro canceled:\", JSON.stringify(grantedFeatures(\"pro\", \"canceled\", false)));\nconsole.log(\"pro past_due grace:\", JSON.stringify(grantedFeatures(\"pro\", \"past_due\", true)));\nconsole.log(\"pro past_due no grace:\", JSON.stringify(grantedFeatures(\"pro\", \"past_due\", false)));\nconsole.log(\"free trialing:\", JSON.stringify(grantedFeatures(\"free\", \"trialing\", false)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Return the whole granted feature SET for a (plan, status), honouring past_due-in-grace, instead of a single boolean. Print the sorted set for five combinations. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5181,6 +5357,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An entitlement resolver that grants a plan's features only when the subscription grants access, and denies a feature the plan does not include even while active.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Access to a feature is computed from plan + status, not a stored flag. · A non-access status blocks all features regardless of plan. · A feature outside the plan is denied even while active. · A downgrade or lapse changes access with no manual flag reset.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: This resolver is the payoff of the whole course: the auth gates (Module 1) decide WHO, and this decides WHAT — the capstone wires signup → pay → webhook → entitlement → access end to end.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "This resolver is the payoff of the whole course: the auth gates (Module 1) decide WHO, and this decides WHAT — the capstone wires signup → pay → webhook → entitlement → access end to end.",
       "type": "transfer"
     },
@@ -5195,20 +5379,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Entitlement computed from plan+status",
-        "Canceled blocks even a paid plan's feature",
-        "Out-of-plan feature denied while active"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Compute entitlements on every request, or cache them with a stored flag updated by webhooks?.",
+        "Verification evidence — Access to a feature is computed from plan + status, not a stored flag. · A non-access status blocks all features regardless of plan. · A feature outside the plan is denied even while active. · A downgrade or lapse changes access with no manual flag reset.",
+        "Transfer evidence — This resolver is the payoff of the whole course: the auth gates (Module 1) decide WHO, and this decides WHAT — the capstone wires signup → pay → webhook → entitlement → access end to end."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "pci-scope": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A PCI-scope linter that flags any code path that receives a raw PAN (card number) and passes a token/id-only path.",
       "unlock": "You can explain why letting card data touch your server expands PCI scope and how tokenization avoids it.",
       "outcome": "Keep raw card data off your servers so you stay in the lightest PCI validation tier — route card entry through Stripe.js/Elements or Checkout and handle only tokens/ids.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim you can 'just POST the card number to your API' — receiving a PAN pulls your whole server into heavy PCI scope; the card must go browser→Stripe."
     },
     {
@@ -5438,8 +5625,8 @@
       "type": "lab",
       "check": "safe findings: []\nunsafe findings: [\"raw PAN in card_number\",\"CVC stored in cvc\"]\nredacted card: ****4242 cvc: ***",
       "title": "Lint for card data reaching your server",
-      "starter": "// The worked example only FLAGGED raw PANs. redactSensitive(payload) both detects and\n// REMEDIATES. Return { findings, safe }:\n//   a card-like key holding 13-19 digits -> finding \"raw PAN in <key>\", masked to \"****\" + last 4\n//   a cvc/cvv/cid key                     -> finding \"CVC stored in <key>\", masked to \"***\"\n//   anything else is copied through untouched\nfunction redactSensitive(payload) { /* your code */ }\nconst good = redactSensitive({ payment_method: \"pm_123\", customer: \"cus_456\" });\nconsole.log(\"safe findings:\", JSON.stringify(good.findings));\nconst bad = redactSensitive({ card_number: \"4242 4242 4242 4242\", cvc: \"123\" });\nconsole.log(\"unsafe findings:\", JSON.stringify(bad.findings));\nconsole.log(\"redacted card:\", bad.safe.card_number, \"cvc:\", bad.safe.cvc);",
-      "summary": "Detect AND remediate: flag raw PANs and CVCs in a payload and return it with those values masked. Print the findings and the redacted card for a safe and an unsafe payload.",
+      "starter": "// The worked example only FLAGGED raw PANs. redactSensitive(payload) both detects and\n// REMEDIATES. Return { findings, safe }:\n//   a card-like key holding 13-19 digits -> finding \"raw PAN in <key>\", masked to \"****\" + last 4\n//   a cvc/cvv/cid key                     -> finding \"CVC stored in <key>\", masked to \"***\"\n//   anything else is copied through untouched\nfunction redactSensitive(payload) { /* your code */ }\nconst good = redactSensitive({ payment_method: \"pm_123\", customer: \"cus_456\" });\nconsole.log(\"safe findings:\", JSON.stringify(good.findings));\nconst bad = redactSensitive({ card_number: \"4242 4242 4242 4242\", cvc: \"123\" });\nconsole.log(\"unsafe findings:\", JSON.stringify(bad.findings));\nconsole.log(\"redacted card:\", bad.safe.card_number, \"cvc:\", bad.safe.cvc);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Detect AND remediate: flag raw PANs and CVCs in a payload and return it with those values masked. Print the findings and the redacted card for a safe and an unsafe payload. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5493,6 +5680,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A PCI-scope linter that flags any code path that receives a raw PAN (card number) and passes a token/id-only path.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Card fields are collected by Stripe.js/Elements or hosted Checkout, not your form posting to your API. · Your server handles only tokens/ids (pm_..., cus_...), never a raw PAN. · No endpoint accepts or logs a card number. · You can explain why forwarding a PAN still expands scope.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: The same \"keep the sensitive material out of your systems\" instinct governs the whole course: card data → Stripe, secret/signing keys → server-only, passwords → hashed. The next lesson closes the loop with refunds and cancellation.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "The same \"keep the sensitive material out of your systems\" instinct governs the whole course: card data → Stripe, secret/signing keys → server-only, passwords → hashed. The next lesson closes the loop with refunds and cancellation.",
       "type": "transfer"
     },
@@ -5507,20 +5702,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Linter flags a raw PAN in the payload",
-        "Server handles tokens/ids only",
-        "Card entry routed through Stripe"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Build a fully custom card form that posts to your API, or use Stripe Elements/Checkout so the PAN never hits your server?.",
+        "Verification evidence — Card fields are collected by Stripe.js/Elements or hosted Checkout, not your form posting to your API. · Your server handles only tokens/ids (pm_..., cus_...), never a raw PAN. · No endpoint accepts or logs a card number. · You can explain why forwarding a PAN still expands scope.",
+        "Transfer evidence — The same \"keep the sensitive material out of your systems\" instinct governs the whole course: card data → Stripe, secret/signing keys → server-only, passwords → hashed. The next lesson closes the loop with refunds and cancellation."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "refunds-cancellation": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A refund handler that computes the refunded amount (full vs partial) and, on the resulting event, revokes access — proving access removal is explicit, not implied by the refund.",
       "unlock": "You can explain that refunding money and revoking access are distinct actions you must both perform.",
       "outcome": "Reverse a charge and end a subscription correctly: issue a full or partial refund, and revoke entitlements on the resulting event — money reversal and access removal are two separate steps.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a refund automatically revokes access — Stripe reverses the money and fires charge.refunded, but removing entitlements is your own logic."
     },
     {
@@ -5727,8 +5925,8 @@
       "type": "lab",
       "check": "ok: refunded 2000\nok: refunded 2000\nrejected: exceeds remaining (1000 left)\ntotal refunded: 4000",
       "title": "Refund amount + explicit access revocation",
-      "starter": "// A single-refund validator cannot catch over-refunding across several partial refunds.\n// applyRefunds(chargeCents, requests) processes each requested amount in order against a\n// running total. For each: reject a non-positive amount (\"rejected: non-positive\"); reject\n// one that would push the total over the charge (\"rejected: exceeds remaining (<left> left)\");\n// otherwise accept (\"ok: refunded <amt>\"). Return { results, refunded }.\nfunction applyRefunds(chargeCents, requests) { /* your code */ }\nconst out = applyRefunds(5000, [2000, 2000, 2000]);\nfor (const r of out.results) console.log(r);\nconsole.log(\"total refunded:\", out.refunded);",
-      "summary": "Enforce a cumulative refund cap across a sequence of partial refunds — the running-total edge a single-refund check cannot see. Print each result and the final refunded total.",
+      "starter": "// A single-refund validator cannot catch over-refunding across several partial refunds.\n// applyRefunds(chargeCents, requests) processes each requested amount in order against a\n// running total. For each: reject a non-positive amount (\"rejected: non-positive\"); reject\n// one that would push the total over the charge (\"rejected: exceeds remaining (<left> left)\");\n// otherwise accept (\"ok: refunded <amt>\"). Return { results, refunded }.\nfunction applyRefunds(chargeCents, requests) { /* your code */ }\nconst out = applyRefunds(5000, [2000, 2000, 2000]);\nfor (const r of out.results) console.log(r);\nconsole.log(\"total refunded:\", out.refunded);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Enforce a cumulative refund cap across a sequence of partial refunds — the running-total edge a single-refund check cannot see. Print each result and the final refunded total. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5782,6 +5980,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A refund handler that computes the refunded amount (full vs partial) and, on the resulting event, revokes access — proving access removal is explicit, not implied by the refund.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: A full refund omits amount; a partial refund passes a validated amount. · An invalid partial (zero/negative/over the charge) is rejected. · Access is revoked by your explicit handler on the resulting event. · You can explain why the refund alone does not remove access.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: Refund + revoke is the reverse of the grant path — the capstone stitches the full round trip: signup → pay → grant, and its mirror, cancel/refund → revoke.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "Refund + revoke is the reverse of the grant path — the capstone stitches the full round trip: signup → pay → grant, and its mirror, cancel/refund → revoke.",
       "type": "transfer"
     },
@@ -5796,20 +6002,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Full vs partial refund computed + validated",
-        "Access revoked on the event, not by the refund",
-        "You can explain money vs access separation"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Cancel a subscription immediately, or at the end of the current paid period?.",
+        "Verification evidence — A full refund omits amount; a partial refund passes a validated amount. · An invalid partial (zero/negative/over the charge) is rejected. · Access is revoked by your explicit handler on the resulting event. · You can explain why the refund alone does not remove access.",
+        "Transfer evidence — Refund + revoke is the reverse of the grant path — the capstone stitches the full round trip: signup → pay → grant, and its mirror, cancel/refund → revoke."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "capstone-signup-pay-access": [
     {
-      "time": "60–90 min",
+      "time": "Multi-day",
       "type": "sprint-contract",
       "proof": "An end-to-end pipeline that authenticates, verifies the webhook signature, dedups the event, updates subscription state, resolves entitlements, and gates a feature — reporting the final access decision.",
       "unlock": "You can assemble auth, signature verification, idempotency, state, and entitlements into one correct call path.",
       "outcome": "Compose the whole course into one path: authenticate a user, take payment via Checkout, confirm on a VERIFIED, IDEMPOTENT webhook, grant entitlements, and gate a feature on them — proven end to end.",
-      "intensity": "standard",
+      "intensity": "capstone",
       "doNotClaim": "Don't claim the pieces work because each passed alone — the capstone proves they COMPOSE into one secure, exactly-once path from signup to access."
     },
     {
@@ -5826,7 +6035,7 @@
       "reveal": "Authentication (who), hosted Checkout (take payment), webhook signature verification (prove it is Stripe), idempotency (apply the event once), subscription state (active/…), entitlement resolution (plan+status → features), and the feature gate (allow/deny). The capstone is not new material — it is the correct, secure COMPOSITION of these into one path."
     },
     {
-      "code": "import crypto from \"node:crypto\";\n// verify (Module 3) -> dedup (Module 3) -> apply state (Module 3) -> entitle (Module 5) -> gate\nconst sign = (raw, t, secret) => crypto.createHmac(\"sha256\", secret).update(t + \".\" + raw).digest(\"hex\");\n\nfunction pipeline(authed, rawBody, header, secret, now, processed, PLAN_FEATURES, feature) {\n  if (!authed) return { access: false, why: \"unauthenticated\" };\n  // verify signature\n  const parts = Object.fromEntries(header.split(\",\").map(kv => kv.split(\"=\")));\n  if (sign(rawBody, parts.t, secret) !== parts.v1) return { access: false, why: \"bad signature\" };\n  const evt = JSON.parse(rawBody);\n  if (!processed.has(evt.id)) { processed.add(evt.id); /* apply state once */ }\n  // ... resolve entitlement + gate feature\n}",
+      "code": "import crypto from \"node:crypto\";\n// verify -> dedup -> apply state -> entitle -> gate\nconst sign = (raw, t, secret) => crypto.createHmac(\"sha256\", secret).update(t + \".\" + raw).digest(\"hex\");\nconst equalHex = (actual, expected) => {\n  if (!/^[a-f0-9]{64}$/i.test(expected)) return false;\n  const a = Buffer.from(actual, \"hex\"), b = Buffer.from(expected, \"hex\");\n  return a.length === b.length && crypto.timingSafeEqual(a, b);\n};\n\nfunction pipeline(authed, rawBody, header, secret, now, tolerance, processed, PLAN_FEATURES, feature) {\n  if (!authed) return { access: false, why: \"unauthenticated\" };\n  const parts = Object.fromEntries(header.split(\",\").map(kv => kv.split(\"=\")));\n  const timestamp = Number(parts.t);\n  if (!Number.isFinite(timestamp) || Math.abs(now - timestamp) > tolerance) return { access: false, why: \"stale event\" };\n  if (!equalHex(sign(rawBody, timestamp, secret), parts.v1 ?? \"\")) return { access: false, why: \"bad signature\" };\n  const evt = JSON.parse(rawBody);\n  if (!processed.has(evt.id)) { processed.add(evt.id); /* apply state once */ }\n  // ... resolve entitlement + gate feature\n}",
       "type": "worked-example",
       "intro": "The unlock pipeline as a sequence over the course primitives, ending in a gated feature.",
       "steps": [
@@ -6037,8 +6246,8 @@
       "type": "lab",
       "check": "genuine: true\nreplay: true\nforged: false\nstale: false\napplied count: 1",
       "title": "Compose the end-to-end unlock pipeline",
-      "starter": "// Compose the full unlock, and add the replay WINDOW Stripe signature verification enforces:\n// a validly-signed but STALE event (now - t beyond tolerance) is rejected. unlock(rawBody,\n// header, feature, now, authed, tolerance) -> { access, why }: reject when not authed\n// (\"unauthenticated\"); when the HMAC does not match (\"bad signature\"); when the event is too\n// old (\"stale event\"); otherwise dedup by event id, apply state once, and grant only if the\n// resulting status is in ACCESS and the plan includes the feature.\nconst crypto = await import(\"node:crypto\");\nconst secret = \"whsec_capstone\";\nconst hmac = (raw, t) => crypto.createHmac(\"sha256\", secret).update(t + \".\" + raw).digest(\"hex\");\nconst PLAN_FEATURES = { pro: [\"basic\", \"export\"] };\nconst ACCESS = new Set([\"active\", \"trialing\"]);\nconst processed = new Set();\nlet state = { plan: null, status: \"none\" };\nfunction unlock(rawBody, header, feature, now, authed, tolerance) { /* your code */ }\nconst t = 1700000000;\nconst body = JSON.stringify({ id: \"evt_1\", plan: \"pro\", status: \"active\" });\nconst header = \"t=\" + t + \",v1=\" + hmac(body, t);\nconsole.log(\"genuine:\", unlock(body, header, \"export\", t + 5, true, 300).access);\nconsole.log(\"replay:\", unlock(body, header, \"export\", t + 6, true, 300).access);\nconsole.log(\"forged:\", unlock(body, \"t=\" + t + \",v1=deadbeef\", \"export\", t + 7, true, 300).access);\nconsole.log(\"stale:\", unlock(body, header, \"export\", t + 9999, true, 300).access);\nconsole.log(\"applied count:\", processed.size);",
-      "summary": "Compose the full unlock and add Stripe’s timestamp-tolerance replay window: a validly-signed but stale event is rejected. Print the access decisions and the applied count.",
+      "starter": "// Compose the full unlock, and add the replay WINDOW Stripe signature verification enforces:\n// a validly-signed but STALE event (now - t beyond tolerance) is rejected. unlock(rawBody,\n// header, feature, now, authed, tolerance) -> { access, why }: reject when not authed\n// (\"unauthenticated\"); when the HMAC does not match (\"bad signature\"); when the event is too\n// old (\"stale event\"); otherwise dedup by event id, apply state once, and grant only if the\n// resulting status is in ACCESS and the plan includes the feature.\nconst crypto = await import(\"node:crypto\");\nconst secret = \"whsec_capstone\";\nconst hmac = (raw, t) => crypto.createHmac(\"sha256\", secret).update(t + \".\" + raw).digest(\"hex\");\nconst PLAN_FEATURES = { pro: [\"basic\", \"export\"] };\nconst ACCESS = new Set([\"active\", \"trialing\"]);\nconst processed = new Set();\nlet state = { plan: null, status: \"none\" };\nfunction unlock(rawBody, header, feature, now, authed, tolerance) { /* your code */ }\nconst t = 1700000000;\nconst body = JSON.stringify({ id: \"evt_1\", plan: \"pro\", status: \"active\" });\nconst header = \"t=\" + t + \",v1=\" + hmac(body, t);\nconsole.log(\"genuine:\", unlock(body, header, \"export\", t + 5, true, 300).access);\nconsole.log(\"replay:\", unlock(body, header, \"export\", t + 6, true, 300).access);\nconsole.log(\"forged:\", unlock(body, \"t=\" + t + \",v1=deadbeef\", \"export\", t + 7, true, 300).access);\nconsole.log(\"stale:\", unlock(body, header, \"export\", t + 9999, true, 300).access);\nconsole.log(\"applied count:\", processed.size);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized auth, payment, signature, replay, or state-drift case as a regression.\n",
+      "summary": "Compose the full unlock and add Stripe’s timestamp-tolerance replay window: a validly-signed but stale event is rejected. Print the access decisions and the applied count. Match the exact observable security or billing contract, retain an adversarial regression, and name the deployed identity, Stripe test-mode, webhook, database, logging, and reviewer evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -6092,6 +6301,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An end-to-end pipeline that authenticates, verifies the webhook signature, dedups the event, updates subscription state, resolves entitlements, and gates a feature — reporting the final access decision.",
+      "weak": "The happy path runs, but identity validation, authorization, secret isolation, signature/replay defense, idempotency, reconciliation, and recovery proof are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: An unauthenticated request is rejected before any billing logic. · A genuine webhook is verified, applied once, and grants the right feature. · A replayed event applies the state change exactly once. · A forged event is rejected at signature verification and grants nothing.",
+      "excellent": "Passing evidence plus adversarial fixtures, a retained regression, Stripe test-mode or incident rehearsal, reviewer objection, and transfer: This guarded pipeline is the template for every payment-gated feature you will ship: authenticate, verify, dedup, project state, resolve entitlement, gate — an explicit chain of defensible steps, the same shape the LLM, agents, and Supabase courses reuse for their own secure flows.",
+      "note": "Local-practice calibration only; deployed identity, Stripe test mode, signed webhook delivery, PCI review, and expert security review remain required."
+    },
+    {
       "text": "This guarded pipeline is the template for every payment-gated feature you will ship: authenticate, verify, dedup, project state, resolve entitlement, gate — an explicit chain of defensible steps, the same shape the LLM, agents, and Supabase courses reuse for their own secure flows.",
       "type": "transfer"
     },
@@ -6107,10 +6324,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Genuine grants; replay applied once; forged rejected",
-        "Signature verified before entitlement",
-        "Feature gated on derived entitlement"
-      ]
+        "Build evidence — match the exact observable auth or payment contract.",
+        "Debug evidence — retain a minimized unauthorized, forged, replayed, duplicated, or state-drift regression.",
+        "Decision evidence — defend Build the unlock flow as one inline handler, or compose the course's tested primitives?.",
+        "Verification evidence — An unauthenticated request is rejected before any billing logic. · A genuine webhook is verified, applied once, and grants the right feature. · A replayed event applies the state change exactly once. · A forged event is rejected at signature verification and grants nothing.",
+        "Transfer evidence — This guarded pipeline is the template for every payment-gated feature you will ship: authenticate, verify, dedup, project state, resolve entitlement, gate — an explicit chain of defensible steps, the same shape the LLM, agents, and Supabase courses reuse for their own secure flows."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-  "generatedAt": "2026-08-28T21:01:31.852Z",
+  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+  "generatedAt": "2026-08-28T21:16:14.782Z",
   "courseSlug": "career-qa_sdet_test_automation_engineering",
   "title": "QA, SDET, and Test Automation Engineering",
   "contentHash": "sha256:d2827b43f558bbd9c6d5f98c4a577f7280ae6fde2cfb55c9771a2a5a5d399dee",

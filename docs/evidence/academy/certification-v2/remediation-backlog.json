@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-  "generatedAt": "2026-08-28T21:01:31.852Z",
+  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+  "generatedAt": "2026-08-28T21:16:14.782Z",
   "items": [
     {
       "rank": 1,
@@ -54,12 +54,11 @@
       "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
       "courseSlugs": [
         "git-the-terminal",
-        "programming-fundamentals",
-        "stripe-auth"
+        "programming-fundamentals"
       ],
-      "lessonCount": 33,
-      "findingCount": 33,
-      "priority": 4030033
+      "lessonCount": 27,
+      "findingCount": 27,
+      "priority": 4020027
     },
     {
       "rank": 3,
@@ -685,12 +684,11 @@
         "data-structures",
         "git-the-terminal",
         "programming-fundamentals",
-        "python-basics",
-        "stripe-auth"
+        "python-basics"
       ],
-      "lessonCount": 186,
-      "findingCount": 186,
-      "priority": 2100186
+      "lessonCount": 166,
+      "findingCount": 166,
+      "priority": 2090166
     },
     {
       "rank": 21,

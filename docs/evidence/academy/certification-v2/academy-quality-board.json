@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-  "generatedAt": "2026-08-28T21:01:31.852Z",
+  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+  "generatedAt": "2026-08-28T21:16:14.782Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 633,
+      "H2": 627,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -2724,16 +2724,16 @@
       "courseSlug": "stripe-auth",
       "title": "Stripe and Authentication",
       "lessonCount": 20,
-      "contentHash": "sha256:46e00e07cfb0a9455fe09834de310613254f46355fec7312923f3eab588b8cfb",
+      "contentHash": "sha256:00e504f38f0a97fd878705039235198af0d0c8f12d1c56bd152ac6d176b6a3f9",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 80,
+      "deterministicScore": 90,
       "compositeScore": null,
-      "hardFailCount": 26,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 26,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0

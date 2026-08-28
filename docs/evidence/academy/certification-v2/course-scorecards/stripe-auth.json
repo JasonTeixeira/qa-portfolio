@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
-  "generatedAt": "2026-08-28T21:01:31.852Z",
+  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+  "generatedAt": "2026-08-28T21:16:14.782Z",
   "courseSlug": "stripe-auth",
   "title": "Stripe and Authentication",
-  "contentHash": "sha256:46e00e07cfb0a9455fe09834de310613254f46355fec7312923f3eab588b8cfb",
+  "contentHash": "sha256:00e504f38f0a97fd878705039235198af0d0c8f12d1c56bd152ac6d176b6a3f9",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -124,17 +124,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "2f757b49b7f9611c",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "password-storage-oauth"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -157,34 +146,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "650d615fd717f3b3",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "stripe-object-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "933b9c09625ece43",
           "courseSlug": "stripe-auth",
           "lessonSlug": "stripe-object-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "fc7fbdf5e7ecc05f",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "hosted-checkout"
         },
         {
           "code": "H2",
@@ -223,17 +190,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "fb9b64a074627ad1",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "webhooks-source-of-truth"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -245,34 +201,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "a1ea6eb8ef549a12",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "verifying-webhook-signatures"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "ebfeb5abf1d793d3",
           "courseSlug": "stripe-auth",
           "lessonSlug": "verifying-webhook-signatures"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "4765346b3164f7a5",
-          "courseSlug": "stripe-auth",
-          "lessonSlug": "idempotent-handlers"
         },
         {
           "code": "H2",
@@ -522,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 90,
   "compositeScore": null,
   "hardFails": [
     {
@@ -551,17 +485,6 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "2f757b49b7f9611c",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "password-storage-oauth"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
@@ -584,34 +507,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "650d615fd717f3b3",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "stripe-object-model"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "933b9c09625ece43",
       "courseSlug": "stripe-auth",
       "lessonSlug": "stripe-object-model"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "fc7fbdf5e7ecc05f",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "hosted-checkout"
     },
     {
       "code": "H2",
@@ -650,17 +551,6 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "fb9b64a074627ad1",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "webhooks-source-of-truth"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
@@ -672,34 +562,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "a1ea6eb8ef549a12",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "verifying-webhook-signatures"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "ebfeb5abf1d793d3",
       "courseSlug": "stripe-auth",
       "lessonSlug": "verifying-webhook-signatures"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "4765346b3164f7a5",
-      "courseSlug": "stripe-auth",
-      "lessonSlug": "idempotent-handlers"
     },
     {
       "code": "H2",

@@ -14,7 +14,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 507,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 17
+    "sourceLedgers": 18
   },
   "capabilities": [
     {
@@ -4472,14 +4472,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-qa_sdet_test_automation_engineering/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -4489,7 +4488,7 @@
           "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/risk-based-test-planning",
@@ -4504,7 +4503,7 @@
           "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/test-pyramid-and-test-trophy",
@@ -4519,7 +4518,7 @@
           "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/release-confidence-model",
@@ -4534,7 +4533,7 @@
           "moduleTitle": "Module 1 · Quality Strategy And Risk Model",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/defect-taxonomy",
@@ -4549,7 +4548,7 @@
           "moduleTitle": "Module 2 · Automation Foundations",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/unit-integration-boundary",
@@ -4564,7 +4563,7 @@
           "moduleTitle": "Module 2 · Automation Foundations",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/api-contract-tests",
@@ -4579,7 +4578,7 @@
           "moduleTitle": "Module 2 · Automation Foundations",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/fixture-design",
@@ -4594,7 +4593,7 @@
           "moduleTitle": "Module 2 · Automation Foundations",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/test-data-isolation",
@@ -4609,7 +4608,7 @@
           "moduleTitle": "Module 3 · End To End And Browser Automation",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/user-visible-behavior-tests",
@@ -4624,7 +4623,7 @@
           "moduleTitle": "Module 3 · End To End And Browser Automation",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/locator-strategy",
@@ -4639,7 +4638,7 @@
           "moduleTitle": "Module 3 · End To End And Browser Automation",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/auto-waiting-and-flake-reduction",
@@ -4654,7 +4653,7 @@
           "moduleTitle": "Module 3 · End To End And Browser Automation",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/visual-regression",
@@ -4669,7 +4668,7 @@
           "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/accessibility-checks",
@@ -4684,7 +4683,7 @@
           "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/performance-smoke-tests",
@@ -4699,7 +4698,7 @@
           "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/security-smoke-checks",
@@ -4714,7 +4713,7 @@
           "moduleTitle": "Module 4 · Nonfunctional Quality Gates",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/ci-quality-gates",
@@ -4729,7 +4728,7 @@
           "moduleTitle": "Module 5 · Sdet Operations And Review Board",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/flaky-test-triage",
@@ -4744,7 +4743,7 @@
           "moduleTitle": "Module 5 · Sdet Operations And Review Board",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/bug-reports",
@@ -4759,7 +4758,7 @@
           "moduleTitle": "Module 5 · Sdet Operations And Review Board",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/release-risk-scoring",
@@ -4774,7 +4773,7 @@
           "moduleTitle": "Module 5 · Sdet Operations And Review Board",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-qa_sdet_test_automation_engineering/quality-review-board",
@@ -10751,5 +10750,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5"
+  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425"
 }

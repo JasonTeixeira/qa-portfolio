@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-  "generatedAt": "2026-08-28T20:26:59.368Z",
+  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+  "generatedAt": "2026-08-28T20:33:03.181Z",
   "courseSlug": "career-qa_sdet_test_automation_engineering",
   "title": "QA, SDET, and Test Automation Engineering",
-  "contentHash": "sha256:a90ce53a88d01a42695fef228eb5613f33a80c5a0efa6d4c60ba395e2c208018",
+  "contentHash": "sha256:d2827b43f558bbd9c6d5f98c4a577f7280ae6fde2cfb55c9771a2a5a5d399dee",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "cdb0358dc9253939",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "risk-based-test-planning"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fea82afd5a72bc29",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "test-pyramid-and-test-trophy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "3a2fe4e859fa802a",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "release-confidence-model"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "26bedf632adf1f06",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "defect-taxonomy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "34566a5a8a31bdf7",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "unit-integration-boundary"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d93fbcc07b0d8a13",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "api-contract-tests"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fb4769f5199138ac",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "fixture-design"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "32aab6520d1fd5fa",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "test-data-isolation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "294ec9ff156a2455",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "user-visible-behavior-tests"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b755313bf13a2461",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "locator-strategy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "caa3999677aae5fb",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "auto-waiting-and-flake-reduction"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a9f7154fdb134d44",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "visual-regression"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "cb869245b8fb9c65",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "accessibility-checks"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f455b05ab947fc7e",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "performance-smoke-tests"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e818c1ca6f51d7cb",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "security-smoke-checks"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "95e045432d246eab",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "ci-quality-gates"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c024fe597ad49b9c",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "flaky-test-triage"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5a69a6caa50a291a",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "bug-reports"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fe37d3199ae234c5",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "release-risk-scoring"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6768bfb65788d8ef",
-          "courseSlug": "career-qa_sdet_test_automation_engineering",
-          "lessonSlug": "quality-review-board"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -657,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {

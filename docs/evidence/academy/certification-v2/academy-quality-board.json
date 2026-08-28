@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-  "generatedAt": "2026-08-28T20:26:59.368Z",
+  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+  "generatedAt": "2026-08-28T20:33:03.181Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -1298,11 +1298,11 @@
       "courseSlug": "career-qa_sdet_test_automation_engineering",
       "title": "QA, SDET, and Test Automation Engineering",
       "lessonCount": 20,
-      "contentHash": "sha256:a90ce53a88d01a42695fef228eb5613f33a80c5a0efa6d4c60ba395e2c208018",
+      "contentHash": "sha256:d2827b43f558bbd9c6d5f98c4a577f7280ae6fde2cfb55c9771a2a5a5d399dee",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -1332,8 +1332,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

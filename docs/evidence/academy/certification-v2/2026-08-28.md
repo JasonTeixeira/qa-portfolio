@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T20:26:59.368Z
-Registry: `sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5`
+Generated: 2026-08-28T20:33:03.181Z
+Registry: `sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -46,7 +46,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | System Design | `system-design` | 24 | blocked | 24 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 90.0 |
 | Security and Identity Engineering | `career-security_identity` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Mobile Engineering Deep Dive | `career-mobile_engineering_deep_dive` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
-| QA, SDET, and Test Automation Engineering | `career-qa_sdet_test_automation_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| QA, SDET, and Test Automation Engineering | `career-qa_sdet_test_automation_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Networking Fundamentals and Advanced Networking | `career-networking_fundamentals_advanced_networking` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | UX, UI, and Product Design for Engineers | `career-ux_ui_product_design_for_engineers` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Databases and Data Modeling | `career-databases_data_modeling` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 98.3 |
@@ -73,8 +73,8 @@ The deterministic score reports only checks the harness can prove locally. It is
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (7 courses; 111 findings)
-7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (4 courses; 9 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (6 courses; 92 findings)
+7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (3 courses; 8 findings)
 8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (3 courses; 4 findings)
 9. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
@@ -87,7 +87,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
 18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
 19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
-20. sources — Complete required sources evidence: source-ledger-schema. (15 courses; 286 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (14 courses; 266 findings)
 
 ## Flagship competency-path readiness
 

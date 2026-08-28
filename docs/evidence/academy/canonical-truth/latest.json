@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
+  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
   "totals": {
     "courses": 32,
     "lessons": 640,
@@ -9,7 +9,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 507,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 17
+    "sourceLedgers": 18
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "15 courses lack course-level source ledgers",
+    "14 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -292,13 +292,12 @@
       "legacyManifestLessons": 20,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-qa_sdet_test_automation_engineering/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-qa_sdet_test_automation_engineering"
     },

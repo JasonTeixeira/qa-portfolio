@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "risk-based-test-planning",
-    "contentHash": "sha256:cf5c08efd0cef9682c9935a3e9f606b860b5d89227457b8e4d66ab52155bf99c",
+    "contentHash": "sha256:3691aa85fc67dcc6aedf07bac24dc07937e70aa9ac835abc4852882570074098",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -26,15 +26,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -44,18 +44,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "cdb0358dc9253939",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "risk-based-test-planning"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -80,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -321,7 +310,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -352,11 +341,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "test-pyramid-and-test-trophy",
-    "contentHash": "sha256:994e8cbc236775741f3b7119f7c557d74e38131b3b909fef123568c34355a7b2",
+    "contentHash": "sha256:aa860723b7920ef73c1c3fcc70b9444bcfa70dabccd16b42b6589161671fe01b",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -376,15 +365,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -394,18 +383,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "fea82afd5a72bc29",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "test-pyramid-and-test-trophy"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -430,9 +408,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -671,7 +649,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -702,11 +680,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "release-confidence-model",
-    "contentHash": "sha256:503c31086761c418d677201c00232a432a518bd08130221b6b82d820d003cc72",
+    "contentHash": "sha256:1808f0eb369b0d5ace180af961fbc8d0b75417a3a77dd6a329aa45f8b9f4c0cc",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -726,15 +704,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -744,18 +722,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "3a2fe4e859fa802a",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "release-confidence-model"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -780,9 +747,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1021,7 +988,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1052,11 +1019,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "defect-taxonomy",
-    "contentHash": "sha256:390de72ed470a07ff13166753c0e6b16863a54a19d18482063c521164bca2752",
+    "contentHash": "sha256:7e27024b819fa4d883e0c94dceb08503b3cd56accc7ebd5e326941e203f13dc2",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1076,15 +1043,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1094,18 +1061,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "26bedf632adf1f06",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "defect-taxonomy"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1130,9 +1086,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1371,7 +1327,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1402,11 +1358,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "unit-integration-boundary",
-    "contentHash": "sha256:fc32927e52b8f23a68e875568033525c6f61336bde31b78356a0abb91cd43a97",
+    "contentHash": "sha256:54c12091315930ddbd5d6844feb26daaef563df4deaf2ccdc4efaf0853fb256d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1426,15 +1382,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1444,18 +1400,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "34566a5a8a31bdf7",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "unit-integration-boundary"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1480,9 +1425,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1721,7 +1666,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1752,11 +1697,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "api-contract-tests",
-    "contentHash": "sha256:a2884cc2750b9cf006290cbed3e2e050ad1e0a1afb84fc3993e7f52559c0bae7",
+    "contentHash": "sha256:9af8588b3b0e4b6077604d49cf1aeb460ce775a6ceec7889d4382f97f82335fa",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1776,15 +1721,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1794,18 +1739,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "d93fbcc07b0d8a13",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "api-contract-tests"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1830,9 +1764,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2071,7 +2005,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2102,11 +2036,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "fixture-design",
-    "contentHash": "sha256:be23ccf0194c569c9b140d3e2127db8ad37597352f0b437cd601a82da8f8bde9",
+    "contentHash": "sha256:88a7e11283fc9f9d30cd5d24b1c0b9823d30e5dd064671e5289bb55c7017bd9b",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2126,15 +2060,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2144,18 +2078,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "fb4769f5199138ac",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "fixture-design"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2180,9 +2103,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2421,7 +2344,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2452,11 +2375,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "test-data-isolation",
-    "contentHash": "sha256:98d69298ff6ad1970a1cb04dfe84f3d7a3a907d7e4660641f4d2c0da1c7b0772",
+    "contentHash": "sha256:8c58acb76463f71b7c774f0de42357ed488d8c0479d8cab449efd6842d8e8fb9",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2476,15 +2399,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2494,18 +2417,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "32aab6520d1fd5fa",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "test-data-isolation"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2530,9 +2442,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2771,7 +2683,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2802,11 +2714,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "user-visible-behavior-tests",
-    "contentHash": "sha256:8a9cfb277d648abb19474fc765656c859449b8fc83820d7d77fad120fc0e1ac1",
+    "contentHash": "sha256:324a3480418677a1cd440f36e6a37cd81cb8cc7b258815e11f8f776606817345",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2826,15 +2738,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2844,18 +2756,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "294ec9ff156a2455",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "user-visible-behavior-tests"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2880,9 +2781,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3121,7 +3022,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3152,11 +3053,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "locator-strategy",
-    "contentHash": "sha256:1e261d05f0266ab1442767dac28f615a83b80abf226a1b56df4cd60a766a8915",
+    "contentHash": "sha256:a8479a3d0be531637d98cafed97f991acee6a78416689ce98d5ff5e83959e69d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3176,15 +3077,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3194,18 +3095,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "b755313bf13a2461",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "locator-strategy"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3230,9 +3120,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3471,7 +3361,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3502,11 +3392,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "auto-waiting-and-flake-reduction",
-    "contentHash": "sha256:516644fa0709bab26391d0a5ef76b5a31f1dd2dca8965b0166b54cdf1e1d0f82",
+    "contentHash": "sha256:bb15fe5ec3e9bad5547ed4046657cb30a5b62aaaf3ed74bb81759c4cc4ed912e",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3526,15 +3416,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3544,18 +3434,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "caa3999677aae5fb",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "auto-waiting-and-flake-reduction"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3580,9 +3459,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3821,7 +3700,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3852,11 +3731,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "visual-regression",
-    "contentHash": "sha256:be5125ee438452fb6006293b660dad03fc4c4903dd502e3c3357caf917cbcf21",
+    "contentHash": "sha256:f7558422b087ddcf92e4bee9dd5c9f2706adddfda36f83547b8fdda5655dfb10",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3876,15 +3755,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3894,18 +3773,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "a9f7154fdb134d44",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "visual-regression"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3930,9 +3798,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4171,7 +4039,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4202,11 +4070,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "accessibility-checks",
-    "contentHash": "sha256:a42339b1d805c2a321db87c19c8f1ca112e4413a8c1ed8fbccee5137ee3cb6df",
+    "contentHash": "sha256:786d005756ec9aabb0ee45e96f3eabb7febc4f4cf66eff10364c677c3f411984",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4226,15 +4094,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4244,18 +4112,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "cb869245b8fb9c65",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "accessibility-checks"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4280,9 +4137,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4521,7 +4378,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4552,11 +4409,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "performance-smoke-tests",
-    "contentHash": "sha256:e2220b94a6089f14aad1cc7691f93421ad259a1f118859a74fc18c5cfae58394",
+    "contentHash": "sha256:17d8c2532c3ec5a8a854b3a51f18520c99d3028589b1ddbfa17cd4c22bb3dffa",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4576,15 +4433,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4594,18 +4451,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "f455b05ab947fc7e",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "performance-smoke-tests"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4630,9 +4476,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4871,7 +4717,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4902,11 +4748,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "security-smoke-checks",
-    "contentHash": "sha256:5403e0cf2e37747ebc249a95fde6e8f66d1c466ec45b22483233e024055233ed",
+    "contentHash": "sha256:48bff48e3a0f88eb6edd45aa3054f31c3a3cbe9fcf77251c40e23c1fdb25d539",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4926,15 +4772,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4944,18 +4790,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "e818c1ca6f51d7cb",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "security-smoke-checks"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4980,9 +4815,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5221,7 +5056,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5252,11 +5087,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "ci-quality-gates",
-    "contentHash": "sha256:0232bdc751e1a818ae8fb70779b2599875ebfef4a21e52fb2897d435bd05c554",
+    "contentHash": "sha256:ceb785dc224f8691e8a24f90adad92befac934a1e148045a0d6c98e085483934",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5276,15 +5111,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5294,18 +5129,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "95e045432d246eab",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "ci-quality-gates"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5330,9 +5154,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5571,7 +5395,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5602,11 +5426,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "flaky-test-triage",
-    "contentHash": "sha256:c0abadf44d38988dee8b17bf9afe5572ad8cdbc9d5d1f39364bf16a4e69e1032",
+    "contentHash": "sha256:4cc373e98341a08dd7815fbef427f6ae0ce248066a4040a600f57758c9757101",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5626,15 +5450,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5644,18 +5468,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "c024fe597ad49b9c",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "flaky-test-triage"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5680,9 +5493,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5921,7 +5734,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5952,11 +5765,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "bug-reports",
-    "contentHash": "sha256:11815d700d9093802d7ca30a1e13ab8c9e53bd8dfd3c33ce14251a3637466eb1",
+    "contentHash": "sha256:b55d94d8ea1cc2fabad9a42be40a2cc191122803c2cd1a846ff5d42b91e19d55",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5976,15 +5789,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5994,18 +5807,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "5a69a6caa50a291a",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "bug-reports"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6030,9 +5832,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6271,7 +6073,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6302,11 +6104,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "release-risk-scoring",
-    "contentHash": "sha256:5b9424dededa741922f4eb7a1ae4296f2e6725e91a2a1b4093d94f660bcb5d13",
+    "contentHash": "sha256:150a55803c28244251175a8575f6432dda1c250ce6c75770800e12b63ea72143",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6326,15 +6128,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6344,18 +6146,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "fe37d3199ae234c5",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "release-risk-scoring"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6380,9 +6171,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6621,7 +6412,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6652,11 +6443,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-    "generatedAt": "2026-08-28T20:26:59.368Z",
+    "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+    "generatedAt": "2026-08-28T20:33:03.181Z",
     "courseSlug": "career-qa_sdet_test_automation_engineering",
     "lessonSlug": "quality-review-board",
-    "contentHash": "sha256:1be4719632183fe001596e35bd3ad93d86588f1f945d69dc589fed6f30b46c4e",
+    "contentHash": "sha256:35bd8a72c189f0d0402fbd0e4a91cab7e699d84505635db8f52436582719534a",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6676,15 +6467,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6694,18 +6485,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "6768bfb65788d8ef",
-            "courseSlug": "career-qa_sdet_test_automation_engineering",
-            "lessonSlug": "quality-review-board"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6730,9 +6510,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6971,7 +6751,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {

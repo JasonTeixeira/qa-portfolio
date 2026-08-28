@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **12/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760`.
+- Progress: **13/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183`.
 - Catalog: 32 courses, 640 lessons, 410 lab blocks.
 - Current phase: `cloud-operations`.
-- Next course: `career-observability_reliability_performance`.
+- Next course: `career-platform_engineering_internal_developer_platforms`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -28,6 +28,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-backend_engineering` | GREEN | uncertified |
 | `system-design` | GREEN | uncertified |
 | `career-cloud_devops_operations` | GREEN | uncertified |
+| `career-observability_reliability_performance` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -39,7 +40,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Learning judgment and automation foundations | 6 | local GREEN |
 | Networking and security | 2 | local GREEN |
 | Data, backend, and system design | 3 | local GREEN |
-| Cloud operations and platform reliability | 3 | 1/3 local GREEN — Observability/Reliability selected |
+| Cloud operations and platform reliability | 3 | 2/3 local GREEN — Platform Engineering selected |
 | Applied AI, retrieval, agents, and evaluation | 5 | queued |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
@@ -95,9 +96,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Ordered mastery loops, realistic pacing, a multi-day operations capstone, 18-source ledger, and explicit graph mapping cover every lesson.
 - H1/H3/H4/H5 are zero; 20 H2 flags correctly keep the new labs practice-only and required expert reviews remain pending.
 
-## Current Observability/Reliability baseline
+## Observability/Reliability checkpoint result
 
-- `career-observability_reliability_performance` is selected next by the competency graph and Certification Harness V2 remediation board.
+- 20 lessons in the canonical registry; deterministic score: 77.8 → 100 (not a composite quality score).
+- All 20 telemetry and incident evaluators are novice-scaffolded Python labs and match exact observable contracts.
+- Ordered mastery loops, realistic pacing, a multi-day observability capstone, 17-source ledger, and explicit graph mapping cover every lesson.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only lab evidence and required expert reviews remain pending.
+
+## Current Platform Engineering baseline
+
+- `career-platform_engineering_internal_developer_platforms` is selected next by the competency graph and Certification Harness V2 remediation board.
 - Labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule

@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
-  "generatedAt": "2026-08-28T18:26:51.052Z",
+  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
+  "generatedAt": "2026-08-28T18:33:20.247Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
+    "baselineRegistryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 13,
+    "sequence": 14,
     "phaseId": "cloud-operations",
-    "courseSlug": "career-observability_reliability_performance",
-    "title": "Observability, Reliability, and Performance",
+    "courseSlug": "career-platform_engineering_internal_developer_platforms",
+    "title": "Platform Engineering and Internal Developer Platforms",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-observability_reliability_performance.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-observability_reliability_performance.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-platform_engineering_internal_developer_platforms.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-platform_engineering_internal_developer_platforms.lab_solutions.json",
     "baseline": {
       "decision": "needs_remediation",
       "deterministicScore": 77.8,
@@ -120,15 +120,14 @@
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
           "career-mobile_engineering_deep_dive",
-          "career-observability_reliability_performance",
           "career-platform_engineering_internal_developer_platforms",
           "career-product_execution_market_feedback",
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 250,
-        "findingCount": 250,
-        "priority": 3150250
+        "lessonCount": 233,
+        "findingCount": 233,
+        "priority": 3140233
       },
       {
         "rank": 8,
@@ -143,33 +142,12 @@
           "career-engineering_leadership_staff_execution",
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
-          "career-observability_reliability_performance",
           "career-platform_engineering_internal_developer_platforms",
           "career-qa_sdet_test_automation_engineering"
         ],
-        "lessonCount": 25,
-        "findingCount": 25,
-        "priority": 3100025
-      },
-      {
-        "rank": 9,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-observability_reliability_performance",
-          "career-product_execution_market_feedback",
-          "nextjs-supabase"
-        ],
-        "lessonCount": 19,
-        "findingCount": 19,
-        "priority": 3090019
+        "lessonCount": 23,
+        "findingCount": 23,
+        "priority": 3090023
       }
     ],
     "reviewRequired": [
@@ -749,7 +727,6 @@
           "career-interview_career_portfolio",
           "career-mobile_engineering_deep_dive",
           "career-networking_fundamentals_advanced_networking",
-          "career-observability_reliability_performance",
           "career-platform_engineering_internal_developer_platforms",
           "career-product_execution_market_feedback",
           "career-programming_cs_foundations",
@@ -765,9 +742,9 @@
           "stripe-auth",
           "the-llm-api"
         ],
-        "lessonCount": 516,
-        "findingCount": 516,
-        "priority": 2260516
+        "lessonCount": 496,
+        "findingCount": 496,
+        "priority": 2250496
       }
     ]
   },

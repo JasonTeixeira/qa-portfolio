@@ -561,7 +561,33 @@
           ]
         },
         {
-          "courseSlug": "system-design"
+          "courseSlug": "system-design",
+          "lessonSlugs": [
+            "what-system-design-is",
+            "back-of-envelope",
+            "building-blocks",
+            "latency-throughput-availability",
+            "sql-vs-nosql",
+            "indexing",
+            "replication",
+            "sharding-partitioning",
+            "caching-strategies",
+            "cache-invalidation",
+            "load-balancing",
+            "cdn-edge",
+            "cap-and-consistency",
+            "async-queues",
+            "consensus-quorum",
+            "distributed-fallacies",
+            "failure-modes-blast-radius",
+            "resilience-patterns",
+            "observability-slos",
+            "rate-limiting-load-shedding",
+            "tradeoff-analysis-adrs",
+            "the-interview-method",
+            "designing-a-real-system",
+            "capstone-design-and-defend"
+          ]
         }
       ],
       "evidence": [
@@ -766,7 +792,33 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "system-design"
+          "courseSlug": "system-design",
+          "lessonSlugs": [
+            "what-system-design-is",
+            "back-of-envelope",
+            "building-blocks",
+            "latency-throughput-availability",
+            "sql-vs-nosql",
+            "indexing",
+            "replication",
+            "sharding-partitioning",
+            "caching-strategies",
+            "cache-invalidation",
+            "load-balancing",
+            "cdn-edge",
+            "cap-and-consistency",
+            "async-queues",
+            "consensus-quorum",
+            "distributed-fallacies",
+            "failure-modes-blast-radius",
+            "resilience-patterns",
+            "observability-slos",
+            "rate-limiting-load-shedding",
+            "tradeoff-analysis-adrs",
+            "the-interview-method",
+            "designing-a-real-system",
+            "capstone-design-and-defend"
+          ]
         },
         {
           "courseSlug": "career-product_execution_market_feedback"

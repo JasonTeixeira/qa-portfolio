@@ -234,7 +234,7 @@
     },
     {
       "fix": "// Start from requirements, then derive components:\nconst requirements = {\n  functional: [\"redirect\", \"count clicks\"],\n  nonFunctional: { rps: 50000, p99Ms: 50, availability: \"99.99%\" },\n  constraints: [\"counts must survive a crash\"],\n};\n// NOW a cache is justified by (rps + p99), durable store by the crash constraint.",
-      "task": "The doc names components with no requirements behind them, so no choice can be justified. Fix the starting point.",
+      "task": "The doc names components with no requirements behind them, so no choice can be justified. Fix the starting point. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A design review stalls: the team argues about Redis vs Memcached for 40 minutes and never resolves anything.",
       "language": "ts",
@@ -283,6 +283,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A requirements extractor that separates functional from non-functional requirements and flags the one constraint that dictates the hardest tradeoff.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You have separate lists of functional and non-functional requirements. · Every non-functional requirement is a number or a named quality (not \"fast\" / \"reliable\"). · You have named the single tradeoff the constraints force. · Every component you later add traces back to a requirement or constraint.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Every remaining lesson in this course resolves a tension between two requirements — the very tension you learn to name here. The capstone is graded on whether its computed checks satisfy the requirements you first extract.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Every remaining lesson in this course resolves a tension between two requirements — the very tension you learn to name here. The capstone is graded on whether its computed checks satisfy the requirements you first extract.",
       "type": "transfer"
     },
@@ -297,10 +305,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Requirements split into functional vs non-functional",
-        "Every non-functional req is a number/quality",
-        "The driving tradeoff is named explicitly"
-      ]
+        "Build evidence — complete the model and match the exact observable output: functional: shorten,redirect\nnonFunctional: p99,uptime,counts\ntradeoff: low-latency reads vs durable writes",
+        "Debug evidence — repair and retain this case as a regression: The doc names components with no requirements behind them, so no choice can be justified. Fix the starting point. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A stakeholder gives a one-line ask. Start drawing the architecture, or spend the first 10 minutes extracting requirements?\" and name the rejected alternative.",
+        "Verification evidence — You have separate lists of functional and non-functional requirements. · Every non-functional requirement is a number or a named quality (not \"fast\" / \"reliable\"). · You have named the single tradeoff the constraints force. · Every component you later add traces back to a requirement or constraint.",
+        "Transfer evidence — Every remaining lesson in this course resolves a tension between two requirements — the very tension you learn to name here. The capstone is graded on whether its computed checks satisfy the requirements you first extract."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "back-of-envelope": [
@@ -537,7 +548,7 @@
     },
     {
       "fix": "const avgRps = (dau * actions) / 86400;\nconst peakRps = avgRps * PEAK_FACTOR;   // e.g. 4x for a lunchtime spike\nconst serversNeeded = Math.ceil(peakRps / perServerRps);  // size to the peak",
-      "task": "Capacity is sized to average RPS, so it saturates at the daily peak. Fix the sizing to account for the peak.",
+      "task": "Capacity is sized to average RPS, so it saturates at the daily peak. Fix the sizing to account for the peak. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A service is sized to handle 12k RPS and runs fine in tests but collapses every day at lunchtime.",
       "language": "ts",
@@ -586,6 +597,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A capacity estimator that computes average and peak RPS, yearly storage, and peak bandwidth from a handful of product numbers.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You derived average RPS from DAU and actions, not guessed it. · You applied an explicit peak factor and provisioned for peak RPS. · Storage accounts for bytes/record and retention. · Every number is order-of-magnitude and you can reproduce it in your head.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: These RPS and storage numbers are the inputs to the caching, sharding, and load-balancing lessons — how many shards, how big a cache, how many LB backends all start from this estimate. The capstone validates that your chosen stores fit the estimated footprint.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "These RPS and storage numbers are the inputs to the caching, sharding, and load-balancing lessons — how many shards, how big a cache, how many LB backends all start from this estimate. The capstone validates that your chosen stores fit the estimated footprint.",
       "type": "transfer"
     },
@@ -600,10 +619,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Average RPS derived from DAU × actions ÷ seconds/day",
-        "Peak RPS computed with an explicit peak factor",
-        "Storage and bandwidth estimated from bytes and retention"
-      ]
+        "Build evidence — complete the model and match the exact observable output: peakRps: 2083.3333333333335\nservers: 2\nmonthlyEgressGB: 972\nmonthlyEgressCostUSD: 77.76",
+        "Debug evidence — repair and retain this case as a regression: Capacity is sized to average RPS, so it saturates at the daily peak. Fix the sizing to account for the peak. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"For a first estimate, do you gather exact analytics numbers or use rounded order-of-magnitude figures?\" and name the rejected alternative.",
+        "Verification evidence — You derived average RPS from DAU and actions, not guessed it. · You applied an explicit peak factor and provisioned for peak RPS. · Storage accounts for bytes/record and retention. · Every number is order-of-magnitude and you can reproduce it in your head.",
+        "Transfer evidence — These RPS and storage numbers are the inputs to the caching, sharding, and load-balancing lessons — how many shards, how big a cache, how many LB backends all start from this estimate. The capstone validates that your chosen stores fit the estimated footprint."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "building-blocks": [
@@ -886,7 +908,7 @@
     },
     {
       "fix": "// Move session state OUT of the app server into a shared store.\n// App servers stay stateless; any instance can serve any request.\nawait sessionStore.set(req.id, req.user);  // shared cache/DB, not local memory",
-      "task": "Session state lives in one app server's memory, so a load-balanced request to another instance loses it. Fix the statefulness.",
+      "task": "Session state lives in one app server's memory, so a load-balanced request to another instance loses it. Fix the statefulness. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "Users are randomly logged out and shopping carts vanish between page loads, but only after the service scaled from one app server to several.",
       "language": "ts",
@@ -935,6 +957,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A request-path classifier that assigns each component its correct role and rejects a path that puts a component in the wrong place.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You can trace a read from client to LB to app to cache to DB and back. · Your app servers hold no request-specific state. · Slow, non-urgent work is on a queue, off the critical path. · You can justify why each hop exists, not just name it.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This path is the skeleton the whole course fleshes out: the load-balancing lesson deepens the LB, the caching module deepens the cache, the queues module deepens the queue. The capstone composes these exact blocks into one validated system.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This path is the skeleton the whole course fleshes out: the load-balancing lesson deepens the LB, the caching module deepens the cache, the queues module deepens the queue. The capstone composes these exact blocks into one validated system.",
       "type": "transfer"
     },
@@ -949,10 +979,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Each block mapped to its single role",
-        "Read path traced cache-before-DB",
-        "App servers kept stateless"
-      ]
+        "Build evidence — complete the model and match the exact observable output: client: initiates request\nload-balancer: routes to healthy app server\napp-server: stateless business logic\ncache: serves hot reads, shields DB\ndatabase: durable source of truth\nvalid: true problems: none",
+        "Debug evidence — repair and retain this case as a regression: Session state lives in one app server's memory, so a load-balanced request to another instance loses it. Fix the statefulness. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A user action triggers slow image processing. Do it inline in the request, or push it to a queue for a worker?\" and name the rejected alternative.",
+        "Verification evidence — You can trace a read from client to LB to app to cache to DB and back. · Your app servers hold no request-specific state. · Slow, non-urgent work is on a queue, off the critical path. · You can justify why each hop exists, not just name it.",
+        "Transfer evidence — This path is the skeleton the whole course fleshes out: the load-balancing lesson deepens the LB, the caching module deepens the cache, the queues module deepens the queue. The capstone composes these exact blocks into one validated system."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "latency-throughput-availability": [
@@ -1187,7 +1220,7 @@
     },
     {
       "fix": "const chain = [0.999, 0.999, 0.999, 0.999, 0.999];\nconst endToEnd = chain.reduce((a, c) => a * c, 1); // ≈ 0.995 — below 0.9999\nconst ok = endToEnd >= 0.9999; // false: series multiplies availability DOWN",
-      "task": "The check evaluates components individually instead of composing them in series. Fix it to compute the real end-to-end availability.",
+      "task": "The check evaluates components individually instead of composing them in series. Fix it to compute the real end-to-end availability. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A design promises 99.99% availability, but it is a linear chain of five microservices each rated 99.9%, and it keeps missing the SLO.",
       "language": "ts",
@@ -1236,6 +1269,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An availability calculator that composes component availabilities in series (product) and in parallel (redundancy) to a system number.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You report latency as p50/p95/p99, never just the mean. · You compute serial availability as a product of components. · You compute redundant availability from the product of unavailabilities. · You can turn an availability target into a required number of serial hops or replicas.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Availability composition is the backbone of the reliability module: failure-modes, resilience patterns, and SLOs all reason about which components are serial single points and where redundancy buys back 9s. The capstone must hit an availability target you compute this way.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Availability composition is the backbone of the reliability module: failure-modes, resilience patterns, and SLOs all reason about which components are serial single points and where redundancy buys back 9s. The capstone must hit an availability target you compute this way.",
       "type": "transfer"
     },
@@ -1250,10 +1291,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Latency reasoned about as percentiles",
-        "Series availability computed as a product",
-        "Redundant availability computed from unavailabilities"
-      ]
+        "Build evidence — complete the model and match the exact observable output: target 0.999 needs 2 replicas -> availability 0.999880\ntarget 0.9999 needs 3 replicas -> availability 0.999979",
+        "Debug evidence — repair and retain this case as a regression: The check evaluates components individually instead of composing them in series. Fix it to compute the real end-to-end availability. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"You must raise a component from 99.9% to 99.99%. Add a redundant replica, or make the single instance more reliable?\" and name the rejected alternative.",
+        "Verification evidence — You report latency as p50/p95/p99, never just the mean. · You compute serial availability as a product of components. · You compute redundant availability from the product of unavailabilities. · You can turn an availability target into a required number of serial hops or replicas.",
+        "Transfer evidence — Availability composition is the backbone of the reliability module: failure-modes, resilience patterns, and SLOs all reason about which components are serial single points and where redundancy buys back 9s. The capstone must hit an availability target you compute this way."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "sql-vs-nosql": [
@@ -1524,7 +1568,7 @@
     },
     {
       "fix": "// The access pattern is rich ad-hoc query + aggregation → relational.\n// SELECT region, count(*) FROM orders\n//   WHERE total > 100 AND created_at > now() - interval '7 days'\n//   GROUP BY region;\n// The DB does this with an index; don't scan a KV store in app code.",
-      "task": "The workload needs ad-hoc filtered/aggregated queries, which a key-value store cannot serve. Fix the store choice.",
+      "task": "The workload needs ad-hoc filtered/aggregated queries, which a key-value store cannot serve. Fix the store choice. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A team chose a key-value store for their orders service, and now every \"orders in the last week over $100 grouped by region\" report requires scanning the entire keyspace in application code.",
       "language": "ts",
@@ -1573,6 +1617,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A store-selector that recommends a store class from the workload's access pattern and consistency needs, and refuses a mismatch.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You wrote down what the workload queries BY before choosing. · You checked whether joins or multi-row transactions are required. · You matched the store class to the access pattern, not to popularity. · You did not plan to reimplement joins or transactions in application code.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Once the store class is chosen, the next lessons make it fast and scalable: indexing (query cost), replication (read scale + durability), and sharding (write scale). The capstone must justify its store from the workload you specify.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Once the store class is chosen, the next lessons make it fast and scalable: indexing (query cost), replication (read scale + durability), and sharding (write scale). The capstone must justify its store from the workload you specify.",
       "type": "transfer"
     },
@@ -1587,10 +1639,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Store chosen from the access pattern",
-        "Transaction/join needs checked explicitly",
-        "No plan to reimplement DB features in app code"
-      ]
+        "Build evidence — complete the model and match the exact observable output: ledger: mismatch: use relational\nsessions: ok\ncatalog: mismatch: use document\nmetrics: ok",
+        "Debug evidence — repair and retain this case as a regression: The workload needs ad-hoc filtered/aggregated queries, which a key-value store cannot serve. Fix the store choice. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Your app is mostly point lookups by key, but has a few reporting queries. One relational store, or a key-value store plus something for reports?\" and name the rejected alternative.",
+        "Verification evidence — You wrote down what the workload queries BY before choosing. · You checked whether joins or multi-row transactions are required. · You matched the store class to the access pattern, not to popularity. · You did not plan to reimplement joins or transactions in application code.",
+        "Transfer evidence — Once the store class is chosen, the next lessons make it fast and scalable: indexing (query cost), replication (read scale + durability), and sharding (write scale). The capstone must justify its store from the workload you specify."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "indexing": [
@@ -1840,7 +1895,7 @@
     },
     {
       "fix": "-- Drop the low-selectivity index; index a SELECTIVE column the query filters by.\nDROP INDEX events_status_idx;\nCREATE INDEX ON events (user_id, created_at);  -- selective, matches the real query\n-- verify with EXPLAIN that the planner actually uses it.",
-      "task": "A low-selectivity index is never used yet still taxes every write. Fix the indexing strategy.",
+      "task": "A low-selectivity index is never used yet still taxes every write. Fix the indexing strategy. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A table has an index on every column, writes have become painfully slow, and yet the dashboard query is still doing a full scan.",
       "language": "ts",
@@ -1889,6 +1944,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A query-cost estimator that compares scan cost vs index cost using selectivity and recommends whether the index helps.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You index columns your selective queries filter or sort by. · You checked selectivity before assuming an index helps. · You verified (EXPLAIN) the planner actually uses the index. · You accounted for the write and storage cost each index adds.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Indexing is the single-node read-speed lever; when one node is not enough, replication (next) scales reads across copies and sharding scales writes across partitions. The capstone's data layer must justify its indexes by the queries it serves.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Indexing is the single-node read-speed lever; when one node is not enough, replication (next) scales reads across copies and sharding scales writes across partitions. The capstone's data layer must justify its indexes by the queries it serves.",
       "type": "transfer"
     },
@@ -1903,10 +1966,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Index vs scan reasoned about via selectivity",
-        "Planner use verified, not assumed",
-        "Write/storage cost of each index accounted for"
-      ]
+        "Build evidence — complete the model and match the exact observable output: rows 1000000 break-even selectivity 0.249995\nrows 100000 break-even selectivity 0.249958",
+        "Debug evidence — repair and retain this case as a regression: A low-selectivity index is never used yet still taxes every write. Fix the indexing strategy. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A read-heavy table gets one new slow filtered query. Add an index for it, or leave the table un-indexed on that column?\" and name the rejected alternative.",
+        "Verification evidence — You index columns your selective queries filter or sort by. · You checked selectivity before assuming an index helps. · You verified (EXPLAIN) the planner actually uses the index. · You accounted for the write and storage cost each index adds.",
+        "Transfer evidence — Indexing is the single-node read-speed lever; when one node is not enough, replication (next) scales reads across copies and sharding scales writes across partitions. The capstone's data layer must justify its indexes by the queries it serves."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "replication": [
@@ -2153,7 +2219,7 @@
     },
     {
       "fix": "const writePos = getUserLastWritePos(userId);\nconst replica = pickAnyFollower();\nreturn replica.appliedPos >= writePos\n  ? replica.read(userId)      // caught up: safe\n  : leader.read(userId);      // behind: read your own write from the leader",
-      "task": "Reads are load-balanced across followers with no regard for whether they have applied the user's latest write. Fix the routing.",
+      "task": "Reads are load-balanced across followers with no regard for whether they have applied the user's latest write. Fix the routing. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "Right after saving a setting, users sometimes see the old value on the very next page load; a refresh a second later shows the new value.",
       "language": "ts",
@@ -2202,6 +2268,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A replication-lag checker that decides whether a given read can be served from a follower without violating read-after-write consistency.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You can explain leader/follower and why writes go to the leader. · You choose sync vs async by durability vs latency, deliberately. · You track each user's last-write position for read routing. · Post-write reads never return a value older than the user's own write.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Replication scales reads and adds durability; the consistency questions it raises (stale followers, read-your-writes) are the same ones CAP, quorums, and eventual consistency formalize in Module 4. Sharding (next) is its complement — replication copies data, sharding splits it.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Replication scales reads and adds durability; the consistency questions it raises (stale followers, read-your-writes) are the same ones CAP, quorums, and eventual consistency formalize in Module 4. Sharding (next) is its complement — replication copies data, sharding splits it.",
       "type": "transfer"
     },
@@ -2216,10 +2290,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Leader/follower model explained",
-        "Sync vs async chosen by durability/latency",
-        "Read-your-writes preserved via position-aware routing"
-      ]
+        "Build evidence — complete the model and match the exact observable output: chosen: f3\nlag: 0\nf1 lag 4\nf2 lag 0\nf3 lag 0\nf4 lag 0",
+        "Debug evidence — repair and retain this case as a regression: Reads are load-balanced across followers with no regard for whether they have applied the user's latest write. Fix the routing. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"For a payment confirmation write, do you replicate synchronously or asynchronously?\" and name the rejected alternative.",
+        "Verification evidence — You can explain leader/follower and why writes go to the leader. · You choose sync vs async by durability vs latency, deliberately. · You track each user's last-write position for read routing. · Post-write reads never return a value older than the user's own write.",
+        "Transfer evidence — Replication scales reads and adds durability; the consistency questions it raises (stale followers, read-your-writes) are the same ones CAP, quorums, and eventual consistency formalize in Module 4. Sharding (next) is its complement — replication copies data, sharding splits it."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "sharding-partitioning": [
@@ -2466,7 +2543,7 @@
     },
     {
       "fix": "// Use a high-cardinality, evenly-distributed key (e.g. the account id) on a\n// consistent-hash ring, so records spread evenly and adding a node moves ~K/N keys.\nconst shard = ownerOf(record.account_id, ring);",
-      "task": "The shard key has only three values, so almost all records land on one or two nodes — a hotspot. Fix the shard key.",
+      "task": "The shard key has only three values, so almost all records land on one or two nodes — a hotspot. Fix the shard key. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A sharded write layer has one node at 95% CPU while the other three sit near idle, and it started when the team sharded by \"account_tier\" (free/pro/enterprise).",
       "language": "ts",
@@ -2515,6 +2592,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A consistent-hash ring that distributes keys across nodes and reports the per-node key counts so you can see balance and hotspots.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Your shard key is high-cardinality and evenly distributed. · You can show per-node key counts and confirm no hotspot. · You use consistent hashing (with virtual nodes) so scaling moves ~K/N keys. · You can explain why a skewed key overloads one node.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Sharding scales writes across partitions the way replication scales reads across copies; together they are the storage foundation the distributed-systems module (CAP, quorums) reasons about. The load-balancing lesson reuses this exact consistent-hash ring for request routing, and the capstone shards its store by a key you must defend.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Sharding scales writes across partitions the way replication scales reads across copies; together they are the storage foundation the distributed-systems module (CAP, quorums) reasons about. The load-balancing lesson reuses this exact consistent-hash ring for request routing, and the capstone shards its store by a key you must defend.",
       "type": "transfer"
     },
@@ -2529,10 +2614,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Shard key chosen for high cardinality + even spread",
-        "Consistent-hash ring assigns keys clockwise",
-        "Per-node distribution measured for hotspots"
-      ]
+        "Build evidence — complete the model and match the exact observable output: single: A=2 B=5 C=5 spread 3\nvnodes: A=4 B=4 C=4 spread 0",
+        "Debug evidence — repair and retain this case as a regression: The shard key has only three values, so almost all records land on one or two nodes — a hotspot. Fix the shard key. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"You need to scale a store horizontally. Naive modulo sharding (hash % N) or consistent hashing?\" and name the rejected alternative.",
+        "Verification evidence — Your shard key is high-cardinality and evenly distributed. · You can show per-node key counts and confirm no hotspot. · You use consistent hashing (with virtual nodes) so scaling moves ~K/N keys. · You can explain why a skewed key overloads one node.",
+        "Transfer evidence — Sharding scales writes across partitions the way replication scales reads across copies; together they are the storage foundation the distributed-systems module (CAP, quorums) reasons about. The load-balancing lesson reuses this exact consistent-hash ring for request routing, and the capstone shards its store by a key you must defend."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "caching-strategies": [
@@ -2762,7 +2850,7 @@
     },
     {
       "fix": "get(key) {\n  if (!this.map.has(key)) { this.misses++; return undefined; }\n  const val = this.map.get(key);\n  this.map.delete(key); this.map.set(key, val); // move to most-recently-used\n  this.hits++; return val;\n}",
-      "task": "The get does not update recency, so frequently-read keys look \"old\" and get evicted. Fix the LRU touch.",
+      "task": "The get does not update recency, so frequently-read keys look \"old\" and get evicted. Fix the LRU touch. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A cache evicts entries but the \"hot\" keys keep getting thrown out, so the hit rate stays low even though those keys are read constantly.",
       "language": "ts",
@@ -2811,6 +2899,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A working LRU cache that evicts the least-recently-used entry at capacity and reports the hit rate over a request trace.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You chose a write strategy (aside/through/back) for your freshness and durability needs. · Your eviction policy fits the access pattern (LRU for temporal locality). · You set a TTL that bounds acceptable staleness. · You measure the hit rate and it justifies the cache.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This LRU and hit-rate machinery reappears in CDN edge caching (next module) and is exactly what the capstone measures to prove its read path is fast. The invalidation lesson (next) tackles what happens when the cached value goes stale.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This LRU and hit-rate machinery reappears in CDN edge caching (next module) and is exactly what the capstone measures to prove its read path is fast. The invalidation lesson (next) tackles what happens when the cached value goes stale.",
       "type": "transfer"
     },
@@ -2825,10 +2921,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Working LRU with correct eviction",
-        "Hit rate computed over a trace",
-        "Write strategy chosen by durability/freshness"
-      ]
+        "Build evidence — complete the model and match the exact observable output: cap 2 hitRate 0.00\ncap 3 hitRate 0.67",
+        "Debug evidence — repair and retain this case as a regression: The get does not update recency, so frequently-read keys look \"old\" and get evicted. Fix the LRU touch. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Writes must be durable but you also want a fast cache. Write-through or write-back?\" and name the rejected alternative.",
+        "Verification evidence — You chose a write strategy (aside/through/back) for your freshness and durability needs. · Your eviction policy fits the access pattern (LRU for temporal locality). · You set a TTL that bounds acceptable staleness. · You measure the hit rate and it justifies the cache.",
+        "Transfer evidence — This LRU and hit-rate machinery reappears in CDN edge caching (next module) and is exactly what the capstone measures to prove its read path is fast. The invalidation lesson (next) tackles what happens when the cached value goes stale."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "cache-invalidation": [
@@ -3085,7 +3184,7 @@
     },
     {
       "fix": "let v = cache.get(key);\nif (v === undefined) {\n  v = await singleFlight.do(key, async () => {   // one recompute for all\n    const fresh = await db.query(expensive);\n    cache.set(key, fresh, 60);\n    return fresh;\n  });\n}\nreturn v;",
-      "task": "When the 60s TTL lapses, all concurrent misses run the expensive query at once. Add single-flight so only one does.",
+      "task": "When the 60s TTL lapses, all concurrent misses run the expensive query at once. Add single-flight so only one does. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A dashboard's most popular query is cached, yet every minute the database briefly spikes to 100% CPU at the same second.",
       "language": "ts",
@@ -3134,6 +3233,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A single-flight guard that, when a hot key expires, lets exactly one request recompute while the rest wait for and share that one result.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Writes invalidate or refresh the cached copy, per your freshness needs. · A hot key's expiry triggers exactly one recomputation (single-flight). · You use stale-while-revalidate or TTL jitter where staleness is tolerable. · You can show the origin sees one load, not a herd, at expiry.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Single-flight is the same coalescing idea you will see as idempotent dedup in the async-queues lesson and as the half-open probe in the circuit breaker — one guarded action protecting a shared resource. The capstone's cache must survive a hot-key expiry.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Single-flight is the same coalescing idea you will see as idempotent dedup in the async-queues lesson and as the half-open probe in the circuit breaker — one guarded action protecting a shared resource. The capstone's cache must survive a hot-key expiry.",
       "type": "transfer"
     },
@@ -3148,10 +3255,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Writes invalidate/refresh the cache",
-        "Single-flight yields one recompute under concurrency",
-        "Stampede reduced to a single origin load"
-      ]
+        "Build evidence — complete the model and match the exact observable output: naiveComputes: 6\ncoalescedComputes: 1\nbothCorrect: true",
+        "Debug evidence — repair and retain this case as a regression: When the 60s TTL lapses, all concurrent misses run the expensive query at once. Add single-flight so only one does. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A hot key just expired and a refresh is needed. Block all readers until it recomputes, or serve the stale value while one request refreshes?\" and name the rejected alternative.",
+        "Verification evidence — Writes invalidate or refresh the cached copy, per your freshness needs. · A hot key's expiry triggers exactly one recomputation (single-flight). · You use stale-while-revalidate or TTL jitter where staleness is tolerable. · You can show the origin sees one load, not a herd, at expiry.",
+        "Transfer evidence — Single-flight is the same coalescing idea you will see as idempotent dedup in the async-queues lesson and as the half-open probe in the circuit breaker — one guarded action protecting a shared resource. The capstone's cache must survive a hot-key expiry."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "load-balancing": [
@@ -3409,7 +3519,7 @@
     },
     {
       "fix": "pickBackend() {\n  const pool = this.backends.filter(b => b.healthy); // health checks maintain this flag\n  const b = pool[this.rr % pool.length];\n  this.rr++; return b;\n}",
-      "task": "Round-robin cycles over ALL backends including the crashed one, so 1/3 of traffic hits a dead node. Fix it to route only to healthy backends.",
+      "task": "Round-robin cycles over ALL backends including the crashed one, so 1/3 of traffic hits a dead node. Fix it to route only to healthy backends. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "Exactly one third of requests return 502 errors, steadily, and it started when one of three backends crashed.",
       "language": "ts",
@@ -3458,6 +3568,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A load balancer that implements round-robin and least-connections and reports the resulting request distribution across healthy backends.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You chose the algorithm (round-robin / least-conn / consistent-hash) for your workload. · Only healthy backends are eligible for selection. · Health checks add and remove backends automatically. · You can show the resulting request distribution across the pool.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Consistent-hash load balancing reuses the ring from the sharding lesson; the health-check idea is the same liveness signal the circuit breaker and failure-mode lessons build on. The capstone puts a load balancer in front of its stateless app tier.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Consistent-hash load balancing reuses the ring from the sharding lesson; the health-check idea is the same liveness signal the circuit breaker and failure-mode lessons build on. The capstone puts a load balancer in front of its stateless app tier.",
       "type": "transfer"
     },
@@ -3472,10 +3590,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Round-robin and least-connections implemented",
-        "Only healthy backends selected",
-        "Distribution across the pool measured"
-      ]
+        "Build evidence — complete the model and match the exact observable output: weighted: {\"big\":6,\"small\":2,\"down\":0}",
+        "Debug evidence — repair and retain this case as a regression: Round-robin cycles over ALL backends including the crashed one, so 1/3 of traffic hits a dead node. Fix it to route only to healthy backends. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Request durations vary a lot across your backends. Round-robin or least-connections?\" and name the rejected alternative.",
+        "Verification evidence — You chose the algorithm (round-robin / least-conn / consistent-hash) for your workload. · Only healthy backends are eligible for selection. · Health checks add and remove backends automatically. · You can show the resulting request distribution across the pool.",
+        "Transfer evidence — Consistent-hash load balancing reuses the ring from the sharding lesson; the health-check idea is the same liveness signal the circuit breaker and failure-mode lessons build on. The capstone puts a load balancer in front of its stateless app tier."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "cdn-edge": [
@@ -3714,7 +3835,7 @@
     },
     {
       "fix": "if (isPersonalized(res)) {\n  res.setHeader(\"Cache-Control\", \"private, no-store\"); // never edge-cache per-user data\n} else {\n  res.setHeader(\"Cache-Control\", \"public, max-age=300\"); // shared/static only\n}",
-      "task": "A personalized response is marked public and cached at the edge, so it is served to other users. Fix the header for personalized content.",
+      "task": "A personalized response is marked public and cached at the edge, so it is served to other users. Fix the header for personalized content. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "After enabling the CDN, users occasionally load a page showing a DIFFERENT user's name and account details.",
       "language": "ts",
@@ -3763,6 +3884,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A cache-control decision function that classifies each response as edge-cacheable or not, plus an edge hit-ratio calculation over a request mix.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Static shared assets are public with an appropriate max-age. · Personalized and sensitive responses are private/no-store. · You can compute the edge hit ratio and the origin offload it gives. · No per-user data can ever be served from a shared cache.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: The edge hit ratio is the same offload logic as the cache hit rate from the caching lesson, applied geographically; the no-store rule for personalized data is the security discipline the safety and entitlement lessons reinforce. The capstone serves its static assets from the edge and its dynamic API from the origin.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "The edge hit ratio is the same offload logic as the cache hit rate from the caching lesson, applied geographically; the no-store rule for personalized data is the security discipline the safety and entitlement lessons reinforce. The capstone serves its static assets from the edge and its dynamic API from the origin.",
       "type": "transfer"
     },
@@ -3777,10 +3906,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Cacheable vs dynamic classified by Cache-Control",
-        "Personalized responses marked no-store",
-        "Edge hit ratio and origin offload computed"
-      ]
+        "Build evidence — complete the model and match the exact observable output: logo.png: public, max-age=86400\napp.js: public, max-age=86400\ndashboard: no-store\npricing: public, max-age=60\nbyteOffload: 0.9718",
+        "Debug evidence — repair and retain this case as a regression: A personalized response is marked public and cached at the edge, so it is served to other users. Fix the header for personalized content. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A page is shared across users but its content changes a few times a day. Long max-age at the edge, or short max-age?\" and name the rejected alternative.",
+        "Verification evidence — Static shared assets are public with an appropriate max-age. · Personalized and sensitive responses are private/no-store. · You can compute the edge hit ratio and the origin offload it gives. · No per-user data can ever be served from a shared cache.",
+        "Transfer evidence — The edge hit ratio is the same offload logic as the cache hit rate from the caching lesson, applied geographically; the no-store rule for personalized data is the security discipline the safety and entitlement lessons reinforce. The capstone serves its static assets from the edge and its dynamic API from the origin."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "cap-and-consistency": [
@@ -4016,7 +4148,7 @@
     },
     {
       "fix": "async function withdraw(acct, amt) {\n  // CP: require a quorum/leader so both sides can't independently debit.\n  if (!await canReachQuorum(acct)) throw new Unavailable(\"withdrawals paused during partition\");\n  await quorumConditionalWrite(acct, amt); // reject rather than risk a double-spend\n}",
-      "task": "Balances are treated as AP (serve/write from any replica during a partition), causing divergence. Make this correctness-critical path CP.",
+      "task": "Balances are treated as AP (serve/write from any replica during a partition), causing divergence. Make this correctness-critical path CP. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A wallet service stayed fully available during a data-center partition, and afterward some balances were negative from double-spends.",
       "language": "ts",
@@ -4065,6 +4197,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A CP-vs-AP decision function that, per data requirement, chooses whether to sacrifice availability (stay consistent) or serve stale (stay available) during a partition.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You treat partition tolerance as mandatory, so the choice is C vs A. · Each data type is labeled CP or AP with a reason. · Correctness-critical data refuses rather than diverges under a partition. · You can explain how PACELC adds a latency-vs-consistency choice even without a partition.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: CAP frames the choices the rest of this module implements: quorums (next-next) are how you tune the C/A dial, async queues embrace eventual (AP) consistency, and the fallacies lesson explains why partitions happen at all. The capstone must label its data CP or AP.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "CAP frames the choices the rest of this module implements: quorums (next-next) are how you tune the C/A dial, async queues embrace eventual (AP) consistency, and the fallacies lesson explains why partitions happen at all. The capstone must label its data CP or AP.",
       "type": "transfer"
     },
@@ -4079,10 +4219,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Partition tolerance treated as mandatory",
-        "Each data type labeled CP or AP with justification",
-        "Correctness-critical data kept CP"
-      ]
+        "Build evidence — complete the model and match the exact observable output: account-balance: PC/EC\ninventory-count: PC/EC\nactivity-feed: PA/EL\naudit-log: PA/EC",
+        "Debug evidence — repair and retain this case as a regression: Balances are treated as AP (serve/write from any replica during a partition), causing divergence. Make this correctness-critical path CP. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A social app must decide the consistency of its like-count during a partition. CP (accurate, may reject) or AP (always shows a number, may be stale)?\" and name the rejected alternative.",
+        "Verification evidence — You treat partition tolerance as mandatory, so the choice is C vs A. · Each data type is labeled CP or AP with a reason. · Correctness-critical data refuses rather than diverges under a partition. · You can explain how PACELC adds a latency-vs-consistency choice even without a partition.",
+        "Transfer evidence — CAP frames the choices the rest of this module implements: quorums (next-next) are how you tune the C/A dial, async queues embrace eventual (AP) consistency, and the fallacies lesson explains why partitions happen at all. The capstone must label its data CP or AP."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "async-queues": [
@@ -4320,7 +4463,7 @@
     },
     {
       "fix": "async function onMessage(msg) {\n  if (await ledger.has(msg.id)) { await ack(msg); return; } // already charged → skip\n  await chargeCard(msg.amount);\n  await ledger.add(msg.id);   // record BEFORE ack so redelivery is a no-op\n  await ack(msg);\n}",
-      "task": "The charge is not idempotent, so a redelivered message charges again. Add a dedup ledger keyed by message-id.",
+      "task": "The charge is not idempotent, so a redelivered message charges again. Add a dedup ledger keyed by message-id. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A payments worker occasionally charges a customer twice, always after a transient network error around the acknowledgment.",
       "language": "ts",
@@ -4369,6 +4512,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An idempotent consumer with a dedup ledger that processes each message-id exactly once even when the same message is delivered multiple times.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You assume at-least-once delivery and expect duplicates. · The consumer dedups by a stable message-id before side effects. · The number of real effects equals the number of unique messages. · A slow consumer triggers backpressure, not lost messages.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Idempotency here is the same guarantee the async work in the building-blocks lesson relies on and the same dedup discipline the reliability module's retries demand — a retried request must be idempotent too. The capstone's write path is idempotent under retry.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Idempotency here is the same guarantee the async work in the building-blocks lesson relies on and the same dedup discipline the reliability module's retries demand — a retried request must be idempotent too. The capstone's write path is idempotent under retry.",
       "type": "transfer"
     },
@@ -4383,10 +4534,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Consumer assumes at-least-once and expects duplicates",
-        "Dedup ledger keyed by message-id",
-        "Unique effects == unique message-ids"
-      ]
+        "Build evidence — complete the model and match the exact observable output: m1: processed\nm2: processed\nm3: processed\nm1: processed\neffects: 4\nleakedDuplicates: 1",
+        "Debug evidence — repair and retain this case as a regression: The charge is not idempotent, so a redelivered message charges again. Add a dedup ledger keyed by message-id. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A consumer falls behind during a traffic spike. Let the queue buffer the backlog (backpressure), or drop messages to keep up?\" and name the rejected alternative.",
+        "Verification evidence — You assume at-least-once delivery and expect duplicates. · The consumer dedups by a stable message-id before side effects. · The number of real effects equals the number of unique messages. · A slow consumer triggers backpressure, not lost messages.",
+        "Transfer evidence — Idempotency here is the same guarantee the async work in the building-blocks lesson relies on and the same dedup discipline the reliability module's retries demand — a retried request must be idempotent too. The capstone's write path is idempotent under retry."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "consensus-quorum": [
@@ -4642,7 +4796,7 @@
     },
     {
       "fix": "const N = 7;\n// R + W must exceed N. e.g. W=4, R=4 (sum 8 > 7) restores overlap.\nconst W = 4;\nconst R = 4;\n// consistency is R + W > N, not the size of N.",
-      "task": "Raising N without raising R and W broke the overlap condition. Fix the quorum so reads are guaranteed fresh again.",
+      "task": "Raising N without raising R and W broke the overlap condition. Fix the quorum so reads are guaranteed fresh again. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A team raised replicas from 3 to 7 \"for stronger consistency,\" and stale reads got MORE frequent, not less.",
       "language": "ts",
@@ -4691,6 +4845,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A quorum validator that, given N/R/W, decides whether the configuration guarantees a read sees the latest acknowledged write (R + W > N).",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You can state R + W > N and why it guarantees fresh reads. · You tune (N, R, W) to the data's consistency requirement. · You know that raising N alone does not improve consistency. · A single leader (elected) orders writes where you need a single authority.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Quorums are the concrete dial behind the CAP choice from earlier in this module: high R/W leans CP, low R/W leans AP. Leader election is the liveness mechanism the reliability module's failover depends on. The capstone's consistency-critical store uses a consistent quorum.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Quorums are the concrete dial behind the CAP choice from earlier in this module: high R/W leans CP, low R/W leans AP. Leader election is the liveness mechanism the reliability module's failover depends on. The capstone's consistency-critical store uses a consistent quorum.",
       "type": "transfer"
     },
@@ -4705,10 +4867,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "R + W > N stated and applied",
-        "(N,R,W) tuned to the consistency need",
-        "Understands N alone does not give consistency"
-      ]
+        "Build evidence — complete the model and match the exact observable output: N=3 F=1 feasible: 2,2 count 1\nN=5 F=1 feasible: 2,4 3,3 3,4 4,2 4,3 4,4 count 6\nN=5 F=2 feasible: 3,3 count 1",
+        "Debug evidence — repair and retain this case as a regression: Raising N without raising R and W broke the overlap condition. Fix the quorum so reads are guaranteed fresh again. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"On N=3 replicas, you want fast, always-available writes for an activity log. High W (W=3) or low W (W=1)?\" and name the rejected alternative.",
+        "Verification evidence — You can state R + W > N and why it guarantees fresh reads. · You tune (N, R, W) to the data's consistency requirement. · You know that raising N alone does not improve consistency. · A single leader (elected) orders writes where you need a single authority.",
+        "Transfer evidence — Quorums are the concrete dial behind the CAP choice from earlier in this module: high R/W leans CP, low R/W leans AP. Leader election is the liveness mechanism the reliability module's failover depends on. The capstone's consistency-critical store uses a consistent quorum."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "distributed-fallacies": [
@@ -4961,7 +5126,7 @@
     },
     {
       "fix": "// Bound every remote call; assume it can fail or stall.\nconst opts = { timeout: 500 };  // fail fast, don't wait forever\nconst a = await http.get(urlA, opts);\nconst b = await http.get(urlB, opts);\nconst c = await http.get(urlC, opts);  // + retry with backoff on transient errors",
-      "task": "The code assumes the network is reliable and instant (fallacies 1 and 2) with no timeouts. Fix the remote calls.",
+      "task": "The code assumes the network is reliable and instant (fallacies 1 and 2) with no timeouts. Fix the remote calls. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A service that calls three downstream APIs occasionally hangs completely, with all its worker threads stuck, until it is restarted.",
       "language": "ts",
@@ -5010,6 +5175,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A fallacy auditor that scans a design's assumptions and flags each of the eight fallacies it violates.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Every remote call has a timeout and a retry policy. · You do not order cross-machine events by wall-clock time. · Hosts come from discovery, not hardcoded addresses. · You can name the eight fallacies and audit a design against them.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: The fallacies are the \"why\" behind the entire reliability module: timeouts, retries, circuit breakers, and blast-radius thinking all exist because the network is not reliable, latency is not zero, and failures are partial. The capstone must handle a partial failure without hanging.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "The fallacies are the \"why\" behind the entire reliability module: timeouts, retries, circuit breakers, and blast-radius thinking all exist because the network is not reliable, latency is not zero, and failures are partial. The capstone must handle a partial failure without hanging.",
       "type": "transfer"
     },
@@ -5024,10 +5197,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Design audited against all eight fallacies",
-        "Remote calls bounded with timeout + retry",
-        "Cross-machine ordering does not rely on wall clocks"
-      ]
+        "Build evidence — complete the model and match the exact observable output: violations: 4\ntotalRisk: 16\ntopFix: 1: network is reliable",
+        "Debug evidence — repair and retain this case as a regression: The code assumes the network is reliable and instant (fallacies 1 and 2) with no timeouts. Fix the remote calls. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Ordering events across two services. Use each machine's wall-clock timestamp, or logical/causal ordering?\" and name the rejected alternative.",
+        "Verification evidence — Every remote call has a timeout and a retry policy. · You do not order cross-machine events by wall-clock time. · Hosts come from discovery, not hardcoded addresses. · You can name the eight fallacies and audit a design against them.",
+        "Transfer evidence — The fallacies are the \"why\" behind the entire reliability module: timeouts, retries, circuit breakers, and blast-radius thinking all exist because the network is not reliable, latency is not zero, and failures are partial. The capstone must handle a partial failure without hanging."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "failure-modes-blast-radius": [
@@ -5265,7 +5441,7 @@
     },
     {
       "fix": "let items = [];\ntry {\n  items = await relatedItems.fetch(cart, { timeout: 100, pool: \"relatedItemsPool\" }); // isolated pool + timeout\n} catch { items = []; } // degrade gracefully: checkout renders without related items\nreturn renderCheckout(cart, items);",
-      "task": "A non-critical dependency shares resources and is treated as required, so its slowness blocks checkout. Add a bulkhead.",
+      "task": "A non-critical dependency shares resources and is treated as required, so its slowness blocks checkout. Add a bulkhead. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "When the non-critical \"related items\" service is slow, the entire checkout flow times out, even though checkout does not logically need related items.",
       "language": "ts",
@@ -5314,6 +5490,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A blast-radius propagator that, given a dependency graph, computes every component that fails when one component goes down — and shows how a bulkhead shrinks it.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You can compute the blast radius of each critical component from the dependency graph. · Non-critical dependencies are optional (graceful degradation), not required. · Each dependency has an isolated resource pool and a timeout. · A single non-critical failure cannot take down the whole system.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Blast-radius thinking is the reliability lens for the whole module: the resilience patterns (next) are the per-edge tools (timeout, retry, circuit breaker) that implement bulkheads, and SLOs measure whether containment held. The capstone must survive one component failure without a full outage.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Blast-radius thinking is the reliability lens for the whole module: the resilience patterns (next) are the per-edge tools (timeout, retry, circuit breaker) that implement bulkheads, and SLOs measure whether containment held. The capstone must survive one component failure without a full outage.",
       "type": "transfer"
     },
@@ -5328,10 +5512,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Blast radius computed from the dependency graph",
-        "Non-critical dependencies made optional",
-        "Bulkhead demonstrably shrinks the radius"
-      ]
+        "Build evidence — complete the model and match the exact observable output: auth blast 3\ncache blast 3\napi blast 2\nweb blast 1",
+        "Debug evidence — repair and retain this case as a regression: A non-critical dependency shares resources and is treated as required, so its slowness blocks checkout. Add a bulkhead. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A page depends on a non-critical recommendations service. Call it synchronously as required, or make it optional with a bulkhead?\" and name the rejected alternative.",
+        "Verification evidence — You can compute the blast radius of each critical component from the dependency graph. · Non-critical dependencies are optional (graceful degradation), not required. · Each dependency has an isolated resource pool and a timeout. · A single non-critical failure cannot take down the whole system.",
+        "Transfer evidence — Blast-radius thinking is the reliability lens for the whole module: the resilience patterns (next) are the per-edge tools (timeout, retry, circuit breaker) that implement bulkheads, and SLOs measure whether containment held. The capstone must survive one component failure without a full outage."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "resilience-patterns": [
@@ -5590,7 +5777,7 @@
     },
     {
       "fix": "async function call() {\n  if (breaker.state === \"open\") throw new Error(\"circuit open — fail fast\");\n  try { const r = await downstream(); breaker.onResult(true, Date.now()); return r; }\n  catch (e) { breaker.onResult(false, Date.now()); throw e; } // trips after threshold → stops calling\n}",
-      "task": "Unconditional retries hammer a dead dependency and amplify the outage. Wrap the call in a circuit breaker.",
+      "task": "Unconditional retries hammer a dead dependency and amplify the outage. Wrap the call in a circuit breaker. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "When a downstream service goes fully down, the caller's error rate and latency get WORSE over time instead of stabilizing, and the downstream service never recovers.",
       "language": "ts",
@@ -5639,6 +5826,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A circuit breaker that transitions closed → open → half-open → closed (or back to open) based on failures and a cooldown, tested against a scripted call sequence.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Every remote call has a timeout. · Retries use exponential backoff with jitter and only apply to idempotent operations. · A circuit breaker trips on sustained failure and fails fast when open. · The breaker probes via half-open and recovers to closed on success.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: These patterns implement the bulkheads from the previous lesson (timeout + breaker isolate a dependency) and are exactly what the capstone's resilient client composes. The observability lesson (next) measures whether they are working via SLOs and error budgets.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "These patterns implement the bulkheads from the previous lesson (timeout + breaker isolate a dependency) and are exactly what the capstone's resilient client composes. The observability lesson (next) measures whether they are working via SLOs and error budgets.",
       "type": "transfer"
     },
@@ -5653,10 +5848,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Circuit breaker transitions closed/open/half-open correctly",
-        "Retries use bounded exponential backoff",
-        "Timeout bounds every remote call"
-      ]
+        "Build evidence — complete the model and match the exact observable output: t=0 -> closed\nt=10 -> closed\nt=20 -> open\nt=1100 -> half-open\nt=1110 -> closed",
+        "Debug evidence — repair and retain this case as a regression: Unconditional retries hammer a dead dependency and amplify the outage. Wrap the call in a circuit breaker. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A dependency is returning errors. Keep retrying with backoff, or trip a circuit breaker and fail fast?\" and name the rejected alternative.",
+        "Verification evidence — Every remote call has a timeout. · Retries use exponential backoff with jitter and only apply to idempotent operations. · A circuit breaker trips on sustained failure and fails fast when open. · The breaker probes via half-open and recovers to closed on success.",
+        "Transfer evidence — These patterns implement the bulkheads from the previous lesson (timeout + breaker isolate a dependency) and are exactly what the capstone's resilient client composes. The observability lesson (next) measures whether they are working via SLOs and error budgets."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "observability-slos": [
@@ -5883,7 +6081,7 @@
     },
     {
       "fix": "// Alert when the error budget is burning too fast, not on every failure.\nconst rate = burnRate(recentBadMinutes, recentWindowMinutes, SLO);\nif (rate >= 10) page(onCall); // fast burn: budget will be gone soon\n// slow, within-budget failures are expected and do not page.",
-      "task": "Alerting per failure ignores the error budget and causes alert fatigue. Alert on burn rate instead.",
+      "task": "Alerting per failure ignores the error budget and causes alert fatigue. Alert on burn rate instead. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "An alert fires on every single failed request, so the on-call is paged constantly and ignores the pager — then misses the incident that actually burns the whole error budget.",
       "language": "ts",
@@ -5932,6 +6130,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An error-budget calculator that turns an SLO and a measurement window into allowed downtime, budget consumed, and a burn rate that flags when the budget will be exhausted early.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You have an SLI (a real measured metric) for each critical journey. · Each SLI has an achievable SLO with a defined window. · You compute the error budget (1 − SLO) as allowed downtime. · You alert on burn rate, not on every individual failure.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: The error budget is the scoreboard for everything in this module: blast-radius containment and resilience patterns exist to protect it, and it is what tells you whether they worked. The capstone must state an SLO and show its design fits the budget.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "The error budget is the scoreboard for everything in this module: blast-radius containment and resilience patterns exist to protect it, and it is what tells you whether they worked. The capstone must state an SLO and show its design fits the budget.",
       "type": "transfer"
     },
@@ -5946,10 +6152,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "SLI and SLO defined for a journey",
-        "Error budget computed as (1 − SLO) × window",
-        "Burn rate computed and used for alerting"
-      ]
+        "Build evidence — complete the model and match the exact observable output: spike: short 50.0 long 20.0 -> page\nslow-burn: short 8.0 long 7.0 -> ticket\nhealthy: short 0.5 long 0.4 -> none",
+        "Debug evidence — repair and retain this case as a regression: Alerting per failure ignores the error budget and causes alert fatigue. Alert on burn rate instead. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Your team wants to ship features fast, but reliability matters. Target 100% availability, or set an SLO with an error budget?\" and name the rejected alternative.",
+        "Verification evidence — You have an SLI (a real measured metric) for each critical journey. · Each SLI has an achievable SLO with a defined window. · You compute the error budget (1 − SLO) as allowed downtime. · You alert on burn rate, not on every individual failure.",
+        "Transfer evidence — The error budget is the scoreboard for everything in this module: blast-radius containment and resilience patterns exist to protect it, and it is what tells you whether they worked. The capstone must state an SLO and show its design fits the budget."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "rate-limiting-load-shedding": [
@@ -6193,7 +6402,7 @@
     },
     {
       "fix": "// Token bucket: refill ~1.67 tokens/sec (100/min), capacity caps the burst.\nconst tb = new TokenBucket(100, 100 / 60);\nif (tb.tryAdmit(nowSeconds())) admit(); else reject();\n// sustained ~100/min; burst bounded by capacity, no boundary doubling.",
-      "task": "The fixed window allows a full quota on each side of the boundary. Replace it with a token bucket that separates rate from burst.",
+      "task": "The fixed window allows a full quota on each side of the boundary. Replace it with a token bucket that separates rate from burst. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A \"100 requests per minute\" fixed-window limiter still lets clients briefly send 200 requests in a couple of seconds, overwhelming the backend.",
       "language": "ts",
@@ -6242,6 +6451,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A token-bucket rate limiter that refills at a steady rate, allows bursts up to capacity, and admits or rejects each request based on available tokens.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: A token bucket enforces a sustained rate and a bounded burst. · You sized capacity for the burst and refill for the sustained rate. · Under true overload, low-priority work is shed to protect the core. · Rejected requests fail cleanly (429/backoff), not by crashing the service.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: Rate limiting and shedding are the last line of the reliability module — they cap the input so the resilience patterns and error budget are not overwhelmed. The token bucket reappears in the capstone as the front-door limiter, and its shedding logic protects the core under a computed load spike.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "Rate limiting and shedding are the last line of the reliability module — they cap the input so the resilience patterns and error budget are not overwhelmed. The token bucket reappears in the capstone as the front-door limiter, and its shedding logic protects the core under a computed load spike.",
       "type": "transfer"
     },
@@ -6256,10 +6473,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Token bucket enforces sustained rate + burst",
-        "Capacity and refill sized to the requirement",
-        "Overload sheds low-priority work first"
-      ]
+        "Build evidence — complete the model and match the exact observable output: low admitted: 7 rejected: 3\nhigh admitted: 3 rejected: 0",
+        "Debug evidence — repair and retain this case as a regression: The fixed window allows a full quota on each side of the boundary. Replace it with a token bucket that separates rate from burst. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Your API needs 100 req/sec sustained but should tolerate short bursts. Token bucket or leaky bucket?\" and name the rejected alternative.",
+        "Verification evidence — A token bucket enforces a sustained rate and a bounded burst. · You sized capacity for the burst and refill for the sustained rate. · Under true overload, low-priority work is shed to protect the core. · Rejected requests fail cleanly (429/backoff), not by crashing the service.",
+        "Transfer evidence — Rate limiting and shedding are the last line of the reliability module — they cap the input so the resilience patterns and error budget are not overwhelmed. The token bucket reappears in the capstone as the front-door limiter, and its shedding logic protects the core under a computed load spike."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "tradeoff-analysis-adrs": [
@@ -6506,7 +6726,7 @@
     },
     {
       "fix": "// ADR-014: Adopt microservices for the billing domain\n// Context: billing scaled to 50k TPS; team split into 4 squads.\n// Decision: extract billing into its own service.\n// Alternatives rejected: modular monolith (couldn't scale billing independently).\n// Consequences: cross-service transactions replaced with sagas; +ops cost accepted.",
-      "task": "The decision was never recorded with its rationale and alternatives, so it gets re-litigated. Capture it as an ADR.",
+      "task": "The decision was never recorded with its rationale and alternatives, so it gets re-litigated. Capture it as an ADR. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "Six months after a big architecture decision, no one remembers why microservices were chosen over a monolith, and the team keeps re-arguing it in every planning meeting.",
       "language": "ts",
@@ -6555,6 +6775,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A tradeoff scorer that ranks design options against weighted criteria and produces the decision an ADR would record.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Options are scored against weighted, system-specific criteria. · You considered and can defend NOT distributing. · The decision and rejected alternatives are recorded in an ADR. · Future engineers can understand the reasoning without re-arguing it.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This scoring discipline is how the interview method (next) chooses among designs and how the capstone justifies its stores, caches, and consistency choices — each is a recorded tradeoff, not a default. Every design decision you make from here should be defensible as a weighted choice.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This scoring discipline is how the interview method (next) chooses among designs and how the capstone justifies its stores, caches, and consistency choices — each is a recorded tradeoff, not a default. Every design decision you make from here should be defensible as a weighted choice.",
       "type": "transfer"
     },
@@ -6569,10 +6797,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Options scored against weighted criteria",
-        "The not-distribute option seriously considered",
-        "Decision + rejected alternatives recorded as an ADR"
-      ]
+        "Build evidence — complete the model and match the exact observable output: monolith total: 42\nmicroservices total: 19\nscalability weight to flip: 9",
+        "Debug evidence — repair and retain this case as a regression: The decision was never recorded with its rationale and alternatives, so it gets re-litigated. Capture it as an ADR. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"A new product with a small team must pick an architecture. Default to microservices for future scale, or start with a monolith?\" and name the rejected alternative.",
+        "Verification evidence — Options are scored against weighted, system-specific criteria. · You considered and can defend NOT distributing. · The decision and rejected alternatives are recorded in an ADR. · Future engineers can understand the reasoning without re-arguing it.",
+        "Transfer evidence — This scoring discipline is how the interview method (next) chooses among designs and how the capstone justifies its stores, caches, and consistency choices — each is a recorded tradeoff, not a default. Every design decision you make from here should be defensible as a weighted choice."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "the-interview-method": [
@@ -6807,7 +7038,7 @@
     },
     {
       "fix": "drawComponents();\nconst bottleneck = findBottleneck(estimatedLoad); // e.g. the synchronous 3rd-party call\naddress(bottleneck);   // make it async / add a timeout; THEN optimize what remains\n// find the bottleneck BEFORE optimizing anything.",
-      "task": "The process skipped the bottleneck-identification step and optimized the wrong component. Fix the method.",
+      "task": "The process skipped the bottleneck-identification step and optimized the wrong component. Fix the method. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A design review keeps optimizing the caching layer, but latency does not improve — because the real bottleneck is a synchronous third-party call nobody identified.",
       "language": "ts",
@@ -6856,6 +7087,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A design-step completeness checker that verifies a proposed design walked all six method steps in order and flags any it skipped.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: You frame requirements and constraints before drawing anything. · You estimate scale before choosing components. · You identify the bottleneck before optimizing. · You state the tradeoffs you consciously accepted.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This method is the scaffold for the capstone: you will frame its requirements, estimate its load, design the components, deep-dive the data layer, find the bottleneck, and defend the tradeoffs — and its computed checks verify each step landed. It is also exactly how you should approach any real design doc.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This method is the scaffold for the capstone: you will frame its requirements, estimate its load, design the components, deep-dive the data layer, find the bottleneck, and defend the tradeoffs — and its computed checks verify each step landed. It is also exactly how you should approach any real design doc.",
       "type": "transfer"
     },
@@ -6870,20 +7109,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "All six method steps walked in order",
-        "Scale estimated before component choice",
-        "Bottleneck identified before optimization"
-      ]
+        "Build evidence — complete the model and match the exact observable output: skipped: frame,estimate\nrushed: bottleneck\ntotalMinutes: 28",
+        "Debug evidence — repair and retain this case as a regression: The process skipped the bottleneck-identification step and optimized the wrong component. Fix the method. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"You have limited time in a design discussion. Spend it polishing a detailed diagram, or walking the full method at lower detail?\" and name the rejected alternative.",
+        "Verification evidence — You frame requirements and constraints before drawing anything. · You estimate scale before choosing components. · You identify the bottleneck before optimizing. · You state the tradeoffs you consciously accepted.",
+        "Transfer evidence — This method is the scaffold for the capstone: you will frame its requirements, estimate its load, design the components, deep-dive the data layer, find the bottleneck, and defend the tradeoffs — and its computed checks verify each step landed. It is also exactly how you should approach any real design doc."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "designing-a-real-system": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
-      "proof": "A composed shortener that generates unique short codes, caches redirects, shards by code, and rate-limits creation — with computed checks proving each invariant holds.",
+      "proof": "A composed shortener with a requirements ledger, capacity budget, request/data-flow diagram, unique codes, coherent shard routing, cache behavior, rate limits, failure probes, and exact invariant checks.",
       "unlock": "You can compose the course's primitives into one coherent system and verify it behaves correctly.",
       "outcome": "Apply the whole ladder to one end-to-end design — a URL shortener — composing id generation, caching, sharding, and rate limiting into a working request path and verifying its invariants.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim the pieces work because each passed alone — a real system is proven by the invariants that hold when they COMPOSE."
     },
     {
@@ -7138,7 +7380,7 @@
     },
     {
       "fix": "// Both paths MUST shard by the SAME key — the short code.\nconst writeShard = shardFor(code, shards);\nshards[writeShard][code] = longUrl;\nconst readShard = shardFor(code, shards);  // same function, same key → same shard\nreturn shards[readShard][code];",
-      "task": "The write path and read path shard by different keys, so the reader looks in the wrong shard. Fix the composition so both use the same shard key.",
+      "task": "The write path and read path shard by different keys, so the reader looks in the wrong shard. Fix the composition so both use the same shard key. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "Some short links 404 even though creation reported success — the redirect finds nothing for a code that was definitely created.",
       "language": "ts",
@@ -7187,6 +7429,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A composed shortener that generates unique short codes, caches redirects, shards by code, and rate-limits creation — with computed checks proving each invariant holds.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: Every generated short code is unique. · Every created code redirects to its exact long URL (cache or shard). · Codes spread across shards without a hotspot. · Creation beyond the rate limit is rejected, not accepted.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This is the dress rehearsal for the capstone: the same compose-then-verify-invariants discipline, applied to a system YOU specify from a spec, is exactly what the final lesson asks you to design and defend with computed checks.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This is the dress rehearsal for the capstone: the same compose-then-verify-invariants discipline, applied to a system YOU specify from a spec, is exactly what the final lesson asks you to design and defend with computed checks.",
       "type": "transfer"
     },
@@ -7201,20 +7451,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Primitives composed into one request path",
-        "All four invariants verified by computed checks",
-        "Read and write paths use a consistent shard key"
-      ]
+        "Build evidence — complete the model and match the exact observable output: created: 5 rejected: 2\nuniqueCodes: true\nnoDanglingCacheEntry: true\nperShard: 1,2,2",
+        "Debug evidence — repair and retain this case as a regression: The write path and read path shard by different keys, so the reader looks in the wrong shard. Fix the composition so both use the same shard key. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"For generating short codes, use a monotonic counter encoded to base-62, or a random string with a collision check?\" and name the rejected alternative.",
+        "Verification evidence — Every generated short code is unique. · Every created code redirects to its exact long URL (cache or shard). · Codes spread across shards without a hotspot. · Creation beyond the rate limit is rejected, not accepted.",
+        "Transfer evidence — This is the dress rehearsal for the capstone: the same compose-then-verify-invariants discipline, applied to a system YOU specify from a spec, is exactly what the final lesson asks you to design and defend with computed checks."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ],
   "capstone-design-and-defend": [
     {
-      "time": "60–90 min",
+      "time": "Multi-day",
       "type": "sprint-contract",
-      "proof": "A design validator that takes a spec + a proposed design and computes whether it passes every gate: capacity, consistency, cache, and failure containment.",
-      "unlock": "You can produce a design whose correctness is proven by computed checks against the requirements, not asserted.",
+      "proof": "A versioned design packet and executable validator proving capacity, consistency, cache, observability, overload, and blast-radius gates against explicit requirements, including failed and repaired designs.",
+      "unlock": "You can derive, challenge, revise, and defend a production system design with computed evidence rather than component-name fluency.",
       "outcome": "Design a scalable system to a spec and DEFEND it with computed checks: capacity fits the budget, the store/consistency choice matches the data, the cache meets its hit-rate target, and a component failure is contained.",
-      "intensity": "standard",
+      "intensity": "capstone",
       "doNotClaim": "Don't claim a design is \"scalable\" — prove it: the capacity fits, the consistency matches the data, the cache hits its target, and a failure is contained, each by a computed check."
     },
     {
@@ -7456,7 +7709,7 @@
     },
     {
       "fix": "const design = {\n  servers: 50, rpsPerServer: 1000,     // provisioned 50k >= 40k peak\n  stores: { account: \"CP\" },           // correctness-critical balance on a CP store\n};\n// run the gates and require PASS before calling it done:\nif (!capacityGate(spec, design) || !consistencyGate(spec, design)) throw new Error(\"design fails its spec\");",
-      "task": "The design was asserted done without running the capacity and consistency gates, which it fails. Fix it so both gates pass.",
+      "task": "The design was asserted done without running the capacity and consistency gates, which it fails. Fix it so both gates pass. Retain the repaired case as a regression check.",
       "type": "debug",
       "symptom": "A design is declared \"done and scalable,\" but in production it is constantly under-provisioned at peak and the bank-balance data occasionally shows stale values.",
       "language": "ts",
@@ -7505,6 +7758,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A design validator that takes a spec + a proposed design and computes whether it passes every gate: capacity, consistency, cache, and failure containment.",
+      "weak": "The diagram or code names familiar components, but its capacity, consistency, failure, or data-flow claims are asserted rather than computed.",
+      "passing": "The exact simulation passes and every verification item is evidenced: The capacity gate passes: provisioned RPS and storage cover the peak estimate. · The consistency gate passes: every data type is on a matching CP/AP store. · The cache gate passes: the hit rate clears the read-heavy target. · The containment gate passes: a non-critical failure has a bounded blast radius.",
+      "excellent": "Passing evidence plus a retained adversarial regression, an explicit decision under constraints, and this transfer: This gate-driven defense is how you should approve any real design doc: turn each \"-ility\" claim into a computed check against the requirements. Everything the course taught — estimation, storage, caching, distribution, reliability, and the architect's judgment — converges here into one provable artifact.",
+      "note": "Local output and hosted narration are practice evidence only; controlled evaluation and expert review are still required for mastery."
+    },
+    {
       "text": "This gate-driven defense is how you should approve any real design doc: turn each \"-ility\" claim into a computed check against the requirements. Everything the course taught — estimation, storage, caching, distribution, reliability, and the architect's judgment — converges here into one provable artifact.",
       "type": "transfer"
     },
@@ -7520,10 +7781,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "All four gates pass as computed checks",
-        "Each data type matched to a consistency-appropriate store",
-        "A non-critical failure is provably contained"
-      ]
+        "Build evidence — complete the model and match the exact observable output: capacity: false\nconsistency: true\ncache: true\ncontainment: false\nVERDICT: FAIL\nfailedGates: capacity,containment",
+        "Debug evidence — repair and retain this case as a regression: The design was asserted done without running the capacity and consistency gates, which it fails. Fix it so both gates pass. Retain the repaired case as a regression check.",
+        "Decision evidence — defend the chosen constraint in \"Under deadline, ship the design after a convincing walkthrough, or after every gate's computed check passes?\" and name the rejected alternative.",
+        "Verification evidence — The capacity gate passes: provisioned RPS and storage cover the peak estimate. · The consistency gate passes: every data type is on a matching CP/AP store. · The cache gate passes: the hit rate clears the read-heavy target. · The containment gate passes: a non-critical failure has a bounded blast radius.",
+        "Transfer evidence — This gate-driven defense is how you should approve any real design doc: turn each \"-ility\" claim into a computed check against the requirements. Everything the course taught — estimation, storage, caching, distribution, reliability, and the architect's judgment — converges here into one provable artifact."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or production certification."
     }
   ]
 }

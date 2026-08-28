@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T18:01:23.168Z
-Registry: `sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6`
+Generated: 2026-08-28T18:14:25.331Z
+Registry: `sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -16,7 +16,7 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 - Needs deterministic remediation: 11
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=493, H3=0, H4=0, H5=143
+- Hard fails: H1=0, H2=491, H3=0, H4=0, H5=143
 
 ## Coverage boundary
 
@@ -43,7 +43,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Backend Engineering | `career-backend_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Architecture and System Design | `career-architecture_system_design` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
-| System Design | `system-design` | 24 | blocked | 26 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
+| System Design | `system-design` | 24 | blocked | 24 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 90.0 |
 | Security and Identity Engineering | `career-security_identity` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Mobile Engineering Deep Dive | `career-mobile_engineering_deep_dive` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | QA, SDET, and Test Automation Engineering | `career-qa_sdet_test_automation_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
@@ -69,7 +69,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 ## Ranked remediation backlog
 
 1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (21 courses; 410 findings)
-2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (9 courses; 83 findings)
+2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (8 courses; 81 findings)
 3. **H5** · references — Point the asset field at an existing file under public/ or remove the broken promise. (1 courses; 143 findings)
 4. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 5. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)

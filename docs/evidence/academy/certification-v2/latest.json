@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
-  "generatedAt": "2026-08-28T18:01:23.168Z",
+  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+  "generatedAt": "2026-08-28T18:14:25.331Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 493,
+      "H2": 491,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -1012,16 +1012,16 @@
       "courseSlug": "system-design",
       "title": "System Design",
       "lessonCount": 24,
-      "contentHash": "sha256:62fd7630f4a71b6984f84dd2344c8a69f73c94eb748518b5c1b779ddc60e586e",
+      "contentHash": "sha256:76b3ed80b2b108ac59b8535633972ef2dd3d88de2d082a73981b719a760adc97",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 80,
+      "deterministicScore": 90,
       "compositeScore": null,
-      "hardFailCount": 26,
+      "hardFailCount": 24,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 26,
+        "H2": 24,
         "H3": 0,
         "H4": 0,
         "H5": 0

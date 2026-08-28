@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
-  "generatedAt": "2026-08-28T18:01:23.168Z",
+  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+  "generatedAt": "2026-08-28T18:14:25.331Z",
   "courseSlug": "system-design",
   "title": "System Design",
-  "contentHash": "sha256:62fd7630f4a71b6984f84dd2344c8a69f73c94eb748518b5c1b779ddc60e586e",
+  "contentHash": "sha256:76b3ed80b2b108ac59b8535633972ef2dd3d88de2d082a73981b719a760adc97",
   "lessonCount": 24,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -102,17 +102,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "e5b34f6164beb567",
-          "courseSlug": "system-design",
-          "lessonSlug": "what-system-design-is"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -130,17 +119,6 @@
           "id": "9f366d8fa6cdeef6",
           "courseSlug": "system-design",
           "lessonSlug": "back-of-envelope"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "9d66eb48f08b9f1c",
-          "courseSlug": "system-design",
-          "lessonSlug": "building-blocks"
         },
         {
           "code": "H2",
@@ -522,20 +500,9 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 90,
   "compositeScore": null,
   "hardFails": [
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "e5b34f6164beb567",
-      "courseSlug": "system-design",
-      "lessonSlug": "what-system-design-is"
-    },
     {
       "code": "H2",
       "severity": "blocker",
@@ -557,17 +524,6 @@
       "id": "9f366d8fa6cdeef6",
       "courseSlug": "system-design",
       "lessonSlug": "back-of-envelope"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "9d66eb48f08b9f1c",
-      "courseSlug": "system-design",
-      "lessonSlug": "building-blocks"
     },
     {
       "code": "H2",

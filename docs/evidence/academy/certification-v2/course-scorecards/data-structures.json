@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
-  "generatedAt": "2026-08-28T18:01:23.168Z",
+  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+  "generatedAt": "2026-08-28T18:14:25.331Z",
   "courseSlug": "data-structures",
   "title": "Data Structures",
   "contentHash": "sha256:4e353b97e86dc150ca01caf90506b288a6a8f79cdfb1c6e9607ac876ddd92b16",

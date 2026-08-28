@@ -10,6 +10,13 @@ import {
 
 const registry = JSON.parse(readFileSync('data/academy/registry.json', 'utf8'))
 
+const flagshipFoundationCourses = {
+  'programming-fundamentals': 18,
+  'career-engineering_judgment_foundation': 16,
+  'python-basics': 12,
+  'git-the-terminal': 20,
+} as const
+
 test('flagship competency graph is a complete, acyclic novice-to-mastery contract', () => {
   const graph = loadFlagshipCompetencyGraph(process.cwd())
   const result = validateFlagshipCompetencyGraph(graph, registry)
@@ -67,27 +74,108 @@ test('broken flagship graphs fail closed on cycles, orphans, and invented mappin
   ])
 })
 
-test('Programming Fundamentals implements its declared learning loop with proof gates', () => {
-  const lessons = JSON.parse(
-    readFileSync('data/academy/authoring/programming-fundamentals.lessons.json', 'utf8'),
-  ) as Record<string, Array<Record<string, unknown>>>
+test('every flagship foundation course implements its declared learning loop with proof gates', () => {
+  for (const [courseSlug, expectedLessons] of Object.entries(flagshipFoundationCourses)) {
+    const lessons = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+    ) as Record<string, Array<Record<string, unknown>>>
 
-  assert.equal(Object.keys(lessons).length, 18)
-  for (const [slug, blocks] of Object.entries(lessons)) {
-    const contract = blocks.find((block) => block.type === 'sprint-contract')
-    assert(contract, `${slug}: missing sprint contract`)
-    const intensity = contract.intensity as SprintIntensity
-    const blockTypes = blocks.map((block) => block.type)
+    assert.equal(Object.keys(lessons).length, expectedLessons, `${courseSlug}: lesson count drift`)
+    for (const [lessonSlug, blocks] of Object.entries(lessons)) {
+      const key = `${courseSlug}/${lessonSlug}`
+      const contract = blocks.find((block) => block.type === 'sprint-contract')
+      assert(contract, `${key}: missing sprint contract`)
+      const intensity = contract.intensity as SprintIntensity
+      const blockTypes = blocks.map((block) => block.type)
 
-    for (const required of REQUIRED_SECTIONS[intensity]) {
-      assert(blockTypes.includes(required), `${slug}: missing ${required}`)
+      for (const required of REQUIRED_SECTIONS[intensity]) {
+        assert(blockTypes.includes(required), `${key}: missing ${required}`)
+      }
+
+      const gate = blocks.find((block) => block.type === 'unlock-gate')
+      assert(Array.isArray(gate?.criteria) && gate.criteria.length >= 3, `${key}: weak unlock gate`)
+      assert(
+        (gate.criteria as string[]).some((criterion) => /test|prove|output|evidence|demonstrate/i.test(criterion)),
+        `${key}: unlock gate lacks observable proof`,
+      )
     }
+  }
+})
 
-    const gate = blocks.find((block) => block.type === 'unlock-gate')
-    assert(Array.isArray(gate?.criteria) && gate.criteria.length >= 3, `${slug}: weak unlock gate`)
-    assert(
-      (gate.criteria as string[]).some((criterion) => /test|prove|output|evidence|demonstrate/i.test(criterion)),
-      `${slug}: unlock gate lacks observable proof`,
-    )
+test('Python Basics fulfills the public 12-lesson promise with production-practical coverage', () => {
+  const lessons = JSON.parse(
+    readFileSync('data/academy/authoring/python-basics.lessons.json', 'utf8'),
+  ) as Record<string, unknown>
+
+  assert.deepEqual(Object.keys(lessons), [
+    'your-first-line',
+    'variables',
+    'logic-conditionals',
+    'loops',
+    'functions-and-scope',
+    'collections',
+    'exceptions-validation',
+    'files-json',
+    'modules-venvs',
+    'testing-debugging',
+    'http-apis',
+    'automation-capstone',
+  ])
+})
+
+test('every Engineering Judgment lesson produces an executable artifact with a reference implementation', () => {
+  const lessons = JSON.parse(
+    readFileSync('data/academy/authoring/career-engineering_judgment_foundation.lessons.json', 'utf8'),
+  ) as Record<string, Array<Record<string, unknown>>>
+  const solutions = JSON.parse(
+    readFileSync('data/academy/authoring/career-engineering_judgment_foundation.lab_solutions.json', 'utf8'),
+  ) as Record<string, { language?: string; code?: string }>
+
+  for (const [slug, blocks] of Object.entries(lessons)) {
+    const lab = blocks.find((block) => block.type === 'lab')
+    assert(lab, `${slug}: missing executable lab`)
+    assert.equal(typeof lab.starter, 'string', `${slug}: missing lab starter`)
+    assert.equal(typeof lab.check, 'string', `${slug}: missing observable lab check`)
+    assert.equal(solutions[slug]?.language, lab.language, `${slug}: solution language mismatch`)
+    assert((solutions[slug]?.code?.length ?? 0) > 40, `${slug}: missing substantive solution`)
+  }
+})
+
+test('mastery-loop remediation preserves every pre-existing lab block identity', () => {
+  const expectedIndexes: Record<string, Record<string, number>> = {
+    'career-engineering_judgment_foundation': {
+      '05-tiny-artifact': 9,
+      '06-failure-injection': 9,
+      '07-tradeoff-decision': 10,
+      '08-testa-proof': 9,
+      '09-explain-back': 9,
+      '10-review-rubric': 9,
+      '11-repair-loop': 9,
+      '12-spacing-queue': 9,
+    },
+    'python-basics': {
+      'your-first-line': 9,
+      variables: 9,
+      'logic-conditionals': 9,
+      loops: 9,
+    },
+    'git-the-terminal': Object.fromEntries(
+      registry.courses
+        .find((course: { slug: string }) => course.slug === 'git-the-terminal')
+        .lessons.map((lesson: { slug: string }) => [lesson.slug, 7]),
+    ),
+  }
+
+  for (const [courseSlug, lessonIndexes] of Object.entries(expectedIndexes)) {
+    const lessons = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+    ) as Record<string, Array<Record<string, unknown>>>
+    for (const [lessonSlug, expectedIndex] of Object.entries(lessonIndexes)) {
+      assert.equal(
+        lessons[lessonSlug].findIndex((block) => block.type === 'lab'),
+        expectedIndex,
+        `${courseSlug}/${lessonSlug}: lab block identity changed`,
+      )
+    }
   }
 })

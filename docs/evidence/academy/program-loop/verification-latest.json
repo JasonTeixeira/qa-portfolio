@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T20:35:24.634Z",
+  "generatedAt": "2026-08-28T20:41:48.059Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
   "queueCoverage": "32/32",
-  "currentCourse": "career-ux_ui_product_design_for_engineers",
+  "currentCourse": "career-data_engineering_analytics",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **25/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425`.
-- Catalog: 32 courses, 640 lessons, 560 lab blocks.
+- Progress: **26/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6`.
+- Catalog: 32 courses, 640 lessons, 580 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-ux_ui_product_design_for_engineers`.
+- Next course: `career-data_engineering_analytics`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -41,6 +41,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-architecture_system_design` | GREEN | uncertified |
 | `career-mobile_engineering_deep_dive` | GREEN | uncertified |
 | `career-qa_sdet_test_automation_engineering` | GREEN | uncertified |
+| `career-ux_ui_product_design_for_engineers` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -55,7 +56,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 5 local GREEN; UX/UI Product Design selected |
+| Registry courses outside the flagship graph | 12 | 6 local GREEN; Data Engineering selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -192,9 +193,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete risk-to-release mastery loops, eight deep browser/nonfunctional/CI/flake drills, a multi-day quality-review capstone, and a 20-source primary ledger cover every lesson.
 - All 150 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current UX/UI Product Design baseline
+## UX/UI Product Design checkpoint result
 
-- `career-ux_ui_product_design_for_engineers` is selected next as the sixth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python design-decision references match their exact observable contracts.
+- Complete problem-to-evidence mastery loops, nine deep workflow/system/accessibility/research/handoff drills, a multi-day review packet, and a 20-source primary ledger cover every lesson.
+- All 147 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required human, visual, accessibility, and expert reviews remain pending.
+
+## Current Data Engineering baseline
+
+- `career-data_engineering_analytics` is selected next as the seventh canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

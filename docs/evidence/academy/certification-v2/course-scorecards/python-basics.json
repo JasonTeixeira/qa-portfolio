@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
-  "generatedAt": "2026-08-28T19:15:09.307Z",
+  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "generatedAt": "2026-08-28T19:23:22.261Z",
   "courseSlug": "python-basics",
   "title": "Python Basics",
   "contentHash": "sha256:5284e7fc86323dcd93b1aa5eb6d197540e543c98032a7b18abe25342b7c8660c",

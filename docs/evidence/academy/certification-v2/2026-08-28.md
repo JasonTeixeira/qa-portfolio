@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T19:15:09.307Z
-Registry: `sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f`
+Generated: 2026-08-28T19:23:22.261Z
+Registry: `sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -51,7 +51,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | UX, UI, and Product Design for Engineers | `career-ux_ui_product_design_for_engineers` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Databases and Data Modeling | `career-databases_data_modeling` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 98.3 |
 | Data Engineering and Analytics Platforms | `career-data_engineering_analytics` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
-| AI Engineering, RAG, Evals, Safety, and LLMOps | `career-ai_engineering_rag_eval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
+| AI Engineering, RAG, Evals, Safety, and LLMOps | `career-ai_engineering_rag_eval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | The LLM API | `the-llm-api` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Prompt Engineering | `prompt-engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | RAG and Retrieval | `rag-retrieval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
@@ -73,9 +73,9 @@ The deterministic score reports only checks the harness can prove locally. It is
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (13 courses; 214 findings)
-7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (8 courses; 22 findings)
-8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (8 courses; 18 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (12 courses; 197 findings)
+7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (7 courses; 21 findings)
+8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (7 courses; 16 findings)
 9. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
 11. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)

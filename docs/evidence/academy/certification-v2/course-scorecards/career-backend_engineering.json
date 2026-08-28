@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
-  "generatedAt": "2026-08-28T19:15:09.307Z",
+  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "generatedAt": "2026-08-28T19:23:22.261Z",
   "courseSlug": "career-backend_engineering",
   "title": "Backend Engineering",
   "contentHash": "sha256:02bf3131491b5dd6806c6a06e276a686eeb7ca4a00eee54dd2a4191207a41d02",

@@ -1,7 +1,7 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f`
+**Registry:** `sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory

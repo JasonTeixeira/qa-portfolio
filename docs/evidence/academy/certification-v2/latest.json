@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
-  "generatedAt": "2026-08-28T19:15:09.307Z",
+  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "generatedAt": "2026-08-28T19:23:22.261Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -1773,11 +1773,11 @@
       "courseSlug": "career-ai_engineering_rag_eval",
       "title": "AI Engineering, RAG, Evals, Safety, and LLMOps",
       "lessonCount": 20,
-      "contentHash": "sha256:bdfea3c7d5e40c579c9299b8c921938ffc1801f1be0bd14cade9737cf9b05dfe",
+      "contentHash": "sha256:8e8c50fd77027777b0400c8007eabaa6597366e01bf2e32d51b1d8bc8c366a79",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 88.9,
+      "deterministicScore": 100,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -1807,8 +1807,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

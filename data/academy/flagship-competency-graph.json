@@ -837,7 +837,29 @@
           ]
         },
         {
-          "courseSlug": "career-ai_engineering_rag_eval"
+          "courseSlug": "career-ai_engineering_rag_eval",
+          "lessonSlugs": [
+            "ai-product-framing",
+            "prompt-contracts",
+            "structured-outputs",
+            "document-ingestion",
+            "chunking-metadata",
+            "embeddings-indexing",
+            "retrieval-quality",
+            "rag-answer-grounding",
+            "eval-dataset-design",
+            "llm-judges-graders",
+            "safety-policy-guardrails",
+            "tool-calling-workflows",
+            "agent-workflow-control",
+            "observability-cost-latency",
+            "regression-testing-drift",
+            "security-privacy-ai",
+            "human-feedback-review",
+            "llmops-release-process",
+            "ai-interview-portfolio",
+            "ai-capstone"
+          ]
         }
       ],
       "evidence": [
@@ -890,7 +912,29 @@
           ]
         },
         {
-          "courseSlug": "career-ai_engineering_rag_eval"
+          "courseSlug": "career-ai_engineering_rag_eval",
+          "lessonSlugs": [
+            "ai-product-framing",
+            "prompt-contracts",
+            "structured-outputs",
+            "document-ingestion",
+            "chunking-metadata",
+            "embeddings-indexing",
+            "retrieval-quality",
+            "rag-answer-grounding",
+            "eval-dataset-design",
+            "llm-judges-graders",
+            "safety-policy-guardrails",
+            "tool-calling-workflows",
+            "agent-workflow-control",
+            "observability-cost-latency",
+            "regression-testing-drift",
+            "security-privacy-ai",
+            "human-feedback-review",
+            "llmops-release-process",
+            "ai-interview-portfolio",
+            "ai-capstone"
+          ]
         }
       ],
       "evidence": [
@@ -918,7 +962,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-ai_engineering_rag_eval"
+          "courseSlug": "career-ai_engineering_rag_eval",
+          "lessonSlugs": [
+            "ai-product-framing",
+            "prompt-contracts",
+            "structured-outputs",
+            "document-ingestion",
+            "chunking-metadata",
+            "embeddings-indexing",
+            "retrieval-quality",
+            "rag-answer-grounding",
+            "eval-dataset-design",
+            "llm-judges-graders",
+            "safety-policy-guardrails",
+            "tool-calling-workflows",
+            "agent-workflow-control",
+            "observability-cost-latency",
+            "regression-testing-drift",
+            "security-privacy-ai",
+            "human-feedback-review",
+            "llmops-release-process",
+            "ai-interview-portfolio",
+            "ai-capstone"
+          ]
         }
       ],
       "evidence": [

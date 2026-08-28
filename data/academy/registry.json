@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 520,
+    "labBlocks": 540,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 467,
+    "labLessonsWithSolutions": 487,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 15
+    "sourceLedgers": 16
   },
   "capabilities": [
     {
@@ -3088,13 +3088,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-architecture_system_design/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -3104,8 +3104,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/problem-framing-requirements",
           "source": {
@@ -3119,8 +3119,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/capacity-estimation",
           "source": {
@@ -3134,8 +3134,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/domain-boundaries",
           "source": {
@@ -3149,8 +3149,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/api-contracts",
           "source": {
@@ -3164,8 +3164,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/data-architecture",
           "source": {
@@ -3179,8 +3179,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/consistency-transactions",
           "source": {
@@ -3194,8 +3194,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/caching-strategy",
           "source": {
@@ -3209,8 +3209,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 15,
-          "labBlocks": 0,
+          "blockCount": 21,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/queue-event-architecture",
           "source": {
@@ -3224,8 +3224,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/service-decomposition",
           "source": {
@@ -3239,8 +3239,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/resilience-timeouts-retries",
           "source": {
@@ -3254,8 +3254,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/security-privacy-threat-model",
           "source": {
@@ -3269,8 +3269,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/observability-operability",
           "source": {
@@ -3284,8 +3284,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/scaling-partitioning",
           "source": {
@@ -3299,8 +3299,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/migration-evolution",
           "source": {
@@ -3314,8 +3314,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/cost-reliability-tradeoffs",
           "source": {
@@ -3329,8 +3329,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/architecture-decision-records",
           "source": {
@@ -3344,8 +3344,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/design-review-critique",
           "source": {
@@ -3359,8 +3359,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/interview-system-design",
           "source": {
@@ -3374,8 +3374,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/architecture-proof-packet",
           "source": {
@@ -3389,8 +3389,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-architecture_system_design/architecture-capstone",
           "source": {
@@ -10751,5 +10751,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0"
+  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6"
 }

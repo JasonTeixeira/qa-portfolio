@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
-  "generatedAt": "2026-08-28T20:06:32.271Z",
+  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
+  "generatedAt": "2026-08-28T20:19:32.654Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 26,
-    "coursesNeedsRemediation": 6,
+    "coursesBlocked": 27,
+    "coursesNeedsRemediation": 5,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 573,
+      "H2": 593,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -917,16 +917,16 @@
       "courseSlug": "career-architecture_system_design",
       "title": "Architecture and System Design",
       "lessonCount": 20,
-      "contentHash": "sha256:83bd4ab9c7bdfe04ce9951ddff857217fc82d55091763a8b9b007f619eaf5869",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:51cf3c890fe53f93616fbc2d1eb3c85bc8760da363088a63bcccd47843f23de2",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -951,8 +951,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -963,7 +963,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

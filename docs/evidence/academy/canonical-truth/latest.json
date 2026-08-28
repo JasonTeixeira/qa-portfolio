@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
+  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 520,
+    "labBlocks": 540,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 467,
+    "labLessonsWithSolutions": 487,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 15
+    "sourceLedgers": 16
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "17 courses lack course-level source ledgers",
+    "16 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -218,14 +218,14 @@
       "level": "Advanced",
       "lessons": 20,
       "legacyManifestLessons": 20,
-      "labBlocks": 0,
+      "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-architecture_system_design/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-architecture_system_design"
     },

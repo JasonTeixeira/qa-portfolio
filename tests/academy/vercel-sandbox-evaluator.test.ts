@@ -206,6 +206,7 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
       assert.equal(command.cmd, 'bash')
       assert.equal(command.sudo, false)
       assert.equal(command.timeoutMs, EVALUATOR_LIMITS.wallTimeMs + 1_000)
+      assert.match(command.args?.join(' ') ?? '', /setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all/)
       assert.equal(command.args?.join(' ').includes(input(language).code), false)
       assert.equal(command.args?.join(' ').includes(input(language).testCase.stdin), false)
       assert.equal(writes.some((file) => String(file.content).includes(input(language).code)), true)

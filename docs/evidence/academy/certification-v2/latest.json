@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
-  "generatedAt": "2026-08-28T18:24:38.892Z",
+  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
+  "generatedAt": "2026-08-28T18:31:21.322Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 22,
-    "coursesNeedsRemediation": 10,
+    "coursesBlocked": 23,
+    "coursesNeedsRemediation": 9,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 511,
+      "H2": 531,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -2347,16 +2347,16 @@
       "courseSlug": "career-observability_reliability_performance",
       "title": "Observability, Reliability, and Performance",
       "lessonCount": 20,
-      "contentHash": "sha256:df458264271ca6c49ffa413bc01a0b3e49f3a265cb2de01cad76799c0af14d65",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:ceba36f7ba5505c07e16170d4d31cac7fe1f04c8c1804308def69c13c92c5c59",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -2381,8 +2381,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -2393,7 +2393,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

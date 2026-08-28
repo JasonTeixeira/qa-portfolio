@@ -663,7 +663,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-observability_reliability_performance"
+          "courseSlug": "career-observability_reliability_performance",
+          "lessonSlugs": [
+            "observability-mindset",
+            "service-level-objectives",
+            "golden-signals-red",
+            "use-method-resources",
+            "instrumentation-contracts",
+            "structured-logging",
+            "distributed-tracing",
+            "trace-context-propagation",
+            "dashboards-as-code",
+            "alert-design",
+            "burn-rate-alerting",
+            "incident-triage",
+            "incident-communication",
+            "postmortems",
+            "performance-profiling",
+            "capacity-planning",
+            "queue-backpressure",
+            "resilience-patterns",
+            "release-observability",
+            "observability-capstone"
+          ]
         },
         {
           "courseSlug": "career-platform_engineering_internal_developer_platforms"

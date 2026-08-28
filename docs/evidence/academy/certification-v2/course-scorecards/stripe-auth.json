@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
-  "generatedAt": "2026-08-28T20:46:44.118Z",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "generatedAt": "2026-08-28T20:53:19.582Z",
   "courseSlug": "stripe-auth",
   "title": "Stripe and Authentication",
   "contentHash": "sha256:46e00e07cfb0a9455fe09834de310613254f46355fec7312923f3eab588b8cfb",

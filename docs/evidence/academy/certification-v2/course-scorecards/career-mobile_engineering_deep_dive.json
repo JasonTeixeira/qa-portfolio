@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
-  "generatedAt": "2026-08-28T20:46:44.118Z",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "generatedAt": "2026-08-28T20:53:19.582Z",
   "courseSlug": "career-mobile_engineering_deep_dive",
   "title": "Mobile Engineering Deep Dive",
   "contentHash": "sha256:6d27be01e2a3f5acf3981534f86e4a3ea9d74300ad6a91c835aed1699e531263",

@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 580,
-    "solutionEntries": 588,
-    "labLessonsWithSolutions": 527,
+    "labBlocks": 600,
+    "solutionEntries": 587,
+    "labLessonsWithSolutions": 547,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 20
+    "sourceLedgers": 21
   },
   "capabilities": [
     {
@@ -8773,19 +8773,16 @@
         "lessonBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lessons.json",
         "solutionBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lab_solutions.json",
         "legacyManifestLessons": 20,
-        "orphanSolutions": [
-          "enterprise-capstone"
-        ]
+        "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-enterprise_it_saas_admin_business_systems/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing",
-          "orphan_lab_solutions"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -8795,8 +8792,8 @@
           "moduleTitle": "Module 1 · Enterprise Saas Landscape",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/business-system-map",
           "source": {
@@ -8810,8 +8807,8 @@
           "moduleTitle": "Module 1 · Enterprise Saas Landscape",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/admin-vs-builder-boundary",
           "source": {
@@ -8825,8 +8822,8 @@
           "moduleTitle": "Module 1 · Enterprise Saas Landscape",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/record-ownership",
           "source": {
@@ -8840,8 +8837,8 @@
           "moduleTitle": "Module 1 · Enterprise Saas Landscape",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/workflow-lifecycle",
           "source": {
@@ -8855,8 +8852,8 @@
           "moduleTitle": "Module 2 · Identity Access And Provisioning",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/saml-oidc-sso",
           "source": {
@@ -8870,8 +8867,8 @@
           "moduleTitle": "Module 2 · Identity Access And Provisioning",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/scim-provisioning",
           "source": {
@@ -8885,8 +8882,8 @@
           "moduleTitle": "Module 2 · Identity Access And Provisioning",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/rbac-modeling",
           "source": {
@@ -8900,8 +8897,8 @@
           "moduleTitle": "Module 2 · Identity Access And Provisioning",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/access-review",
           "source": {
@@ -8915,8 +8912,8 @@
           "moduleTitle": "Module 3 · Business Process Automation",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/approval-flow",
           "source": {
@@ -8930,8 +8927,8 @@
           "moduleTitle": "Module 3 · Business Process Automation",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/ticketing-workflow",
           "source": {
@@ -8945,8 +8942,8 @@
           "moduleTitle": "Module 3 · Business Process Automation",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/crm-itsm-patterns",
           "source": {
@@ -8960,8 +8957,8 @@
           "moduleTitle": "Module 3 · Business Process Automation",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/change-control",
           "source": {
@@ -8975,8 +8972,8 @@
           "moduleTitle": "Module 4 · Integrations Data And Audit",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/api-and-webhook-integration",
           "source": {
@@ -8990,8 +8987,8 @@
           "moduleTitle": "Module 4 · Integrations Data And Audit",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/data-sync-contract",
           "source": {
@@ -9005,8 +9002,8 @@
           "moduleTitle": "Module 4 · Integrations Data And Audit",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/audit-trail",
           "source": {
@@ -9020,8 +9017,8 @@
           "moduleTitle": "Module 4 · Integrations Data And Audit",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/reporting-controls",
           "source": {
@@ -9035,8 +9032,8 @@
           "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/security-review",
           "source": {
@@ -9050,8 +9047,8 @@
           "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/grc-evidence",
           "source": {
@@ -9065,8 +9062,8 @@
           "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/admin-incident-runbook",
           "source": {
@@ -9080,8 +9077,8 @@
           "moduleTitle": "Module 5 · Governance Operations And Vendor Risk",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-enterprise_it_saas_admin_business_systems/operating-review",
           "source": {
@@ -10749,5 +10746,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e"
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d"
 }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
-  "generatedAt": "2026-08-28T20:46:44.118Z",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "generatedAt": "2026-08-28T20:53:19.582Z",
   "courseSlug": "career-enterprise_it_saas_admin_business_systems",
   "title": "Enterprise IT, SaaS Administration, and Business Systems",
-  "contentHash": "sha256:47a12813a2d6885923ad6ea6a9b272cab1ca4efa0a886d4141924642fac2fdcb",
+  "contentHash": "sha256:c5683e738160f68e43eeffd8b1a5d7fe396fbb06252ba50548c1a222ab65340e",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e9962d4d5cd2bfe9",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "business-system-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ef77290916a1d878",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "admin-vs-builder-boundary"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "8aef936d2034b5a1",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "record-ownership"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "dbcd9d5f5f874d08",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "workflow-lifecycle"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b68c23cb551557d9",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "saml-oidc-sso"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "662d135f0b85bf0f",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "scim-provisioning"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bedb59e7a93d033a",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "rbac-modeling"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "17ead3e03523af9d",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "access-review"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b74dab095be8cf55",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "approval-flow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "94589775f946802c",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "ticketing-workflow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7f0197da0c43a914",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "crm-itsm-patterns"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c457dc8548b98d67",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "change-control"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d742e2ab3ece3245",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "api-and-webhook-integration"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c1765e482413db95",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "data-sync-contract"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "11f38c4b5f5a0d18",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "audit-trail"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "48797e91787cb68b",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "reporting-controls"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "83c44e1cd75e626a",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "security-review"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f7165285de8e0a8a",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "grc-evidence"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6a78accad95e0055",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "admin-incident-runbook"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7af444b940e5c96a",
-          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-          "lessonSlug": "operating-review"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e1460e021194362c",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "business-system-map"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "52b15d4e1d64c581",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "admin-vs-builder-boundary"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bac7c7ea9207289a",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "record-ownership"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0691c2c991c3ac22",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "workflow-lifecycle"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "34c1f9b389f1378a",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "saml-oidc-sso"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "89b7496afa04b512",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "scim-provisioning"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c824a23b395300f1",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "rbac-modeling"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "53001edf34dbaf45",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "access-review"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "972f25f8299f0945",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "approval-flow"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "8bc7995bd3d3ea88",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "ticketing-workflow"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "fa998136c7d468be",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "crm-itsm-patterns"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "07a38d3907d05cec",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "change-control"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "59a0b3d2f5793f73",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "api-and-webhook-integration"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "474a08bb57eb0ef2",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "data-sync-contract"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "a99ec90e1d15111a",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "audit-trail"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "701258d747243386",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "reporting-controls"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "d65c76f2c4e537c5",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "security-review"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3dc96d17fefe7596",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "grc-evidence"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ec40bf4febe47d83",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "admin-incident-runbook"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "52dd9ba6f70bf4e5",
+          "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+          "lessonSlug": "operating-review"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e1460e021194362c",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "business-system-map"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "52b15d4e1d64c581",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "admin-vs-builder-boundary"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bac7c7ea9207289a",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "record-ownership"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0691c2c991c3ac22",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "workflow-lifecycle"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "34c1f9b389f1378a",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "saml-oidc-sso"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "89b7496afa04b512",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "scim-provisioning"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c824a23b395300f1",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "rbac-modeling"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "53001edf34dbaf45",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "access-review"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "972f25f8299f0945",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "approval-flow"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "8bc7995bd3d3ea88",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "ticketing-workflow"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "fa998136c7d468be",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "crm-itsm-patterns"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "07a38d3907d05cec",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "change-control"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "59a0b3d2f5793f73",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "api-and-webhook-integration"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "474a08bb57eb0ef2",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "data-sync-contract"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "a99ec90e1d15111a",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "audit-trail"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "701258d747243386",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "reporting-controls"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "d65c76f2c4e537c5",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "security-review"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3dc96d17fefe7596",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "grc-evidence"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ec40bf4febe47d83",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "admin-incident-runbook"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "52dd9ba6f70bf4e5",
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "lessonSlug": "operating-review"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

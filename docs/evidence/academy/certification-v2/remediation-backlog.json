@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
-  "generatedAt": "2026-08-28T20:46:44.118Z",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "generatedAt": "2026-08-28T20:53:19.582Z",
   "items": [
     {
       "rank": 1,
@@ -20,6 +20,7 @@
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
         "career-engineering_judgment_foundation",
+        "career-enterprise_it_saas_admin_business_systems",
         "career-frontend_fullstack",
         "career-mobile_engineering_deep_dive",
         "career-networking_fundamentals_advanced_networking",
@@ -41,9 +42,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 580,
-      "findingCount": 580,
-      "priority": 4290580
+      "lessonCount": 600,
+      "findingCount": 600,
+      "priority": 4300600
     },
     {
       "rank": 2,
@@ -198,12 +199,11 @@
       "courseSlugs": [
         "career-databases_data_modeling",
         "career-engineering_leadership_staff_execution",
-        "career-enterprise_it_saas_admin_business_systems",
         "career-interview_career_portfolio"
       ],
-      "lessonCount": 54,
-      "findingCount": 54,
-      "priority": 3040054
+      "lessonCount": 34,
+      "findingCount": 34,
+      "priority": 3030034
     },
     {
       "rank": 7,
@@ -681,7 +681,6 @@
       "courseSlugs": [
         "career-engineering_judgment_foundation",
         "career-engineering_leadership_staff_execution",
-        "career-enterprise_it_saas_admin_business_systems",
         "career-interview_career_portfolio",
         "career-networking_fundamentals_advanced_networking",
         "career-programming_cs_foundations",
@@ -692,9 +691,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 226,
-      "findingCount": 226,
-      "priority": 2120226
+      "lessonCount": 206,
+      "findingCount": 206,
+      "priority": 2110206
     },
     {
       "rank": 21,

@@ -63,7 +63,7 @@
     "academy:audit:test": "tsx --test tests/academy/certification-harness-v2.test.ts",
     "academy:audit:all": "tsx scripts/academy/quality/v2/run.ts",
     "academy:audit:verify": "npm run academy:audit:test && npm run academy:registry:check && npm run typecheck",
-    "academy:lab-evaluator:test": "tsx --test tests/academy/secure-lab-evaluator.test.ts tests/academy/lab-evaluator-service.test.ts tests/academy/lab-evaluator-http.test.ts tests/academy/lab-evidence-boundary.test.ts tests/academy/lab-evaluator-runtime.test.ts tests/academy/lab-evaluator-staging.test.ts",
+    "academy:lab-evaluator:test": "tsx --test tests/academy/secure-lab-evaluator.test.ts tests/academy/lab-evaluator-service.test.ts tests/academy/lab-evaluator-http.test.ts tests/academy/lab-evidence-boundary.test.ts tests/academy/lab-evaluator-runtime.test.ts tests/academy/lab-evaluator-staging.test.ts tests/academy/vercel-sandbox-evaluator.test.ts",
     "academy:lab-evaluator:serve": "tsx services/academy-lab-evaluator/src/server.ts",
     "academy:lab-evaluator:staging-verify": "tsx scripts/academy/lab-evaluator/staging/verify.ts",
     "academy:lab-evaluator:verify": "npm run academy:lab-evaluator:test && npm run academy:registry:check && npm run typecheck",

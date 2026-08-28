@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
-  "generatedAt": "2026-08-28T19:16:58.490Z",
+  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "generatedAt": "2026-08-28T19:25:00.593Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
+    "baselineRegistryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 19,
-    "phaseId": "applied-ai",
-    "courseSlug": "career-ai_engineering_rag_eval",
-    "title": "AI Engineering, RAG, Evals, Safety, and LLMOps",
+    "sequence": 20,
+    "phaseId": "production-capstone",
+    "courseSlug": "career-product_execution_market_feedback",
+    "title": "Product Execution and Market Feedback",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-ai_engineering_rag_eval.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-ai_engineering_rag_eval.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-product_execution_market_feedback.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-product_execution_market_feedback.lab_solutions.json",
     "baseline": {
-      "decision": "blocked",
-      "deterministicScore": 88.9,
-      "hardFailCount": 20,
+      "decision": "needs_remediation",
+      "deterministicScore": 77.8,
+      "hardFailCount": 0,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 20,
+        "H2": 0,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -60,7 +60,7 @@
           "score": null
         },
         "labs": {
-          "status": "fail",
+          "status": "not_applicable",
           "score": null
         },
         "accessibility": {
@@ -105,48 +105,11 @@
   "remediation": {
     "deterministic": [
       {
-        "rank": 1,
-        "category": "labs",
-        "code": "H2",
-        "severity": "blocker",
-        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
-        "courseSlugs": [
-          "agents-tool-use",
-          "career-ai_engineering_rag_eval",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-data_engineering_analytics",
-          "career-databases_data_modeling",
-          "career-engineering_judgment_foundation",
-          "career-frontend_fullstack",
-          "career-networking_fundamentals_advanced_networking",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-programming_cs_foundations",
-          "career-qa_sdet_test_automation_engineering",
-          "career-security_identity",
-          "data-structures",
-          "git-the-terminal",
-          "nextjs-supabase",
-          "programming-fundamentals",
-          "prompt-engineering",
-          "python-basics",
-          "rag-retrieval",
-          "stripe-auth",
-          "system-design",
-          "the-llm-api"
-        ],
-        "lessonCount": 470,
-        "findingCount": 470,
-        "priority": 4240470
-      },
-      {
         "rank": 6,
         "category": "pedagogy",
         "severity": "high",
         "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
         "courseSlugs": [
-          "career-ai_engineering_rag_eval",
           "career-architecture_system_design",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
@@ -160,28 +123,9 @@
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 214,
-        "findingCount": 214,
-        "priority": 3130214
-      },
-      {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-qa_sdet_test_automation_engineering"
-        ],
-        "lessonCount": 22,
-        "findingCount": 22,
-        "priority": 3080022
+        "lessonCount": 197,
+        "findingCount": 197,
+        "priority": 3120197
       },
       {
         "rank": 8,
@@ -189,7 +133,6 @@
         "severity": "high",
         "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
         "courseSlugs": [
-          "career-ai_engineering_rag_eval",
           "career-architecture_system_design",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
@@ -198,9 +141,9 @@
           "career-product_execution_market_feedback",
           "nextjs-supabase"
         ],
-        "lessonCount": 18,
-        "findingCount": 18,
-        "priority": 3080018
+        "lessonCount": 16,
+        "findingCount": 16,
+        "priority": 3070016
       }
     ],
     "reviewRequired": [
@@ -762,6 +705,37 @@
         "lessonCount": 640,
         "findingCount": 640,
         "priority": 2320640
+      },
+      {
+        "rank": 20,
+        "category": "sources",
+        "severity": "medium",
+        "remediation": "Complete required sources evidence: source-ledger-schema.",
+        "courseSlugs": [
+          "career-architecture_system_design",
+          "career-concept_maps_real_world_engineering",
+          "career-data_engineering_analytics",
+          "career-engineering_judgment_foundation",
+          "career-engineering_leadership_staff_execution",
+          "career-enterprise_it_saas_admin_business_systems",
+          "career-frontend_fullstack",
+          "career-interview_career_portfolio",
+          "career-mobile_engineering_deep_dive",
+          "career-networking_fundamentals_advanced_networking",
+          "career-product_execution_market_feedback",
+          "career-programming_cs_foundations",
+          "career-qa_sdet_test_automation_engineering",
+          "career-ux_ui_product_design_for_engineers",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "python-basics",
+          "stripe-auth"
+        ],
+        "lessonCount": 396,
+        "findingCount": 396,
+        "priority": 2200396
       }
     ]
   },

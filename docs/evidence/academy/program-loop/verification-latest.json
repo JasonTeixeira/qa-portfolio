@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T18:44:23.632Z",
+  "generatedAt": "2026-08-28T18:54:59.795Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
   "queueCoverage": "32/32",
-  "currentCourse": "the-llm-api",
+  "currentCourse": "prompt-engineering",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

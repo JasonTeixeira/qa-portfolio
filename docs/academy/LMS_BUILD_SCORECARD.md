@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **14/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45`.
+- Progress: **15/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2`.
 - Catalog: 32 courses, 640 lessons, 470 lab blocks.
 - Current phase: `applied-ai`.
-- Next course: `the-llm-api`.
+- Next course: `prompt-engineering`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -30,6 +30,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-cloud_devops_operations` | GREEN | uncertified |
 | `career-observability_reliability_performance` | GREEN | uncertified |
 | `career-platform_engineering_internal_developer_platforms` | GREEN | uncertified |
+| `the-llm-api` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -42,7 +43,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Networking and security | 2 | local GREEN |
 | Data, backend, and system design | 3 | local GREEN |
 | Cloud operations and platform reliability | 3 | local GREEN |
-| Applied AI, retrieval, agents, and evaluation | 5 | 0/5 local GREEN — LLM API selected |
+| Applied AI, retrieval, agents, and evaluation | 5 | 1/5 local GREEN — Prompt Engineering selected |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
 
@@ -111,9 +112,17 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Ordered mastery loops, realistic pacing, a multi-day platform roadmap capstone, an 18-source first-party ledger, and explicit graph mapping cover every lesson.
 - H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only lab evidence and required expert reviews remain pending.
 
-## Current LLM API baseline
+## LLM API checkpoint result
 
-- `the-llm-api` is selected next by the competency graph and Certification Harness V2 remediation board.
+- 20 lessons in the canonical registry; deterministic score: 70 → 100 (not a composite quality score).
+- All 20 JavaScript references now match exact observable contracts; seven missing references and thirteen stale contracts were repaired.
+- Ordered mastery loops, a multi-day resilient-client capstone, an 18-source first-party ledger, and explicit graph mapping cover every lesson.
+- All 143 narration transcripts remain, while 143 nonexistent local audio promises were removed; H5 is now zero.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only lab evidence and required expert reviews remain pending.
+
+## Current Prompt Engineering baseline
+
+- `prompt-engineering` is selected next by the competency graph and Certification Harness V2 remediation board.
 - Labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule

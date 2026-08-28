@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
-  "generatedAt": "2026-08-28T18:44:16.667Z",
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+  "generatedAt": "2026-08-28T18:54:50.346Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+    "baselineRegistryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 15,
+    "sequence": 16,
     "phaseId": "applied-ai",
-    "courseSlug": "the-llm-api",
-    "title": "The LLM API",
+    "courseSlug": "prompt-engineering",
+    "title": "Prompt Engineering",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/the-llm-api.lessons.json",
-    "solutionBundle": "data/academy/authoring/the-llm-api.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/prompt-engineering.lessons.json",
+    "solutionBundle": "data/academy/authoring/prompt-engineering.lab_solutions.json",
     "baseline": {
       "decision": "blocked",
-      "deterministicScore": 70,
-      "hardFailCount": 170,
+      "deterministicScore": 80,
+      "hardFailCount": 29,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 27,
+        "H2": 29,
         "H3": 0,
         "H4": 0,
-        "H5": 143
+        "H5": 0
       },
       "requiredPending": [
         "accessibility",
@@ -73,8 +73,8 @@
           "score": null
         },
         "references": {
-          "status": "fail",
-          "score": 0
+          "status": "pass",
+          "score": 100
         },
         "metadata": {
           "status": "pass",
@@ -154,28 +154,14 @@
           "programming-fundamentals",
           "prompt-engineering",
           "rag-retrieval",
-          "stripe-auth",
-          "the-llm-api"
+          "stripe-auth"
         ],
-        "lessonCount": 81,
-        "findingCount": 81,
-        "priority": 4080081
+        "lessonCount": 74,
+        "findingCount": 74,
+        "priority": 4070074
       },
       {
-        "rank": 3,
-        "category": "references",
-        "code": "H5",
-        "severity": "blocker",
-        "remediation": "Point the asset field at an existing file under public/ or remove the broken promise.",
-        "courseSlugs": [
-          "the-llm-api"
-        ],
-        "lessonCount": 143,
-        "findingCount": 143,
-        "priority": 4010143
-      },
-      {
-        "rank": 22,
+        "rank": 21,
         "category": "media",
         "severity": "medium",
         "remediation": "Complete required media evidence: promised-media-integrity.",
@@ -187,17 +173,16 @@
           "prompt-engineering",
           "rag-retrieval",
           "stripe-auth",
-          "system-design",
-          "the-llm-api"
+          "system-design"
         ],
-        "lessonCount": 184,
-        "findingCount": 184,
-        "priority": 2090184
+        "lessonCount": 164,
+        "findingCount": 164,
+        "priority": 2080164
       }
     ],
     "reviewRequired": [
       {
-        "rank": 4,
+        "rank": 3,
         "category": "content_correctness",
         "severity": "high",
         "remediation": "Complete required content_correctness evidence: expert-correctness-review.",
@@ -240,7 +225,7 @@
         "priority": 3320640
       },
       {
-        "rank": 5,
+        "rank": 4,
         "category": "pedagogy",
         "severity": "high",
         "remediation": "Complete required pedagogy evidence: expert-pedagogy-review.",
@@ -283,7 +268,7 @@
         "priority": 3320640
       },
       {
-        "rank": 6,
+        "rank": 5,
         "category": "sources",
         "severity": "high",
         "remediation": "Complete required sources evidence: claim-level-coverage.",
@@ -326,7 +311,7 @@
         "priority": 3320640
       },
       {
-        "rank": 11,
+        "rank": 10,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: rendered-axe-wcag-2.2-aa.",
@@ -369,7 +354,7 @@
         "priority": 2320640
       },
       {
-        "rank": 12,
+        "rank": 11,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: keyboard-and-focus.",
@@ -412,7 +397,7 @@
         "priority": 2320640
       },
       {
-        "rank": 13,
+        "rank": 12,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: screen-reader-semantics.",
@@ -455,7 +440,7 @@
         "priority": 2320640
       },
       {
-        "rank": 14,
+        "rank": 13,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: reduced-motion.",
@@ -498,7 +483,7 @@
         "priority": 2320640
       },
       {
-        "rank": 15,
+        "rank": 14,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: zoom-and-reflow.",
@@ -541,7 +526,7 @@
         "priority": 2320640
       },
       {
-        "rank": 16,
+        "rank": 15,
         "category": "accessibility",
         "severity": "medium",
         "remediation": "Complete required accessibility evidence: target-size.",
@@ -584,7 +569,7 @@
         "priority": 2320640
       },
       {
-        "rank": 17,
+        "rank": 16,
         "category": "consistency",
         "severity": "medium",
         "remediation": "Complete required consistency evidence: rendered-consistency.",
@@ -627,7 +612,7 @@
         "priority": 2320640
       },
       {
-        "rank": 18,
+        "rank": 17,
         "category": "performance",
         "severity": "medium",
         "remediation": "Complete required performance evidence: rendered-performance.",
@@ -670,7 +655,7 @@
         "priority": 2320640
       },
       {
-        "rank": 19,
+        "rank": 18,
         "category": "ux",
         "severity": "medium",
         "remediation": "Complete required ux evidence: human-ux-review.",
@@ -713,7 +698,7 @@
         "priority": 2320640
       },
       {
-        "rank": 20,
+        "rank": 19,
         "category": "visual",
         "severity": "medium",
         "remediation": "Complete required visual evidence: human-visual-review.",
@@ -756,7 +741,7 @@
         "priority": 2320640
       },
       {
-        "rank": 21,
+        "rank": 20,
         "category": "sources",
         "severity": "medium",
         "remediation": "Complete required sources evidence: source-ledger-schema.",
@@ -783,12 +768,11 @@
           "prompt-engineering",
           "python-basics",
           "rag-retrieval",
-          "stripe-auth",
-          "the-llm-api"
+          "stripe-auth"
         ],
-        "lessonCount": 476,
-        "findingCount": 476,
-        "priority": 2240476
+        "lessonCount": 456,
+        "findingCount": 456,
+        "priority": 2230456
       }
     ]
   },

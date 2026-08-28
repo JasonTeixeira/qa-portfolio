@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T18:44:16.665Z",
+  "updatedAt": "2026-08-28T18:54:50.344Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -663,12 +663,60 @@
         }
       },
       "completedAt": "2026-08-28T18:44:16.665Z"
+    },
+    {
+      "courseSlug": "the-llm-api",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "3a76240c",
+      "baselineRegistryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+      "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "npx tsx --test tests/academy/llm-api-mastery.test.ts",
+          "result": "7/7 tests passed on each run; 20/20 references matched exact output; 143 narration transcripts retained with zero unresolved audio promises"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons audited; LLM API deterministic score 100; no H1, H3, H4, or H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 470 labs"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 static pages generated"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped course diff; changed-file lint, 18 first-party source checks, and literal-secret scan passed"
+        }
+      },
+      "completedAt": "2026-08-28T18:54:50.344Z"
     }
   ],
   "current": {
-    "courseSlug": "the-llm-api",
+    "courseSlug": "prompt-engineering",
     "phaseId": "applied-ai",
-    "sequence": 15,
+    "sequence": 16,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

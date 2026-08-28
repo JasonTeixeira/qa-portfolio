@@ -1,39 +1,56 @@
-# LMS Build Scorecard — the autonomous loop's ledger
+# Academy Program Scorecard
 
-> Driven by [LMS_BUILD_PROGRAM.md](./LMS_BUILD_PROGRAM.md). The loop reads this, builds the next unblocked task,
-> gates it, scoped-commits, and updates the row. Source (read-only): `/Users/Sage/AI_CAREER_OPERATING_SYSTEM` —
-> 21 courses · 105 modules · 286 lessons (13 written, 8 scaffolded).
+This human-readable ledger mirrors `docs/evidence/academy/program-loop/state.json`. The machine-readable state is
+the execution authority; Certification Harness V2 remains the certification-readiness authority.
 
-## Step 2 — Skeleton ingest (do first: gives the rails real data)
-| Task | status |
-|---|---|
-| `ingest-career-os.ts` — 21 manifests → academy_courses + academy_lessons | **DONE** (21 courses · 105 modules · 426 lessons live) |
-| Apply + verify catalog shows all 21 courses, walkable course→lesson | **DONE** (23 total incl. originals, across 6 domains) |
+## Current checkpoint
 
-## Step 1 — The rails (IA consolidation + scaling)
-| Task | status |
-|---|---|
-| Retire/redirect legacy `/[track]/*` + fold `my-courses` → /catalog | **DONE** |
-| Menu rename Home·Courses·My Path·Practice·Profile + active keys + Breadcrumbs | **DONE** |
-| Catalog grouped by 6 domains (Foundations→…→Growth), 00 gates | **DONE** |
-| Lesson left-rail → collapsible Module→Lesson tree + mobile drawer | **DONE** |
-| Promote ContentMap → first-class /academy/progress "My Path" map | **DONE** |
-| Mount responsive mobile bottom TabBar (5 destinations) | **DONE** |
+- Progress: **6/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0`.
+- Catalog: 32 courses, 640 lessons, 370 lab blocks.
+- Current phase: `network-security`.
+- Next course: `career-networking_fundamentals_advanced_networking`.
+- Certification: 0 courses certified; lab evidence remains practice-only.
 
-## Step 3 — Tutor KB ingest (after skeleton)
-| Task | status |
-|---|---|
-| Run KB pipeline over ingested lessons so Sage Tutor answers on the material | **DONE** (561 chunks / 448 lessons / 23 courses) |
+## Proven foundation checkpoints
 
-## Step 4 — Phase-B world-class transformation (long loop; PAUSE at each course)
-| Course | lessons | status |
+| Course | Local curriculum checkpoint | Certification |
 |---|---|---|
-| 00 engineering_judgment_foundation (entry gate) | 16 | **DONE** — all 16 lessons → full 15-block judgment format (4 modules: Framing & Diagnosis · Build & Prove · Review & Repair · Transfer & Gate); course-wide decision-memo→mastery-packet artifact arc |
-| 00a concept_maps | 30 | pending |
-| 01 programming_cs_foundations | 20 | pending |
-| 02–19 (the rest) | ~220 | pending |
+| `career-engineering_judgment_foundation` | GREEN | uncertified |
+| `programming-fundamentals` | GREEN | uncertified |
+| `python-basics` | GREEN | uncertified |
+| `git-the-terminal` | GREEN | uncertified |
+| `data-structures` | GREEN | uncertified |
+| `career-programming_cs_foundations` | GREEN | uncertified |
 
-## Loop status
-**Next:** build + apply the skeleton ingest → then the rails. Autonomy bounds (LMS_BUILD_PROGRAM §): build/gate/
-commit autonomously; PAUSE at step + course boundaries, taste calls, irreversible/external actions, stuck gates;
-never push / never fake a gate / source is read-only.
+The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
+not controlled lab trust, expert review, human appeal, or certification.
+
+## Sequential waves
+
+| Wave | Courses | Status |
+|---|---:|---|
+| Learning judgment and automation foundations | 6 | local GREEN |
+| Networking and security | 2 | in progress — Networking selected |
+| Data, backend, and system design | 3 | queued |
+| Cloud operations and platform reliability | 3 | queued |
+| Applied AI, retrieval, agents, and evaluation | 5 | queued |
+| Production integration | 1 unique remaining graph course | queued |
+| Registry courses outside the flagship graph | 12 | queued |
+
+`system-design` appears in two graph phases but only once in the 32-course execution queue.
+
+## Current Networking baseline
+
+- 20 lessons.
+- Deterministic score: 77.8 (not a composite quality score).
+- Decision: `needs_remediation`.
+- Primary deterministic gap: the standard learning loop is incomplete across the course.
+- Required expert/human evidence remains pending for correctness, pedagogy, sources, accessibility, visual quality,
+  UX, performance, and consistency.
+- Current labs: `not_applicable`; practical packet-analysis and diagnostic exercises must still be authored and tested.
+
+## Advancement rule
+
+The next course is selected only after a scoped commit carries complete GREEN evidence. A numerical improvement
+cannot override a hard fail, pending required review, lab trust limitation, or failed build gate.

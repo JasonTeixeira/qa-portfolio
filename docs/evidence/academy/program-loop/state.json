@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "programVersion": "academy-program-loop-v1",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "status": "active",
+  "stopReason": null,
+  "generatedAt": "2026-08-28T17:24:49.875Z",
+  "updatedAt": "2026-08-28T17:24:49.875Z",
+  "scope": {
+    "registryCourses": 32,
+    "flagshipCourses": 20,
+    "registryRemainderCourses": 12
+  },
+  "queue": [
+    {
+      "sequence": 1,
+      "courseSlug": "career-engineering_judgment_foundation",
+      "phaseId": "learning-judgment",
+      "phaseLabel": "Learning systems and engineering judgment",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 2,
+      "courseSlug": "programming-fundamentals",
+      "phaseId": "automation-foundations",
+      "phaseLabel": "Programming, data structures, Git, terminal, and automation foundations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 3,
+      "courseSlug": "python-basics",
+      "phaseId": "automation-foundations",
+      "phaseLabel": "Programming, data structures, Git, terminal, and automation foundations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 4,
+      "courseSlug": "git-the-terminal",
+      "phaseId": "automation-foundations",
+      "phaseLabel": "Programming, data structures, Git, terminal, and automation foundations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 5,
+      "courseSlug": "data-structures",
+      "phaseId": "automation-foundations",
+      "phaseLabel": "Programming, data structures, Git, terminal, and automation foundations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 6,
+      "courseSlug": "career-programming_cs_foundations",
+      "phaseId": "automation-foundations",
+      "phaseLabel": "Programming, data structures, Git, terminal, and automation foundations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 7,
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "phaseId": "network-security",
+      "phaseLabel": "Networking, systems, and security",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 8,
+      "courseSlug": "career-security_identity",
+      "phaseId": "network-security",
+      "phaseLabel": "Networking, systems, and security",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 9,
+      "courseSlug": "career-databases_data_modeling",
+      "phaseId": "data-backend",
+      "phaseLabel": "Databases, APIs, backend services, and distributed systems",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 10,
+      "courseSlug": "career-backend_engineering",
+      "phaseId": "data-backend",
+      "phaseLabel": "Databases, APIs, backend services, and distributed systems",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 11,
+      "courseSlug": "system-design",
+      "phaseId": "data-backend",
+      "phaseLabel": "Databases, APIs, backend services, and distributed systems",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 12,
+      "courseSlug": "career-cloud_devops_operations",
+      "phaseId": "cloud-operations",
+      "phaseLabel": "Cloud, DevOps, observability, reliability, and platform operations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 13,
+      "courseSlug": "career-observability_reliability_performance",
+      "phaseId": "cloud-operations",
+      "phaseLabel": "Cloud, DevOps, observability, reliability, and platform operations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 14,
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "phaseId": "cloud-operations",
+      "phaseLabel": "Cloud, DevOps, observability, reliability, and platform operations",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 15,
+      "courseSlug": "the-llm-api",
+      "phaseId": "applied-ai",
+      "phaseLabel": "LLM APIs, prompting, retrieval, agents, automation, evals, and safety",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 16,
+      "courseSlug": "prompt-engineering",
+      "phaseId": "applied-ai",
+      "phaseLabel": "LLM APIs, prompting, retrieval, agents, automation, evals, and safety",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 17,
+      "courseSlug": "rag-retrieval",
+      "phaseId": "applied-ai",
+      "phaseLabel": "LLM APIs, prompting, retrieval, agents, automation, evals, and safety",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 18,
+      "courseSlug": "agents-tool-use",
+      "phaseId": "applied-ai",
+      "phaseLabel": "LLM APIs, prompting, retrieval, agents, automation, evals, and safety",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 19,
+      "courseSlug": "career-ai_engineering_rag_eval",
+      "phaseId": "applied-ai",
+      "phaseLabel": "LLM APIs, prompting, retrieval, agents, automation, evals, and safety",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 20,
+      "courseSlug": "career-product_execution_market_feedback",
+      "phaseId": "production-capstone",
+      "phaseLabel": "Cross-discipline production capstone and defense",
+      "source": "flagship_competency_graph"
+    },
+    {
+      "sequence": 21,
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 22,
+      "courseSlug": "career-frontend_fullstack",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 23,
+      "courseSlug": "career-architecture_system_design",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 24,
+      "courseSlug": "career-mobile_engineering_deep_dive",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 25,
+      "courseSlug": "career-qa_sdet_test_automation_engineering",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 26,
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 27,
+      "courseSlug": "career-data_engineering_analytics",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 28,
+      "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 29,
+      "courseSlug": "nextjs-supabase",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 30,
+      "courseSlug": "stripe-auth",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 31,
+      "courseSlug": "career-interview_career_portfolio",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    },
+    {
+      "sequence": 32,
+      "courseSlug": "career-engineering_leadership_staff_execution",
+      "phaseId": "registry-remainder",
+      "phaseLabel": "Complete canonical registry",
+      "source": "canonical_registry_remainder"
+    }
+  ],
+  "completed": [
+    {
+      "courseSlug": "career-engineering_judgment_foundation",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "programming-fundamentals",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "python-basics",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "git-the-terminal",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "data-structures",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "career-programming_cs_foundations",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "imported_from_verified_branch_history",
+      "checkpointCommit": "9d4d71eebd10",
+      "certificationStatus": "uncertified"
+    }
+  ],
+  "current": {
+    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "phaseId": "network-security",
+    "sequence": 7,
+    "attemptCount": 0,
+    "repeatedFailureCount": 0,
+    "failureFingerprint": null
+  },
+  "certificationBoundary": {
+    "courseClaim": "uncertified",
+    "labEvidence": "practice_only",
+    "authority": "academy_certification_harness_v2_plus_required_human_and_governance_review"
+  },
+  "autonomyBoundary": {
+    "allowed": [
+      "local_content_and_code_edits",
+      "tests",
+      "evidence_generation",
+      "scoped_local_commits"
+    ],
+    "approvalRequired": [
+      "push",
+      "deploy",
+      "publish",
+      "supabase_mutation",
+      "credentials",
+      "paid_actions",
+      "destructive_operations"
+    ],
+    "repeatedFailureLimit": 3
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "programVersion": "academy-program-loop-v1",
+  "generatedAt": "2026-08-28T17:30:21.297Z",
+  "mutationMode": "local_files_only",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "queueCoverage": "32/32",
+  "currentCourse": "career-networking_fundamentals_advanced_networking",
+  "certificationClaim": "uncertified",
+  "labEvidence": "practice_only",
+  "requiredScripts": {
+    "academy:program:plan": "node tools/academy-program/cli.mjs plan",
+    "academy:program:once": "node tools/academy-program/cli.mjs once",
+    "academy:program:verify": "node --test tests/academy/program-loop.test.mjs && node tools/academy-program/cli.mjs verify",
+    "academy:program:status": "node tools/academy-program/cli.mjs status",
+    "academy:program:dry-run": "node tools/academy-program/cli.mjs once --dry-run"
+  },
+  "failures": []
+}

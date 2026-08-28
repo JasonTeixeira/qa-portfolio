@@ -126,25 +126,25 @@ Harness V2 writes one evidence family under
 - `course-scorecards/<course>.json` — one course-level scorecard per registry course;
 - `lesson-scorecards/<course>.json` — every lesson scorecard for that course;
 - `remediation-backlog.json` — ranked, grouped fixes with affected courses and lessons;
-- `flagship-readiness.json` — provisional blueprint-path readiness, explicitly pending
-  the Step 5 competency graph.
+- `flagship-readiness.json` — readiness for the versioned flagship competency graph,
+  with every mapped course and release gap reported explicitly.
 
 Every artifact carries `harnessVersion`, `registryVersion`, and `generatedAt`.
 Deterministic scores cover only completed deterministic checks and must never be
 presented as a composite quality score. A composite remains `null` while any required
 check is pending or failing.
 
-## 8. Phase sequence (voice held — content + visual first)
+## 8. Current program sequence (voice held — content + visual first)
 
 | Phase | What | Gate |
 |---|---|---|
-| 0 | **This document** + rubric approved | operator approves rubric |
-| 1 | Build `academy-quality-harness` (the scored command + proof artifact) | scores a known-good and known-bad correctly |
-| 2 | **Pilot: System Design** to 99+ (content+visual+a11y+ux+perf; no new voice) | 99+ scorecard + operator samples 2 lessons |
-| 3 | Re-audit the 8 rebuilt courses (they *are* voiced → dim 5 active) | 8× 99+ |
-| 4 | Content+visual to 99+ across the 23 existing courses (Workflow batch) | rolling 99+, honest skip-log |
-| 5 | Academy-wide human-appeal pass (onboarding, dashboard, motion, a11y, perf) | full board + operator sample |
-| 6 | Ship gate (prod verification, provenance, zero hard-fails) | operator approves publish |
+| 0 | Canonical 32-course registry + Certification Harness V2 | known-good/known-bad fixtures and 32 independent scorecards |
+| 1 | Secure evaluator boundary and staging-readiness harness | labs remain practice-only until live controlled proof |
+| 2 | Flagship competency graph + Academy Program Loop | one registry-bound 32-course queue with resumable GREEN checkpoints |
+| 3 | Sequential flagship curriculum remediation | course contract `pass^3` + local build gates; no false certification |
+| 4 | Remaining registry-course remediation | 32/32 local GREEN curriculum checkpoints |
+| 5 | Sources, expert review, rendered a11y/performance, and human appeal | every required pending dimension receives real evidence |
+| 6 | Immutable releases and ship gate | governance approves certification and publish separately |
 | — | **Voice re-activation** (deferred): once Pro is green-lit, dim 5 turns on, re-pass | separate gate |
 
 ## 9. Non-negotiables (inherited)

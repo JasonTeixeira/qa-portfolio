@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
-  "generatedAt": "2026-08-28T20:33:03.181Z",
+  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
+  "generatedAt": "2026-08-28T20:39:09.801Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 28,
-    "coursesNeedsRemediation": 4,
+    "coursesBlocked": 29,
+    "coursesNeedsRemediation": 3,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 613,
+      "H2": 633,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -1488,16 +1488,16 @@
       "courseSlug": "career-ux_ui_product_design_for_engineers",
       "title": "UX, UI, and Product Design for Engineers",
       "lessonCount": 20,
-      "contentHash": "sha256:1bea4b36c1fe2f63afbb309c1204de04ca7e916698c779bf663b5614db84130e",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:bb21a90e91c6b9fd0f4bf5e114bada8ed3a94bde838fbc8138cdb1d016e68a19",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -1522,8 +1522,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -1534,7 +1534,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

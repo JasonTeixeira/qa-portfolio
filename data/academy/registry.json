@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 560,
+    "labBlocks": 580,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 507,
+    "labLessonsWithSolutions": 527,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 18
+    "sourceLedgers": 19
   },
   "capabilities": [
     {
@@ -5135,13 +5135,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-ux_ui_product_design_for_engineers/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -5151,8 +5151,8 @@
           "moduleTitle": "Module 1 · Product Problem And User Journey",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/problem-framing",
           "source": {
@@ -5166,8 +5166,8 @@
           "moduleTitle": "Module 1 · Product Problem And User Journey",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/user-journey-mapping",
           "source": {
@@ -5181,8 +5181,8 @@
           "moduleTitle": "Module 1 · Product Problem And User Journey",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/information-architecture",
           "source": {
@@ -5196,8 +5196,8 @@
           "moduleTitle": "Module 1 · Product Problem And User Journey",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/non-goals",
           "source": {
@@ -5211,8 +5211,8 @@
           "moduleTitle": "Module 2 · Interaction Design And States",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/workflow-structure",
           "source": {
@@ -5226,8 +5226,8 @@
           "moduleTitle": "Module 2 · Interaction Design And States",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 15,
-          "labBlocks": 0,
+          "blockCount": 21,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/forms-and-validation",
           "source": {
@@ -5241,8 +5241,8 @@
           "moduleTitle": "Module 2 · Interaction Design And States",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/empty-loading-error-states",
           "source": {
@@ -5256,8 +5256,8 @@
           "moduleTitle": "Module 2 · Interaction Design And States",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/edge-case-ux",
           "source": {
@@ -5271,8 +5271,8 @@
           "moduleTitle": "Module 3 · Visual Systems For Engineers",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/layout-hierarchy",
           "source": {
@@ -5286,8 +5286,8 @@
           "moduleTitle": "Module 3 · Visual Systems For Engineers",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/design-tokens",
           "source": {
@@ -5301,8 +5301,8 @@
           "moduleTitle": "Module 3 · Visual Systems For Engineers",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/component-states",
           "source": {
@@ -5316,8 +5316,8 @@
           "moduleTitle": "Module 3 · Visual Systems For Engineers",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/data-ui-clarity",
           "source": {
@@ -5331,8 +5331,8 @@
           "moduleTitle": "Module 4 · Accessibility And Usability",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/wcag-principles",
           "source": {
@@ -5346,8 +5346,8 @@
           "moduleTitle": "Module 4 · Accessibility And Usability",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/keyboard-and-screen-reader-flows",
           "source": {
@@ -5361,8 +5361,8 @@
           "moduleTitle": "Module 4 · Accessibility And Usability",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/usability-test-plan",
           "source": {
@@ -5376,8 +5376,8 @@
           "moduleTitle": "Module 4 · Accessibility And Usability",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/critique-loop",
           "source": {
@@ -5391,8 +5391,8 @@
           "moduleTitle": "Module 5 · Implementation And Measurement",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/prototype-to-code-handoff",
           "source": {
@@ -5406,8 +5406,8 @@
           "moduleTitle": "Module 5 · Implementation And Measurement",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/instrumentation-plan",
           "source": {
@@ -5421,8 +5421,8 @@
           "moduleTitle": "Module 5 · Implementation And Measurement",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/metric-tree",
           "source": {
@@ -5436,8 +5436,8 @@
           "moduleTitle": "Module 5 · Implementation And Measurement",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-ux_ui_product_design_for_engineers/design-review-packet",
           "source": {
@@ -10750,5 +10750,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425"
+  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6"
 }

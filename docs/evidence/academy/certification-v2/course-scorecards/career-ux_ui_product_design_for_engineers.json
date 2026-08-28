@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
-  "generatedAt": "2026-08-28T20:33:03.181Z",
+  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
+  "generatedAt": "2026-08-28T20:39:09.801Z",
   "courseSlug": "career-ux_ui_product_design_for_engineers",
   "title": "UX, UI, and Product Design for Engineers",
-  "contentHash": "sha256:1bea4b36c1fe2f63afbb309c1204de04ca7e916698c779bf663b5614db84130e",
+  "contentHash": "sha256:bb21a90e91c6b9fd0f4bf5e114bada8ed3a94bde838fbc8138cdb1d016e68a19",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "27e0f6226167d135",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "problem-framing"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "2a0ebda002bce077",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "user-journey-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "aa9a2c59b205ba59",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "information-architecture"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "34cc5a16202f76fd",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "non-goals"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d1b6c6de6e5d8c02",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "workflow-structure"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9e4fb59796455c8a",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "forms-and-validation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "8ce76bc4a9c503d7",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "empty-loading-error-states"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "764a490120c34525",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "edge-case-ux"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7d55d873e2bb11b8",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "layout-hierarchy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1fa32d5edbbd62c6",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "design-tokens"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fefb9768ca49468e",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "component-states"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ef01c6dd43a76b16",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "data-ui-clarity"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c3c99cfd7e587514",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "wcag-principles"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fb19b9d1598d2bda",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "keyboard-and-screen-reader-flows"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9d648ab976819997",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "usability-test-plan"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9a92544e5c7af91c",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "critique-loop"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "2682aaa5bc1bfe74",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "prototype-to-code-handoff"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6a67c5a9ab0bc053",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "instrumentation-plan"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "64cbf62b6e2aa2be",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "metric-tree"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b76d6a0c84b02545",
-          "courseSlug": "career-ux_ui_product_design_for_engineers",
-          "lessonSlug": "design-review-packet"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "14aedae09dc29db2",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "problem-framing"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "34c8995a4c8ee54b",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "user-journey-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c922ae5865b03ce4",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "information-architecture"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "69cd5b2498d861dc",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "non-goals"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "6d53dc52262df756",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "workflow-structure"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "8769bbd85a8c29b4",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "forms-and-validation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c118b66c521eb41a",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "empty-loading-error-states"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "81e2662396dc764d",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "edge-case-ux"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "60625db93de67043",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "layout-hierarchy"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0f69b1e77f0d0560",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "design-tokens"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "77458eb9b683f262",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "component-states"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "62ad8641f47c0c79",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "data-ui-clarity"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "01821a1d2fbee052",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "wcag-principles"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7da896971493250d",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "keyboard-and-screen-reader-flows"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3cd259021c50847f",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "usability-test-plan"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7e39a7dd4c5832a1",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "critique-loop"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "255ac7dc03d47229",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "prototype-to-code-handoff"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e49654a15f37e5d3",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "instrumentation-plan"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "2c9979f025a4e32d",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "metric-tree"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "941183f6e706b42a",
+          "courseSlug": "career-ux_ui_product_design_for_engineers",
+          "lessonSlug": "design-review-packet"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "14aedae09dc29db2",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "problem-framing"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "34c8995a4c8ee54b",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "user-journey-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c922ae5865b03ce4",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "information-architecture"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "69cd5b2498d861dc",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "non-goals"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "6d53dc52262df756",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "workflow-structure"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "8769bbd85a8c29b4",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "forms-and-validation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c118b66c521eb41a",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "empty-loading-error-states"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "81e2662396dc764d",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "edge-case-ux"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "60625db93de67043",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "layout-hierarchy"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0f69b1e77f0d0560",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "design-tokens"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "77458eb9b683f262",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "component-states"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "62ad8641f47c0c79",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "data-ui-clarity"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "01821a1d2fbee052",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "wcag-principles"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7da896971493250d",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "keyboard-and-screen-reader-flows"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3cd259021c50847f",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "usability-test-plan"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7e39a7dd4c5832a1",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "critique-loop"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "255ac7dc03d47229",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "prototype-to-code-handoff"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e49654a15f37e5d3",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "instrumentation-plan"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "2c9979f025a4e32d",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "metric-tree"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "941183f6e706b42a",
+      "courseSlug": "career-ux_ui_product_design_for_engineers",
+      "lessonSlug": "design-review-packet"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

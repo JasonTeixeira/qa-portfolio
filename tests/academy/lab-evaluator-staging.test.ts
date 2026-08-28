@@ -121,7 +121,7 @@ function attestationPayload(targetManifest = manifest()) {
       environmentId: targetManifest.authority.environmentId,
       managedProjectIdSha256: targetManifest.authority.managedProjectIdSha256,
       databaseOriginSha256: targetManifest.authority.databaseOriginSha256,
-      rootlessRuntime: 'passed' as const,
+      isolatedRuntime: 'passed' as const,
       migrations: ['0116', '0117', '0118', '0119', '0120'] as const,
       managedRuntimeBinding: 'passed' as const,
       monitoring: 'passed' as const,
@@ -231,14 +231,14 @@ describe('academy Step 4B staging activation contract', () => {
     assert.equal(new Set(plan.map((probe: { id: string }) => probe.id)).size, plan.length)
 
     const allPassed = Object.fromEntries([
-      'manifest_valid', 'private_pack_valid', 'rootless_runtime', 'digest_pinned_images',
+      'manifest_valid', 'private_pack_valid', 'isolated_runtime', 'digest_pinned_images',
       'migrations_applied', 'managed_runtime_binding', 'reference_solutions_passed',
       'adversarial_probes_passed', 'receipts_reconciled', 'monitoring_ready', 'kill_switch_ready',
     ].map((gate) => [gate, true]))
     assert.deepEqual(evaluateStagingReadiness(allPassed), { status: 'ready', blockedGates: [] })
-    assert.deepEqual(evaluateStagingReadiness({ ...allPassed, rootless_runtime: false }), {
+    assert.deepEqual(evaluateStagingReadiness({ ...allPassed, isolated_runtime: false }), {
       status: 'blocked',
-      blockedGates: ['rootless_runtime'],
+      blockedGates: ['isolated_runtime'],
     })
   })
 

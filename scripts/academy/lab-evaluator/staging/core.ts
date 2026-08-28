@@ -49,7 +49,7 @@ export const REQUIRED_ADVERSARIAL_PROBES = Object.freeze([
 export const STAGING_READINESS_GATES = Object.freeze([
   'manifest_valid',
   'private_pack_valid',
-  'rootless_runtime',
+  'isolated_runtime',
   'digest_pinned_images',
   'migrations_applied',
   'managed_runtime_binding',
@@ -114,7 +114,7 @@ export type ActivationAttestationPayload = {
     environmentId: string
     managedProjectIdSha256: string
     databaseOriginSha256: string
-    rootlessRuntime: 'passed'
+    isolatedRuntime: 'passed'
     migrations: readonly ['0116', '0117', '0118', '0119', '0120']
     managedRuntimeBinding: 'passed'
     monitoring: 'passed'
@@ -360,7 +360,7 @@ function assertAttestationPayload(
   if (!isRecord(payload.environment)) throw new Error('activation environment proof must be an object')
   exactKeys(payload.environment, [
     'environmentId', 'managedProjectIdSha256', 'databaseOriginSha256',
-    'rootlessRuntime', 'migrations', 'managedRuntimeBinding', 'monitoring', 'masteryWriteKillSwitch',
+    'isolatedRuntime', 'migrations', 'managedRuntimeBinding', 'monitoring', 'masteryWriteKillSwitch',
   ], 'activation environment proof')
   if (payload.environment.environmentId !== manifest.authority.environmentId) throw new Error('activation environment id mismatch')
   if (
@@ -371,7 +371,7 @@ function assertAttestationPayload(
     manifest.authority.databaseOriginSha256 === UNPROVISIONED ||
     payload.environment.databaseOriginSha256 !== manifest.authority.databaseOriginSha256
   ) throw new Error('activation database origin is unprovisioned or mismatched')
-  if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
+  if (payload.environment.isolatedRuntime !== 'passed') throw new Error('activation isolated runtime proof failed')
   if (
     !Array.isArray(payload.environment.migrations) ||
     payload.environment.migrations.length !== 5 ||

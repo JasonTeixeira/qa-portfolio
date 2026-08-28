@@ -1,6 +1,6 @@
 # ADR 0004: Controlled lab evaluator trust boundary
 
-- Status: Accepted for local implementation
+- Status: Superseded for staging by ADR 0005
 - Date: 2026-08-27
 - Scope: Academy lab execution and mastery evidence
 
@@ -12,7 +12,11 @@ Arbitrary learner code must also be treated as hostile. Executing it inside the 
 
 ## Decision
 
-Use a separately deployed, rootless-Docker evaluator with a private spec store. The Next.js application sends source code in an HMAC-signed, short-lived request. The evaluator resolves a server-owned spec, proves its private reference solution once, and executes the learner submission independently for every hidden case.
+The original implementation used a separately deployed, rootless-Docker evaluator
+with a private spec store. ADR 0005 preserves this trust boundary while replacing
+the self-managed host in staging with Vercel Sandbox and Supabase-managed private
+specs and receipts. The self-managed design below remains a supported fallback,
+not a staging requirement.
 
 Each execution uses an ephemeral, digest-pinned container with:
 

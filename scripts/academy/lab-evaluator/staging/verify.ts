@@ -1,4 +1,3 @@
-import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -35,15 +34,6 @@ const PINNED_IMAGE_RE = /@sha256:[0-9a-f]{64}$/
 
 function identityDigest(value: string): string {
   return createHash('sha256').update(value, 'utf8').digest('hex')
-}
-
-function localRootlessDockerReady(): boolean {
-  const result = spawnSync('docker', ['info', '--format', '{{json .SecurityOptions}}'], {
-    encoding: 'utf8',
-    timeout: 5_000,
-    maxBuffer: 16_384,
-  })
-  return result.status === 0 && result.stdout.toLowerCase().includes('rootless')
 }
 
 function configuredImagesPinned(env: NodeJS.ProcessEnv): boolean {
@@ -116,8 +106,8 @@ async function main(): Promise<void> {
   }
 
   const activation = await verifiedActivationAttestation(manifest, observations)
-  gates.rootless_runtime = localRootlessDockerReady() || activation?.environment.rootlessRuntime === 'passed'
-  if (!gates.rootless_runtime) observations.push('This host has not proven a rootless Docker evaluator runtime.')
+  gates.isolated_runtime = activation?.environment.isolatedRuntime === 'passed'
+  if (!gates.isolated_runtime) observations.push('No signed activation attestation proves the managed isolated runtime.')
 
   const attested = activation !== null
   gates.digest_pinned_images = attested || configuredImagesPinned(process.env)

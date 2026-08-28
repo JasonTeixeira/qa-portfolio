@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:03.027Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T18:59:02.126Z",
   "items": [
     {
       "rank": 1,
@@ -51,13 +51,12 @@
         "git-the-terminal",
         "nextjs-supabase",
         "programming-fundamentals",
-        "prompt-engineering",
         "rag-retrieval",
         "stripe-auth"
       ],
-      "lessonCount": 74,
-      "findingCount": 74,
-      "priority": 4070074
+      "lessonCount": 65,
+      "findingCount": 65,
+      "priority": 4060065
     },
     {
       "rank": 3,
@@ -717,14 +716,13 @@
         "git-the-terminal",
         "nextjs-supabase",
         "programming-fundamentals",
-        "prompt-engineering",
         "python-basics",
         "rag-retrieval",
         "stripe-auth"
       ],
-      "lessonCount": 456,
-      "findingCount": 456,
-      "priority": 2230456
+      "lessonCount": 436,
+      "findingCount": 436,
+      "priority": 2220436
     },
     {
       "rank": 21,
@@ -736,14 +734,13 @@
         "data-structures",
         "git-the-terminal",
         "nextjs-supabase",
-        "prompt-engineering",
         "rag-retrieval",
         "stripe-auth",
         "system-design"
       ],
-      "lessonCount": 164,
-      "findingCount": 164,
-      "priority": 2080164
+      "lessonCount": 144,
+      "findingCount": 144,
+      "priority": 2070144
     }
   ]
 }

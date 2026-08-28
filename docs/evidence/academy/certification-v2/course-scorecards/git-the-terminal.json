@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:03.027Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T18:59:02.126Z",
   "courseSlug": "git-the-terminal",
   "title": "Git and the Terminal",
   "contentHash": "sha256:f76c7c96b1508363de6800e0d6a99d39ff8c185509957ebc3b40c0e0b2f58216",

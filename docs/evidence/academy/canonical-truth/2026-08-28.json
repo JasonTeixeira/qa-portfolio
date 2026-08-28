@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 567,
-    "labLessonsWithSolutions": 396,
-    "labLessonsWithoutSolutions": 74,
-    "sourceLedgers": 9
+    "solutionEntries": 576,
+    "labLessonsWithSolutions": 405,
+    "labLessonsWithoutSolutions": 65,
+    "sourceLedgers": 10
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "74 lab lessons lack same-slug solution entries",
-    "23 courses lack course-level source ledgers",
+    "65 lab lessons lack same-slug solution entries",
+    "22 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -421,14 +421,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 9,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/prompt-engineering/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/prompt-engineering"
     },

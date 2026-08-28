@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:03.027Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T18:59:02.126Z",
   "courseSlug": "prompt-engineering",
   "title": "Prompt Engineering",
-  "contentHash": "sha256:60535e60313a15ecfe44aec00a76dbea0190fb35bfe43aab8ed403e418870689",
+  "contentHash": "sha256:7369ac61002ebb340a00fef79f150868997aa364d1871335ba160c0d1c3b5d86",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -113,34 +113,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "2265b3b582570a37",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "role-instruction-format"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "aa9ebc76981c65a3",
           "courseSlug": "prompt-engineering",
           "lessonSlug": "role-instruction-format"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "cbe69d6a9f0b4c07",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "the-refusal-rule"
         },
         {
           "code": "H2",
@@ -157,34 +135,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "6e3b9a8a4b40bea3",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "the-grounding-rule"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "d1aa4c26d985c6d1",
           "courseSlug": "prompt-engineering",
           "lessonSlug": "the-grounding-rule"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "8f1ce26aa7003332",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "few-shot-examples"
         },
         {
           "code": "H2",
@@ -207,17 +163,6 @@
           "id": "47aebe369fc0648b",
           "courseSlug": "prompt-engineering",
           "lessonSlug": "decomposition-chaining"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "51c1289d0da4019f",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "chain-of-thought"
         },
         {
           "code": "H2",
@@ -300,34 +245,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "89e923380a52ef12",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "llm-as-judge"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "dbadb876b39052cd",
           "courseSlug": "prompt-engineering",
           "lessonSlug": "llm-as-judge"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "ff65f91bced77b59",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "regression-test-prompts"
         },
         {
           "code": "H2",
@@ -355,34 +278,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "67410366b3e20d15",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "prompt-injection"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "89a18fe8ce1fb659",
           "courseSlug": "prompt-engineering",
           "lessonSlug": "prompt-injection"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "082ee0954c8abae1",
-          "courseSlug": "prompt-engineering",
-          "lessonSlug": "injection-defense-patterns"
         },
         {
           "code": "H2",
@@ -436,13 +337,13 @@
     },
     "media": {
       "id": "media",
-      "status": "pending",
+      "status": "not_applicable",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-media",
           "mode": "deterministic",
-          "status": "pending",
+          "status": "not_applicable",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
@@ -555,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {
@@ -573,34 +474,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "2265b3b582570a37",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "role-instruction-format"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "aa9ebc76981c65a3",
       "courseSlug": "prompt-engineering",
       "lessonSlug": "role-instruction-format"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "cbe69d6a9f0b4c07",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "the-refusal-rule"
     },
     {
       "code": "H2",
@@ -617,34 +496,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "6e3b9a8a4b40bea3",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "the-grounding-rule"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "d1aa4c26d985c6d1",
       "courseSlug": "prompt-engineering",
       "lessonSlug": "the-grounding-rule"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "8f1ce26aa7003332",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "few-shot-examples"
     },
     {
       "code": "H2",
@@ -667,17 +524,6 @@
       "id": "47aebe369fc0648b",
       "courseSlug": "prompt-engineering",
       "lessonSlug": "decomposition-chaining"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "51c1289d0da4019f",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "chain-of-thought"
     },
     {
       "code": "H2",
@@ -760,34 +606,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "89e923380a52ef12",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "llm-as-judge"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "dbadb876b39052cd",
       "courseSlug": "prompt-engineering",
       "lessonSlug": "llm-as-judge"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "ff65f91bced77b59",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "regression-test-prompts"
     },
     {
       "code": "H2",
@@ -815,34 +639,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "67410366b3e20d15",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "prompt-injection"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "89a18fe8ce1fb659",
       "courseSlug": "prompt-engineering",
       "lessonSlug": "prompt-injection"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "082ee0954c8abae1",
-      "courseSlug": "prompt-engineering",
-      "lessonSlug": "injection-defense-patterns"
     },
     {
       "code": "H2",
@@ -882,7 +684,6 @@
     "accessibility",
     "consistency",
     "content_correctness",
-    "media",
     "pedagogy",
     "performance",
     "sources",

@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 567,
-    "labLessonsWithSolutions": 396,
-    "labLessonsWithoutSolutions": 74,
-    "sourceLedgers": 9
+    "solutionEntries": 576,
+    "labLessonsWithSolutions": 405,
+    "labLessonsWithoutSolutions": 65,
+    "sourceLedgers": 10
   },
   "capabilities": [
     {
@@ -6793,14 +6793,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/prompt-engineering/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -6810,7 +6809,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/prompt-as-contract",
@@ -6825,9 +6824,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/role-instruction-format",
           "source": {
             "kind": "derived_from_authoring",
@@ -6840,9 +6839,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/the-refusal-rule",
           "source": {
             "kind": "derived_from_authoring",
@@ -6855,9 +6854,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/the-grounding-rule",
           "source": {
             "kind": "derived_from_authoring",
@@ -6870,9 +6869,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/few-shot-examples",
           "source": {
             "kind": "derived_from_authoring",
@@ -6885,7 +6884,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/decomposition-chaining",
@@ -6900,9 +6899,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/chain-of-thought",
           "source": {
             "kind": "derived_from_authoring",
@@ -6915,7 +6914,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/self-check-critique",
@@ -6930,7 +6929,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/schema-constrained-prompts",
@@ -6945,7 +6944,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/output-validation-repair",
@@ -6960,7 +6959,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/delimiters-escaping-untrusted",
@@ -6975,7 +6974,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/handling-long-inputs",
@@ -6990,7 +6989,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/build-a-prompt-eval-set",
@@ -7005,9 +7004,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/llm-as-judge",
           "source": {
             "kind": "derived_from_authoring",
@@ -7020,9 +7019,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/regression-test-prompts",
           "source": {
             "kind": "derived_from_authoring",
@@ -7035,7 +7034,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/measuring-drift-across-models",
@@ -7050,9 +7049,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/prompt-injection",
           "source": {
             "kind": "derived_from_authoring",
@@ -7065,9 +7064,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/injection-defense-patterns",
           "source": {
             "kind": "derived_from_authoring",
@@ -7080,7 +7079,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/jailbreak-resistance",
@@ -7095,7 +7094,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/prompt-engineering/capstone-injection-resistant-prompt",
@@ -10755,5 +10754,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2"
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea"
 }

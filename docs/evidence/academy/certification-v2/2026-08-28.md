@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T18:54:03.027Z
-Registry: `sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2`
+Generated: 2026-08-28T18:59:02.126Z
+Registry: `sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -16,7 +16,7 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 - Needs deterministic remediation: 8
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=544, H3=0, H4=0, H5=0
+- Hard fails: H1=0, H2=535, H3=0, H4=0, H5=0
 
 ## Coverage boundary
 
@@ -53,7 +53,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Data Engineering and Analytics Platforms | `career-data_engineering_analytics` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | AI Engineering, RAG, Evals, Safety, and LLMOps | `career-ai_engineering_rag_eval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | The LLM API | `the-llm-api` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
-| Prompt Engineering | `prompt-engineering` | 20 | blocked | 29 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
+| Prompt Engineering | `prompt-engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | RAG and Retrieval | `rag-retrieval` | 20 | blocked | 29 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Agents and Tool Use | `agents-tool-use` | 20 | blocked | 23 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Cloud, DevOps, and Production Operations | `career-cloud_devops_operations` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
@@ -69,7 +69,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 ## Ranked remediation backlog
 
 1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (24 courses; 470 findings)
-2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (7 courses; 74 findings)
+2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (6 courses; 65 findings)
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
@@ -87,7 +87,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
 18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
 19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
-20. sources — Complete required sources evidence: source-ledger-schema. (23 courses; 456 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (22 courses; 436 findings)
 
 ## Flagship competency-path readiness
 

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:03.027Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T18:59:02.126Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 544,
+      "H2": 535,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -1963,16 +1963,16 @@
       "courseSlug": "prompt-engineering",
       "title": "Prompt Engineering",
       "lessonCount": 20,
-      "contentHash": "sha256:60535e60313a15ecfe44aec00a76dbea0190fb35bfe43aab8ed403e418870689",
+      "contentHash": "sha256:7369ac61002ebb340a00fef79f150868997aa364d1871335ba160c0d1c3b5d86",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 80,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 29,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 29,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -1981,7 +1981,6 @@
         "accessibility",
         "consistency",
         "content_correctness",
-        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -2018,7 +2017,7 @@
           "score": null
         },
         "media": {
-          "status": "pending",
+          "status": "not_applicable",
           "score": null
         },
         "references": {

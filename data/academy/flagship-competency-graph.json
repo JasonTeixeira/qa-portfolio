@@ -762,7 +762,29 @@
           ]
         },
         {
-          "courseSlug": "prompt-engineering"
+          "courseSlug": "prompt-engineering",
+          "lessonSlugs": [
+            "prompt-as-contract",
+            "role-instruction-format",
+            "the-refusal-rule",
+            "the-grounding-rule",
+            "few-shot-examples",
+            "decomposition-chaining",
+            "chain-of-thought",
+            "self-check-critique",
+            "schema-constrained-prompts",
+            "output-validation-repair",
+            "delimiters-escaping-untrusted",
+            "handling-long-inputs",
+            "build-a-prompt-eval-set",
+            "llm-as-judge",
+            "regression-test-prompts",
+            "measuring-drift-across-models",
+            "prompt-injection",
+            "injection-defense-patterns",
+            "jailbreak-resistance",
+            "capstone-injection-resistant-prompt"
+          ]
         }
       ],
       "evidence": [

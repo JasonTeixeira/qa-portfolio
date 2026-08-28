@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:03.027Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T18:59:02.126Z",
   "courseSlug": "career-ai_engineering_rag_eval",
   "title": "AI Engineering, RAG, Evals, Safety, and LLMOps",
   "contentHash": "sha256:bdfea3c7d5e40c579c9299b8c921938ffc1801f1be0bd14cade9737cf9b05dfe",

@@ -15,7 +15,14 @@ const flagshipFoundationCourses = {
   'career-engineering_judgment_foundation': 16,
   'python-basics': 12,
   'git-the-terminal': 20,
+  'data-structures': 20,
+  'career-programming_cs_foundations': 20,
 } as const
+
+const automationFoundationCourses = [
+  'data-structures',
+  'career-programming_cs_foundations',
+] as const
 
 test('flagship competency graph is a complete, acyclic novice-to-mastery contract', () => {
   const graph = loadFlagshipCompetencyGraph(process.cwd())
@@ -54,6 +61,23 @@ test('every flagship course and mapped lesson resolves to the canonical registry
   assert(result.referencedCourseSlugs.includes('programming-fundamentals'))
   assert(result.referencedCourseSlugs.includes('career-cloud_devops_operations'))
   assert(result.referencedCourseSlugs.includes('career-ai_engineering_rag_eval'))
+})
+
+test('automation-foundation competency mappings enumerate every canonical lesson', () => {
+  const graph = loadFlagshipCompetencyGraph(process.cwd())
+  const competency = graph.competencies.find((candidate) => candidate.id === 'programming-automation')
+  assert(competency, 'missing programming-automation competency')
+
+  for (const courseSlug of automationFoundationCourses) {
+    const lessons = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+    ) as Record<string, unknown>
+    const mapping: { courseSlug: string; lessonSlugs?: string[] } | undefined =
+      competency.courseMappings.find((candidate) => candidate.courseSlug === courseSlug)
+
+    assert(mapping, `${courseSlug}: missing competency mapping`)
+    assert.deepEqual(mapping.lessonSlugs, Object.keys(lessons), `${courseSlug}: incomplete lesson mapping`)
+  }
 })
 
 test('broken flagship graphs fail closed on cycles, orphans, and invented mappings', () => {
@@ -141,6 +165,28 @@ test('every Engineering Judgment lesson produces an executable artifact with a r
   }
 })
 
+test('every automation-foundation lesson produces a practical lab with a reference implementation', () => {
+  for (const courseSlug of automationFoundationCourses) {
+    const lessons = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+    ) as Record<string, Array<Record<string, unknown>>>
+    const solutions = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lab_solutions.json`, 'utf8'),
+    ) as Record<string, { language?: string; code?: string }>
+
+    assert.deepEqual(Object.keys(solutions), Object.keys(lessons), `${courseSlug}: solution coverage drift`)
+    for (const [lessonSlug, blocks] of Object.entries(lessons)) {
+      const key = `${courseSlug}/${lessonSlug}`
+      const lab = blocks.find((block) => block.type === 'lab')
+      assert(lab, `${key}: missing practical lab`)
+      assert((lab.starter as string | undefined)?.includes('TODO'), `${key}: lab needs novice scaffolding`)
+      assert((lab.check as string | undefined)?.trim(), `${key}: missing observable lab check`)
+      assert.equal(solutions[lessonSlug]?.language, lab.language, `${key}: solution language mismatch`)
+      assert((solutions[lessonSlug]?.code?.length ?? 0) > 40, `${key}: missing substantive solution`)
+    }
+  }
+})
+
 test('mastery-loop remediation preserves every pre-existing lab block identity', () => {
   const expectedIndexes: Record<string, Record<string, number>> = {
     'career-engineering_judgment_foundation': {
@@ -164,6 +210,33 @@ test('mastery-loop remediation preserves every pre-existing lab block identity',
         .find((course: { slug: string }) => course.slug === 'git-the-terminal')
         .lessons.map((lesson: { slug: string }) => [lesson.slug, 7]),
     ),
+    'data-structures': Object.fromEntries(
+      registry.courses
+        .find((course: { slug: string }) => course.slug === 'data-structures')
+        .lessons.map((lesson: { slug: string }) => [lesson.slug, 7]),
+    ),
+    'career-programming_cs_foundations': {
+      'terminal-files': 10,
+      'python-functions-inputs-outputs': 10,
+      'types-dataclasses': 10,
+      'lists-dicts-sets': 9,
+      'files-json-csv': 10,
+      'errors-validation': 10,
+      'testing-basics': 10,
+      'complexity-big-o': 11,
+      'frequency-maps': 10,
+      'stacks-queues': 9,
+      'two-pointers-windows': 10,
+      'binary-search': 10,
+      'heaps-top-k': 11,
+      'graphs-bfs-dfs': 10,
+      'dynamic-programming-intro': 10,
+      'processes-ports-env-vars': 9,
+      'http-dns-tls-basics': 10,
+      'debugging-loop': 10,
+      'integration-mini-project': 10,
+      'track-1-capstone': 10,
+    },
   }
 
   for (const [courseSlug, lessonIndexes] of Object.entries(expectedIndexes)) {

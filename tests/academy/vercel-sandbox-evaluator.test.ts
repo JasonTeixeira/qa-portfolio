@@ -3,7 +3,6 @@ import { Writable } from 'node:stream'
 import { describe, it } from 'node:test'
 
 import { EVALUATOR_LIMITS, type PrivateLabSpec } from '../../lib/academy/lab-evaluator/contract'
-// @ts-expect-error RED checkpoint: the production adapter is intentionally absent.
 import { executePrivateCaseInVercelSandbox, type VercelSandboxCreate } from '../../services/academy-lab-evaluator/src/vercel-sandbox-executor'
 
 const IMAGE = `academy-runtime@sha256:${'a'.repeat(64)}`
@@ -27,6 +26,7 @@ type FakeResult = {
   stdout?: string
   stderr?: string
   error?: Error
+  deleteError?: Error
 }
 
 type FakeCommand = {
@@ -65,6 +65,7 @@ function fakeFactory(result: FakeResult = {}) {
       },
       async delete() {
         observed.deletes += 1
+        if (result.deleteError) throw result.deleteError
       },
     }
   }
@@ -151,6 +152,14 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
 
   it('fails closed and deletes the sandbox when command execution throws', async () => {
     const { createSandbox, observed } = fakeFactory({ error: new Error('sandbox unavailable') })
+    const result = await executePrivateCaseInVercelSandbox(input(), { createSandbox })
+
+    assert.equal(result.status, 'runtime_error')
+    assert.equal(observed.deletes, 1)
+  })
+
+  it('cannot pass when sandbox teardown is not confirmed', async () => {
+    const { createSandbox, observed } = fakeFactory({ stdout: '42\n', deleteError: new Error('delete failed') })
     const result = await executePrivateCaseInVercelSandbox(input(), { createSandbox })
 
     assert.equal(result.status, 'runtime_error')

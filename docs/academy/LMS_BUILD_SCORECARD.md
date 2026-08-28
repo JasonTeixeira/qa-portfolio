@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **28/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d`.
+- Progress: **29/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0`.
 - Catalog: 32 courses, 640 lessons, 600 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `nextjs-supabase`.
+- Next course: `stripe-auth`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -211,9 +211,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete system-of-record-to-audit mastery loops, ten deep identity/lifecycle/change/integration/evidence/incident drills, a multi-day operating review, and a 20-source primary ledger cover every lesson.
 - One orphan reference was removed and 20 practical labs were aligned to canonical lessons. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Next.js and Supabase baseline
+## Next.js and Supabase checkpoint result
 
-- `nextjs-supabase` is selected next as the ninth canonical registry-remainder course; certification remains blocked pending deterministic capstone pedagogy remediation, lab trust, and required reviews.
+- 20 lessons; deterministic score 79.5 → 90. All 20 JavaScript references match their exact observable contracts, reducing missing-reference H2 findings from 40 to 20.
+- Complete application-boundary mastery loops, ten deep security/consistency/deployment drills, a multi-day RLS CRUD capstone, and a 20-source first-party ledger cover every lesson.
+- All 143 narration transcripts and media URLs remain. Media integrity is honestly pending; lab evidence remains practice-only and certification remains blocked.
+
+## Current Stripe and Authentication baseline
+
+- `stripe-auth` is selected next as the tenth canonical registry-remainder course; security-sensitive curriculum changes require focused threat-boundary review in addition to normal GREEN gates.
 
 ## Advancement rule
 

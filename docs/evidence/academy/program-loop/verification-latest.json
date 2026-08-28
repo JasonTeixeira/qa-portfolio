@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T20:55:36.558Z",
+  "generatedAt": "2026-08-28T21:04:50.567Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
   "queueCoverage": "32/32",
-  "currentCourse": "nextjs-supabase",
+  "currentCourse": "stripe-auth",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

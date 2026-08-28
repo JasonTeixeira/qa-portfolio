@@ -6,7 +6,7 @@
   "authority": {
     "signerPublicKeySha256": "unprovisioned",
     "environmentId": "sageideas-academy-staging",
-    "evaluatorOriginSha256": "unprovisioned",
+    "managedProjectIdSha256": "unprovisioned",
     "databaseOriginSha256": "unprovisioned"
   },
   "labs": [

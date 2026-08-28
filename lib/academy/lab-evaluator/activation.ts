@@ -46,8 +46,9 @@ export function activationAttestationAllowsMastery(
   if (!attestationPath || !publicKeyPath || !isAbsolute(attestationPath) || !isAbsolute(publicKeyPath)) return false
   try {
     const manifest = parseFlagshipActivationManifest(flagshipActivation, registry)
-    const evaluatorUrl = new URL(env.ACADEMY_LAB_EVALUATOR_URL ?? '')
-    if (identityDigest(evaluatorUrl.origin) !== manifest.authority.evaluatorOriginSha256) return false
+    if (env.ACADEMY_LAB_EVALUATOR_PROVIDER !== 'vercel-sandbox') return false
+    const projectId = env.VERCEL_PROJECT_ID?.trim() ?? ''
+    if (!projectId || identityDigest(projectId) !== manifest.authority.managedProjectIdSha256) return false
     const databaseUrl = new URL(env.NEXT_PUBLIC_SUPABASE_URL ?? '')
     if (identityDigest(databaseUrl.origin) !== manifest.authority.databaseOriginSha256) return false
     const verified = verifyActivationAttestation(

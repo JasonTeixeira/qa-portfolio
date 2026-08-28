@@ -51,7 +51,7 @@ export const STAGING_READINESS_GATES = Object.freeze([
   'rootless_runtime',
   'digest_pinned_images',
   'migrations_applied',
-  'private_https_ingress',
+  'managed_runtime_binding',
   'reference_solutions_passed',
   'adversarial_probes_passed',
   'receipts_reconciled',
@@ -92,7 +92,7 @@ export type FlagshipActivationManifest = {
   authority: {
     signerPublicKeySha256: string
     environmentId: string
-    evaluatorOriginSha256: string
+    managedProjectIdSha256: string
     databaseOriginSha256: string
   }
   labs: FlagshipActivationLab[]
@@ -111,11 +111,11 @@ export type ActivationAttestationPayload = {
   runtimeImages: Record<LabLanguage, string>
   environment: {
     environmentId: string
-    evaluatorOriginSha256: string
+    managedProjectIdSha256: string
     databaseOriginSha256: string
     rootlessRuntime: 'passed'
-    migrations: readonly ['0116', '0117']
-    privateHttpsIngress: 'passed'
+    migrations: readonly ['0116', '0117', '0118', '0119']
+    managedRuntimeBinding: 'passed'
     monitoring: 'passed'
     masteryWriteKillSwitch: 'passed'
   }
@@ -181,7 +181,7 @@ export function parseFlagshipActivationManifest(
   if (value.status !== 'candidate') throw new Error('activation manifest must remain candidate until attested')
   if (!isRecord(value.authority)) throw new Error('activation authority must be an object')
   exactKeys(value.authority, [
-    'signerPublicKeySha256', 'environmentId', 'evaluatorOriginSha256', 'databaseOriginSha256',
+    'signerPublicKeySha256', 'environmentId', 'managedProjectIdSha256', 'databaseOriginSha256',
   ], 'activation authority')
   const authorityPin = (pin: unknown, label: string) => {
     if (typeof pin !== 'string' || (pin !== UNPROVISIONED && !SHA256_RE.test(pin))) {
@@ -189,7 +189,7 @@ export function parseFlagshipActivationManifest(
     }
   }
   authorityPin(value.authority.signerPublicKeySha256, 'signer pin')
-  authorityPin(value.authority.evaluatorOriginSha256, 'evaluator origin pin')
+  authorityPin(value.authority.managedProjectIdSha256, 'managed project pin')
   authorityPin(value.authority.databaseOriginSha256, 'database origin pin')
   if (typeof value.authority.environmentId !== 'string' || !RELEASE_ID_RE.test(value.authority.environmentId)) {
     throw new Error('invalid activation environment id')
@@ -360,14 +360,14 @@ function assertAttestationPayload(
   }
   if (!isRecord(payload.environment)) throw new Error('activation environment proof must be an object')
   exactKeys(payload.environment, [
-    'environmentId', 'evaluatorOriginSha256', 'databaseOriginSha256',
-    'rootlessRuntime', 'migrations', 'privateHttpsIngress', 'monitoring', 'masteryWriteKillSwitch',
+    'environmentId', 'managedProjectIdSha256', 'databaseOriginSha256',
+    'rootlessRuntime', 'migrations', 'managedRuntimeBinding', 'monitoring', 'masteryWriteKillSwitch',
   ], 'activation environment proof')
   if (payload.environment.environmentId !== manifest.authority.environmentId) throw new Error('activation environment id mismatch')
   if (
-    manifest.authority.evaluatorOriginSha256 === UNPROVISIONED ||
-    payload.environment.evaluatorOriginSha256 !== manifest.authority.evaluatorOriginSha256
-  ) throw new Error('activation evaluator origin is unprovisioned or mismatched')
+    manifest.authority.managedProjectIdSha256 === UNPROVISIONED ||
+    payload.environment.managedProjectIdSha256 !== manifest.authority.managedProjectIdSha256
+  ) throw new Error('activation managed project pin is unprovisioned or mismatched')
   if (
     manifest.authority.databaseOriginSha256 === UNPROVISIONED ||
     payload.environment.databaseOriginSha256 !== manifest.authority.databaseOriginSha256
@@ -375,11 +375,13 @@ function assertAttestationPayload(
   if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
   if (
     !Array.isArray(payload.environment.migrations) ||
-    payload.environment.migrations.length !== 2 ||
+    payload.environment.migrations.length !== 4 ||
     payload.environment.migrations[0] !== '0116' ||
-    payload.environment.migrations[1] !== '0117'
+    payload.environment.migrations[1] !== '0117' ||
+    payload.environment.migrations[2] !== '0118' ||
+    payload.environment.migrations[3] !== '0119'
   ) throw new Error('activation migration proof is incomplete')
-  if (payload.environment.privateHttpsIngress !== 'passed') throw new Error('activation private ingress proof failed')
+  if (payload.environment.managedRuntimeBinding !== 'passed') throw new Error('activation managed runtime binding proof failed')
   if (payload.environment.monitoring !== 'passed') throw new Error('activation monitoring proof failed')
   if (payload.environment.masteryWriteKillSwitch !== 'passed') throw new Error('activation mastery kill-switch proof failed')
   if (!Array.isArray(payload.labs) || payload.labs.length !== manifest.labs.length) throw new Error('activation lab proof coverage mismatch')

@@ -1,6 +1,5 @@
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { lookup } from 'node:dns/promises'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
@@ -11,7 +10,6 @@ import {
   STAGING_READINESS_GATES,
   type ActivationAttestationPayload,
   evaluateStagingReadiness,
-  isPrivateNetworkAddress,
   parseFlagshipActivationManifest,
   resolvePrivateSpecRoot,
   validatePrivatePack,
@@ -37,39 +35,6 @@ const PINNED_IMAGE_RE = /@sha256:[0-9a-f]{64}$/
 
 function identityDigest(value: string): string {
   return createHash('sha256').update(value, 'utf8').digest('hex')
-}
-
-async function resolvesOnlyToPrivateAddresses(hostname: string): Promise<boolean> {
-  if (isPrivateNetworkAddress(hostname)) return true
-  try {
-    const addresses = await lookup(hostname, { all: true, verbatim: true })
-    return addresses.length > 0 && addresses.every(({ address }) => isPrivateNetworkAddress(address))
-  } catch {
-    return false
-  }
-}
-
-async function privateHealthReady(rawUrl: string | undefined, expectedOriginDigest: string): Promise<boolean> {
-  if (!rawUrl) return false
-  try {
-    const url = new URL('/healthz', rawUrl)
-    if (
-      url.protocol !== 'https:' ||
-      identityDigest(url.origin) !== expectedOriginDigest ||
-      !await resolvesOnlyToPrivateAddresses(url.hostname)
-    ) return false
-    const response = await fetch(url, {
-      method: 'GET',
-      redirect: 'error',
-      signal: AbortSignal.timeout(5_000),
-      headers: { accept: 'application/json' },
-    })
-    if (!response.ok) return false
-    const body = await response.json() as { status?: unknown }
-    return body.status === 'ready'
-  } catch {
-    return false
-  }
 }
 
 function localRootlessDockerReady(): boolean {
@@ -134,7 +99,7 @@ async function main(): Promise<void> {
   const manifest = parseFlagshipActivationManifest(activationManifestJson, registryJson)
   gates.manifest_valid = true
   if (Object.values(manifest.authority).includes('unprovisioned')) {
-    observations.push('The reviewed signer, evaluator-origin, and database-project authority pins are not provisioned.')
+    observations.push('The reviewed signer, managed-project, and database-project authority pins are not provisioned.')
   }
 
   const privateSpecRoot = process.env.ACADEMY_EVALUATOR_PRIVATE_SPEC_ROOT
@@ -160,12 +125,10 @@ async function main(): Promise<void> {
   gates.adversarial_probes_passed = attested
   gates.receipts_reconciled = attested
 
-  gates.private_https_ingress = activation?.environment.privateHttpsIngress === 'passed' &&
-    await privateHealthReady(
-      process.env.ACADEMY_LAB_EVALUATOR_URL,
-      manifest.authority.evaluatorOriginSha256,
-    )
-  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117' &&
+  gates.managed_runtime_binding = activation?.environment.managedRuntimeBinding === 'passed' &&
+    process.env.ACADEMY_LAB_EVALUATOR_PROVIDER === 'vercel-sandbox' &&
+    identityDigest(process.env.VERCEL_PROJECT_ID ?? '') === manifest.authority.managedProjectIdSha256
+  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117,0118,0119' &&
     (() => {
       try {
         return identityDigest(new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').origin) === manifest.authority.databaseOriginSha256
@@ -178,8 +141,8 @@ async function main(): Promise<void> {
     masteryPersistenceEnabled(process.env, manifest.releaseId)
 
   if (!gates.digest_pinned_images) observations.push('All three runtime images need digest pins or a valid signed activation attestation.')
-  if (!gates.migrations_applied) observations.push('Staging has not supplied release-bound evidence that migrations 0116 and 0117 are applied.')
-  if (!gates.private_https_ingress) observations.push('The evaluator private HTTPS health probe did not pass.')
+  if (!gates.migrations_applied) observations.push('Staging has not supplied release-bound evidence that migrations 0116 through 0119 are applied.')
+  if (!gates.managed_runtime_binding) observations.push('The managed Vercel Sandbox project binding is missing, mismatched, or not attested.')
   if (!attested) observations.push('No valid Ed25519 activation attestation proves private references, adversarial probes, and receipt reconciliation.')
   if (!gates.monitoring_ready) observations.push('Release-bound monitoring and alerting evidence is absent.')
   if (!gates.kill_switch_ready) observations.push('Mastery writes remain disabled by the two-part release kill switch.')

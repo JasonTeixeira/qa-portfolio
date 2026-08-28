@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { generateKeyPairSync } from 'node:crypto'
+import { createHash, generateKeyPairSync } from 'node:crypto'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -48,6 +48,10 @@ const LABS = [
   ['career-databases_data_modeling/query-design-joins', 'sql'],
 ] as const
 
+function identityDigest(value: string): string {
+  return createHash('sha256').update(value, 'utf8').digest('hex')
+}
+
 const registry = {
   registryVersion: REGISTRY_VERSION,
   courses: [
@@ -74,7 +78,7 @@ const registry = {
 
 function manifest(authority: Partial<{
   signerPublicKeySha256: string
-  evaluatorOriginSha256: string
+  managedProjectIdSha256: string
   databaseOriginSha256: string
 }> = {}) {
   return {
@@ -85,7 +89,7 @@ function manifest(authority: Partial<{
     authority: {
       signerPublicKeySha256: 'a'.repeat(64),
       environmentId: 'sageideas-academy-staging',
-      evaluatorOriginSha256: 'b'.repeat(64),
+      managedProjectIdSha256: 'b'.repeat(64),
       databaseOriginSha256: 'c'.repeat(64),
       ...authority,
     },
@@ -115,11 +119,11 @@ function attestationPayload(targetManifest = manifest()) {
     },
     environment: {
       environmentId: targetManifest.authority.environmentId,
-      evaluatorOriginSha256: targetManifest.authority.evaluatorOriginSha256,
+      managedProjectIdSha256: targetManifest.authority.managedProjectIdSha256,
       databaseOriginSha256: targetManifest.authority.databaseOriginSha256,
       rootlessRuntime: 'passed' as const,
-      migrations: ['0116', '0117'] as const,
-      privateHttpsIngress: 'passed' as const,
+      migrations: ['0116', '0117', '0118', '0119'] as const,
+      managedRuntimeBinding: 'passed' as const,
       monitoring: 'passed' as const,
       masteryWriteKillSwitch: 'passed' as const,
     },
@@ -228,7 +232,7 @@ describe('academy Step 4B staging activation contract', () => {
 
     const allPassed = Object.fromEntries([
       'manifest_valid', 'private_pack_valid', 'rootless_runtime', 'digest_pinned_images',
-      'migrations_applied', 'private_https_ingress', 'reference_solutions_passed',
+      'migrations_applied', 'managed_runtime_binding', 'reference_solutions_passed',
       'adversarial_probes_passed', 'receipts_reconciled', 'monitoring_ready', 'kill_switch_ready',
     ].map((gate) => [gate, true]))
     assert.deepEqual(evaluateStagingReadiness(allPassed), { status: 'ready', blockedGates: [] })
@@ -287,14 +291,14 @@ describe('academy Step 4B staging activation contract', () => {
       ...attestationPayload(trustedManifest),
       environment: {
         ...attestationPayload(trustedManifest).environment,
-        evaluatorOriginSha256: 'd'.repeat(64),
+        managedProjectIdSha256: 'd'.repeat(64),
       },
     }
     assert.throws(
       () => verifyActivationAttestation(signActivationAttestation(wrongEnvironment, privateKey), publicKey, trustedManifest, {
         now: Date.parse('2026-08-28T01:00:00.000Z'),
       }),
-      /environment|origin/i,
+      /environment|managed project/i,
     )
     assert.throws(
       () => verifyActivationAttestation(envelope, publicKey, trustedManifest, {
@@ -317,11 +321,14 @@ describe('academy Step 4B staging activation contract', () => {
     }, RELEASE_ID), false)
   })
 
-  it('keeps runtime mastery disabled when the reviewed signer and deployment pins are unprovisioned', () => {
+  it('requires the managed Vercel project pin before runtime mastery can activate', () => {
     const root = mkdtempSync(join(tmpdir(), 'academy-unpinned-activation-'))
     try {
       const { privateKey, publicKey } = generateKeyPairSync('ed25519')
-      const trustedManifest = manifest({ signerPublicKeySha256: publicKeyFingerprint(publicKey) })
+      const trustedManifest = manifest({
+        signerPublicKeySha256: publicKeyFingerprint(publicKey),
+        managedProjectIdSha256: 'unprovisioned' as const,
+      })
       writeFileSync(join(root, 'public.pem'), publicKey.export({ type: 'spki', format: 'pem' }))
       writeFileSync(join(root, 'attestation.json'), JSON.stringify(
         signActivationAttestation(attestationPayload(trustedManifest), privateKey),
@@ -330,7 +337,8 @@ describe('academy Step 4B staging activation contract', () => {
       assert.equal(activationAttestationAllowsMastery({
         ACADEMY_LAB_STAGING_ATTESTATION_PATH: join(root, 'attestation.json'),
         ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH: join(root, 'public.pem'),
-        ACADEMY_LAB_EVALUATOR_URL: 'https://10.0.0.5',
+        ACADEMY_LAB_EVALUATOR_PROVIDER: 'vercel-sandbox',
+        VERCEL_PROJECT_ID: 'prj_SBmFLCJVJLo7SyDx1wIjkrkc4exe',
         NEXT_PUBLIC_SUPABASE_URL: 'https://fake-project.supabase.co',
       }, 'programming-fundamentals', 'input-validation'), false)
     } finally {
@@ -371,5 +379,22 @@ describe('academy Step 4B staging activation contract', () => {
     const publicManifest = readFileSync('data/academy/lab-evaluator/flagship-activation.json', 'utf8')
     assert.equal(publicManifest.includes('referenceSolution'), false)
     assert.equal(publicManifest.includes('expectedStdout'), false)
+  })
+
+  it('accepts a managed Vercel Sandbox attestation shape without any evaluator URL pin', () => {
+    const { privateKey, publicKey } = generateKeyPairSync('ed25519')
+    const projectId = 'prj_SBmFLCJVJLo7SyDx1wIjkrkc4exe'
+    const trustedManifest = manifest({
+      signerPublicKeySha256: publicKeyFingerprint(publicKey),
+      managedProjectIdSha256: identityDigest(projectId),
+      databaseOriginSha256: identityDigest('https://sageideas-academy-staging.supabase.co'),
+    })
+    const verified = verifyActivationAttestation(
+      signActivationAttestation(attestationPayload(trustedManifest), privateKey),
+      publicKey,
+      trustedManifest,
+      { now: Date.parse('2026-08-28T01:00:00.000Z') },
+    )
+    assert.equal(verified.trustedLabKeys.has('programming-fundamentals/input-validation'), true)
   })
 })

@@ -68,6 +68,7 @@
     "academy:program:verify": "node --test tests/academy/program-loop.test.mjs && node tools/academy-program/cli.mjs verify",
     "academy:program:status": "node tools/academy-program/cli.mjs status",
     "academy:program:dry-run": "node tools/academy-program/cli.mjs once --dry-run",
+    "academy:program:reconcile": "node tools/academy-program/cli.mjs reconcile",
     "academy:program:checkpoint": "node tools/academy-program/cli.mjs checkpoint",
     "academy:program:fail": "node tools/academy-program/cli.mjs fail",
     "academy:curriculum:upgrade:programming": "node scripts/academy/authoring/upgrade-programming-fundamentals-mastery.mjs",

@@ -1,9 +1,9 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T21:33:52.203Z",
+  "generatedAt": "2026-08-28T21:55:57.629Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
+  "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "queueCoverage": "32/32",
   "progress": "32/32",
   "status": "complete",
@@ -15,7 +15,8 @@
     "academy:program:once": "node tools/academy-program/cli.mjs once",
     "academy:program:verify": "node --test tests/academy/program-loop.test.mjs && node tools/academy-program/cli.mjs verify",
     "academy:program:status": "node tools/academy-program/cli.mjs status",
-    "academy:program:dry-run": "node tools/academy-program/cli.mjs once --dry-run"
+    "academy:program:dry-run": "node tools/academy-program/cli.mjs once --dry-run",
+    "academy:program:reconcile": "node tools/academy-program/cli.mjs reconcile"
   },
   "failures": []
 }

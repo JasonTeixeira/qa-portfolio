@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
@@ -35,15 +35,30 @@ test('Programming Fundamentals has exact Python references for all 18 labs', () 
   const lessons = JSON.parse(readFileSync(`data/academy/authoring/${slug}.lessons.json`, 'utf8')) as Record<string, Array<Record<string, unknown>>>
   const solutions = JSON.parse(readFileSync(`data/academy/authoring/${slug}.lab_solutions.json`, 'utf8')) as Record<string, { language: string; code: string; stdin?: string }>
   assert.deepEqual(Object.keys(solutions), Object.keys(lessons))
-  for (const [key, blocks] of Object.entries(lessons)) {
-    const lab = blocks.find((block) => block.type === 'lab')
-    const solution = solutions[key]
-    assert.equal(solution.language, 'python')
-    const result = spawnSync('python3', ['-I', '-c', solution.code], { encoding: 'utf8', input: lab?.stdin as string ?? '', timeout: 10_000 })
-    assert.equal(result.status, 0, `${key}: ${result.stderr}`)
-    assert.equal(result.stderr, '')
-    assert.equal(normalize(result.stdout), normalize(String(lab?.check)), `${key}: output drift`)
+  const root = mkdtempSync(join(tmpdir(), 'academy-programming-'))
+  try {
+    for (const [key, blocks] of Object.entries(lessons)) {
+      const lab = blocks.find((block) => block.type === 'lab')
+      const solution = solutions[key]
+      assert.equal(solution.language, 'python')
+      const result = spawnSync('python3', ['-I', '-c', solution.code], {
+        cwd: root,
+        encoding: 'utf8',
+        input: lab?.stdin as string ?? '',
+        timeout: 10_000,
+      })
+      assert.equal(result.status, 0, `${key}: ${result.stderr}`)
+      assert.equal(result.stderr, '')
+      assert.equal(normalize(result.stdout), normalize(String(lab?.check)), `${key}: output drift`)
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true })
   }
+})
+
+test('Programming Fundamentals reference execution leaves no files in the repository root', () => {
+  assert.equal(existsSync('app.conf'), false)
+  assert.equal(existsSync('settings.conf'), false)
 })
 
 test('Git & Terminal has exact shell references for all 20 labs', () => {

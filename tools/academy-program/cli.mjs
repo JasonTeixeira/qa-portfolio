@@ -9,8 +9,10 @@ import {
   assertSafeCommands,
   buildTaskPacket,
   createProgramState,
+  reconcileCompletedProgram,
   recordAttempt,
   recordGreenCheckpoint,
+  validateCompletionSources,
   validateProgramState,
 } from './core.mjs'
 
@@ -36,6 +38,7 @@ const REQUIRED_SCRIPTS = {
   'academy:program:verify': 'node --test tests/academy/program-loop.test.mjs && node tools/academy-program/cli.mjs verify',
   'academy:program:status': 'node tools/academy-program/cli.mjs status',
   'academy:program:dry-run': 'node tools/academy-program/cli.mjs once --dry-run',
+  'academy:program:reconcile': 'node tools/academy-program/cli.mjs reconcile',
 }
 
 async function readJson(relativePath) {
@@ -195,6 +198,32 @@ async function checkpoint() {
   return { ok: true, completed: evidence.courseSlug, next: next.current, status: next.status }
 }
 
+async function reconcile() {
+  const evidencePath = argValue('evidence')
+  if (!evidencePath) throw new Error('reconcile requires --evidence=<path>')
+  const sources = await loadSources()
+  const evidence = await readJson(evidencePath)
+  const state = JSON.parse(await readFile(statePath, 'utf8'))
+  const sourceErrors = validateCompletionSources(evidence, sources.registry, sources.board)
+  if (sourceErrors.length) {
+    throw new Error(`Completion evidence disagrees with canonical sources: ${sourceErrors.join('; ')}`)
+  }
+  const next = reconcileCompletedProgram(state, evidence)
+  const stateErrors = validateProgramState(next, sources.registry, sources.graph)
+  if (stateErrors.length) {
+    throw new Error(`Completion registry transition changed the Academy queue: ${stateErrors.join('; ')}`)
+  }
+  await writeJson(statePath, next)
+  return {
+    ok: true,
+    status: next.status,
+    progress: `${next.completed.length}/${next.scope.registryCourses}`,
+    registryVersion: next.registryVersion,
+    certificationClaim: next.certificationBoundary.courseClaim,
+    labEvidence: next.certificationBoundary.labEvidence,
+  }
+}
+
 async function fail() {
   const failure = argValue('failure')
   if (!failure) throw new Error('fail requires --failure=<normalized failure>')
@@ -213,6 +242,7 @@ async function main() {
   else if (command === 'verify') result = await verify()
   else if (command === 'status') result = await status()
   else if (command === 'checkpoint') result = await checkpoint()
+  else if (command === 'reconcile') result = await reconcile()
   else if (command === 'fail') result = await fail()
   else throw new Error(`Unknown Academy program command: ${command}`)
   if (dryRun) await writeJson(dryRunPath, result)

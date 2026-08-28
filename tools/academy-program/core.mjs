@@ -285,6 +285,152 @@ export function validateGreenEvidence(evidence) {
   return errors
 }
 
+export function validateCompletionEvidence(state, evidence) {
+  const errors = []
+  if (!state || typeof state !== 'object') return ['state must be an object']
+  if (!evidence || typeof evidence !== 'object') return ['evidence must be an object']
+  if (state.status !== 'complete' || state.current !== null) {
+    errors.push('program state must be complete with no current course')
+  }
+  if (state.completed?.length !== state.scope?.registryCourses || state.scope?.registryCourses !== 32) {
+    errors.push('program state must contain all 32 completed course checkpoints')
+  }
+  if (evidence.programVersion !== PROGRAM_VERSION) errors.push(`programVersion must be ${PROGRAM_VERSION}`)
+  if (evidence.baselineRegistryVersion !== state.registryVersion) {
+    errors.push('baselineRegistryVersion must match the completed program state')
+  }
+  if (!evidence.registryVersion) errors.push('registryVersion is required')
+  if (!/^[a-f0-9]{7,40}$/i.test(evidence.commit ?? '')) errors.push('commit must be a Git commit identifier')
+
+  const requiredCatalog = {
+    courses: 32,
+    lessons: 640,
+    labs: 640,
+    labReferences: 640,
+    missingLabReferences: 0,
+    sourceLedgers: 32,
+  }
+  for (const [field, expected] of Object.entries(requiredCatalog)) {
+    if (evidence.catalog?.[field] !== expected) errors.push(`catalog.${field} must equal ${expected}`)
+  }
+  if (!Number.isFinite(evidence.scores?.minimum) || evidence.scores.minimum < 90) {
+    errors.push('scores.minimum must be at least 90')
+  }
+  if (!Number.isFinite(evidence.scores?.average) || evidence.scores.average < 90) {
+    errors.push('scores.average must be at least 90')
+  }
+  for (const severity of ['H1', 'H3', 'H4', 'H5']) {
+    if (evidence.hardFailCounts?.[severity] !== 0) errors.push(`hardFailCounts.${severity} must equal 0`)
+  }
+  if (evidence.hardFailCounts?.H2 !== evidence.catalog?.labs) {
+    errors.push('hardFailCounts.H2 must equal the practice-only lab count')
+  }
+  if (evidence.decisionCounts?.blocked !== 32 || evidence.decisionCounts?.certified !== 0) {
+    errors.push('decisionCounts must retain 32 blocked and 0 certified courses')
+  }
+  for (const [gate, minimumPasses] of Object.entries(REQUIRED_GATES)) {
+    const result = evidence.gates?.[gate]
+    if (result?.status !== 'pass' || (result.consecutivePasses ?? 0) < minimumPasses) {
+      errors.push(`${gate} must pass at least ${minimumPasses} consecutive time(s)`)
+    }
+  }
+  if (evidence.labTrust !== 'untrusted_current_runtime') {
+    errors.push('labTrust must remain untrusted_current_runtime')
+  }
+  if (evidence.certificationStatus !== 'uncertified') {
+    errors.push('certificationStatus must remain uncertified')
+  }
+  if (!Array.isArray(evidence.pendingReviewDimensions) || evidence.pendingReviewDimensions.length === 0) {
+    errors.push('pendingReviewDimensions must preserve unresolved human and governance review')
+  }
+  return errors
+}
+
+export function validateCompletionSources(evidence, registry, board) {
+  const errors = []
+  try {
+    assertObject(evidence, 'completion evidence')
+    assertObject(registry, 'registry')
+    assertObject(board, 'quality board')
+    if (evidence.registryVersion !== registry.registryVersion) errors.push('registryVersion does not match the canonical registry')
+    if (evidence.registryVersion !== board.registryVersion) errors.push('registryVersion does not match the quality board')
+
+    const actualCatalog = {
+      courses: registry.totals?.courses,
+      lessons: registry.totals?.lessons,
+      labs: registry.totals?.labBlocks,
+      labReferences: registry.totals?.solutionEntries,
+      missingLabReferences: registry.totals?.labLessonsWithoutSolutions,
+      sourceLedgers: registry.totals?.sourceLedgers,
+    }
+    for (const [field, actual] of Object.entries(actualCatalog)) {
+      if (evidence.catalog?.[field] !== actual) errors.push(`catalog.${field} does not match the canonical registry`)
+    }
+
+    const scores = board.courses?.map((course) => course.deterministicScore)
+    if (!Array.isArray(scores) || scores.length !== actualCatalog.courses || scores.some((score) => !Number.isFinite(score))) {
+      errors.push('quality board deterministic scores do not cover the canonical catalog')
+    } else {
+      const minimum = Math.min(...scores)
+      const average = scores.reduce((total, score) => total + score, 0) / scores.length
+      if (evidence.scores?.minimum !== minimum) errors.push('scores.minimum does not match the quality board')
+      if (!Number.isFinite(evidence.scores?.average) || Math.abs(evidence.scores.average - average) > Number.EPSILON) {
+        errors.push('scores.average does not match the quality board')
+      }
+    }
+
+    for (const severity of ['H1', 'H2', 'H3', 'H4', 'H5']) {
+      if (evidence.hardFailCounts?.[severity] !== board.summary?.hardFailCounts?.[severity]) {
+        errors.push(`hardFailCounts.${severity} does not match the quality board`)
+      }
+    }
+    const actualDecisions = {
+      eligible: board.summary?.coursesEligible,
+      blocked: board.summary?.coursesBlocked,
+      remediation: board.summary?.coursesNeedsRemediation,
+      pending: board.summary?.coursesPendingReview,
+      certified: board.summary?.coursesCertified,
+    }
+    for (const [field, actual] of Object.entries(actualDecisions)) {
+      if (evidence.decisionCounts?.[field] !== actual) errors.push(`decisionCounts.${field} does not match the quality board`)
+    }
+    if (evidence.labTrust !== board.labTrust) errors.push('labTrust does not match the quality board')
+    if (!board.courses?.every((course) => course.certificationStatus === evidence.certificationStatus)) {
+      errors.push('certificationStatus does not match every course scorecard')
+    }
+  } catch (error) {
+    errors.push(error instanceof Error ? error.message : String(error))
+  }
+  return errors
+}
+
+export function reconcileCompletedProgram(state, evidence, generatedAt = new Date().toISOString()) {
+  const errors = validateCompletionEvidence(state, evidence)
+  if (errors.length) throw new Error(`Completion reconciliation rejected: ${errors.join('; ')}`)
+  const next = structuredClone(state)
+  next.registryVersion = evidence.registryVersion
+  next.updatedAt = generatedAt
+  next.stopReason = null
+  next.completionReconciliations = [
+    ...(next.completionReconciliations ?? []),
+    {
+      baselineRegistryVersion: evidence.baselineRegistryVersion,
+      registryVersion: evidence.registryVersion,
+      checkpointCommit: evidence.commit,
+      certificationStatus: 'uncertified',
+      labTrust: 'untrusted_current_runtime',
+      catalog: evidence.catalog,
+      scores: evidence.scores,
+      hardFailCounts: evidence.hardFailCounts,
+      decisionCounts: evidence.decisionCounts,
+      gates: evidence.gates,
+      pendingReviewDimensions: evidence.pendingReviewDimensions,
+      reconciledAt: generatedAt,
+    },
+  ]
+  return next
+}
+
 function fingerprint(failures) {
   const normalized = [...new Set(failures.map((failure) => String(failure).trim()).filter(Boolean))].sort()
   return `sha256:${createHash('sha256').update(JSON.stringify(normalized)).digest('hex')}`

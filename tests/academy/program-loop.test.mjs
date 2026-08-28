@@ -9,8 +9,11 @@ import {
   buildCourseQueue,
   buildTaskPacket,
   createProgramState,
+  reconcileCompletedProgram,
   recordAttempt,
   recordGreenCheckpoint,
+  validateCompletionEvidence,
+  validateCompletionSources,
   validateGreenEvidence,
   validateProgramState,
 } from '../../tools/academy-program/core.mjs'
@@ -213,6 +216,84 @@ test('the final GREEN checkpoint closes the queue with no current course', () =>
   assert.deepEqual(validateProgramState(complete, registry, graph), [])
 })
 
+test('completion reconciliation accepts only complete, fully evidenced, untrusted Academy closure', () => {
+  const queue = buildCourseQueue(registry, graph)
+  const state = createProgramState({
+    registry,
+    graph,
+    completedCourseSlugs: queue.map((item) => item.courseSlug),
+    checkpointCommit: '9d4d71ee',
+    generatedAt: '2026-08-28T17:00:00.000Z',
+  })
+  state.registryVersion = 'sha256:pre-closure'
+  const evidence = {
+    programVersion: PROGRAM_VERSION,
+    baselineRegistryVersion: 'sha256:pre-closure',
+    registryVersion: registry.registryVersion,
+    commit: '2f21f346',
+    catalog: {
+      courses: 32,
+      lessons: 640,
+      labs: 640,
+      labReferences: 640,
+      missingLabReferences: 0,
+      sourceLedgers: 32,
+    },
+    scores: { minimum: 90, average: 98.365625 },
+    hardFailCounts: { H1: 0, H2: 640, H3: 0, H4: 0, H5: 0 },
+    decisionCounts: { eligible: 0, blocked: 32, remediation: 0, pending: 0, certified: 0 },
+    gates: {
+      focusedTests: { status: 'pass', consecutivePasses: 3 },
+      academyAudit: { status: 'pass', consecutivePasses: 1 },
+      registryCheck: { status: 'pass', consecutivePasses: 1 },
+      typecheck: { status: 'pass', consecutivePasses: 1 },
+      build: { status: 'pass', consecutivePasses: 1 },
+      diffCheck: { status: 'pass', consecutivePasses: 1 },
+    },
+    labTrust: 'untrusted_current_runtime',
+    certificationStatus: 'uncertified',
+    pendingReviewDimensions: ['content_correctness', 'pedagogy', 'accessibility'],
+  }
+
+  assert.deepEqual(validateCompletionEvidence(state, evidence), [])
+  assert.deepEqual(validateCompletionSources(evidence, registry, board), [])
+  const next = reconcileCompletedProgram(state, evidence, '2026-08-28T22:00:00.000Z')
+  assert.equal(next.status, 'complete')
+  assert.equal(next.current, null)
+  assert.equal(next.completed.length, 32)
+  assert.equal(next.registryVersion, registry.registryVersion)
+  assert.equal(next.completionReconciliations.length, 1)
+  assert.equal(next.certificationBoundary.courseClaim, 'uncertified')
+  assert.equal(next.certificationBoundary.labEvidence, 'practice_only')
+
+  const active = createProgramState({
+    registry,
+    graph,
+    completedCourseSlugs: completedFoundation,
+    checkpointCommit: '9d4d71ee',
+  })
+  assert(validateCompletionEvidence(active, evidence).some((error) => /complete/i.test(error)))
+  assert(validateCompletionEvidence(state, { ...evidence, baselineRegistryVersion: 'sha256:wrong' }).some((error) => /baselineRegistryVersion/.test(error)))
+  assert(validateCompletionEvidence(state, { ...evidence, catalog: { ...evidence.catalog, labReferences: 639 } }).some((error) => /labReferences/.test(error)))
+  assert(validateCompletionEvidence(state, { ...evidence, gates: { ...evidence.gates, build: { status: 'fail', consecutivePasses: 0 } } }).some((error) => /build/.test(error)))
+  assert(validateCompletionEvidence(state, { ...evidence, labTrust: 'trusted_controlled_runtime' }).some((error) => /labTrust/.test(error)))
+  assert(validateCompletionEvidence(state, { ...evidence, certificationStatus: 'certified' }).some((error) => /certificationStatus/.test(error)))
+  assert(
+    validateCompletionSources(
+      evidence,
+      { ...registry, totals: { ...registry.totals, solutionEntries: 639 } },
+      board,
+    ).some((error) => /labReferences/.test(error)),
+  )
+  assert(
+    validateCompletionSources(
+      evidence,
+      registry,
+      { ...board, summary: { ...board.summary, hardFailCounts: { ...board.summary.hardFailCounts, H2: 639 } } },
+    ).some((error) => /H2/.test(error)),
+  )
+})
+
 test('three identical failed attempts stop the loop while a changed failure resets repetition', () => {
   const initial = createProgramState({
     registry,
@@ -274,6 +355,7 @@ test('public scripts expose the complete Academy Program Loop V1 surface', () =>
     'academy:program:verify',
     'academy:program:status',
     'academy:program:dry-run',
+    'academy:program:reconcile',
   ]) {
     assert.equal(typeof packageJson.scripts[name], 'string', `missing ${name}`)
   }

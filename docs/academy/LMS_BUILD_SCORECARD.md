@@ -6,11 +6,21 @@ the execution authority; Certification Harness V2 remains the certification-read
 ## Current checkpoint
 
 - Progress: **32/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee`.
-- Catalog: 32 courses, 640 lessons, 640 lab blocks.
+- Registry: `sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828`.
+- Catalog: 32 courses, 640 lessons, 640 lab blocks, 640 aligned references, and 32 source ledgers.
 - Current phase: complete.
-- Next course: none; proceed to academy-wide closure audit and external review boundaries.
+- Next course: none; the Academy-wide deterministic closure audit is GREEN.
 - Certification: 0 courses certified; lab evidence remains practice-only.
+
+## Academy-wide closure result
+
+- Every course has a local GREEN curriculum checkpoint; the deterministic score floor is 90 and the mean is 98.37.
+- All 640 lab lessons have aligned references; no lab-reference gaps remain.
+- All 32 courses have source ledgers; the seven added foundation ledgers contain 73 unique reachable URLs.
+- Academy tests pass 210/210, typecheck passes, registry verification passes, and the production build emits 407 pages.
+- H1/H3/H4/H5 are zero. The 640 H2 flags are intentional: every lab remains `untrusted_current_runtime` and cannot create mastery evidence.
+- Expert correctness, pedagogy, source, accessibility, visual, UX, performance, consistency, media, learner-outcome,
+  immutable-release, and governance evidence remain outside deterministic local completion.
 
 ## Proven foundation checkpoints
 

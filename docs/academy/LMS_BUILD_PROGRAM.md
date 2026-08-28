@@ -22,6 +22,7 @@ npm run academy:program:once
 npm run academy:program:status
 npm run academy:program:dry-run
 npm run academy:program:verify
+npm run academy:program:reconcile -- --evidence=docs/evidence/academy/program-loop/completion-audit-latest.json
 ```
 
 `academy:program:once` creates the bounded task packet for the persistent coding agent. It does not pretend a
@@ -87,3 +88,10 @@ source review, expert correctness and pedagogy review, rendered accessibility/pe
 sampling, immutable releases, and governance approval. Those pending dimensions are reported, never inferred.
 At completion, `state.current` is `null`; `academy:program:verify` validates the full queue and completion status
 without manufacturing another task packet.
+
+If a final Academy-wide closure pass changes content after the 32nd course checkpoint, use
+`academy:program:reconcile` with a committed completion-audit artifact. Reconciliation fails closed unless the
+state is already 32/32 complete, the baseline registry matches, all 640 lessons and labs have aligned references,
+all 32 source ledgers exist, every required local gate is GREEN, deterministic scores remain at least 90, the only
+hard failures are the 640 expected H2 practice-runtime blockers, and certification remains `uncertified`. It never
+creates a new course checkpoint or promotes lab trust.

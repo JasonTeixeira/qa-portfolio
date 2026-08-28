@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
-  "generatedAt": "2026-08-28T18:54:50.346Z",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "generatedAt": "2026-08-28T19:00:59.037Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+    "baselineRegistryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 16,
+    "sequence": 17,
     "phaseId": "applied-ai",
-    "courseSlug": "prompt-engineering",
-    "title": "Prompt Engineering",
+    "courseSlug": "rag-retrieval",
+    "title": "RAG and Retrieval",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/prompt-engineering.lessons.json",
-    "solutionBundle": "data/academy/authoring/prompt-engineering.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/rag-retrieval.lessons.json",
+    "solutionBundle": "data/academy/authoring/rag-retrieval.lab_solutions.json",
     "baseline": {
       "decision": "blocked",
       "deterministicScore": 80,
@@ -152,13 +152,12 @@
           "git-the-terminal",
           "nextjs-supabase",
           "programming-fundamentals",
-          "prompt-engineering",
           "rag-retrieval",
           "stripe-auth"
         ],
-        "lessonCount": 74,
-        "findingCount": 74,
-        "priority": 4070074
+        "lessonCount": 65,
+        "findingCount": 65,
+        "priority": 4060065
       },
       {
         "rank": 21,
@@ -170,14 +169,13 @@
           "data-structures",
           "git-the-terminal",
           "nextjs-supabase",
-          "prompt-engineering",
           "rag-retrieval",
           "stripe-auth",
           "system-design"
         ],
-        "lessonCount": 164,
-        "findingCount": 164,
-        "priority": 2080164
+        "lessonCount": 144,
+        "findingCount": 144,
+        "priority": 2070144
       }
     ],
     "reviewRequired": [
@@ -765,14 +763,13 @@
           "git-the-terminal",
           "nextjs-supabase",
           "programming-fundamentals",
-          "prompt-engineering",
           "python-basics",
           "rag-retrieval",
           "stripe-auth"
         ],
-        "lessonCount": 456,
-        "findingCount": 456,
-        "priority": 2230456
+        "lessonCount": 436,
+        "findingCount": 436,
+        "priority": 2220436
       }
     ]
   },

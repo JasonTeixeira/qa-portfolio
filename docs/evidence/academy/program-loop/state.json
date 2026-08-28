@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T18:54:50.344Z",
+  "updatedAt": "2026-08-28T19:00:59.035Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -711,12 +711,60 @@
         }
       },
       "completedAt": "2026-08-28T18:54:50.344Z"
+    },
+    {
+      "courseSlug": "prompt-engineering",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "870d7851",
+      "baselineRegistryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+      "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "npx tsx --test tests/academy/prompt-engineering-mastery.test.ts",
+          "result": "7/7 each run; 20/20 references exact; 146 narration transcripts retained with zero unresolved audio promises"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons; deterministic score 100; no H1, H3, H4, H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 470 labs"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 pages"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped diff; lint and literal-secret scan passed"
+        }
+      },
+      "completedAt": "2026-08-28T19:00:59.035Z"
     }
   ],
   "current": {
-    "courseSlug": "prompt-engineering",
+    "courseSlug": "rag-retrieval",
     "phaseId": "applied-ai",
-    "sequence": 16,
+    "sequence": 17,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

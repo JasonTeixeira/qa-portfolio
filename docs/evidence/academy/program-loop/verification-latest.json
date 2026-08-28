@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T18:54:59.795Z",
+  "generatedAt": "2026-08-28T19:01:00.337Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:4a5b5e5caa0217487dc0e218f1efafc73ceb4d04637654235dd93774af1a62d2",
+  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
   "queueCoverage": "32/32",
-  "currentCourse": "prompt-engineering",
+  "currentCourse": "rag-retrieval",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

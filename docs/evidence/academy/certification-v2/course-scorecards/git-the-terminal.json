@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-  "generatedAt": "2026-08-28T21:30:18.918Z",
+  "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+  "generatedAt": "2026-08-28T21:43:03.532Z",
   "courseSlug": "git-the-terminal",
   "title": "Git and the Terminal",
-  "contentHash": "sha256:f76c7c96b1508363de6800e0d6a99d39ff8c185509957ebc3b40c0e0b2f58216",
+  "contentHash": "sha256:9747ce4d3370d210c092c2c2976fb74da155588ba07e87ebac610ad63c134bfe",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -102,34 +102,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "2703f183615e4ceb",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "terminal-filesystem-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "a476f752414f4304",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "terminal-filesystem-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "b55bda4557c38b2a",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "navigate-inspect-files"
         },
         {
           "code": "H2",
@@ -146,34 +124,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "b06422d3f9abba81",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "pipes-redirects-grep-find"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "18a793ec653d2963",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "pipes-redirects-grep-find"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "0c61e1965a2d0094",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "permissions-processes"
         },
         {
           "code": "H2",
@@ -190,34 +146,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "e7ddf982e85e9c0c",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "git-object-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "797d59e405a24dc3",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "git-object-model"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "3cede71c1dc7d471",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "staging-index-commits"
         },
         {
           "code": "H2",
@@ -234,34 +168,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "3e4dce810f2438d4",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "reading-history"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "512461468c68a674",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "reading-history"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "0d0eca3ac25ab9f2",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "branches"
         },
         {
           "code": "H2",
@@ -278,34 +190,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "c34dbb84c8c9c158",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "remotes-push-pull-fetch"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "889e0680c6d534bf",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "remotes-push-pull-fetch"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "83ab8b8f9b632605",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "pull-requests-review"
         },
         {
           "code": "H2",
@@ -322,34 +212,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "bf56dfe44a76410a",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "resolving-merge-conflicts"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "2b84f66c79678aaf",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "resolving-merge-conflicts"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "9f5132093057edbd",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "rebase-vs-merge"
         },
         {
           "code": "H2",
@@ -366,34 +234,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "0fc409b167f7109f",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "undo-safely"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "b8a85ad0d22634f6",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "undo-safely"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "27ca7c812b927a5d",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "reflog-recovering-work"
         },
         {
           "code": "H2",
@@ -410,34 +256,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "b42516e104feb070",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "stash-cherry-pick"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "89b935ece2711796",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "stash-cherry-pick"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "0f9d856db6536845",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "git-bisect"
         },
         {
           "code": "H2",
@@ -454,34 +278,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "17f81bf0d6e61b3a",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "gitignore-hooks"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "97db32f7d5970b97",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "gitignore-hooks"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "e5e5c1e68f1b28a6",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "tags-releases"
         },
         {
           "code": "H2",
@@ -498,34 +300,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "379e5dd05b2a03fc",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "terminal-power-user"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "b674fd2aeb5893ef",
           "courseSlug": "git-the-terminal",
           "lessonSlug": "terminal-power-user"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "b100e2427da793d7",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "capstone-recover-and-ship"
         },
         {
           "code": "H2",
@@ -676,20 +456,9 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 90,
   "compositeScore": null,
   "hardFails": [
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "2703f183615e4ceb",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "terminal-filesystem-model"
-    },
     {
       "code": "H2",
       "severity": "blocker",
@@ -700,17 +469,6 @@
       "id": "a476f752414f4304",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "terminal-filesystem-model"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "b55bda4557c38b2a",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "navigate-inspect-files"
     },
     {
       "code": "H2",
@@ -727,34 +485,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "b06422d3f9abba81",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "pipes-redirects-grep-find"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "18a793ec653d2963",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "pipes-redirects-grep-find"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "0c61e1965a2d0094",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "permissions-processes"
     },
     {
       "code": "H2",
@@ -771,34 +507,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "e7ddf982e85e9c0c",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "git-object-model"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "797d59e405a24dc3",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "git-object-model"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "3cede71c1dc7d471",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "staging-index-commits"
     },
     {
       "code": "H2",
@@ -815,34 +529,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "3e4dce810f2438d4",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "reading-history"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "512461468c68a674",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "reading-history"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "0d0eca3ac25ab9f2",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "branches"
     },
     {
       "code": "H2",
@@ -859,34 +551,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "c34dbb84c8c9c158",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "remotes-push-pull-fetch"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "889e0680c6d534bf",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "remotes-push-pull-fetch"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "83ab8b8f9b632605",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "pull-requests-review"
     },
     {
       "code": "H2",
@@ -903,34 +573,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "bf56dfe44a76410a",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "resolving-merge-conflicts"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "2b84f66c79678aaf",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "resolving-merge-conflicts"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "9f5132093057edbd",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "rebase-vs-merge"
     },
     {
       "code": "H2",
@@ -947,34 +595,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "0fc409b167f7109f",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "undo-safely"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "b8a85ad0d22634f6",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "undo-safely"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "27ca7c812b927a5d",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "reflog-recovering-work"
     },
     {
       "code": "H2",
@@ -991,34 +617,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "b42516e104feb070",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "stash-cherry-pick"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "89b935ece2711796",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "stash-cherry-pick"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "0f9d856db6536845",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "git-bisect"
     },
     {
       "code": "H2",
@@ -1035,34 +639,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "17f81bf0d6e61b3a",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "gitignore-hooks"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "97db32f7d5970b97",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "gitignore-hooks"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "e5e5c1e68f1b28a6",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "tags-releases"
     },
     {
       "code": "H2",
@@ -1079,34 +661,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "379e5dd05b2a03fc",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "terminal-power-user"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "b674fd2aeb5893ef",
       "courseSlug": "git-the-terminal",
       "lessonSlug": "terminal-power-user"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "b100e2427da793d7",
-      "courseSlug": "git-the-terminal",
-      "lessonSlug": "capstone-recover-and-ship"
     },
     {
       "code": "H2",

@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 640,
-    "solutionEntries": 613,
-    "labLessonsWithSolutions": 613,
-    "labLessonsWithoutSolutions": 27,
-    "sourceLedgers": 25
+    "solutionEntries": 640,
+    "labLessonsWithSolutions": 640,
+    "labLessonsWithoutSolutions": 0,
+    "sourceLedgers": 32
   },
   "capabilities": [
     {
@@ -163,14 +163,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-engineering_judgment_foundation/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -916,14 +915,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/programming-fundamentals/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -935,7 +933,7 @@
           "sort": 0,
           "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/your-first-program",
           "source": {
             "kind": "legacy_manifest",
@@ -950,7 +948,7 @@
           "sort": 1,
           "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/variables-and-values",
           "source": {
             "kind": "legacy_manifest",
@@ -965,7 +963,7 @@
           "sort": 2,
           "blockCount": 19,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/numbers-and-strings",
           "source": {
             "kind": "legacy_manifest",
@@ -980,7 +978,7 @@
           "sort": 3,
           "blockCount": 19,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/reading-input",
           "source": {
             "kind": "legacy_manifest",
@@ -995,7 +993,7 @@
           "sort": 4,
           "blockCount": 19,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/booleans-and-logic",
           "source": {
             "kind": "legacy_manifest",
@@ -1010,7 +1008,7 @@
           "sort": 5,
           "blockCount": 19,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/lists",
           "source": {
             "kind": "legacy_manifest",
@@ -1025,7 +1023,7 @@
           "sort": 6,
           "blockCount": 19,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/programming-fundamentals/loops",
           "source": {
             "kind": "legacy_manifest",
@@ -1218,14 +1216,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-programming_cs_foundations/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -1550,14 +1547,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/python-basics/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -1757,19 +1753,18 @@
       },
       "authoring": {
         "lessonBundle": "data/academy/authoring/git-the-terminal.lessons.json",
-        "solutionBundle": null,
+        "solutionBundle": "data/academy/authoring/git-the-terminal.lab_solutions.json",
         "legacyManifestLessons": 0,
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/git-the-terminal/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -1781,7 +1776,7 @@
           "sort": 0,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/terminal-filesystem-model",
           "source": {
             "kind": "derived_from_authoring",
@@ -1796,7 +1791,7 @@
           "sort": 1,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/navigate-inspect-files",
           "source": {
             "kind": "derived_from_authoring",
@@ -1811,7 +1806,7 @@
           "sort": 2,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/pipes-redirects-grep-find",
           "source": {
             "kind": "derived_from_authoring",
@@ -1826,7 +1821,7 @@
           "sort": 3,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/permissions-processes",
           "source": {
             "kind": "derived_from_authoring",
@@ -1841,7 +1836,7 @@
           "sort": 4,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/git-object-model",
           "source": {
             "kind": "derived_from_authoring",
@@ -1856,7 +1851,7 @@
           "sort": 5,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/staging-index-commits",
           "source": {
             "kind": "derived_from_authoring",
@@ -1871,7 +1866,7 @@
           "sort": 6,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/reading-history",
           "source": {
             "kind": "derived_from_authoring",
@@ -1886,7 +1881,7 @@
           "sort": 7,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/branches",
           "source": {
             "kind": "derived_from_authoring",
@@ -1901,7 +1896,7 @@
           "sort": 8,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/remotes-push-pull-fetch",
           "source": {
             "kind": "derived_from_authoring",
@@ -1916,7 +1911,7 @@
           "sort": 9,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/pull-requests-review",
           "source": {
             "kind": "derived_from_authoring",
@@ -1931,7 +1926,7 @@
           "sort": 10,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/resolving-merge-conflicts",
           "source": {
             "kind": "derived_from_authoring",
@@ -1946,7 +1941,7 @@
           "sort": 11,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/rebase-vs-merge",
           "source": {
             "kind": "derived_from_authoring",
@@ -1961,7 +1956,7 @@
           "sort": 12,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/undo-safely",
           "source": {
             "kind": "derived_from_authoring",
@@ -1976,7 +1971,7 @@
           "sort": 13,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/reflog-recovering-work",
           "source": {
             "kind": "derived_from_authoring",
@@ -1991,7 +1986,7 @@
           "sort": 14,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/stash-cherry-pick",
           "source": {
             "kind": "derived_from_authoring",
@@ -2006,7 +2001,7 @@
           "sort": 15,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/git-bisect",
           "source": {
             "kind": "derived_from_authoring",
@@ -2021,7 +2016,7 @@
           "sort": 16,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/gitignore-hooks",
           "source": {
             "kind": "derived_from_authoring",
@@ -2036,7 +2031,7 @@
           "sort": 17,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/tags-releases",
           "source": {
             "kind": "derived_from_authoring",
@@ -2051,7 +2046,7 @@
           "sort": 18,
           "blockCount": 16,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/terminal-power-user",
           "source": {
             "kind": "derived_from_authoring",
@@ -2066,7 +2061,7 @@
           "sort": 19,
           "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/git-the-terminal/capstone-recover-and-ship",
           "source": {
             "kind": "derived_from_authoring",
@@ -2094,14 +2089,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/data-structures/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -4803,14 +4797,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-networking_fundamentals_advanced_networking/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -10744,5 +10737,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee"
+  "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828"
 }

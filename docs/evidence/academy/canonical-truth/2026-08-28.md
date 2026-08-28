@@ -1,7 +1,7 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee`
+**Registry:** `sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
@@ -9,18 +9,18 @@
 - 32 registered course bundles
 - 640 authored lessons
 - 640 lab blocks
-- 613 solution entries
-- 613 lab lessons with same-slug solutions
-- 27 lab lessons without same-slug solutions
-- 25 course-level source ledgers
+- 640 solution entries
+- 640 lab lessons with same-slug solutions
+- 0 lab lessons without same-slug solutions
+- 32 course-level source ledgers
 - 0 certified courses
 
 ## Known contradictions and launch blockers
 
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
 - 640 authored lessons versus 456 lessons represented in the legacy manifest
-- 27 lab lessons lack same-slug solution entries
-- 7 courses lack course-level source ledgers
+- 0 lab lessons lack same-slug solution entries
+- 0 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
 - No course is certified by Academy Certification Harness V2
 
@@ -28,13 +28,13 @@
 
 | Course | Lessons | Legacy manifest | Labs | Labs missing solutions | Source ledger | Certification |
 |---|---:|---:|---:|---:|---|---|
-| `career-engineering_judgment_foundation` | 16 | 16 | 16 | 0 | no | uncertified |
+| `career-engineering_judgment_foundation` | 16 | 16 | 16 | 0 | yes | uncertified |
 | `career-concept_maps_real_world_engineering` | 30 | 30 | 30 | 0 | yes | uncertified |
-| `programming-fundamentals` | 18 | 18 | 18 | 7 | no | uncertified |
-| `career-programming_cs_foundations` | 20 | 20 | 20 | 0 | no | uncertified |
-| `python-basics` | 12 | 12 | 12 | 0 | no | uncertified |
-| `git-the-terminal` | 20 | 0 | 20 | 20 | no | uncertified |
-| `data-structures` | 20 | 0 | 20 | 0 | no | uncertified |
+| `programming-fundamentals` | 18 | 18 | 18 | 0 | yes | uncertified |
+| `career-programming_cs_foundations` | 20 | 20 | 20 | 0 | yes | uncertified |
+| `python-basics` | 12 | 12 | 12 | 0 | yes | uncertified |
+| `git-the-terminal` | 20 | 0 | 20 | 0 | yes | uncertified |
+| `data-structures` | 20 | 0 | 20 | 0 | yes | uncertified |
 | `career-backend_engineering` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-frontend_fullstack` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-architecture_system_design` | 20 | 20 | 20 | 0 | yes | uncertified |
@@ -42,7 +42,7 @@
 | `career-security_identity` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-mobile_engineering_deep_dive` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-qa_sdet_test_automation_engineering` | 20 | 20 | 20 | 0 | yes | uncertified |
-| `career-networking_fundamentals_advanced_networking` | 20 | 20 | 20 | 0 | no | uncertified |
+| `career-networking_fundamentals_advanced_networking` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-ux_ui_product_design_for_engineers` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-databases_data_modeling` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-data_engineering_analytics` | 20 | 20 | 20 | 0 | yes | uncertified |

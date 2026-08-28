@@ -2,8 +2,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "your-first-line",
     "contentHash": "sha256:8a3d2f20b704f4092109f1dcc314ff5ea6579436f255787202eac79a39a56a9b",
@@ -69,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -310,7 +310,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -341,8 +341,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "variables",
     "contentHash": "sha256:da8e66e990d707d82203700754050bf7bfbc546caca5d3e783951e0655a313c6",
@@ -408,9 +408,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -649,7 +649,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -680,8 +680,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "logic-conditionals",
     "contentHash": "sha256:4609f3f7141c889f775cd84954ad0bd79399e8658666d20288700b9fa570d1a5",
@@ -747,9 +747,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -988,7 +988,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1019,8 +1019,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "loops",
     "contentHash": "sha256:1017fffd935eac1be912f3a148611ae26486b71c32a1e0681312f07a4304d2cd",
@@ -1086,9 +1086,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1327,7 +1327,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1358,8 +1358,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "functions-and-scope",
     "contentHash": "sha256:45a1c101de6dcda9da5e95ef4d5604458da8200d4bda97a50d89f4517bdea72f",
@@ -1425,9 +1425,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1666,7 +1666,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1697,8 +1697,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "collections",
     "contentHash": "sha256:e1fb9c700336268895e26c9c97ff1787ca5339fbad70871e3a07c1b76fd9a010",
@@ -1764,9 +1764,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2005,7 +2005,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2036,8 +2036,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "exceptions-validation",
     "contentHash": "sha256:aa0b63cbb775a23bead6a27ac24df44ecfee18286cb0ad96aa0986b30f8b0872",
@@ -2103,9 +2103,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2344,7 +2344,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2375,8 +2375,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "files-json",
     "contentHash": "sha256:e0b12edf6573aae4a77aced86b5c58f1140cbf1126ea8331f42de5c5fdefed7b",
@@ -2442,9 +2442,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2683,7 +2683,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2714,8 +2714,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "modules-venvs",
     "contentHash": "sha256:ad852d3dbd783cfb1392f6268126f054ec9fa57eeae5f73a063fc93e12cb739f",
@@ -2781,9 +2781,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3022,7 +3022,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3053,8 +3053,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "testing-debugging",
     "contentHash": "sha256:a1fdc5a7cbbae01ba133d5fa44ec32ea3e9fb944666473785a852f1c325d3de7",
@@ -3120,9 +3120,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3361,7 +3361,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3392,8 +3392,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "http-apis",
     "contentHash": "sha256:7aacadd9e80170d941aea23d752894478105a64b8810fd34c7aac9eb5333ac55",
@@ -3459,9 +3459,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3700,7 +3700,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3731,8 +3731,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "python-basics",
     "lessonSlug": "automation-capstone",
     "contentHash": "sha256:6e1124c70e00c9b13d3a26347074759293a41dd6ba14426073b51396559cfc13",
@@ -3798,9 +3798,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4039,7 +4039,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {

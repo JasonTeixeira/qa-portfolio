@@ -2,8 +2,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "your-first-program",
     "contentHash": "sha256:ec14b68bd77fc503ec228795996ab04939c842e00b918d8680fba3c868a87046",
@@ -69,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -97,17 +97,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "c16572d847048b66",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "your-first-program"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -321,20 +310,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "c16572d847048b66",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "your-first-program"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -363,8 +341,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "variables-and-values",
     "contentHash": "sha256:351645bb2bfc127b97c0c95c2d719e5a5a00417e51e9ac2e4071b5b3c3ecc366",
@@ -430,9 +408,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -458,17 +436,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "61944691d33963fd",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "variables-and-values"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -682,20 +649,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "61944691d33963fd",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "variables-and-values"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -724,8 +680,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "numbers-and-strings",
     "contentHash": "sha256:b5c8b2db261e9ccef60ae6402a845f53399915567dd4d245b60446110759e050",
@@ -791,9 +747,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -819,17 +775,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "aea581774f71b815",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "numbers-and-strings"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1043,20 +988,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "aea581774f71b815",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "numbers-and-strings"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1085,8 +1019,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "reading-input",
     "contentHash": "sha256:b2df5bbf17980c2a3bf1eab72164cd235ef0aa3b5531ac73c8bd2e4fc1bc8a2a",
@@ -1152,9 +1086,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1180,17 +1114,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "28a59a10b9659092",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "reading-input"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1404,20 +1327,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "28a59a10b9659092",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "reading-input"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1446,8 +1358,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "booleans-and-logic",
     "contentHash": "sha256:581ae490949ea27335ba0e99d6bea8f84e0e38b4f00c59a8cdaf188dca83cc43",
@@ -1513,9 +1425,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1541,17 +1453,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "b8d2af072e9eb0f9",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "booleans-and-logic"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1765,20 +1666,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "b8d2af072e9eb0f9",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "booleans-and-logic"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1807,8 +1697,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "lists",
     "contentHash": "sha256:43defe95e9a9db92eb446bdb54530fc08e37665becef762f0062a4aa69200d85",
@@ -1874,9 +1764,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1902,17 +1792,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "f47f1741ab1ebe02",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "lists"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2126,20 +2005,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "f47f1741ab1ebe02",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "lists"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2168,8 +2036,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "loops",
     "contentHash": "sha256:11edf7236fc36882849b7d0b05db7d70e568e7ec14cbf0463846f649c8c34867",
@@ -2235,9 +2103,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2263,17 +2131,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "1e04d51c8fd32df4",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "loops"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2487,20 +2344,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "1e04d51c8fd32df4",
-        "courseSlug": "programming-fundamentals",
-        "lessonSlug": "loops"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2529,8 +2375,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "functions-basics",
     "contentHash": "sha256:034dd92c31ad972c7c03f7a714fa51d2bd5d39fdf9042e9687869358129a053c",
@@ -2596,9 +2442,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2837,7 +2683,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2868,8 +2714,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "build-a-tiny-program",
     "contentHash": "sha256:6f5a44269690a454646dbb111c0cbba17b45863869557fc771d488a4ccdf444b",
@@ -2935,9 +2781,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3176,7 +3022,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3207,11 +3053,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "input-validation",
-    "contentHash": "sha256:b2fe77e9f602cf65661d7011689c1a6e3513a521e3911a4461d82e23be050415",
+    "contentHash": "sha256:de4d6c13a8ec5add5f0597c33a335befd48de3c66c96e641bb67a32a7f46b32a",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3274,9 +3120,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3515,7 +3361,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3546,11 +3392,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "error-handling",
-    "contentHash": "sha256:826553821b6e699c608baf3e75c612f58eec90696364e6301918a34b085ea8f3",
+    "contentHash": "sha256:5cd44e07bbf1d3451b84acb2ff47bdc9040677066277f245fe5fdf0b99d27bac",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3613,9 +3459,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3854,7 +3700,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3885,11 +3731,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "functions-and-modules",
-    "contentHash": "sha256:f6a022a7644daabfac8f6657b84aa8544eefc6c629e6b32cdd288c8b5329ef59",
+    "contentHash": "sha256:dd111e3586bab6b3b591edc09bac7271b126f6c44ab749156d4f5648506fd3dc",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3952,9 +3798,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4193,7 +4039,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4224,11 +4070,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "types-and-data",
-    "contentHash": "sha256:ecfb2265d1c5daea00370079068a19bbc0b4983728ee29c812dc779cd63256b0",
+    "contentHash": "sha256:7cda9423bbec61ed4e694e1c3d54d966a99cddbb63dfcd4da73e262005e00f64",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4291,9 +4137,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4532,7 +4378,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4563,11 +4409,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "control-flow",
-    "contentHash": "sha256:33e9e985e307c2984b01d9f0e6f375193ce01555a7ddd6ae8d0f9cc9b6660759",
+    "contentHash": "sha256:1c8c7b4e0256db5bf8a5b52242742d677556dd03a3aa931b9c63933fca669723",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4630,9 +4476,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4871,7 +4717,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4902,11 +4748,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "files-and-io",
-    "contentHash": "sha256:8e70ae15b2c7e5231005a4d4243ac2b1866fb57c88dcffc58c0951789c86c453",
+    "contentHash": "sha256:a182e48d14f2aa82ae627159fa2be9ba534c71d56968fc3ce996d5407f7b91f7",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4969,9 +4815,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5210,7 +5056,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5241,11 +5087,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "testing-and-debugging",
-    "contentHash": "sha256:2a8d4fb08f37f2e7845b4e96b40594a1f72528c382a2a5ca2ec24b3e0ac1d37a",
+    "contentHash": "sha256:3ee4b1c749e6ff5794f439ad743f4f8232f2b50c94e16d25ef8fd8e642354429",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5308,9 +5154,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5549,7 +5395,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5580,11 +5426,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "cli-workflow",
-    "contentHash": "sha256:ab162aadeefc286c5f32713ccfd4ec34cb77571cc759090146adacff442d1c7f",
+    "contentHash": "sha256:eb96d047e070d55bda6eb16981e3c420e3732a54da2f6f5cd6f445b88b0f7865",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5647,9 +5493,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5888,7 +5734,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5919,11 +5765,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "git-fundamentals",
-    "contentHash": "sha256:db513524834d013f39fca5ea79081b37d7d3e5d3204fc429bf6330cef505daf7",
+    "contentHash": "sha256:6f99c26e3bb0c8e5150c49bbf01dd94d02c22f41ecbf8b1350f33345d4a23881",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5986,9 +5832,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "13/13 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6227,7 +6073,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {

@@ -2,8 +2,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "terminal-filesystem-model",
     "contentHash": "sha256:7a57e87f09bd0e2960e0cc7c2e6bd6f3d33c1dd28b421b45246912c03e6f9098",
@@ -69,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -97,17 +97,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "2703f183615e4ceb",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "terminal-filesystem-model"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -321,20 +310,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "2703f183615e4ceb",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "terminal-filesystem-model"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -364,8 +342,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "navigate-inspect-files",
     "contentHash": "sha256:01909099e011e20219afc391c2667a3cc61d1cde3d99d654e32030936c07e06f",
@@ -431,9 +409,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -459,17 +437,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "b55bda4557c38b2a",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "navigate-inspect-files"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -683,20 +650,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "b55bda4557c38b2a",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "navigate-inspect-files"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -726,8 +682,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "pipes-redirects-grep-find",
     "contentHash": "sha256:379b4109b7d0ada1020968724961c338e284fcf2211d3973b7f2f1ebdc1100de",
@@ -793,9 +749,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -821,17 +777,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "b06422d3f9abba81",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "pipes-redirects-grep-find"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1045,20 +990,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "b06422d3f9abba81",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "pipes-redirects-grep-find"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1088,8 +1022,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "permissions-processes",
     "contentHash": "sha256:d9f703accfa9a7d45387ee3bd02510b8f8a34aac7b597c281fd5c9739881a292",
@@ -1155,9 +1089,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1183,17 +1117,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "0c61e1965a2d0094",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "permissions-processes"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1407,20 +1330,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "0c61e1965a2d0094",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "permissions-processes"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1450,8 +1362,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "git-object-model",
     "contentHash": "sha256:0cf51e42134b48a90cb99512d71a44fb1b93f6872a95ea34e7fa3377ee3d5e48",
@@ -1517,9 +1429,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1545,17 +1457,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "e7ddf982e85e9c0c",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "git-object-model"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -1769,20 +1670,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "e7ddf982e85e9c0c",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "git-object-model"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -1812,8 +1702,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "staging-index-commits",
     "contentHash": "sha256:0831bfc3e1561fa82ff7aac99fb0824d9822126c1bb414fb91787e36d5bd6bd1",
@@ -1879,9 +1769,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1907,17 +1797,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "3cede71c1dc7d471",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "staging-index-commits"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2131,20 +2010,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "3cede71c1dc7d471",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "staging-index-commits"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2174,8 +2042,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "reading-history",
     "contentHash": "sha256:c930a8fa36e52c056640b1c786c244a611a3787bd92feb2f026b8bdc8606ddbc",
@@ -2241,9 +2109,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2269,17 +2137,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "3e4dce810f2438d4",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "reading-history"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2493,20 +2350,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "3e4dce810f2438d4",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "reading-history"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2536,8 +2382,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "branches",
     "contentHash": "sha256:3a99bca5bc4ff38e6f30d1fa83f958f52e4e56b2afc7c123684f408790ef71c3",
@@ -2603,9 +2449,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2631,17 +2477,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "0d0eca3ac25ab9f2",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "branches"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -2855,20 +2690,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "0d0eca3ac25ab9f2",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "branches"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -2898,8 +2722,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "remotes-push-pull-fetch",
     "contentHash": "sha256:2da01081f7e343a114678ca690a90198f2b8c5739650d6c67def107fbbd7fb79",
@@ -2965,9 +2789,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2993,17 +2817,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "c34dbb84c8c9c158",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "remotes-push-pull-fetch"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3217,20 +3030,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "c34dbb84c8c9c158",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "remotes-push-pull-fetch"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3260,8 +3062,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "pull-requests-review",
     "contentHash": "sha256:ff46ef0ff3eb827d10c6ca89ded05417d7f15295bfa340ab2c3cbb234f2e7a57",
@@ -3327,9 +3129,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3355,17 +3157,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "83ab8b8f9b632605",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "pull-requests-review"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3579,20 +3370,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "83ab8b8f9b632605",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "pull-requests-review"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3622,8 +3402,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "resolving-merge-conflicts",
     "contentHash": "sha256:35e683ffb4386414dbfd511ab0c97fc641be18f26023814cf3877b5d22bec2a2",
@@ -3689,9 +3469,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3717,17 +3497,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "bf56dfe44a76410a",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "resolving-merge-conflicts"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -3941,20 +3710,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "bf56dfe44a76410a",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "resolving-merge-conflicts"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -3984,8 +3742,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "rebase-vs-merge",
     "contentHash": "sha256:d85a8f8e973546112c31cabcd17ae42023dda2565fe5bc1e6eaea4d39af1758e",
@@ -4051,9 +3809,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4079,17 +3837,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "9f5132093057edbd",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "rebase-vs-merge"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -4303,20 +4050,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "9f5132093057edbd",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "rebase-vs-merge"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -4346,8 +4082,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "undo-safely",
     "contentHash": "sha256:cc812a7a22bcd1a3d8b17b9e6ade9e6e6a7a17723e1653db2212c60c4efe1231",
@@ -4413,9 +4149,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4441,17 +4177,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "0fc409b167f7109f",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "undo-safely"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -4665,20 +4390,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "0fc409b167f7109f",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "undo-safely"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -4708,8 +4422,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "reflog-recovering-work",
     "contentHash": "sha256:13b66c09c841441dd2c22f79c04c04b99f9d75fcd899b130b3a5120344c11455",
@@ -4775,9 +4489,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4803,17 +4517,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "27ca7c812b927a5d",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "reflog-recovering-work"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -5027,20 +4730,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "27ca7c812b927a5d",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "reflog-recovering-work"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -5070,8 +4762,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "stash-cherry-pick",
     "contentHash": "sha256:46c2a3df614212d98bb113cfe983736e2b76781e4029f3304c9dcdb438c6a4e9",
@@ -5137,9 +4829,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5165,17 +4857,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "b42516e104feb070",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "stash-cherry-pick"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -5389,20 +5070,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "b42516e104feb070",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "stash-cherry-pick"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -5432,8 +5102,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "git-bisect",
     "contentHash": "sha256:4666999f797d772cb5d0716a717cbefccfb254dd1cb25b3d0368367b26e740b3",
@@ -5499,9 +5169,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5527,17 +5197,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "0f9d856db6536845",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "git-bisect"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -5751,20 +5410,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "0f9d856db6536845",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "git-bisect"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -5794,8 +5442,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "gitignore-hooks",
     "contentHash": "sha256:e6782b167573e1aa696a41ef1719246e68ecaed8e08d890f29a2ca27c095d69f",
@@ -5861,9 +5509,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5889,17 +5537,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "17f81bf0d6e61b3a",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "gitignore-hooks"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -6113,20 +5750,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "17f81bf0d6e61b3a",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "gitignore-hooks"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -6156,8 +5782,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "tags-releases",
     "contentHash": "sha256:8bb10d8a6269d7840e46cf054d9dfdc0110a8636dc288d9aa9b23b3f59564afc",
@@ -6223,9 +5849,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6251,17 +5877,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "e5e5c1e68f1b28a6",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "tags-releases"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -6475,20 +6090,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "e5e5c1e68f1b28a6",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "tags-releases"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -6518,8 +6122,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "terminal-power-user",
     "contentHash": "sha256:c9a207528338f84415400cb8a1100392c0dc6800870bed2661900d0bd583d32d",
@@ -6585,9 +6189,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6613,17 +6217,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "379e5dd05b2a03fc",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "terminal-power-user"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -6837,20 +6430,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "379e5dd05b2a03fc",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "terminal-power-user"
-      },
       {
         "code": "H2",
         "severity": "blocker",
@@ -6880,8 +6462,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-    "generatedAt": "2026-08-28T21:30:18.918Z",
+    "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+    "generatedAt": "2026-08-28T21:43:03.532Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "capstone-recover-and-ship",
     "contentHash": "sha256:7bc51ca87934b62249179822ea72401d6786efe7e654be3441650076c71d5da4",
@@ -6947,9 +6529,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "14/14 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6975,17 +6557,6 @@
           }
         ],
         "findings": [
-          {
-            "code": "H2",
-            "severity": "blocker",
-            "category": "labs",
-            "message": "A lab has no private reference solution.",
-            "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-            "mode": "deterministic",
-            "id": "b100e2427da793d7",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "capstone-recover-and-ship"
-          },
           {
             "code": "H2",
             "severity": "blocker",
@@ -7199,20 +6770,9 @@
         "findings": []
       }
     },
-    "deterministicScore": 80,
+    "deterministicScore": 90,
     "compositeScore": null,
     "hardFails": [
-      {
-        "code": "H2",
-        "severity": "blocker",
-        "category": "labs",
-        "message": "A lab has no private reference solution.",
-        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-        "mode": "deterministic",
-        "id": "b100e2427da793d7",
-        "courseSlug": "git-the-terminal",
-        "lessonSlug": "capstone-recover-and-ship"
-      },
       {
         "code": "H2",
         "severity": "blocker",

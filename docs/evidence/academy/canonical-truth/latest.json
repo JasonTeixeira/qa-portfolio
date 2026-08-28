@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
+  "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 640,
-    "solutionEntries": 613,
-    "labLessonsWithSolutions": 613,
-    "labLessonsWithoutSolutions": 27,
-    "sourceLedgers": 25
+    "solutionEntries": 640,
+    "labLessonsWithSolutions": 640,
+    "labLessonsWithoutSolutions": 0,
+    "sourceLedgers": 32
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "27 lab lessons lack same-slug solution entries",
-    "7 courses lack course-level source ledgers",
+    "0 lab lessons lack same-slug solution entries",
+    "0 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -52,13 +52,12 @@
       "legacyManifestLessons": 16,
       "labBlocks": 16,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-engineering_judgment_foundation/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-engineering_judgment_foundation"
     },
@@ -88,14 +87,13 @@
       "lessons": 18,
       "legacyManifestLessons": 18,
       "labBlocks": 18,
-      "labLessonsWithoutSolutions": 7,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/programming-fundamentals/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/programming-fundamentals"
     },
@@ -108,13 +106,12 @@
       "legacyManifestLessons": 20,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-programming_cs_foundations/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-programming_cs_foundations"
     },
@@ -127,13 +124,12 @@
       "legacyManifestLessons": 12,
       "labBlocks": 12,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/python-basics/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/python-basics"
     },
@@ -145,14 +141,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 20,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/git-the-terminal/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/git-the-terminal"
     },
@@ -165,13 +160,12 @@
       "legacyManifestLessons": 0,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/data-structures/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/data-structures"
     },
@@ -310,13 +304,12 @@
       "legacyManifestLessons": 20,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-networking_fundamentals_advanced_networking/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-networking_fundamentals_advanced_networking"
     },

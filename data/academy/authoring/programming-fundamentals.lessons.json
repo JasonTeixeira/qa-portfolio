@@ -3464,7 +3464,7 @@
     },
     {
       "type": "lab",
-      "check": "rejected: age must be an integer",
+      "check": "accepted: 25\nrejected: age must be an integer\nrejected: age must be between 0 and 120\nrejected: age must be between 0 and 120",
       "title": "Write the validator",
       "starter": "import json\nimport sys\n\ndef validate_age(value):\n    # Reject bool and every non-int with: age must be an integer\n    # Reject integers outside 0..120 with: age must be between 0 and 120\n    ...  # your code here\n\nraw = sys.stdin.read().strip()\nvalues = [json.loads(raw)] if raw else [25, \"25\", -3, 200]\nfor value in values:\n    try:\n        print(f\"accepted: {validate_age(value)!r}\")\n    except ValueError as error:\n        print(f\"rejected: {error}\")\n",
       "summary": "Implement validate_age(value): accept only a real integer in 0–120, rejecting booleans, strings, and out-of-range values with the specified errors. The browser shows four examples; the controlled evaluator supplies additional JSON values over stdin.",
@@ -3868,7 +3868,7 @@
     },
     {
       "type": "lab",
-      "check": "error surfaced: cannot divide by zero",
+      "check": "ok: 5.0\nerror surfaced: cannot divide by zero",
       "title": "Make the failure loud",
       "starter": "def safe_divide(a, b):\n    # Don't swallow it. Catch ZeroDivisionError, log operator context (print a line),\n    # then chain a clear error:  raise ValueError(\"cannot divide by zero\") from e\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\ntry:\n    print(\"ok:\", safe_divide(10, 2))\n    safe_divide(10, 0)\n    print(\"BUG: no error raised — it was swallowed!\")\nexcept ValueError as e:\n    print(f\"error surfaced: {e}\")\n",
       "summary": "Implement safe_divide(a, b) like the worked example: catch ZeroDivisionError, log operator context, and `raise ValueError(\"cannot divide by zero\") from e` — never swallow it. The checkpoint proves the error SURFACES; the verification list below then confirms you caught, logged, and chained it.",
@@ -4320,7 +4320,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "correct: True\npure (survives a changed global): True\nPASS: True",
       "title": "Refactor it to be pure",
       "starter": "# This \"works\" in the REPL but FAILS in tests when another part of the app\n# changes `discount`. Refactor line_total to be PURE: depend ONLY on its\n# parameters (price, qty), RETURN the total, read no globals, no print.\ndiscount = 0\n\ndef line_total(price, qty):\n    return (price * qty) - discount   # <-- hidden dependency on a global; fix this\n\n\n# --- test harness (do not edit) ---\ncases = [(10, 3, 30), (5, 4, 20), (0, 9, 0)]\ncorrect = all(line_total(p, q) == exp for p, q, exp in cases)\nglobals()[\"discount\"] = 7             # another module changes the global mid-run\npure = all(line_total(p, q) == exp for p, q, exp in cases)  # only a PURE fn survives\nprint(f\"correct: {correct}\")\nprint(f\"pure (survives a changed global): {pure}\")\nprint(f\"PASS: {correct and pure}\")\n",
       "summary": "`line_total` reads a global `discount`, so it breaks when another part of the app changes it. Refactor it to depend ONLY on its parameters and RETURN the total. The harness changes the global mid-run — only a pure function survives both checks.",
@@ -4682,7 +4682,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "sum: 10\nPASS: True",
       "title": "Don't be fooled by a string",
       "starter": "def total_quantity(values):\n    # values is a list of STRINGS, e.g. [\"2\", \"3\", \"5\"]. Convert each to an int\n    # and RETURN the integer sum. If a value isn't a whole number, raise ValueError.\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\nprint(\"sum:\", total_quantity([\"2\", \"3\", \"5\"]))     # must be 10 (int), not \"235\"\nok = total_quantity([\"2\", \"3\", \"5\"]) == 10\ntry:\n    total_quantity([\"2\", \"oops\"])\n    rejected = False\nexcept ValueError:\n    rejected = True\nprint(f\"PASS: {ok and rejected}\")\n",
       "summary": "Implement total_quantity(values) where values is a list of strings like ['2','3','5']. Convert each to an int and RETURN the sum — '2'+'3' must give 5, not '23'. Reject any value that isn't a whole number.",
@@ -5090,7 +5090,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "kept ids: [1, 4]\nPASS: True",
       "title": "Filter without skipping",
       "starter": "def active_orders(orders):\n    # Return only the orders whose status != 'cancelled'.\n    # Do NOT remove from `orders` while looping over it — build a NEW list.\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\ndata = [\n    {\"id\": 1, \"status\": \"active\"},\n    {\"id\": 2, \"status\": \"cancelled\"},\n    {\"id\": 3, \"status\": \"cancelled\"},   # adjacent cancelled -> trips the skip bug\n    {\"id\": 4, \"status\": \"active\"},\n]\nids = [o[\"id\"] for o in active_orders(data)]\nids2 = [o[\"id\"] for o in active_orders([\n    {\"id\": 9, \"status\": \"cancelled\"},\n    {\"id\": 8, \"status\": \"active\"},\n])]\nprint(\"kept ids:\", ids)\nprint(f\"PASS: {ids == [1, 4] and ids2 == [8] and len(data) == 4}\")\n",
       "summary": "Implement active_orders(orders): return only the orders whose status != 'cancelled'. Do NOT mutate the input while iterating. The harness puts two cancelled orders next to each other (the case that trips the skip bug) and checks none slip through — across two datasets.",
@@ -5451,7 +5451,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "config: {'host': 'localhost', 'port': '8080'}\nPASS: True",
       "title": "Read it safely",
       "starter": "def read_config(path):\n    # Open the file with a `with` block (it always closes), read \"key=value\"\n    # lines into a dict, skipping blank lines. If the file is MISSING, let it\n    # raise FileNotFoundError — do NOT silently return {}.\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\nwith open(\"app.conf\", \"w\") as f:\n    f.write(\"host=localhost\\n\\nport=8080\\n\")\ncfg = read_config(\"app.conf\")\nok = cfg == {\"host\": \"localhost\", \"port\": \"8080\"}\ntry:\n    read_config(\"missing.conf\")\n    missing_handled = False\nexcept FileNotFoundError:\n    missing_handled = True\nprint(\"config:\", cfg)\nprint(f\"PASS: {ok and missing_handled}\")\n",
       "summary": "Implement read_config(path): open with a `with` block, parse \"key=value\" lines into a dict (skip blanks), and let a MISSING file raise FileNotFoundError — never a silent {}. The harness writes a file, reads it back, and checks the missing-file case.",
@@ -5850,7 +5850,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "all assertions passed\nPASS: True",
       "title": "Catch the edge case",
       "starter": "def safe_average(numbers):\n    # Return the average of the numbers. EDGE CASE: an EMPTY list must return 0,\n    # not crash with ZeroDivisionError (sum([]) / len([]) is 0 / 0).\n    ...  # your code here\n\n\n# --- test harness: a tiny suite (happy path + the edge that bites) ---\nassert safe_average([2, 4, 6]) == 4, \"normal case\"\nassert safe_average([10]) == 10, \"single element\"\nassert safe_average([]) == 0, \"EMPTY list must return 0, not crash\"   # regression\nprint(\"all assertions passed\")\nprint(\"PASS: True\")\n",
       "summary": "Implement safe_average(numbers): return the mean, but an EMPTY list must return 0 — not crash with ZeroDivisionError. The harness is a tiny test suite that includes the empty-list regression case; make every assertion pass.",
@@ -6251,7 +6251,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "{'execute': False, 'env': 'staging'} -> 'dry-run'\n{'execute': True, 'env': 'staging'} -> 'execute'\n{'execute': True, 'env': 'production'} -> 'blocked: confirm production'\n{'execute': True, 'env': 'production', 'confirmed': True} -> 'execute'\nPASS: True",
       "title": "Make it safe by default",
       "starter": "def decide(args):\n    # args is a dict, e.g. {\"execute\": False, \"env\": \"staging\", \"confirmed\": False}\n    # SAFETY RULES:\n    #   - Default to \"dry-run\" unless execute is explicitly True.\n    #   - Production requires confirmed=True (no accidental prod) -> else block it.\n    #   - Otherwise -> \"execute\".\n    # Return one of: \"dry-run\", \"execute\", \"blocked: confirm production\"\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\ncases = [\n    ({\"execute\": False, \"env\": \"staging\"}, \"dry-run\"),\n    ({\"execute\": True, \"env\": \"staging\"}, \"execute\"),\n    ({\"execute\": True, \"env\": \"production\"}, \"blocked: confirm production\"),\n    ({\"execute\": True, \"env\": \"production\", \"confirmed\": True}, \"execute\"),\n]\nok = all(decide(a) == exp for a, exp in cases)\nfor a, exp in cases:\n    print(f\"{a} -> {decide(a)!r}\")\nprint(f\"PASS: {ok}\")\n",
       "summary": "Implement decide(args): default to \"dry-run\" unless execute is True; block a production action that isn't confirmed (\"blocked: confirm production\"); otherwise \"execute\". The harness checks all four paths — a forgotten execute must NOT run.",
@@ -6654,7 +6654,7 @@
     },
     {
       "type": "lab",
-      "check": "PASS: True",
+      "check": "'add user validation' -> 'nothing to commit'\n'wip' -> 'weak message'\n'fix' -> 'weak message'\n'add input validation to signup' -> 'ok'\nPASS: True",
       "title": "Reject the lazy commit",
       "starter": "LAZY = {\"\", \"wip\", \"fix\", \"stuff\", \"update\", \".\", \"asdf\"}\n\ndef check_commit(staged_files, message):\n    # A good commit is ATOMIC (has staged changes) with a clear message.\n    #   - no staged files            -> \"nothing to commit\"\n    #   - empty/lazy or < 10 chars   -> \"weak message\"\n    #   - otherwise                  -> \"ok\"\n    ...  # your code here\n\n\n# --- test harness (do not edit) ---\ncases = [\n    ([], \"add user validation\", \"nothing to commit\"),\n    ([\"a.py\"], \"wip\", \"weak message\"),\n    ([\"a.py\"], \"fix\", \"weak message\"),\n    ([\"a.py\"], \"add input validation to signup\", \"ok\"),\n]\nok = all(check_commit(f, m) == exp for f, m, exp in cases)\nfor f, m, exp in cases:\n    print(f\"{m!r} -> {check_commit(f, m)!r}\")\nprint(f\"PASS: {ok}\")\n",
       "summary": "Implement check_commit(staged_files, message): return \"nothing to commit\" with no staged files, \"weak message\" for an empty/lazy message (in LAZY) or under 10 chars, else \"ok\". The harness checks all four cases — a \"wip\" commit must be rejected.",

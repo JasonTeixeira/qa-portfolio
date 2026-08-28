@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee",
-  "generatedAt": "2026-08-28T21:30:18.918Z",
+  "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
+  "generatedAt": "2026-08-28T21:43:03.532Z",
   "items": [
     {
       "rank": 1,
@@ -50,20 +50,6 @@
     },
     {
       "rank": 2,
-      "category": "labs",
-      "code": "H2",
-      "severity": "blocker",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "courseSlugs": [
-        "git-the-terminal",
-        "programming-fundamentals"
-      ],
-      "lessonCount": 27,
-      "findingCount": 27,
-      "priority": 4020027
-    },
-    {
-      "rank": 3,
       "category": "content_correctness",
       "severity": "high",
       "remediation": "Complete required content_correctness evidence: expert-correctness-review.",
@@ -106,7 +92,7 @@
       "priority": 3320640
     },
     {
-      "rank": 4,
+      "rank": 3,
       "category": "pedagogy",
       "severity": "high",
       "remediation": "Complete required pedagogy evidence: expert-pedagogy-review.",
@@ -149,7 +135,7 @@
       "priority": 3320640
     },
     {
-      "rank": 5,
+      "rank": 4,
       "category": "sources",
       "severity": "high",
       "remediation": "Complete required sources evidence: claim-level-coverage.",
@@ -192,7 +178,7 @@
       "priority": 3320640
     },
     {
-      "rank": 6,
+      "rank": 5,
       "category": "pedagogy",
       "severity": "high",
       "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
@@ -204,7 +190,7 @@
       "priority": 3010003
     },
     {
-      "rank": 7,
+      "rank": 6,
       "category": "structure",
       "severity": "high",
       "remediation": "Repair the block so it satisfies the runtime LessonBlock contract.",
@@ -216,7 +202,7 @@
       "priority": 3010001
     },
     {
-      "rank": 8,
+      "rank": 7,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: rendered-axe-wcag-2.2-aa.",
@@ -259,7 +245,7 @@
       "priority": 2320640
     },
     {
-      "rank": 9,
+      "rank": 8,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: keyboard-and-focus.",
@@ -302,7 +288,7 @@
       "priority": 2320640
     },
     {
-      "rank": 10,
+      "rank": 9,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: screen-reader-semantics.",
@@ -345,7 +331,7 @@
       "priority": 2320640
     },
     {
-      "rank": 11,
+      "rank": 10,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: reduced-motion.",
@@ -388,7 +374,7 @@
       "priority": 2320640
     },
     {
-      "rank": 12,
+      "rank": 11,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: zoom-and-reflow.",
@@ -431,7 +417,7 @@
       "priority": 2320640
     },
     {
-      "rank": 13,
+      "rank": 12,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: target-size.",
@@ -474,7 +460,7 @@
       "priority": 2320640
     },
     {
-      "rank": 14,
+      "rank": 13,
       "category": "consistency",
       "severity": "medium",
       "remediation": "Complete required consistency evidence: rendered-consistency.",
@@ -517,7 +503,7 @@
       "priority": 2320640
     },
     {
-      "rank": 15,
+      "rank": 14,
       "category": "performance",
       "severity": "medium",
       "remediation": "Complete required performance evidence: rendered-performance.",
@@ -560,7 +546,7 @@
       "priority": 2320640
     },
     {
-      "rank": 16,
+      "rank": 15,
       "category": "ux",
       "severity": "medium",
       "remediation": "Complete required ux evidence: human-ux-review.",
@@ -603,7 +589,7 @@
       "priority": 2320640
     },
     {
-      "rank": 17,
+      "rank": 16,
       "category": "visual",
       "severity": "medium",
       "remediation": "Complete required visual evidence: human-visual-review.",
@@ -646,25 +632,7 @@
       "priority": 2320640
     },
     {
-      "rank": 18,
-      "category": "sources",
-      "severity": "medium",
-      "remediation": "Complete required sources evidence: source-ledger-schema.",
-      "courseSlugs": [
-        "career-engineering_judgment_foundation",
-        "career-networking_fundamentals_advanced_networking",
-        "career-programming_cs_foundations",
-        "data-structures",
-        "git-the-terminal",
-        "programming-fundamentals",
-        "python-basics"
-      ],
-      "lessonCount": 126,
-      "findingCount": 126,
-      "priority": 2070126
-    },
-    {
-      "rank": 19,
+      "rank": 17,
       "category": "media",
       "severity": "medium",
       "remediation": "Complete required media evidence: promised-media-integrity.",

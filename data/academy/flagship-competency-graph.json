@@ -614,7 +614,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-cloud_devops_operations"
+          "courseSlug": "career-cloud_devops_operations",
+          "lessonSlugs": [
+            "cloud-operating-model",
+            "linux-processes-ports",
+            "environment-config-secrets",
+            "container-image-design",
+            "docker-compose-local-stack",
+            "networking-dns-tls",
+            "ci-pipeline-quality-gates",
+            "artifact-versioning-releases",
+            "deployment-strategies",
+            "health-readiness-liveness",
+            "kubernetes-manifests",
+            "infrastructure-as-code",
+            "observability-logs-metrics-traces",
+            "alerting-slo-error-budgets",
+            "rollbacks-incident-response",
+            "security-supply-chain",
+            "cost-capacity-finops",
+            "multi-env-promotion",
+            "production-readiness-review",
+            "cloud-devops-capstone"
+          ]
         }
       ],
       "evidence": [

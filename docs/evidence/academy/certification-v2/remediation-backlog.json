@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
-  "generatedAt": "2026-08-28T18:14:25.331Z",
+  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
+  "generatedAt": "2026-08-28T18:24:38.892Z",
   "items": [
     {
       "rank": 1,
@@ -14,6 +14,7 @@
         "agents-tool-use",
         "career-ai_engineering_rag_eval",
         "career-backend_engineering",
+        "career-cloud_devops_operations",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
         "career-engineering_judgment_foundation",
@@ -33,9 +34,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 410,
-      "findingCount": 410,
-      "priority": 4210410
+      "lessonCount": 430,
+      "findingCount": 430,
+      "priority": 4220430
     },
     {
       "rank": 2,
@@ -207,7 +208,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
@@ -222,9 +222,9 @@
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 264,
-      "findingCount": 264,
-      "priority": 3160264
+      "lessonCount": 250,
+      "findingCount": 250,
+      "priority": 3150250
     },
     {
       "rank": 8,
@@ -234,7 +234,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-engineering_leadership_staff_execution",
@@ -244,9 +243,9 @@
         "career-platform_engineering_internal_developer_platforms",
         "career-qa_sdet_test_automation_engineering"
       ],
-      "lessonCount": 30,
-      "findingCount": 30,
-      "priority": 3110030
+      "lessonCount": 25,
+      "findingCount": 25,
+      "priority": 3100025
     },
     {
       "rank": 9,
@@ -256,7 +255,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-frontend_fullstack",
@@ -265,9 +263,9 @@
         "career-product_execution_market_feedback",
         "nextjs-supabase"
       ],
-      "lessonCount": 20,
-      "findingCount": 20,
-      "priority": 3100020
+      "lessonCount": 19,
+      "findingCount": 19,
+      "priority": 3090019
     },
     {
       "rank": 10,
@@ -719,7 +717,6 @@
       "courseSlugs": [
         "agents-tool-use",
         "career-architecture_system_design",
-        "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-engineering_judgment_foundation",
@@ -745,9 +742,9 @@
         "stripe-auth",
         "the-llm-api"
       ],
-      "lessonCount": 536,
-      "findingCount": 536,
-      "priority": 2270536
+      "lessonCount": 516,
+      "findingCount": 516,
+      "priority": 2260516
     },
     {
       "rank": 22,

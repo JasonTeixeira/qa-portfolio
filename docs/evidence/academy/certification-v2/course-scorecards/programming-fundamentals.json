@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
-  "generatedAt": "2026-08-28T18:14:25.331Z",
+  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
+  "generatedAt": "2026-08-28T18:24:38.892Z",
   "courseSlug": "programming-fundamentals",
   "title": "Programming Fundamentals",
   "contentHash": "sha256:f1ba8751de16c49925cfc8935f9f6291819f45febe45c4341572cdb0d821181a",

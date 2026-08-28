@@ -70,13 +70,9 @@ test('initial state resumes after the proven foundation wave and selects Network
 })
 
 test('task packet is registry-bound and separates deterministic work from human review', () => {
-  const state = createProgramState({
-    registry,
-    graph,
-    completedCourseSlugs: completedFoundation,
-    checkpointCommit: '9d4d71ee',
-    generatedAt: '2026-08-28T17:00:00.000Z',
-  })
+  const state = JSON.parse(
+    readFileSync('docs/evidence/academy/program-loop/state.json', 'utf8'),
+  )
   const course = board.courses.find(
     (candidate) => candidate.courseSlug === state.current.courseSlug,
   )
@@ -90,9 +86,11 @@ test('task packet is registry-bound and separates deterministic work from human 
   assert.equal(packet.registryVersion, registry.registryVersion)
   assert.equal(packet.checkpointContract.baselineRegistryVersion, registry.registryVersion)
   assert.equal(packet.checkpointContract.registryTransitionAllowed, true)
-  assert.equal(packet.course.courseSlug, 'career-networking_fundamentals_advanced_networking')
-  assert.equal(packet.course.baseline.deterministicScore, 77.8)
-  assert(packet.remediation.deterministic.some((item) => item.category === 'pedagogy'))
+  assert.equal(packet.course.courseSlug, state.current.courseSlug)
+  assert.equal(packet.course.baseline.deterministicScore, course.deterministicScore)
+  assert(packet.remediation.deterministic.some((item) => /restore the standard learning loop/i.test(item.remediation)))
+  assert(packet.remediation.deterministic.every((item) => !/complete required .* evidence/i.test(item.remediation)))
+  assert(packet.remediation.reviewRequired.some((item) => item.category === 'pedagogy'))
   assert(packet.remediation.reviewRequired.some((item) => item.category === 'sources'))
   assert(packet.definitionOfGreen.every((gate) => gate.kind !== 'certification'))
   assert.equal(packet.trustBoundary.labEvidence, 'practice_only')
@@ -242,12 +240,13 @@ test('public scripts expose the complete Academy Program Loop V1 surface', () =>
 test('operator documentation describes the current 32-course persistent loop', () => {
   const program = readFileSync('docs/academy/LMS_BUILD_PROGRAM.md', 'utf8')
   const scorecard = readFileSync('docs/academy/LMS_BUILD_SCORECARD.md', 'utf8')
+  const state = JSON.parse(readFileSync('docs/evidence/academy/program-loop/state.json', 'utf8'))
 
   assert.match(program, /32 canonical courses/)
   assert.match(program, /academy:program:once/)
   assert.match(program, /three consecutive/i)
   assert.doesNotMatch(program, /21-course|all 21 courses/)
-  assert.match(scorecard, /6\/32/)
-  assert.match(scorecard, /career-networking_fundamentals_advanced_networking/)
+  assert(scorecard.includes(`${state.completed.length}/${state.scope.registryCourses}`))
+  assert(scorecard.includes(state.current.courseSlug))
   assert.doesNotMatch(scorecard, /01 programming_cs_foundations.*pending/)
 })

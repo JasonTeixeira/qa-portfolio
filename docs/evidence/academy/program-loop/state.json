@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T17:24:49.875Z",
+  "updatedAt": "2026-08-28T17:39:18.578Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -279,12 +279,60 @@
       "provenance": "imported_from_verified_branch_history",
       "checkpointCommit": "9d4d71eebd10",
       "certificationStatus": "uncertified"
+    },
+    {
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "920ca437",
+      "baselineRegistryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+      "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "npx tsx --test tests/academy/networking-mastery.test.ts",
+          "result": "5/5 tests passed on each run; 20/20 reference implementations matched exact output"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons audited; Networking deterministic score 88.9; no H1, H3, H4, or H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 390 labs at the recorded registry version"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 static pages generated"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped course diff"
+        }
+      },
+      "completedAt": "2026-08-28T17:39:18.578Z"
     }
   ],
   "current": {
-    "courseSlug": "career-networking_fundamentals_advanced_networking",
+    "courseSlug": "career-security_identity",
     "phaseId": "network-security",
-    "sequence": 7,
+    "sequence": 8,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

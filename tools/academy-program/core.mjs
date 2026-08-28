@@ -35,6 +35,7 @@ const REVIEW_CATEGORIES = new Set([
   'accessibility',
   'consistency',
   'content_correctness',
+  'pedagogy',
   'performance',
   'sources',
   'ux',

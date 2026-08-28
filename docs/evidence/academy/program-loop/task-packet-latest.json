@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
-  "generatedAt": "2026-08-28T20:49:16.073Z",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "generatedAt": "2026-08-28T20:55:18.905Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
+    "baselineRegistryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 28,
+    "sequence": 29,
     "phaseId": "registry-remainder",
-    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
-    "title": "Enterprise IT, SaaS Administration, and Business Systems",
+    "courseSlug": "nextjs-supabase",
+    "title": "Next.js and Supabase",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/nextjs-supabase.lessons.json",
+    "solutionBundle": "data/academy/authoring/nextjs-supabase.lab_solutions.json",
     "baseline": {
-      "decision": "needs_remediation",
-      "deterministicScore": 77.8,
-      "hardFailCount": 0,
+      "decision": "blocked",
+      "deterministicScore": 79.5,
+      "hardFailCount": 40,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 40,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -32,6 +32,7 @@
         "accessibility",
         "consistency",
         "content_correctness",
+        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -60,7 +61,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {
@@ -68,7 +69,7 @@
           "score": null
         },
         "media": {
-          "status": "not_applicable",
+          "status": "pending",
           "score": null
         },
         "references": {
@@ -105,19 +106,91 @@
   "remediation": {
     "deterministic": [
       {
-        "rank": 6,
+        "rank": 1,
+        "category": "labs",
+        "code": "H2",
+        "severity": "blocker",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "courseSlugs": [
+          "agents-tool-use",
+          "career-ai_engineering_rag_eval",
+          "career-architecture_system_design",
+          "career-backend_engineering",
+          "career-cloud_devops_operations",
+          "career-concept_maps_real_world_engineering",
+          "career-data_engineering_analytics",
+          "career-databases_data_modeling",
+          "career-engineering_judgment_foundation",
+          "career-enterprise_it_saas_admin_business_systems",
+          "career-frontend_fullstack",
+          "career-mobile_engineering_deep_dive",
+          "career-networking_fundamentals_advanced_networking",
+          "career-observability_reliability_performance",
+          "career-platform_engineering_internal_developer_platforms",
+          "career-product_execution_market_feedback",
+          "career-programming_cs_foundations",
+          "career-qa_sdet_test_automation_engineering",
+          "career-security_identity",
+          "career-ux_ui_product_design_for_engineers",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "prompt-engineering",
+          "python-basics",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
+        ],
+        "lessonCount": 600,
+        "findingCount": 600,
+        "priority": 4300600
+      },
+      {
+        "rank": 2,
+        "category": "labs",
+        "code": "H2",
+        "severity": "blocker",
+        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
+        "courseSlugs": [
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "stripe-auth"
+        ],
+        "lessonCount": 53,
+        "findingCount": 53,
+        "priority": 4040053
+      },
+      {
+        "rank": 8,
         "category": "pedagogy",
         "severity": "high",
-        "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+        "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
         "courseSlugs": [
-          "career-databases_data_modeling",
-          "career-engineering_leadership_staff_execution",
-          "career-enterprise_it_saas_admin_business_systems",
-          "career-interview_career_portfolio"
+          "career-interview_career_portfolio",
+          "nextjs-supabase"
         ],
-        "lessonCount": 54,
-        "findingCount": 54,
-        "priority": 3040054
+        "lessonCount": 3,
+        "findingCount": 3,
+        "priority": 3020003
+      },
+      {
+        "rank": 21,
+        "category": "media",
+        "severity": "medium",
+        "remediation": "Complete required media evidence: promised-media-integrity.",
+        "courseSlugs": [
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "stripe-auth",
+          "system-design"
+        ],
+        "lessonCount": 104,
+        "findingCount": 104,
+        "priority": 2050104
       }
     ],
     "reviewRequired": [
@@ -688,7 +761,6 @@
         "courseSlugs": [
           "career-engineering_judgment_foundation",
           "career-engineering_leadership_staff_execution",
-          "career-enterprise_it_saas_admin_business_systems",
           "career-interview_career_portfolio",
           "career-networking_fundamentals_advanced_networking",
           "career-programming_cs_foundations",
@@ -699,9 +771,9 @@
           "python-basics",
           "stripe-auth"
         ],
-        "lessonCount": 226,
-        "findingCount": 226,
-        "priority": 2120226
+        "lessonCount": 206,
+        "findingCount": 206,
+        "priority": 2110206
       }
     ]
   },

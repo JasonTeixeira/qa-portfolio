@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T20:49:41.402Z",
+  "generatedAt": "2026-08-28T20:55:36.558Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
+  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
   "queueCoverage": "32/32",
-  "currentCourse": "career-enterprise_it_saas_admin_business_systems",
+  "currentCourse": "nextjs-supabase",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

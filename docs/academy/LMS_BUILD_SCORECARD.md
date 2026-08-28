@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **27/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e`.
-- Catalog: 32 courses, 640 lessons, 580 lab blocks.
+- Progress: **28/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d`.
+- Catalog: 32 courses, 640 lessons, 600 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-enterprise_it_saas_admin_business_systems`.
+- Next course: `nextjs-supabase`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -205,9 +205,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete source-to-trusted-product mastery loops, nine deep orchestration/correctness/recovery/streaming/governance/incident drills, a multi-day capstone, and a 20-source primary ledger cover every lesson.
 - H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Enterprise IT and SaaS Administration baseline
+## Enterprise IT and SaaS Administration checkpoint result
 
-- `career-enterprise_it_saas_admin_business_systems` is selected next as the eighth canonical registry-remainder course; certification remains blocked pending deterministic pedagogy remediation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python enterprise-control references match their exact observable contracts.
+- Complete system-of-record-to-audit mastery loops, ten deep identity/lifecycle/change/integration/evidence/incident drills, a multi-day operating review, and a 20-source primary ledger cover every lesson.
+- One orphan reference was removed and 20 practical labs were aligned to canonical lessons. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Next.js and Supabase baseline
+
+- `nextjs-supabase` is selected next as the ninth canonical registry-remainder course; certification remains blocked pending deterministic capstone pedagogy remediation, lab trust, and required reviews.
 
 ## Advancement rule
 

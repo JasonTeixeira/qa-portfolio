@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
-  "generatedAt": "2026-08-28T19:23:22.261Z",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "generatedAt": "2026-08-28T19:35:44.168Z",
   "items": [
     {
       "rank": 1,
@@ -22,6 +22,7 @@
         "career-networking_fundamentals_advanced_networking",
         "career-observability_reliability_performance",
         "career-platform_engineering_internal_developer_platforms",
+        "career-product_execution_market_feedback",
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
         "career-security_identity",
@@ -36,9 +37,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 470,
-      "findingCount": 470,
-      "priority": 4240470
+      "lessonCount": 490,
+      "findingCount": 490,
+      "priority": 4250490
     },
     {
       "rank": 2,
@@ -200,13 +201,12 @@
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
         "career-mobile_engineering_deep_dive",
-        "career-product_execution_market_feedback",
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 197,
-      "findingCount": 197,
-      "priority": 3120197
+      "lessonCount": 178,
+      "findingCount": 178,
+      "priority": 3110178
     },
     {
       "rank": 7,
@@ -237,12 +237,11 @@
         "career-data_engineering_analytics",
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
-        "career-product_execution_market_feedback",
         "nextjs-supabase"
       ],
-      "lessonCount": 16,
-      "findingCount": 16,
-      "priority": 3070016
+      "lessonCount": 15,
+      "findingCount": 15,
+      "priority": 3060015
     },
     {
       "rank": 9,
@@ -702,7 +701,6 @@
         "career-interview_career_portfolio",
         "career-mobile_engineering_deep_dive",
         "career-networking_fundamentals_advanced_networking",
-        "career-product_execution_market_feedback",
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers",
@@ -713,9 +711,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 396,
-      "findingCount": 396,
-      "priority": 2200396
+      "lessonCount": 376,
+      "findingCount": 376,
+      "priority": 2190376
     },
     {
       "rank": 21,

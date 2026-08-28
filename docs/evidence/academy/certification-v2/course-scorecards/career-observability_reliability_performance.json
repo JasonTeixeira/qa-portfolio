@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
-  "generatedAt": "2026-08-28T19:23:22.261Z",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "generatedAt": "2026-08-28T19:35:44.168Z",
   "courseSlug": "career-observability_reliability_performance",
   "title": "Observability, Reliability, and Performance",
   "contentHash": "sha256:ceba36f7ba5505c07e16170d4d31cac7fe1f04c8c1804308def69c13c92c5c59",

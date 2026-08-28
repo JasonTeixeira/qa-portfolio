@@ -1041,7 +1041,29 @@
           ]
         },
         {
-          "courseSlug": "career-product_execution_market_feedback"
+          "courseSlug": "career-product_execution_market_feedback",
+          "lessonSlugs": [
+            "problem-framing",
+            "customer-discovery",
+            "competitive-landscape",
+            "value-proposition",
+            "user-journey",
+            "experiment-design",
+            "mvp-scope",
+            "prd-rfc",
+            "metric-design",
+            "instrumentation",
+            "feedback-intake",
+            "prioritization",
+            "roadmap-strategy",
+            "go-to-market",
+            "pricing-packaging",
+            "launch-readiness",
+            "post-launch-analysis",
+            "iteration-loop",
+            "stakeholder-communication",
+            "product-capstone"
+          ]
         }
       ],
       "evidence": [

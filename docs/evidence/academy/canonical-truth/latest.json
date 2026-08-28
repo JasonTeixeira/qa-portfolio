@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 470,
+    "labBlocks": 490,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 417,
+    "labLessonsWithSolutions": 437,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 12
+    "sourceLedgers": 13
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "20 courses lack course-level source ledgers",
+    "19 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -603,14 +603,14 @@
       "level": "Intermediate",
       "lessons": 20,
       "legacyManifestLessons": 20,
-      "labBlocks": 0,
+      "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-product_execution_market_feedback/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-product_execution_market_feedback"
     },

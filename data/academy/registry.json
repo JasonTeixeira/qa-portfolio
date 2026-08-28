@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 470,
+    "labBlocks": 490,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 417,
+    "labLessonsWithSolutions": 437,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 12
+    "sourceLedgers": 13
   },
   "capabilities": [
     {
@@ -10108,13 +10108,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-product_execution_market_feedback/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -10124,8 +10124,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/problem-framing",
           "source": {
@@ -10139,8 +10139,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/customer-discovery",
           "source": {
@@ -10154,8 +10154,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/competitive-landscape",
           "source": {
@@ -10169,8 +10169,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/value-proposition",
           "source": {
@@ -10184,8 +10184,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/user-journey",
           "source": {
@@ -10199,8 +10199,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/experiment-design",
           "source": {
@@ -10214,8 +10214,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/mvp-scope",
           "source": {
@@ -10229,8 +10229,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/prd-rfc",
           "source": {
@@ -10244,8 +10244,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/metric-design",
           "source": {
@@ -10259,8 +10259,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/instrumentation",
           "source": {
@@ -10274,8 +10274,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/feedback-intake",
           "source": {
@@ -10289,8 +10289,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/prioritization",
           "source": {
@@ -10304,8 +10304,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/roadmap-strategy",
           "source": {
@@ -10319,8 +10319,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/go-to-market",
           "source": {
@@ -10334,8 +10334,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/pricing-packaging",
           "source": {
@@ -10349,8 +10349,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/launch-readiness",
           "source": {
@@ -10364,8 +10364,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/post-launch-analysis",
           "source": {
@@ -10379,8 +10379,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/iteration-loop",
           "source": {
@@ -10394,8 +10394,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 15,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/stakeholder-communication",
           "source": {
@@ -10409,8 +10409,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-product_execution_market_feedback/product-capstone",
           "source": {
@@ -10752,5 +10752,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555"
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da"
 }

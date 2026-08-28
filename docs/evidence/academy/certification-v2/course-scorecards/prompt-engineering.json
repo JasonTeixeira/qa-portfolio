@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
-  "generatedAt": "2026-08-28T19:23:22.261Z",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "generatedAt": "2026-08-28T19:35:44.168Z",
   "courseSlug": "prompt-engineering",
   "title": "Prompt Engineering",
   "contentHash": "sha256:7369ac61002ebb340a00fef79f150868997aa364d1871335ba160c0d1c3b5d86",

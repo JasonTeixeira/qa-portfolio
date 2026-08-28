@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "courseSlug": "python-basics",
   "title": "Python Basics",
-  "contentHash": "sha256:1ee588181301c9f12832f814afb8f331c9ccd6960e4bfd9a275783c51766ae1d",
-  "lessonCount": 4,
+  "contentHash": "sha256:5284e7fc86323dcd93b1aa5eb6d197540e543c98032a7b18abe25342b7c8660c",
+  "lessonCount": 12,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
@@ -19,7 +19,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -34,66 +34,25 @@
           "mode": "deterministic",
           "status": "pass",
           "required": true,
-          "summary": "4/4 lesson(s) passed this dimension."
+          "summary": "12/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required micro loop sections: unlock-gate",
-          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "4ab6bf6b98a52e12",
-          "courseSlug": "python-basics",
-          "lessonSlug": "your-first-line"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required micro loop sections: unlock-gate",
-          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c6ad18fd6b08f923",
-          "courseSlug": "python-basics",
-          "lessonSlug": "variables"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e31be47210c8c5bc",
-          "courseSlug": "python-basics",
-          "lessonSlug": "logic-conditionals"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bd0ed7579861d0a3",
-          "courseSlug": "python-basics",
-          "lessonSlug": "loops"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -105,7 +64,7 @@
           "mode": "deterministic",
           "status": "pass",
           "required": true,
-          "summary": "4/4 lesson(s) passed this dimension."
+          "summary": "12/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -120,7 +79,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -135,7 +94,7 @@
           "mode": "deterministic",
           "status": "fail",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": [
@@ -182,6 +141,94 @@
           "id": "bef44c113eb6d712",
           "courseSlug": "python-basics",
           "lessonSlug": "loops"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "56a4e1e2fa3f8411",
+          "courseSlug": "python-basics",
+          "lessonSlug": "functions-and-scope"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5782d19d46bce097",
+          "courseSlug": "python-basics",
+          "lessonSlug": "collections"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9e73fb37c365c2ae",
+          "courseSlug": "python-basics",
+          "lessonSlug": "exceptions-validation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "242e3636228f8d89",
+          "courseSlug": "python-basics",
+          "lessonSlug": "files-json"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "09ff7626c7590ca0",
+          "courseSlug": "python-basics",
+          "lessonSlug": "modules-venvs"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "316901d81ebfbf67",
+          "courseSlug": "python-basics",
+          "lessonSlug": "testing-debugging"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bc3651a7dc66fe81",
+          "courseSlug": "python-basics",
+          "lessonSlug": "http-apis"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "66c5af76c48163bf",
+          "courseSlug": "python-basics",
+          "lessonSlug": "automation-capstone"
         }
       ]
     },
@@ -195,7 +242,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -210,7 +257,7 @@
           "mode": "deterministic",
           "status": "not_applicable",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -225,7 +272,7 @@
           "mode": "deterministic",
           "status": "pass",
           "required": true,
-          "summary": "4/4 lesson(s) passed this dimension."
+          "summary": "12/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -240,7 +287,7 @@
           "mode": "deterministic",
           "status": "pass",
           "required": true,
-          "summary": "4/4 lesson(s) passed this dimension."
+          "summary": "12/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -255,7 +302,7 @@
           "mode": "deterministic",
           "status": "pass",
           "required": true,
-          "summary": "4/4 lesson(s) passed this dimension."
+          "summary": "12/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -270,7 +317,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -285,7 +332,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -300,7 +347,7 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
@@ -315,13 +362,13 @@
           "mode": "deterministic",
           "status": "pending",
           "required": true,
-          "summary": "0/4 lesson(s) passed this dimension."
+          "summary": "0/12 lesson(s) passed this dimension."
         }
       ],
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 88.9,
   "compositeScore": null,
   "hardFails": [
     {
@@ -367,6 +414,94 @@
       "id": "bef44c113eb6d712",
       "courseSlug": "python-basics",
       "lessonSlug": "loops"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "56a4e1e2fa3f8411",
+      "courseSlug": "python-basics",
+      "lessonSlug": "functions-and-scope"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5782d19d46bce097",
+      "courseSlug": "python-basics",
+      "lessonSlug": "collections"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9e73fb37c365c2ae",
+      "courseSlug": "python-basics",
+      "lessonSlug": "exceptions-validation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "242e3636228f8d89",
+      "courseSlug": "python-basics",
+      "lessonSlug": "files-json"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "09ff7626c7590ca0",
+      "courseSlug": "python-basics",
+      "lessonSlug": "modules-venvs"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "316901d81ebfbf67",
+      "courseSlug": "python-basics",
+      "lessonSlug": "testing-debugging"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bc3651a7dc66fe81",
+      "courseSlug": "python-basics",
+      "lessonSlug": "http-apis"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "66c5af76c48163bf",
+      "courseSlug": "python-basics",
+      "lessonSlug": "automation-capstone"
     }
   ],
   "requiredPending": [

@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "terminal-filesystem-model",
-    "contentHash": "sha256:62a38561f304241577c34b9dbecf6a49344d043c167e2363fdd08c8306c77eb3",
+    "contentHash": "sha256:7a57e87f09bd0e2960e0cc7c2e6bd6f3d33c1dd28b421b45246912c03e6f9098",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -364,11 +364,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "navigate-inspect-files",
-    "contentHash": "sha256:c5998482fe8cd00f43ad703d4cddab6a59834d57396cc38569ad9756b0c63fae",
+    "contentHash": "sha256:01909099e011e20219afc391c2667a3cc61d1cde3d99d654e32030936c07e06f",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -726,11 +726,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "pipes-redirects-grep-find",
-    "contentHash": "sha256:62d0acfe58d72304d807c98aeb3f04bb1183e95aa77cdc1f18f43514957c82f6",
+    "contentHash": "sha256:379b4109b7d0ada1020968724961c338e284fcf2211d3973b7f2f1ebdc1100de",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1088,11 +1088,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "permissions-processes",
-    "contentHash": "sha256:931d531b72cc898b9039132ff100aeedffaf951660b2cb9082086e8dad7bee72",
+    "contentHash": "sha256:d9f703accfa9a7d45387ee3bd02510b8f8a34aac7b597c281fd5c9739881a292",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1450,11 +1450,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "git-object-model",
-    "contentHash": "sha256:61bfee1ca92d365538eaf9eb7394d17178ebbedb53115861c7ddf46a5997016c",
+    "contentHash": "sha256:0cf51e42134b48a90cb99512d71a44fb1b93f6872a95ea34e7fa3377ee3d5e48",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1812,11 +1812,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "staging-index-commits",
-    "contentHash": "sha256:371c98d84ec39a147ea2f34f510aed8f43457d9e519b5a2aaa7def83d247c99f",
+    "contentHash": "sha256:0831bfc3e1561fa82ff7aac99fb0824d9822126c1bb414fb91787e36d5bd6bd1",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2174,8 +2174,8 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "reading-history",
     "contentHash": "sha256:c930a8fa36e52c056640b1c786c244a611a3787bd92feb2f026b8bdc8606ddbc",
@@ -2536,11 +2536,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "branches",
-    "contentHash": "sha256:4526d70baa80391ceb8088c1e56574af9151d878929a48b1e4d1a469cd2f6947",
+    "contentHash": "sha256:3a99bca5bc4ff38e6f30d1fa83f958f52e4e56b2afc7c123684f408790ef71c3",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2898,11 +2898,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "remotes-push-pull-fetch",
-    "contentHash": "sha256:520e79473e3c09e2d290a9dab9c950b62b3b97955717ed17a9d566db0f8dc3b5",
+    "contentHash": "sha256:2da01081f7e343a114678ca690a90198f2b8c5739650d6c67def107fbbd7fb79",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3260,11 +3260,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "pull-requests-review",
-    "contentHash": "sha256:d9ff45af1b920363349f5fc7e5416d170566427d42b00e061ab465c7957ea047",
+    "contentHash": "sha256:ff46ef0ff3eb827d10c6ca89ded05417d7f15295bfa340ab2c3cbb234f2e7a57",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3622,11 +3622,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "resolving-merge-conflicts",
-    "contentHash": "sha256:444ae51c880339c9def2148e39f553371ce659485fab00e904e909aca6fcb449",
+    "contentHash": "sha256:35e683ffb4386414dbfd511ab0c97fc641be18f26023814cf3877b5d22bec2a2",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3984,11 +3984,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "rebase-vs-merge",
-    "contentHash": "sha256:207751c2af900bfebca2a07dd06c9f43352b1c75360b54b8a15b7eb2c7564d7f",
+    "contentHash": "sha256:d85a8f8e973546112c31cabcd17ae42023dda2565fe5bc1e6eaea4d39af1758e",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4346,11 +4346,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "undo-safely",
-    "contentHash": "sha256:71b426a746feb1f270573019b4b6fa192d180d4cd1517eb04bab915cf79b6498",
+    "contentHash": "sha256:cc812a7a22bcd1a3d8b17b9e6ade9e6e6a7a17723e1653db2212c60c4efe1231",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4708,11 +4708,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "reflog-recovering-work",
-    "contentHash": "sha256:6e510c56d469f5b123444e20ca44ee60b9a0853620268d8a42983f835d6ddca2",
+    "contentHash": "sha256:13b66c09c841441dd2c22f79c04c04b99f9d75fcd899b130b3a5120344c11455",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5070,11 +5070,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "stash-cherry-pick",
-    "contentHash": "sha256:76666f1dbc6bbf920ad49549771296b7c2bd154cac752c7e730e352618498e19",
+    "contentHash": "sha256:46c2a3df614212d98bb113cfe983736e2b76781e4029f3304c9dcdb438c6a4e9",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5432,11 +5432,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "git-bisect",
-    "contentHash": "sha256:2464f047937034b5566629ecef930013f5f8541b07d53ead580eb46c4bea0092",
+    "contentHash": "sha256:4666999f797d772cb5d0716a717cbefccfb254dd1cb25b3d0368367b26e740b3",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5794,11 +5794,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "gitignore-hooks",
-    "contentHash": "sha256:4df915b0e4cf47ee42de6a4164444ecafe3212ffe853aab705d5c9ea6635b1ef",
+    "contentHash": "sha256:e6782b167573e1aa696a41ef1719246e68ecaed8e08d890f29a2ca27c095d69f",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6156,11 +6156,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "tags-releases",
-    "contentHash": "sha256:bf305d9309f5b4795f6432aa2085881b113fe4e1d8a173be1282ef0b239430f2",
+    "contentHash": "sha256:8bb10d8a6269d7840e46cf054d9dfdc0110a8636dc288d9aa9b23b3f59564afc",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6518,11 +6518,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "terminal-power-user",
-    "contentHash": "sha256:c6916c6944c0b2580d4be063c6878d343020640b8859379fb7622d80e5df7190",
+    "contentHash": "sha256:c9a207528338f84415400cb8a1100392c0dc6800870bed2661900d0bd583d32d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6880,11 +6880,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-    "generatedAt": "2026-08-28T16:01:01.073Z",
+    "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+    "generatedAt": "2026-08-28T16:20:24.048Z",
     "courseSlug": "git-the-terminal",
     "lessonSlug": "capstone-recover-and-ship",
-    "contentHash": "sha256:29518002b9ed5db646e2d23429ce32bb7e467b534112892a190d579b05b4adb8",
+    "contentHash": "sha256:7bc51ca87934b62249179822ea72401d6786efe7e654be3441650076c71d5da4",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6904,15 +6904,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6922,18 +6922,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: calibration",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "da801a42a9ed980b",
-            "courseSlug": "git-the-terminal",
-            "lessonSlug": "capstone-recover-and-ship"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -7210,7 +7199,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 70,
+    "deterministicScore": 80,
     "compositeScore": null,
     "hardFails": [
       {

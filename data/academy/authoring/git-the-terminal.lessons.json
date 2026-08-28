@@ -312,7 +312,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You predict relative-path resolution from a given cwd",
+        "Observable evidence — You predict relative-path resolution from a given cwd",
         "You can anchor a script to its own directory",
         "pwd/cd/.. /~ semantics are correct"
       ]
@@ -641,7 +641,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You list dotfiles and permissions with ls -la",
+        "Observable evidence — You list dotfiles and permissions with ls -la",
         "You measure before reading with wc",
         "You sample huge files with head/tail, not cat"
       ]
@@ -926,7 +926,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You build a working filter/count pipeline",
+        "Observable evidence — You build a working filter/count pipeline",
         "You route stderr separately from stdout",
         "You use grep -v/-c and find correctly"
       ]
@@ -1235,7 +1235,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You set and read exact permission modes",
+        "Observable evidence — You set and read exact permission modes",
         "You explain x on files vs directories",
         "You signal a process with the right level of force"
       ]
@@ -1566,7 +1566,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You identify blob/tree/commit/tag and their links",
+        "Observable evidence — You identify blob/tree/commit/tag and their links",
         "You traverse the graph with cat-file",
         "You explain content-addressing and dedup"
       ]
@@ -1907,7 +1907,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You stage a subset deliberately",
+        "Observable evidence — You stage a subset deliberately",
         "You interpret porcelain XY codes",
         "You verify with git diff --cached before commit"
       ]
@@ -2553,7 +2553,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain a branch as a pointer",
+        "Observable evidence — You explain a branch as a pointer",
         "You predict which refs move on commit",
         "You distinguish HEAD from a branch ref"
       ]
@@ -2885,7 +2885,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain fetch vs pull vs push",
+        "Observable evidence — You explain fetch vs pull vs push",
         "You describe origin/main as a fetch-updated cache",
         "You recover from a non-fast-forward rejection"
       ]
@@ -3190,7 +3190,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You compute base..feature commit and file sets",
+        "Observable evidence — You compute base..feature commit and file sets",
         "You keep a branch scoped to one change",
         "You self-review before opening a PR"
       ]
@@ -3507,7 +3507,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain when conflicts occur",
+        "Observable evidence — You explain when conflicts occur",
         "You read and remove conflict markers",
         "You complete a merge via add + commit"
       ]
@@ -3837,7 +3837,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain merge vs rebase effects on history",
+        "Observable evidence — You explain merge vs rebase effects on history",
         "You pick based on shared-vs-local",
         "You can state the golden rule of rebase"
       ]
@@ -4172,7 +4172,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You map restore/reset/revert to the trees they touch",
+        "Observable evidence — You map restore/reset/revert to the trees they touch",
         "You pick reset flags deliberately",
         "You use revert for shared history"
       ]
@@ -4463,7 +4463,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain unreferenced-vs-deleted",
+        "Observable evidence — You explain unreferenced-vs-deleted",
         "You navigate the reflog with ref@{N}",
         "You recover a dropped commit"
       ]
@@ -4772,7 +4772,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You stash and restore across a context switch",
+        "Observable evidence — You stash and restore across a context switch",
         "You cherry-pick one commit onto another branch",
         "You resolve a conflicting pop/pick"
       ]
@@ -5083,7 +5083,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You seed good/bad boundaries correctly",
+        "Observable evidence — You seed good/bad boundaries correctly",
         "You explain the O(log n) cost",
         "You automate with git bisect run + exit codes"
       ]
@@ -5391,7 +5391,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You write anchored/dir/negation patterns correctly",
+        "Observable evidence — You write anchored/dir/negation patterns correctly",
         "You untrack an already-tracked file",
         "You explain a pre-commit hook"
       ]
@@ -5705,7 +5705,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You explain tags as fixed pointers",
+        "Observable evidence — You explain tags as fixed pointers",
         "You create and identify annotated vs lightweight tags",
         "You publish tags to a remote deliberately"
       ]
@@ -5983,7 +5983,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You branch correctly on exit status",
+        "Observable evidence — You branch correctly on exit status",
         "You gate steps with && to stop on failure",
         "You create useful aliases"
       ]
@@ -6269,6 +6269,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "One script that takes a repo with a bad commit, recovers/branches the fix, and prints the clean PR range, the fixed content, and the release tag — every fact computed by git.",
+      "weak": "The artifact follows the visible shape but cannot survive a failure case, independent check, or reviewer challenge.",
+      "passing": "The artifact satisfies every verification item: You diagnose a broken repo with log/diff/show before acting. · You undo shared mistakes with revert and recover lost work via reflog. · You isolate the fix on a scoped branch, verify the PR range, and tag the release.",
+      "excellent": "Passing evidence plus a novel constraint, a documented repair, and this transfer: This loop is the shape of professional work in ANY tooling stack: diagnose before you touch, choose the reversible option, isolate changes for review, prove the result, and mark the release. You now have the git fluency to do it from the terminal, on real repos.",
+      "note": "Score only inspectable evidence. Confidence, polish, and completion time cannot substitute for a passing artifact and defensible reasoning."
+    },
+    {
       "text": "This loop is the shape of professional work in ANY tooling stack: diagnose before you touch, choose the reversible option, isolate changes for review, prove the result, and mark the release. You now have the git fluency to do it from the terminal, on real repos.",
       "type": "transfer"
     },
@@ -6284,7 +6292,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You diagnose then act, never blind",
+        "Observable evidence — You diagnose then act, never blind",
         "You undo shared history with revert and isolate the fix",
         "You verify the PR range and tag the release"
       ]

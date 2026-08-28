@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "courseSlug": "career-concept_maps_real_world_engineering",
   "title": "Think Like a Senior Engineer: Concept Maps",
   "contentHash": "sha256:179e2ca0ee66c106c25a0743876203ff25d288fb6caa87f7b5c191e892157a42",

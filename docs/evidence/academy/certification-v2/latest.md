@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T16:01:01.073Z
-Registry: `sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799`
+Generated: 2026-08-28T16:20:24.048Z
+Registry: `sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -10,17 +10,17 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 ## Academy summary
 
 - Courses audited: 32
-- Lessons audited: 632
+- Lessons audited: 640
 - Eligible for certification: 0
 - Blocked by hard fails: 19
 - Needs deterministic remediation: 13
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=448, H3=0, H4=0, H5=143
+- Hard fails: H1=0, H2=456, H3=0, H4=0, H5=143
 
 ## Coverage boundary
 
-- Static authoring: full (32 courses / 632 lessons)
+- Static authoring: full (32 courses / 640 lessons)
 - Current lab execution: none_by_policy
 - External-link reachability: none_by_policy
 - Rendered accessibility: no_evidence_supplied
@@ -33,12 +33,12 @@ The deterministic score reports only checks the harness can prove locally. It is
 
 | Course | Slug | Lessons | Decision | Hard fails | Required pending | Deterministic only |
 |---|---|---:|---|---:|---|---:|
-| Engineering Judgment and Learning How to Learn | `career-engineering_judgment_foundation` | 16 | blocked | 16 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| Engineering Judgment and Learning How to Learn | `career-engineering_judgment_foundation` | 16 | blocked | 16 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | Think Like a Senior Engineer: Concept Maps | `career-concept_maps_real_world_engineering` | 30 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Programming Fundamentals | `programming-fundamentals` | 18 | blocked | 25 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | Programming and Computer Science Foundations | `career-programming_cs_foundations` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
-| Python Basics | `python-basics` | 4 | blocked | 4 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
-| Git and the Terminal | `git-the-terminal` | 20 | blocked | 40 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 79.5 |
+| Python Basics | `python-basics` | 12 | blocked | 12 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
+| Git and the Terminal | `git-the-terminal` | 20 | blocked | 40 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Data Structures | `data-structures` | 20 | blocked | 23 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Backend Engineering | `career-backend_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
@@ -68,26 +68,26 @@ The deterministic score reports only checks the harness can prove locally. It is
 
 ## Ranked remediation backlog
 
-1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (19 courses; 354 findings)
+1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (19 courses; 370 findings)
 2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (10 courses; 86 findings)
 3. **H5** · references — Point the asset field at an existing file under public/ or remove the broken promise. (1 courses; 143 findings)
-4. **H2** · labs — Define a deterministic expected result and negative cases before the lab can count as proof. (1 courses; 8 findings)
-5. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 632 findings)
-6. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 632 findings)
-7. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 632 findings)
-8. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (22 courses; 353 findings)
-9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (16 courses; 33 findings)
-10. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (15 courses; 44 findings)
-11. pedagogy — Restore the micro learning loop without replacing course-specific teaching with boilerplate. (1 courses; 2 findings)
-12. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 632 findings)
-13. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 632 findings)
-14. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 632 findings)
-15. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 632 findings)
-16. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 632 findings)
-17. accessibility — Complete required accessibility evidence: target-size. (32 courses; 632 findings)
-18. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 632 findings)
-19. performance — Complete required performance evidence: rendered-performance. (32 courses; 632 findings)
-20. ux — Complete required ux evidence: human-ux-review. (32 courses; 632 findings)
+4. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
+5. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
+6. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
+7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (20 courses; 342 findings)
+8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (14 courses; 41 findings)
+9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (14 courses; 28 findings)
+10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
+11. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
+12. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 640 findings)
+13. accessibility — Complete required accessibility evidence: reduced-motion. (32 courses; 640 findings)
+14. accessibility — Complete required accessibility evidence: zoom-and-reflow. (32 courses; 640 findings)
+15. accessibility — Complete required accessibility evidence: target-size. (32 courses; 640 findings)
+16. consistency — Complete required consistency evidence: rendered-consistency. (32 courses; 640 findings)
+17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
+18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
+19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (29 courses; 580 findings)
 
 ## Flagship competency-path readiness
 

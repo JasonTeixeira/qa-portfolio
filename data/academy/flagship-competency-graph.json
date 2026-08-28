@@ -108,7 +108,7 @@
       "prerequisiteIds": ["learning-system"],
       "courseMappings": [
         { "courseSlug": "programming-fundamentals", "lessonSlugs": ["your-first-program", "variables-and-values", "numbers-and-strings", "reading-input", "booleans-and-logic", "lists", "loops", "functions-basics", "build-a-tiny-program", "input-validation", "error-handling", "functions-and-modules", "types-and-data", "control-flow", "files-and-io", "testing-and-debugging"] },
-        { "courseSlug": "python-basics" },
+        { "courseSlug": "python-basics", "lessonSlugs": ["your-first-line", "variables", "logic-conditionals", "loops", "functions-and-scope", "collections", "exceptions-validation", "files-json", "modules-venvs", "testing-debugging", "http-apis", "automation-capstone"] },
         { "courseSlug": "data-structures" },
         { "courseSlug": "career-programming_cs_foundations" }
       ],

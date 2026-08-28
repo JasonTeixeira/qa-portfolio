@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "items": [
     {
       "rank": 1,
@@ -31,9 +31,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 354,
-      "findingCount": 354,
-      "priority": 4190354
+      "lessonCount": 370,
+      "findingCount": 370,
+      "priority": 4190370
     },
     {
       "rank": 2,
@@ -72,19 +72,6 @@
     },
     {
       "rank": 4,
-      "category": "labs",
-      "code": "H2",
-      "severity": "blocker",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "courseSlugs": [
-        "career-engineering_judgment_foundation"
-      ],
-      "lessonCount": 8,
-      "findingCount": 8,
-      "priority": 4010008
-    },
-    {
-      "rank": 5,
       "category": "content_correctness",
       "severity": "high",
       "remediation": "Complete required content_correctness evidence: expert-correctness-review.",
@@ -122,12 +109,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 3320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 3320640
     },
     {
-      "rank": 6,
+      "rank": 5,
       "category": "pedagogy",
       "severity": "high",
       "remediation": "Complete required pedagogy evidence: expert-pedagogy-review.",
@@ -165,12 +152,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 3320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 3320640
     },
     {
-      "rank": 7,
+      "rank": 6,
       "category": "sources",
       "severity": "high",
       "remediation": "Complete required sources evidence: claim-level-coverage.",
@@ -208,12 +195,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 3320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 3320640
     },
     {
-      "rank": 8,
+      "rank": 7,
       "category": "pedagogy",
       "severity": "high",
       "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
@@ -225,7 +212,6 @@
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
-        "career-engineering_judgment_foundation",
         "career-engineering_leadership_staff_execution",
         "career-enterprise_it_saas_admin_business_systems",
         "career-frontend_fullstack",
@@ -238,12 +224,36 @@
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
         "career-security_identity",
-        "career-ux_ui_product_design_for_engineers",
-        "python-basics"
+        "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 353,
-      "findingCount": 353,
-      "priority": 3220353
+      "lessonCount": 342,
+      "findingCount": 342,
+      "priority": 3200342
+    },
+    {
+      "rank": 8,
+      "category": "pedagogy",
+      "severity": "high",
+      "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+      "courseSlugs": [
+        "career-ai_engineering_rag_eval",
+        "career-architecture_system_design",
+        "career-backend_engineering",
+        "career-cloud_devops_operations",
+        "career-concept_maps_real_world_engineering",
+        "career-data_engineering_analytics",
+        "career-databases_data_modeling",
+        "career-engineering_leadership_staff_execution",
+        "career-frontend_fullstack",
+        "career-interview_career_portfolio",
+        "career-observability_reliability_performance",
+        "career-platform_engineering_internal_developer_platforms",
+        "career-qa_sdet_test_automation_engineering",
+        "career-security_identity"
+      ],
+      "lessonCount": 41,
+      "findingCount": 41,
+      "priority": 3140041
     },
     {
       "rank": 9,
@@ -258,60 +268,20 @@
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
-        "career-engineering_judgment_foundation",
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
         "career-observability_reliability_performance",
         "career-product_execution_market_feedback",
         "career-programming_cs_foundations",
         "career-security_identity",
-        "git-the-terminal",
         "nextjs-supabase"
       ],
-      "lessonCount": 33,
-      "findingCount": 33,
-      "priority": 3160033
+      "lessonCount": 28,
+      "findingCount": 28,
+      "priority": 3140028
     },
     {
       "rank": 10,
-      "category": "pedagogy",
-      "severity": "high",
-      "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-      "courseSlugs": [
-        "career-ai_engineering_rag_eval",
-        "career-architecture_system_design",
-        "career-backend_engineering",
-        "career-cloud_devops_operations",
-        "career-concept_maps_real_world_engineering",
-        "career-data_engineering_analytics",
-        "career-databases_data_modeling",
-        "career-engineering_judgment_foundation",
-        "career-engineering_leadership_staff_execution",
-        "career-frontend_fullstack",
-        "career-interview_career_portfolio",
-        "career-observability_reliability_performance",
-        "career-platform_engineering_internal_developer_platforms",
-        "career-qa_sdet_test_automation_engineering",
-        "career-security_identity"
-      ],
-      "lessonCount": 44,
-      "findingCount": 44,
-      "priority": 3150044
-    },
-    {
-      "rank": 11,
-      "category": "pedagogy",
-      "severity": "high",
-      "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-      "courseSlugs": [
-        "python-basics"
-      ],
-      "lessonCount": 2,
-      "findingCount": 2,
-      "priority": 3010002
-    },
-    {
-      "rank": 12,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: rendered-axe-wcag-2.2-aa.",
@@ -349,12 +319,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 13,
+      "rank": 11,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: keyboard-and-focus.",
@@ -392,12 +362,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 14,
+      "rank": 12,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: screen-reader-semantics.",
@@ -435,12 +405,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 15,
+      "rank": 13,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: reduced-motion.",
@@ -478,12 +448,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 16,
+      "rank": 14,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: zoom-and-reflow.",
@@ -521,12 +491,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 17,
+      "rank": 15,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: target-size.",
@@ -564,12 +534,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 18,
+      "rank": 16,
       "category": "consistency",
       "severity": "medium",
       "remediation": "Complete required consistency evidence: rendered-consistency.",
@@ -607,12 +577,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 19,
+      "rank": 17,
       "category": "performance",
       "severity": "medium",
       "remediation": "Complete required performance evidence: rendered-performance.",
@@ -650,12 +620,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 20,
+      "rank": 18,
       "category": "ux",
       "severity": "medium",
       "remediation": "Complete required ux evidence: human-ux-review.",
@@ -693,12 +663,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 21,
+      "rank": 19,
       "category": "visual",
       "severity": "medium",
       "remediation": "Complete required visual evidence: human-visual-review.",
@@ -736,12 +706,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 632,
-      "findingCount": 632,
-      "priority": 2320632
+      "lessonCount": 640,
+      "findingCount": 640,
+      "priority": 2320640
     },
     {
-      "rank": 22,
+      "rank": 20,
       "category": "sources",
       "severity": "medium",
       "remediation": "Complete required sources evidence: source-ledger-schema.",
@@ -776,12 +746,12 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 572,
-      "findingCount": 572,
-      "priority": 2290572
+      "lessonCount": 580,
+      "findingCount": 580,
+      "priority": 2290580
     },
     {
-      "rank": 23,
+      "rank": 21,
       "category": "media",
       "severity": "medium",
       "remediation": "Complete required media evidence: promised-media-integrity.",

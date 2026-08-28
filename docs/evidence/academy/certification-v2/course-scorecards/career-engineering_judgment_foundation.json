@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "courseSlug": "career-engineering_judgment_foundation",
   "title": "Engineering Judgment and Learning How to Learn",
-  "contentHash": "sha256:fb8c297f0ce9526aa6ce9e412754c243a26f703879f624fc6a18168adb843188",
+  "contentHash": "sha256:173140a08969bb91152ddcb9bace96c7655345826fa307a799ef97d90687013b",
   "lessonCount": 16,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,179 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/16 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "381a13b8e685cac1",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "01-problem-frame"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f897f8859e6a1e0a",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "02-diagnostic-route"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e4570015db74e988",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "03-system-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "cb748e0ca9e0f9e9",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "04-retrieval-protocol"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e0d84f96a53842ce",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "05-tiny-artifact"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c96b91aa0bda7045",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "06-failure-injection"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a66d85b5f1256cff",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "07-tradeoff-decision"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1e40d393e9c9f15b",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "08-testa-proof"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c19587fa86bf0e3b",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "09-explain-back"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ececcaaca6edd4cd",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "10-review-rubric"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "46ec45e060ef3e2c",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "11-repair-loop"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e60a504d79caf13e",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "12-spacing-queue"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1db39cdd418aefdd",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "13-transfer-challenge"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "4ae086685c716560",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "14-package-evidence"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "caef010bc11185ae",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "15-unlock-gate"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "61f1f8f5d3ae5653",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "16-capstone-rehearsal"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -263,12 +102,45 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "e98292a4173faf5d",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ebe4b9d1e2d7cf78",
           "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "05-tiny-artifact"
+          "lessonSlug": "01-problem-frame"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "07d91b72a742a23b",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "02-diagnostic-route"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5a0ff962036cc03c",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "03-system-map"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b71ddaaad3125dd1",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "04-retrieval-protocol"
         },
         {
           "code": "H2",
@@ -285,34 +157,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "c633a770bb6291af",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "06-failure-injection"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "4aa65e332c8098b5",
           "courseSlug": "career-engineering_judgment_foundation",
           "lessonSlug": "06-failure-injection"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "8ca1d22477000ae3",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "07-tradeoff-decision"
         },
         {
           "code": "H2",
@@ -329,34 +179,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "a77ea03a0db24fa6",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "08-testa-proof"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "8ffd64e3821ee4c7",
           "courseSlug": "career-engineering_judgment_foundation",
           "lessonSlug": "08-testa-proof"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "2659269c497f969c",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "09-explain-back"
         },
         {
           "code": "H2",
@@ -373,34 +201,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "13c686e9336b0f23",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "10-review-rubric"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "a2e281178b8da8be",
           "courseSlug": "career-engineering_judgment_foundation",
           "lessonSlug": "10-review-rubric"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "4615f6988d89e934",
-          "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "11-repair-loop"
         },
         {
           "code": "H2",
@@ -417,10 +223,10 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no deterministic expected check.",
-          "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-          "mode": "deterministic",
-          "id": "8914cb8105cb8d7b",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5baae828f5d972f8",
           "courseSlug": "career-engineering_judgment_foundation",
           "lessonSlug": "12-spacing-queue"
         },
@@ -431,9 +237,42 @@
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
-          "id": "5baae828f5d972f8",
+          "id": "21430d72fd199c87",
           "courseSlug": "career-engineering_judgment_foundation",
-          "lessonSlug": "12-spacing-queue"
+          "lessonSlug": "13-transfer-challenge"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "afd260218b9fde8b",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "14-package-evidence"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "39b25793316bfa32",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "15-unlock-gate"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "63ec7352e2b88d24",
+          "courseSlug": "career-engineering_judgment_foundation",
+          "lessonSlug": "16-capstone-rehearsal"
         }
       ]
     },
@@ -573,19 +412,52 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 88.9,
   "compositeScore": null,
   "hardFails": [
     {
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "e98292a4173faf5d",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ebe4b9d1e2d7cf78",
       "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "05-tiny-artifact"
+      "lessonSlug": "01-problem-frame"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "07d91b72a742a23b",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "02-diagnostic-route"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5a0ff962036cc03c",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "03-system-map"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b71ddaaad3125dd1",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "04-retrieval-protocol"
     },
     {
       "code": "H2",
@@ -602,34 +474,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "c633a770bb6291af",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "06-failure-injection"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "4aa65e332c8098b5",
       "courseSlug": "career-engineering_judgment_foundation",
       "lessonSlug": "06-failure-injection"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "8ca1d22477000ae3",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "07-tradeoff-decision"
     },
     {
       "code": "H2",
@@ -646,34 +496,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "a77ea03a0db24fa6",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "08-testa-proof"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "8ffd64e3821ee4c7",
       "courseSlug": "career-engineering_judgment_foundation",
       "lessonSlug": "08-testa-proof"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "2659269c497f969c",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "09-explain-back"
     },
     {
       "code": "H2",
@@ -690,34 +518,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "13c686e9336b0f23",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "10-review-rubric"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "a2e281178b8da8be",
       "courseSlug": "career-engineering_judgment_foundation",
       "lessonSlug": "10-review-rubric"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "4615f6988d89e934",
-      "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "11-repair-loop"
     },
     {
       "code": "H2",
@@ -734,10 +540,10 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no deterministic expected check.",
-      "remediation": "Define a deterministic expected result and negative cases before the lab can count as proof.",
-      "mode": "deterministic",
-      "id": "8914cb8105cb8d7b",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5baae828f5d972f8",
       "courseSlug": "career-engineering_judgment_foundation",
       "lessonSlug": "12-spacing-queue"
     },
@@ -748,9 +554,42 @@
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
-      "id": "5baae828f5d972f8",
+      "id": "21430d72fd199c87",
       "courseSlug": "career-engineering_judgment_foundation",
-      "lessonSlug": "12-spacing-queue"
+      "lessonSlug": "13-transfer-challenge"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "afd260218b9fde8b",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "14-package-evidence"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "39b25793316bfa32",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "15-unlock-gate"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "63ec7352e2b88d24",
+      "courseSlug": "career-engineering_judgment_foundation",
+      "lessonSlug": "16-capstone-rehearsal"
     }
   ],
   "requiredPending": [

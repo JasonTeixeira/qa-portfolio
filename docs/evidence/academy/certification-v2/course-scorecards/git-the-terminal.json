@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "courseSlug": "git-the-terminal",
   "title": "Git and the Terminal",
-  "contentHash": "sha256:57f61c3b87e9ad2ca441f11df2d2b73e749a55a6dfdf301103c68a9d26be3ad6",
+  "contentHash": "sha256:f76c7c96b1508363de6800e0d6a99d39ff8c185509957ebc3b40c0e0b2f58216",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,29 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: calibration",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "da801a42a9ed980b",
-          "courseSlug": "git-the-terminal",
-          "lessonSlug": "capstone-recover-and-ship"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -687,7 +676,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 79.5,
+  "deterministicScore": 80,
   "compositeScore": null,
   "hardFails": [
     {

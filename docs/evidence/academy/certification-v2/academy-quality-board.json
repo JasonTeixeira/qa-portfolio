@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
-  "generatedAt": "2026-08-28T16:01:01.073Z",
+  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "generatedAt": "2026-08-28T16:20:24.048Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
   "summary": {
     "coursesAudited": 32,
-    "lessonsAudited": 632,
+    "lessonsAudited": 640,
     "coursesEligible": 0,
     "coursesBlocked": 19,
     "coursesNeedsRemediation": 13,
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 448,
+      "H2": 456,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -26,7 +26,7 @@
     "staticAuthoring": {
       "scope": "full",
       "courses": 32,
-      "lessons": 632,
+      "lessons": 640,
       "note": "Every registered Git-resident bundle was parsed and evaluated independently."
     },
     "currentLabExecution": {
@@ -60,11 +60,11 @@
       "courseSlug": "career-engineering_judgment_foundation",
       "title": "Engineering Judgment and Learning How to Learn",
       "lessonCount": 16,
-      "contentHash": "sha256:fb8c297f0ce9526aa6ce9e412754c243a26f703879f624fc6a18168adb843188",
+      "contentHash": "sha256:173140a08969bb91152ddcb9bace96c7655345826fa307a799ef97d90687013b",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.9,
       "compositeScore": null,
       "hardFailCount": 16,
       "hardFailCounts": {
@@ -94,8 +94,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -439,17 +439,17 @@
     {
       "courseSlug": "python-basics",
       "title": "Python Basics",
-      "lessonCount": 4,
-      "contentHash": "sha256:1ee588181301c9f12832f814afb8f331c9ccd6960e4bfd9a275783c51766ae1d",
+      "lessonCount": 12,
+      "contentHash": "sha256:5284e7fc86323dcd93b1aa5eb6d197540e543c98032a7b18abe25342b7c8660c",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.9,
       "compositeScore": null,
-      "hardFailCount": 4,
+      "hardFailCount": 12,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 4,
+        "H2": 12,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -474,8 +474,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -535,11 +535,11 @@
       "courseSlug": "git-the-terminal",
       "title": "Git and the Terminal",
       "lessonCount": 20,
-      "contentHash": "sha256:57f61c3b87e9ad2ca441f11df2d2b73e749a55a6dfdf301103c68a9d26be3ad6",
+      "contentHash": "sha256:f76c7c96b1508363de6800e0d6a99d39ff8c185509957ebc3b40c0e0b2f58216",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 79.5,
+      "deterministicScore": 80,
       "compositeScore": null,
       "hardFailCount": 40,
       "hardFailCounts": {
@@ -570,8 +570,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

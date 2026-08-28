@@ -64,6 +64,7 @@
     "academy:audit:all": "tsx scripts/academy/quality/v2/run.ts",
     "academy:audit:verify": "npm run academy:audit:test && npm run academy:registry:check && npm run typecheck",
     "academy:curriculum:upgrade:programming": "node scripts/academy/authoring/upgrade-programming-fundamentals-mastery.mjs",
+    "academy:curriculum:upgrade:foundations": "node scripts/academy/authoring/upgrade-flagship-foundations-mastery.mjs",
     "academy:lab-evaluator:test": "tsx --test tests/academy/secure-lab-evaluator.test.ts tests/academy/lab-evaluator-service.test.ts tests/academy/lab-evaluator-http.test.ts tests/academy/lab-evidence-boundary.test.ts tests/academy/lab-evaluator-runtime.test.ts tests/academy/lab-evaluator-staging.test.ts tests/academy/vercel-sandbox-evaluator.test.ts",
     "academy:lab-evaluator:serve": "tsx services/academy-lab-evaluator/src/server.ts",
     "academy:lab-evaluator:staging-verify": "tsx scripts/academy/lab-evaluator/staging/verify.ts",

@@ -148,7 +148,7 @@ test('all canonical courses are audited independently and every lesson is repres
   assert.equal(report.registryVersion, registry.registryVersion)
   assert.equal(report.courseScorecards.length, 32)
   assert.equal(report.summary.coursesAudited, 32)
-  assert.equal(report.summary.lessonsAudited, 632)
+  assert.equal(report.summary.lessonsAudited, registry.totals.lessons)
   assert.equal(
     report.summary.coursesBlocked +
       report.summary.coursesNeedsRemediation +
@@ -156,7 +156,7 @@ test('all canonical courses are audited independently and every lesson is repres
       report.summary.coursesEligible,
     32,
   )
-  assert.equal(report.executionCoverage.staticAuthoring.lessons, 632)
+  assert.equal(report.executionCoverage.staticAuthoring.lessons, registry.totals.lessons)
   assert.equal(report.executionCoverage.staticAuthoring.scope, 'full')
   assert.equal(report.executionCoverage.currentLabExecution.scope, 'none_by_policy')
   assert.equal(report.executionCoverage.renderedAccessibility.scope, 'no_evidence_supplied')
@@ -265,7 +265,7 @@ test('artifact writer emits every required board and scorecard family', () => {
     writeFileSync(join(outputDir, 'lesson-scorecards', 'stale-course.json'), '{}')
     const manifest = writeAuditArtifacts(report, outputDir)
     assert.equal(manifest.courseScorecards, 32)
-    assert.equal(manifest.lessonScorecards, 632)
+    assert.equal(manifest.lessonScorecards, registry.totals.lessons)
     for (const relativePath of [
       'latest.json',
       'latest.md',

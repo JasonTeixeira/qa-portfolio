@@ -1,16 +1,16 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799`
+**Registry:** `sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
 
 - 32 registered course bundles
-- 632 authored lessons
-- 354 lab blocks
-- 547 solution entries
-- 268 lab lessons with same-slug solutions
+- 640 authored lessons
+- 370 lab blocks
+- 555 solution entries
+- 284 lab lessons with same-slug solutions
 - 86 lab lessons without same-slug solutions
 - 3 course-level source ledgers
 - 0 certified courses
@@ -18,7 +18,7 @@
 ## Known contradictions and launch blockers
 
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
-- 632 authored lessons versus 448 lessons represented in the legacy manifest
+- 640 authored lessons versus 456 lessons represented in the legacy manifest
 - 86 lab lessons lack same-slug solution entries
 - 29 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
@@ -28,11 +28,11 @@
 
 | Course | Lessons | Legacy manifest | Labs | Labs missing solutions | Source ledger | Certification |
 |---|---:|---:|---:|---:|---|---|
-| `career-engineering_judgment_foundation` | 16 | 16 | 8 | 0 | no | uncertified |
+| `career-engineering_judgment_foundation` | 16 | 16 | 16 | 0 | no | uncertified |
 | `career-concept_maps_real_world_engineering` | 30 | 30 | 0 | 0 | no | uncertified |
 | `programming-fundamentals` | 18 | 18 | 18 | 7 | no | uncertified |
 | `career-programming_cs_foundations` | 20 | 20 | 20 | 0 | no | uncertified |
-| `python-basics` | 4 | 4 | 4 | 0 | no | uncertified |
+| `python-basics` | 12 | 12 | 12 | 0 | no | uncertified |
 | `git-the-terminal` | 20 | 0 | 20 | 20 | no | uncertified |
 | `data-structures` | 20 | 0 | 20 | 3 | no | uncertified |
 | `career-backend_engineering` | 20 | 20 | 20 | 0 | yes | uncertified |

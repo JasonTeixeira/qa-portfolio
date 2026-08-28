@@ -65,6 +65,19 @@ test('untrusted current runtime blocks every real lab from certification evidenc
   assert.equal(report.dimensions.labs.score, null)
 })
 
+test('a verified activation promotes only the explicitly attested lesson lab', () => {
+  const report = auditCourseBundle(fixture('known-good'), ({
+    registryVersion: 'fixture-registry-v1',
+    generatedAt: '2026-08-27T12:00:00.000Z',
+    labTrust: 'untrusted_current_runtime',
+    trustedLabKeys: new Set(['fixture-good/complete-loop']),
+  } as unknown) as Parameters<typeof auditCourseBundle>[1])
+
+  assert.equal(report.decision, 'eligible_for_certification')
+  assert.equal(report.labTrust, 'trusted_controlled_runtime')
+  assert.equal(report.lessonScorecards[0].labTrust, 'trusted_controlled_runtime')
+})
+
 test('a declared complete claim map with an uncited claim hard-fails H1', () => {
   const bundle = fixture('known-good')
   bundle.evidence!['complete-loop'].claimRefs = [

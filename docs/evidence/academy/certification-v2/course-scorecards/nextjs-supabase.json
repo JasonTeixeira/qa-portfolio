@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-28T01:29:59.331Z",
+  "generatedAt": "2026-08-28T15:18:03.808Z",
   "courseSlug": "nextjs-supabase",
   "title": "Next.js and Supabase",
   "contentHash": "sha256:2069bf785b0e692e73b6c5e611569718519582fb930c0871788ba8f4bf667fe9",

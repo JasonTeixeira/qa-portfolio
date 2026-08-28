@@ -1,6 +1,6 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T01:29:59.331Z
+Generated: 2026-08-28T15:18:03.808Z
 Registry: `sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`

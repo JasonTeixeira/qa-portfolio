@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-  "generatedAt": "2026-08-28T17:46:07.640Z",
+  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+  "generatedAt": "2026-08-28T17:53:50.335Z",
   "courseSlug": "career-databases_data_modeling",
   "title": "Databases and Data Modeling",
-  "contentHash": "sha256:b603e2da619f4c8bbb49a183f1700685deb0d0b51a809bfc7facc69d86cc063e",
+  "contentHash": "sha256:14b3a8f2ee7692c9fce37cd478b0012358b32149a963f23b125cdef9b95ccb84",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -56,202 +56,32 @@
         {
           "severity": "high",
           "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "message": "Required standard loop sections are out of order.",
           "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
           "mode": "deterministic",
-          "id": "fb1c472d8f4e14a5",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "database-systems-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "acc67afd627f0e7f",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "entities-relationships"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d37250b3c3d586e6",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "normalization-denormalization"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "03e8aeee2d1dc827",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "constraints-invariants"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "8323825b71311014",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "indexes-access-patterns"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0c7bc9233e07c9f2",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "query-design-joins"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "066562819e934585",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "transactions-atomicity"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "23be9cd256d5ac3d",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "isolation-concurrency"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "8cb343a0b160e049",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "migrations-schema-evolution"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f514b5760040d175",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "query-plans-performance"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9ba31fae00907800",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "repository-data-access-layer"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fb4dda3d39c3fef3",
+          "id": "efc04798b9aab59b",
           "courseSlug": "career-databases_data_modeling",
           "lessonSlug": "seed-fixtures-test-data"
         },
         {
           "severity": "high",
           "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+          "message": "Required standard loop sections are out of order.",
           "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
           "mode": "deterministic",
-          "id": "0c03ebc6ad34d98a",
+          "id": "945b2fb60059f07d",
           "courseSlug": "career-databases_data_modeling",
           "lessonSlug": "data-quality-checks"
         },
         {
           "severity": "high",
           "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
+          "message": "Required standard loop sections are out of order.",
           "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
           "mode": "deterministic",
-          "id": "6ece1d44a34879bd",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "backup-restore-retention"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "784a869e7b012c02",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "security-privacy-compliance"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7e3a4aea95085162",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "caching-read-models"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b383812b5cf3530b",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "analytics-warehouse-boundaries"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7f54f07bf60957e5",
+          "id": "9ae4da44f72c8217",
           "courseSlug": "career-databases_data_modeling",
           "lessonSlug": "observability-incidents"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "76ed5bee0485f51c",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "integration-mini-project"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "2d565b692a345d69",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "database-capstone"
         }
       ]
     },
@@ -657,7 +487,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 98.3,
   "compositeScore": null,
   "hardFails": [
     {

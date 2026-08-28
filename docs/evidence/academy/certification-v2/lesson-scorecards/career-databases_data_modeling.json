@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "database-systems-map",
-    "contentHash": "sha256:a87ca6bde76a381576d1addd71d3b6eba93b259e872f10b50ac1dd4a351bb221",
+    "contentHash": "sha256:018864177ea60bfbca222f6830c4be0ad2e6680e5a5a0d9696cfb4b83ec3b54a",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -26,15 +26,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -44,18 +44,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "fb1c472d8f4e14a5",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "database-systems-map"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -80,9 +69,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -321,7 +310,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -352,11 +341,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "entities-relationships",
-    "contentHash": "sha256:3c24e7e6213e5e91e2dd57b26d6eb4aeb6dd358577c55ab864c243e435f32aa7",
+    "contentHash": "sha256:79945b944cc03f6a28955cfc4b9092d72e51858abaf25be5e707bb6e0b46da08",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -376,15 +365,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -394,18 +383,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "acc67afd627f0e7f",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "entities-relationships"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -430,9 +408,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -671,7 +649,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -702,11 +680,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "normalization-denormalization",
-    "contentHash": "sha256:37aa55a83040134c8cf2c075bb4b4a484d9e41b8f1eca32b9095bfa4c3dbc3ba",
+    "contentHash": "sha256:fe1f3db8d79ee4dd7ca720ea830fd83183b11821d52e036c576222efc308ee80",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -726,15 +704,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -744,18 +722,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "d37250b3c3d586e6",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "normalization-denormalization"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -780,9 +747,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1021,7 +988,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1052,11 +1019,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "constraints-invariants",
-    "contentHash": "sha256:90b9b419a7b36d68713cdbb25bb5a971e1a5fe35bcd2cc602e05fa83e143093f",
+    "contentHash": "sha256:ef2b2b3906a8d587086f5335980344a9e98bd30668d42dded93895d091505eca",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1076,15 +1043,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1094,18 +1061,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "03e8aeee2d1dc827",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "constraints-invariants"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1130,9 +1086,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1371,7 +1327,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1402,11 +1358,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "indexes-access-patterns",
-    "contentHash": "sha256:5eae420647503a4b655686b19a9d9b4416691d94e998ce259dbfdd92e71105f3",
+    "contentHash": "sha256:162cb310eb02d96937fa13d88cc781447843cca5d066f9839136e153ed6312c8",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1426,15 +1382,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1444,18 +1400,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "8323825b71311014",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "indexes-access-patterns"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1480,9 +1425,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -1721,7 +1666,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1752,11 +1697,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "query-design-joins",
-    "contentHash": "sha256:730a34905d066146cb82e8b95475976a3c9d1f2e4cfbb8919ac04f08801a0fc7",
+    "contentHash": "sha256:9ab6fe62ea843b4f16b340701fb5eb8d92cb461825dad50cf56f95dc19e33169",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1776,15 +1721,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1794,18 +1739,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "0c7bc9233e07c9f2",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "query-design-joins"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1830,9 +1764,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2071,7 +2005,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2102,11 +2036,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "transactions-atomicity",
-    "contentHash": "sha256:a48bb248f1fb57bdd1d8e926495611d97cbfabaaab3e50c2cce1b913b50f93cd",
+    "contentHash": "sha256:9073b843dc1c7e08368e58e1dfd572ce2adf565c9ce0b434cc921722122c8cb9",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2126,15 +2060,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2144,18 +2078,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "066562819e934585",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "transactions-atomicity"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2180,9 +2103,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2421,7 +2344,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2452,11 +2375,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "isolation-concurrency",
-    "contentHash": "sha256:6c20c21f657d810a41c1f136e92ed0abc9b7ed9ac1f458dc99e760cf5556b121",
+    "contentHash": "sha256:65d75ea94b946031b2a123627b566754412a9d7b04f160f21afade2479a131fe",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2476,15 +2399,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2494,18 +2417,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "23be9cd256d5ac3d",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "isolation-concurrency"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2530,9 +2442,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -2771,7 +2683,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2802,11 +2714,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "migrations-schema-evolution",
-    "contentHash": "sha256:b4734c4a02fc803dead52f973f29e5cd464857d6e2b0e6ded1c3fb2f6e92d652",
+    "contentHash": "sha256:acc17875a2a1127f1072b72fae48d5930dd9e20b5f28fb391b48ccdf432b36ee",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2826,15 +2738,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2844,18 +2756,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "8cb343a0b160e049",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "migrations-schema-evolution"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2880,9 +2781,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3121,7 +3022,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3152,11 +3053,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "query-plans-performance",
-    "contentHash": "sha256:95c72cc29c5e0d96b0f37ea2ff9a46644047cd070104602868cb17647d3eac0f",
+    "contentHash": "sha256:5acf73b273a6882624c10d3628315bce51192050472492ce80cbe33f0da463e1",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3176,15 +3077,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3194,18 +3095,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "f514b5760040d175",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "query-plans-performance"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3230,9 +3120,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3471,7 +3361,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3502,11 +3392,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "repository-data-access-layer",
-    "contentHash": "sha256:aaa1b5d80e9696de706dfcb3e3270dc99d1859887fd4439bf3fc3ff404b274d4",
+    "contentHash": "sha256:a54740e665555f296231365c8277c89c46f715c666d4e67156e7a38fe29cda8d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3526,15 +3416,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3544,18 +3434,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "9ba31fae00907800",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "repository-data-access-layer"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3580,9 +3459,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -3821,7 +3700,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3852,11 +3731,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "seed-fixtures-test-data",
-    "contentHash": "sha256:31242c7bfeb03504e119c4b0dae617b5fff7e9baa38f3279b19796c6d720a63a",
+    "contentHash": "sha256:6f41750206aec53e1294e2a1ad4a5c909dd40e21603d980fc66128cc742b6786",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3898,10 +3777,10 @@
           {
             "severity": "high",
             "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+            "message": "Required standard loop sections are out of order.",
             "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
             "mode": "deterministic",
-            "id": "fb4dda3d39c3fef3",
+            "id": "efc04798b9aab59b",
             "courseSlug": "career-databases_data_modeling",
             "lessonSlug": "seed-fixtures-test-data"
           }
@@ -3930,9 +3809,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4171,7 +4050,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4202,11 +4081,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "data-quality-checks",
-    "contentHash": "sha256:c3311fe7c9381e1477a6d4bb13721bbe8e1c347914c3fac47b5c9996af70913e",
+    "contentHash": "sha256:58741196239cc6f79beae6326025f2e0182803544f953707975d74452e07d07e",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4248,10 +4127,10 @@
           {
             "severity": "high",
             "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+            "message": "Required standard loop sections are out of order.",
             "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
             "mode": "deterministic",
-            "id": "0c03ebc6ad34d98a",
+            "id": "945b2fb60059f07d",
             "courseSlug": "career-databases_data_modeling",
             "lessonSlug": "data-quality-checks"
           }
@@ -4280,9 +4159,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4521,7 +4400,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4552,11 +4431,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "backup-restore-retention",
-    "contentHash": "sha256:8e821af307bd0a37ac5f414c2cbda1027e9515afea5ea75eaa18ac5524560d26",
+    "contentHash": "sha256:2e4bf2d7fd74c6a1a1d6e536b2b93e1bda6ab6543882e745693f422df8a48432",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4576,15 +4455,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4594,18 +4473,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "6ece1d44a34879bd",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "backup-restore-retention"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4630,9 +4498,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -4871,7 +4739,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4902,11 +4770,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "security-privacy-compliance",
-    "contentHash": "sha256:39b06482b8d86be5b598c8a18ab25f23455a66d764c0fb6b7f0ac053b984ae8e",
+    "contentHash": "sha256:9f6d97e541eb95b8b92f2dcb2c0aac4131a719f1bc396806c9e92d2f5374ff9c",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4926,15 +4794,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4944,18 +4812,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "784a869e7b012c02",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "security-privacy-compliance"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4980,9 +4837,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5221,7 +5078,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5252,11 +5109,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "caching-read-models",
-    "contentHash": "sha256:cc53e768dbc267459f13d4692fdf15e5b8e1985d490caef71e2d15ec22b367a6",
+    "contentHash": "sha256:ba079a502d5298e3234a44c323c8752bd1bf3f7bc884f3d3a0ca53063de18d5d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5276,15 +5133,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5294,18 +5151,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "7e3a4aea95085162",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "caching-read-models"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5330,9 +5176,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5571,7 +5417,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5602,11 +5448,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "analytics-warehouse-boundaries",
-    "contentHash": "sha256:80b841a542c31b6977f313ba2658ba5555a5b474a4eb5f0c5b5509a66f659368",
+    "contentHash": "sha256:66496d48a6441c34cfa60122d2fb6ed36b84e560157be09b5d53c20f6ead28d1",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5626,15 +5472,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5644,18 +5490,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "b383812b5cf3530b",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "analytics-warehouse-boundaries"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5680,9 +5515,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -5921,7 +5756,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5952,11 +5787,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "observability-incidents",
-    "contentHash": "sha256:53ed7e2bba6563c388c5e19e39a66b5bc0f56ba509578616aa4aa18295dd4ea0",
+    "contentHash": "sha256:7861d87a41b9a50e43a33497903d4a29b871696a8f5afa07e973fa4a77b8b5f4",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5998,10 +5833,10 @@
           {
             "severity": "high",
             "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
+            "message": "Required standard loop sections are out of order.",
             "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
             "mode": "deterministic",
-            "id": "7f54f07bf60957e5",
+            "id": "9ae4da44f72c8217",
             "courseSlug": "career-databases_data_modeling",
             "lessonSlug": "observability-incidents"
           }
@@ -6030,9 +5865,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6271,7 +6106,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6302,11 +6137,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "integration-mini-project",
-    "contentHash": "sha256:934929e8f213eeb15d13f741f9a43c5bbd90f570ac635b4147f72d5d020c9456",
+    "contentHash": "sha256:705d8d7002caa75b3b35c8bc25b6fae601b1a347722ca0d3284ebcb31d59c7fe",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6326,15 +6161,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6344,18 +6179,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "76ed5bee0485f51c",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "integration-mini-project"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6380,9 +6204,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6621,7 +6445,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6652,11 +6476,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-    "generatedAt": "2026-08-28T17:46:07.640Z",
+    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "generatedAt": "2026-08-28T17:53:50.335Z",
     "courseSlug": "career-databases_data_modeling",
     "lessonSlug": "database-capstone",
-    "contentHash": "sha256:0016a3a0bd0c822c368e15da98dcef1d9f2bdde5580500e4ad4d7951bc4f08ba",
+    "contentHash": "sha256:deaa8a1b0fa137ad965dd33bdad1732244a70b7e27fc13a665157696ae2df20c",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6676,15 +6500,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6694,18 +6518,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "2d565b692a345d69",
-            "courseSlug": "career-databases_data_modeling",
-            "lessonSlug": "database-capstone"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6730,9 +6543,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "16/16 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6971,7 +6784,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {

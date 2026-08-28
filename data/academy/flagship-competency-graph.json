@@ -486,7 +486,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-databases_data_modeling"
+          "courseSlug": "career-databases_data_modeling",
+          "lessonSlugs": [
+            "database-systems-map",
+            "entities-relationships",
+            "normalization-denormalization",
+            "constraints-invariants",
+            "indexes-access-patterns",
+            "query-design-joins",
+            "transactions-atomicity",
+            "isolation-concurrency",
+            "migrations-schema-evolution",
+            "query-plans-performance",
+            "repository-data-access-layer",
+            "seed-fixtures-test-data",
+            "data-quality-checks",
+            "backup-restore-retention",
+            "security-privacy-compliance",
+            "caching-read-models",
+            "analytics-warehouse-boundaries",
+            "observability-incidents",
+            "integration-mini-project",
+            "database-capstone"
+          ]
         }
       ],
       "evidence": [

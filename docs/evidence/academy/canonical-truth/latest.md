@@ -1,7 +1,7 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c`
+**Registry:** `sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
@@ -12,7 +12,7 @@
 - 558 solution entries
 - 327 lab lessons with same-slug solutions
 - 83 lab lessons without same-slug solutions
-- 3 course-level source ledgers
+- 4 course-level source ledgers
 - 0 certified courses
 
 ## Known contradictions and launch blockers
@@ -20,7 +20,7 @@
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
 - 640 authored lessons versus 456 lessons represented in the legacy manifest
 - 83 lab lessons lack same-slug solution entries
-- 29 courses lack course-level source ledgers
+- 28 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
 - No course is certified by Academy Certification Harness V2
 
@@ -44,7 +44,7 @@
 | `career-qa_sdet_test_automation_engineering` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-networking_fundamentals_advanced_networking` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-ux_ui_product_design_for_engineers` | 20 | 20 | 0 | 0 | no | uncertified |
-| `career-databases_data_modeling` | 20 | 20 | 20 | 0 | no | uncertified |
+| `career-databases_data_modeling` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-data_engineering_analytics` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-ai_engineering_rag_eval` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `the-llm-api` | 20 | 0 | 20 | 7 | no | uncertified |

@@ -210,6 +210,7 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
       assert.equal(command.args?.join(' ').includes(input(language).testCase.stdin), false)
       assert.equal(writes.some((file) => String(file.content).includes(input(language).code)), true)
       assert.equal(writes.some((file) => String(file.content).includes(input(language).testCase.stdin)), true)
+      assert.equal(writes.every((file) => file.mode === 0o444), true)
     }
   })
 

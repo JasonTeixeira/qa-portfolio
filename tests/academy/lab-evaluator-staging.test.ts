@@ -7,9 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { describe, it } from 'node:test'
 
 import { evaluatorPolicyHash, EVALUATOR_VERSION } from '../../lib/academy/lab-evaluator/contract'
-// @ts-expect-error RED contract: this module is intentionally absent until Step 4B GREEN.
 import { masteryPersistenceEnabled } from '../../lib/academy/lab-evaluator/activation'
-// @ts-expect-error RED contract: this module is intentionally absent until Step 4B GREEN.
 import * as stagingCore from '../../scripts/academy/lab-evaluator/staging/core'
 
 const {

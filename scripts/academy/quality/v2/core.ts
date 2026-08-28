@@ -10,7 +10,7 @@ export const CERTIFICATION_STATUS = 'uncertified' as const
 
 export type CheckStatus = 'pass' | 'fail' | 'pending' | 'not_applicable'
 export type CheckMode = 'deterministic' | 'expert' | 'human' | 'supplied_evidence' | 'policy'
-export type LabTrust = 'untrusted_current_runtime' | 'controlled_evaluator'
+export type LabTrust = 'untrusted_current_runtime' | 'controlled_evaluator' | 'trusted_controlled_runtime'
 export type ReadinessDecision =
   | 'blocked'
   | 'needs_remediation'
@@ -118,6 +118,7 @@ export interface AuditOptions {
   labTrust: LabTrust
   repoRoot?: string
   courseIndex?: Map<string, Set<string>>
+  trustedLabKeys?: ReadonlySet<string>
 }
 
 export interface LessonScorecard {
@@ -432,6 +433,10 @@ function auditLesson(
   const courseSlug = bundle.course.slug
   const lessonSlug = lesson.slug
   const evidence = bundle.evidence?.[lessonSlug] ?? {}
+  const configuredLabTrust = options.trustedLabKeys?.has(`${courseSlug}/${lessonSlug}`)
+    ? 'trusted_controlled_runtime'
+    : options.labTrust
+  const controlledLabTrust = configuredLabTrust === 'controlled_evaluator' || configuredLabTrust === 'trusted_controlled_runtime'
   const blocks = Array.isArray(rawBlocks) ? rawBlocks : []
   const types = blockTypes(blocks)
   const dimensions: Record<string, DimensionResult> = {}
@@ -562,7 +567,7 @@ function auditLesson(
         labFindings.push(makeFinding({ code: 'H2', severity: 'blocker', category: 'labs', message: 'A lab has no private reference solution.', remediation: 'Provide a private reference solution and verify it in the controlled evaluator.', mode: 'deterministic' }, courseSlug, lessonSlug))
       }
     }
-    if (options.labTrust === 'untrusted_current_runtime') {
+    if (configuredLabTrust === 'untrusted_current_runtime') {
       labFindings.push(makeFinding({ code: 'H2', severity: 'blocker', category: 'labs', message: 'lab_trust=untrusted_current_runtime; current checks cannot prove mastery.', remediation: 'Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.', mode: 'policy' }, courseSlug, lessonSlug))
     } else {
       const results = evidence.lab?.results ?? []
@@ -591,15 +596,15 @@ function auditLesson(
     ? 'not_applicable'
     : labFindings.length
       ? 'fail'
-      : options.labTrust === 'controlled_evaluator' &&
+      : controlledLabTrust &&
           evidence.lab?.trust === 'controlled_evaluator' &&
           controlledResults.length === labs.length &&
           new Set(controlledResults.map((result) => result.blockIndex)).size === labs.length &&
           controlledResults.every((result) => result.status === 'pass')
         ? 'pass'
         : 'pending'
-  dimensions.labs = dimension('labs', [check('lab-proof', options.labTrust === 'untrusted_current_runtime' ? 'policy' : 'supplied_evidence', labStatus, !labs.length ? 'No lab is present in this lesson.' : options.labTrust === 'untrusted_current_runtime' ? 'The current runtime is explicitly untrusted for mastery.' : `${controlledResults.filter((result) => result.status === 'pass').length}/${labs.length} controlled lab result(s) passed.`)], labFindings)
-  if (options.labTrust === 'untrusted_current_runtime' && labs.length) {
+  dimensions.labs = dimension('labs', [check('lab-proof', configuredLabTrust === 'untrusted_current_runtime' ? 'policy' : 'supplied_evidence', labStatus, !labs.length ? 'No lab is present in this lesson.' : configuredLabTrust === 'untrusted_current_runtime' ? 'The current runtime is explicitly untrusted for mastery.' : `${controlledResults.filter((result) => result.status === 'pass').length}/${labs.length} controlled lab result(s) passed.`)], labFindings)
+  if (configuredLabTrust === 'untrusted_current_runtime' && labs.length) {
     dimensions.labs.score = null
   }
 
@@ -739,7 +744,7 @@ function auditLesson(
     courseSlug,
     lessonSlug,
     contentHash: sha256(rawBlocks),
-    labTrust: labs.length ? options.labTrust : 'not_applicable',
+    labTrust: labs.length ? configuredLabTrust : 'not_applicable',
     dimensions,
     deterministicScore,
     compositeScore: complete ? 100 : null,
@@ -817,7 +822,11 @@ export function auditCourseBundle(bundle: AuditBundle, options: AuditOptions): C
     title: bundle.course.title,
     contentHash: sha256({ lessons: bundle.lessons, solutions: bundle.solutions ?? {}, sources: bundle.sourceLedger ?? [] }),
     lessonCount: lessonScorecards.length,
-    labTrust: lessonScorecards.some((lesson) => lesson.labTrust !== 'not_applicable') ? options.labTrust : 'not_applicable',
+    labTrust: lessonScorecards.some((lesson) => lesson.labTrust !== 'not_applicable')
+      ? lessonScorecards.filter((lesson) => lesson.labTrust !== 'not_applicable').every((lesson) => lesson.labTrust === 'trusted_controlled_runtime')
+        ? 'trusted_controlled_runtime'
+        : options.labTrust
+      : 'not_applicable',
     dimensions,
     deterministicScore,
     compositeScore: allEligible ? 100 : null,

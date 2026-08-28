@@ -187,6 +187,30 @@ test('every automation-foundation lesson produces a practical lab with a referen
   }
 })
 
+test('automation-foundation capstones use calibrated evidence gates', () => {
+  const capstones = {
+    'data-structures': ['capstone-pick-and-implement'],
+    'career-programming_cs_foundations': ['integration-mini-project', 'track-1-capstone'],
+  } as const
+
+  for (const [courseSlug, lessonSlugs] of Object.entries(capstones)) {
+    const lessons = JSON.parse(
+      readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+    ) as Record<string, Array<Record<string, unknown>>>
+
+    for (const lessonSlug of lessonSlugs) {
+      const blocks = lessons[lessonSlug]
+      const key = `${courseSlug}/${lessonSlug}`
+      const contract = blocks.find((block) => block.type === 'sprint-contract')
+      assert.equal(contract?.intensity, 'capstone', `${key}: must declare capstone intensity`)
+      const calibrationIndex = blocks.findIndex((block) => block.type === 'calibration')
+      const transferIndex = blocks.findIndex((block) => block.type === 'transfer')
+      assert(calibrationIndex >= 0, `${key}: missing calibration rubric`)
+      assert(calibrationIndex < transferIndex, `${key}: calibration must precede transfer`)
+    }
+  }
+})
+
 test('mastery-loop remediation preserves every pre-existing lab block identity', () => {
   const expectedIndexes: Record<string, Record<string, number>> = {
     'career-engineering_judgment_foundation': {

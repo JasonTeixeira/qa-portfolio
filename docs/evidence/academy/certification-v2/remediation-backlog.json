@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
-  "generatedAt": "2026-08-28T16:43:06.753Z",
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+  "generatedAt": "2026-08-28T17:35:38.443Z",
   "items": [
     {
       "rank": 1,
@@ -18,6 +18,7 @@
         "career-databases_data_modeling",
         "career-engineering_judgment_foundation",
         "career-frontend_fullstack",
+        "career-networking_fundamentals_advanced_networking",
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
         "data-structures",
@@ -31,9 +32,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 370,
-      "findingCount": 370,
-      "priority": 4190370
+      "lessonCount": 390,
+      "findingCount": 390,
+      "priority": 4200390
     },
     {
       "rank": 2,
@@ -216,7 +217,6 @@
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
         "career-mobile_engineering_deep_dive",
-        "career-networking_fundamentals_advanced_networking",
         "career-observability_reliability_performance",
         "career-platform_engineering_internal_developer_platforms",
         "career-product_execution_market_feedback",
@@ -224,9 +224,9 @@
         "career-security_identity",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 324,
-      "findingCount": 324,
-      "priority": 3190324
+      "lessonCount": 304,
+      "findingCount": 304,
+      "priority": 3180304
     },
     {
       "rank": 8,

@@ -10,9 +10,9 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 370,
+    "labBlocks": 390,
     "solutionEntries": 558,
-    "labLessonsWithSolutions": 287,
+    "labLessonsWithSolutions": 307,
     "labLessonsWithoutSolutions": 83,
     "sourceLedgers": 3
   },
@@ -4811,6 +4811,7 @@
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
+          "lab_trust_unverified_current_runtime",
           "source_ledger_missing"
         ]
       },
@@ -4821,8 +4822,8 @@
           "moduleTitle": "Module 1 · Network Mental Models",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/tcp-ip-model-without-trivia",
           "source": {
@@ -4836,8 +4837,8 @@
           "moduleTitle": "Module 1 · Network Mental Models",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/packet-path-reasoning",
           "source": {
@@ -4851,8 +4852,8 @@
           "moduleTitle": "Module 1 · Network Mental Models",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/latency-and-throughput",
           "source": {
@@ -4866,8 +4867,8 @@
           "moduleTitle": "Module 1 · Network Mental Models",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/failure-domain-mapping",
           "source": {
@@ -4881,8 +4882,8 @@
           "moduleTitle": "Module 2 · Dns Http Tls And Quic",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/dns-resolution",
           "source": {
@@ -4896,8 +4897,8 @@
           "moduleTitle": "Module 2 · Dns Http Tls And Quic",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/http-semantics",
           "source": {
@@ -4911,8 +4912,8 @@
           "moduleTitle": "Module 2 · Dns Http Tls And Quic",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/tls-handshake-and-certificates",
           "source": {
@@ -4926,8 +4927,8 @@
           "moduleTitle": "Module 2 · Dns Http Tls And Quic",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/quic-tradeoffs",
           "source": {
@@ -4941,8 +4942,8 @@
           "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/cidr-and-subnets",
           "source": {
@@ -4956,8 +4957,8 @@
           "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/nat-and-routes",
           "source": {
@@ -4971,8 +4972,8 @@
           "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/load-balancer-modes",
           "source": {
@@ -4986,8 +4987,8 @@
           "moduleTitle": "Module 3 · Addressing Routing And Load Balancing",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/proxy-and-cdn-path",
           "source": {
@@ -5001,8 +5002,8 @@
           "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/vpc-vnet-design",
           "source": {
@@ -5016,8 +5017,8 @@
           "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/service-discovery",
           "source": {
@@ -5031,8 +5032,8 @@
           "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/ingress-and-services",
           "source": {
@@ -5046,8 +5047,8 @@
           "moduleTitle": "Module 4 · Cloud And Kubernetes Networking",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/networkpolicy-boundaries",
           "source": {
@@ -5061,8 +5062,8 @@
           "moduleTitle": "Module 5 · Network Debugging And Security",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/packet-capture-plan",
           "source": {
@@ -5076,8 +5077,8 @@
           "moduleTitle": "Module 5 · Network Debugging And Security",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/firewall-denial-repair",
           "source": {
@@ -5091,8 +5092,8 @@
           "moduleTitle": "Module 5 · Network Debugging And Security",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/zero-trust-access",
           "source": {
@@ -5106,8 +5107,8 @@
           "moduleTitle": "Module 5 · Network Debugging And Security",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-networking_fundamentals_advanced_networking/network-incident-runbook",
           "source": {
@@ -10756,5 +10757,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0"
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4"
 }

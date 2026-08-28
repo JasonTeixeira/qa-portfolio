@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
-  "generatedAt": "2026-08-28T16:43:06.753Z",
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+  "generatedAt": "2026-08-28T17:35:38.443Z",
   "courseSlug": "career-networking_fundamentals_advanced_networking",
   "title": "Networking Fundamentals and Advanced Networking",
-  "contentHash": "sha256:5913c3a7d72fe48b5dfb6f2a721ea938c62f4a558a0303d3fb5f0dc2a8c14650",
+  "contentHash": "sha256:fb7a21ca1db35bf3ae6956f34aae2740430a5e091d9ff3cd3b766d61d41244f9",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "dd8ea2919b29f7ce",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "tcp-ip-model-without-trivia"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "eff2a4d6de7da576",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "packet-path-reasoning"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ff92eba989930800",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "latency-and-throughput"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ecb87af337b72731",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "failure-domain-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d1e930d0c42dc088",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "dns-resolution"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "81e1cd0d34987505",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "http-semantics"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c0a455c3b796633f",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "tls-handshake-and-certificates"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ccd634a9f988a887",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "quic-tradeoffs"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "af9698c3ae7bcf49",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "cidr-and-subnets"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ec689e06a797912e",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "nat-and-routes"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "77606d6be22862c5",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "load-balancer-modes"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f8d6db7e8d0c9748",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "proxy-and-cdn-path"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "67c969dbc3cd50a9",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "vpc-vnet-design"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ac9e08ef7500c3f0",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "service-discovery"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "4e513ad90aa06bd6",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "ingress-and-services"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "58d7ea26a632ac00",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "networkpolicy-boundaries"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c417e7cdbce442a0",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "packet-capture-plan"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e36e8a99280e7404",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "firewall-denial-repair"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5871365548630a21",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "zero-trust-access"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b818cb8a86127178",
-          "courseSlug": "career-networking_fundamentals_advanced_networking",
-          "lessonSlug": "network-incident-runbook"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bd0e9728f9db3afe",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "tcp-ip-model-without-trivia"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0559511d8d8e16d3",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "packet-path-reasoning"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b2a0ced694b2c9f4",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "latency-and-throughput"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "98e6cb367dcf93ee",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "failure-domain-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "837c35ed20d7a4a4",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "dns-resolution"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "51a105c8a303acc7",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "http-semantics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "21775beb2581d42b",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "tls-handshake-and-certificates"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1339b18487537d24",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "quic-tradeoffs"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "24b11191d285124c",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "cidr-and-subnets"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "64399f8487abf6ca",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "nat-and-routes"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0396c37afb9998ac",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "load-balancer-modes"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0e4e514b618cc920",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "proxy-and-cdn-path"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1f18776d66b568d6",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "vpc-vnet-design"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "75d1a60cd33669ba",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "service-discovery"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "944a6ce7f9f78ea7",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "ingress-and-services"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "dde56dbb29368c79",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "networkpolicy-boundaries"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "118233882105320e",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "packet-capture-plan"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f8be3c6572f4ecc9",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "firewall-denial-repair"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1d720f554494571b",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "zero-trust-access"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "edd92722d2f172bd",
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlug": "network-incident-runbook"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 88.9,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bd0e9728f9db3afe",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "tcp-ip-model-without-trivia"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0559511d8d8e16d3",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "packet-path-reasoning"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b2a0ced694b2c9f4",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "latency-and-throughput"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "98e6cb367dcf93ee",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "failure-domain-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "837c35ed20d7a4a4",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "dns-resolution"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "51a105c8a303acc7",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "http-semantics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "21775beb2581d42b",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "tls-handshake-and-certificates"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1339b18487537d24",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "quic-tradeoffs"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "24b11191d285124c",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "cidr-and-subnets"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "64399f8487abf6ca",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "nat-and-routes"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0396c37afb9998ac",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "load-balancer-modes"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0e4e514b618cc920",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "proxy-and-cdn-path"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1f18776d66b568d6",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "vpc-vnet-design"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "75d1a60cd33669ba",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "service-discovery"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "944a6ce7f9f78ea7",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "ingress-and-services"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "dde56dbb29368c79",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "networkpolicy-boundaries"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "118233882105320e",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "packet-capture-plan"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f8be3c6572f4ecc9",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "firewall-denial-repair"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1d720f554494571b",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "zero-trust-access"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "edd92722d2f172bd",
+      "courseSlug": "career-networking_fundamentals_advanced_networking",
+      "lessonSlug": "network-incident-runbook"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

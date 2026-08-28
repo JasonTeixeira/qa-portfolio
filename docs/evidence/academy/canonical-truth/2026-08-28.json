@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 370,
+    "labBlocks": 390,
     "solutionEntries": 558,
-    "labLessonsWithSolutions": 287,
+    "labLessonsWithSolutions": 307,
     "labLessonsWithoutSolutions": 83,
     "sourceLedgers": 3
   },
@@ -310,13 +310,14 @@
       "level": "Intermediate",
       "lessons": 20,
       "legacyManifestLessons": 20,
-      "labBlocks": 0,
+      "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
       "sourceLedger": null,
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
+        "lab_trust_unverified_current_runtime",
         "source_ledger_missing"
       ],
       "route": "/academy/course/career-networking_fundamentals_advanced_networking"

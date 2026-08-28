@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
-  "generatedAt": "2026-08-28T16:43:06.753Z",
+  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+  "generatedAt": "2026-08-28T17:35:38.443Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 19,
-    "coursesNeedsRemediation": 13,
+    "coursesBlocked": 20,
+    "coursesNeedsRemediation": 12,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 453,
+      "H2": 473,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -1393,16 +1393,16 @@
       "courseSlug": "career-networking_fundamentals_advanced_networking",
       "title": "Networking Fundamentals and Advanced Networking",
       "lessonCount": 20,
-      "contentHash": "sha256:5913c3a7d72fe48b5dfb6f2a721ea938c62f4a558a0303d3fb5f0dc2a8c14650",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:fb7a21ca1db35bf3ae6956f34aae2740430a5e091d9ff3cd3b766d61d41244f9",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.9,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -1427,8 +1427,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -1439,7 +1439,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

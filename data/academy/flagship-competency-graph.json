@@ -387,7 +387,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-networking_fundamentals_advanced_networking"
+          "courseSlug": "career-networking_fundamentals_advanced_networking",
+          "lessonSlugs": [
+            "tcp-ip-model-without-trivia",
+            "packet-path-reasoning",
+            "latency-and-throughput",
+            "failure-domain-mapping",
+            "dns-resolution",
+            "http-semantics",
+            "tls-handshake-and-certificates",
+            "quic-tradeoffs",
+            "cidr-and-subnets",
+            "nat-and-routes",
+            "load-balancer-modes",
+            "proxy-and-cdn-path",
+            "vpc-vnet-design",
+            "service-discovery",
+            "ingress-and-services",
+            "networkpolicy-boundaries",
+            "packet-capture-plan",
+            "firewall-denial-repair",
+            "zero-trust-access",
+            "network-incident-runbook"
+          ]
         }
       ],
       "evidence": [

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
-  "generatedAt": "2026-08-28T20:39:09.801Z",
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
+  "generatedAt": "2026-08-28T20:46:44.118Z",
   "courseSlug": "career-programming_cs_foundations",
   "title": "Programming and Computer Science Foundations",
   "contentHash": "sha256:cf078d58837cd78852922044e02a9a6a35701d4fb75d022965220bc924bc624a",

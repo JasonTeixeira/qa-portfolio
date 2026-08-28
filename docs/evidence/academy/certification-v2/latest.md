@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T20:39:09.801Z
-Registry: `sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6`
+Generated: 2026-08-28T20:46:44.118Z
+Registry: `sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -50,7 +50,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Networking Fundamentals and Advanced Networking | `career-networking_fundamentals_advanced_networking` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | UX, UI, and Product Design for Engineers | `career-ux_ui_product_design_for_engineers` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Databases and Data Modeling | `career-databases_data_modeling` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 98.3 |
-| Data Engineering and Analytics Platforms | `career-data_engineering_analytics` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| Data Engineering and Analytics Platforms | `career-data_engineering_analytics` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | AI Engineering, RAG, Evals, Safety, and LLMOps | `career-ai_engineering_rag_eval` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | The LLM API | `the-llm-api` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Prompt Engineering | `prompt-engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
@@ -73,9 +73,9 @@ The deterministic score reports only checks the harness can prove locally. It is
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (5 courses; 72 findings)
-7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (3 courses; 8 findings)
-8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (3 courses; 4 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (4 courses; 54 findings)
+7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (2 courses; 7 findings)
+8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (2 courses; 3 findings)
 9. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
 11. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
@@ -87,7 +87,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
 18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
 19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
-20. sources — Complete required sources evidence: source-ledger-schema. (13 courses; 246 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (12 courses; 226 findings)
 
 ## Flagship competency-path readiness
 

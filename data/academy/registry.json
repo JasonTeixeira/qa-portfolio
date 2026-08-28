@@ -14,7 +14,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 527,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 19
+    "sourceLedgers": 20
   },
   "capabilities": [
     {
@@ -5797,14 +5797,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-data_engineering_analytics/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -5814,7 +5813,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/data-product-framing",
@@ -5829,7 +5828,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/source-contracts",
@@ -5844,7 +5843,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/ingestion-patterns",
@@ -5859,7 +5858,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/orchestration-dags",
@@ -5874,7 +5873,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/raw-bronze-layer",
@@ -5889,7 +5888,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/staging-models",
@@ -5904,7 +5903,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/transformations-marts",
@@ -5919,7 +5918,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/incremental-processing",
@@ -5934,7 +5933,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/data-quality-tests",
@@ -5949,7 +5948,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/reconciliation",
@@ -5964,7 +5963,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/lineage-catalog-docs",
@@ -5979,7 +5978,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/backfills-reprocessing",
@@ -5994,7 +5993,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/streaming-event-data",
@@ -6009,7 +6008,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/warehouse-performance",
@@ -6024,7 +6023,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/privacy-governance",
@@ -6039,7 +6038,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/observability-alerting",
@@ -6054,7 +6053,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/cost-capacity",
@@ -6069,7 +6068,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/ci-cd-data",
@@ -6084,7 +6083,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/incident-response",
@@ -6099,7 +6098,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-data_engineering_analytics/data-capstone",
@@ -10750,5 +10749,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6"
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e"
 }

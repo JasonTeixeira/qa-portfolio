@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
   "totals": {
     "courses": 32,
     "lessons": 640,
@@ -9,7 +9,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 527,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 19
+    "sourceLedgers": 20
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "13 courses lack course-level source ledgers",
+    "12 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -365,13 +365,12 @@
       "legacyManifestLessons": 20,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-data_engineering_analytics/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-data_engineering_analytics"
     },

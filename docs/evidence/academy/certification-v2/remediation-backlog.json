@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
-  "generatedAt": "2026-08-28T20:39:09.801Z",
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
+  "generatedAt": "2026-08-28T20:46:44.118Z",
   "items": [
     {
       "rank": 1,
@@ -196,15 +196,14 @@
       "severity": "high",
       "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "career-data_engineering_analytics",
         "career-databases_data_modeling",
         "career-engineering_leadership_staff_execution",
         "career-enterprise_it_saas_admin_business_systems",
         "career-interview_career_portfolio"
       ],
-      "lessonCount": 72,
-      "findingCount": 72,
-      "priority": 3050072
+      "lessonCount": 54,
+      "findingCount": 54,
+      "priority": 3040054
     },
     {
       "rank": 7,
@@ -212,13 +211,12 @@
       "severity": "high",
       "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "career-data_engineering_analytics",
         "career-engineering_leadership_staff_execution",
         "career-interview_career_portfolio"
       ],
-      "lessonCount": 8,
-      "findingCount": 8,
-      "priority": 3030008
+      "lessonCount": 7,
+      "findingCount": 7,
+      "priority": 3020007
     },
     {
       "rank": 8,
@@ -226,13 +224,12 @@
       "severity": "high",
       "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "career-data_engineering_analytics",
         "career-interview_career_portfolio",
         "nextjs-supabase"
       ],
-      "lessonCount": 4,
-      "findingCount": 4,
-      "priority": 3030004
+      "lessonCount": 3,
+      "findingCount": 3,
+      "priority": 3020003
     },
     {
       "rank": 9,
@@ -682,7 +679,6 @@
       "severity": "medium",
       "remediation": "Complete required sources evidence: source-ledger-schema.",
       "courseSlugs": [
-        "career-data_engineering_analytics",
         "career-engineering_judgment_foundation",
         "career-engineering_leadership_staff_execution",
         "career-enterprise_it_saas_admin_business_systems",
@@ -696,9 +692,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 246,
-      "findingCount": 246,
-      "priority": 2130246
+      "lessonCount": 226,
+      "findingCount": 226,
+      "priority": 2120226
     },
     {
       "rank": 21,

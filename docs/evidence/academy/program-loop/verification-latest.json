@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T20:13:18.784Z",
+  "generatedAt": "2026-08-28T20:22:24.531Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
+  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
   "queueCoverage": "32/32",
-  "currentCourse": "career-architecture_system_design",
+  "currentCourse": "career-mobile_engineering_deep_dive",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

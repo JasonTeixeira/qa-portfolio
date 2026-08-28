@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **22/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0`.
-- Catalog: 32 courses, 640 lessons, 520 lab blocks.
+- Progress: **23/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6`.
+- Catalog: 32 courses, 640 lessons, 540 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-architecture_system_design`.
+- Next course: `career-mobile_engineering_deep_dive`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -38,6 +38,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-product_execution_market_feedback` | GREEN | uncertified |
 | `career-concept_maps_real_world_engineering` | GREEN | uncertified |
 | `career-frontend_fullstack` | GREEN | uncertified |
+| `career-architecture_system_design` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -52,7 +53,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 2 local GREEN; Architecture & System Design selected |
+| Registry courses outside the flagship graph | 12 | 3 local GREEN; Mobile Engineering selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -171,9 +172,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete novice-to-production mastery loops, three deep production drills, a multi-day deployment capstone, a 20-source primary ledger, and explicit competency mappings cover every lesson.
 - All 145 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Architecture and System Design baseline
+## Architecture and System Design checkpoint result
 
-- `career-architecture_system_design` is selected next as the third canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python architecture references match their exact observable contracts.
+- Complete constraint-to-decision mastery loops, six deep architecture reviews, two multi-day capstones, a 20-source primary ledger, and 20 novice-scaffolded evidence labs cover every lesson.
+- All 149 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Mobile Engineering baseline
+
+- `career-mobile_engineering_deep_dive` is selected next as the fourth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

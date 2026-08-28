@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
-  "generatedAt": "2026-08-28T20:12:57.622Z",
+  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
+  "generatedAt": "2026-08-28T20:22:02.944Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
+    "baselineRegistryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 23,
+    "sequence": 24,
     "phaseId": "registry-remainder",
-    "courseSlug": "career-architecture_system_design",
-    "title": "Architecture and System Design",
+    "courseSlug": "career-mobile_engineering_deep_dive",
+    "title": "Mobile Engineering Deep Dive",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-architecture_system_design.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-architecture_system_design.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-mobile_engineering_deep_dive.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-mobile_engineering_deep_dive.lab_solutions.json",
     "baseline": {
       "decision": "needs_remediation",
       "deterministicScore": 77.8,
@@ -110,7 +110,6 @@
         "severity": "high",
         "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
         "courseSlugs": [
-          "career-architecture_system_design",
           "career-data_engineering_analytics",
           "career-databases_data_modeling",
           "career-engineering_leadership_staff_execution",
@@ -120,40 +119,9 @@
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 143,
-        "findingCount": 143,
-        "priority": 3090143
-      },
-      {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-architecture_system_design",
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-interview_career_portfolio",
-          "career-qa_sdet_test_automation_engineering"
-        ],
-        "lessonCount": 15,
-        "findingCount": 15,
-        "priority": 3050015
-      },
-      {
-        "rank": 8,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-architecture_system_design",
-          "career-data_engineering_analytics",
-          "career-interview_career_portfolio",
-          "nextjs-supabase"
-        ],
-        "lessonCount": 6,
-        "findingCount": 6,
-        "priority": 3040006
+        "lessonCount": 131,
+        "findingCount": 131,
+        "priority": 3080131
       }
     ],
     "reviewRequired": [
@@ -722,7 +690,6 @@
         "severity": "medium",
         "remediation": "Complete required sources evidence: source-ledger-schema.",
         "courseSlugs": [
-          "career-architecture_system_design",
           "career-data_engineering_analytics",
           "career-engineering_judgment_foundation",
           "career-engineering_leadership_staff_execution",
@@ -740,9 +707,9 @@
           "python-basics",
           "stripe-auth"
         ],
-        "lessonCount": 326,
-        "findingCount": 326,
-        "priority": 2170326
+        "lessonCount": 306,
+        "findingCount": 306,
+        "priority": 2160306
       }
     ]
   },

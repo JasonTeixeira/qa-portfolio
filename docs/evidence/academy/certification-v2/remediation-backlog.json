@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
-  "generatedAt": "2026-08-28T19:35:44.168Z",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
+  "generatedAt": "2026-08-28T19:52:47.566Z",
   "items": [
     {
       "rank": 1,
@@ -15,6 +15,7 @@
         "career-ai_engineering_rag_eval",
         "career-backend_engineering",
         "career-cloud_devops_operations",
+        "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
         "career-engineering_judgment_foundation",
@@ -37,9 +38,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 490,
-      "findingCount": 490,
-      "priority": 4250490
+      "lessonCount": 520,
+      "findingCount": 520,
+      "priority": 4260520
     },
     {
       "rank": 2,
@@ -193,7 +194,6 @@
       "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
         "career-architecture_system_design",
-        "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-databases_data_modeling",
         "career-engineering_leadership_staff_execution",
@@ -204,9 +204,9 @@
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 178,
-      "findingCount": 178,
-      "priority": 3110178
+      "lessonCount": 159,
+      "findingCount": 159,
+      "priority": 3100159
     },
     {
       "rank": 7,
@@ -215,16 +215,15 @@
       "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
         "career-architecture_system_design",
-        "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-engineering_leadership_staff_execution",
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
         "career-qa_sdet_test_automation_engineering"
       ],
-      "lessonCount": 21,
-      "findingCount": 21,
-      "priority": 3070021
+      "lessonCount": 18,
+      "findingCount": 18,
+      "priority": 3060018
     },
     {
       "rank": 8,
@@ -233,15 +232,14 @@
       "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
         "career-architecture_system_design",
-        "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-frontend_fullstack",
         "career-interview_career_portfolio",
         "nextjs-supabase"
       ],
-      "lessonCount": 15,
-      "findingCount": 15,
-      "priority": 3060015
+      "lessonCount": 7,
+      "findingCount": 7,
+      "priority": 3050007
     },
     {
       "rank": 9,
@@ -692,7 +690,6 @@
       "remediation": "Complete required sources evidence: source-ledger-schema.",
       "courseSlugs": [
         "career-architecture_system_design",
-        "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
         "career-engineering_judgment_foundation",
         "career-engineering_leadership_staff_execution",
@@ -711,9 +708,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 376,
-      "findingCount": 376,
-      "priority": 2190376
+      "lessonCount": 346,
+      "findingCount": 346,
+      "priority": 2180346
     },
     {
       "rank": 21,

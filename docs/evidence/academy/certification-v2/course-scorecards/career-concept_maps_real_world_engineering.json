@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
-  "generatedAt": "2026-08-28T19:35:44.168Z",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
+  "generatedAt": "2026-08-28T19:52:47.566Z",
   "courseSlug": "career-concept_maps_real_world_engineering",
   "title": "Think Like a Senior Engineer: Concept Maps",
-  "contentHash": "sha256:179e2ca0ee66c106c25a0743876203ff25d288fb6caa87f7b5c191e892157a42",
+  "contentHash": "sha256:ec6f5fe57cd1024bb1d83fbecfc55887850b82fae93e89158738802b37f3fe7d",
   "lessonCount": 30,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,319 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/30 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6c3a6a73db616744",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "the-on-call-problem"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7a7adea5259e149e",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "from-notes-to-maps"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "23ef21afb86e2187",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "the-senior-engineer-view"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0eb9ef9d659f6862",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "weak-maps-strong-maps"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "afeba46e8d4bdd6b",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "the-first-redraw-gate"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "248bbf56eb16909b",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "user-action-to-system-behavior"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fbc80cf78f2232eb",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "component-boundary-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e1f380088a4d9762",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "data-state-and-time"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0547d661a55c853f",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "trust-and-ownership-boundaries"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "316d33f18ac10542",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "boundary-review-board"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c27f59b9cf01ea4b",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "symptom-to-signal"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "8a45c2caf32054cb",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "hypothesis-tree-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "581c9a28806c8d82",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "failure-path-maps"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "071a8435d69e875e",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "bad-fix-autopsy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c59a2bc270ab48e4",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "repair-map-drill"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "812fc91d83d62569",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "requirement-to-tradeoff"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "57e0d667024bf6f2",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "decision-map-patterns"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d1cd5c19ef002fb4",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "proof-artifact-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b0e97b0d44eca1db",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "rejected-option-maps"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f5ca8e3e43183493",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "decision-memo-gate"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "128f393f4cc9b5d4",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "retrieval-without-the-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "56399b85d314569e",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "transfer-to-a-new-domain"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ac94a98ab97877b5",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "socratic-map-review"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a1d87205427b514a",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "interview-map-translation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7122eaf41a885496",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "oral-defense-gate"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d094d2ffb55ace8b",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "capstone-brief"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5406c42cdd80f874",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "capstone-system-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ed399879c24a7aea",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "capstone-failure-autopsy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "60bcddc7294b6225",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "capstone-proof-packet"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d530aa813787ee8c",
-          "courseSlug": "career-concept_maps_real_world_engineering",
-          "lessonSlug": "final-review-board"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -387,18 +86,349 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/30 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "66802d96c900ff87",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "the-on-call-problem"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "1f929117c99478a2",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "from-notes-to-maps"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "264ad996a1d6b4ff",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "the-senior-engineer-view"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c82e64f6504212ad",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "weak-maps-strong-maps"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e83724cbd981f979",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "the-first-redraw-gate"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3d928cef987061fb",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "user-action-to-system-behavior"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "25f46af5354643d9",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "component-boundary-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e16abeb580cad93c",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "data-state-and-time"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "59b0c60eb36d140d",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "trust-and-ownership-boundaries"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "18fe2b102bf43439",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "boundary-review-board"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e154ae94e9f15198",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "symptom-to-signal"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "85400e7398fe9668",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "hypothesis-tree-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "b96127ad7d5bf365",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "failure-path-maps"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "026ff567514ea9fc",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "bad-fix-autopsy"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "dc07799daf74d464",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "repair-map-drill"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bb33030882693506",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "requirement-to-tradeoff"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f443ce2615ca6eeb",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "decision-map-patterns"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "835e22dad020083b",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "proof-artifact-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "a8845061e071cf4a",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "rejected-option-maps"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e6abcb82571d94cd",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "decision-memo-gate"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ed73cef629fdbca4",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "retrieval-without-the-map"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e744378abc6fef15",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "transfer-to-a-new-domain"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9e6aa6ba7bed2381",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "socratic-map-review"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "06c7bbe43ea6e19a",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "interview-map-translation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "dbff1207aa08b36e",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "oral-defense-gate"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0fbf31959583af10",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "capstone-brief"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7ecec615629ceb56",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "capstone-system-map"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "322028d2f5d3d2d1",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "capstone-failure-autopsy"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7568e711a168c1dc",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "capstone-proof-packet"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "75997f14edc66f3f",
+          "courseSlug": "career-concept_maps_real_world_engineering",
+          "lessonSlug": "final-review-board"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -536,9 +566,340 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "66802d96c900ff87",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "the-on-call-problem"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "1f929117c99478a2",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "from-notes-to-maps"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "264ad996a1d6b4ff",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "the-senior-engineer-view"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c82e64f6504212ad",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "weak-maps-strong-maps"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e83724cbd981f979",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "the-first-redraw-gate"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3d928cef987061fb",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "user-action-to-system-behavior"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "25f46af5354643d9",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "component-boundary-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e16abeb580cad93c",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "data-state-and-time"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "59b0c60eb36d140d",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "trust-and-ownership-boundaries"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "18fe2b102bf43439",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "boundary-review-board"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e154ae94e9f15198",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "symptom-to-signal"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "85400e7398fe9668",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "hypothesis-tree-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "b96127ad7d5bf365",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "failure-path-maps"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "026ff567514ea9fc",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "bad-fix-autopsy"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "dc07799daf74d464",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "repair-map-drill"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bb33030882693506",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "requirement-to-tradeoff"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f443ce2615ca6eeb",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "decision-map-patterns"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "835e22dad020083b",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "proof-artifact-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "a8845061e071cf4a",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "rejected-option-maps"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e6abcb82571d94cd",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "decision-memo-gate"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ed73cef629fdbca4",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "retrieval-without-the-map"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e744378abc6fef15",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "transfer-to-a-new-domain"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9e6aa6ba7bed2381",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "socratic-map-review"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "06c7bbe43ea6e19a",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "interview-map-translation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "dbff1207aa08b36e",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "oral-defense-gate"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0fbf31959583af10",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "capstone-brief"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7ecec615629ceb56",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "capstone-system-map"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "322028d2f5d3d2d1",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "capstone-failure-autopsy"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7568e711a168c1dc",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "capstone-proof-packet"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "75997f14edc66f3f",
+      "courseSlug": "career-concept_maps_real_world_engineering",
+      "lessonSlug": "final-review-board"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -549,6 +910,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

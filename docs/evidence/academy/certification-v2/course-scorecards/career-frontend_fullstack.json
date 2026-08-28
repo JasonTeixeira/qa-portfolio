@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
-  "generatedAt": "2026-08-28T19:35:44.168Z",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
+  "generatedAt": "2026-08-28T19:52:47.566Z",
   "courseSlug": "career-frontend_fullstack",
   "title": "Frontend and Fullstack Product Engineering",
   "contentHash": "sha256:3352967a296d47c8b53c28d6a02d0d8d0cd1276b1e7fbf3a12d5a6cb97962e7a",

@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 490,
+    "labBlocks": 520,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 437,
+    "labLessonsWithSolutions": 467,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 13
+    "sourceLedgers": 14
   },
   "capabilities": [
     {
@@ -435,13 +435,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-concept_maps_real_world_engineering/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -451,8 +451,8 @@
           "moduleTitle": "Module 1 · Why Maps Beat Memorization",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/the-on-call-problem",
           "source": {
@@ -466,8 +466,8 @@
           "moduleTitle": "Module 1 · Why Maps Beat Memorization",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/from-notes-to-maps",
           "source": {
@@ -481,8 +481,8 @@
           "moduleTitle": "Module 1 · Why Maps Beat Memorization",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/the-senior-engineer-view",
           "source": {
@@ -496,8 +496,8 @@
           "moduleTitle": "Module 1 · Why Maps Beat Memorization",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/weak-maps-strong-maps",
           "source": {
@@ -511,8 +511,8 @@
           "moduleTitle": "Module 1 · Why Maps Beat Memorization",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/the-first-redraw-gate",
           "source": {
@@ -526,8 +526,8 @@
           "moduleTitle": "Module 2 · System Components And Boundaries",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/user-action-to-system-behavior",
           "source": {
@@ -541,8 +541,8 @@
           "moduleTitle": "Module 2 · System Components And Boundaries",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/component-boundary-mapping",
           "source": {
@@ -556,8 +556,8 @@
           "moduleTitle": "Module 2 · System Components And Boundaries",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/data-state-and-time",
           "source": {
@@ -571,8 +571,8 @@
           "moduleTitle": "Module 2 · System Components And Boundaries",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/trust-and-ownership-boundaries",
           "source": {
@@ -586,8 +586,8 @@
           "moduleTitle": "Module 2 · System Components And Boundaries",
           "moduleSort": 1,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/boundary-review-board",
           "source": {
@@ -601,8 +601,8 @@
           "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/symptom-to-signal",
           "source": {
@@ -616,8 +616,8 @@
           "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/hypothesis-tree-mapping",
           "source": {
@@ -631,8 +631,8 @@
           "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/failure-path-maps",
           "source": {
@@ -646,8 +646,8 @@
           "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/bad-fix-autopsy",
           "source": {
@@ -661,8 +661,8 @@
           "moduleTitle": "Module 3 · Failure Branches And Debugging Maps",
           "moduleSort": 2,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/repair-map-drill",
           "source": {
@@ -676,8 +676,8 @@
           "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/requirement-to-tradeoff",
           "source": {
@@ -691,8 +691,8 @@
           "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/decision-map-patterns",
           "source": {
@@ -706,8 +706,8 @@
           "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/proof-artifact-mapping",
           "source": {
@@ -721,8 +721,8 @@
           "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/rejected-option-maps",
           "source": {
@@ -736,8 +736,8 @@
           "moduleTitle": "Module 4 · Tradeoff Decision And Proof Maps",
           "moduleSort": 3,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/decision-memo-gate",
           "source": {
@@ -751,8 +751,8 @@
           "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/retrieval-without-the-map",
           "source": {
@@ -766,8 +766,8 @@
           "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/transfer-to-a-new-domain",
           "source": {
@@ -781,8 +781,8 @@
           "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/socratic-map-review",
           "source": {
@@ -796,8 +796,8 @@
           "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/interview-map-translation",
           "source": {
@@ -811,8 +811,8 @@
           "moduleTitle": "Module 5 · Transfer Retrieval And Oral Defense",
           "moduleSort": 4,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/oral-defense-gate",
           "source": {
@@ -826,8 +826,8 @@
           "moduleTitle": "Module 6 · Capstone Map A Real System",
           "moduleSort": 5,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/capstone-brief",
           "source": {
@@ -841,8 +841,8 @@
           "moduleTitle": "Module 6 · Capstone Map A Real System",
           "moduleSort": 5,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/capstone-system-map",
           "source": {
@@ -856,8 +856,8 @@
           "moduleTitle": "Module 6 · Capstone Map A Real System",
           "moduleSort": 5,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/capstone-failure-autopsy",
           "source": {
@@ -871,8 +871,8 @@
           "moduleTitle": "Module 6 · Capstone Map A Real System",
           "moduleSort": 5,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/capstone-proof-packet",
           "source": {
@@ -886,8 +886,8 @@
           "moduleTitle": "Module 6 · Capstone Map A Real System",
           "moduleSort": 5,
           "sort": 4,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-concept_maps_real_world_engineering/final-review-board",
           "source": {
@@ -10752,5 +10752,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da"
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248"
 }

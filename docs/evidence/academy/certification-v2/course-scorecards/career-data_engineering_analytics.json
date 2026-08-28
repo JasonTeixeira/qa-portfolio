@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
-  "generatedAt": "2026-08-28T19:35:44.168Z",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
+  "generatedAt": "2026-08-28T19:52:47.566Z",
   "courseSlug": "career-data_engineering_analytics",
   "title": "Data Engineering and Analytics Platforms",
   "contentHash": "sha256:6c5067a27cd168daac9d74d74a09b475366a7a8c1b4219f1e8d84096dcf402be",

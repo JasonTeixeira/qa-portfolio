@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 490,
+    "labBlocks": 520,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 437,
+    "labLessonsWithSolutions": 467,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 13
+    "sourceLedgers": 14
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "19 courses lack course-level source ledgers",
+    "18 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -69,14 +69,14 @@
       "level": "Beginner",
       "lessons": 30,
       "legacyManifestLessons": 30,
-      "labBlocks": 0,
+      "labBlocks": 30,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-concept_maps_real_world_engineering/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-concept_maps_real_world_engineering"
     },

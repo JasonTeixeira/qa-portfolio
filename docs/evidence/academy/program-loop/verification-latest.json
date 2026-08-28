@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T19:10:40.985Z",
+  "generatedAt": "2026-08-28T19:17:16.762Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
+  "registryVersion": "sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f",
   "queueCoverage": "32/32",
-  "currentCourse": "agents-tool-use",
+  "currentCourse": "career-ai_engineering_rag_eval",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

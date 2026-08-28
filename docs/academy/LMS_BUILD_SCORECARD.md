@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **17/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa`.
+- Progress: **18/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:265afc7c79d58da76548b0e6ece3825a1bab3a42186826fed147c409547ec70f`.
 - Catalog: 32 courses, 640 lessons, 470 lab blocks.
 - Current phase: `applied-ai`.
-- Next course: `agents-tool-use`.
+- Next course: `career-ai_engineering_rag_eval`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -33,6 +33,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `the-llm-api` | GREEN | uncertified |
 | `prompt-engineering` | GREEN | uncertified |
 | `rag-retrieval` | GREEN | uncertified |
+| `agents-tool-use` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -45,7 +46,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Networking and security | 2 | local GREEN |
 | Data, backend, and system design | 3 | local GREEN |
 | Cloud operations and platform reliability | 3 | local GREEN |
-| Applied AI, retrieval, agents, and evaluation | 5 | 3/5 local GREEN — Agents & Tool Use selected |
+| Applied AI, retrieval, agents, and evaluation | 5 | 4/5 local GREEN — AI Engineering, RAG & Evals selected |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
 
@@ -135,9 +136,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - All 140 narration transcripts remain while 140 nonexistent local audio promises were removed.
 - H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Agents & Tool Use baseline
+## Agents & Tool Use checkpoint result
 
-- `agents-tool-use` is selected next; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 80 → 100. All 20 JavaScript references match exact observable contracts; three missing references were added.
+- The multi-day bounded and guardrailed agent capstone, 20-source primary ledger, and agent-automation mapping cover every lesson.
+- All 140 narration transcripts remain while 140 nonexistent local audio promises were removed.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current AI Engineering, RAG & Evals baseline
+
+- `career-ai_engineering_rag_eval` is selected next; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

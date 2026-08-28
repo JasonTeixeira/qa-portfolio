@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
-  "generatedAt": "2026-08-28T18:59:02.126Z",
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
+  "generatedAt": "2026-08-28T19:07:20.677Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 535,
+      "H2": 526,
       "H3": 0,
       "H4": 0,
       "H5": 0
@@ -2058,16 +2058,16 @@
       "courseSlug": "rag-retrieval",
       "title": "RAG and Retrieval",
       "lessonCount": 20,
-      "contentHash": "sha256:a8d9916b607790d9ff54a72bd3243530854369859ef61e85873f247e751148f4",
+      "contentHash": "sha256:e18cf9df442f6439d962a874ce0f177ad60dd2bb1c4ce9b5ab2fe71eebafb571",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 80,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 29,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 29,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -2076,7 +2076,6 @@
         "accessibility",
         "consistency",
         "content_correctness",
-        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -2113,7 +2112,7 @@
           "score": null
         },
         "media": {
-          "status": "pending",
+          "status": "not_applicable",
           "score": null
         },
         "references": {

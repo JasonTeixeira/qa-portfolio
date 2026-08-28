@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 576,
-    "labLessonsWithSolutions": 405,
-    "labLessonsWithoutSolutions": 65,
-    "sourceLedgers": 10
+    "solutionEntries": 585,
+    "labLessonsWithSolutions": 414,
+    "labLessonsWithoutSolutions": 56,
+    "sourceLedgers": 11
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "65 lab lessons lack same-slug solution entries",
-    "22 courses lack course-level source ledgers",
+    "56 lab lessons lack same-slug solution entries",
+    "21 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -439,14 +439,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 9,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/rag-retrieval/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/rag-retrieval"
     },

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
-  "generatedAt": "2026-08-28T18:59:02.126Z",
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
+  "generatedAt": "2026-08-28T19:07:20.677Z",
   "courseSlug": "rag-retrieval",
   "title": "RAG and Retrieval",
-  "contentHash": "sha256:a8d9916b607790d9ff54a72bd3243530854369859ef61e85873f247e751148f4",
+  "contentHash": "sha256:e18cf9df442f6439d962a874ce0f177ad60dd2bb1c4ce9b5ab2fe71eebafb571",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -113,17 +113,6 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "2aed1fd0e26d65b7",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "loaders-cleaning"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
@@ -141,17 +130,6 @@
           "id": "eefc3ff0e2a1c3d0",
           "courseSlug": "rag-retrieval",
           "lessonSlug": "chunking-strategies"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "f1bda068bae7b8e9",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "metadata-provenance"
         },
         {
           "code": "H2",
@@ -256,34 +234,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "f676c6f8726a10ed",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "grounding-contract"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "e985fc24fc11b56a",
           "courseSlug": "rag-retrieval",
           "lessonSlug": "grounding-contract"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "43fb230054f443ff",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "citations-source-spans"
         },
         {
           "code": "H2",
@@ -300,34 +256,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "1b610b3bb1a79362",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "refusal-when-unsupported"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "ff4320868a3941cc",
           "courseSlug": "rag-retrieval",
           "lessonSlug": "refusal-when-unsupported"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "7b95f4c55e382d3b",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "stale-chunk-handling"
         },
         {
           "code": "H2",
@@ -344,34 +278,12 @@
           "code": "H2",
           "severity": "blocker",
           "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "0e989b5c2992ec67",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "recall-at-k"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
           "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
           "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
           "mode": "policy",
           "id": "8dae5b617de35dfc",
           "courseSlug": "rag-retrieval",
           "lessonSlug": "recall-at-k"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "98d82b9fe0e5a278",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "answer-faithfulness"
         },
         {
           "code": "H2",
@@ -394,17 +306,6 @@
           "id": "8f312f770c2224a0",
           "courseSlug": "rag-retrieval",
           "lessonSlug": "rag-cost-latency"
-        },
-        {
-          "code": "H2",
-          "severity": "blocker",
-          "category": "labs",
-          "message": "A lab has no private reference solution.",
-          "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-          "mode": "deterministic",
-          "id": "31bf88bf015a8f51",
-          "courseSlug": "rag-retrieval",
-          "lessonSlug": "capstone-grounded-cited-rag"
         },
         {
           "code": "H2",
@@ -436,13 +337,13 @@
     },
     "media": {
       "id": "media",
-      "status": "pending",
+      "status": "not_applicable",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-media",
           "mode": "deterministic",
-          "status": "pending",
+          "status": "not_applicable",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
@@ -555,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 80,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {
@@ -568,17 +469,6 @@
       "id": "c801f9e7be42e700",
       "courseSlug": "rag-retrieval",
       "lessonSlug": "why-rag-grounding"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "2aed1fd0e26d65b7",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "loaders-cleaning"
     },
     {
       "code": "H2",
@@ -601,17 +491,6 @@
       "id": "eefc3ff0e2a1c3d0",
       "courseSlug": "rag-retrieval",
       "lessonSlug": "chunking-strategies"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "f1bda068bae7b8e9",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "metadata-provenance"
     },
     {
       "code": "H2",
@@ -716,34 +595,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "f676c6f8726a10ed",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "grounding-contract"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "e985fc24fc11b56a",
       "courseSlug": "rag-retrieval",
       "lessonSlug": "grounding-contract"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "43fb230054f443ff",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "citations-source-spans"
     },
     {
       "code": "H2",
@@ -760,34 +617,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "1b610b3bb1a79362",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "refusal-when-unsupported"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "ff4320868a3941cc",
       "courseSlug": "rag-retrieval",
       "lessonSlug": "refusal-when-unsupported"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "7b95f4c55e382d3b",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "stale-chunk-handling"
     },
     {
       "code": "H2",
@@ -804,34 +639,12 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "0e989b5c2992ec67",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "recall-at-k"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
       "id": "8dae5b617de35dfc",
       "courseSlug": "rag-retrieval",
       "lessonSlug": "recall-at-k"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "98d82b9fe0e5a278",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "answer-faithfulness"
     },
     {
       "code": "H2",
@@ -859,17 +672,6 @@
       "code": "H2",
       "severity": "blocker",
       "category": "labs",
-      "message": "A lab has no private reference solution.",
-      "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
-      "mode": "deterministic",
-      "id": "31bf88bf015a8f51",
-      "courseSlug": "rag-retrieval",
-      "lessonSlug": "capstone-grounded-cited-rag"
-    },
-    {
-      "code": "H2",
-      "severity": "blocker",
-      "category": "labs",
       "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
       "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
       "mode": "policy",
@@ -882,7 +684,6 @@
     "accessibility",
     "consistency",
     "content_correctness",
-    "media",
     "pedagogy",
     "performance",
     "sources",

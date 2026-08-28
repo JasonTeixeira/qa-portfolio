@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 470,
-    "solutionEntries": 576,
-    "labLessonsWithSolutions": 405,
-    "labLessonsWithoutSolutions": 65,
-    "sourceLedgers": 10
+    "solutionEntries": 585,
+    "labLessonsWithSolutions": 414,
+    "labLessonsWithoutSolutions": 56,
+    "sourceLedgers": 11
   },
   "capabilities": [
     {
@@ -7124,14 +7124,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/rag-retrieval/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -7141,7 +7140,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/why-rag-grounding",
@@ -7156,9 +7155,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/loaders-cleaning",
           "source": {
             "kind": "derived_from_authoring",
@@ -7171,7 +7170,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/chunking-strategies",
@@ -7186,9 +7185,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/metadata-provenance",
           "source": {
             "kind": "derived_from_authoring",
@@ -7201,7 +7200,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/embeddings-intuition",
@@ -7216,7 +7215,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/cosine-similarity",
@@ -7231,7 +7230,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/vector-stores-upsert",
@@ -7246,7 +7245,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/indexing-versioning",
@@ -7261,7 +7260,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/top-k-thresholds",
@@ -7276,7 +7275,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/hybrid-search",
@@ -7291,7 +7290,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/reranking",
@@ -7306,7 +7305,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/query-rewriting",
@@ -7321,9 +7320,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/grounding-contract",
           "source": {
             "kind": "derived_from_authoring",
@@ -7336,9 +7335,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/citations-source-spans",
           "source": {
             "kind": "derived_from_authoring",
@@ -7351,9 +7350,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/refusal-when-unsupported",
           "source": {
             "kind": "derived_from_authoring",
@@ -7366,9 +7365,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/stale-chunk-handling",
           "source": {
             "kind": "derived_from_authoring",
@@ -7381,9 +7380,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/recall-at-k",
           "source": {
             "kind": "derived_from_authoring",
@@ -7396,9 +7395,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/answer-faithfulness",
           "source": {
             "kind": "derived_from_authoring",
@@ -7411,7 +7410,7 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/rag-cost-latency",
@@ -7426,9 +7425,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/rag-retrieval/capstone-grounded-cited-rag",
           "source": {
             "kind": "derived_from_authoring",
@@ -10754,5 +10753,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea"
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa"
 }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
-  "generatedAt": "2026-08-28T18:59:02.126Z",
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
+  "generatedAt": "2026-08-28T19:07:20.677Z",
   "courseSlug": "system-design",
   "title": "System Design",
   "contentHash": "sha256:76b3ed80b2b108ac59b8535633972ef2dd3d88de2d082a73981b719a760adc97",

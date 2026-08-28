@@ -812,7 +812,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "rag-retrieval"
+          "courseSlug": "rag-retrieval",
+          "lessonSlugs": [
+            "why-rag-grounding",
+            "loaders-cleaning",
+            "chunking-strategies",
+            "metadata-provenance",
+            "embeddings-intuition",
+            "cosine-similarity",
+            "vector-stores-upsert",
+            "indexing-versioning",
+            "top-k-thresholds",
+            "hybrid-search",
+            "reranking",
+            "query-rewriting",
+            "grounding-contract",
+            "citations-source-spans",
+            "refusal-when-unsupported",
+            "stale-chunk-handling",
+            "recall-at-k",
+            "answer-faithfulness",
+            "rag-cost-latency",
+            "capstone-grounded-cited-rag"
+          ]
         },
         {
           "courseSlug": "career-ai_engineering_rag_eval"

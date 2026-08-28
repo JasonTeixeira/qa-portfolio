@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T17:40:46.717Z",
+  "generatedAt": "2026-08-28T17:49:24.186Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
   "queueCoverage": "32/32",
-  "currentCourse": "career-security_identity",
+  "currentCourse": "career-databases_data_modeling",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

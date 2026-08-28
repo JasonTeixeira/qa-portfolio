@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **7/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4`.
-- Catalog: 32 courses, 640 lessons, 390 lab blocks.
-- Current phase: `network-security`.
-- Next course: `career-security_identity`.
+- Progress: **8/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c`.
+- Catalog: 32 courses, 640 lessons, 410 lab blocks.
+- Current phase: `data-backend`.
+- Next course: `career-databases_data_modeling`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -23,6 +23,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `data-structures` | GREEN | uncertified |
 | `career-programming_cs_foundations` | GREEN | uncertified |
 | `career-networking_fundamentals_advanced_networking` | GREEN | uncertified |
+| `career-security_identity` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -32,8 +33,8 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Wave | Courses | Status |
 |---|---:|---|
 | Learning judgment and automation foundations | 6 | local GREEN |
-| Networking and security | 2 | 1/2 local GREEN — Security selected |
-| Data, backend, and system design | 3 | queued |
+| Networking and security | 2 | local GREEN |
+| Data, backend, and system design | 3 | 0/3 local GREEN — Databases selected |
 | Cloud operations and platform reliability | 3 | queued |
 | Applied AI, retrieval, agents, and evaluation | 5 | queued |
 | Production integration | 1 unique remaining graph course | queued |
@@ -51,13 +52,21 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Required expert/human evidence remains pending for correctness, pedagogy, sources, accessibility, visual quality,
   UX, performance, and consistency.
 
-## Current Security baseline
+## Security checkpoint result
 
 - 20 lessons.
-- Deterministic score: 88.9; standard, deep, and capstone learning-loop remediation remains.
-- Existing source ledger is present, but expert correctness, pedagogy, accessibility, UX, visual, performance, and
-  consistency evidence remains pending.
-- Current labs are `not_applicable`; practical threat-model, authorization, secrets, and incident exercises are next.
+- Deterministic score: 88.9 → 100 (not a composite quality score).
+- Complete evidence-first mastery loops and novice-scaffolded deterministic practice now cover all 20 lessons.
+- All 20 reference implementations pass exact output contracts; the multi-tenant export defense remains a capstone.
+- The 26-source authoritative ledger remains intact. H1/H3/H4/H5 are zero; 20 H2 flags preserve the untrusted-runtime boundary.
+- Required expert/human evidence remains pending for correctness, pedagogy, sources, accessibility, visual quality,
+  UX, performance, and consistency.
+
+## Current Databases baseline
+
+- 20 lessons in the canonical registry.
+- Certification Harness V2 supplies the deterministic remediation and required-review packet for the next bounded slice.
+- Existing labs remain practice-only; database mastery cannot be certified without controlled evaluation and required reviews.
 
 ## Advancement rule
 

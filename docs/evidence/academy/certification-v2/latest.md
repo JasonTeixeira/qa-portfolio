@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T17:53:50.335Z
-Registry: `sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145`
+Generated: 2026-08-28T18:01:23.168Z
+Registry: `sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -40,7 +40,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Python Basics | `python-basics` | 12 | blocked | 12 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | Git and the Terminal | `git-the-terminal` | 20 | blocked | 40 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Data Structures | `data-structures` | 20 | blocked | 20 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
-| Backend Engineering | `career-backend_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
+| Backend Engineering | `career-backend_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Architecture and System Design | `career-architecture_system_design` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | System Design | `system-design` | 24 | blocked | 26 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
@@ -74,9 +74,9 @@ The deterministic score reports only checks the harness can prove locally. It is
 4. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 5. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 6. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (17 courses; 277 findings)
-8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (12 courses; 35 findings)
-9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (11 courses; 22 findings)
+7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (16 courses; 264 findings)
+8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (11 courses; 30 findings)
+9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (10 courses; 20 findings)
 10. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 11. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
 12. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)

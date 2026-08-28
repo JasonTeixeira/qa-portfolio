@@ -536,7 +536,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-backend_engineering"
+          "courseSlug": "career-backend_engineering",
+          "lessonSlugs": [
+            "backend-request-response",
+            "resource-modeling",
+            "api-contracts-schemas",
+            "validation-error-model",
+            "http-status-codes",
+            "pagination-filtering-sorting",
+            "idempotency-retry-safety",
+            "auth-authorization-boundaries",
+            "persistence-repository-boundary",
+            "background-jobs-queue-basics",
+            "worker-state-retries-dlq",
+            "event-vs-command",
+            "observability-request-ids-logs-metrics",
+            "backend-testing-contracts",
+            "rate-limits-backpressure",
+            "versioning-compatibility",
+            "security-privacy-boundaries",
+            "backend-debugging-incident-loop",
+            "backend-integration-mini-project",
+            "backend-capstone"
+          ]
         },
         {
           "courseSlug": "system-design"

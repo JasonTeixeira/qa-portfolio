@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-  "generatedAt": "2026-08-28T17:53:50.335Z",
+  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+  "generatedAt": "2026-08-28T18:01:23.168Z",
   "courseSlug": "career-architecture_system_design",
   "title": "Architecture and System Design",
   "contentHash": "sha256:83bd4ab9c7bdfe04ce9951ddff857217fc82d55091763a8b9b007f619eaf5869",

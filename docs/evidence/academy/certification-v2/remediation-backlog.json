@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-  "generatedAt": "2026-08-28T17:53:50.335Z",
+  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+  "generatedAt": "2026-08-28T18:01:23.168Z",
   "items": [
     {
       "rank": 1,
@@ -208,7 +208,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-backend_engineering",
         "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
@@ -224,9 +223,9 @@
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 277,
-      "findingCount": 277,
-      "priority": 3170277
+      "lessonCount": 264,
+      "findingCount": 264,
+      "priority": 3160264
     },
     {
       "rank": 8,
@@ -236,7 +235,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-backend_engineering",
         "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
@@ -247,9 +245,9 @@
         "career-platform_engineering_internal_developer_platforms",
         "career-qa_sdet_test_automation_engineering"
       ],
-      "lessonCount": 35,
-      "findingCount": 35,
-      "priority": 3120035
+      "lessonCount": 30,
+      "findingCount": 30,
+      "priority": 3110030
     },
     {
       "rank": 9,
@@ -259,7 +257,6 @@
       "courseSlugs": [
         "career-ai_engineering_rag_eval",
         "career-architecture_system_design",
-        "career-backend_engineering",
         "career-cloud_devops_operations",
         "career-concept_maps_real_world_engineering",
         "career-data_engineering_analytics",
@@ -269,9 +266,9 @@
         "career-product_execution_market_feedback",
         "nextjs-supabase"
       ],
-      "lessonCount": 22,
-      "findingCount": 22,
-      "priority": 3110022
+      "lessonCount": 20,
+      "findingCount": 20,
+      "priority": 3100020
     },
     {
       "rank": 10,

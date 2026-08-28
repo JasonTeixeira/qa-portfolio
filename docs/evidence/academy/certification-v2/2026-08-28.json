@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-  "generatedAt": "2026-08-28T17:53:50.335Z",
+  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+  "generatedAt": "2026-08-28T18:01:23.168Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -727,11 +727,11 @@
       "courseSlug": "career-backend_engineering",
       "title": "Backend Engineering",
       "lessonCount": 20,
-      "contentHash": "sha256:99303d4adc3632533a63bf40acb1c2e900af6699d8447bf1f4eb36f08ae24f1c",
+      "contentHash": "sha256:02bf3131491b5dd6806c6a06e276a686eeb7ca4a00eee54dd2a4191207a41d02",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 88.9,
+      "deterministicScore": 100,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -761,8 +761,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

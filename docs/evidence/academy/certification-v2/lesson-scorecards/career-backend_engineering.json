@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "backend-request-response",
-    "contentHash": "sha256:30e8d619aa8e3b4b4bc9f6c8e995aa902c0b160ccb64fd418e910a49e409999b",
+    "contentHash": "sha256:e76812531c4f1c4003b766afb9e7b5d97dc1ee10ccd0ae6fe285a5b96d1c545f",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -26,15 +26,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -44,18 +44,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "1b29a3489fd1da4c",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "backend-request-response"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -321,7 +310,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -352,11 +341,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "resource-modeling",
-    "contentHash": "sha256:3c4fd4fab4fb97cadbc7c51b55b87e668136b2e0aaa31778d9346f674b3f2037",
+    "contentHash": "sha256:fa39dad8c19c8b97d14c07f62caea486de942bc6404917eb5e36e37d93447826",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -376,15 +365,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -394,18 +383,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "537c6ac0020ec74e",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "resource-modeling"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -671,7 +649,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -702,11 +680,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "api-contracts-schemas",
-    "contentHash": "sha256:8753cd76bc605791b5584c270300dee52964a2997d64effa34dede9f6a405115",
+    "contentHash": "sha256:baa93344673e69ec07fa50424d8cfee94c4752b77774019f729983ece0736c09",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -726,15 +704,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -744,18 +722,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "5dd732cd2a3b462c",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "api-contracts-schemas"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1021,7 +988,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1052,11 +1019,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "validation-error-model",
-    "contentHash": "sha256:8e92c898bbcf714f74f773d2f62d93c67311e00d7ce1b8e56483c58c0abfcc70",
+    "contentHash": "sha256:51168c34ac913b279c6a9e706327031a6140191042161385d3114ad71cc20787",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1076,15 +1043,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1094,18 +1061,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "53b3f917bb4e98cb",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "validation-error-model"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1371,7 +1327,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1402,11 +1358,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "http-status-codes",
-    "contentHash": "sha256:699e0a1cbde5b080dfa37331d0ce6e5e85aa7e2280757c0fda59ec523439239a",
+    "contentHash": "sha256:2561ed97015d3e6d9eafa27bc8a804c1fcfa4eef7c85577b6889d150517363b4",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1426,15 +1382,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1444,18 +1400,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "23bcfe308a5be405",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "http-status-codes"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1721,7 +1666,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1752,11 +1697,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "pagination-filtering-sorting",
-    "contentHash": "sha256:e6dacb51774479e05c3f09d84d7596508d09a0437c34f4a4b0853bbf071c0f2f",
+    "contentHash": "sha256:3b83db18d16ea279e97af8e8bf0726eeaeee93226908201fbdbee8dedc5c4c89",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1776,15 +1721,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1794,18 +1739,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "32ec5d1ae0548621",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "pagination-filtering-sorting"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2071,7 +2005,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2102,11 +2036,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "idempotency-retry-safety",
-    "contentHash": "sha256:506ece159be3c1de416f856ead4d56bb4c1c4fd4363fbad0654c99f5c6dd3ed1",
+    "contentHash": "sha256:68b4230f7ead9a828d9019dff796a0b608a9cf55a3751bf181091324925ac799",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2126,15 +2060,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2144,18 +2078,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "e04f28bde3a41afd",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "idempotency-retry-safety"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2421,7 +2344,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2452,11 +2375,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "auth-authorization-boundaries",
-    "contentHash": "sha256:4ec7cfc4c271bb72b7309b8603b2cd936bcc2e54adb9c61b6b97764ec190d87c",
+    "contentHash": "sha256:cb9798e0926e0f82aa057677e92764723c30fc45c4082c4499ab12bd11d5e52b",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2476,15 +2399,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2494,18 +2417,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "ec07f2648e6bac90",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "auth-authorization-boundaries"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2771,7 +2683,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2802,11 +2714,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "persistence-repository-boundary",
-    "contentHash": "sha256:731e32889f2e215ab094cdbdc8927b62f07bb004349ec7663b5669311aedda88",
+    "contentHash": "sha256:51bf127f26591b0f88690d92ce4d80dba9084d0b631fc56b35a7cbeeeeffa54d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2826,15 +2738,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2844,18 +2756,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "53d3617e03aefe73",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "persistence-repository-boundary"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3121,7 +3022,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3152,11 +3053,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "background-jobs-queue-basics",
-    "contentHash": "sha256:e28aebaaf62ac2f77f20414a45ac822df96eed61e34d18d55130e644dfb268eb",
+    "contentHash": "sha256:e8429a54340a8acd37c05ea67c09d50fd0f30f82f2d0ae1889ac1324c50ec7df",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3176,15 +3077,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3194,18 +3095,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "421e7204945ee314",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "background-jobs-queue-basics"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3471,7 +3361,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3502,11 +3392,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "worker-state-retries-dlq",
-    "contentHash": "sha256:541000f35a6d976072b3b879030cd57667ed24abda500f9751f4b7438be699f0",
+    "contentHash": "sha256:6c6aa3211ef5e29e895a4b2907155e773c7cbae731321b9d78291f27ce9f7423",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3526,15 +3416,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3544,18 +3434,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "ef4c97c213f16b9f",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "worker-state-retries-dlq"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3821,7 +3700,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3852,11 +3731,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "event-vs-command",
-    "contentHash": "sha256:96f1f7e283965659099ec1834f7fed3c7cbe64696603bb644efd9f5db5fcb96b",
+    "contentHash": "sha256:abff2a28707888bbed708b55b6c1e220c47300805809f8f9b9cd1ee550b8e5a6",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3876,15 +3755,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3894,18 +3773,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "c1820d0a448ae970",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "event-vs-command"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4171,7 +4039,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4202,11 +4070,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "observability-request-ids-logs-metrics",
-    "contentHash": "sha256:3c1c589473c70ea24524593ffa8387d7b675fbb885831fd724dde0f7b28fc4f4",
+    "contentHash": "sha256:2fddd639489d4ff0b96aa57351603d592e3cac2a58da2ae353d63f5cafe798e9",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4226,15 +4094,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4244,18 +4112,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "bb543b9039f6c98a",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "observability-request-ids-logs-metrics"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4521,7 +4378,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4552,11 +4409,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "backend-testing-contracts",
-    "contentHash": "sha256:b97dd92a51653e308d4167574b7632a2cb799d39eaa737e58ce8a00430ab5348",
+    "contentHash": "sha256:679fe77244674004689024fda3333751f7d323fe4b46f1ffc3ab127f87db2966",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4576,15 +4433,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4594,18 +4451,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "6e92b4fe43e76185",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "backend-testing-contracts"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4871,7 +4717,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4902,11 +4748,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "rate-limits-backpressure",
-    "contentHash": "sha256:c5e987f4d0ed39e7afd742c48b29daa5e108383a84250d999f6a570ff5a3fffa",
+    "contentHash": "sha256:eb02d03ed4d9ab0a760989e57bea99d33fa366b86fce75859eec56f1ad0d4c4b",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4926,15 +4772,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4944,18 +4790,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "24199444a0d139fe",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "rate-limits-backpressure"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5221,7 +5056,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5252,11 +5087,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "versioning-compatibility",
-    "contentHash": "sha256:cf20c67cab64f046e6c0ae7de922f38b2eeca57152b48e9900982f714f1d2425",
+    "contentHash": "sha256:33c528a5e8c46380f4301c2d475cf97944ae8f06cc00801d4486c60115422e8d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5276,15 +5111,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5294,18 +5129,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, debug, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "7204de16f04963bc",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "versioning-compatibility"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5571,7 +5395,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5602,11 +5426,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "security-privacy-boundaries",
-    "contentHash": "sha256:fb932692eab4e457c7e3518eb7f883a18f79994ae62dbc5cc04d865644390649",
+    "contentHash": "sha256:f359a8349fb7608f25bf7f7d5ca7fe66ff1d0a0a4da9ad4435d0bae55e18fba0",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5626,15 +5450,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5644,18 +5468,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "8a9a5be4682664b6",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "security-privacy-boundaries"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5921,7 +5734,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5952,11 +5765,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "backend-debugging-incident-loop",
-    "contentHash": "sha256:e435692e4dfb7d4c3cc74ceb66cbbbdb5332deea090b55feeba2cdf5011c4b83",
+    "contentHash": "sha256:d3888f194c2fe3467b99ffc0c9c301e1caceea6128cb1bfef4d9886cd22ca46d",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5976,15 +5789,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5994,18 +5807,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "81689bf9d7c0bf0a",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "backend-debugging-incident-loop"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6271,7 +6073,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6302,11 +6104,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "backend-integration-mini-project",
-    "contentHash": "sha256:953fb61413f6c76ca155100d370275649ec0757fbbb5fc5d496ecdb03cf51a72",
+    "contentHash": "sha256:b63ff50c3fc2b394ec3af7b567c7c12895d0c95da5e5062116d70c73ac17ee4c",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6326,15 +6128,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6344,18 +6146,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "dec6104c276a3a38",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "backend-integration-mini-project"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6621,7 +6412,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6652,11 +6443,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-    "generatedAt": "2026-08-28T17:53:50.335Z",
+    "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+    "generatedAt": "2026-08-28T18:01:23.168Z",
     "courseSlug": "career-backend_engineering",
     "lessonSlug": "backend-capstone",
-    "contentHash": "sha256:3aff92c10da0bd7b090689faebcd91d072974f573c2f658fa851731c9ebab60e",
+    "contentHash": "sha256:ed73bb9076511a93a1010a51d674561c859f89ab05c877e168d6fe7080ca2380",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6676,15 +6467,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6694,18 +6485,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "12ffd312cb98a523",
-            "courseSlug": "career-backend_engineering",
-            "lessonSlug": "backend-capstone"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6971,7 +6751,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 88.9,
+    "deterministicScore": 100,
     "compositeScore": null,
     "hardFails": [
       {

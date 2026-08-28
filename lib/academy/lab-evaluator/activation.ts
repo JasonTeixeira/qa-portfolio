@@ -1,14 +1,59 @@
+import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { isAbsolute } from 'node:path'
+
 import flagshipActivation from '@/data/academy/lab-evaluator/flagship-activation.json'
+import registry from '@/data/academy/registry.json'
+import {
+  parseFlagshipActivationManifest,
+  verifyActivationAttestation,
+} from '@/scripts/academy/lab-evaluator/staging/core'
 
 const RELEASE_ID_RE = /^[a-z0-9][a-z0-9._-]{2,95}$/
 
 export const FLAGSHIP_ACTIVATION_RELEASE_ID = flagshipActivation.releaseId
 
-const FLAGSHIP_LAB_KEYS = new Set(flagshipActivation.labs.map((lab) => lab.labKey))
+const FLAGSHIP_LABS = new Map(flagshipActivation.labs.map((lab) => [lab.labKey, lab]))
 
 /** Only labs in the immutable public candidate manifest may reach staging. */
 export function isFlagshipLabCandidate(courseSlug: string, lessonSlug: string): boolean {
-  return FLAGSHIP_LAB_KEYS.has(`${courseSlug}/${lessonSlug}`)
+  return FLAGSHIP_LABS.has(`${courseSlug}/${lessonSlug}`)
+}
+
+export function flagshipLabSpecRevision(courseSlug: string, lessonSlug: string): string | null {
+  return FLAGSHIP_LABS.get(`${courseSlug}/${lessonSlug}`)?.specRevision ?? null
+}
+
+function identityDigest(value: string): string {
+  return createHash('sha256').update(value, 'utf8').digest('hex')
+}
+
+/**
+ * Runtime authority check. The caller chooses file locations, but cannot choose
+ * the signer or deployment: those hashes are pinned in the reviewed manifest.
+ */
+export function activationAttestationAllowsMastery(
+  env: Record<string, string | undefined>,
+  courseSlug: string,
+  lessonSlug: string,
+): boolean {
+  const attestationPath = env.ACADEMY_LAB_STAGING_ATTESTATION_PATH
+  const publicKeyPath = env.ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH
+  if (!attestationPath || !publicKeyPath || !isAbsolute(attestationPath) || !isAbsolute(publicKeyPath)) return false
+  try {
+    const manifest = parseFlagshipActivationManifest(flagshipActivation, registry)
+    const evaluatorUrl = new URL(env.ACADEMY_LAB_EVALUATOR_URL ?? '')
+    if (identityDigest(evaluatorUrl.origin) !== manifest.authority.evaluatorOriginSha256) return false
+    if (identityDigest(env.ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF ?? '') !== manifest.authority.databaseProjectRefSha256) return false
+    const verified = verifyActivationAttestation(
+      JSON.parse(readFileSync(attestationPath, 'utf8')),
+      readFileSync(publicKeyPath, 'utf8'),
+      manifest,
+    )
+    return verified.trustedLabKeys.has(`${courseSlug}/${lessonSlug}`)
+  } catch {
+    return false
+  }
 }
 
 /**

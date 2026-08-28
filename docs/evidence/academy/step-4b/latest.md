@@ -1,6 +1,6 @@
 # Academy lab evaluator Step 4B readiness
 
-- Generated: 2026-08-28T01:29:00.383Z
+- Generated: 2026-08-28T01:43:57.008Z
 - Release: `flagship-labs-2026-08-27.1`
 - Registry: `sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a`
 - Candidate labs: 5
@@ -23,6 +23,7 @@
 
 ## Observations
 
+- The reviewed signer, evaluator-origin, and database-project authority pins are not provisioned.
 - This host has not proven a rootless Docker evaluator runtime.
 - All three runtime images need digest pins or a valid signed activation attestation.
 - Staging has not supplied release-bound evidence that migrations 0116 and 0117 are applied.

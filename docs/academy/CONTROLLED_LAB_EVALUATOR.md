@@ -24,6 +24,7 @@ ACADEMY_LAB_MASTERY_WRITES_ENABLED=false
 ACADEMY_LAB_ACTIVATION_RELEASE=flagship-labs-2026-08-27.1
 ACADEMY_LAB_STAGING_ATTESTATION_PATH=/run/secrets/academy-activation.json
 ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH=/run/secrets/academy-activation-public.pem
+ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF=<exact staging Supabase project ref>
 ```
 
 Evaluator tier:
@@ -103,7 +104,9 @@ ACADEMY_EVALUATOR_PRIVATE_SPEC_ROOT=/absolute/private/flagship-labs-2026-08-27.1
   npm run academy:lab-evaluator:staging-verify
 ```
 
-The command writes a redacted report to `docs/evidence/academy/step-4b/`. It exits successfully when it can produce an honest readiness board; add `-- --require-ready` in a release gate to return a non-zero status while any gate is blocked. A report is ready only when the private HTTPS health check, exact release kill switch, and signed activation attestation all agree. Environment strings alone cannot assert migration, monitoring, isolation, adversarial-probe, or receipt proof.
+The command writes a redacted report to `docs/evidence/academy/step-4b/`. It exits successfully when it can produce an honest readiness board; add `-- --require-ready` in a release gate to return a non-zero status while any gate is blocked. A report is ready only when the private HTTPS health check, exact release kill switch, and unexpired signed activation attestation all agree. The public key path is only a location: its SPKI SHA-256 fingerprint must match the reviewed manifest, so a caller cannot supply a self-signed trust root. The evaluator origin and database project must also hash to the manifest pins. Environment strings alone cannot assert migration, monitoring, isolation, adversarial-probe, or receipt proof.
+
+The initial candidate manifest deliberately uses `unprovisioned` authority pins. Generate and protect the signer key, provision the private evaluator and staging database, then update the public fingerprint/origin/project digests through review. Do not enable mastery writes while any authority pin remains unprovisioned.
 
 Certification Harness V2 reads the same attestation and public key paths. If neither is configured, every lab stays untrusted. If only one path is configured or the signature/release/registry/policy does not match, the audit fails closed.
 

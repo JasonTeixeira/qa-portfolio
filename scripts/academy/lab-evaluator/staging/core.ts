@@ -2,13 +2,15 @@ import {
   createHash,
   createPrivateKey,
   createPublicKey,
+  KeyObject,
   sign,
   verify,
   type KeyLike,
 } from 'node:crypto'
 import { constants } from 'node:fs'
-import { lstat, open, readdir } from 'node:fs/promises'
-import { isAbsolute, resolve, sep } from 'node:path'
+import { lstat, open, readdir, realpath } from 'node:fs/promises'
+import { isIP } from 'node:net'
+import { dirname, isAbsolute, resolve, sep } from 'node:path'
 
 import {
   EVALUATOR_VERSION,
@@ -25,6 +27,9 @@ const REVISION_RE = /^[a-zA-Z0-9._-]{1,64}$/
 const LAB_KEY_RE = /^[a-z0-9][a-z0-9_-]{1,95}\/[a-z0-9][a-z0-9_-]{1,95}$/
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PINNED_IMAGE_RE = /^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*@sha256:[0-9a-f]{64}$/
+const UNPROVISIONED = 'unprovisioned'
+const MAX_ATTESTATION_LIFETIME_MS = 24 * 60 * 60 * 1_000
+const MAX_CLOCK_SKEW_MS = 5 * 60 * 1_000
 
 export const REQUIRED_ADVERSARIAL_PROBES = Object.freeze([
   'incorrect_submission',
@@ -54,6 +59,15 @@ export const STAGING_READINESS_GATES = Object.freeze([
   'kill_switch_ready',
 ] as const)
 
+export function isPrivateNetworkAddress(address: string): boolean {
+  const normalized = address.toLowerCase()
+  if (isIP(normalized) === 4) {
+    const [a, b] = normalized.split('.').map(Number)
+    return a === 10 || a === 127 || (a === 192 && b === 168) || (a === 172 && b >= 16 && b <= 31)
+  }
+  return isIP(normalized) === 6 && (normalized === '::1' || normalized.startsWith('fc') || normalized.startsWith('fd'))
+}
+
 type RegistryInput = {
   registryVersion: string
   courses: Array<{
@@ -75,6 +89,12 @@ export type FlagshipActivationManifest = {
   releaseId: string
   registryVersion: string
   status: 'candidate'
+  authority: {
+    signerPublicKeySha256: string
+    environmentId: string
+    evaluatorOriginSha256: string
+    databaseProjectRefSha256: string
+  }
   labs: FlagshipActivationLab[]
 }
 
@@ -87,8 +107,12 @@ export type ActivationAttestationPayload = {
   evaluatorVersion: string
   policyHash: string
   issuedAt: string
+  expiresAt: string
   runtimeImages: Record<LabLanguage, string>
   environment: {
+    environmentId: string
+    evaluatorOriginSha256: string
+    databaseProjectRefSha256: string
     rootlessRuntime: 'passed'
     migrations: readonly ['0116', '0117']
     privateHttpsIngress: 'passed'
@@ -144,7 +168,7 @@ export function parseFlagshipActivationManifest(
   registry: RegistryInput,
 ): FlagshipActivationManifest {
   if (!isRecord(value)) throw new Error('activation manifest must be an object')
-  exactKeys(value, ['schemaVersion', 'releaseId', 'registryVersion', 'status', 'labs'], 'activation manifest')
+  exactKeys(value, ['schemaVersion', 'releaseId', 'registryVersion', 'status', 'authority', 'labs'], 'activation manifest')
   if (value.schemaVersion !== 1) throw new Error('unsupported activation manifest schema')
   if (typeof value.releaseId !== 'string' || !RELEASE_ID_RE.test(value.releaseId)) throw new Error('invalid activation release id')
   if (
@@ -155,6 +179,21 @@ export function parseFlagshipActivationManifest(
     throw new Error('activation registry version mismatch')
   }
   if (value.status !== 'candidate') throw new Error('activation manifest must remain candidate until attested')
+  if (!isRecord(value.authority)) throw new Error('activation authority must be an object')
+  exactKeys(value.authority, [
+    'signerPublicKeySha256', 'environmentId', 'evaluatorOriginSha256', 'databaseProjectRefSha256',
+  ], 'activation authority')
+  const authorityPin = (pin: unknown, label: string) => {
+    if (typeof pin !== 'string' || (pin !== UNPROVISIONED && !SHA256_RE.test(pin))) {
+      throw new Error(`invalid activation ${label}`)
+    }
+  }
+  authorityPin(value.authority.signerPublicKeySha256, 'signer pin')
+  authorityPin(value.authority.evaluatorOriginSha256, 'evaluator origin pin')
+  authorityPin(value.authority.databaseProjectRefSha256, 'database project pin')
+  if (typeof value.authority.environmentId !== 'string' || !RELEASE_ID_RE.test(value.authority.environmentId)) {
+    throw new Error('invalid activation environment id')
+  }
   if (!Array.isArray(value.labs) || value.labs.length < 3 || value.labs.length > 5) {
     throw new Error('activation manifest requires 3-5 labs')
   }
@@ -185,6 +224,16 @@ export function validatePrivateSpecRoot(
   return root
 }
 
+export async function resolvePrivateSpecRoot(repoRoot: string, privateSpecRoot: string): Promise<string> {
+  if (!isAbsolute(repoRoot) || !isAbsolute(privateSpecRoot)) throw new Error('private spec roots must be absolute')
+  const [physicalRepo, physicalRoot] = await Promise.all([realpath(repoRoot), realpath(privateSpecRoot)])
+  const info = await lstat(physicalRoot)
+  return validatePrivateSpecRoot(physicalRepo, physicalRoot, {
+    isDirectory: info.isDirectory(),
+    isSymbolicLink: info.isSymbolicLink(),
+  })
+}
+
 export function privateSpecDigest(spec: unknown): string {
   return createHash('sha256').update(stableStringify(spec), 'utf8').digest('hex')
 }
@@ -195,8 +244,10 @@ export async function validatePrivatePack(
 ): Promise<{ specs: Map<string, PrivateLabSpec> }> {
   const rootInfo = await lstat(privateSpecRoot)
   if (!rootInfo.isDirectory() || rootInfo.isSymbolicLink()) throw new Error('private pack root must be a real directory')
+  const physicalRoot = await realpath(privateSpecRoot)
+  const physicalRootInfo = await lstat(physicalRoot)
   const expectedFiles = new Set(manifest.labs.map((lab) => `${lab.labKey.replace('/', '--')}.json`))
-  const actualFiles = await readdir(privateSpecRoot)
+  const actualFiles = await readdir(physicalRoot)
   if (actualFiles.length !== expectedFiles.size || actualFiles.some((name) => !expectedFiles.has(name))) {
     throw new Error('private pack contains missing or unexpected spec files')
   }
@@ -204,12 +255,29 @@ export async function validatePrivatePack(
   const specs = new Map<string, PrivateLabSpec>()
   for (const lab of manifest.labs) {
     const filename = `${lab.labKey.replace('/', '--')}.json`
-    const path = resolve(privateSpecRoot, filename)
+    const path = resolve(physicalRoot, filename)
+    const beforeOpen = await realpath(path)
+    if (dirname(beforeOpen) !== physicalRoot) throw new Error(`private spec escapes pack root: ${lab.labKey}`)
     const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
     let spec: PrivateLabSpec
     try {
       const info = await handle.stat()
       if (!info.isFile()) throw new Error(`private spec must be a real file: ${lab.labKey}`)
+      const [afterOpen, rootAfterOpen, rootPathInfo, pathInfo] = await Promise.all([
+        realpath(path),
+        realpath(physicalRoot),
+        lstat(physicalRoot),
+        lstat(path),
+      ])
+      if (
+        afterOpen !== beforeOpen ||
+        rootAfterOpen !== physicalRoot ||
+        rootPathInfo.dev !== physicalRootInfo.dev ||
+        rootPathInfo.ino !== physicalRootInfo.ino ||
+        pathInfo.isSymbolicLink() ||
+        pathInfo.dev !== info.dev ||
+        pathInfo.ino !== info.ino
+      ) throw new Error(`private spec changed during validation: ${lab.labKey}`)
       spec = validatePrivateSpec(JSON.parse(await handle.readFile('utf8')))
     } finally {
       await handle.close()
@@ -218,6 +286,10 @@ export async function validatePrivatePack(
     if (spec.specRevision !== lab.specRevision) throw new Error(`private spec revision mismatch: ${lab.labKey}`)
     if (privateSpecDigest(spec) !== lab.specDigest) throw new Error(`private spec digest mismatch: ${lab.labKey}`)
     specs.set(lab.labKey, spec)
+  }
+  const finalFiles = await readdir(physicalRoot)
+  if (finalFiles.length !== actualFiles.length || finalFiles.some((name) => !expectedFiles.has(name))) {
+    throw new Error('private pack changed during validation')
   }
   return { specs }
 }
@@ -241,7 +313,13 @@ function normalizePrivateKey(key: KeyLike) {
 }
 
 function normalizePublicKey(key: KeyLike) {
-  return typeof key === 'string' || Buffer.isBuffer(key) ? createPublicKey(key) : key
+  if (key instanceof KeyObject && key.type === 'public') return key
+  return createPublicKey(key)
+}
+
+export function publicKeyFingerprint(key: KeyLike): string {
+  const der = normalizePublicKey(key).export({ type: 'spki', format: 'der' })
+  return createHash('sha256').update(der).digest('hex')
 }
 
 export function signActivationAttestation(
@@ -255,18 +333,26 @@ export function signActivationAttestation(
 function assertAttestationPayload(
   payload: ActivationAttestationPayload,
   manifest: FlagshipActivationManifest,
+  now: number,
 ): void {
   if (!isRecord(payload)) throw new Error('activation attestation payload must be an object')
   exactKeys(payload, [
     'schemaVersion', 'releaseId', 'registryVersion', 'evaluatorVersion', 'policyHash',
-    'issuedAt', 'runtimeImages', 'environment', 'labs',
+    'issuedAt', 'expiresAt', 'runtimeImages', 'environment', 'labs',
   ], 'activation attestation payload')
   if (payload.schemaVersion !== 1) throw new Error('unsupported activation attestation schema')
   if (payload.releaseId !== manifest.releaseId) throw new Error('activation release mismatch')
   if (payload.registryVersion !== manifest.registryVersion) throw new Error('activation registry version mismatch')
   if (payload.evaluatorVersion !== EVALUATOR_VERSION) throw new Error('activation evaluator version mismatch')
   if (payload.policyHash !== evaluatorPolicyHash()) throw new Error('activation policy mismatch')
-  if (!Number.isFinite(Date.parse(payload.issuedAt))) throw new Error('invalid activation issuedAt')
+  const issuedAt = Date.parse(payload.issuedAt)
+  const expiresAt = Date.parse(payload.expiresAt)
+  if (!Number.isFinite(issuedAt)) throw new Error('invalid activation issuedAt')
+  if (!Number.isFinite(expiresAt) || expiresAt <= issuedAt || expiresAt - issuedAt > MAX_ATTESTATION_LIFETIME_MS) {
+    throw new Error('invalid activation expiresAt')
+  }
+  if (issuedAt > now + MAX_CLOCK_SKEW_MS) throw new Error('activation attestation is not yet valid')
+  if (expiresAt < now) throw new Error('activation attestation expired')
   if (!isRecord(payload.runtimeImages)) throw new Error('activation runtime images must be an object')
   exactKeys(payload.runtimeImages, ['python', 'javascript', 'sql'], 'activation runtime images')
   for (const image of Object.values(payload.runtimeImages)) {
@@ -274,8 +360,18 @@ function assertAttestationPayload(
   }
   if (!isRecord(payload.environment)) throw new Error('activation environment proof must be an object')
   exactKeys(payload.environment, [
+    'environmentId', 'evaluatorOriginSha256', 'databaseProjectRefSha256',
     'rootlessRuntime', 'migrations', 'privateHttpsIngress', 'monitoring', 'masteryWriteKillSwitch',
   ], 'activation environment proof')
+  if (payload.environment.environmentId !== manifest.authority.environmentId) throw new Error('activation environment id mismatch')
+  if (
+    manifest.authority.evaluatorOriginSha256 === UNPROVISIONED ||
+    payload.environment.evaluatorOriginSha256 !== manifest.authority.evaluatorOriginSha256
+  ) throw new Error('activation evaluator origin is unprovisioned or mismatched')
+  if (
+    manifest.authority.databaseProjectRefSha256 === UNPROVISIONED ||
+    payload.environment.databaseProjectRefSha256 !== manifest.authority.databaseProjectRefSha256
+  ) throw new Error('activation database project is unprovisioned or mismatched')
   if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
   if (
     !Array.isArray(payload.environment.migrations) ||
@@ -319,6 +415,7 @@ export function verifyActivationAttestation(
   envelope: SignedActivationAttestation,
   publicKey: KeyLike,
   manifest: FlagshipActivationManifest,
+  options: { now?: number } = {},
 ): {
   trustedLabKeys: ReadonlySet<string>
   evidenceByLesson: ReadonlyMap<string, { lab: { trust: 'controlled_evaluator'; results: Array<{ blockIndex: number; status: 'pass' }> } }>
@@ -326,6 +423,10 @@ export function verifyActivationAttestation(
   if (!isRecord(envelope) || typeof envelope.signature !== 'string' || !isRecord(envelope.payload)) {
     throw new Error('invalid activation attestation envelope')
   }
+  if (
+    manifest.authority.signerPublicKeySha256 === UNPROVISIONED ||
+    publicKeyFingerprint(publicKey) !== manifest.authority.signerPublicKeySha256
+  ) throw new Error('activation signer is unprovisioned or does not match the pinned authority')
   const authentic = verify(
     null,
     Buffer.from(stableStringify(envelope.payload)),
@@ -333,7 +434,7 @@ export function verifyActivationAttestation(
     Buffer.from(envelope.signature, 'base64'),
   )
   if (!authentic) throw new Error('invalid activation attestation signature')
-  assertAttestationPayload(envelope.payload as ActivationAttestationPayload, manifest)
+  assertAttestationPayload(envelope.payload as ActivationAttestationPayload, manifest, options.now ?? Date.now())
   const trustedLabKeys = new Set(envelope.payload.labs.map((lab) => lab.labKey))
   const evidenceByLesson = new Map(envelope.payload.labs.map((lab) => [lab.labKey, {
     lab: {

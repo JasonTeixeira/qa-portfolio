@@ -15,6 +15,8 @@ import { evaluateLabOnControlledService } from '@/lib/academy/lab-evaluator/clie
 import { persistTrustedLabEvaluation } from '@/lib/academy/lab-evaluator/persistence-server'
 import {
   FLAGSHIP_ACTIVATION_RELEASE_ID,
+  activationAttestationAllowsMastery,
+  flagshipLabSpecRevision,
   isFlagshipLabCandidate,
   masteryPersistenceEnabled,
 } from '@/lib/academy/lab-evaluator/activation'
@@ -126,6 +128,12 @@ export async function verifyLab(
     const outcome = decideLabSubmissionOutcome(evaluation)
     if (!evaluation || !outcome.persistMastery) {
       return { ok: true, verified: false, trustStatus: 'practice_only', reason: outcome.reason }
+    }
+    if (evaluation.specRevision !== flagshipLabSpecRevision(courseSlug, lessonSlug)) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'activation_spec_mismatch' }
+    }
+    if (!activationAttestationAllowsMastery(process.env, courseSlug, lessonSlug)) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'activation_not_attested' }
     }
     if (!masteryPersistenceEnabled(process.env, FLAGSHIP_ACTIVATION_RELEASE_ID)) {
       return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'mastery_writes_disabled' }

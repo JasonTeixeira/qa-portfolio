@@ -16,7 +16,7 @@ The candidate release cannot produce mastery evidence unless all of these indepe
 
 1. the lab is named in the public candidate manifest;
 2. the private pack exactly matches the manifest and contains no extra spec;
-3. a release-bound Ed25519 activation attestation proves rootless execution, digest-pinned images, migrations 0116/0117, private ingress, reference solutions, every required adversarial probe, reconciled receipts, monitoring, and the mastery kill switch;
+3. a release-bound Ed25519 activation attestation from the manifest-pinned signer proves rootless execution, digest-pinned images, migrations 0116/0117, private ingress, reference solutions, every required adversarial probe, reconciled receipts, monitoring, and the mastery kill switch;
 4. the application has the two-part mastery-write switch enabled for that exact release; and
 5. the evaluator returns a fresh authenticated passing result bound to the learner source digest.
 
@@ -24,7 +24,9 @@ Certification Harness V2 may promote only lab keys present in the verified attes
 
 ## Candidate release
 
-The public release is `flagship-labs-2026-08-27.1` in `data/academy/lab-evaluator/flagship-activation.json`. It remains `candidate`; the repository does not claim a staging or production activation.
+The public release is `flagship-labs-2026-08-27.1` in `data/academy/lab-evaluator/flagship-activation.json`. The reviewed manifest also pins the signer fingerprint, environment ID, evaluator-origin digest, and database-project digest. Those three cryptographic/deployment pins remain explicitly `unprovisioned`, so no caller-supplied key or environment can activate the release yet. Provisioning them requires a reviewed manifest change after the staging identities exist.
+
+Attestations expire within 24 hours. The runtime application, readiness command, and Certification Harness V2 all verify the same signature, release, registry, policy, spec revisions, deployment identities, and expiry. The application additionally requires its live evaluator origin and database project to hash to the reviewed pins before a mastery write.
 
 ## Rollback
 

@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process'
-import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises'
-import { isIP } from 'node:net'
+import { createHash } from 'node:crypto'
+import { lookup } from 'node:dns/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 import activationManifestJson from '../../../../data/academy/lab-evaluator/flagship-activation.json'
@@ -10,9 +11,10 @@ import {
   STAGING_READINESS_GATES,
   type ActivationAttestationPayload,
   evaluateStagingReadiness,
+  isPrivateNetworkAddress,
   parseFlagshipActivationManifest,
+  resolvePrivateSpecRoot,
   validatePrivatePack,
-  validatePrivateSpecRoot,
   verifyActivationAttestation,
 } from './core'
 
@@ -33,21 +35,29 @@ type ReadinessReport = {
 
 const PINNED_IMAGE_RE = /@sha256:[0-9a-f]{64}$/
 
-function privateHostname(hostname: string): boolean {
-  const normalized = hostname.toLowerCase()
-  if (normalized === 'localhost' || normalized.endsWith('.internal') || normalized.endsWith('.private')) return true
-  if (isIP(normalized) === 4) {
-    const [a, b] = normalized.split('.').map(Number)
-    return a === 10 || a === 127 || (a === 192 && b === 168) || (a === 172 && b >= 16 && b <= 31)
-  }
-  return isIP(normalized) === 6 && (normalized === '::1' || normalized.startsWith('fc') || normalized.startsWith('fd'))
+function identityDigest(value: string): string {
+  return createHash('sha256').update(value, 'utf8').digest('hex')
 }
 
-async function privateHealthReady(rawUrl: string | undefined): Promise<boolean> {
+async function resolvesOnlyToPrivateAddresses(hostname: string): Promise<boolean> {
+  if (isPrivateNetworkAddress(hostname)) return true
+  try {
+    const addresses = await lookup(hostname, { all: true, verbatim: true })
+    return addresses.length > 0 && addresses.every(({ address }) => isPrivateNetworkAddress(address))
+  } catch {
+    return false
+  }
+}
+
+async function privateHealthReady(rawUrl: string | undefined, expectedOriginDigest: string): Promise<boolean> {
   if (!rawUrl) return false
   try {
     const url = new URL('/healthz', rawUrl)
-    if (url.protocol !== 'https:' || !privateHostname(url.hostname)) return false
+    if (
+      url.protocol !== 'https:' ||
+      identityDigest(url.origin) !== expectedOriginDigest ||
+      !await resolvesOnlyToPrivateAddresses(url.hostname)
+    ) return false
     const response = await fetch(url, {
       method: 'GET',
       redirect: 'error',
@@ -123,15 +133,14 @@ async function main(): Promise<void> {
   const repoRoot = resolve(process.cwd())
   const manifest = parseFlagshipActivationManifest(activationManifestJson, registryJson)
   gates.manifest_valid = true
+  if (Object.values(manifest.authority).includes('unprovisioned')) {
+    observations.push('The reviewed signer, evaluator-origin, and database-project authority pins are not provisioned.')
+  }
 
   const privateSpecRoot = process.env.ACADEMY_EVALUATOR_PRIVATE_SPEC_ROOT
   if (privateSpecRoot) {
     try {
-      const info = await lstat(resolve(privateSpecRoot))
-      const validatedRoot = validatePrivateSpecRoot(repoRoot, resolve(privateSpecRoot), {
-        isDirectory: info.isDirectory(),
-        isSymbolicLink: info.isSymbolicLink(),
-      })
+      const validatedRoot = await resolvePrivateSpecRoot(repoRoot, resolve(privateSpecRoot))
       await validatePrivatePack(manifest, validatedRoot)
       gates.private_pack_valid = true
     } catch {
@@ -152,8 +161,12 @@ async function main(): Promise<void> {
   gates.receipts_reconciled = attested
 
   gates.private_https_ingress = activation?.environment.privateHttpsIngress === 'passed' &&
-    await privateHealthReady(process.env.ACADEMY_LAB_EVALUATOR_URL)
-  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117'
+    await privateHealthReady(
+      process.env.ACADEMY_LAB_EVALUATOR_URL,
+      manifest.authority.evaluatorOriginSha256,
+    )
+  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117' &&
+    identityDigest(process.env.ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF ?? '') === manifest.authority.databaseProjectRefSha256
   gates.monitoring_ready = activation?.environment.monitoring === 'passed'
   gates.kill_switch_ready = activation?.environment.masteryWriteKillSwitch === 'passed' &&
     masteryPersistenceEnabled(process.env, manifest.releaseId)

@@ -1,20 +1,27 @@
 import assert from 'node:assert/strict'
 import { generateKeyPairSync } from 'node:crypto'
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { describe, it } from 'node:test'
 
 import { evaluatorPolicyHash, EVALUATOR_VERSION } from '../../lib/academy/lab-evaluator/contract'
-import { masteryPersistenceEnabled } from '../../lib/academy/lab-evaluator/activation'
+import {
+  activationAttestationAllowsMastery,
+  flagshipLabSpecRevision,
+  masteryPersistenceEnabled,
+} from '../../lib/academy/lab-evaluator/activation'
 import * as stagingCore from '../../scripts/academy/lab-evaluator/staging/core'
 
 const {
   REQUIRED_ADVERSARIAL_PROBES,
   buildStagingProbePlan,
   evaluateStagingReadiness,
+  isPrivateNetworkAddress,
   parseFlagshipActivationManifest,
+  publicKeyFingerprint,
+  resolvePrivateSpecRoot,
   signActivationAttestation,
   validatePrivateSpecRoot,
   verifyActivationAttestation,
@@ -65,12 +72,23 @@ const registry = {
   ],
 }
 
-function manifest() {
+function manifest(authority: Partial<{
+  signerPublicKeySha256: string
+  evaluatorOriginSha256: string
+  databaseProjectRefSha256: string
+}> = {}) {
   return {
     schemaVersion: 1 as const,
     releaseId: RELEASE_ID,
     registryVersion: REGISTRY_VERSION,
     status: 'candidate' as const,
+    authority: {
+      signerPublicKeySha256: 'a'.repeat(64),
+      environmentId: 'sageideas-academy-staging',
+      evaluatorOriginSha256: 'b'.repeat(64),
+      databaseProjectRefSha256: 'c'.repeat(64),
+      ...authority,
+    },
     labs: LABS.map(([labKey, language], index) => ({
       labKey,
       blockIndex: 7,
@@ -81,7 +99,7 @@ function manifest() {
   }
 }
 
-function attestationPayload() {
+function attestationPayload(targetManifest = manifest()) {
   return {
     schemaVersion: 1 as const,
     releaseId: RELEASE_ID,
@@ -89,12 +107,16 @@ function attestationPayload() {
     evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
     issuedAt: '2026-08-27T21:00:00.000Z',
+    expiresAt: '2026-08-28T21:00:00.000Z',
     runtimeImages: {
       python: `registry.example/sage-python@sha256:${'1'.repeat(64)}`,
       javascript: `registry.example/sage-js@sha256:${'2'.repeat(64)}`,
       sql: `registry.example/sage-sql@sha256:${'3'.repeat(64)}`,
     },
     environment: {
+      environmentId: targetManifest.authority.environmentId,
+      evaluatorOriginSha256: targetManifest.authority.evaluatorOriginSha256,
+      databaseProjectRefSha256: targetManifest.authority.databaseProjectRefSha256,
       rootlessRuntime: 'passed' as const,
       migrations: ['0116', '0117'] as const,
       privateHttpsIngress: 'passed' as const,
@@ -150,6 +172,22 @@ describe('academy Step 4B staging activation contract', () => {
     )
   })
 
+  it('resolves the full private-root ancestry before enforcing repository containment', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'academy-private-root-ancestry-'))
+    try {
+      const repo = join(root, 'repo')
+      const nested = join(repo, 'hidden-specs')
+      mkdirSync(nested, { recursive: true })
+      symlinkSync(repo, join(root, 'repo-alias'))
+      await assert.rejects(
+        () => resolvePrivateSpecRoot(repo, join(root, 'repo-alias', 'hidden-specs')),
+        /outside/i,
+      )
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('validates every private spec against its manifest revision and content digest', async () => {
     const root = mkdtempSync(join(tmpdir(), 'academy-flagship-private-pack-'))
     try {
@@ -200,10 +238,22 @@ describe('academy Step 4B staging activation contract', () => {
     })
   })
 
+  it('recognizes only literal private network addresses, never a trusted-looking hostname suffix', () => {
+    assert.equal(isPrivateNetworkAddress('10.2.3.4'), true)
+    assert.equal(isPrivateNetworkAddress('172.31.1.2'), true)
+    assert.equal(isPrivateNetworkAddress('192.168.1.5'), true)
+    assert.equal(isPrivateNetworkAddress('fd00::1'), true)
+    assert.equal(isPrivateNetworkAddress('8.8.8.8'), false)
+    assert.equal(isPrivateNetworkAddress('anything.internal'), false)
+  })
+
   it('promotes only an Ed25519-attested, policy-pinned, receipt-reconciled activation release', () => {
     const { privateKey, publicKey } = generateKeyPairSync('ed25519')
-    const envelope = signActivationAttestation(attestationPayload(), privateKey)
-    const verified = verifyActivationAttestation(envelope, publicKey, manifest())
+    const trustedManifest = manifest({ signerPublicKeySha256: publicKeyFingerprint(publicKey) })
+    const envelope = signActivationAttestation(attestationPayload(trustedManifest), privateKey)
+    const verified = verifyActivationAttestation(envelope, publicKey, trustedManifest, {
+      now: Date.parse('2026-08-28T01:00:00.000Z'),
+    })
     assert.deepEqual([...verified.trustedLabKeys].sort(), LABS.map(([labKey]) => labKey).sort())
     assert.equal(verified.evidenceByLesson.get('the-llm-api/token-cost-model')?.lab?.results?.[0]?.status, 'pass')
 
@@ -211,18 +261,46 @@ describe('academy Step 4B staging activation contract', () => {
       () => verifyActivationAttestation({
         ...envelope,
         payload: { ...envelope.payload, policyHash: 'f'.repeat(64) },
-      }, publicKey, manifest()),
+      }, publicKey, trustedManifest, { now: Date.parse('2026-08-28T01:00:00.000Z') }),
       /signature|policy/i,
     )
     const mismatchedReceipt = {
-      ...attestationPayload(),
-      labs: attestationPayload().labs.map((lab, index) => index === 0
+      ...attestationPayload(trustedManifest),
+      labs: attestationPayload(trustedManifest).labs.map((lab, index) => index === 0
         ? { ...lab, receiptEvaluationId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b99' }
         : lab),
     }
     assert.throws(
-      () => verifyActivationAttestation(signActivationAttestation(mismatchedReceipt, privateKey), publicKey, manifest()),
+      () => verifyActivationAttestation(signActivationAttestation(mismatchedReceipt, privateKey), publicKey, trustedManifest, {
+        now: Date.parse('2026-08-28T01:00:00.000Z'),
+      }),
       /receipt/i,
+    )
+    assert.throws(
+      () => verifyActivationAttestation(envelope, publicKey, {
+        ...trustedManifest,
+        authority: { ...trustedManifest.authority, signerPublicKeySha256: 'unprovisioned' as const },
+      }, { now: Date.parse('2026-08-28T01:00:00.000Z') }),
+      /unprovisioned|signer/i,
+    )
+    const wrongEnvironment = {
+      ...attestationPayload(trustedManifest),
+      environment: {
+        ...attestationPayload(trustedManifest).environment,
+        evaluatorOriginSha256: 'd'.repeat(64),
+      },
+    }
+    assert.throws(
+      () => verifyActivationAttestation(signActivationAttestation(wrongEnvironment, privateKey), publicKey, trustedManifest, {
+        now: Date.parse('2026-08-28T01:00:00.000Z'),
+      }),
+      /environment|origin/i,
+    )
+    assert.throws(
+      () => verifyActivationAttestation(envelope, publicKey, trustedManifest, {
+        now: Date.parse('2026-08-29T01:00:00.000Z'),
+      }),
+      /expired/i,
     )
   })
 
@@ -237,6 +315,27 @@ describe('academy Step 4B staging activation contract', () => {
       ACADEMY_LAB_MASTERY_WRITES_ENABLED: 'TRUE',
       ACADEMY_LAB_ACTIVATION_RELEASE: RELEASE_ID,
     }, RELEASE_ID), false)
+  })
+
+  it('keeps runtime mastery disabled when the reviewed signer and deployment pins are unprovisioned', () => {
+    const root = mkdtempSync(join(tmpdir(), 'academy-unpinned-activation-'))
+    try {
+      const { privateKey, publicKey } = generateKeyPairSync('ed25519')
+      const trustedManifest = manifest({ signerPublicKeySha256: publicKeyFingerprint(publicKey) })
+      writeFileSync(join(root, 'public.pem'), publicKey.export({ type: 'spki', format: 'pem' }))
+      writeFileSync(join(root, 'attestation.json'), JSON.stringify(
+        signActivationAttestation(attestationPayload(trustedManifest), privateKey),
+      ))
+      assert.equal(flagshipLabSpecRevision('programming-fundamentals', 'input-validation'), '2026-08-27.1')
+      assert.equal(activationAttestationAllowsMastery({
+        ACADEMY_LAB_STAGING_ATTESTATION_PATH: join(root, 'attestation.json'),
+        ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH: join(root, 'public.pem'),
+        ACADEMY_LAB_EVALUATOR_URL: 'https://10.0.0.5',
+        ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF: 'fake-project',
+      }, 'programming-fundamentals', 'input-validation'), false)
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
   })
 
   it('feeds private SQL fixtures over stdin while stripping the public practice fixture', () => {

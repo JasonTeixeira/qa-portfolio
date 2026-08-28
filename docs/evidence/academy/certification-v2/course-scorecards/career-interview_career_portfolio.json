@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-  "generatedAt": "2026-08-28T21:16:14.782Z",
+  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+  "generatedAt": "2026-08-28T21:24:02.755Z",
   "courseSlug": "career-interview_career_portfolio",
   "title": "Interview, Career, and Portfolio",
-  "contentHash": "sha256:b52c4c8443d0cc8256a30ad9ab177d90165069ddfbab040cb011ccc66cf3b7ed",
+  "contentHash": "sha256:c05eb144d4f84be5f6527760ee4306329a1283b9a5d37b900c752667223e796c",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9cd17d36a0790ee6",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "role-targeting"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "87b7022b432b11e2",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "market-scan"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9fbe398ba79505e3",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "resume-positioning"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ec20fc809a9d1c69",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "linkedin-github-positioning"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7d589bcbd9ccfece",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "portfolio-proof-map"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "38f3485415f70a79",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "project-case-studies"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1695048513d47454",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "behavioral-story-bank"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "17e391c6275d2c9a",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "technical-explanation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f0e4a5a1db724d3b",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "system-design-interview"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e84652dbd0f8507c",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "coding-interview-loop"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "52fed884fb63c53b",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "debugging-interview"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "cc31805e4a8bde4e",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "architecture-tradeoffs"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1d94497168196664",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "ai-tooling-interview"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "340d3f83cb328fb4",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "cloud-data-interview"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6661c50980e5df50",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "take-home-execution"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0a721170fbae557d",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "outreach-networking"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "492a0891fab491a7",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "application-pipeline"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "33ed19dddd33c66c",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "offer-negotiation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "aa63113491d409ee",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "feedback-retro"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ab6be588e1ba9106",
-          "courseSlug": "career-interview_career_portfolio",
-          "lessonSlug": "career-capstone"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "aba3edd726f64ada",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "role-targeting"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "a60f983f08dc1348",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "market-scan"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7225f9c2632f8aab",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "resume-positioning"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c46dcae1262c51a2",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "linkedin-github-positioning"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5b0ab0f73e53a5cb",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "portfolio-proof-map"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "4e42a250be8cf4cd",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "project-case-studies"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7db992d051bf7267",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "behavioral-story-bank"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "98b01ce946b08a3e",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "technical-explanation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "eee76c817aed2da8",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "system-design-interview"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "71e21fd730e88c0a",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "coding-interview-loop"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "882c416bf8c38f8c",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "debugging-interview"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "267dbb06d2bbce1c",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "architecture-tradeoffs"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "14d5695dc3420670",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "ai-tooling-interview"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "65cb978198863312",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "cloud-data-interview"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "bead5c08c0c4f0ca",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "take-home-execution"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f22642bc5ac0af46",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "outreach-networking"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c426341eb27336bc",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "application-pipeline"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "fbe683e1112632cf",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "offer-negotiation"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "79554831acd91615",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "feedback-retro"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "fe8a416a8efa8219",
+          "courseSlug": "career-interview_career_portfolio",
+          "lessonSlug": "career-capstone"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "aba3edd726f64ada",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "role-targeting"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "a60f983f08dc1348",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "market-scan"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7225f9c2632f8aab",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "resume-positioning"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c46dcae1262c51a2",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "linkedin-github-positioning"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5b0ab0f73e53a5cb",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "portfolio-proof-map"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "4e42a250be8cf4cd",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "project-case-studies"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7db992d051bf7267",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "behavioral-story-bank"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "98b01ce946b08a3e",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "technical-explanation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "eee76c817aed2da8",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "system-design-interview"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "71e21fd730e88c0a",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "coding-interview-loop"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "882c416bf8c38f8c",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "debugging-interview"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "267dbb06d2bbce1c",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "architecture-tradeoffs"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "14d5695dc3420670",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "ai-tooling-interview"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "65cb978198863312",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "cloud-data-interview"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "bead5c08c0c4f0ca",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "take-home-execution"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f22642bc5ac0af46",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "outreach-networking"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c426341eb27336bc",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "application-pipeline"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "fbe683e1112632cf",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "offer-negotiation"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "79554831acd91615",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "feedback-retro"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "fe8a416a8efa8219",
+      "courseSlug": "career-interview_career_portfolio",
+      "lessonSlug": "career-capstone"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

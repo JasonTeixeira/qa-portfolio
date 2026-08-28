@@ -2,12 +2,12 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "role-targeting",
-    "contentHash": "sha256:5427858a370255d6bfca8608f3963547a61b2efe5828740a27bb7c1cd95f5a43",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:ada5798e540abed9f76f4bf1a4d357d5377abce6eb608696948a353b85ad1e17",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -26,15 +26,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -44,71 +44,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "9cd17d36a0790ee6",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "aba3edd726f64ada",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "role-targeting"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -309,9 +310,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "aba3edd726f64ada",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "role-targeting"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -322,18 +335,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "market-scan",
-    "contentHash": "sha256:4433f35c9981e45bfdcd78e67d8ce73fa3b1213aa56a26119904d15a014361d3",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:680802b5669a10eec71d8779e9cb4ae217ccb64af9206af19d1d7f9dc73b2b9c",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -352,15 +365,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -370,71 +383,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "87b7022b432b11e2",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "a60f983f08dc1348",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "market-scan"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -635,9 +649,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "a60f983f08dc1348",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "market-scan"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -648,18 +674,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "resume-positioning",
-    "contentHash": "sha256:663603801b55c0b56dd4c60d93296869bebcae1d5bf2b2a5866acea38a95450d",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:948e8bb1e51ca482286ba8861629f25b5ff4116411a242b3faa3a17a18b7063d",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -678,15 +704,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -696,71 +722,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "9fbe398ba79505e3",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "7225f9c2632f8aab",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "resume-positioning"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -961,9 +988,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "7225f9c2632f8aab",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "resume-positioning"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -974,18 +1013,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "linkedin-github-positioning",
-    "contentHash": "sha256:ea73ff1ec0054e348e14ffc7a711f633254129a4508234e7d8ad80e4568853c0",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:fe63c8279abe7ffac657beb63145f28c24660077ab849ee379f8ca20cf0f3eb2",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -1004,15 +1043,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1022,71 +1061,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "ec20fc809a9d1c69",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "c46dcae1262c51a2",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "linkedin-github-positioning"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -1287,9 +1327,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "c46dcae1262c51a2",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "linkedin-github-positioning"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -1300,18 +1352,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "portfolio-proof-map",
-    "contentHash": "sha256:dfa70f75ea74d9c8da4e2590be8b3a28238af8dd8c29a3dfe49715a2bb721315",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:80ddc3066806a71f51e3c9ddd2f6575ab13f1acccbbe80e6276e90606812bb1f",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -1330,15 +1382,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1348,71 +1400,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "7d589bcbd9ccfece",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "5b0ab0f73e53a5cb",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "portfolio-proof-map"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -1613,9 +1666,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "5b0ab0f73e53a5cb",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "portfolio-proof-map"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -1626,18 +1691,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "project-case-studies",
-    "contentHash": "sha256:e2bfb6ed948965ab9e5d5f12790f0cf7ec191e368d86c9e14516786237b30232",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:0fbc9a6733e059d8eb366650b56bab4d797846cf449b174b77aeeb61f29c10df",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -1656,15 +1721,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1674,71 +1739,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "38f3485415f70a79",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "4e42a250be8cf4cd",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "project-case-studies"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -1939,9 +2005,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "4e42a250be8cf4cd",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "project-case-studies"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -1952,18 +2030,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "behavioral-story-bank",
-    "contentHash": "sha256:84d7ae524b90168acabedde33b216afacab5757ce5189e2f6cb303a7e56b99e6",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:8feda69a005ecd25ed12a33063d68f1ea87b51e10b7c4408d6276bbc4f2eb06b",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -1982,15 +2060,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2000,71 +2078,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "1695048513d47454",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "7db992d051bf7267",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "behavioral-story-bank"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -2265,9 +2344,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "7db992d051bf7267",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "behavioral-story-bank"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -2278,18 +2369,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "technical-explanation",
-    "contentHash": "sha256:427f2bd73ad157becdd1c6393ca65267459f2dab5740465eb49493369ce52103",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:71e4c46022d9026628b92a25edb7ab7d3466e3620370aa74d89d45215b44a15f",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -2308,15 +2399,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2326,71 +2417,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "17e391c6275d2c9a",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "98b01ce946b08a3e",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "technical-explanation"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -2591,9 +2683,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "98b01ce946b08a3e",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "technical-explanation"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -2604,18 +2708,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "system-design-interview",
-    "contentHash": "sha256:7510f54c2196d1a3b75a98641b216c5b306562504926e926d9b258147462a45c",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:3fbdd492397b988aafd422fd994eed8dc564c3bcab93d47e8918c019a0dff244",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -2634,15 +2738,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2652,71 +2756,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "f0e4a5a1db724d3b",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "eee76c817aed2da8",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "system-design-interview"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -2917,9 +3022,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "eee76c817aed2da8",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "system-design-interview"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -2930,18 +3047,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "coding-interview-loop",
-    "contentHash": "sha256:e1c76608327941bb94833fbf54624dd8fa6a72f542f99537b1c74fbcf08f6263",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:34e3474b2ae0275c2c5f8e1982401bcc4e33ddef87e262c137b3eccedfb80775",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -2960,15 +3077,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2978,71 +3095,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "e84652dbd0f8507c",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "71e21fd730e88c0a",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "coding-interview-loop"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -3243,9 +3361,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "71e21fd730e88c0a",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "coding-interview-loop"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -3256,18 +3386,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "debugging-interview",
-    "contentHash": "sha256:8c347fb51d46447cfa94665a2e35b1b8ee6c7872705287a7f1b5156322ef51a2",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:48a188781cac96d7d5a2fdcaf1f20003bcb89370e6147114866da7ebaff33fee",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -3286,15 +3416,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3304,71 +3434,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "52fed884fb63c53b",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "882c416bf8c38f8c",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "debugging-interview"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -3569,9 +3700,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "882c416bf8c38f8c",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "debugging-interview"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -3582,18 +3725,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "architecture-tradeoffs",
-    "contentHash": "sha256:d6d26bfc615b8b4ba1cef74506c5eaddfd229a42c1b4a81afe2882b8d64e3190",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:277714dac8f73b2d8c2558f910bb618ed0bd42845b8f79713d52ef9315b8b35b",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -3612,15 +3755,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3630,71 +3773,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "cc31805e4a8bde4e",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "267dbb06d2bbce1c",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "architecture-tradeoffs"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -3895,9 +4039,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "267dbb06d2bbce1c",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "architecture-tradeoffs"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -3908,18 +4064,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "ai-tooling-interview",
-    "contentHash": "sha256:28d27e1b3a121824866e40cab9a5f4d19643d7e38d952aeb90b52fabde72ac58",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:b22025faad123c091e81aea72bfa0746999ff583d860cf4cbbac53b73104b1a2",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -3938,15 +4094,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3956,71 +4112,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "1d94497168196664",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "14d5695dc3420670",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "ai-tooling-interview"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -4221,9 +4378,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "14d5695dc3420670",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "ai-tooling-interview"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -4234,18 +4403,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "cloud-data-interview",
-    "contentHash": "sha256:690af8dfe8d7a337ca20c850e78ac8a1a41318e78256eb781fd11ad4a6b82779",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:4afeed6b1f092d9cd27a80f987dd7b054658efff224aaf6db37cee42e7ac63e8",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -4264,15 +4433,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4282,71 +4451,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "340d3f83cb328fb4",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "65cb978198863312",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "cloud-data-interview"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -4547,9 +4717,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "65cb978198863312",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "cloud-data-interview"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -4560,18 +4742,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "take-home-execution",
-    "contentHash": "sha256:d1b54ca9d5bfab12f9c537aa4c9d504ee2264bfdf82bf50c5e939203be9d00b9",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:f7efb7ba076446963884f8a18d484225fea3f160070869f89ce136190df2b659",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -4590,15 +4772,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4608,71 +4790,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "6661c50980e5df50",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "bead5c08c0c4f0ca",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "take-home-execution"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -4873,9 +5056,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "bead5c08c0c4f0ca",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "take-home-execution"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -4886,18 +5081,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "outreach-networking",
-    "contentHash": "sha256:ac0d58dd0f80006a09fb42284946e74fc2388d9f56dcc94e2cc952e92c060e8e",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:2ecee68073edf0072e879496a10265cda21ff134627a02bca5452dbc71182a1a",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -4916,15 +5111,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4934,71 +5129,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "0a721170fbae557d",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "f22642bc5ac0af46",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "outreach-networking"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -5199,9 +5395,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "f22642bc5ac0af46",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "outreach-networking"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -5212,18 +5420,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "application-pipeline",
-    "contentHash": "sha256:bad2e9fd456f0a6a02028d20b5d706b76cfe068e055f39e837a7249aafc55e40",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:b490dc8df37b6f44b2c9994dd86de0840af0242239e6f30fc6658a44470020d4",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -5242,15 +5450,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5260,71 +5468,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "492a0891fab491a7",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "c426341eb27336bc",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "application-pipeline"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -5525,9 +5734,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "c426341eb27336bc",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "application-pipeline"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -5538,18 +5759,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "offer-negotiation",
-    "contentHash": "sha256:cbde986257e15e41efde3d643da8ba668e9a7a4d7a734797e231a5b34ed0f405",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:fd037d1c6055ae646574fdb539ab38b03f90e208bd40f01b80348d9a25e6254e",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -5568,15 +5789,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5586,71 +5807,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "33ed19dddd33c66c",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "fbe683e1112632cf",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "offer-negotiation"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -5851,9 +6073,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "fbe683e1112632cf",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "offer-negotiation"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -5864,18 +6098,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "feedback-retro",
-    "contentHash": "sha256:eba126245d63410654199909c1cfda9cace56bab3e3615dea0e8a11e5bb660b0",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:f8e3c72db76ced1d8693ef6f0b7d92b1cd03d3a7474a5305880b2b77609d8466",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -5894,15 +6128,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The deep loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5912,71 +6146,72 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
+        "findings": []
+      },
+      "assessments": {
+        "id": "assessments",
+        "status": "pass",
+        "score": 100,
+        "checks": [
+          {
+            "id": "assessment-structure",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "Quiz, explanation, verification, and teach-back are present."
+          }
+        ],
+        "findings": []
+      },
+      "sources": {
+        "id": "sources",
+        "status": "pending",
+        "score": null,
+        "checks": [
+          {
+            "id": "source-ledger-schema",
+            "mode": "deterministic",
+            "status": "pass",
+            "required": true,
+            "summary": "20/20 source rows have the required local schema."
+          },
+          {
+            "id": "claim-level-coverage",
+            "mode": "expert",
+            "status": "pending",
+            "required": true,
+            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
+          }
+        ],
+        "findings": []
+      },
+      "labs": {
+        "id": "labs",
+        "status": "fail",
+        "score": null,
+        "checks": [
+          {
+            "id": "lab-proof",
+            "mode": "policy",
+            "status": "fail",
+            "required": true,
+            "summary": "The current runtime is explicitly untrusted for mastery."
+          }
+        ],
         "findings": [
           {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "aa63113491d409ee",
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "79554831acd91615",
             "courseSlug": "career-interview_career_portfolio",
             "lessonSlug": "feedback-retro"
           }
         ]
       },
-      "assessments": {
-        "id": "assessments",
-        "status": "pass",
-        "score": 100,
-        "checks": [
-          {
-            "id": "assessment-structure",
-            "mode": "deterministic",
-            "status": "pass",
-            "required": true,
-            "summary": "Quiz, explanation, verification, and teach-back are present."
-          }
-        ],
-        "findings": []
-      },
-      "sources": {
-        "id": "sources",
-        "status": "pending",
-        "score": null,
-        "checks": [
-          {
-            "id": "source-ledger-schema",
-            "mode": "deterministic",
-            "status": "pending",
-            "required": true,
-            "summary": "No source ledger is registered for this course."
-          },
-          {
-            "id": "claim-level-coverage",
-            "mode": "expert",
-            "status": "pending",
-            "required": true,
-            "summary": "Claim-level source coverage requires expert review and explicit completeness evidence."
-          }
-        ],
-        "findings": []
-      },
-      "labs": {
-        "id": "labs",
-        "status": "not_applicable",
-        "score": null,
-        "checks": [
-          {
-            "id": "lab-proof",
-            "mode": "policy",
-            "status": "not_applicable",
-            "required": true,
-            "summary": "No lab is present in this lesson."
-          }
-        ],
-        "findings": []
-      },
       "accessibility": {
         "id": "accessibility",
         "status": "pending",
@@ -6177,9 +6412,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "79554831acd91615",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "feedback-retro"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -6190,18 +6437,18 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   },
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-    "generatedAt": "2026-08-28T21:16:14.782Z",
+    "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+    "generatedAt": "2026-08-28T21:24:02.755Z",
     "courseSlug": "career-interview_career_portfolio",
     "lessonSlug": "career-capstone",
-    "contentHash": "sha256:644f5c9e5cf26a673c423f94c98ff79b85f0c1dd232123ba8559b728a346f2ef",
-    "labTrust": "not_applicable",
+    "contentHash": "sha256:6cf688991912dae08b39213412985e7e626e8159515612b036b6dbc6c588d1f6",
+    "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
         "id": "structure",
@@ -6220,15 +6467,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6238,18 +6485,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "ab6be588e1ba9106",
-            "courseSlug": "career-interview_career_portfolio",
-            "lessonSlug": "career-capstone"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6274,9 +6510,9 @@
           {
             "id": "source-ledger-schema",
             "mode": "deterministic",
-            "status": "pending",
+            "status": "pass",
             "required": true,
-            "summary": "No source ledger is registered for this course."
+            "summary": "20/20 source rows have the required local schema."
           },
           {
             "id": "claim-level-coverage",
@@ -6290,18 +6526,30 @@
       },
       "labs": {
         "id": "labs",
-        "status": "not_applicable",
+        "status": "fail",
         "score": null,
         "checks": [
           {
             "id": "lab-proof",
             "mode": "policy",
-            "status": "not_applicable",
+            "status": "fail",
             "required": true,
-            "summary": "No lab is present in this lesson."
+            "summary": "The current runtime is explicitly untrusted for mastery."
           }
         ],
-        "findings": []
+        "findings": [
+          {
+            "code": "H2",
+            "severity": "blocker",
+            "category": "labs",
+            "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+            "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+            "mode": "policy",
+            "id": "fe8a416a8efa8219",
+            "courseSlug": "career-interview_career_portfolio",
+            "lessonSlug": "career-capstone"
+          }
+        ]
       },
       "accessibility": {
         "id": "accessibility",
@@ -6503,9 +6751,21 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 100,
     "compositeScore": null,
-    "hardFails": [],
+    "hardFails": [
+      {
+        "code": "H2",
+        "severity": "blocker",
+        "category": "labs",
+        "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+        "mode": "policy",
+        "id": "fe8a416a8efa8219",
+        "courseSlug": "career-interview_career_portfolio",
+        "lessonSlug": "career-capstone"
+      }
+    ],
     "requiredPending": [
       "pedagogy",
       "sources",
@@ -6516,7 +6776,7 @@
       "performance",
       "consistency"
     ],
-    "decision": "needs_remediation",
+    "decision": "blocked",
     "certificationStatus": "uncertified"
   }
 ]

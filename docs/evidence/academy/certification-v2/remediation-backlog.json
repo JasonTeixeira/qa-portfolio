@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
-  "generatedAt": "2026-08-28T21:16:14.782Z",
+  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+  "generatedAt": "2026-08-28T21:24:02.755Z",
   "items": [
     {
       "rank": 1,
@@ -22,6 +22,7 @@
         "career-engineering_judgment_foundation",
         "career-enterprise_it_saas_admin_business_systems",
         "career-frontend_fullstack",
+        "career-interview_career_portfolio",
         "career-mobile_engineering_deep_dive",
         "career-networking_fundamentals_advanced_networking",
         "career-observability_reliability_performance",
@@ -42,9 +43,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 600,
-      "findingCount": 600,
-      "priority": 4300600
+      "lessonCount": 620,
+      "findingCount": 620,
+      "priority": 4310620
     },
     {
       "rank": 2,
@@ -196,12 +197,11 @@
       "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
         "career-databases_data_modeling",
-        "career-engineering_leadership_staff_execution",
-        "career-interview_career_portfolio"
+        "career-engineering_leadership_staff_execution"
       ],
-      "lessonCount": 34,
-      "findingCount": 34,
-      "priority": 3030034
+      "lessonCount": 17,
+      "findingCount": 17,
+      "priority": 3020017
     },
     {
       "rank": 7,
@@ -209,27 +209,14 @@
       "severity": "high",
       "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "career-engineering_leadership_staff_execution",
-        "career-interview_career_portfolio"
+        "career-engineering_leadership_staff_execution"
       ],
-      "lessonCount": 7,
-      "findingCount": 7,
-      "priority": 3020007
+      "lessonCount": 6,
+      "findingCount": 6,
+      "priority": 3010006
     },
     {
       "rank": 8,
-      "category": "pedagogy",
-      "severity": "high",
-      "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-      "courseSlugs": [
-        "career-interview_career_portfolio"
-      ],
-      "lessonCount": 2,
-      "findingCount": 2,
-      "priority": 3010002
-    },
-    {
-      "rank": 9,
       "category": "structure",
       "severity": "high",
       "remediation": "Repair the block so it satisfies the runtime LessonBlock contract.",
@@ -241,7 +228,7 @@
       "priority": 3010001
     },
     {
-      "rank": 10,
+      "rank": 9,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: rendered-axe-wcag-2.2-aa.",
@@ -284,7 +271,7 @@
       "priority": 2320640
     },
     {
-      "rank": 11,
+      "rank": 10,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: keyboard-and-focus.",
@@ -327,7 +314,7 @@
       "priority": 2320640
     },
     {
-      "rank": 12,
+      "rank": 11,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: screen-reader-semantics.",
@@ -370,7 +357,7 @@
       "priority": 2320640
     },
     {
-      "rank": 13,
+      "rank": 12,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: reduced-motion.",
@@ -413,7 +400,7 @@
       "priority": 2320640
     },
     {
-      "rank": 14,
+      "rank": 13,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: zoom-and-reflow.",
@@ -456,7 +443,7 @@
       "priority": 2320640
     },
     {
-      "rank": 15,
+      "rank": 14,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: target-size.",
@@ -499,7 +486,7 @@
       "priority": 2320640
     },
     {
-      "rank": 16,
+      "rank": 15,
       "category": "consistency",
       "severity": "medium",
       "remediation": "Complete required consistency evidence: rendered-consistency.",
@@ -542,7 +529,7 @@
       "priority": 2320640
     },
     {
-      "rank": 17,
+      "rank": 16,
       "category": "performance",
       "severity": "medium",
       "remediation": "Complete required performance evidence: rendered-performance.",
@@ -585,7 +572,7 @@
       "priority": 2320640
     },
     {
-      "rank": 18,
+      "rank": 17,
       "category": "ux",
       "severity": "medium",
       "remediation": "Complete required ux evidence: human-ux-review.",
@@ -628,7 +615,7 @@
       "priority": 2320640
     },
     {
-      "rank": 19,
+      "rank": 18,
       "category": "visual",
       "severity": "medium",
       "remediation": "Complete required visual evidence: human-visual-review.",
@@ -671,14 +658,13 @@
       "priority": 2320640
     },
     {
-      "rank": 20,
+      "rank": 19,
       "category": "sources",
       "severity": "medium",
       "remediation": "Complete required sources evidence: source-ledger-schema.",
       "courseSlugs": [
         "career-engineering_judgment_foundation",
         "career-engineering_leadership_staff_execution",
-        "career-interview_career_portfolio",
         "career-networking_fundamentals_advanced_networking",
         "career-programming_cs_foundations",
         "data-structures",
@@ -686,12 +672,12 @@
         "programming-fundamentals",
         "python-basics"
       ],
-      "lessonCount": 166,
-      "findingCount": 166,
-      "priority": 2090166
+      "lessonCount": 146,
+      "findingCount": 146,
+      "priority": 2080146
     },
     {
-      "rank": 21,
+      "rank": 20,
       "category": "media",
       "severity": "medium",
       "remediation": "Complete required media evidence: promised-media-integrity.",

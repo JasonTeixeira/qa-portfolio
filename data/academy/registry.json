@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 600,
+    "labBlocks": 620,
     "solutionEntries": 613,
-    "labLessonsWithSolutions": 573,
+    "labLessonsWithSolutions": 593,
     "labLessonsWithoutSolutions": 27,
-    "sourceLedgers": 23
+    "sourceLedgers": 24
   },
   "capabilities": [
     {
@@ -9769,13 +9769,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-interview_career_portfolio/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -9785,8 +9785,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/role-targeting",
           "source": {
@@ -9800,8 +9800,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/market-scan",
           "source": {
@@ -9815,8 +9815,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/resume-positioning",
           "source": {
@@ -9830,8 +9830,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/linkedin-github-positioning",
           "source": {
@@ -9845,8 +9845,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/portfolio-proof-map",
           "source": {
@@ -9860,8 +9860,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/project-case-studies",
           "source": {
@@ -9875,8 +9875,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/behavioral-story-bank",
           "source": {
@@ -9890,8 +9890,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/technical-explanation",
           "source": {
@@ -9905,8 +9905,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/system-design-interview",
           "source": {
@@ -9920,8 +9920,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/coding-interview-loop",
           "source": {
@@ -9935,8 +9935,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/debugging-interview",
           "source": {
@@ -9950,8 +9950,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/architecture-tradeoffs",
           "source": {
@@ -9965,8 +9965,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/ai-tooling-interview",
           "source": {
@@ -9980,8 +9980,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/cloud-data-interview",
           "source": {
@@ -9995,8 +9995,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/take-home-execution",
           "source": {
@@ -10010,8 +10010,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/outreach-networking",
           "source": {
@@ -10025,8 +10025,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/application-pipeline",
           "source": {
@@ -10040,8 +10040,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/offer-negotiation",
           "source": {
@@ -10055,8 +10055,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/feedback-retro",
           "source": {
@@ -10070,8 +10070,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-interview_career_portfolio/career-capstone",
           "source": {
@@ -10744,5 +10744,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c"
+  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8"
 }

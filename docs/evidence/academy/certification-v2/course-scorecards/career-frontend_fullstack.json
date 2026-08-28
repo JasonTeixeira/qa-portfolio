@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
-  "generatedAt": "2026-08-28T19:52:47.566Z",
+  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
+  "generatedAt": "2026-08-28T20:06:32.271Z",
   "courseSlug": "career-frontend_fullstack",
   "title": "Frontend and Fullstack Product Engineering",
-  "contentHash": "sha256:3352967a296d47c8b53c28d6a02d0d8d0cd1276b1e7fbf3a12d5a6cb97962e7a",
+  "contentHash": "sha256:796abb52dcdc0b0437cf8b231edfe0a2f1f902d2136c39f0011be6fe22a7ef16",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "130090498c2af1bb",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "product-workflow-states"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5ee074758e8bfce2",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "semantic-html-structure"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0c1670e9d398b5df",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "responsive-layout-grid"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "aec5f06156e88c00",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "types-and-ui-contracts"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1883cc58a1dbd076",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "component-composition"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d74a9302cef39ee9",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "client-state-machine"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "63246787e3f67a06",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "forms-validation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "89bc60b04efb4a0a",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "loading-empty-error-success"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "02a668536e6defa7",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "api-client-contracts"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a4a6b6cd0bd57b03",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "tables-filters-pagination"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1d0a083cffe9eb5d",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "dashboard-metrics-charts"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "49391f0b289431f3",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "detail-routes-drawers"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5aac834d7323654d",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "action-safety-optimistic-ui"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f45be7ebe6d95ea4",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "auth-protected-routes"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "64676a1ae2c412d0",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "accessibility-keyboard"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "301392fc3e0f8d86",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "responsive-visual-proof"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9cd6d1488c99a61b",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "frontend-testing-strategy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6e196e115ad4cb1c",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "fullstack-integration-workflow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "311699f44033213c",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "deployment-env-observability"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f976271130819076",
-          "courseSlug": "career-frontend_fullstack",
-          "lessonSlug": "fullstack-capstone"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -657,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {

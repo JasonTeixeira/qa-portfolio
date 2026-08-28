@@ -14,7 +14,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 467,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 14
+    "sourceLedgers": 15
   },
   "capabilities": [
     {
@@ -2757,14 +2757,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-frontend_fullstack/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -2774,7 +2773,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/product-workflow-states",
@@ -2789,7 +2788,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/semantic-html-structure",
@@ -2804,7 +2803,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/responsive-layout-grid",
@@ -2819,7 +2818,7 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/types-and-ui-contracts",
@@ -2834,7 +2833,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/component-composition",
@@ -2849,7 +2848,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/client-state-machine",
@@ -2864,7 +2863,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/forms-validation",
@@ -2879,7 +2878,7 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/loading-empty-error-success",
@@ -2894,7 +2893,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/api-client-contracts",
@@ -2909,7 +2908,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/tables-filters-pagination",
@@ -2924,7 +2923,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/dashboard-metrics-charts",
@@ -2939,7 +2938,7 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/detail-routes-drawers",
@@ -2954,7 +2953,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/action-safety-optimistic-ui",
@@ -2969,7 +2968,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/auth-protected-routes",
@@ -2984,7 +2983,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/accessibility-keyboard",
@@ -2999,7 +2998,7 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/responsive-visual-proof",
@@ -3014,7 +3013,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/frontend-testing-strategy",
@@ -3029,7 +3028,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/fullstack-integration-workflow",
@@ -3044,7 +3043,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/deployment-env-observability",
@@ -3059,7 +3058,7 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 15,
+          "blockCount": 20,
           "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-frontend_fullstack/fullstack-capstone",
@@ -10752,5 +10751,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248"
+  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0"
 }

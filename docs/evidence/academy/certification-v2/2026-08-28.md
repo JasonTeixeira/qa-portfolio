@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T19:52:47.566Z
-Registry: `sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248`
+Generated: 2026-08-28T20:06:32.271Z
+Registry: `sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -41,7 +41,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Git and the Terminal | `git-the-terminal` | 20 | blocked | 40 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Data Structures | `data-structures` | 20 | blocked | 20 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
 | Backend Engineering | `career-backend_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
-| Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Architecture and System Design | `career-architecture_system_design` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | System Design | `system-design` | 24 | blocked | 24 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 90.0 |
 | Security and Identity Engineering | `career-security_identity` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
@@ -73,9 +73,9 @@ The deterministic score reports only checks the harness can prove locally. It is
 3. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 4. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 5. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (10 courses; 159 findings)
-7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (6 courses; 18 findings)
-8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (5 courses; 7 findings)
+6. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (9 courses; 143 findings)
+7. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (5 courses; 15 findings)
+8. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (4 courses; 6 findings)
 9. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 10. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
 11. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)
@@ -87,7 +87,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 17. performance — Complete required performance evidence: rendered-performance. (32 courses; 640 findings)
 18. ux — Complete required ux evidence: human-ux-review. (32 courses; 640 findings)
 19. visual — Complete required visual evidence: human-visual-review. (32 courses; 640 findings)
-20. sources — Complete required sources evidence: source-ledger-schema. (18 courses; 346 findings)
+20. sources — Complete required sources evidence: source-ledger-schema. (17 courses; 326 findings)
 
 ## Flagship competency-path readiness
 

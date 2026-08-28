@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
-  "generatedAt": "2026-08-28T19:52:47.566Z",
+  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
+  "generatedAt": "2026-08-28T20:06:32.271Z",
   "courseSlug": "career-databases_data_modeling",
   "title": "Databases and Data Modeling",
   "contentHash": "sha256:14b3a8f2ee7692c9fce37cd478b0012358b32149a963f23b125cdef9b95ccb84",

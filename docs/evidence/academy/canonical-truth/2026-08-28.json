@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
+  "registryVersion": "sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0",
   "totals": {
     "courses": 32,
     "lessons": 640,
@@ -9,7 +9,7 @@
     "solutionEntries": 588,
     "labLessonsWithSolutions": 467,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 14
+    "sourceLedgers": 15
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -38,7 +38,7 @@
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
     "53 lab lessons lack same-slug solution entries",
-    "18 courses lack course-level source ledgers",
+    "17 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -202,13 +202,12 @@
       "legacyManifestLessons": 20,
       "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
-      "sourceLedger": null,
+      "sourceLedger": "docs/academy/evidence/career-frontend_fullstack/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-frontend_fullstack"
     },

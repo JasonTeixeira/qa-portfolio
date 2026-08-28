@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T18:04:36.254Z",
+  "updatedAt": "2026-08-28T18:17:54.354Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -471,12 +471,60 @@
         }
       },
       "completedAt": "2026-08-28T18:04:36.254Z"
+    },
+    {
+      "courseSlug": "system-design",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "d9935382",
+      "baselineRegistryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+      "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "node --import tsx --test tests/academy/system-design-mastery.test.ts",
+          "result": "7/7 tests passed on each run; 24/24 references matched exact output"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons audited; System Design deterministic score improved to 90; no H1, H3, H4, or H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 410 labs"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 static pages generated"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped course diff; changed-file lint and literal-secret scan passed"
+        }
+      },
+      "completedAt": "2026-08-28T18:17:54.354Z"
     }
   ],
   "current": {
-    "courseSlug": "system-design",
-    "phaseId": "data-backend",
-    "sequence": 11,
+    "courseSlug": "career-cloud_devops_operations",
+    "phaseId": "cloud-operations",
+    "sequence": 12,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

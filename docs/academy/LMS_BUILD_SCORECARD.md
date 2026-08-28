@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **10/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6`.
+- Progress: **11/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca`.
 - Catalog: 32 courses, 640 lessons, 410 lab blocks.
-- Current phase: `data-backend`.
-- Next course: `system-design`.
+- Current phase: `cloud-operations`.
+- Next course: `career-cloud_devops_operations`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -26,6 +26,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-security_identity` | GREEN | uncertified |
 | `career-databases_data_modeling` | GREEN | uncertified |
 | `career-backend_engineering` | GREEN | uncertified |
+| `system-design` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -36,8 +37,8 @@ not controlled lab trust, expert review, human appeal, or certification.
 |---|---:|---|
 | Learning judgment and automation foundations | 6 | local GREEN |
 | Networking and security | 2 | local GREEN |
-| Data, backend, and system design | 3 | 2/3 local GREEN — System Design selected |
-| Cloud operations and platform reliability | 3 | queued |
+| Data, backend, and system design | 3 | local GREEN |
+| Cloud operations and platform reliability | 3 | 0/3 local GREEN — Cloud/DevOps selected |
 | Applied AI, retrieval, agents, and evaluation | 5 | queued |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
@@ -79,9 +80,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete ordered mastery loops, two production slices, the 13-source ledger, and explicit graph mappings cover every lesson.
 - H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only lab evidence and required expert reviews remain pending.
 
-## Current System Design baseline
+## System Design checkpoint result
 
-- The canonical course is selected next by the competency graph and Certification Harness V2 remediation board.
+- 24 lessons in the canonical registry; deterministic score: 80 → 90 (not a composite quality score).
+- All 24 JavaScript references match exact observable contracts; two missing references were repaired.
+- Calibrated mastery loops, a deep integration, multi-day defense, 16-source ledger, and two graph mappings cover every lesson.
+- H1/H3/H4/H5 are zero; 24 H2 flags preserve practice-only lab evidence. All 159 transcript-bearing hosted narration assets remain blocked because reachability could not be proven.
+
+## Current Cloud/DevOps baseline
+
+- `career-cloud_devops_operations` is selected next by the competency graph and Certification Harness V2 remediation board.
 - Labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule

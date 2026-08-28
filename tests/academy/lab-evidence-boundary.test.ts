@@ -29,7 +29,7 @@ describe('academy mastery evidence trust boundary', () => {
       issuedAt: NOW,
       labKey: request.labKey,
       submissionDigest: request.submissionDigest,
-      evaluatorVersion: 'academy-evaluator-v1',
+      evaluatorVersion: EVALUATOR_VERSION,
       policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
       verdict: 'passed' as const,
@@ -94,6 +94,7 @@ describe('academy mastery evidence trust boundary', () => {
     const migration = readFileSync('supabase/migrations/0116_academy_trusted_lab_evaluations.sql', 'utf8')
     const policyPinMigration = readFileSync('supabase/migrations/0117_academy_lab_evaluator_policy_pin.sql', 'utf8')
     const privateSpecsMigration = readFileSync('supabase/migrations/0118_academy_private_lab_specs.sql', 'utf8')
+    const managedPolicyMigration = readFileSync('supabase/migrations/0119_academy_managed_evaluator_policy_pin.sql', 'utf8')
     assert.match(evidenceWriter, /input\.type === 'lab_verified'/)
     assert.match(evidenceWriter, /input\.type === 'sprint_artifact_created'/)
     assert.match(evidenceWriter, /recordNonLabArtifactEvidence/)
@@ -107,8 +108,9 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(migration, /append-only/i)
     assert.match(policyPinMigration, /create or replace function public\.record_trusted_academy_lab_result/i)
     assert.match(policyPinMigration, /revoke execute[\s\S]*?from public, anon, authenticated/i)
-    assert.match(policyPinMigration, new RegExp(EVALUATOR_VERSION))
-    assert.match(policyPinMigration, new RegExp(evaluatorPolicyHash()))
+    assert.match(managedPolicyMigration, /create or replace function public\.record_trusted_academy_lab_result/i)
+    assert.match(managedPolicyMigration, new RegExp(EVALUATOR_VERSION))
+    assert.match(managedPolicyMigration, new RegExp(evaluatorPolicyHash()))
     assert.match(privateSpecsMigration, /create table if not exists public\.academy_private_lab_specs/i)
     assert.match(privateSpecsMigration, /enable row level security/i)
     assert.match(privateSpecsMigration, /revoke all[\s\S]*?from public, anon, authenticated/i)

@@ -207,6 +207,12 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
       assert.equal(command.sudo, false)
       assert.equal(command.timeoutMs, EVALUATOR_LIMITS.wallTimeMs + 1_000)
       assert.match(command.args?.join(' ') ?? '', /\/usr\/local\/bin\/academy-setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all/)
+      if (language === 'javascript') {
+        assert.doesNotMatch(command.args?.join(' ') ?? '', /ulimit -S -v/)
+        assert.match(command.args?.join(' ') ?? '', /node --max-old-space-size=96 --max-semi-space-size=4/)
+      } else {
+        assert.match(command.args?.join(' ') ?? '', /ulimit -S -v 131072/)
+      }
       assert.equal(command.args?.join(' ').includes(input(language).code), false)
       assert.equal(command.args?.join(' ').includes(input(language).testCase.stdin), false)
       assert.equal(writes.some((file) => String(file.content).includes(input(language).code)), true)

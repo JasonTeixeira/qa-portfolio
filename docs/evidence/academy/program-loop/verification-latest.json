@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T19:42:27.051Z",
+  "generatedAt": "2026-08-28T19:57:26.004Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "registryVersion": "sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248",
   "queueCoverage": "32/32",
-  "currentCourse": "career-concept_maps_real_world_engineering",
+  "currentCourse": "career-frontend_fullstack",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

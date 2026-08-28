@@ -124,7 +124,8 @@ describe('academy mastery evidence trust boundary', () => {
       assert.match(dockerfile, /^FROM \$\{BASE_IMAGE\}$/m)
       assert.match(dockerfile, /^WORKDIR \/vercel\/sandbox$/m)
       assert.match(dockerfile, /^USER academy-evaluator$/m)
-      assert.match(dockerfile, /command -v setpriv >\/dev\/null/)
+      assert.match(dockerfile, /cp \/bin\/setpriv \/usr\/local\/bin\/academy-setpriv/)
+      assert.match(dockerfile, /\/usr\/local\/bin\/academy-setpriv --version/)
       assert.equal(/secret|reference|private-spec/i.test(dockerfile), false)
     }
   })

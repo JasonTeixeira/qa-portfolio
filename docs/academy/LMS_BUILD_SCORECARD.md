@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **16/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea`.
+- Progress: **17/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa`.
 - Catalog: 32 courses, 640 lessons, 470 lab blocks.
 - Current phase: `applied-ai`.
-- Next course: `rag-retrieval`.
+- Next course: `agents-tool-use`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -32,6 +32,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-platform_engineering_internal_developer_platforms` | GREEN | uncertified |
 | `the-llm-api` | GREEN | uncertified |
 | `prompt-engineering` | GREEN | uncertified |
+| `rag-retrieval` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -44,7 +45,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Networking and security | 2 | local GREEN |
 | Data, backend, and system design | 3 | local GREEN |
 | Cloud operations and platform reliability | 3 | local GREEN |
-| Applied AI, retrieval, agents, and evaluation | 5 | 2/5 local GREEN — RAG Retrieval selected |
+| Applied AI, retrieval, agents, and evaluation | 5 | 3/5 local GREEN — Agents & Tool Use selected |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
 
@@ -127,9 +128,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - The multi-day injection-resistant capstone, 16-source ledger, and graph mapping cover every lesson; all 146 narration transcripts remain and false audio promises were removed.
 - H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current RAG Retrieval baseline
+## RAG Retrieval checkpoint result
 
-- `rag-retrieval` is selected next; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 80 → 100. All 20 JavaScript references match exact observable contracts; nine missing references were added.
+- The multi-day grounded-and-cited RAG capstone, 18-source primary ledger, and retrieval competency mapping cover every lesson.
+- All 140 narration transcripts remain while 140 nonexistent local audio promises were removed.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Agents & Tool Use baseline
+
+- `agents-tool-use` is selected next; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

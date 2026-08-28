@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T19:01:00.337Z",
+  "generatedAt": "2026-08-28T19:10:40.985Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:85d565e2267d6b842be1f197312fbb74413d96d2aff4145e0ab3d1835bbe90ea",
+  "registryVersion": "sha256:bfe0f70773136fb1f62f97d4c3cca9e196094aa1b31945fba94ff84c4277fcfa",
   "queueCoverage": "32/32",
-  "currentCourse": "rag-retrieval",
+  "currentCourse": "agents-tool-use",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T18:17:54.354Z",
+  "updatedAt": "2026-08-28T18:26:51.050Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -519,12 +519,60 @@
         }
       },
       "completedAt": "2026-08-28T18:17:54.354Z"
+    },
+    {
+      "courseSlug": "career-cloud_devops_operations",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "a0e22564",
+      "baselineRegistryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+      "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "node --import tsx --test tests/academy/cloud-devops-mastery.test.ts",
+          "result": "6/6 tests passed on each run; 20/20 references matched exact output"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons audited; Cloud/DevOps deterministic score 100; no H1, H3, H4, or H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 430 labs"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 static pages generated"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped course diff; changed-file lint and literal-secret scan passed"
+        }
+      },
+      "completedAt": "2026-08-28T18:26:51.050Z"
     }
   ],
   "current": {
-    "courseSlug": "career-cloud_devops_operations",
+    "courseSlug": "career-observability_reliability_performance",
     "phaseId": "cloud-operations",
-    "sequence": 12,
+    "sequence": 13,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

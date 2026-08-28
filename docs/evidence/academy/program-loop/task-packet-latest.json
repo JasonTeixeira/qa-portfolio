@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
-  "generatedAt": "2026-08-28T18:17:54.356Z",
+  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
+  "generatedAt": "2026-08-28T18:26:51.052Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+    "baselineRegistryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 12,
+    "sequence": 13,
     "phaseId": "cloud-operations",
-    "courseSlug": "career-cloud_devops_operations",
-    "title": "Cloud, DevOps, and Production Operations",
+    "courseSlug": "career-observability_reliability_performance",
+    "title": "Observability, Reliability, and Performance",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-cloud_devops_operations.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-cloud_devops_operations.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-observability_reliability_performance.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-observability_reliability_performance.lab_solutions.json",
     "baseline": {
       "decision": "needs_remediation",
       "deterministicScore": 77.8,
@@ -112,7 +112,6 @@
         "courseSlugs": [
           "career-ai_engineering_rag_eval",
           "career-architecture_system_design",
-          "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
           "career-databases_data_modeling",
@@ -127,9 +126,9 @@
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 264,
-        "findingCount": 264,
-        "priority": 3160264
+        "lessonCount": 250,
+        "findingCount": 250,
+        "priority": 3150250
       },
       {
         "rank": 8,
@@ -139,7 +138,6 @@
         "courseSlugs": [
           "career-ai_engineering_rag_eval",
           "career-architecture_system_design",
-          "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
           "career-engineering_leadership_staff_execution",
@@ -149,9 +147,9 @@
           "career-platform_engineering_internal_developer_platforms",
           "career-qa_sdet_test_automation_engineering"
         ],
-        "lessonCount": 30,
-        "findingCount": 30,
-        "priority": 3110030
+        "lessonCount": 25,
+        "findingCount": 25,
+        "priority": 3100025
       },
       {
         "rank": 9,
@@ -161,7 +159,6 @@
         "courseSlugs": [
           "career-ai_engineering_rag_eval",
           "career-architecture_system_design",
-          "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
           "career-frontend_fullstack",
@@ -170,9 +167,9 @@
           "career-product_execution_market_feedback",
           "nextjs-supabase"
         ],
-        "lessonCount": 20,
-        "findingCount": 20,
-        "priority": 3100020
+        "lessonCount": 19,
+        "findingCount": 19,
+        "priority": 3090019
       }
     ],
     "reviewRequired": [
@@ -743,7 +740,6 @@
         "courseSlugs": [
           "agents-tool-use",
           "career-architecture_system_design",
-          "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
           "career-engineering_judgment_foundation",
@@ -769,9 +765,9 @@
           "stripe-auth",
           "the-llm-api"
         ],
-        "lessonCount": 536,
-        "findingCount": 536,
-        "priority": 2270536
+        "lessonCount": 516,
+        "findingCount": 516,
+        "priority": 2260516
       }
     ]
   },

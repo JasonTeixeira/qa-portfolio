@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T18:18:27.355Z",
+  "generatedAt": "2026-08-28T18:27:10.874Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca",
+  "registryVersion": "sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760",
   "queueCoverage": "32/32",
-  "currentCourse": "career-cloud_devops_operations",
+  "currentCourse": "career-observability_reliability_performance",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

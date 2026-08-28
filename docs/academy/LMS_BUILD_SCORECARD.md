@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **11/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:615cb1d35f63ac4d85f55414cb10db5d79ff3739f25da45483b144a38b8cb2ca`.
+- Progress: **12/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:7b3acc549182fa4f41c57aae21ffafebb01d75cb2841356fa0ce47ec4b399760`.
 - Catalog: 32 courses, 640 lessons, 410 lab blocks.
 - Current phase: `cloud-operations`.
-- Next course: `career-cloud_devops_operations`.
+- Next course: `career-observability_reliability_performance`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -27,6 +27,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-databases_data_modeling` | GREEN | uncertified |
 | `career-backend_engineering` | GREEN | uncertified |
 | `system-design` | GREEN | uncertified |
+| `career-cloud_devops_operations` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -38,7 +39,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Learning judgment and automation foundations | 6 | local GREEN |
 | Networking and security | 2 | local GREEN |
 | Data, backend, and system design | 3 | local GREEN |
-| Cloud operations and platform reliability | 3 | 0/3 local GREEN — Cloud/DevOps selected |
+| Cloud operations and platform reliability | 3 | 1/3 local GREEN — Observability/Reliability selected |
 | Applied AI, retrieval, agents, and evaluation | 5 | queued |
 | Production integration | 1 unique remaining graph course | queued |
 | Registry courses outside the flagship graph | 12 | queued |
@@ -87,9 +88,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Calibrated mastery loops, a deep integration, multi-day defense, 16-source ledger, and two graph mappings cover every lesson.
 - H1/H3/H4/H5 are zero; 24 H2 flags preserve practice-only lab evidence. All 159 transcript-bearing hosted narration assets remain blocked because reachability could not be proven.
 
-## Current Cloud/DevOps baseline
+## Cloud/DevOps checkpoint result
 
-- `career-cloud_devops_operations` is selected next by the competency graph and Certification Harness V2 remediation board.
+- 20 lessons in the canonical registry; deterministic score: 77.8 → 100 (not a composite quality score).
+- All 20 production evaluators are now novice-scaffolded Python labs and match their exact observable contracts.
+- Ordered mastery loops, realistic pacing, a multi-day operations capstone, 18-source ledger, and explicit graph mapping cover every lesson.
+- H1/H3/H4/H5 are zero; 20 H2 flags correctly keep the new labs practice-only and required expert reviews remain pending.
+
+## Current Observability/Reliability baseline
+
+- `career-observability_reliability_performance` is selected next by the competency graph and Certification Harness V2 remediation board.
 - Labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule

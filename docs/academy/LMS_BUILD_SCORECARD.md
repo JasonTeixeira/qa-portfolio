@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **21/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:cc9238efb29df5a557a9b624a0c475c39579e6c46ac391f743dc18b785014248`.
+- Progress: **22/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:130f9c65bd4672f91fbcb1ff8a86ab9a305126139e4b839ba57e40bc72aaf6d0`.
 - Catalog: 32 courses, 640 lessons, 520 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-frontend_fullstack`.
+- Next course: `career-architecture_system_design`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -37,6 +37,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-ai_engineering_rag_eval` | GREEN | uncertified |
 | `career-product_execution_market_feedback` | GREEN | uncertified |
 | `career-concept_maps_real_world_engineering` | GREEN | uncertified |
+| `career-frontend_fullstack` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -51,7 +52,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 1 local GREEN; Frontend selected |
+| Registry courses outside the flagship graph | 12 | 2 local GREEN; Architecture & System Design selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -164,9 +165,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete build-debug-defend mastery loops, three deep review drills, eight multi-day defenses, and a 20-source primary ledger cover every lesson.
 - All 217 honest narration transcripts remain. H1/H3/H4/H5 are zero; 30 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Frontend and Full-Stack baseline
+## Frontend and Full-Stack checkpoint result
 
-- `career-frontend_fullstack` is selected next as the second canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 JavaScript references match their exact observable contracts.
+- Complete novice-to-production mastery loops, three deep production drills, a multi-day deployment capstone, a 20-source primary ledger, and explicit competency mappings cover every lesson.
+- All 145 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Architecture and System Design baseline
+
+- `career-architecture_system_design` is selected next as the third canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

@@ -1,18 +1,18 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183`
+**Registry:** `sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
 
 - 32 registered course bundles
 - 640 authored lessons
-- 450 lab blocks
+- 470 lab blocks
 - 560 solution entries
-- 369 lab lessons with same-slug solutions
+- 389 lab lessons with same-slug solutions
 - 81 lab lessons without same-slug solutions
-- 7 course-level source ledgers
+- 8 course-level source ledgers
 - 0 certified courses
 
 ## Known contradictions and launch blockers
@@ -20,7 +20,7 @@
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
 - 640 authored lessons versus 456 lessons represented in the legacy manifest
 - 81 lab lessons lack same-slug solution entries
-- 25 courses lack course-level source ledgers
+- 24 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
 - No course is certified by Academy Certification Harness V2
 
@@ -53,7 +53,7 @@
 | `agents-tool-use` | 20 | 0 | 20 | 3 | no | uncertified |
 | `career-cloud_devops_operations` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-observability_reliability_performance` | 20 | 20 | 20 | 0 | yes | uncertified |
-| `career-platform_engineering_internal_developer_platforms` | 20 | 20 | 0 | 0 | no | uncertified |
+| `career-platform_engineering_internal_developer_platforms` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-enterprise_it_saas_admin_business_systems` | 20 | 20 | 0 | 0 | no | uncertified |
 | `nextjs-supabase` | 20 | 0 | 20 | 20 | no | uncertified |
 | `stripe-auth` | 20 | 0 | 20 | 6 | no | uncertified |

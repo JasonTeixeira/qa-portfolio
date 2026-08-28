@@ -688,7 +688,29 @@
           ]
         },
         {
-          "courseSlug": "career-platform_engineering_internal_developer_platforms"
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlugs": [
+            "platform-vs-devops-boundary",
+            "developer-journey-mapping",
+            "golden-path-definition",
+            "adoption-metrics",
+            "ci-cd-contract",
+            "rollback-workflow",
+            "iac-module-design",
+            "policy-as-code",
+            "logging-metrics-traces",
+            "service-scaffold",
+            "artifact-promotion",
+            "environment-lifecycle",
+            "secrets-management",
+            "kubernetes-abstractions",
+            "slo-defaults",
+            "incident-ready-services",
+            "self-service-controls",
+            "cost-and-quota-guardrails",
+            "support-model",
+            "platform-roadmap-review"
+          ]
         }
       ],
       "evidence": [

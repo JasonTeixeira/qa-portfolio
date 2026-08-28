@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
-  "generatedAt": "2026-08-28T18:31:21.322Z",
+  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "generatedAt": "2026-08-28T18:40:37.597Z",
   "courseSlug": "career-platform_engineering_internal_developer_platforms",
   "title": "Platform Engineering and Internal Developer Platforms",
-  "contentHash": "sha256:31d824de7c9d1a6bbc97dcdb9d47484411886d1008f76c0d0954317a739d1f14",
+  "contentHash": "sha256:700e2fa036aece863f9f518c14ae70f49c015f634c96fdf99b747ad8c8880d60",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "131cb57c8850c033",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "platform-vs-devops-boundary"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d997bfb43bf6145f",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "developer-journey-mapping"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5e5c50c7cab529d1",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "golden-path-definition"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f1c9cdc3816b7db8",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "adoption-metrics"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "60514dce85f6c189",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "service-scaffold"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "86699534888128d2",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "ci-cd-contract"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "296a7a175be77aed",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "artifact-promotion"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "dc14ee8c4f0d0cd4",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "rollback-workflow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d7d3bfd204ddf249",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "iac-module-design"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d9f5f1693cdef18b",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "environment-lifecycle"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "58a9f16e3ecc2150",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "secrets-management"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d2d57dbb8027e20b",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "policy-as-code"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f9e09c4ad4532ce9",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "kubernetes-abstractions"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "39465ed3b3fdc39f",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "logging-metrics-traces"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e3b5d6c1db504984",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "slo-defaults"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d4023d8deb8c9a82",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "incident-ready-services"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "1dd65609b6e7b53e",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "self-service-controls"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e64ace2491570c37",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "cost-and-quota-guardrails"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bfde87483245c6bf",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "support-model"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "52a2d616047b3348",
-          "courseSlug": "career-platform_engineering_internal_developer_platforms",
-          "lessonSlug": "platform-roadmap-review"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9236ee0bd28866c7",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "platform-vs-devops-boundary"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c9584a997e226cec",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "developer-journey-mapping"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "d6a05de5cba0c4d0",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "golden-path-definition"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "69b7f7d741e7ea39",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "adoption-metrics"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c556e39eb12a5ec4",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "service-scaffold"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "420bf7a16bea477a",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "ci-cd-contract"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "0db28395f3b451d4",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "artifact-promotion"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "89336a8832923610",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "rollback-workflow"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "017c3521b3bba94c",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "iac-module-design"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "2e986908c4d1fc7f",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "environment-lifecycle"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "7b4f7128961990d8",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "secrets-management"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3a535ff89f6cd8e5",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "policy-as-code"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "37f74eeffe7be7cb",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "kubernetes-abstractions"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "f45d9a229df6d47d",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "logging-metrics-traces"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "16a73bbc77b863ee",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "slo-defaults"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c5014ef80d80e235",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "incident-ready-services"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "69433ad06a009d8e",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "self-service-controls"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "74aeab23d96bfa70",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "cost-and-quota-guardrails"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3dffef386b125cc9",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "support-model"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "98a9db785e2f5abd",
+          "courseSlug": "career-platform_engineering_internal_developer_platforms",
+          "lessonSlug": "platform-roadmap-review"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9236ee0bd28866c7",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "platform-vs-devops-boundary"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c9584a997e226cec",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "developer-journey-mapping"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "d6a05de5cba0c4d0",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "golden-path-definition"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "69b7f7d741e7ea39",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "adoption-metrics"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c556e39eb12a5ec4",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "service-scaffold"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "420bf7a16bea477a",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "ci-cd-contract"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "0db28395f3b451d4",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "artifact-promotion"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "89336a8832923610",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "rollback-workflow"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "017c3521b3bba94c",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "iac-module-design"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "2e986908c4d1fc7f",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "environment-lifecycle"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "7b4f7128961990d8",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "secrets-management"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3a535ff89f6cd8e5",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "policy-as-code"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "37f74eeffe7be7cb",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "kubernetes-abstractions"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "f45d9a229df6d47d",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "logging-metrics-traces"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "16a73bbc77b863ee",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "slo-defaults"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c5014ef80d80e235",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "incident-ready-services"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "69433ad06a009d8e",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "self-service-controls"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "74aeab23d96bfa70",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "cost-and-quota-guardrails"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3dffef386b125cc9",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "support-model"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "98a9db785e2f5abd",
+      "courseSlug": "career-platform_engineering_internal_developer_platforms",
+      "lessonSlug": "platform-roadmap-review"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 450,
+    "labBlocks": 470,
     "solutionEntries": 560,
-    "labLessonsWithSolutions": 369,
+    "labLessonsWithSolutions": 389,
     "labLessonsWithoutSolutions": 81,
-    "sourceLedgers": 7
+    "sourceLedgers": 8
   },
   "capabilities": [
     {
@@ -8452,13 +8452,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-platform_engineering_internal_developer_platforms/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -8468,8 +8468,8 @@
           "moduleTitle": "Module 1 · Platform Product Model",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/platform-vs-devops-boundary",
           "source": {
@@ -8483,8 +8483,8 @@
           "moduleTitle": "Module 1 · Platform Product Model",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/developer-journey-mapping",
           "source": {
@@ -8498,8 +8498,8 @@
           "moduleTitle": "Module 1 · Platform Product Model",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/golden-path-definition",
           "source": {
@@ -8513,8 +8513,8 @@
           "moduleTitle": "Module 1 · Platform Product Model",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/adoption-metrics",
           "source": {
@@ -8528,8 +8528,8 @@
           "moduleTitle": "Module 2 · Service Templates And Delivery",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/service-scaffold",
           "source": {
@@ -8543,8 +8543,8 @@
           "moduleTitle": "Module 2 · Service Templates And Delivery",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/ci-cd-contract",
           "source": {
@@ -8558,8 +8558,8 @@
           "moduleTitle": "Module 2 · Service Templates And Delivery",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/artifact-promotion",
           "source": {
@@ -8573,8 +8573,8 @@
           "moduleTitle": "Module 2 · Service Templates And Delivery",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/rollback-workflow",
           "source": {
@@ -8588,8 +8588,8 @@
           "moduleTitle": "Module 3 · Infrastructure And Environments",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/iac-module-design",
           "source": {
@@ -8603,8 +8603,8 @@
           "moduleTitle": "Module 3 · Infrastructure And Environments",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/environment-lifecycle",
           "source": {
@@ -8618,8 +8618,8 @@
           "moduleTitle": "Module 3 · Infrastructure And Environments",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/secrets-management",
           "source": {
@@ -8633,8 +8633,8 @@
           "moduleTitle": "Module 3 · Infrastructure And Environments",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/policy-as-code",
           "source": {
@@ -8648,8 +8648,8 @@
           "moduleTitle": "Module 4 · Runtime Platform And Observability",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/kubernetes-abstractions",
           "source": {
@@ -8663,8 +8663,8 @@
           "moduleTitle": "Module 4 · Runtime Platform And Observability",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/logging-metrics-traces",
           "source": {
@@ -8678,8 +8678,8 @@
           "moduleTitle": "Module 4 · Runtime Platform And Observability",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/slo-defaults",
           "source": {
@@ -8693,8 +8693,8 @@
           "moduleTitle": "Module 4 · Runtime Platform And Observability",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/incident-ready-services",
           "source": {
@@ -8708,8 +8708,8 @@
           "moduleTitle": "Module 5 · Platform Governance And Scale",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/self-service-controls",
           "source": {
@@ -8723,8 +8723,8 @@
           "moduleTitle": "Module 5 · Platform Governance And Scale",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/cost-and-quota-guardrails",
           "source": {
@@ -8738,8 +8738,8 @@
           "moduleTitle": "Module 5 · Platform Governance And Scale",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/support-model",
           "source": {
@@ -8753,8 +8753,8 @@
           "moduleTitle": "Module 5 · Platform Governance And Scale",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-platform_engineering_internal_developer_platforms/platform-roadmap-review",
           "source": {
@@ -10756,5 +10756,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183"
+  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45"
 }

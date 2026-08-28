@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:e229252263f13e3c74f033ecf2a14d3dd73508600c8a1d8d430741815afea183",
-  "generatedAt": "2026-08-28T18:31:21.322Z",
+  "registryVersion": "sha256:485aff7f5c534ccd13d07ad610dcbf096967adc2ab1ab59417b79b8106dcbe45",
+  "generatedAt": "2026-08-28T18:40:37.597Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -10,13 +10,13 @@
     "coursesAudited": 32,
     "lessonsAudited": 640,
     "coursesEligible": 0,
-    "coursesBlocked": 23,
-    "coursesNeedsRemediation": 9,
+    "coursesBlocked": 24,
+    "coursesNeedsRemediation": 8,
     "coursesPendingReview": 0,
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 531,
+      "H2": 551,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -2442,16 +2442,16 @@
       "courseSlug": "career-platform_engineering_internal_developer_platforms",
       "title": "Platform Engineering and Internal Developer Platforms",
       "lessonCount": 20,
-      "contentHash": "sha256:31d824de7c9d1a6bbc97dcdb9d47484411886d1008f76c0d0954317a739d1f14",
-      "labTrust": "not_applicable",
-      "decision": "needs_remediation",
+      "contentHash": "sha256:700e2fa036aece863f9f518c14ae70f49c015f634c96fdf99b747ad8c8880d60",
+      "labTrust": "untrusted_current_runtime",
+      "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 100,
       "compositeScore": null,
-      "hardFailCount": 0,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 0,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -2476,8 +2476,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -2488,7 +2488,7 @@
           "score": null
         },
         "labs": {
-          "status": "not_applicable",
+          "status": "fail",
           "score": null
         },
         "accessibility": {

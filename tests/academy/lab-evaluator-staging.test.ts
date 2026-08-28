@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { generateKeyPairSync } from 'node:crypto'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -19,6 +19,17 @@ const {
   validatePrivateSpecRoot,
   verifyActivationAttestation,
 } = stagingCore
+
+const {
+  privateSpecDigest,
+  validatePrivatePack,
+} = stagingCore as unknown as {
+  privateSpecDigest: (spec: unknown) => string
+  validatePrivatePack: (
+    activationManifest: ReturnType<typeof manifest>,
+    root: string,
+  ) => Promise<{ specs: Map<string, unknown> }>
+}
 
 const REGISTRY_VERSION = `sha256:${'a'.repeat(64)}`
 const RELEASE_ID = 'flagship-labs-2026-08-27.1'
@@ -132,6 +143,39 @@ describe('academy Step 4B staging activation contract', () => {
     )
   })
 
+  it('validates every private spec against its manifest revision and content digest', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'academy-flagship-private-pack-'))
+    try {
+      const specs = LABS.map(([labKey, language], index) => ({
+        schemaVersion: 1 as const,
+        labKey,
+        language,
+        specRevision: `2026-08-27.${index + 1}`,
+        referenceSolution: language === 'python' ? 'print(input())' : language === 'javascript' ? 'console.log(require("fs").readFileSync(0,"utf8"))' : 'SELECT 42 AS answer;',
+        cases: [
+          { id: 'happy', kind: 'happy' as const, stdin: '42\n', expectedStdout: language === 'sql' ? 'answer\n42\n' : '42\n' },
+          { id: 'negative', kind: 'negative' as const, stdin: '-1\n', expectedStdout: language === 'sql' ? 'answer\n42\n' : '-1\n' },
+        ],
+      }))
+      for (const spec of specs) {
+        writeFileSync(join(root, `${spec.labKey.replace('/', '--')}.json`), JSON.stringify(spec))
+      }
+      const packManifest = {
+        ...manifest(),
+        labs: manifest().labs.map((lab, index) => ({ ...lab, specDigest: privateSpecDigest(specs[index]) })),
+      }
+      assert.equal((await validatePrivatePack(packManifest, root)).specs.size, 5)
+
+      writeFileSync(join(root, 'programming-fundamentals--input-validation.json'), JSON.stringify({
+        ...specs[0],
+        specRevision: 'tampered',
+      }))
+      await assert.rejects(() => validatePrivatePack(packManifest, root), /digest|revision/i)
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('defines a complete adversarial plan and fails readiness closed on any missing proof gate', () => {
     const plan = buildStagingProbePlan()
     assert.deepEqual(plan.map((probe: { id: string }) => probe.id), ['correct_reference', ...REQUIRED_ADVERSARIAL_PROBES])
@@ -212,5 +256,14 @@ describe('academy Step 4B staging activation contract', () => {
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }
+  })
+
+  it('publishes one staging verification command and a public manifest with no private solutions', () => {
+    const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
+    assert.match(packageJson.scripts['academy:lab-evaluator:staging-verify'], /staging\/verify\.ts/)
+    assert.equal(existsSync('data/academy/lab-evaluator/flagship-activation.json'), true)
+    const publicManifest = readFileSync('data/academy/lab-evaluator/flagship-activation.json', 'utf8')
+    assert.equal(publicManifest.includes('referenceSolution'), false)
+    assert.equal(publicManifest.includes('expectedStdout'), false)
   })
 })

@@ -5,7 +5,6 @@ import { describe, it } from 'node:test'
 import { EVALUATOR_LIMITS, type PrivateLabSpec } from '../../lib/academy/lab-evaluator/contract'
 import { getTrustedEvaluationAttestation, isTrustedLabEvaluation } from '../../lib/academy/lab-evaluator/signing'
 import { executePrivateCaseInVercelSandbox, type VercelSandboxCreate } from '../../services/academy-lab-evaluator/src/vercel-sandbox-executor'
-// @ts-expect-error RED checkpoint: the direct server-owned orchestration is intentionally absent.
 import { evaluateLabWithVercelSandbox } from '../../services/academy-lab-evaluator/src/vercel-sandbox-evaluate'
 
 const IMAGE = `academy-runtime@sha256:${'a'.repeat(64)}`

@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
-  "generatedAt": "2026-08-28T17:55:45.309Z",
+  "registryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
+  "generatedAt": "2026-08-28T18:04:36.256Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+    "baselineRegistryVersion": "sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 10,
+    "sequence": 11,
     "phaseId": "data-backend",
-    "courseSlug": "career-backend_engineering",
-    "title": "Backend Engineering",
-    "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-backend_engineering.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-backend_engineering.lab_solutions.json",
+    "courseSlug": "system-design",
+    "title": "System Design",
+    "lessonCount": 24,
+    "authoringBundle": "data/academy/authoring/system-design.lessons.json",
+    "solutionBundle": "data/academy/authoring/system-design.lab_solutions.json",
     "baseline": {
       "decision": "blocked",
-      "deterministicScore": 88.9,
-      "hardFailCount": 20,
+      "deterministicScore": 80,
+      "hardFailCount": 26,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 20,
+        "H2": 26,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -32,6 +32,7 @@
         "accessibility",
         "consistency",
         "content_correctness",
+        "media",
         "pedagogy",
         "performance",
         "sources",
@@ -48,8 +49,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -68,7 +69,7 @@
           "score": null
         },
         "media": {
-          "status": "not_applicable",
+          "status": "pending",
           "score": null
         },
         "references": {
@@ -138,77 +139,45 @@
         "priority": 4210410
       },
       {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+        "rank": 2,
+        "category": "labs",
+        "code": "H2",
+        "severity": "blocker",
+        "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
         "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-databases_data_modeling",
-          "career-engineering_leadership_staff_execution",
-          "career-enterprise_it_saas_admin_business_systems",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-mobile_engineering_deep_dive",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-product_execution_market_feedback",
-          "career-qa_sdet_test_automation_engineering",
-          "career-ux_ui_product_design_for_engineers"
+          "agents-tool-use",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "prompt-engineering",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
         ],
-        "lessonCount": 277,
-        "findingCount": 277,
-        "priority": 3170277
+        "lessonCount": 83,
+        "findingCount": 83,
+        "priority": 4090083
       },
       {
-        "rank": 8,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+        "rank": 22,
+        "category": "media",
+        "severity": "medium",
+        "remediation": "Complete required media evidence: promised-media-integrity.",
         "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-qa_sdet_test_automation_engineering"
+          "agents-tool-use",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "prompt-engineering",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
         ],
-        "lessonCount": 35,
-        "findingCount": 35,
-        "priority": 3120035
-      },
-      {
-        "rank": 9,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-observability_reliability_performance",
-          "career-product_execution_market_feedback",
-          "nextjs-supabase"
-        ],
-        "lessonCount": 22,
-        "findingCount": 22,
-        "priority": 3110022
+        "lessonCount": 184,
+        "findingCount": 184,
+        "priority": 2090184
       }
     ],
     "reviewRequired": [
@@ -770,6 +739,45 @@
         "lessonCount": 640,
         "findingCount": 640,
         "priority": 2320640
+      },
+      {
+        "rank": 21,
+        "category": "sources",
+        "severity": "medium",
+        "remediation": "Complete required sources evidence: source-ledger-schema.",
+        "courseSlugs": [
+          "agents-tool-use",
+          "career-architecture_system_design",
+          "career-cloud_devops_operations",
+          "career-concept_maps_real_world_engineering",
+          "career-data_engineering_analytics",
+          "career-engineering_judgment_foundation",
+          "career-engineering_leadership_staff_execution",
+          "career-enterprise_it_saas_admin_business_systems",
+          "career-frontend_fullstack",
+          "career-interview_career_portfolio",
+          "career-mobile_engineering_deep_dive",
+          "career-networking_fundamentals_advanced_networking",
+          "career-observability_reliability_performance",
+          "career-platform_engineering_internal_developer_platforms",
+          "career-product_execution_market_feedback",
+          "career-programming_cs_foundations",
+          "career-qa_sdet_test_automation_engineering",
+          "career-ux_ui_product_design_for_engineers",
+          "data-structures",
+          "git-the-terminal",
+          "nextjs-supabase",
+          "programming-fundamentals",
+          "prompt-engineering",
+          "python-basics",
+          "rag-retrieval",
+          "stripe-auth",
+          "system-design",
+          "the-llm-api"
+        ],
+        "lessonCount": 560,
+        "findingCount": 560,
+        "priority": 2280560
       }
     ]
   },

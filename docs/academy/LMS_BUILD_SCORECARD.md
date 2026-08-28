@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **9/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145`.
+- Progress: **10/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:703a26bc4b9a92d9dae63e0ee05b7838b4f87aa9def71ac5905db2e72715dbc6`.
 - Catalog: 32 courses, 640 lessons, 410 lab blocks.
 - Current phase: `data-backend`.
-- Next course: `career-backend_engineering`.
+- Next course: `system-design`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -25,6 +25,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-networking_fundamentals_advanced_networking` | GREEN | uncertified |
 | `career-security_identity` | GREEN | uncertified |
 | `career-databases_data_modeling` | GREEN | uncertified |
+| `career-backend_engineering` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -35,7 +36,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 |---|---:|---|
 | Learning judgment and automation foundations | 6 | local GREEN |
 | Networking and security | 2 | local GREEN |
-| Data, backend, and system design | 3 | 1/3 local GREEN — Backend selected |
+| Data, backend, and system design | 3 | 2/3 local GREEN — System Design selected |
 | Cloud operations and platform reliability | 3 | queued |
 | Applied AI, retrieval, agents, and evaluation | 5 | queued |
 | Production integration | 1 unique remaining graph course | queued |
@@ -71,10 +72,17 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete mastery loops, two capstones, a 16-source official ledger, and explicit graph mappings cover all lessons.
 - H1/H3/H4/H5 are zero; 20 H2 flags keep lab evidence practice-only and required expert reviews remain pending.
 
-## Current Backend baseline
+## Backend checkpoint result
 
-- 20 lessons in the canonical registry; the next task packet is selected from Certification Harness V2.
-- Existing labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons in the canonical registry; deterministic score: 88.9 → 100 (not a composite quality score).
+- All 20 Python references now match their exact observable contracts; ten substring-era reference drifts were repaired.
+- Complete ordered mastery loops, two production slices, the 13-source ledger, and explicit graph mappings cover every lesson.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only lab evidence and required expert reviews remain pending.
+
+## Current System Design baseline
+
+- The canonical course is selected next by the competency graph and Certification Harness V2 remediation board.
+- Labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

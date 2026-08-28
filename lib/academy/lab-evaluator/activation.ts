@@ -44,7 +44,8 @@ export function activationAttestationAllowsMastery(
     const manifest = parseFlagshipActivationManifest(flagshipActivation, registry)
     const evaluatorUrl = new URL(env.ACADEMY_LAB_EVALUATOR_URL ?? '')
     if (identityDigest(evaluatorUrl.origin) !== manifest.authority.evaluatorOriginSha256) return false
-    if (identityDigest(env.ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF ?? '') !== manifest.authority.databaseProjectRefSha256) return false
+    const databaseUrl = new URL(env.NEXT_PUBLIC_SUPABASE_URL ?? '')
+    if (identityDigest(databaseUrl.origin) !== manifest.authority.databaseOriginSha256) return false
     const verified = verifyActivationAttestation(
       JSON.parse(readFileSync(attestationPath, 'utf8')),
       readFileSync(publicKeyPath, 'utf8'),

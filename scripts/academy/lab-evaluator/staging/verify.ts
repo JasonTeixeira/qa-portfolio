@@ -166,7 +166,13 @@ async function main(): Promise<void> {
       manifest.authority.evaluatorOriginSha256,
     )
   gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117' &&
-    identityDigest(process.env.ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF ?? '') === manifest.authority.databaseProjectRefSha256
+    (() => {
+      try {
+        return identityDigest(new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').origin) === manifest.authority.databaseOriginSha256
+      } catch {
+        return false
+      }
+    })()
   gates.monitoring_ready = activation?.environment.monitoring === 'passed'
   gates.kill_switch_ready = activation?.environment.masteryWriteKillSwitch === 'passed' &&
     masteryPersistenceEnabled(process.env, manifest.releaseId)

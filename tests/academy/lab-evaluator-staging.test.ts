@@ -75,7 +75,7 @@ const registry = {
 function manifest(authority: Partial<{
   signerPublicKeySha256: string
   evaluatorOriginSha256: string
-  databaseProjectRefSha256: string
+  databaseOriginSha256: string
 }> = {}) {
   return {
     schemaVersion: 1 as const,
@@ -86,7 +86,7 @@ function manifest(authority: Partial<{
       signerPublicKeySha256: 'a'.repeat(64),
       environmentId: 'sageideas-academy-staging',
       evaluatorOriginSha256: 'b'.repeat(64),
-      databaseProjectRefSha256: 'c'.repeat(64),
+      databaseOriginSha256: 'c'.repeat(64),
       ...authority,
     },
     labs: LABS.map(([labKey, language], index) => ({
@@ -116,7 +116,7 @@ function attestationPayload(targetManifest = manifest()) {
     environment: {
       environmentId: targetManifest.authority.environmentId,
       evaluatorOriginSha256: targetManifest.authority.evaluatorOriginSha256,
-      databaseProjectRefSha256: targetManifest.authority.databaseProjectRefSha256,
+      databaseOriginSha256: targetManifest.authority.databaseOriginSha256,
       rootlessRuntime: 'passed' as const,
       migrations: ['0116', '0117'] as const,
       privateHttpsIngress: 'passed' as const,
@@ -331,7 +331,7 @@ describe('academy Step 4B staging activation contract', () => {
         ACADEMY_LAB_STAGING_ATTESTATION_PATH: join(root, 'attestation.json'),
         ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH: join(root, 'public.pem'),
         ACADEMY_LAB_EVALUATOR_URL: 'https://10.0.0.5',
-        ACADEMY_LAB_STAGING_DATABASE_PROJECT_REF: 'fake-project',
+        NEXT_PUBLIC_SUPABASE_URL: 'https://fake-project.supabase.co',
       }, 'programming-fundamentals', 'input-validation'), false)
     } finally {
       rmSync(root, { recursive: true, force: true })

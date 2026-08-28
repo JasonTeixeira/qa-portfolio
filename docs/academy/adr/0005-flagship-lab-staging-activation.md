@@ -24,7 +24,7 @@ Certification Harness V2 may promote only lab keys present in the verified attes
 
 ## Candidate release
 
-The public release is `flagship-labs-2026-08-27.1` in `data/academy/lab-evaluator/flagship-activation.json`. The reviewed manifest also pins the signer fingerprint, environment ID, evaluator-origin digest, and database-project digest. Those three cryptographic/deployment pins remain explicitly `unprovisioned`, so no caller-supplied key or environment can activate the release yet. Provisioning them requires a reviewed manifest change after the staging identities exist.
+The public release is `flagship-labs-2026-08-27.1` in `data/academy/lab-evaluator/flagship-activation.json`. The reviewed manifest also pins the signer fingerprint, environment ID, evaluator-origin digest, and database-origin digest. Those three cryptographic/deployment pins remain explicitly `unprovisioned`, so no caller-supplied key or environment can activate the release yet. Provisioning them requires a reviewed manifest change after the staging identities exist.
 
 Attestations expire within 24 hours. The runtime application, readiness command, and Certification Harness V2 all verify the same signature, release, registry, policy, spec revisions, deployment identities, and expiry. The application additionally requires its live evaluator origin and database project to hash to the reviewed pins before a mastery write.
 

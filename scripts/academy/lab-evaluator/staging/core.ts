@@ -93,7 +93,7 @@ export type FlagshipActivationManifest = {
     signerPublicKeySha256: string
     environmentId: string
     evaluatorOriginSha256: string
-    databaseProjectRefSha256: string
+    databaseOriginSha256: string
   }
   labs: FlagshipActivationLab[]
 }
@@ -112,7 +112,7 @@ export type ActivationAttestationPayload = {
   environment: {
     environmentId: string
     evaluatorOriginSha256: string
-    databaseProjectRefSha256: string
+    databaseOriginSha256: string
     rootlessRuntime: 'passed'
     migrations: readonly ['0116', '0117']
     privateHttpsIngress: 'passed'
@@ -181,7 +181,7 @@ export function parseFlagshipActivationManifest(
   if (value.status !== 'candidate') throw new Error('activation manifest must remain candidate until attested')
   if (!isRecord(value.authority)) throw new Error('activation authority must be an object')
   exactKeys(value.authority, [
-    'signerPublicKeySha256', 'environmentId', 'evaluatorOriginSha256', 'databaseProjectRefSha256',
+    'signerPublicKeySha256', 'environmentId', 'evaluatorOriginSha256', 'databaseOriginSha256',
   ], 'activation authority')
   const authorityPin = (pin: unknown, label: string) => {
     if (typeof pin !== 'string' || (pin !== UNPROVISIONED && !SHA256_RE.test(pin))) {
@@ -190,7 +190,7 @@ export function parseFlagshipActivationManifest(
   }
   authorityPin(value.authority.signerPublicKeySha256, 'signer pin')
   authorityPin(value.authority.evaluatorOriginSha256, 'evaluator origin pin')
-  authorityPin(value.authority.databaseProjectRefSha256, 'database project pin')
+  authorityPin(value.authority.databaseOriginSha256, 'database origin pin')
   if (typeof value.authority.environmentId !== 'string' || !RELEASE_ID_RE.test(value.authority.environmentId)) {
     throw new Error('invalid activation environment id')
   }
@@ -360,7 +360,7 @@ function assertAttestationPayload(
   }
   if (!isRecord(payload.environment)) throw new Error('activation environment proof must be an object')
   exactKeys(payload.environment, [
-    'environmentId', 'evaluatorOriginSha256', 'databaseProjectRefSha256',
+    'environmentId', 'evaluatorOriginSha256', 'databaseOriginSha256',
     'rootlessRuntime', 'migrations', 'privateHttpsIngress', 'monitoring', 'masteryWriteKillSwitch',
   ], 'activation environment proof')
   if (payload.environment.environmentId !== manifest.authority.environmentId) throw new Error('activation environment id mismatch')
@@ -369,9 +369,9 @@ function assertAttestationPayload(
     payload.environment.evaluatorOriginSha256 !== manifest.authority.evaluatorOriginSha256
   ) throw new Error('activation evaluator origin is unprovisioned or mismatched')
   if (
-    manifest.authority.databaseProjectRefSha256 === UNPROVISIONED ||
-    payload.environment.databaseProjectRefSha256 !== manifest.authority.databaseProjectRefSha256
-  ) throw new Error('activation database project is unprovisioned or mismatched')
+    manifest.authority.databaseOriginSha256 === UNPROVISIONED ||
+    payload.environment.databaseOriginSha256 !== manifest.authority.databaseOriginSha256
+  ) throw new Error('activation database origin is unprovisioned or mismatched')
   if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
   if (
     !Array.isArray(payload.environment.migrations) ||

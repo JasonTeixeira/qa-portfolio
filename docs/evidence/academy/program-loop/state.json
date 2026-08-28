@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+  "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T21:18:13.118Z",
+  "updatedAt": "2026-08-28T21:25:39.794Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -1431,12 +1431,60 @@
         }
       },
       "completedAt": "2026-08-28T21:18:13.118Z"
+    },
+    {
+      "courseSlug": "career-interview_career_portfolio",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "8cab974d",
+      "baselineRegistryVersion": "sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c",
+      "registryVersion": "sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "npx tsx --test tests/academy/interview-career-portfolio-mastery.test.ts",
+          "result": "8/8 each run; 20/20 Python references exact; coherent target-role-to-offer proof packet enforced"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons; Interview/Career/Portfolio deterministic score 100; no H1, H3, H4, or H5; 20 expected practice-runtime H2 flags"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 620 labs; 20 novice-scaffolded career evidence labs added"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 pages"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped diff; changed-file lint, generator idempotence, and 20 authoritative-source reachability checks passed"
+        }
+      },
+      "completedAt": "2026-08-28T21:25:39.794Z"
     }
   ],
   "current": {
-    "courseSlug": "career-interview_career_portfolio",
+    "courseSlug": "career-engineering_leadership_staff_execution",
     "phaseId": "registry-remainder",
-    "sequence": 31,
+    "sequence": 32,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

@@ -85,3 +85,5 @@ Program completion means 32/32 courses have locally proven GREEN curriculum chec
 platform gates are prepared. World-class certification additionally requires controlled lab evidence, claim-level
 source review, expert correctness and pedagogy review, rendered accessibility/performance evidence, human learner
 sampling, immutable releases, and governance approval. Those pending dimensions are reported, never inferred.
+At completion, `state.current` is `null`; `academy:program:verify` validates the full queue and completion status
+without manufacturing another task packet.

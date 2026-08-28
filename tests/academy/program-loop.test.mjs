@@ -20,10 +20,6 @@ const graph = JSON.parse(readFileSync('data/academy/flagship-competency-graph.js
 const board = JSON.parse(
   readFileSync('docs/evidence/academy/certification-v2/academy-quality-board.json', 'utf8'),
 )
-const backlog = JSON.parse(
-  readFileSync('docs/evidence/academy/certification-v2/remediation-backlog.json', 'utf8'),
-)
-
 const completedFoundation = [
   'career-engineering_judgment_foundation',
   'programming-fundamentals',
@@ -70,16 +66,24 @@ test('initial state resumes after the proven foundation wave and selects Network
 })
 
 test('task packet is registry-bound and separates deterministic work from human review', () => {
-  const state = JSON.parse(
-    readFileSync('docs/evidence/academy/program-loop/state.json', 'utf8'),
-  )
+  const state = createProgramState({
+    registry,
+    graph,
+    completedCourseSlugs: completedFoundation,
+    checkpointCommit: '9d4d71ee',
+    generatedAt: '2026-08-28T17:00:00.000Z',
+  })
   const course = board.courses.find(
     (candidate) => candidate.courseSlug === state.current.courseSlug,
   )
   const packet = buildTaskPacket({
     state,
     course,
-    remediationBacklog: backlog.items,
+    remediationBacklog: [
+      { category: 'pedagogy', remediation: 'Restore the standard learning loop.', courseSlugs: [state.current.courseSlug] },
+      { category: 'pedagogy', remediation: 'Complete required pedagogy evidence: expert-pedagogy-review.', courseSlugs: [state.current.courseSlug] },
+      { category: 'sources', remediation: 'Complete required sources evidence: claim-level-coverage.', courseSlugs: [state.current.courseSlug] },
+    ],
     generatedAt: '2026-08-28T17:00:00.000Z',
   })
 
@@ -174,6 +178,41 @@ test('a GREEN checkpoint reconciles an audited registry transition and advances 
   assert.equal(next.certificationBoundary.labEvidence, 'practice_only')
 })
 
+test('the final GREEN checkpoint closes the queue with no current course', () => {
+  const queue = buildCourseQueue(registry, graph)
+  const state = createProgramState({
+    registry,
+    graph,
+    completedCourseSlugs: queue.slice(0, -1).map((item) => item.courseSlug),
+    checkpointCommit: '9d4d71ee',
+    generatedAt: '2026-08-28T17:00:00.000Z',
+  })
+  const evidence = {
+    courseSlug: state.current.courseSlug,
+    baselineRegistryVersion: registry.registryVersion,
+    registryVersion: registry.registryVersion,
+    commit: '0123456789abcdef',
+    attempts: 1,
+    gates: {
+      focusedTests: { status: 'pass', consecutivePasses: 3 },
+      academyAudit: { status: 'pass', consecutivePasses: 1 },
+      registryCheck: { status: 'pass', consecutivePasses: 1 },
+      typecheck: { status: 'pass', consecutivePasses: 1 },
+      build: { status: 'pass', consecutivePasses: 1 },
+      diffCheck: { status: 'pass', consecutivePasses: 1 },
+    },
+    labTrust: 'untrusted_current_runtime',
+    certificationStatus: 'uncertified',
+  }
+
+  const complete = recordGreenCheckpoint(state, evidence, '2026-08-28T18:00:00.000Z')
+
+  assert.equal(complete.status, 'complete')
+  assert.equal(complete.current, null)
+  assert.equal(complete.completed.length, 32)
+  assert.deepEqual(validateProgramState(complete, registry, graph), [])
+})
+
 test('three identical failed attempts stop the loop while a changed failure resets repetition', () => {
   const initial = createProgramState({
     registry,
@@ -250,6 +289,7 @@ test('operator documentation describes the current 32-course persistent loop', (
   assert.match(program, /three consecutive/i)
   assert.doesNotMatch(program, /21-course|all 21 courses/)
   assert(scorecard.includes(`${state.completed.length}/${state.scope.registryCourses}`))
-  assert(scorecard.includes(state.current.courseSlug))
+  if (state.current) assert(scorecard.includes(state.current.courseSlug))
+  else assert.match(scorecard, /Next course: none/)
   assert.doesNotMatch(scorecard, /01 programming_cs_foundations.*pending/)
 })

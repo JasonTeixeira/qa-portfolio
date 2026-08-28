@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **31/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:4a0676eb6e9bbab08de97ce0a1bf0b8205b6995d737ce59802703c3cb59632e8`.
-- Catalog: 32 courses, 640 lessons, 620 lab blocks.
-- Current phase: `registry-remainder`.
-- Next course: `career-engineering_leadership_staff_execution`.
+- Progress: **32/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:5c7ce476d1e41e251525749bacddbdf2ce516128257cbb3c96acebcc29fb72ee`.
+- Catalog: 32 courses, 640 lessons, 640 lab blocks.
+- Current phase: complete.
+- Next course: none; proceed to academy-wide closure audit and external review boundaries.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -47,6 +47,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `nextjs-supabase` | GREEN | uncertified |
 | `stripe-auth` | GREEN | uncertified |
 | `career-interview_career_portfolio` | GREEN | uncertified |
+| `career-engineering_leadership_staff_execution` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -61,7 +62,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 9 local GREEN; Engineering Leadership selected |
+| Registry courses outside the flagship graph | 12 | all 12 local GREEN |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -236,9 +237,18 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Ten deep interview and decision drills, two multi-day capstones, 20 novice-scaffolded practice labs, and a 20-source authoritative ledger cover every lesson.
 - All 152 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required artifact, mock-interview, outcome, and expert reviews remain pending.
 
-## Current Engineering Leadership and Staff Execution baseline
+## Engineering Leadership and Staff Execution checkpoint result
 
-- `career-engineering_leadership_staff_execution` is selected as the final course in the 32-course execution queue.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python staff-execution references match their exact observable contracts.
+- The course now joins scope, ambiguity, influence, architecture decisions, planning, dependencies, risk, mentoring, feedback, conflict, executive communication, incident command, postmortems, and systemic repair into one operating system.
+- Twelve deep leadership scenarios, a multi-day operating-cadence capstone, 20 novice-scaffolded practice labs, and a 20-source authoritative ledger cover every lesson.
+- All 148 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required stakeholder, organizational-outcome, and expert leadership reviews remain pending.
+
+## Program-loop completion result
+
+- All 32 canonical registry courses have a machine-validated local GREEN curriculum checkpoint.
+- The canonical catalog contains 640 lessons and 640 lab blocks; every lab remains `untrusted_current_runtime` and practice-only.
+- This closes the autonomous local curriculum-production queue. It does not certify courses, validate hosted media, replace expert review, or activate trusted mastery evidence.
 
 ## Advancement rule
 

@@ -124,13 +124,18 @@ async function verify() {
     if (packageJson.scripts?.[name] !== command) failures.push(`missing_or_changed_script:${name}`)
   }
   failures.push(...validateProgramState(state, sources.registry, sources.graph))
-  const packet = packetFor(state, sources)
-  if (packet.registryVersion !== state.registryVersion) failures.push('task_packet_registry_version_mismatch')
-  if (packet.course.courseSlug !== state.current?.courseSlug) failures.push('task_packet_current_course_mismatch')
-  try {
-    assertSafeCommands(packet.commands)
-  } catch (error) {
-    failures.push(error instanceof Error ? error.message : String(error))
+  if (state.current) {
+    const packet = packetFor(state, sources)
+    if (packet.registryVersion !== state.registryVersion) failures.push('task_packet_registry_version_mismatch')
+    if (packet.course.courseSlug !== state.current.courseSlug) failures.push('task_packet_current_course_mismatch')
+    try {
+      assertSafeCommands(packet.commands)
+    } catch (error) {
+      failures.push(error instanceof Error ? error.message : String(error))
+    }
+  } else {
+    if (state.status !== 'complete') failures.push('missing_current_course_without_complete_status')
+    if (state.completed.length !== state.scope.registryCourses) failures.push('complete_status_without_full_queue')
   }
   const evidence = {
     ok: failures.length === 0,
@@ -139,6 +144,8 @@ async function verify() {
     mutationMode: 'local_files_only',
     registryVersion: sources.registry.registryVersion,
     queueCoverage: `${state.queue.length}/${sources.registry.totals.courses}`,
+    progress: `${state.completed.length}/${state.scope.registryCourses}`,
+    status: state.status,
     currentCourse: state.current?.courseSlug ?? null,
     certificationClaim: state.certificationBoundary.courseClaim,
     labEvidence: state.certificationBoundary.labEvidence,

@@ -3,7 +3,10 @@ import { Writable } from 'node:stream'
 import { describe, it } from 'node:test'
 
 import { EVALUATOR_LIMITS, type PrivateLabSpec } from '../../lib/academy/lab-evaluator/contract'
+import { getTrustedEvaluationAttestation, isTrustedLabEvaluation } from '../../lib/academy/lab-evaluator/signing'
 import { executePrivateCaseInVercelSandbox, type VercelSandboxCreate } from '../../services/academy-lab-evaluator/src/vercel-sandbox-executor'
+// @ts-expect-error RED checkpoint: the direct server-owned orchestration is intentionally absent.
+import { evaluateLabWithVercelSandbox } from '../../services/academy-lab-evaluator/src/vercel-sandbox-evaluate'
 
 const IMAGE = `academy-runtime@sha256:${'a'.repeat(64)}`
 
@@ -85,6 +88,35 @@ function input(language: PrivateLabSpec['language'] = 'python') {
 }
 
 describe('Vercel Sandbox academy evaluator boundary', () => {
+  it('produces a request-bound aggregate attestation without returning hidden cases', async () => {
+    const privateSpec = spec()
+    const evaluation = await evaluateLabWithVercelSandbox({
+      courseSlug: 'python-basics',
+      lessonSlug: 'variables',
+      code: 'print(42)',
+    }, {
+      secret: 'test-only-secret-that-is-at-least-thirty-two-bytes',
+      images: { python: IMAGE, javascript: IMAGE, sql: IMAGE },
+      requestId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b20',
+      now: () => 1_788_194_400_000,
+      newId: () => '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
+      loadSpec: async () => privateSpec,
+      executeCase: async (_code: string, testCase: PrivateLabSpec['cases'][number]) => ({
+        caseId: testCase.id,
+        status: 'passed' as const,
+        stdout: testCase.expectedStdout,
+        expectedStdout: testCase.expectedStdout,
+        outputBytes: Buffer.byteLength(testCase.expectedStdout),
+      }),
+    })
+
+    assert.equal(isTrustedLabEvaluation(evaluation), true)
+    assert.equal(evaluation.verdict, 'passed')
+    assert.equal(getTrustedEvaluationAttestation(evaluation)?.length, 64)
+    assert.equal(JSON.stringify(evaluation).includes('REFERENCE-SOLUTION-MUST-STAY-PRIVATE'), false)
+    assert.equal(JSON.stringify(evaluation).includes('EXPECTED-OUTPUT-MUST-STAY-PRIVATE'), false)
+  })
+
   it('creates an ephemeral deny-all microVM and sends no hidden answer material into it', async () => {
     const { createSandbox, observed } = fakeFactory({ stdout: '42\n' })
     const result = await executePrivateCaseInVercelSandbox(input(), { createSandbox })

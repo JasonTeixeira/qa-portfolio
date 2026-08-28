@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
-  "generatedAt": "2026-08-28T20:19:32.654Z",
+  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
+  "generatedAt": "2026-08-28T20:26:59.368Z",
   "items": [
     {
       "rank": 1,
@@ -21,6 +21,7 @@
         "career-databases_data_modeling",
         "career-engineering_judgment_foundation",
         "career-frontend_fullstack",
+        "career-mobile_engineering_deep_dive",
         "career-networking_fundamentals_advanced_networking",
         "career-observability_reliability_performance",
         "career-platform_engineering_internal_developer_platforms",
@@ -39,9 +40,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 540,
-      "findingCount": 540,
-      "priority": 4270540
+      "lessonCount": 560,
+      "findingCount": 560,
+      "priority": 4280560
     },
     {
       "rank": 2,
@@ -199,13 +200,12 @@
         "career-engineering_leadership_staff_execution",
         "career-enterprise_it_saas_admin_business_systems",
         "career-interview_career_portfolio",
-        "career-mobile_engineering_deep_dive",
         "career-qa_sdet_test_automation_engineering",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 131,
-      "findingCount": 131,
-      "priority": 3080131
+      "lessonCount": 111,
+      "findingCount": 111,
+      "priority": 3070111
     },
     {
       "rank": 7,
@@ -689,7 +689,6 @@
         "career-engineering_leadership_staff_execution",
         "career-enterprise_it_saas_admin_business_systems",
         "career-interview_career_portfolio",
-        "career-mobile_engineering_deep_dive",
         "career-networking_fundamentals_advanced_networking",
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
@@ -701,9 +700,9 @@
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 306,
-      "findingCount": 306,
-      "priority": 2160306
+      "lessonCount": 286,
+      "findingCount": 286,
+      "priority": 2150286
     },
     {
       "rank": 21,

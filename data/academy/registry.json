@@ -10,11 +10,11 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 540,
+    "labBlocks": 560,
     "solutionEntries": 588,
-    "labLessonsWithSolutions": 487,
+    "labLessonsWithSolutions": 507,
     "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 16
+    "sourceLedgers": 17
   },
   "capabilities": [
     {
@@ -4141,13 +4141,13 @@
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/career-mobile_engineering_deep_dive/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -4157,8 +4157,8 @@
           "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/native-vs-cross-platform-decision",
           "source": {
@@ -4172,8 +4172,8 @@
           "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/navigation-and-state-boundaries",
           "source": {
@@ -4187,8 +4187,8 @@
           "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/feature-modularization",
           "source": {
@@ -4202,8 +4202,8 @@
           "moduleTitle": "Module 1 · Mobile Architecture And App Shape",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/platform-lifecycle-constraints",
           "source": {
@@ -4217,8 +4217,8 @@
           "moduleTitle": "Module 2 · Offline Data And Sync",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/local-database-model",
           "source": {
@@ -4232,8 +4232,8 @@
           "moduleTitle": "Module 2 · Offline Data And Sync",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/repository-sync-contract",
           "source": {
@@ -4247,8 +4247,8 @@
           "moduleTitle": "Module 2 · Offline Data And Sync",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/conflict-resolution",
           "source": {
@@ -4262,8 +4262,8 @@
           "moduleTitle": "Module 2 · Offline Data And Sync",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/flaky-network-repair",
           "source": {
@@ -4277,8 +4277,8 @@
           "moduleTitle": "Module 3 · Mobile Security And Identity",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/secure-token-storage",
           "source": {
@@ -4292,8 +4292,8 @@
           "moduleTitle": "Module 3 · Mobile Security And Identity",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/permission-boundaries",
           "source": {
@@ -4307,8 +4307,8 @@
           "moduleTitle": "Module 3 · Mobile Security And Identity",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/session-expiry",
           "source": {
@@ -4322,8 +4322,8 @@
           "moduleTitle": "Module 3 · Mobile Security And Identity",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/privacy-safe-telemetry",
           "source": {
@@ -4337,8 +4337,8 @@
           "moduleTitle": "Module 4 · Device Ux And Accessibility",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/small-screen-workflow",
           "source": {
@@ -4352,8 +4352,8 @@
           "moduleTitle": "Module 4 · Device Ux And Accessibility",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/loading-empty-error-states",
           "source": {
@@ -4367,8 +4367,8 @@
           "moduleTitle": "Module 4 · Device Ux And Accessibility",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/mobile-accessibility",
           "source": {
@@ -4382,8 +4382,8 @@
           "moduleTitle": "Module 4 · Device Ux And Accessibility",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/gesture-and-input-constraints",
           "source": {
@@ -4397,8 +4397,8 @@
           "moduleTitle": "Module 5 · Quality Release And Operations",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/mobile-test-plan",
           "source": {
@@ -4412,8 +4412,8 @@
           "moduleTitle": "Module 5 · Quality Release And Operations",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/crash-and-analytics-signals",
           "source": {
@@ -4427,8 +4427,8 @@
           "moduleTitle": "Module 5 · Quality Release And Operations",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/app-store-readiness",
           "source": {
@@ -4442,8 +4442,8 @@
           "moduleTitle": "Module 5 · Quality Release And Operations",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-mobile_engineering_deep_dive/post-release-incident-loop",
           "source": {
@@ -10751,5 +10751,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6"
+  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5"
 }

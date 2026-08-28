@@ -1,18 +1,18 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6`
+**Registry:** `sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
 
 - 32 registered course bundles
 - 640 authored lessons
-- 540 lab blocks
+- 560 lab blocks
 - 588 solution entries
-- 487 lab lessons with same-slug solutions
+- 507 lab lessons with same-slug solutions
 - 53 lab lessons without same-slug solutions
-- 16 course-level source ledgers
+- 17 course-level source ledgers
 - 0 certified courses
 
 ## Known contradictions and launch blockers
@@ -20,7 +20,7 @@
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
 - 640 authored lessons versus 456 lessons represented in the legacy manifest
 - 53 lab lessons lack same-slug solution entries
-- 16 courses lack course-level source ledgers
+- 15 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
 - No course is certified by Academy Certification Harness V2
 
@@ -40,7 +40,7 @@
 | `career-architecture_system_design` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `system-design` | 24 | 0 | 24 | 0 | yes | uncertified |
 | `career-security_identity` | 20 | 20 | 20 | 0 | yes | uncertified |
-| `career-mobile_engineering_deep_dive` | 20 | 20 | 0 | 0 | no | uncertified |
+| `career-mobile_engineering_deep_dive` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-qa_sdet_test_automation_engineering` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-networking_fundamentals_advanced_networking` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-ux_ui_product_design_for_engineers` | 20 | 20 | 0 | 0 | no | uncertified |

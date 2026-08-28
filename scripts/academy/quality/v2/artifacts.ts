@@ -26,7 +26,7 @@ function markdown(report: AcademyAudit): string {
     .map((item) => `${item.rank}. ${item.code ? `**${item.code}** · ` : ''}${item.category} — ${item.remediation} (${item.courseSlugs.length} courses; ${item.findingCount} findings)`)
     .join('\n')
   const phases = report.flagshipReadiness.phases
-    .map((phase) => `| ${phase.label} | ${phase.courseSlugs.length ? phase.courseSlugs.map((slug) => `\`${slug}\``).join(', ') : 'unmapped'} | ${phase.ready ? 'ready' : 'not ready'} | ${phase.gap ?? (phase.blockedCourses.length ? `${phase.blockedCourses.length} blocked course(s)` : 'none')} |`)
+    .map((phase) => `| ${phase.label} | ${phase.courseSlugs.length ? phase.courseSlugs.map((slug) => `\`${slug}\``).join(', ') : 'unmapped'} | ${phase.ready ? 'ready' : 'not ready'} | ${phase.releaseGap ?? (phase.blockedCourses.length ? `${phase.blockedCourses.length} blocked course(s)` : 'none')} |`)
     .join('\n')
   return `# Academy Certification Harness V2 — Quality Board
 
@@ -69,9 +69,9 @@ ${rows}
 
 ${backlog || 'No remediation items.'}
 
-## Provisional flagship readiness
+## Flagship competency-path readiness
 
-The mapping below is a Step 2 readiness lens derived from the blueprint. Step 5 owns the final competency graph and route.
+The mapping below is generated from the canonical competency graph. It remains a draft until every required course and capstone release earns certification evidence.
 
 | Phase | Current course mapping | Readiness | Blocking note |
 |---|---|---|---|

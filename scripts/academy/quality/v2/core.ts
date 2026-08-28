@@ -3,6 +3,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, resolve, sep } from 'node:path'
 
 import { REQUIRED_SECTIONS, type SprintIntensity } from '@/lib/academy/engine'
+import {
+  loadFlagshipCompetencyGraph,
+  validateFlagshipCompetencyGraph,
+} from '@/lib/academy/flagship-competency-graph'
 import { validateBlocks } from '@/lib/academy/validate-blocks'
 
 export const HARNESS_VERSION = '2.0.0'
@@ -190,16 +194,6 @@ const DIMENSION_IDS = [
   'performance',
   'consistency',
 ] as const
-
-const FLAGSHIP_PHASES = [
-  { id: 'learning-judgment', label: 'Engineering judgment and learning how to learn', courses: ['career-engineering_judgment_foundation'] },
-  { id: 'automation-foundations', label: 'Programming, Linux, Git, APIs, and automation foundations', courses: ['programming-fundamentals', 'python-basics', 'git-the-terminal', 'career-programming_cs_foundations'] },
-  { id: 'network-security', label: 'Networking, systems, and security foundations', courses: ['career-networking_fundamentals_advanced_networking', 'career-security_identity'] },
-  { id: 'backend-distributed', label: 'Backend, databases, and distributed-system foundations', courses: ['career-backend_engineering', 'career-databases_data_modeling', 'system-design'] },
-  { id: 'cloud-operations', label: 'Cloud, DevOps, reliability, and cost operations', courses: ['career-cloud_devops_operations', 'career-observability_reliability_performance', 'career-platform_engineering_internal_developer_platforms'] },
-  { id: 'applied-ai', label: 'Applied AI engineering', courses: ['the-llm-api', 'prompt-engineering', 'rag-retrieval', 'agents-tool-use', 'career-ai_engineering_rag_eval'] },
-  { id: 'production-capstone', label: 'Production capstone', courses: [] as string[], gap: 'No canonical production-capstone release exists; Step 5 must map competencies before new content is proposed.' },
-]
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -904,6 +898,11 @@ function remediationBacklog(courseScorecards: CourseScorecard[]) {
 }
 
 export function auditAcademy({ registry, repoRoot, generatedAt, activation }: AcademyInput) {
+  const flagshipGraph = loadFlagshipCompetencyGraph(repoRoot)
+  const flagshipGraphValidation = validateFlagshipCompetencyGraph(flagshipGraph, registry)
+  if (flagshipGraphValidation.errors.length > 0) {
+    throw new Error(`Flagship competency graph is invalid:\n${flagshipGraphValidation.errors.join('\n')}`)
+  }
   const courseIndex = new Map(registry.courses.map((course) => [course.slug, new Set(course.lessons.map((lesson) => lesson.slug))]))
   const courseScorecards = registry.courses.map((course) => auditCourseBundle(bundleFromRegistry(course, repoRoot, activation?.evidenceByLesson), {
     registryVersion: registry.registryVersion,
@@ -918,15 +917,20 @@ export function auditAcademy({ registry, repoRoot, generatedAt, activation }: Ac
   if (lessonsAudited !== registry.totals.lessons) throw new Error(`Audit coverage drift: expected ${registry.totals.lessons} lessons, audited ${lessonsAudited}`)
   const bySlug = new Map(courseScorecards.map((course) => [course.courseSlug, course]))
   const flagshipReadiness = {
-    status: 'provisional_until_step_5',
-    phases: FLAGSHIP_PHASES.map((phase) => {
-      const courses = phase.courses.map((slug) => bySlug.get(slug)).filter((course): course is CourseScorecard => Boolean(course))
+    pathId: flagshipGraph.pathId,
+    graphStatus: flagshipGraph.status,
+    status: 'mapped_draft_pending_certification',
+    masteryPolicy: flagshipGraph.masteryPolicy,
+    phases: flagshipGraph.phases.map((phase) => {
+      const courses = phase.courseSlugs.map((slug) => bySlug.get(slug)).filter((course): course is CourseScorecard => Boolean(course))
       return {
         id: phase.id,
         label: phase.label,
-        courseSlugs: phase.courses,
-        ...(phase.gap ? { gap: phase.gap } : {}),
-        ready: phase.courses.length > 0 && courses.length === phase.courses.length && courses.every((course) => course.decision === 'eligible_for_certification'),
+        prerequisitePhaseIds: phase.prerequisitePhaseIds,
+        competencyIds: phase.competencyIds,
+        courseSlugs: phase.courseSlugs,
+        ...(phase.releaseGap ? { releaseGap: phase.releaseGap } : {}),
+        ready: phase.courseSlugs.length > 0 && courses.length === phase.courseSlugs.length && courses.every((course) => course.decision === 'eligible_for_certification'),
         blockedCourses: courses.filter((course) => course.decision !== 'eligible_for_certification').map((course) => course.courseSlug),
       }
     }),

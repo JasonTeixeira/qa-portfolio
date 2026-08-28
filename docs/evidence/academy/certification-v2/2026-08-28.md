@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T15:18:03.808Z
-Registry: `sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a`
+Generated: 2026-08-28T16:01:01.073Z
+Registry: `sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -35,7 +35,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 |---|---|---:|---|---:|---|---:|
 | Engineering Judgment and Learning How to Learn | `career-engineering_judgment_foundation` | 16 | blocked | 16 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Think Like a Senior Engineer: Concept Maps | `career-concept_maps_real_world_engineering` | 30 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
-| Programming Fundamentals | `programming-fundamentals` | 18 | blocked | 25 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
+| Programming Fundamentals | `programming-fundamentals` | 18 | blocked | 25 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
 | Programming and Computer Science Foundations | `career-programming_cs_foundations` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Python Basics | `python-basics` | 4 | blocked | 4 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Git and the Terminal | `git-the-terminal` | 20 | blocked | 40 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 79.5 |
@@ -75,10 +75,10 @@ The deterministic score reports only checks the harness can prove locally. It is
 5. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 632 findings)
 6. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 632 findings)
 7. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 632 findings)
-8. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (23 courses; 368 findings)
-9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (17 courses; 34 findings)
+8. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (22 courses; 353 findings)
+9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (16 courses; 33 findings)
 10. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (15 courses; 44 findings)
-11. pedagogy — Restore the micro learning loop without replacing course-specific teaching with boilerplate. (2 courses; 4 findings)
+11. pedagogy — Restore the micro learning loop without replacing course-specific teaching with boilerplate. (1 courses; 2 findings)
 12. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 632 findings)
 13. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 632 findings)
 14. accessibility — Complete required accessibility evidence: screen-reader-semantics. (32 courses; 632 findings)
@@ -89,16 +89,16 @@ The deterministic score reports only checks the harness can prove locally. It is
 19. performance — Complete required performance evidence: rendered-performance. (32 courses; 632 findings)
 20. ux — Complete required ux evidence: human-ux-review. (32 courses; 632 findings)
 
-## Provisional flagship readiness
+## Flagship competency-path readiness
 
-The mapping below is a Step 2 readiness lens derived from the blueprint. Step 5 owns the final competency graph and route.
+The mapping below is generated from the canonical competency graph. It remains a draft until every required course and capstone release earns certification evidence.
 
 | Phase | Current course mapping | Readiness | Blocking note |
 |---|---|---|---|
-| Engineering judgment and learning how to learn | `career-engineering_judgment_foundation` | not ready | 1 blocked course(s) |
-| Programming, Linux, Git, APIs, and automation foundations | `programming-fundamentals`, `python-basics`, `git-the-terminal`, `career-programming_cs_foundations` | not ready | 4 blocked course(s) |
-| Networking, systems, and security foundations | `career-networking_fundamentals_advanced_networking`, `career-security_identity` | not ready | 2 blocked course(s) |
-| Backend, databases, and distributed-system foundations | `career-backend_engineering`, `career-databases_data_modeling`, `system-design` | not ready | 3 blocked course(s) |
-| Cloud, DevOps, reliability, and cost operations | `career-cloud_devops_operations`, `career-observability_reliability_performance`, `career-platform_engineering_internal_developer_platforms` | not ready | 3 blocked course(s) |
-| Applied AI engineering | `the-llm-api`, `prompt-engineering`, `rag-retrieval`, `agents-tool-use`, `career-ai_engineering_rag_eval` | not ready | 5 blocked course(s) |
-| Production capstone | unmapped | not ready | No canonical production-capstone release exists; Step 5 must map competencies before new content is proposed. |
+| Learning systems and engineering judgment | `career-engineering_judgment_foundation` | not ready | 1 blocked course(s) |
+| Programming, data structures, Git, terminal, and automation foundations | `programming-fundamentals`, `python-basics`, `git-the-terminal`, `data-structures`, `career-programming_cs_foundations` | not ready | 5 blocked course(s) |
+| Networking, systems, and security | `career-networking_fundamentals_advanced_networking`, `career-security_identity` | not ready | 2 blocked course(s) |
+| Databases, APIs, backend services, and distributed systems | `career-databases_data_modeling`, `career-backend_engineering`, `system-design` | not ready | 3 blocked course(s) |
+| Cloud, DevOps, observability, reliability, and platform operations | `career-cloud_devops_operations`, `career-observability_reliability_performance`, `career-platform_engineering_internal_developer_platforms` | not ready | 3 blocked course(s) |
+| LLM APIs, prompting, retrieval, agents, automation, evals, and safety | `the-llm-api`, `prompt-engineering`, `rag-retrieval`, `agents-tool-use`, `career-ai_engineering_rag_eval` | not ready | 5 blocked course(s) |
+| Cross-discipline production capstone and defense | `system-design`, `career-product_execution_market_feedback` | not ready | The evidence contract is canonical, but a dedicated immutable capstone course release has not yet been authored or certified. |

@@ -2,11 +2,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "your-first-program",
-    "contentHash": "sha256:9939245724bb9e1aab13e5984b2e229d54211ccd6d3b738ca7d4fe2811f18194",
+    "contentHash": "sha256:ec14b68bd77fc503ec228795996ab04939c842e00b918d8680fba3c868a87046",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -26,15 +26,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The micro loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -44,18 +44,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required micro loop sections: unlock-gate",
-            "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "02bf6a3ae8bae042",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "your-first-program"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -332,7 +321,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -374,11 +363,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "variables-and-values",
-    "contentHash": "sha256:46637cd806db3186d31dcd75bcf66ba861f103c3ed64b763bc054954725e369f",
+    "contentHash": "sha256:351645bb2bfc127b97c0c95c2d719e5a5a00417e51e9ac2e4071b5b3c3ecc366",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -398,15 +387,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The micro loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -416,18 +405,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required micro loop sections: unlock-gate",
-            "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "5127a677eaddcb6e",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "variables-and-values"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -704,7 +682,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -746,11 +724,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "numbers-and-strings",
-    "contentHash": "sha256:21f5414b2337fc2e9295f9efaed37ba2a3269453fa596fc87a14a8821877b798",
+    "contentHash": "sha256:b5c8b2db261e9ccef60ae6402a845f53399915567dd4d245b60446110759e050",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -770,15 +748,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -788,18 +766,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "368ca9a5dda57100",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "numbers-and-strings"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1076,7 +1043,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1118,11 +1085,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "reading-input",
-    "contentHash": "sha256:0974f8fb55014b6d136250f93afe1b55553c940b1d45a9fb11f1354e8e55a313",
+    "contentHash": "sha256:b2df5bbf17980c2a3bf1eab72164cd235ef0aa3b5531ac73c8bd2e4fc1bc8a2a",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1142,15 +1109,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1160,18 +1127,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "c404a62c95a7dd3c",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "reading-input"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1448,7 +1404,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1490,11 +1446,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "booleans-and-logic",
-    "contentHash": "sha256:5b2119eac8eb5fe76c5ddd6f840ca9cab3035cba5e0526fa2fd1c887cb155860",
+    "contentHash": "sha256:581ae490949ea27335ba0e99d6bea8f84e0e38b4f00c59a8cdaf188dca83cc43",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1514,15 +1470,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1532,18 +1488,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "0d9c21fbdf646e1f",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "booleans-and-logic"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -1820,7 +1765,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -1862,11 +1807,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "lists",
-    "contentHash": "sha256:f1d06757cb695c5c86fb98acb7a7a545098235345fd5aa15c89006d40d146cda",
+    "contentHash": "sha256:43defe95e9a9db92eb446bdb54530fc08e37665becef762f0062a4aa69200d85",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -1886,15 +1831,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -1904,18 +1849,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "eace186391e0d5f9",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "lists"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2192,7 +2126,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2234,11 +2168,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "loops",
-    "contentHash": "sha256:a9cf2cf45a669041da45cb47c401e58310cbdb908f27e4b8cf55adef91a10933",
+    "contentHash": "sha256:11edf7236fc36882849b7d0b05db7d70e568e7ec14cbf0463846f649c8c34867",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2258,15 +2192,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2276,18 +2210,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "e9bc0b2e6d0c8a91",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "loops"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2564,7 +2487,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2606,11 +2529,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "functions-basics",
-    "contentHash": "sha256:2151b431f459aa4972d7e54131bde0d67e102562d710732f5792a1e4e044cb6d",
+    "contentHash": "sha256:034dd92c31ad972c7c03f7a714fa51d2bd5d39fdf9042e9687869358129a053c",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2630,15 +2553,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2648,18 +2571,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "a82c8b4d9e910fba",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "functions-basics"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -2925,7 +2837,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -2956,11 +2868,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "build-a-tiny-program",
-    "contentHash": "sha256:c798db563a2c9ed6bcd03bd80fa0cb440e73b41ba5b5a5335ca791b02063104e",
+    "contentHash": "sha256:6f5a44269690a454646dbb111c0cbba17b45863869557fc771d488a4ccdf444b",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -2980,15 +2892,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The capstone loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -2998,18 +2910,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
-            "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "eac7dc80e55ee046",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "build-a-tiny-program"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3275,7 +3176,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3306,11 +3207,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "input-validation",
-    "contentHash": "sha256:a7f9e5b5ae077b187cef08b2ba95be478df34efa4fc4832c3531735394812f78",
+    "contentHash": "sha256:b2fe77e9f602cf65661d7011689c1a6e3513a521e3911a4461d82e23be050415",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3330,15 +3231,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3348,18 +3249,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "318b86dbc55546e2",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "input-validation"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3625,7 +3515,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -3656,11 +3546,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "error-handling",
-    "contentHash": "sha256:b25aab5343b103aabd999ac2a4bc82b21cf93a04e394e9b346dc9f50e20bd879",
+    "contentHash": "sha256:826553821b6e699c608baf3e75c612f58eec90696364e6301918a34b085ea8f3",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -3680,15 +3570,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -3698,18 +3588,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "f94a9539b1f89ffc",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "error-handling"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -3975,7 +3854,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4006,11 +3885,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "functions-and-modules",
-    "contentHash": "sha256:8c39e3ffa72fcf9e7a887207f76f3b2030734db81237c624c583f5a379f4b6de",
+    "contentHash": "sha256:f6a022a7644daabfac8f6657b84aa8544eefc6c629e6b32cdd288c8b5329ef59",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4030,15 +3909,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4048,18 +3927,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "9ea4d6667df9c3d0",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "functions-and-modules"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4325,7 +4193,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4356,11 +4224,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "types-and-data",
-    "contentHash": "sha256:dea4642d6ab41a5fff3065366dbab71076066927c3a3ec7f2138c518d1bc55a5",
+    "contentHash": "sha256:ecfb2265d1c5daea00370079068a19bbc0b4983728ee29c812dc779cd63256b0",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4380,15 +4248,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4398,18 +4266,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "a37569e29c23a4a6",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "types-and-data"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -4675,7 +4532,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -4706,11 +4563,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "control-flow",
-    "contentHash": "sha256:6f2eed1616e9a5a3e382feec7e6184b7c676884252282d965926e3fe28de20ba",
+    "contentHash": "sha256:33e9e985e307c2984b01d9f0e6f375193ce01555a7ddd6ae8d0f9cc9b6660759",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -4730,15 +4587,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -4748,18 +4605,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "d1d24f041e3471a6",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "control-flow"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5025,7 +4871,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5056,11 +4902,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "files-and-io",
-    "contentHash": "sha256:49811c6e48d4e348df31d4f5dc731563dbc1677042207f4092c9d7ef54c3c60c",
+    "contentHash": "sha256:8e70ae15b2c7e5231005a4d4243ac2b1866fb57c88dcffc58c0951789c86c453",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5080,15 +4926,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5098,18 +4944,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "67c7ed64c77bff04",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "files-and-io"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5375,7 +5210,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5406,11 +5241,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "testing-and-debugging",
-    "contentHash": "sha256:584011f02b246a0c323bb93592bff06e7bbc6e7dda46db77932a7f62c766c417",
+    "contentHash": "sha256:2a8d4fb08f37f2e7845b4e96b40594a1f72528c382a2a5ca2ec24b3e0ac1d37a",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5430,15 +5265,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5448,18 +5283,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "fb62190b465e8716",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "testing-and-debugging"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -5725,7 +5549,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -5756,11 +5580,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "cli-workflow",
-    "contentHash": "sha256:8fa65b3653f12b9acd208abfd5a430ba5cdab34781eb304b799d2fb507847840",
+    "contentHash": "sha256:ab162aadeefc286c5f32713ccfd4ec34cb77571cc759090146adacff442d1c7f",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -5780,15 +5604,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -5798,18 +5622,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "00141f8f2fa734b4",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "cli-workflow"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6075,7 +5888,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {
@@ -6106,11 +5919,11 @@
   {
     "schemaVersion": 2,
     "harnessVersion": "2.0.0",
-    "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-    "generatedAt": "2026-08-28T15:18:03.808Z",
+    "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+    "generatedAt": "2026-08-28T16:01:01.073Z",
     "courseSlug": "programming-fundamentals",
     "lessonSlug": "git-fundamentals",
-    "contentHash": "sha256:283e863a67164374de2f5ccca803e896d2b4bbb4b55b40781787eb01c2806a52",
+    "contentHash": "sha256:db513524834d013f39fca5ea79081b37d7d3e5d3204fc429bf6330cef505daf7",
     "labTrust": "untrusted_current_runtime",
     "dimensions": {
       "structure": {
@@ -6130,15 +5943,15 @@
       },
       "pedagogy": {
         "id": "pedagogy",
-        "status": "fail",
-        "score": 0,
+        "status": "pending",
+        "score": null,
         "checks": [
           {
             "id": "learning-loop-arc",
             "mode": "deterministic",
-            "status": "fail",
+            "status": "pass",
             "required": true,
-            "summary": "The required learning loop is incomplete."
+            "summary": "The standard loop is structurally complete and ordered."
           },
           {
             "id": "expert-pedagogy-review",
@@ -6148,18 +5961,7 @@
             "summary": "Expert review of explanations, sequencing, cognitive load, and transfer is pending."
           }
         ],
-        "findings": [
-          {
-            "severity": "high",
-            "category": "pedagogy",
-            "message": "Missing required standard loop sections: worked-example, tradeoff",
-            "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-            "mode": "deterministic",
-            "id": "d16914e78f4ebeba",
-            "courseSlug": "programming-fundamentals",
-            "lessonSlug": "git-fundamentals"
-          }
-        ]
+        "findings": []
       },
       "assessments": {
         "id": "assessments",
@@ -6425,7 +6227,7 @@
         "findings": []
       }
     },
-    "deterministicScore": 77.8,
+    "deterministicScore": 88.9,
     "compositeScore": null,
     "hardFails": [
       {

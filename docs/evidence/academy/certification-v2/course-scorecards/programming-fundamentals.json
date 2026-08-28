@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-28T15:18:03.808Z",
+  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+  "generatedAt": "2026-08-28T16:01:01.073Z",
   "courseSlug": "programming-fundamentals",
   "title": "Programming Fundamentals",
-  "contentHash": "sha256:9ab20f331f01cddc12d4461e2e6b1902e5c89a255859d1819630baaacc980994",
+  "contentHash": "sha256:f1ba8751de16c49925cfc8935f9f6291819f45febe45c4341572cdb0d821181a",
   "lessonCount": 18,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,199 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/18 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required micro loop sections: unlock-gate",
-          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "02bf6a3ae8bae042",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "your-first-program"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required micro loop sections: unlock-gate",
-          "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5127a677eaddcb6e",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "variables-and-values"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "368ca9a5dda57100",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "numbers-and-strings"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c404a62c95a7dd3c",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "reading-input"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0d9c21fbdf646e1f",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "booleans-and-logic"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "eace186391e0d5f9",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "lists"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e9bc0b2e6d0c8a91",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "loops"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a82c8b4d9e910fba",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "functions-basics"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "eac7dc80e55ee046",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "build-a-tiny-program"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "318b86dbc55546e2",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "input-validation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "f94a9539b1f89ffc",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "error-handling"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9ea4d6667df9c3d0",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "functions-and-modules"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a37569e29c23a4a6",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "types-and-data"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d1d24f041e3471a6",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "control-flow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "67c7ed64c77bff04",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "files-and-io"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fb62190b465e8716",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "testing-and-debugging"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "00141f8f2fa734b4",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "cli-workflow"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d16914e78f4ebeba",
-          "courseSlug": "programming-fundamentals",
-          "lessonSlug": "git-fundamentals"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -692,7 +511,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 88.9,
   "compositeScore": null,
   "hardFails": [
     {

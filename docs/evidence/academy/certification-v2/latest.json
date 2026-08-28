@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-28T15:18:03.808Z",
+  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+  "generatedAt": "2026-08-28T16:01:01.073Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -250,11 +250,11 @@
       "courseSlug": "programming-fundamentals",
       "title": "Programming Fundamentals",
       "lessonCount": 18,
-      "contentHash": "sha256:9ab20f331f01cddc12d4461e2e6b1902e5c89a255859d1819630baaacc980994",
+      "contentHash": "sha256:f1ba8751de16c49925cfc8935f9f6291819f45febe45c4341572cdb0d821181a",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.9,
       "compositeScore": null,
       "hardFailCount": 25,
       "hardFailCounts": {
@@ -284,8 +284,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

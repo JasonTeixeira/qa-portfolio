@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6d54d95a42e89c796e7e6cd96c26107aaac298374d570bbf6888b20c66f0108a",
-  "generatedAt": "2026-08-28T15:18:03.808Z",
+  "registryVersion": "sha256:2d7aec850694e14bee4f050eac02d1517f2009d9778cd9ce70e36a98ba9ab799",
+  "generatedAt": "2026-08-28T16:01:01.073Z",
   "items": [
     {
       "rank": 1,
@@ -239,12 +239,11 @@
         "career-qa_sdet_test_automation_engineering",
         "career-security_identity",
         "career-ux_ui_product_design_for_engineers",
-        "programming-fundamentals",
         "python-basics"
       ],
-      "lessonCount": 368,
-      "findingCount": 368,
-      "priority": 3230368
+      "lessonCount": 353,
+      "findingCount": 353,
+      "priority": 3220353
     },
     {
       "rank": 9,
@@ -267,12 +266,11 @@
         "career-programming_cs_foundations",
         "career-security_identity",
         "git-the-terminal",
-        "nextjs-supabase",
-        "programming-fundamentals"
+        "nextjs-supabase"
       ],
-      "lessonCount": 34,
-      "findingCount": 34,
-      "priority": 3170034
+      "lessonCount": 33,
+      "findingCount": 33,
+      "priority": 3160033
     },
     {
       "rank": 10,
@@ -306,12 +304,11 @@
       "severity": "high",
       "remediation": "Restore the micro learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "programming-fundamentals",
         "python-basics"
       ],
-      "lessonCount": 4,
-      "findingCount": 4,
-      "priority": 3020004
+      "lessonCount": 2,
+      "findingCount": 2,
+      "priority": 3010002
     },
     {
       "rank": 12,

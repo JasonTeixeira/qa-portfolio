@@ -16,6 +16,7 @@ import { persistTrustedLabEvaluation } from '@/lib/academy/lab-evaluator/persist
 import {
   FLAGSHIP_ACTIVATION_RELEASE_ID,
   activationAttestationAllowsMastery,
+  flagshipLabSpecDigest,
   flagshipLabSpecRevision,
   isFlagshipLabCandidate,
   masteryPersistenceEnabled,
@@ -132,7 +133,15 @@ export async function verifyLab(
     if (evaluation.specRevision !== flagshipLabSpecRevision(courseSlug, lessonSlug)) {
       return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'activation_spec_mismatch' }
     }
-    if (!activationAttestationAllowsMastery(process.env, courseSlug, lessonSlug)) {
+    if (evaluation.specDigest !== flagshipLabSpecDigest(courseSlug, lessonSlug)) {
+      return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'activation_spec_mismatch' }
+    }
+    if (!evaluation.runtimeImage || !activationAttestationAllowsMastery(
+      process.env,
+      courseSlug,
+      lessonSlug,
+      evaluation.runtimeImage,
+    )) {
       return { ok: true, verified: false, trustStatus: 'practice_only', reason: 'activation_not_attested' }
     }
     if (!masteryPersistenceEnabled(process.env, FLAGSHIP_ACTIVATION_RELEASE_ID)) {
@@ -142,6 +151,7 @@ export async function verifyLab(
       userId: user.id,
       courseSlug,
       lessonSlug,
+      releaseId: FLAGSHIP_ACTIVATION_RELEASE_ID,
       evaluation,
     })
     if (!persisted) {

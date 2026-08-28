@@ -23,7 +23,7 @@ describe('academy mastery evidence trust boundary', () => {
       issuedAt: NOW,
     })
     const payload = {
-      schemaVersion: 1 as const,
+      schemaVersion: 2 as const,
       evaluationId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
       requestId: request.requestId,
       issuedAt: NOW,
@@ -32,6 +32,8 @@ describe('academy mastery evidence trust boundary', () => {
       evaluatorVersion: EVALUATOR_VERSION,
       policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
+      specDigest: 'b'.repeat(64),
+      runtimeImage: `registry.example.com/sage/python@sha256:${'a'.repeat(64)}`,
       verdict: 'passed' as const,
       reason: 'all_private_cases_passed' as const,
       tests: { passed: 2, total: 2 },
@@ -42,11 +44,15 @@ describe('academy mastery evidence trust boundary', () => {
       userId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b22',
       courseSlug: 'python-basics',
       lessonSlug: 'variables',
+      releaseId: 'flagship-labs-2026-08-27.1',
       evaluation: trusted,
     })
     assert.equal(command?.rpc, 'record_trusted_academy_lab_result')
     assert.equal(command?.args.p_evaluation_id, payload.evaluationId)
     assert.equal(command?.args.p_spec_revision, payload.specRevision)
+    assert.equal(command?.args.p_spec_digest, payload.specDigest)
+    assert.equal(command?.args.p_runtime_image, payload.runtimeImage)
+    assert.equal(command?.args.p_release_id, 'flagship-labs-2026-08-27.1')
     assert.equal(command?.args.p_attestation_signature.length, 64)
     assert.equal(command?.args.p_verdict, 'passed')
 
@@ -60,6 +66,7 @@ describe('academy mastery evidence trust boundary', () => {
       userId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b22',
       courseSlug: 'python-basics',
       lessonSlug: 'variables',
+      releaseId: 'flagship-labs-2026-08-27.1',
       evaluation: failed,
     }), null)
   })
@@ -111,8 +118,9 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(policyPinMigration, /create or replace function public\.record_trusted_academy_lab_result/i)
     assert.match(policyPinMigration, /revoke execute[\s\S]*?from public, anon, authenticated/i)
     assert.match(managedPolicyMigration, /create or replace function public\.record_trusted_academy_lab_result/i)
-    assert.match(managedPolicyMigration, new RegExp(EVALUATOR_VERSION))
-    assert.match(managedPolicyMigration, new RegExp(evaluatorPolicyHash()))
+    assert.match(managedPolicyMigration, /academy-evaluator-v2/)
+    assert.match(releaseBindingMigration, new RegExp(EVALUATOR_VERSION))
+    assert.match(releaseBindingMigration, new RegExp(evaluatorPolicyHash()))
     assert.match(privateSpecsMigration, /create table if not exists public\.academy_private_lab_specs/i)
     assert.match(privateSpecsMigration, /enable row level security/i)
     assert.match(privateSpecsMigration, /revoke all[\s\S]*?from public, anon, authenticated/i)

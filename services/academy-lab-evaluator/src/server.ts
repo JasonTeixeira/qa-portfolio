@@ -41,6 +41,7 @@ async function main(): Promise<void> {
     secret: config.secret,
     evaluate: (request) => evaluateSubmission(request, {
       loadSpec: (labKey) => loadPrivateSpec(config.privateSpecRoot, labKey),
+      runtimeImageFor: (spec) => config.images[spec.language],
       proveSpec,
       executeCase: (code, testCase, spec) => runCase(code, testCase, spec, request.requestId),
     }),

@@ -6,7 +6,7 @@ import path from 'node:path'
 import { describe, it } from 'node:test'
 
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
-import { EVALUATOR_VERSION, evaluatorPolicyHash } from '../../lib/academy/lab-evaluator/contract'
+import { EVALUATOR_VERSION, evaluatorPolicyHash, privateSpecDigest } from '../../lib/academy/lab-evaluator/contract'
 import { decideLabSubmissionOutcome } from '../../lib/academy/lab-evaluator/application'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
 import { executePrivateCase, runBoundedProcess } from '../../services/academy-lab-evaluator/src/executor'
@@ -108,6 +108,7 @@ describe('academy evaluator service and application boundary', () => {
     const response = await evaluateSubmission(request, {
       now: () => NOW,
       loadSpec: async () => validSpec(),
+      runtimeImageFor: () => IMAGE,
       executeCase: async (_code, testCase) => ({
         caseId: testCase.id,
         status: 'passed',
@@ -129,6 +130,7 @@ describe('academy evaluator service and application boundary', () => {
       now: () => NOW,
       newId: () => '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
       loadSpec: async () => validSpec(),
+      runtimeImageFor: () => IMAGE,
       executeCase: async (_code: string, testCase: { id: string; expectedStdout: string }) => ({
         caseId: testCase.id,
         status: 'passed',
@@ -139,6 +141,8 @@ describe('academy evaluator service and application boundary', () => {
     })
     assert.equal(response.verdict, 'passed')
     assert.deepEqual(response.tests, { passed: 2, total: 2 })
+    assert.equal(response.specDigest, privateSpecDigest(validSpec()))
+    assert.equal(response.runtimeImage, IMAGE)
     assert.equal(JSON.stringify(response).includes('secret-input'), false)
     assert.equal(JSON.stringify(response).includes('expectedStdout'), false)
     assert.equal(JSON.stringify(response).includes('referenceSolution'), false)
@@ -196,7 +200,7 @@ describe('academy evaluator service and application boundary', () => {
       requestId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b20', issuedAt: NOW,
     })
     const payload = {
-      schemaVersion: 1 as const,
+      schemaVersion: 2 as const,
       evaluationId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b21',
       requestId: request.requestId,
       issuedAt: NOW,
@@ -205,6 +209,8 @@ describe('academy evaluator service and application boundary', () => {
       evaluatorVersion: EVALUATOR_VERSION,
       policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
+      specDigest: privateSpecDigest(validSpec()),
+      runtimeImage: IMAGE,
       verdict: 'passed' as const,
       reason: 'all_private_cases_passed' as const,
       tests: { passed: 2, total: 2 },

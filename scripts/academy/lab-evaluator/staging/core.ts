@@ -15,6 +15,7 @@ import { dirname, isAbsolute, resolve, sep } from 'node:path'
 import {
   EVALUATOR_VERSION,
   evaluatorPolicyHash,
+  privateSpecDigest,
   validatePrivateSpec,
   type LabLanguage,
   type PrivateLabSpec,
@@ -114,7 +115,7 @@ export type ActivationAttestationPayload = {
     managedProjectIdSha256: string
     databaseOriginSha256: string
     rootlessRuntime: 'passed'
-    migrations: readonly ['0116', '0117', '0118', '0119']
+    migrations: readonly ['0116', '0117', '0118', '0119', '0120']
     managedRuntimeBinding: 'passed'
     monitoring: 'passed'
     masteryWriteKillSwitch: 'passed'
@@ -234,9 +235,7 @@ export async function resolvePrivateSpecRoot(repoRoot: string, privateSpecRoot: 
   })
 }
 
-export function privateSpecDigest(spec: unknown): string {
-  return createHash('sha256').update(stableStringify(spec), 'utf8').digest('hex')
-}
+export { privateSpecDigest }
 
 export async function validatePrivatePack(
   manifest: FlagshipActivationManifest,
@@ -375,11 +374,12 @@ function assertAttestationPayload(
   if (payload.environment.rootlessRuntime !== 'passed') throw new Error('activation rootless runtime proof failed')
   if (
     !Array.isArray(payload.environment.migrations) ||
-    payload.environment.migrations.length !== 4 ||
+    payload.environment.migrations.length !== 5 ||
     payload.environment.migrations[0] !== '0116' ||
     payload.environment.migrations[1] !== '0117' ||
     payload.environment.migrations[2] !== '0118' ||
-    payload.environment.migrations[3] !== '0119'
+    payload.environment.migrations[3] !== '0119' ||
+    payload.environment.migrations[4] !== '0120'
   ) throw new Error('activation migration proof is incomplete')
   if (payload.environment.managedRuntimeBinding !== 'passed') throw new Error('activation managed runtime binding proof failed')
   if (payload.environment.monitoring !== 'passed') throw new Error('activation monitoring proof failed')

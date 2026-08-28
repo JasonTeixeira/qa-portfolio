@@ -80,7 +80,7 @@ export function createEvaluatorHttpHandler(deps: {
         result = await deps.evaluate(verifiedRequest)
       } catch {
         result = {
-          schemaVersion: 1,
+          schemaVersion: 2,
           evaluationId: newId(),
           requestId: verifiedRequest.requestId,
           issuedAt: now(),
@@ -89,6 +89,8 @@ export function createEvaluatorHttpHandler(deps: {
           evaluatorVersion: EVALUATOR_VERSION,
           policyHash: evaluatorPolicyHash(),
           specRevision: null,
+          specDigest: null,
+          runtimeImage: null,
           verdict: 'error',
           reason: 'evaluator_unavailable',
           tests: { passed: 0, total: 0 },

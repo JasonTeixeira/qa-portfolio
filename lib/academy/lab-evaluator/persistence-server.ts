@@ -8,6 +8,7 @@ export async function persistTrustedLabEvaluation(input: {
   userId: string
   courseSlug: string
   lessonSlug: string
+  releaseId: string
   evaluation: TrustedLabEvaluation
 }): Promise<boolean> {
   const command = buildTrustedLabPersistence(input)

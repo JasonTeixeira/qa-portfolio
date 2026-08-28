@@ -122,7 +122,7 @@ function attestationPayload(targetManifest = manifest()) {
       managedProjectIdSha256: targetManifest.authority.managedProjectIdSha256,
       databaseOriginSha256: targetManifest.authority.databaseOriginSha256,
       rootlessRuntime: 'passed' as const,
-      migrations: ['0116', '0117', '0118', '0119'] as const,
+      migrations: ['0116', '0117', '0118', '0119', '0120'] as const,
       managedRuntimeBinding: 'passed' as const,
       monitoring: 'passed' as const,
       masteryWriteKillSwitch: 'passed' as const,
@@ -340,7 +340,7 @@ describe('academy Step 4B staging activation contract', () => {
         ACADEMY_LAB_EVALUATOR_PROVIDER: 'vercel-sandbox',
         VERCEL_PROJECT_ID: 'prj_SBmFLCJVJLo7SyDx1wIjkrkc4exe',
         NEXT_PUBLIC_SUPABASE_URL: 'https://fake-project.supabase.co',
-      }, 'programming-fundamentals', 'input-validation'), false)
+      }, 'programming-fundamentals', 'input-validation', attestationPayload(trustedManifest).runtimeImages.python), false)
     } finally {
       rmSync(root, { recursive: true, force: true })
     }

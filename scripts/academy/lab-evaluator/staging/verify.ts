@@ -128,7 +128,7 @@ async function main(): Promise<void> {
   gates.managed_runtime_binding = activation?.environment.managedRuntimeBinding === 'passed' &&
     process.env.ACADEMY_LAB_EVALUATOR_PROVIDER === 'vercel-sandbox' &&
     identityDigest(process.env.VERCEL_PROJECT_ID ?? '') === manifest.authority.managedProjectIdSha256
-  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117,0118,0119' &&
+  gates.migrations_applied = activation?.environment.migrations.join(',') === '0116,0117,0118,0119,0120' &&
     (() => {
       try {
         return identityDigest(new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').origin) === manifest.authority.databaseOriginSha256
@@ -141,7 +141,7 @@ async function main(): Promise<void> {
     masteryPersistenceEnabled(process.env, manifest.releaseId)
 
   if (!gates.digest_pinned_images) observations.push('All three runtime images need digest pins or a valid signed activation attestation.')
-  if (!gates.migrations_applied) observations.push('Staging has not supplied release-bound evidence that migrations 0116 through 0119 are applied.')
+  if (!gates.migrations_applied) observations.push('Staging has not supplied release-bound evidence that migrations 0116 through 0120 are applied.')
   if (!gates.managed_runtime_binding) observations.push('The managed Vercel Sandbox project binding is missing, mismatched, or not attested.')
   if (!attested) observations.push('No valid Ed25519 activation attestation proves private references, adversarial probes, and receipt reconciliation.')
   if (!gates.monitoring_ready) observations.push('Release-bound monitoring and alerting evidence is absent.')

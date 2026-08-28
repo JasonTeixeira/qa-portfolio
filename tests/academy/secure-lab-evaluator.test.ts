@@ -48,7 +48,7 @@ function requestPayload() {
 
 function responsePayload() {
   return {
-    schemaVersion: 1 as const,
+    schemaVersion: 2 as const,
     evaluationId: EVALUATION_ID,
     requestId: REQUEST_ID,
     issuedAt: NOW,
@@ -57,6 +57,8 @@ function responsePayload() {
     evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
     specRevision: '2026-08-27.1',
+    specDigest: 'b'.repeat(64),
+    runtimeImage: IMAGE,
     verdict: 'passed' as const,
     reason: 'all_private_cases_passed' as const,
     tests: { passed: 2, total: 2 },

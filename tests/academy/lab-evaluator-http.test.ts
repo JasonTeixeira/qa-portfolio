@@ -24,7 +24,7 @@ function request(): EvaluationRequest {
 
 function passedResponse(input: EvaluationRequest) {
   return {
-    schemaVersion: 1 as const,
+    schemaVersion: 2 as const,
     evaluationId: EVALUATION_ID,
     requestId: input.requestId,
     issuedAt: NOW,
@@ -33,6 +33,8 @@ function passedResponse(input: EvaluationRequest) {
     evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
     specRevision: '2026-08-27.1',
+    specDigest: 'b'.repeat(64),
+    runtimeImage: `registry.example.com/sage/python@sha256:${'a'.repeat(64)}`,
     verdict: 'passed' as const,
     reason: 'all_private_cases_passed' as const,
     tests: { passed: 2, total: 2 },

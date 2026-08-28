@@ -40,23 +40,28 @@ export function activationAttestationAllowsMastery(
   env: Record<string, string | undefined>,
   courseSlug: string,
   lessonSlug: string,
+  runtimeImage: string,
 ): boolean {
   const attestationPath = env.ACADEMY_LAB_STAGING_ATTESTATION_PATH
   const publicKeyPath = env.ACADEMY_LAB_STAGING_PUBLIC_KEY_PATH
   if (!attestationPath || !publicKeyPath || !isAbsolute(attestationPath) || !isAbsolute(publicKeyPath)) return false
   try {
     const manifest = parseFlagshipActivationManifest(flagshipActivation, registry)
+    const lab = FLAGSHIP_LABS.get(`${courseSlug}/${lessonSlug}`)
+    if (!lab) return false
     if (env.ACADEMY_LAB_EVALUATOR_PROVIDER !== 'vercel-sandbox') return false
     const projectId = env.VERCEL_PROJECT_ID?.trim() ?? ''
     if (!projectId || identityDigest(projectId) !== manifest.authority.managedProjectIdSha256) return false
     const databaseUrl = new URL(env.NEXT_PUBLIC_SUPABASE_URL ?? '')
     if (identityDigest(databaseUrl.origin) !== manifest.authority.databaseOriginSha256) return false
+    const envelope = JSON.parse(readFileSync(attestationPath, 'utf8'))
     const verified = verifyActivationAttestation(
-      JSON.parse(readFileSync(attestationPath, 'utf8')),
+      envelope,
       readFileSync(publicKeyPath, 'utf8'),
       manifest,
     )
-    return verified.trustedLabKeys.has(`${courseSlug}/${lessonSlug}`)
+    return verified.trustedLabKeys.has(`${courseSlug}/${lessonSlug}`) &&
+      envelope.payload.runtimeImages[lab.language] === runtimeImage
   } catch {
     return false
   }

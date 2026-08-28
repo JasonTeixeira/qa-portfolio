@@ -4,6 +4,7 @@ import {
   EVALUATOR_VERSION,
   evaluatorPolicyHash,
   gradePrivateCases,
+  privateSpecDigest,
   type EvaluationRequest,
   type EvaluationResponse,
   type PrivateCaseResult,
@@ -17,16 +18,17 @@ export type EvaluationDependencies = {
   loadSpec: (labKey: string) => Promise<PrivateLabSpec | null>
   proveSpec?: (spec: PrivateLabSpec) => Promise<boolean>
   executeCase: (code: string, testCase: PrivateLabCase, spec: PrivateLabSpec) => Promise<PrivateCaseResult>
+  runtimeImageFor?: (spec: PrivateLabSpec) => string
 }
 
 function baseResponse(
   request: EvaluationRequest,
   deps: EvaluationDependencies,
-  specRevision: string | null,
+  identity: { specRevision: string | null; specDigest: string | null; runtimeImage: string | null },
 ): Omit<EvaluationResponse, 'verdict' | 'reason' | 'tests' | 'resourceUsage'> {
   const now = deps.now ?? Date.now
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     evaluationId: (deps.newId ?? randomUUID)(),
     requestId: request.requestId,
     issuedAt: now(),
@@ -34,7 +36,7 @@ function baseResponse(
     submissionDigest: request.submissionDigest,
     evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
-    specRevision,
+    ...identity,
   }
 }
 
@@ -49,21 +51,26 @@ export async function evaluateSubmission(
     spec = await deps.loadSpec(request.labKey)
   } catch {
     return {
-      ...baseResponse(request, deps, null),
+      ...baseResponse(request, deps, { specRevision: null, specDigest: null, runtimeImage: null }),
       verdict: 'untrusted', reason: 'private_spec_invalid', tests: { passed: 0, total: 0 },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
   }
   if (!spec) {
     return {
-      ...baseResponse(request, deps, null),
+      ...baseResponse(request, deps, { specRevision: null, specDigest: null, runtimeImage: null }),
       verdict: 'untrusted', reason: 'private_spec_missing', tests: { passed: 0, total: 0 },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
   }
+  const identity = {
+    specRevision: spec.specRevision,
+    specDigest: privateSpecDigest(spec),
+    runtimeImage: deps.runtimeImageFor?.(spec) ?? null,
+  }
   if (deps.proveSpec && !(await deps.proveSpec(spec))) {
     return {
-      ...baseResponse(request, deps, spec.specRevision),
+      ...baseResponse(request, deps, identity),
       verdict: 'untrusted', reason: 'private_spec_invalid', tests: { passed: 0, total: spec.cases.length },
       resourceUsage: { durationMs: Math.max(0, now() - startedAt), outputBytes: 0 },
     }
@@ -85,7 +92,7 @@ export async function evaluateSubmission(
   }
   const grade = gradePrivateCases(results)
   return {
-    ...baseResponse(request, deps, spec.specRevision),
+    ...baseResponse(request, deps, identity),
     verdict: grade.verdict,
     reason: grade.reason,
     tests: { passed: grade.passed, total: grade.total },

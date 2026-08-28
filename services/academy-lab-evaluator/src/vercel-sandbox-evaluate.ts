@@ -73,6 +73,7 @@ export async function evaluateLabWithVercelSandbox(input: {
     now,
     newId: deps.newId,
     loadSpec: deps.loadSpec,
+    runtimeImageFor: (spec) => deps.images[spec.language],
     executeCase: deps.executeCase ?? ((code, testCase, spec) => executePrivateCaseInVercelSandbox({
       language: spec.language,
       code,

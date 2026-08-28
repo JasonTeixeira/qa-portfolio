@@ -19,7 +19,7 @@ export const EVALUATOR_LIMITS = Object.freeze({
   signatureTtlMs: 60_000,
 })
 
-export const EVALUATOR_VERSION = 'academy-evaluator-v2'
+export const EVALUATOR_VERSION = 'academy-evaluator-v3'
 
 const SLUG_RE = /^[a-z0-9]+(?:[-_][a-z0-9]+)*$/
 const LAB_KEY_RE = /^[a-z0-9]+(?:[-_][a-z0-9]+)*\/[a-z0-9]+(?:[-_][a-z0-9]+)*$/
@@ -76,7 +76,7 @@ export type EvaluationReason =
   | 'evaluator_unavailable'
 
 export type EvaluationResponse = {
-  schemaVersion: 1
+  schemaVersion: 2
   evaluationId: string
   requestId: string
   issuedAt: number
@@ -85,10 +85,23 @@ export type EvaluationResponse = {
   evaluatorVersion: string
   policyHash: string
   specRevision: string | null
+  specDigest: string | null
+  runtimeImage: string | null
   verdict: EvaluationVerdict
   reason: EvaluationReason
   tests: { passed: number; total: number }
   resourceUsage: { durationMs: number; outputBytes: number }
+}
+
+function stableStringify(value: unknown): string {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value)
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`
+  const object = value as Record<string, unknown>
+  return `{${Object.keys(object).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(object[key])}`).join(',')}}`
+}
+
+export function privateSpecDigest(spec: unknown): string {
+  return sha256(stableStringify(spec))
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -167,9 +180,10 @@ export function parseEvaluationResponse(value: unknown): EvaluationResponse {
   if (!isRecord(value)) throw new Error('evaluation response must be an object')
   assertExactKeys(value, [
     'schemaVersion', 'evaluationId', 'requestId', 'issuedAt', 'labKey', 'submissionDigest',
-    'evaluatorVersion', 'policyHash', 'specRevision', 'verdict', 'reason', 'tests', 'resourceUsage',
+    'evaluatorVersion', 'policyHash', 'specRevision', 'specDigest', 'runtimeImage',
+    'verdict', 'reason', 'tests', 'resourceUsage',
   ])
-  if (value.schemaVersion !== 1) throw new Error('unsupported evaluation response schema')
+  if (value.schemaVersion !== 2) throw new Error('unsupported evaluation response schema')
   if (typeof value.evaluationId !== 'string' || !UUID_RE.test(value.evaluationId)) throw new Error('invalid evaluation id')
   if (typeof value.requestId !== 'string' || !UUID_RE.test(value.requestId)) throw new Error('invalid request id')
   if (!Number.isSafeInteger(value.issuedAt) || (value.issuedAt as number) <= 0) throw new Error('invalid issuedAt')
@@ -180,6 +194,14 @@ export function parseEvaluationResponse(value: unknown): EvaluationResponse {
   if (value.specRevision !== null && (typeof value.specRevision !== 'string' || !/^[a-zA-Z0-9._-]{1,64}$/.test(value.specRevision))) {
     throw new Error('invalid spec revision')
   }
+  if (value.specDigest !== null && (typeof value.specDigest !== 'string' || !SHA256_RE.test(value.specDigest))) {
+    throw new Error('invalid spec digest')
+  }
+  if (
+    value.runtimeImage !== null &&
+    (typeof value.runtimeImage !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*@sha256:[0-9a-f]{64}$/.test(value.runtimeImage))
+  ) throw new Error('invalid runtime image')
+  if ((value.specRevision === null) !== (value.specDigest === null)) throw new Error('incomplete private spec identity')
   if (!['passed', 'failed', 'untrusted', 'error'].includes(String(value.verdict))) throw new Error('invalid verdict')
   const reasons: EvaluationReason[] = [
     'all_private_cases_passed', 'private_case_failed', 'resource_limit_exceeded', 'runtime_error',

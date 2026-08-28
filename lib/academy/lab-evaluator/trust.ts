@@ -20,6 +20,8 @@ export function authorizeMasteryEvidence(
     evaluation.evaluatorVersion !== EVALUATOR_VERSION ||
     evaluation.policyHash !== evaluatorPolicyHash() ||
     !evaluation.specRevision ||
+    !evaluation.specDigest ||
+    !evaluation.runtimeImage ||
     evaluation.verdict !== 'passed' ||
     evaluation.reason !== 'all_private_cases_passed' ||
     evaluation.tests.total < 1 ||

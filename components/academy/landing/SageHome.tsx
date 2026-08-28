@@ -4,6 +4,10 @@ import { AcademyNav, AcademyFooter } from './AcademyChrome'
 import { HeroTicker } from './HeroTicker'
 import { HeroLab } from './HeroLab'
 import { ProofWall } from './ProofWall'
+import { VideoSection } from './VideoSection'
+import { CompareTable } from './CompareTable'
+import { FaqSection } from './FaqSection'
+import { StickyCta } from './StickyCta'
 
 /**
  * The front page, implemented 1:1 from
@@ -124,6 +128,7 @@ export async function SageHome() {
   return (
     <>
       <AcademyNav />
+      <StickyCta />
       <div
         style={{
           minHeight: '100vh',
@@ -310,6 +315,9 @@ export async function SageHome() {
           </div>
         </section>
 
+        {/* ============ D2. THE IDEAS IN MOTION (explainer videos) ============ */}
+        <VideoSection />
+
         {/* ============ E. CATALOG PREVIEW ============ */}
         <section id="catalog" style={section}>
           <div style={container}>
@@ -456,6 +464,12 @@ export async function SageHome() {
             </div>
           </div>
         </section>
+
+        {/* ============ G1a. HONEST COMPARISON ============ */}
+        <CompareTable />
+
+        {/* ============ G1b. OBJECTION-CRUSHING FAQ ============ */}
+        <FaqSection />
 
         {/* ============ G2. RECEIPTS, NOT TESTIMONIALS ============ */}
         <ProofWall coursesCount={coursesCount} lessonsCount={lessonsCount} />

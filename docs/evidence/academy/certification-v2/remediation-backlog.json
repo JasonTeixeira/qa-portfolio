@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
-  "generatedAt": "2026-08-28T17:35:38.443Z",
+  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
+  "generatedAt": "2026-08-28T17:46:07.640Z",
   "items": [
     {
       "rank": 1,
@@ -21,6 +21,7 @@
         "career-networking_fundamentals_advanced_networking",
         "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
+        "career-security_identity",
         "data-structures",
         "git-the-terminal",
         "nextjs-supabase",
@@ -32,9 +33,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 390,
-      "findingCount": 390,
-      "priority": 4200390
+      "lessonCount": 410,
+      "findingCount": 410,
+      "priority": 4210410
     },
     {
       "rank": 2,
@@ -221,12 +222,11 @@
         "career-platform_engineering_internal_developer_platforms",
         "career-product_execution_market_feedback",
         "career-qa_sdet_test_automation_engineering",
-        "career-security_identity",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 304,
-      "findingCount": 304,
-      "priority": 3180304
+      "lessonCount": 291,
+      "findingCount": 291,
+      "priority": 3170291
     },
     {
       "rank": 8,
@@ -246,12 +246,11 @@
         "career-interview_career_portfolio",
         "career-observability_reliability_performance",
         "career-platform_engineering_internal_developer_platforms",
-        "career-qa_sdet_test_automation_engineering",
-        "career-security_identity"
+        "career-qa_sdet_test_automation_engineering"
       ],
-      "lessonCount": 41,
-      "findingCount": 41,
-      "priority": 3140041
+      "lessonCount": 36,
+      "findingCount": 36,
+      "priority": 3130036
     },
     {
       "rank": 9,
@@ -270,12 +269,11 @@
         "career-interview_career_portfolio",
         "career-observability_reliability_performance",
         "career-product_execution_market_feedback",
-        "career-security_identity",
         "nextjs-supabase"
       ],
-      "lessonCount": 26,
-      "findingCount": 26,
-      "priority": 3130026
+      "lessonCount": 24,
+      "findingCount": 24,
+      "priority": 3120024
     },
     {
       "rank": 10,

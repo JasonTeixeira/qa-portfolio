@@ -436,7 +436,29 @@
       ],
       "courseMappings": [
         {
-          "courseSlug": "career-security_identity"
+          "courseSlug": "career-security_identity",
+          "lessonSlugs": [
+            "security-mindset-risk",
+            "identity-authentication",
+            "session-token-security",
+            "authorization-rbac-abac",
+            "object-level-authorization",
+            "input-validation-injection",
+            "secrets-management",
+            "secure-api-design",
+            "threat-modeling",
+            "attack-trees",
+            "secure-coding-review",
+            "dependency-supply-chain",
+            "cloud-iam-least-privilege",
+            "network-edge-security",
+            "data-protection-privacy",
+            "logging-detection-response",
+            "incident-response",
+            "compliance-evidence",
+            "security-interview-practice",
+            "security-capstone"
+          ]
         }
       ],
       "evidence": [

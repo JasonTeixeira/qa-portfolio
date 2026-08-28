@@ -10,9 +10,9 @@
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 390,
+    "labBlocks": 410,
     "solutionEntries": 558,
-    "labLessonsWithSolutions": 307,
+    "labLessonsWithSolutions": 327,
     "labLessonsWithoutSolutions": 83,
     "sourceLedgers": 3
   },
@@ -3817,7 +3817,8 @@
       "certification": {
         "status": "uncertified",
         "blockers": [
-          "certification_harness_v2_pending"
+          "certification_harness_v2_pending",
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -3827,8 +3828,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/security-mindset-risk",
           "source": {
@@ -3842,8 +3843,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/identity-authentication",
           "source": {
@@ -3857,8 +3858,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/session-token-security",
           "source": {
@@ -3872,8 +3873,8 @@
           "moduleTitle": "Module 1 · Module 1",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/authorization-rbac-abac",
           "source": {
@@ -3887,8 +3888,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/object-level-authorization",
           "source": {
@@ -3902,8 +3903,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/input-validation-injection",
           "source": {
@@ -3917,8 +3918,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/secrets-management",
           "source": {
@@ -3932,8 +3933,8 @@
           "moduleTitle": "Module 2 · Module 2",
           "moduleSort": 1,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/secure-api-design",
           "source": {
@@ -3947,8 +3948,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/threat-modeling",
           "source": {
@@ -3962,8 +3963,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/attack-trees",
           "source": {
@@ -3977,8 +3978,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/secure-coding-review",
           "source": {
@@ -3992,8 +3993,8 @@
           "moduleTitle": "Module 3 · Module 3",
           "moduleSort": 2,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/dependency-supply-chain",
           "source": {
@@ -4007,8 +4008,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/cloud-iam-least-privilege",
           "source": {
@@ -4022,8 +4023,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/network-edge-security",
           "source": {
@@ -4037,8 +4038,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/data-protection-privacy",
           "source": {
@@ -4052,8 +4053,8 @@
           "moduleTitle": "Module 4 · Module 4",
           "moduleSort": 3,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/logging-detection-response",
           "source": {
@@ -4067,8 +4068,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 0,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/incident-response",
           "source": {
@@ -4082,8 +4083,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 1,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/compliance-evidence",
           "source": {
@@ -4097,8 +4098,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 2,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/security-interview-practice",
           "source": {
@@ -4112,8 +4113,8 @@
           "moduleTitle": "Module 5 · Module 5",
           "moduleSort": 4,
           "sort": 3,
-          "blockCount": 14,
-          "labBlocks": 0,
+          "blockCount": 20,
+          "labBlocks": 1,
           "hasLabSolution": true,
           "route": "/academy/learn/career-security_identity/security-capstone",
           "source": {
@@ -10757,5 +10758,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4"
+  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c"
 }

@@ -1,7 +1,7 @@
 # Academy Certification Harness V2 — Quality Board
 
-Generated: 2026-08-28T17:35:38.443Z
-Registry: `sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4`
+Generated: 2026-08-28T17:46:07.640Z
+Registry: `sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c`
 Harness: `2.0.0`
 Authority: `scripts/academy/quality/v2/run.ts`
 
@@ -12,11 +12,11 @@ This is an honest readiness audit, not a certification award. Current lab eviden
 - Courses audited: 32
 - Lessons audited: 640
 - Eligible for certification: 0
-- Blocked by hard fails: 20
-- Needs deterministic remediation: 12
+- Blocked by hard fails: 21
+- Needs deterministic remediation: 11
 - Pending required review/evidence: 0
 - Certified courses: 0
-- Hard fails: H1=0, H2=473, H3=0, H4=0, H5=143
+- Hard fails: H1=0, H2=493, H3=0, H4=0, H5=143
 
 ## Coverage boundary
 
@@ -44,7 +44,7 @@ The deterministic score reports only checks the harness can prove locally. It is
 | Frontend and Fullstack Product Engineering | `career-frontend_fullstack` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Architecture and System Design | `career-architecture_system_design` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | System Design | `system-design` | 24 | blocked | 26 | accessibility, consistency, content_correctness, media, pedagogy, performance, sources, ux, visual | 80.0 |
-| Security and Identity Engineering | `career-security_identity` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
+| Security and Identity Engineering | `career-security_identity` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 100.0 |
 | Mobile Engineering Deep Dive | `career-mobile_engineering_deep_dive` | 20 | needs_remediation | 0 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | QA, SDET, and Test Automation Engineering | `career-qa_sdet_test_automation_engineering` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 77.8 |
 | Networking Fundamentals and Advanced Networking | `career-networking_fundamentals_advanced_networking` | 20 | blocked | 20 | accessibility, consistency, content_correctness, pedagogy, performance, sources, ux, visual | 88.9 |
@@ -68,15 +68,15 @@ The deterministic score reports only checks the harness can prove locally. It is
 
 ## Ranked remediation backlog
 
-1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (20 courses; 390 findings)
+1. **H2** · labs — Route this lab through the Step 4A controlled evaluator before using it for mastery or certification. (21 courses; 410 findings)
 2. **H2** · labs — Provide a private reference solution and verify it in the controlled evaluator. (9 courses; 83 findings)
 3. **H5** · references — Point the asset field at an existing file under public/ or remove the broken promise. (1 courses; 143 findings)
 4. content_correctness — Complete required content_correctness evidence: expert-correctness-review. (32 courses; 640 findings)
 5. pedagogy — Complete required pedagogy evidence: expert-pedagogy-review. (32 courses; 640 findings)
 6. sources — Complete required sources evidence: claim-level-coverage. (32 courses; 640 findings)
-7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (18 courses; 304 findings)
-8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (14 courses; 41 findings)
-9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (13 courses; 26 findings)
+7. pedagogy — Restore the standard learning loop without replacing course-specific teaching with boilerplate. (17 courses; 291 findings)
+8. pedagogy — Restore the deep learning loop without replacing course-specific teaching with boilerplate. (13 courses; 36 findings)
+9. pedagogy — Restore the capstone learning loop without replacing course-specific teaching with boilerplate. (12 courses; 24 findings)
 10. structure — Repair the block so it satisfies the runtime LessonBlock contract. (1 courses; 1 findings)
 11. accessibility — Complete required accessibility evidence: rendered-axe-wcag-2.2-aa. (32 courses; 640 findings)
 12. accessibility — Complete required accessibility evidence: keyboard-and-focus. (32 courses; 640 findings)

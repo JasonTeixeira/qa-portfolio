@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
-  "generatedAt": "2026-08-28T17:35:38.443Z",
+  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
+  "generatedAt": "2026-08-28T17:46:07.640Z",
   "courseSlug": "career-security_identity",
   "title": "Security and Identity Engineering",
-  "contentHash": "sha256:e04f467a014756d68d22f294ed39adfe3de5a099a7d7d7a78312c2205ba69c60",
+  "contentHash": "sha256:6a52afa00d20c957ebc9ac89cfb164f4123e30cc1b4ad4113594109c24308204",
   "lessonCount": 20,
-  "labTrust": "not_applicable",
+  "labTrust": "untrusted_current_runtime",
   "dimensions": {
     "content_correctness": {
       "id": "content_correctness",
@@ -41,219 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9e93daf537479677",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "security-mindset-risk"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fba165c61041d767",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "identity-authentication"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "eca94a3190e6e47e",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "session-token-security"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "7ebb5a512eadf144",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "authorization-rbac-abac"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bba351795b67544e",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "object-level-authorization"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5caacf351c635ce0",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "input-validation-injection"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "36e58c1b13274bd1",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "secrets-management"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "3446a51019a83621",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "secure-api-design"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "ad294573d6435c42",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "threat-modeling"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "4bbee58f5b18ceee",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "attack-trees"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "d39ae2e1242ad15c",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "secure-coding-review"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bd135606acef01eb",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "dependency-supply-chain"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0a14809a9a91645d",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "cloud-iam-least-privilege"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, lab, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "94ccd1f52bf5edee",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "network-edge-security"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9710f5e9d6b278bb",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "data-protection-privacy"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "a5b4546e810d5d56",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "logging-detection-response"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "bc222f42b0eb59e3",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "incident-response"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required deep loop sections: worked-example, lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "4f202ec14db00d66",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "compliance-evidence"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6bd0a69f936169c9",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "security-interview-practice"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: lab, debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "c2a50d998a731de4",
-          "courseSlug": "career-security_identity",
-          "lessonSlug": "security-capstone"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -287,18 +86,239 @@
     },
     "labs": {
       "id": "labs",
-      "status": "not_applicable",
+      "status": "fail",
       "score": null,
       "checks": [
         {
           "id": "lesson-rollup-labs",
           "mode": "deterministic",
-          "status": "not_applicable",
+          "status": "fail",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": []
+      "findings": [
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "6ce59531c9f9084b",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-mindset-risk"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "e8eace5f2c641541",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "identity-authentication"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3273e1260081a593",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "session-token-security"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "ba6cd2628750eb19",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "authorization-rbac-abac"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5314cec66d5a6311",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "object-level-authorization"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c61fe8c2e7986835",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "input-validation-injection"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "271bea4341740d3d",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secrets-management"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "842134d11884664d",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secure-api-design"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "46e8f2a8da7ffad6",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "threat-modeling"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "3c8980a7de7cd53b",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "attack-trees"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "43183ce52cf1eff7",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "secure-coding-review"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "c26ef9537505f703",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "dependency-supply-chain"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "5cdb7f8bff53e660",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "cloud-iam-least-privilege"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "9a003b18cae16b3f",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "network-edge-security"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "71f448ac14c9401f",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "data-protection-privacy"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "66425d4796f98203",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "logging-detection-response"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "229d952506f093f0",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "incident-response"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "585d3b7b280b4525",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "compliance-evidence"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "4f5daaad340a5cd8",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-interview-practice"
+        },
+        {
+          "code": "H2",
+          "severity": "blocker",
+          "category": "labs",
+          "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+          "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+          "mode": "policy",
+          "id": "fc446c604744e8c2",
+          "courseSlug": "career-security_identity",
+          "lessonSlug": "security-capstone"
+        }
+      ]
     },
     "accessibility": {
       "id": "accessibility",
@@ -436,9 +456,230 @@
       "findings": []
     }
   },
-  "deterministicScore": 88.9,
+  "deterministicScore": 100,
   "compositeScore": null,
-  "hardFails": [],
+  "hardFails": [
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "6ce59531c9f9084b",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "security-mindset-risk"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "e8eace5f2c641541",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "identity-authentication"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3273e1260081a593",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "session-token-security"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "ba6cd2628750eb19",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "authorization-rbac-abac"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5314cec66d5a6311",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "object-level-authorization"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c61fe8c2e7986835",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "input-validation-injection"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "271bea4341740d3d",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "secrets-management"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "842134d11884664d",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "secure-api-design"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "46e8f2a8da7ffad6",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "threat-modeling"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "3c8980a7de7cd53b",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "attack-trees"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "43183ce52cf1eff7",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "secure-coding-review"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "c26ef9537505f703",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "dependency-supply-chain"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "5cdb7f8bff53e660",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "cloud-iam-least-privilege"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "9a003b18cae16b3f",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "network-edge-security"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "71f448ac14c9401f",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "data-protection-privacy"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "66425d4796f98203",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "logging-detection-response"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "229d952506f093f0",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "incident-response"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "585d3b7b280b4525",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "compliance-evidence"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "4f5daaad340a5cd8",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "security-interview-practice"
+    },
+    {
+      "code": "H2",
+      "severity": "blocker",
+      "category": "labs",
+      "message": "lab_trust=untrusted_current_runtime; current checks cannot prove mastery.",
+      "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
+      "mode": "policy",
+      "id": "fc446c604744e8c2",
+      "courseSlug": "career-security_identity",
+      "lessonSlug": "security-capstone"
+    }
+  ],
   "requiredPending": [
     "accessibility",
     "consistency",
@@ -449,6 +690,6 @@
     "ux",
     "visual"
   ],
-  "decision": "needs_remediation",
+  "decision": "blocked",
   "certificationStatus": "uncertified"
 }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4",
+  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
   "totals": {
     "courses": 32,
     "lessons": 640,
-    "labBlocks": 390,
+    "labBlocks": 410,
     "solutionEntries": 558,
-    "labLessonsWithSolutions": 307,
+    "labLessonsWithSolutions": 327,
     "labLessonsWithoutSolutions": 83,
     "sourceLedgers": 3
   },
@@ -256,13 +256,14 @@
       "level": "Intermediate",
       "lessons": 20,
       "legacyManifestLessons": 20,
-      "labBlocks": 0,
+      "labBlocks": 20,
       "labLessonsWithoutSolutions": 0,
       "sourceLedger": "docs/academy/evidence/career-security_identity/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
-        "certification_harness_v2_pending"
+        "certification_harness_v2_pending",
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/career-security_identity"
     },

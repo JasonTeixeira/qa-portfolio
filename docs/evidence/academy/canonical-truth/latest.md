@@ -1,16 +1,16 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:6f78a6ac668e99f6369ca567504faadd7dd1be30e99433ad644eb9c7fb23f3d4`
+**Registry:** `sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
 
 - 32 registered course bundles
 - 640 authored lessons
-- 390 lab blocks
+- 410 lab blocks
 - 558 solution entries
-- 307 lab lessons with same-slug solutions
+- 327 lab lessons with same-slug solutions
 - 83 lab lessons without same-slug solutions
 - 3 course-level source ledgers
 - 0 certified courses
@@ -39,7 +39,7 @@
 | `career-frontend_fullstack` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-architecture_system_design` | 20 | 20 | 0 | 0 | no | uncertified |
 | `system-design` | 24 | 0 | 24 | 2 | no | uncertified |
-| `career-security_identity` | 20 | 20 | 0 | 0 | yes | uncertified |
+| `career-security_identity` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-mobile_engineering_deep_dive` | 20 | 20 | 0 | 0 | no | uncertified |
 | `career-qa_sdet_test_automation_engineering` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-networking_fundamentals_advanced_networking` | 20 | 20 | 20 | 0 | no | uncertified |

@@ -10,7 +10,10 @@ RUN apk upgrade --no-cache \
   && command -v python3 >/dev/null \
   && command -v bash >/dev/null \
   && command -v timeout >/dev/null \
+  && addgroup -S academy-evaluator \
+  && adduser -S -D -H -s /sbin/nologin -G academy-evaluator academy-evaluator \
   && mkdir -p /vercel/sandbox \
   && chmod 1777 /vercel/sandbox
 
 WORKDIR /vercel/sandbox
+USER academy-evaluator

@@ -194,11 +194,11 @@ export async function executePrivateCaseInVercelSandbox(input: {
   let executionFailed = false
   try {
     const files: SandboxFile[] = [
-      { path: `${WORK_ROOT}/${filenameFor(input.language)}`, content: input.code, mode: 0o400 },
-      { path: `${WORK_ROOT}/input.txt`, content: input.testCase.stdin, mode: 0o400 },
+      { path: `${WORK_ROOT}/${filenameFor(input.language)}`, content: input.code, mode: 0o444 },
+      { path: `${WORK_ROOT}/input.txt`, content: input.testCase.stdin, mode: 0o444 },
     ]
     if (input.language === 'sql') {
-      files.push({ path: `${WORK_ROOT}/sql_runner.py`, content: SQL_RUNNER, mode: 0o400 })
+      files.push({ path: `${WORK_ROOT}/sql_runner.py`, content: SQL_RUNNER, mode: 0o444 })
     }
     await sandbox.writeFiles(files)
     const result = await sandbox.runCommand({

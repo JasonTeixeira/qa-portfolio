@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **23/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6`.
-- Catalog: 32 courses, 640 lessons, 540 lab blocks.
+- Progress: **24/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5`.
+- Catalog: 32 courses, 640 lessons, 560 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-mobile_engineering_deep_dive`.
+- Next course: `career-qa_sdet_test_automation_engineering`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -39,6 +39,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-concept_maps_real_world_engineering` | GREEN | uncertified |
 | `career-frontend_fullstack` | GREEN | uncertified |
 | `career-architecture_system_design` | GREEN | uncertified |
+| `career-mobile_engineering_deep_dive` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -53,7 +54,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 3 local GREEN; Mobile Engineering selected |
+| Registry courses outside the flagship graph | 12 | 4 local GREEN; QA/SDET selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -178,9 +179,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete constraint-to-decision mastery loops, six deep architecture reviews, two multi-day capstones, a 20-source primary ledger, and 20 novice-scaffolded evidence labs cover every lesson.
 - All 149 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Mobile Engineering baseline
+## Mobile Engineering checkpoint result
 
-- `career-mobile_engineering_deep_dive` is selected next as the fourth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python mobile-state references match their exact observable contracts.
+- Complete device-to-production mastery loops, seven deep reliability/security/accessibility/release drills, a multi-day incident capstone, a 20-source first-party ledger, and 20 novice-scaffolded labs cover every lesson.
+- All 149 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current QA/SDET baseline
+
+- `career-qa_sdet_test_automation_engineering` is selected next as the fifth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

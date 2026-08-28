@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
+  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
   "status": "active",
   "stopReason": null,
   "generatedAt": "2026-08-28T17:24:49.875Z",
-  "updatedAt": "2026-08-28T20:22:02.941Z",
+  "updatedAt": "2026-08-28T20:28:52.969Z",
   "scope": {
     "registryCourses": 32,
     "flagshipCourses": 20,
@@ -1095,12 +1095,60 @@
         }
       },
       "completedAt": "2026-08-28T20:22:02.941Z"
+    },
+    {
+      "courseSlug": "career-mobile_engineering_deep_dive",
+      "status": "green_local_curriculum_checkpoint",
+      "provenance": "academy_program_loop_v1",
+      "checkpointCommit": "0f1aef34",
+      "baselineRegistryVersion": "sha256:035b0049d2ecd0ce2023b64fb6cdb8f0ad94b6fd0f4dc9fc41719541236ed5a6",
+      "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
+      "certificationStatus": "uncertified",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "consecutivePasses": 3,
+          "command": "npx tsx --test tests/academy/mobile-engineering-mastery.test.ts",
+          "result": "7/7 each run; 20/20 Python references exact; 149 honest narration transcripts retained"
+        },
+        "academyAudit": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:audit:all",
+          "result": "32 courses / 640 lessons; Mobile Engineering deterministic score 100; no H1, H3, H4, or H5"
+        },
+        "registryCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run academy:registry:check",
+          "result": "32 courses / 640 lessons / 560 labs"
+        },
+        "typecheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run typecheck",
+          "result": "0 TypeScript errors"
+        },
+        "build": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "npm run build",
+          "result": "Next.js production build passed; 407 pages"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "consecutivePasses": 1,
+          "command": "git diff --check",
+          "result": "clean scoped diff; changed-file lint, generator idempotence, secret review, and 20 primary-source reachability checks passed"
+        }
+      },
+      "completedAt": "2026-08-28T20:28:52.969Z"
     }
   ],
   "current": {
-    "courseSlug": "career-mobile_engineering_deep_dive",
+    "courseSlug": "career-qa_sdet_test_automation_engineering",
     "phaseId": "registry-remainder",
-    "sequence": 24,
+    "sequence": 25,
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

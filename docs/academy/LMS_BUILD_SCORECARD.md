@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **29/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0`.
+- Progress: **30/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:e24c0505bd0af8ecfb9440d3374620065f0c8391c36e74fcd676f06bd0f5b87c`.
 - Catalog: 32 courses, 640 lessons, 600 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `stripe-auth`.
+- Next course: `career-interview_career_portfolio`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -42,6 +42,10 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-mobile_engineering_deep_dive` | GREEN | uncertified |
 | `career-qa_sdet_test_automation_engineering` | GREEN | uncertified |
 | `career-ux_ui_product_design_for_engineers` | GREEN | uncertified |
+| `career-data_engineering_analytics` | GREEN | uncertified |
+| `career-enterprise_it_saas_admin_business_systems` | GREEN | uncertified |
+| `nextjs-supabase` | GREEN | uncertified |
+| `stripe-auth` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -56,7 +60,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 6 local GREEN; Data Engineering selected |
+| Registry courses outside the flagship graph | 12 | 8 local GREEN; Interview/Career/Portfolio selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -217,9 +221,16 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete application-boundary mastery loops, ten deep security/consistency/deployment drills, a multi-day RLS CRUD capstone, and a 20-source first-party ledger cover every lesson.
 - All 143 narration transcripts and media URLs remain. Media integrity is honestly pending; lab evidence remains practice-only and certification remains blocked.
 
-## Current Stripe and Authentication baseline
+## Stripe and Authentication checkpoint result
 
-- `stripe-auth` is selected next as the tenth canonical registry-remainder course; security-sensitive curriculum changes require focused threat-boundary review in addition to normal GREEN gates.
+- 20 lessons; deterministic score 80 → 90. All 20 JavaScript references match their exact observable contracts; six missing references were added.
+- Complete identity-to-payment mastery loops, 13 deep security and billing drills, a multi-day signup-to-entitlement capstone, and a 21-source authoritative ledger cover every lesson.
+- Security review updated password examples to the current OWASP PBKDF2-HMAC-SHA256 work factor and enforced constant-time webhook signature comparisons with replay windows.
+- All 146 narration transcripts and media URLs remain. Media integrity and required expert review remain pending; 20 H2 flags keep all lab evidence practice-only and certification blocked.
+
+## Current Interview, Career, and Portfolio baseline
+
+- `career-interview_career_portfolio` is selected next as the eleventh canonical registry-remainder course.
 
 ## Advancement rule
 

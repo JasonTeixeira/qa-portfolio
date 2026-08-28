@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
-  "generatedAt": "2026-08-28T19:25:00.593Z",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
+  "generatedAt": "2026-08-28T19:41:53.360Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+    "baselineRegistryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 20,
-    "phaseId": "production-capstone",
-    "courseSlug": "career-product_execution_market_feedback",
-    "title": "Product Execution and Market Feedback",
-    "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-product_execution_market_feedback.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-product_execution_market_feedback.lab_solutions.json",
+    "sequence": 21,
+    "phaseId": "registry-remainder",
+    "courseSlug": "career-concept_maps_real_world_engineering",
+    "title": "Think Like a Senior Engineer: Concept Maps",
+    "lessonCount": 30,
+    "authoringBundle": "data/academy/authoring/career-concept_maps_real_world_engineering.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-concept_maps_real_world_engineering.lab_solutions.json",
     "baseline": {
       "decision": "needs_remediation",
       "deterministicScore": 77.8,
@@ -119,13 +119,30 @@
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
           "career-mobile_engineering_deep_dive",
-          "career-product_execution_market_feedback",
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 197,
-        "findingCount": 197,
-        "priority": 3120197
+        "lessonCount": 178,
+        "findingCount": 178,
+        "priority": 3110178
+      },
+      {
+        "rank": 7,
+        "category": "pedagogy",
+        "severity": "high",
+        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
+        "courseSlugs": [
+          "career-architecture_system_design",
+          "career-concept_maps_real_world_engineering",
+          "career-data_engineering_analytics",
+          "career-engineering_leadership_staff_execution",
+          "career-frontend_fullstack",
+          "career-interview_career_portfolio",
+          "career-qa_sdet_test_automation_engineering"
+        ],
+        "lessonCount": 21,
+        "findingCount": 21,
+        "priority": 3070021
       },
       {
         "rank": 8,
@@ -138,12 +155,11 @@
           "career-data_engineering_analytics",
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
-          "career-product_execution_market_feedback",
           "nextjs-supabase"
         ],
-        "lessonCount": 16,
-        "findingCount": 16,
-        "priority": 3070016
+        "lessonCount": 15,
+        "findingCount": 15,
+        "priority": 3060015
       }
     ],
     "reviewRequired": [
@@ -722,7 +738,6 @@
           "career-interview_career_portfolio",
           "career-mobile_engineering_deep_dive",
           "career-networking_fundamentals_advanced_networking",
-          "career-product_execution_market_feedback",
           "career-programming_cs_foundations",
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers",
@@ -733,9 +748,9 @@
           "python-basics",
           "stripe-auth"
         ],
-        "lessonCount": 396,
-        "findingCount": 396,
-        "priority": 2200396
+        "lessonCount": 376,
+        "findingCount": 376,
+        "priority": 2190376
       }
     ]
   },

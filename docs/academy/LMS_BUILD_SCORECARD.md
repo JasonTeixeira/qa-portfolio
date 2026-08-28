@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **19/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555`.
-- Catalog: 32 courses, 640 lessons, 470 lab blocks.
-- Current phase: `production-capstone`.
-- Next course: `career-product_execution_market_feedback`.
+- Progress: **20/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da`.
+- Catalog: 32 courses, 640 lessons, 490 lab blocks.
+- Current phase: `registry-remainder`.
+- Next course: `career-concept_maps_real_world_engineering`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -35,6 +35,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `rag-retrieval` | GREEN | uncertified |
 | `agents-tool-use` | GREEN | uncertified |
 | `career-ai_engineering_rag_eval` | GREEN | uncertified |
+| `career-product_execution_market_feedback` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -48,8 +49,8 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Data, backend, and system design | 3 | local GREEN |
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
-| Production integration | 1 unique remaining graph course | Product Execution selected |
-| Registry courses outside the flagship graph | 12 | queued |
+| Production integration | 1 unique graph course | local GREEN |
+| Registry courses outside the flagship graph | 12 | Concept Maps selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -150,9 +151,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete calibrated evidence loops, deep agent-control practice, two multi-day capstones, an 18-source primary ledger, and three explicit competency mappings cover every lesson.
 - All 148 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current Product Execution baseline
+## Product Execution checkpoint result
 
-- `career-product_execution_market_feedback` is selected next as the production-integration course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 Python product-decision references match their exact observable contracts.
+- Complete novice-to-production mastery loops, deep experiment design, a multi-day product capstone, a 20-source primary ledger, and the production-integration mapping cover every lesson.
+- All 154 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Concept Maps baseline
+
+- `career-concept_maps_real_world_engineering` is selected next as the first canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

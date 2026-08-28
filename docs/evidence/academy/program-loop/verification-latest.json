@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T19:25:22.460Z",
+  "generatedAt": "2026-08-28T19:42:27.051Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:591826e5740616c773e323aa361a6dc24dd9ea85a3978a60655e949281e45555",
+  "registryVersion": "sha256:fb756bcf611684b080c215d4dac9a054a004fa2f2611d628b5be447f6834b2da",
   "queueCoverage": "32/32",
-  "currentCourse": "career-product_execution_market_feedback",
+  "currentCourse": "career-concept_maps_real_world_engineering",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

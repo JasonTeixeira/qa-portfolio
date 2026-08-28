@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
-  "generatedAt": "2026-08-28T20:41:21.135Z",
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
+  "generatedAt": "2026-08-28T20:49:16.073Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
+    "baselineRegistryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 27,
+    "sequence": 28,
     "phaseId": "registry-remainder",
-    "courseSlug": "career-data_engineering_analytics",
-    "title": "Data Engineering and Analytics Platforms",
+    "courseSlug": "career-enterprise_it_saas_admin_business_systems",
+    "title": "Enterprise IT, SaaS Administration, and Business Systems",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-data_engineering_analytics.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-data_engineering_analytics.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-enterprise_it_saas_admin_business_systems.lab_solutions.json",
     "baseline": {
-      "decision": "blocked",
+      "decision": "needs_remediation",
       "deterministicScore": 77.8,
-      "hardFailCount": 20,
+      "hardFailCount": 0,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 20,
+        "H2": 0,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -60,7 +60,7 @@
           "score": null
         },
         "labs": {
-          "status": "fail",
+          "status": "not_applicable",
           "score": null
         },
         "accessibility": {
@@ -105,89 +105,19 @@
   "remediation": {
     "deterministic": [
       {
-        "rank": 1,
-        "category": "labs",
-        "code": "H2",
-        "severity": "blocker",
-        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
-        "courseSlugs": [
-          "agents-tool-use",
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-databases_data_modeling",
-          "career-engineering_judgment_foundation",
-          "career-frontend_fullstack",
-          "career-mobile_engineering_deep_dive",
-          "career-networking_fundamentals_advanced_networking",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-product_execution_market_feedback",
-          "career-programming_cs_foundations",
-          "career-qa_sdet_test_automation_engineering",
-          "career-security_identity",
-          "career-ux_ui_product_design_for_engineers",
-          "data-structures",
-          "git-the-terminal",
-          "nextjs-supabase",
-          "programming-fundamentals",
-          "prompt-engineering",
-          "python-basics",
-          "rag-retrieval",
-          "stripe-auth",
-          "system-design",
-          "the-llm-api"
-        ],
-        "lessonCount": 580,
-        "findingCount": 580,
-        "priority": 4290580
-      },
-      {
         "rank": 6,
         "category": "pedagogy",
         "severity": "high",
         "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
         "courseSlugs": [
-          "career-data_engineering_analytics",
           "career-databases_data_modeling",
           "career-engineering_leadership_staff_execution",
           "career-enterprise_it_saas_admin_business_systems",
           "career-interview_career_portfolio"
         ],
-        "lessonCount": 72,
-        "findingCount": 72,
-        "priority": 3050072
-      },
-      {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-interview_career_portfolio"
-        ],
-        "lessonCount": 8,
-        "findingCount": 8,
-        "priority": 3030008
-      },
-      {
-        "rank": 8,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-data_engineering_analytics",
-          "career-interview_career_portfolio",
-          "nextjs-supabase"
-        ],
-        "lessonCount": 4,
-        "findingCount": 4,
-        "priority": 3030004
+        "lessonCount": 54,
+        "findingCount": 54,
+        "priority": 3040054
       }
     ],
     "reviewRequired": [
@@ -756,7 +686,6 @@
         "severity": "medium",
         "remediation": "Complete required sources evidence: source-ledger-schema.",
         "courseSlugs": [
-          "career-data_engineering_analytics",
           "career-engineering_judgment_foundation",
           "career-engineering_leadership_staff_execution",
           "career-enterprise_it_saas_admin_business_systems",
@@ -770,9 +699,9 @@
           "python-basics",
           "stripe-auth"
         ],
-        "lessonCount": 246,
-        "findingCount": 246,
-        "priority": 2130246
+        "lessonCount": 226,
+        "findingCount": 226,
+        "priority": 2120226
       }
     ]
   },

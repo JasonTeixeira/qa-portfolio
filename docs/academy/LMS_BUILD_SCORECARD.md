@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **26/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6`.
+- Progress: **27/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e`.
 - Catalog: 32 courses, 640 lessons, 580 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-data_engineering_analytics`.
+- Next course: `career-enterprise_it_saas_admin_business_systems`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -199,9 +199,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete problem-to-evidence mastery loops, nine deep workflow/system/accessibility/research/handoff drills, a multi-day review packet, and a 20-source primary ledger cover every lesson.
 - All 147 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required human, visual, accessibility, and expert reviews remain pending.
 
-## Current Data Engineering baseline
+## Data Engineering checkpoint result
 
-- `career-data_engineering_analytics` is selected next as the seventh canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 original Python data-product references match their exact observable contracts.
+- Complete source-to-trusted-product mastery loops, nine deep orchestration/correctness/recovery/streaming/governance/incident drills, a multi-day capstone, and a 20-source primary ledger cover every lesson.
+- H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current Enterprise IT and SaaS Administration baseline
+
+- `career-enterprise_it_saas_admin_business_systems` is selected next as the eighth canonical registry-remainder course; certification remains blocked pending deterministic pedagogy remediation and required reviews.
 
 ## Advancement rule
 

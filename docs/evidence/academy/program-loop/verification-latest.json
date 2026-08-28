@@ -1,11 +1,11 @@
 {
   "ok": true,
   "programVersion": "academy-program-loop-v1",
-  "generatedAt": "2026-08-28T20:41:48.059Z",
+  "generatedAt": "2026-08-28T20:49:41.402Z",
   "mutationMode": "local_files_only",
-  "registryVersion": "sha256:a7ea7bd1254fe356076d0d6f6e4d00729b2f7ff16069639bc818f348f774efc6",
+  "registryVersion": "sha256:6d1910883b7ffc402273b9dd7a08d8575002d427dc37fb18feeee663ef03c34e",
   "queueCoverage": "32/32",
-  "currentCourse": "career-data_engineering_analytics",
+  "currentCourse": "career-enterprise_it_saas_admin_business_systems",
   "certificationClaim": "uncertified",
   "labEvidence": "practice_only",
   "requiredScripts": {

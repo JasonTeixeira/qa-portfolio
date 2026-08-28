@@ -1,0 +1,15 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apk upgrade --no-cache \
+  && apk add --no-cache \
+    bash \
+    coreutils \
+    nodejs \
+  && command -v node >/dev/null \
+  && command -v bash >/dev/null \
+  && command -v timeout >/dev/null \
+  && mkdir -p /vercel/sandbox \
+  && chmod 1777 /vercel/sandbox
+
+WORKDIR /vercel/sandbox

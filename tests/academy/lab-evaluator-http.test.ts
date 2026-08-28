@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { EVALUATOR_LIMITS, evaluatorPolicyHash, type EvaluationRequest } from '../../lib/academy/lab-evaluator/contract'
+import { EVALUATOR_LIMITS, EVALUATOR_VERSION, evaluatorPolicyHash, type EvaluationRequest } from '../../lib/academy/lab-evaluator/contract'
 import { requestControlledEvaluation } from '../../lib/academy/lab-evaluator/client'
 import { signEvaluatorRequest, signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
 import { ConcurrencyGate, createEvaluatorHttpHandler } from '../../services/academy-lab-evaluator/src/handler'
@@ -30,7 +30,7 @@ function passedResponse(input: EvaluationRequest) {
     issuedAt: NOW,
     labKey: input.labKey,
     submissionDigest: input.submissionDigest,
-    evaluatorVersion: 'academy-evaluator-v1',
+    evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
     specRevision: '2026-08-27.1',
     verdict: 'passed' as const,

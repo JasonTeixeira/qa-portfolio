@@ -6,7 +6,7 @@ import path from 'node:path'
 import { describe, it } from 'node:test'
 
 import { buildEvaluationRequest } from '../../lib/academy/lab-evaluator/client-core'
-import { evaluatorPolicyHash } from '../../lib/academy/lab-evaluator/contract'
+import { EVALUATOR_VERSION, evaluatorPolicyHash } from '../../lib/academy/lab-evaluator/contract'
 import { decideLabSubmissionOutcome } from '../../lib/academy/lab-evaluator/application'
 import { signEvaluatorResponse, verifyEvaluatorResponse } from '../../lib/academy/lab-evaluator/signing'
 import { executePrivateCase, runBoundedProcess } from '../../services/academy-lab-evaluator/src/executor'
@@ -202,7 +202,7 @@ describe('academy evaluator service and application boundary', () => {
       issuedAt: NOW,
       labKey: request.labKey,
       submissionDigest: request.submissionDigest,
-      evaluatorVersion: 'academy-evaluator-v1',
+      evaluatorVersion: EVALUATOR_VERSION,
       policyHash: evaluatorPolicyHash(),
       specRevision: '2026-08-27.1',
       verdict: 'passed' as const,

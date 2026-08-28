@@ -8,6 +8,9 @@ export const EVALUATOR_LIMITS = Object.freeze({
   wallTimeMs: 5_000,
   cpuSeconds: 3,
   memoryMb: 128,
+  javascriptHeapMb: 96,
+  javascriptSemiSpaceMb: 4,
+  sandboxMemoryMb: 2_048,
   writableTmpfsMb: 16,
   pids: 32,
   cpus: 0.5,
@@ -16,7 +19,7 @@ export const EVALUATOR_LIMITS = Object.freeze({
   signatureTtlMs: 60_000,
 })
 
-export const EVALUATOR_VERSION = 'academy-evaluator-v1'
+export const EVALUATOR_VERSION = 'academy-evaluator-v2'
 
 const SLUG_RE = /^[a-z0-9]+(?:[-_][a-z0-9]+)*$/
 const LAB_KEY_RE = /^[a-z0-9]+(?:[-_][a-z0-9]+)*\/[a-z0-9]+(?:[-_][a-z0-9]+)*$/

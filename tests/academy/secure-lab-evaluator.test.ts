@@ -4,6 +4,7 @@ import { describe, it } from 'node:test'
 
 import {
   EVALUATOR_LIMITS,
+  EVALUATOR_VERSION,
   buildLabKey,
   evaluatorPolicyHash,
   gradePrivateCases,
@@ -53,7 +54,7 @@ function responsePayload() {
     issuedAt: NOW,
     labKey: 'python-basics/variables',
     submissionDigest: SUBMISSION_DIGEST,
-    evaluatorVersion: 'academy-evaluator-v1',
+    evaluatorVersion: EVALUATOR_VERSION,
     policyHash: evaluatorPolicyHash(),
     specRevision: '2026-08-27.1',
     verdict: 'passed' as const,

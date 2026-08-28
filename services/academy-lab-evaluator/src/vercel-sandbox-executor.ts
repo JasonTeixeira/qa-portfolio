@@ -126,16 +126,21 @@ function filenameFor(language: LabLanguage): string {
 function executionCommand(language: LabLanguage): string {
   const source = `${WORK_ROOT}/${filenameFor(language)}`
   if (language === 'python') return `python3 ${source} < ${WORK_ROOT}/input.txt`
-  if (language === 'javascript') return `node ${source} < ${WORK_ROOT}/input.txt`
+  if (language === 'javascript') {
+    return `node --max-old-space-size=${EVALUATOR_LIMITS.javascriptHeapMb} --max-semi-space-size=${EVALUATOR_LIMITS.javascriptSemiSpaceMb} ${source} < ${WORK_ROOT}/input.txt`
+  }
   return `python3 ${WORK_ROOT}/sql_runner.py ${source} ${WORK_ROOT}/input.txt`
 }
 
 function constrainedShell(language: LabLanguage): string {
   const fileBlocks = Math.ceil(EVALUATOR_LIMITS.outputBytes / 512)
-  return [
-    'umask 077',
+  const addressSpaceLimits = language === 'javascript' ? [] : [
     `ulimit -S -v ${EVALUATOR_LIMITS.memoryMb * 1024}`,
     `ulimit -H -v ${EVALUATOR_LIMITS.memoryMb * 1024}`,
+  ]
+  return [
+    'umask 077',
+    ...addressSpaceLimits,
     `ulimit -S -t ${EVALUATOR_LIMITS.cpuSeconds}`,
     `ulimit -H -t ${EVALUATOR_LIMITS.cpuSeconds}`,
     `ulimit -S -u ${EVALUATOR_LIMITS.pids}`,

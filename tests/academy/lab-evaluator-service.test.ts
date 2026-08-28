@@ -100,6 +100,26 @@ describe('academy evaluator service and application boundary', () => {
     assert.equal(timeout.status, 'timed_out')
   })
 
+  it('generates an evaluation id without an injected test id factory', async () => {
+    const request = buildEvaluationRequest({
+      courseSlug: 'python-basics', lessonSlug: 'variables', code: 'solution',
+      requestId: '018f47a2-4b8d-7f31-8c5a-1ccf64d58b20', issuedAt: NOW,
+    })
+    const response = await evaluateSubmission(request, {
+      now: () => NOW,
+      loadSpec: async () => validSpec(),
+      executeCase: async (_code, testCase) => ({
+        caseId: testCase.id,
+        status: 'passed',
+        stdout: testCase.expectedStdout,
+        expectedStdout: testCase.expectedStdout,
+        outputBytes: Buffer.byteLength(testCase.expectedStdout),
+      }),
+    })
+
+    assert.match(response.evaluationId, /^[0-9a-f-]{36}$/)
+  })
+
   it('returns only aggregate results after all hidden cases pass', async () => {
     const request = buildEvaluationRequest({
       courseSlug: 'python-basics', lessonSlug: 'variables', code: 'solution',

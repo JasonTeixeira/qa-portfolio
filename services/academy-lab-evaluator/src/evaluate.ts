@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 import {
   EVALUATOR_VERSION,
   evaluatorPolicyHash,
@@ -25,7 +27,7 @@ function baseResponse(
   const now = deps.now ?? Date.now
   return {
     schemaVersion: 1,
-    evaluationId: (deps.newId ?? crypto.randomUUID)(),
+    evaluationId: (deps.newId ?? randomUUID)(),
     requestId: request.requestId,
     issuedAt: now(),
     labKey: request.labKey,

@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
-  "generatedAt": "2026-08-28T20:28:52.972Z",
+  "registryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
+  "generatedAt": "2026-08-28T20:35:04.023Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5",
+    "baselineRegistryVersion": "sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 25,
+    "sequence": 26,
     "phaseId": "registry-remainder",
-    "courseSlug": "career-qa_sdet_test_automation_engineering",
-    "title": "QA, SDET, and Test Automation Engineering",
+    "courseSlug": "career-ux_ui_product_design_for_engineers",
+    "title": "UX, UI, and Product Design for Engineers",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-qa_sdet_test_automation_engineering.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-qa_sdet_test_automation_engineering.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-ux_ui_product_design_for_engineers.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-ux_ui_product_design_for_engineers.lab_solutions.json",
     "baseline": {
-      "decision": "blocked",
+      "decision": "needs_remediation",
       "deterministicScore": 77.8,
-      "hardFailCount": 20,
+      "hardFailCount": 0,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 20,
+        "H2": 0,
         "H3": 0,
         "H4": 0,
         "H5": 0
@@ -60,7 +60,7 @@
           "score": null
         },
         "labs": {
-          "status": "fail",
+          "status": "not_applicable",
           "score": null
         },
         "accessibility": {
@@ -105,46 +105,6 @@
   "remediation": {
     "deterministic": [
       {
-        "rank": 1,
-        "category": "labs",
-        "code": "H2",
-        "severity": "blocker",
-        "remediation": "Route this lab through the Step 4A controlled evaluator before using it for mastery or certification.",
-        "courseSlugs": [
-          "agents-tool-use",
-          "career-ai_engineering_rag_eval",
-          "career-architecture_system_design",
-          "career-backend_engineering",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-databases_data_modeling",
-          "career-engineering_judgment_foundation",
-          "career-frontend_fullstack",
-          "career-mobile_engineering_deep_dive",
-          "career-networking_fundamentals_advanced_networking",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-product_execution_market_feedback",
-          "career-programming_cs_foundations",
-          "career-qa_sdet_test_automation_engineering",
-          "career-security_identity",
-          "data-structures",
-          "git-the-terminal",
-          "nextjs-supabase",
-          "programming-fundamentals",
-          "prompt-engineering",
-          "python-basics",
-          "rag-retrieval",
-          "stripe-auth",
-          "system-design",
-          "the-llm-api"
-        ],
-        "lessonCount": 560,
-        "findingCount": 560,
-        "priority": 4280560
-      },
-      {
         "rank": 6,
         "category": "pedagogy",
         "severity": "high",
@@ -155,27 +115,11 @@
           "career-engineering_leadership_staff_execution",
           "career-enterprise_it_saas_admin_business_systems",
           "career-interview_career_portfolio",
-          "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 111,
-        "findingCount": 111,
-        "priority": 3070111
-      },
-      {
-        "rank": 7,
-        "category": "pedagogy",
-        "severity": "high",
-        "remediation": "Restore the deep learning loop without replacing course-specific teaching with boilerplate.",
-        "courseSlugs": [
-          "career-data_engineering_analytics",
-          "career-engineering_leadership_staff_execution",
-          "career-interview_career_portfolio",
-          "career-qa_sdet_test_automation_engineering"
-        ],
-        "lessonCount": 9,
-        "findingCount": 9,
-        "priority": 3040009
+        "lessonCount": 92,
+        "findingCount": 92,
+        "priority": 3060092
       }
     ],
     "reviewRequired": [
@@ -751,7 +695,6 @@
           "career-interview_career_portfolio",
           "career-networking_fundamentals_advanced_networking",
           "career-programming_cs_foundations",
-          "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers",
           "data-structures",
           "git-the-terminal",
@@ -760,9 +703,9 @@
           "python-basics",
           "stripe-auth"
         ],
-        "lessonCount": 286,
-        "findingCount": 286,
-        "priority": 2150286
+        "lessonCount": 266,
+        "findingCount": 266,
+        "priority": 2140266
       }
     ]
   },

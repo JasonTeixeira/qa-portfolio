@@ -5,11 +5,11 @@ the execution authority; Certification Harness V2 remains the certification-read
 
 ## Current checkpoint
 
-- Progress: **24/32 local GREEN curriculum checkpoints**.
-- Registry: `sha256:f2fc24b8f4f80149af591630427bfdb2f03dfe4659fb5a6d67872e14a66157f5`.
+- Progress: **25/32 local GREEN curriculum checkpoints**.
+- Registry: `sha256:c978ad31603324f82ca6635921281150ad08d2a9f0b275c3d36245275a70b425`.
 - Catalog: 32 courses, 640 lessons, 560 lab blocks.
 - Current phase: `registry-remainder`.
-- Next course: `career-qa_sdet_test_automation_engineering`.
+- Next course: `career-ux_ui_product_design_for_engineers`.
 - Certification: 0 courses certified; lab evidence remains practice-only.
 
 ## Proven foundation checkpoints
@@ -40,6 +40,7 @@ the execution authority; Certification Harness V2 remains the certification-read
 | `career-frontend_fullstack` | GREEN | uncertified |
 | `career-architecture_system_design` | GREEN | uncertified |
 | `career-mobile_engineering_deep_dive` | GREEN | uncertified |
+| `career-qa_sdet_test_automation_engineering` | GREEN | uncertified |
 
 The imported foundation checkpoint is reachable at commit `9d4d71ee`. It proves the local curriculum contract,
 not controlled lab trust, expert review, human appeal, or certification.
@@ -54,7 +55,7 @@ not controlled lab trust, expert review, human appeal, or certification.
 | Cloud operations and platform reliability | 3 | local GREEN |
 | Applied AI, retrieval, agents, and evaluation | 5 | local GREEN |
 | Production integration | 1 unique graph course | local GREEN |
-| Registry courses outside the flagship graph | 12 | 4 local GREEN; QA/SDET selected |
+| Registry courses outside the flagship graph | 12 | 5 local GREEN; UX/UI Product Design selected |
 
 `system-design` appears in two graph phases but only once in the 32-course execution queue.
 
@@ -185,9 +186,15 @@ not controlled lab trust, expert review, human appeal, or certification.
 - Complete device-to-production mastery loops, seven deep reliability/security/accessibility/release drills, a multi-day incident capstone, a 20-source first-party ledger, and 20 novice-scaffolded labs cover every lesson.
 - All 149 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
 
-## Current QA/SDET baseline
+## QA/SDET checkpoint result
 
-- `career-qa_sdet_test_automation_engineering` is selected next as the fifth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
+- 20 lessons; deterministic score 77.8 → 100. All 20 original Python test-engineering references match their exact observable contracts.
+- Complete risk-to-release mastery loops, eight deep browser/nonfunctional/CI/flake drills, a multi-day quality-review capstone, and a 20-source primary ledger cover every lesson.
+- All 150 honest narration transcripts remain. H1/H3/H4/H5 are zero; 20 H2 flags preserve practice-only evidence and required expert reviews remain pending.
+
+## Current UX/UI Product Design baseline
+
+- `career-ux_ui_product_design_for_engineers` is selected next as the sixth canonical registry-remainder course; labs remain practice-only and certification remains blocked pending controlled evaluation and required reviews.
 
 ## Advancement rule
 

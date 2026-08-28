@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
   "programVersion": "academy-program-loop-v1",
-  "registryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
-  "generatedAt": "2026-08-28T17:49:03.513Z",
+  "registryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
+  "generatedAt": "2026-08-28T17:55:45.309Z",
   "checkpointContract": {
-    "baselineRegistryVersion": "sha256:241b0c4f3ac5f6ea4ba96924f97eaaddd41da9fd8b072295926abbe76d1a018c",
+    "baselineRegistryVersion": "sha256:1f9a2c17738c89c931c6ef6c8d7a0a6ef50dfc8648b9b010ed45c585ec3fc145",
     "registryTransitionAllowed": true,
     "transitionRequirement": "The post-remediation registry, audit board, 32-course queue, current course, and trust boundary must reconcile before advancement."
   },
   "stateStatus": "active",
   "course": {
-    "sequence": 9,
+    "sequence": 10,
     "phaseId": "data-backend",
-    "courseSlug": "career-databases_data_modeling",
-    "title": "Databases and Data Modeling",
+    "courseSlug": "career-backend_engineering",
+    "title": "Backend Engineering",
     "lessonCount": 20,
-    "authoringBundle": "data/academy/authoring/career-databases_data_modeling.lessons.json",
-    "solutionBundle": "data/academy/authoring/career-databases_data_modeling.lab_solutions.json",
+    "authoringBundle": "data/academy/authoring/career-backend_engineering.lessons.json",
+    "solutionBundle": "data/academy/authoring/career-backend_engineering.lab_solutions.json",
     "baseline": {
       "decision": "blocked",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.9,
       "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
@@ -161,9 +161,9 @@
           "career-qa_sdet_test_automation_engineering",
           "career-ux_ui_product_design_for_engineers"
         ],
-        "lessonCount": 291,
-        "findingCount": 291,
-        "priority": 3170291
+        "lessonCount": 277,
+        "findingCount": 277,
+        "priority": 3170277
       },
       {
         "rank": 8,
@@ -177,7 +177,6 @@
           "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
-          "career-databases_data_modeling",
           "career-engineering_leadership_staff_execution",
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
@@ -185,9 +184,9 @@
           "career-platform_engineering_internal_developer_platforms",
           "career-qa_sdet_test_automation_engineering"
         ],
-        "lessonCount": 36,
-        "findingCount": 36,
-        "priority": 3130036
+        "lessonCount": 35,
+        "findingCount": 35,
+        "priority": 3120035
       },
       {
         "rank": 9,
@@ -201,16 +200,15 @@
           "career-cloud_devops_operations",
           "career-concept_maps_real_world_engineering",
           "career-data_engineering_analytics",
-          "career-databases_data_modeling",
           "career-frontend_fullstack",
           "career-interview_career_portfolio",
           "career-observability_reliability_performance",
           "career-product_execution_market_feedback",
           "nextjs-supabase"
         ],
-        "lessonCount": 24,
-        "findingCount": 24,
-        "priority": 3120024
+        "lessonCount": 22,
+        "findingCount": 22,
+        "priority": 3110022
       }
     ],
     "reviewRequired": [
@@ -772,46 +770,6 @@
         "lessonCount": 640,
         "findingCount": 640,
         "priority": 2320640
-      },
-      {
-        "rank": 21,
-        "category": "sources",
-        "severity": "medium",
-        "remediation": "Complete required sources evidence: source-ledger-schema.",
-        "courseSlugs": [
-          "agents-tool-use",
-          "career-architecture_system_design",
-          "career-cloud_devops_operations",
-          "career-concept_maps_real_world_engineering",
-          "career-data_engineering_analytics",
-          "career-databases_data_modeling",
-          "career-engineering_judgment_foundation",
-          "career-engineering_leadership_staff_execution",
-          "career-enterprise_it_saas_admin_business_systems",
-          "career-frontend_fullstack",
-          "career-interview_career_portfolio",
-          "career-mobile_engineering_deep_dive",
-          "career-networking_fundamentals_advanced_networking",
-          "career-observability_reliability_performance",
-          "career-platform_engineering_internal_developer_platforms",
-          "career-product_execution_market_feedback",
-          "career-programming_cs_foundations",
-          "career-qa_sdet_test_automation_engineering",
-          "career-ux_ui_product_design_for_engineers",
-          "data-structures",
-          "git-the-terminal",
-          "nextjs-supabase",
-          "programming-fundamentals",
-          "prompt-engineering",
-          "python-basics",
-          "rag-retrieval",
-          "stripe-auth",
-          "system-design",
-          "the-llm-api"
-        ],
-        "lessonCount": 580,
-        "findingCount": 580,
-        "priority": 2290580
       }
     ]
   },

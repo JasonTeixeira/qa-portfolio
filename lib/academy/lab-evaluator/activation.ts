@@ -24,6 +24,10 @@ export function flagshipLabSpecRevision(courseSlug: string, lessonSlug: string):
   return FLAGSHIP_LABS.get(`${courseSlug}/${lessonSlug}`)?.specRevision ?? null
 }
 
+export function flagshipLabSpecDigest(courseSlug: string, lessonSlug: string): string | null {
+  return FLAGSHIP_LABS.get(`${courseSlug}/${lessonSlug}`)?.specDigest ?? null
+}
+
 function identityDigest(value: string): string {
   return createHash('sha256').update(value, 'utf8').digest('hex')
 }

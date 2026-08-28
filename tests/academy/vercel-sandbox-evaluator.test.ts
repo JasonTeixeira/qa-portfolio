@@ -7,10 +7,8 @@ import { getTrustedEvaluationAttestation, isTrustedLabEvaluation } from '../../l
 import { executePrivateCaseInVercelSandbox, type VercelSandboxCreate } from '../../services/academy-lab-evaluator/src/vercel-sandbox-executor'
 import {
   evaluateLabWithVercelSandbox,
-  // @ts-expect-error RED checkpoint: fail-closed environment parsing is intentionally absent.
   loadVercelSandboxEvaluatorConfig,
 } from '../../services/academy-lab-evaluator/src/vercel-sandbox-evaluate'
-// @ts-expect-error RED checkpoint: immutable stored-spec validation is intentionally absent.
 import { validateStoredPrivateSpec } from '../../services/academy-lab-evaluator/src/supabase-spec-store'
 import { privateSpecDigest } from '../../scripts/academy/lab-evaluator/staging/core'
 

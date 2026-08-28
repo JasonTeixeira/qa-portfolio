@@ -11,12 +11,36 @@ import {
   type TrustedLabEvaluation,
 } from '../../../lib/academy/lab-evaluator/signing'
 import { evaluateSubmission } from './evaluate'
+import { validatePinnedImage } from './docker-policy'
 import {
   executePrivateCaseInVercelSandbox,
   type VercelSandboxCreate,
 } from './vercel-sandbox-executor'
 
 export type SandboxRuntimeImages = Record<LabLanguage, string>
+
+export function loadVercelSandboxEvaluatorConfig(
+  env: Record<string, string | undefined>,
+): { secret: string; images: SandboxRuntimeImages } | null {
+  if (env.ACADEMY_LAB_EVALUATOR_PROVIDER !== 'vercel-sandbox') return null
+  const secret = env.ACADEMY_LAB_EVALUATOR_SECRET?.trim() ?? ''
+  if (Buffer.byteLength(secret, 'utf8') < 32) {
+    throw new Error('ACADEMY_LAB_EVALUATOR_SECRET must be at least 32 bytes')
+  }
+  const image = (name: string): string => {
+    const value = env[name]?.trim()
+    if (!value) throw new Error(`${name} is required`)
+    return validatePinnedImage(value)
+  }
+  return {
+    secret,
+    images: {
+      python: image('ACADEMY_EVALUATOR_IMAGE_PYTHON'),
+      javascript: image('ACADEMY_EVALUATOR_IMAGE_JAVASCRIPT'),
+      sql: image('ACADEMY_EVALUATOR_IMAGE_SQL'),
+    },
+  }
+}
 
 export type VercelSandboxEvaluationDependencies = {
   secret: string

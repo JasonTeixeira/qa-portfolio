@@ -209,6 +209,7 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
       assert.match(command.args?.join(' ') ?? '', /\/usr\/local\/bin\/academy-setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all/)
       assert.match(command.args?.join(' ') ?? '', /timeout --signal=TERM --kill-after=1/)
       assert.doesNotMatch(command.args?.join(' ') ?? '', /timeout --signal=KILL/)
+      assert.match(command.args?.join(' ') ?? '', /ulimit -S -t 3; ulimit -H -t 4/)
       if (language === 'javascript') {
         assert.doesNotMatch(command.args?.join(' ') ?? '', /ulimit -S -v/)
         assert.match(command.args?.join(' ') ?? '', /node --max-old-space-size=96 --max-semi-space-size=4/)
@@ -228,6 +229,11 @@ describe('Vercel Sandbox academy evaluator boundary', () => {
     const timedOut = await executePrivateCaseInVercelSandbox(input(), { createSandbox: timeout.createSandbox })
     assert.equal(timedOut.status, 'timed_out')
     assert.equal(timeout.observed.deletes, 1)
+
+    const cpu = fakeFactory({ exitCode: 152 })
+    const cpuLimited = await executePrivateCaseInVercelSandbox(input(), { createSandbox: cpu.createSandbox })
+    assert.equal(cpuLimited.status, 'timed_out')
+    assert.equal(cpu.observed.deletes, 1)
 
     const memory = fakeFactory({ exitCode: 137 })
     const memoryLimited = await executePrivateCaseInVercelSandbox(input(), { createSandbox: memory.createSandbox })

@@ -11,10 +11,10 @@
     "courses": 32,
     "lessons": 640,
     "labBlocks": 600,
-    "solutionEntries": 587,
-    "labLessonsWithSolutions": 547,
-    "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 21
+    "solutionEntries": 607,
+    "labLessonsWithSolutions": 567,
+    "labLessonsWithoutSolutions": 33,
+    "sourceLedgers": 22
   },
   "capabilities": [
     {
@@ -9102,19 +9102,18 @@
       },
       "authoring": {
         "lessonBundle": "data/academy/authoring/nextjs-supabase.lessons.json",
-        "solutionBundle": null,
+        "solutionBundle": "data/academy/authoring/nextjs-supabase.lab_solutions.json",
         "legacyManifestLessons": 0,
         "orphanSolutions": []
       },
       "sources": {
-        "ledger": null
+        "ledger": "docs/academy/evidence/nextjs-supabase/sources.json"
       },
       "certification": {
         "status": "uncertified",
         "blockers": [
           "certification_harness_v2_pending",
-          "lab_trust_unverified_current_runtime",
-          "source_ledger_missing"
+          "lab_trust_unverified_current_runtime"
         ]
       },
       "lessons": [
@@ -9124,9 +9123,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 0,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/app-router-model",
           "source": {
             "kind": "derived_from_authoring",
@@ -9139,9 +9138,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 1,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/server-vs-client-components",
           "source": {
             "kind": "derived_from_authoring",
@@ -9154,9 +9153,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 2,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/layouts-loading-error",
           "source": {
             "kind": "derived_from_authoring",
@@ -9169,9 +9168,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 3,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/data-fetching-server-components",
           "source": {
             "kind": "derived_from_authoring",
@@ -9184,9 +9183,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 4,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/server-actions",
           "source": {
             "kind": "derived_from_authoring",
@@ -9199,9 +9198,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 5,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/forms-validation",
           "source": {
             "kind": "derived_from_authoring",
@@ -9214,9 +9213,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 6,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/optimistic-updates",
           "source": {
             "kind": "derived_from_authoring",
@@ -9229,9 +9228,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 7,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/revalidation-caching",
           "source": {
             "kind": "derived_from_authoring",
@@ -9244,9 +9243,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 8,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/supabase-client-setup",
           "source": {
             "kind": "derived_from_authoring",
@@ -9259,9 +9258,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 9,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/postgres-schema-basics",
           "source": {
             "kind": "derived_from_authoring",
@@ -9274,9 +9273,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 10,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/ssr-auth-sessions",
           "source": {
             "kind": "derived_from_authoring",
@@ -9289,9 +9288,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 11,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/row-level-security",
           "source": {
             "kind": "derived_from_authoring",
@@ -9304,9 +9303,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 12,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/reads-under-rls",
           "source": {
             "kind": "derived_from_authoring",
@@ -9319,9 +9318,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 13,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/writes-transactions",
           "source": {
             "kind": "derived_from_authoring",
@@ -9334,9 +9333,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 14,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/realtime",
           "source": {
             "kind": "derived_from_authoring",
@@ -9349,9 +9348,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 15,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/storage",
           "source": {
             "kind": "derived_from_authoring",
@@ -9364,9 +9363,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 16,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/middleware-route-protection",
           "source": {
             "kind": "derived_from_authoring",
@@ -9379,9 +9378,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 17,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/env-secrets",
           "source": {
             "kind": "derived_from_authoring",
@@ -9394,9 +9393,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 18,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/deploy-vercel",
           "source": {
             "kind": "derived_from_authoring",
@@ -9409,9 +9408,9 @@
           "moduleTitle": "Module 1 · Authored Course",
           "moduleSort": 0,
           "sort": 19,
-          "blockCount": 16,
+          "blockCount": 17,
           "labBlocks": 1,
-          "hasLabSolution": false,
+          "hasLabSolution": true,
           "route": "/academy/learn/nextjs-supabase/capstone-rls-crud",
           "source": {
             "kind": "derived_from_authoring",
@@ -10746,5 +10745,5 @@
       ]
     }
   ],
-  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d"
+  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0"
 }

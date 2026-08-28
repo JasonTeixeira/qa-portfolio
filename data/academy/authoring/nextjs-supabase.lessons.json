@@ -224,8 +224,8 @@
       "type": "lab",
       "check": "[\"layout.tsx\",\"dashboard/layout.tsx\",\"dashboard/settings/page.tsx\"]\n\"404\"",
       "title": "Resolve a URL to its wrapper chain",
-      "starter": "// files: paths relative to app/, e.g. \"layout.tsx\", \"dashboard/layout.tsx\", \"dashboard/settings/page.tsx\".\n// Resolve URL \"/dashboard/settings\" into: [layouts root-down..., page] or \"404\".\nconst files = [\n  \"layout.tsx\",\n  \"page.tsx\",\n  \"dashboard/layout.tsx\",\n  \"dashboard/page.tsx\",\n  \"dashboard/settings/page.tsx\",\n  \"dashboard/lib/helpers.tsx\",   // NOT a page → contributes nothing to a route\n];\nfunction resolve(files, url) {\n  // TODO: split url into segments; the matched folder must have a page file.\n  // Collect layout.tsx from \"\" (root) down to the matched folder, then the page.\n}\nconsole.log(JSON.stringify(resolve(files, \"/dashboard/settings\")));\nconsole.log(JSON.stringify(resolve(files, \"/dashboard/lib\")));",
-      "summary": "Given a flat list of files in the app/ tree and a URL, compute the ordered list of layout files (root-down) plus the matched page file — or report a 404 when the deepest folder has no page.",
+      "starter": "// files: paths relative to app/, e.g. \"layout.tsx\", \"dashboard/layout.tsx\", \"dashboard/settings/page.tsx\".\n// Resolve URL \"/dashboard/settings\" into: [layouts root-down..., page] or \"404\".\nconst files = [\n  \"layout.tsx\",\n  \"page.tsx\",\n  \"dashboard/layout.tsx\",\n  \"dashboard/page.tsx\",\n  \"dashboard/settings/page.tsx\",\n  \"dashboard/lib/helpers.tsx\",   // NOT a page → contributes nothing to a route\n];\nfunction resolve(files, url) {\n  // TODO: split url into segments; the matched folder must have a page file.\n  // Collect layout.tsx from \"\" (root) down to the matched folder, then the page.\n}\nconsole.log(JSON.stringify(resolve(files, \"/dashboard/settings\")));\nconsole.log(JSON.stringify(resolve(files, \"/dashboard/lib\")));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given a flat list of files in the app/ tree and a URL, compute the ordered list of layout files (root-down) plus the matched page file — or report a 404 when the deepest folder has no page. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -278,6 +278,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A router resolver that, given the app/ file tree and a URL path, returns the exact ordered list of segment files that wrap the matched page.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Given any URL you can name the page file and the layout chain that wraps it, root-down. · You can explain why a folder without page.tsx is not a route. · You know a route group (folder) scopes a layout without appearing in the URL.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This resolution walk is the mental model for every later lesson: server vs client components live in these same files, loading/error attach to these same segments, and middleware protects these same URL paths.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This resolution walk is the mental model for every later lesson: server vs client components live in these same files, loading/error attach to these same segments, and middleware protects these same URL paths.",
       "type": "transfer"
     },
@@ -292,10 +300,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Resolver returns the correct layout chain + page for a URL",
-        "Non-page folders correctly 404",
-        "You can explain route groups vs segments"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend You want a shared sidebar for the marketing pages but the pages sit at the URL root (/, /pricing). Add a layout at app/ or use a route group?.",
+        "Verification evidence — Given any URL you can name the page file and the layout chain that wraps it, root-down. · You can explain why a folder without page.tsx is not a route. · You know a route group (folder) scopes a layout without appearing in the URL.",
+        "Transfer evidence — This resolution walk is the mental model for every later lesson: server vs client components live in these same files, loading/error attach to these same segments, and middleware protects these same URL paths."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "server-vs-client-components": [
@@ -540,8 +551,8 @@
       "type": "lab",
       "check": "{\"name\":\"Page\",\"kind\":\"server\",\"problems\":[]}\n{\"name\":\"LikeButton\",\"kind\":\"client\",\"problems\":[]}\n{\"name\":\"PriceTag\",\"kind\":\"client\",\"problems\":[\"secret leaked to client bundle\"]}\n{\"name\":\"Nav\",\"kind\":\"server\",\"problems\":[\"missing use client directive\"]}",
       "title": "Classify components and flag a boundary leak",
-      "starter": "// A component \"needs client\" if it uses state, effects, or event handlers.\n// A \"use client\" file (or any file it imports) that touches a secret is a LEAK.\nconst components = [\n  { name: \"Page\",       usesState: false, usesHandlers: false, useClient: false, readsSecret: true  },\n  { name: \"LikeButton\", usesState: true,  usesHandlers: true,  useClient: true,  readsSecret: false },\n  { name: \"PriceTag\",   usesState: true,  usesHandlers: false, useClient: true,  readsSecret: true  }, // leak\n  { name: \"Nav\",        usesState: false, usesHandlers: true,  useClient: false, readsSecret: false }, // missing \"use client\"\n];\nfunction classify(c) {\n  // TODO: return { name, kind: \"server\"|\"client\", problems: [...] }\n  //  - needs client but no \"use client\"  -> \"missing use client directive\"\n  //  - useClient && readsSecret           -> \"secret leaked to client bundle\"\n}\nfor (const c of components) console.log(JSON.stringify(classify(c)));",
-      "summary": "Given each component's features (does it use state/handlers? does it import a secret-reading module? is \"use client\" declared?), decide server or client and flag any component that would ship a secret to the browser.",
+      "starter": "// A component \"needs client\" if it uses state, effects, or event handlers.\n// A \"use client\" file (or any file it imports) that touches a secret is a LEAK.\nconst components = [\n  { name: \"Page\",       usesState: false, usesHandlers: false, useClient: false, readsSecret: true  },\n  { name: \"LikeButton\", usesState: true,  usesHandlers: true,  useClient: true,  readsSecret: false },\n  { name: \"PriceTag\",   usesState: true,  usesHandlers: false, useClient: true,  readsSecret: true  }, // leak\n  { name: \"Nav\",        usesState: false, usesHandlers: true,  useClient: false, readsSecret: false }, // missing \"use client\"\n];\nfunction classify(c) {\n  // TODO: return { name, kind: \"server\"|\"client\", problems: [...] }\n  //  - needs client but no \"use client\"  -> \"missing use client directive\"\n  //  - useClient && readsSecret           -> \"secret leaked to client bundle\"\n}\nfor (const c of components) console.log(JSON.stringify(classify(c)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given each component's features (does it use state/handlers? does it import a secret-reading module? is \"use client\" declared?), decide server or client and flag any component that would ship a secret to the browser. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -594,6 +605,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A boundary classifier that labels a component server or client from its features and flags a secret imported across the \"use client\" boundary.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You can classify a component as server or client from its features alone. · You flag a component that needs interactivity but lacks \"use client\". · You never let a secret be reachable from a \"use client\" file; you pass safe props instead.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This boundary is the same one the env-vars and RLS lessons defend from the data side: NEXT_PUBLIC_* variables and the service-role key are secrets that must never cross into the client graph you classify here.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This boundary is the same one the env-vars and RLS lessons defend from the data side: NEXT_PUBLIC_* variables and the service-role key are secrets that must never cross into the client graph you classify here.",
       "type": "transfer"
     },
@@ -608,10 +627,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Classifier labels server/client correctly from features",
-        "Missing \"use client\" is flagged",
-        "Secret-in-client leak is detected"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A dashboard card needs one interactive toggle but also renders server-fetched data. Make the whole card a Client Component, or split it?.",
+        "Verification evidence — You can classify a component as server or client from its features alone. · You flag a component that needs interactivity but lacks \"use client\". · You never let a secret be reachable from a \"use client\" file; you pass safe props instead.",
+        "Transfer evidence — This boundary is the same one the env-vars and RLS lessons defend from the data side: NEXT_PUBLIC_* variables and the service-role key are secrets that must never cross into the client graph you classify here."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "layouts-loading-error": [
@@ -843,8 +865,8 @@
       "type": "lab",
       "check": "ok: page.tsx\npending: loading.tsx\nthrown: error.tsx\nnotFound: bubble-to-parent",
       "title": "Resolve which special file renders",
-      "starter": "// files: the special files THIS segment defines, e.g. [\"page\",\"loading\",\"error\"].\n// outcome: what happened for the request — \"ok\" | \"pending\" | \"thrown\" | \"notFound\".\n// Resolve each outcome to the ONE file the App Router renders (recall the concept).\n// When the segment lacks the file a case needs, the request falls through to its\n// parent segment — use the literal \"bubble-to-parent\" for that.\nfunction whatRenders(files, outcome) {\n  // TODO\n}\n// Print each case as \"<outcome>: <resolved file>\" so the mapping is visible.\nconst has = [\"page\", \"loading\", \"error\"];\nconst cases = [\n  { files: has, outcome: \"ok\" },\n  { files: has, outcome: \"pending\" },\n  { files: has, outcome: \"thrown\" },\n  { files: [\"page\"], outcome: \"notFound\" },\n];\nfor (const c of cases) console.log(c.outcome + \": \" + whatRenders(c.files, c.outcome));",
-      "summary": "Given the special files a segment provides and a render outcome, return the file that renders, and print each case as \"<outcome> => <file>\". Fall back to the page for \"ok\", and to a parent when the segment lacks the needed boundary.",
+      "starter": "// files: the special files THIS segment defines, e.g. [\"page\",\"loading\",\"error\"].\n// outcome: what happened for the request — \"ok\" | \"pending\" | \"thrown\" | \"notFound\".\n// Resolve each outcome to the ONE file the App Router renders (recall the concept).\n// When the segment lacks the file a case needs, the request falls through to its\n// parent segment — use the literal \"bubble-to-parent\" for that.\nfunction whatRenders(files, outcome) {\n  // TODO\n}\n// Print each case as \"<outcome>: <resolved file>\" so the mapping is visible.\nconst has = [\"page\", \"loading\", \"error\"];\nconst cases = [\n  { files: has, outcome: \"ok\" },\n  { files: has, outcome: \"pending\" },\n  { files: has, outcome: \"thrown\" },\n  { files: [\"page\"], outcome: \"notFound\" },\n];\nfor (const c of cases) console.log(c.outcome + \": \" + whatRenders(c.files, c.outcome));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given the special files a segment provides and a render outcome, return the file that renders, and print each case as \"<outcome> => <file>\". Fall back to the page for \"ok\", and to a parent when the segment lacks the needed boundary. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -897,6 +919,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A UI-state resolver that, given a segment's available special files and a render outcome (pending / thrown / ok), returns which special file renders.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You can name which file renders for pending, thrown, notFound, and ok. · Your error.tsx is a Client Component and offers reset(). · You know a segment's own layout error bubbles past its own error.tsx.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: These loading/error states are where your Supabase reads later become real UX: a slow RLS-filtered query shows loading.tsx, and a permission error surfaces to error.tsx instead of a blank screen.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "These loading/error states are where your Supabase reads later become real UX: a slow RLS-filtered query shows loading.tsx, and a permission error surfaces to error.tsx instead of a blank screen.",
       "type": "transfer"
     },
@@ -911,10 +941,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Resolver maps each render state to the right file",
-        "error.tsx is a Client Component with reset()",
-        "You can explain the layout-error bubble gap"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A page awaits a slow API. Add a loading.tsx for the whole segment, or wrap just the slow part in <Suspense>?.",
+        "Verification evidence — You can name which file renders for pending, thrown, notFound, and ok. · Your error.tsx is a Client Component and offers reset(). · You know a segment's own layout error bubbles past its own error.tsx.",
+        "Transfer evidence — These loading/error states are where your Supabase reads later become real UX: a slow RLS-filtered query shows loading.tsx, and a permission error surfaces to error.tsx instead of a blank screen."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "data-fetching-server-components": [
@@ -1151,8 +1184,8 @@
       "type": "lab",
       "check": "modes: {\"users\":\"dynamic\",\"stats\":\"revalidate:60\",\"config\":\"static\"}\nsequential: 1000 parallel: 500 saved: 500",
       "title": "Plan cache modes and compute waterfall vs parallel time",
-      "starter": "const fetches = [\n  { name: \"users\",  ms: 300, cache: \"no-store\" },\n  { name: \"stats\",  ms: 500, revalidate: 60 },\n  { name: \"config\", ms: 200, cache: \"force-cache\" },\n];\n// mode(): \"dynamic\" if no-store, \"revalidate:N\" if revalidate set, else \"static\".\n// sequentialMs = sum of ms; parallelMs = max of ms (all independent).\nfunction plan(fetches) {\n  // TODO: return { modes: {name: mode}, sequentialMs, parallelMs, saved }\n}\nconst r = plan(fetches);\nconsole.log(\"modes:\", JSON.stringify(r.modes));\nconsole.log(\"sequential:\", r.sequentialMs, \"parallel:\", r.parallelMs, \"saved:\", r.saved);",
-      "summary": "Given fetches with a latency and a cache directive, tag each with its freshness mode, then compute total wall-clock time when awaited sequentially (sum) vs in parallel (max of the independent ones).",
+      "starter": "const fetches = [\n  { name: \"users\",  ms: 300, cache: \"no-store\" },\n  { name: \"stats\",  ms: 500, revalidate: 60 },\n  { name: \"config\", ms: 200, cache: \"force-cache\" },\n];\n// mode(): \"dynamic\" if no-store, \"revalidate:N\" if revalidate set, else \"static\".\n// sequentialMs = sum of ms; parallelMs = max of ms (all independent).\nfunction plan(fetches) {\n  // TODO: return { modes: {name: mode}, sequentialMs, parallelMs, saved }\n}\nconst r = plan(fetches);\nconsole.log(\"modes:\", JSON.stringify(r.modes));\nconsole.log(\"sequential:\", r.sequentialMs, \"parallel:\", r.parallelMs, \"saved:\", r.saved);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given fetches with a latency and a cache directive, tag each with its freshness mode, then compute total wall-clock time when awaited sequentially (sum) vs in parallel (max of the independent ones). Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1205,6 +1238,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A fetch planner that classifies each request's cache mode and computes total wall-clock time for sequential vs parallelized independent fetches.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You await data directly in async Server Components (no client fetch for initial data). · Each fetch has a deliberate cache mode: no-store, revalidate:N, or static. · Independent fetches run in parallel; only dependent ones are sequential.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This parallel-vs-waterfall reasoning returns in the reads-under-RLS lesson: multiple RLS-filtered Supabase queries on a page are independent fetches too, and the same Promise.all discipline keeps the page fast.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This parallel-vs-waterfall reasoning returns in the reads-under-RLS lesson: multiple RLS-filtered Supabase queries on a page are independent fetches too, and the same Promise.all discipline keeps the page fast.",
       "type": "transfer"
     },
@@ -1219,20 +1260,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Planner tags each fetch's cache mode",
-        "Sequential vs parallel time computed correctly",
-        "You can justify a cache mode per fetch"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A stats widget can tolerate being ~1 minute stale. Fetch with no-store (always fresh) or revalidate: 60?.",
+        "Verification evidence — You await data directly in async Server Components (no client fetch for initial data). · Each fetch has a deliberate cache mode: no-store, revalidate:N, or static. · Independent fetches run in parallel; only dependent ones are sequential.",
+        "Transfer evidence — This parallel-vs-waterfall reasoning returns in the reads-under-RLS lesson: multiple RLS-filtered Supabase queries on a page are independent fetches too, and the same Promise.all discipline keeps the page fast."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "server-actions": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A Server-Action guard that treats FormData as untrusted input and returns a typed result: rejecting missing/oversized fields before any mutation runs.",
       "unlock": "You can explain how a form invokes server code without a hand-written API route, and why the action must re-validate everything.",
       "outcome": "Write a Server Action: an async \"use server\" function that runs on the server, is invoked from a form action, reads FormData, mutates data, and never trusts its input.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a Server Action is safe because the form has required fields — the action is a public endpoint and must validate its own input server-side."
     },
     {
@@ -1470,8 +1514,8 @@
       "type": "lab",
       "check": "ok: false\nerrors: title required; body too long; user mismatch (do not trust client id)\nwillMutateAs: u_1",
       "title": "Guard a Server Action's FormData",
-      "starter": "// sessionUserId is the TRUSTED identity from the server session.\n// form is the untrusted FormData (as a plain object of strings).\nconst sessionUserId = \"u_1\";\nconst form = { title: \"\", userId: \"u_9\", body: \"x\".repeat(50) };\nfunction guard(form, sessionUserId) {\n  // TODO: return { ok, errors:[...], willMutateAs } where\n  //  - title missing/blank      -> \"title required\"\n  //  - body over 40 chars       -> \"body too long\"\n  //  - form.userId !== session  -> \"user mismatch (do not trust client id)\"\n  // willMutateAs = sessionUserId (NEVER form.userId). ok = errors empty.\n}\nconst r = guard(form, sessionUserId);\nconsole.log(\"ok:\", r.ok);\nconsole.log(\"errors:\", r.errors.join(\"; \") || \"none\");\nconsole.log(\"willMutateAs:\", r.willMutateAs);",
-      "summary": "Model a Server Action's input guard: read a FormData-like map, reject missing/oversized fields and a client-supplied id that does not match the session user, and only then report a mutation would run.",
+      "starter": "// sessionUserId is the TRUSTED identity from the server session.\n// form is the untrusted FormData (as a plain object of strings).\nconst sessionUserId = \"u_1\";\nconst form = { title: \"\", userId: \"u_9\", body: \"x\".repeat(50) };\nfunction guard(form, sessionUserId) {\n  // TODO: return { ok, errors:[...], willMutateAs } where\n  //  - title missing/blank      -> \"title required\"\n  //  - body over 40 chars       -> \"body too long\"\n  //  - form.userId !== session  -> \"user mismatch (do not trust client id)\"\n  // willMutateAs = sessionUserId (NEVER form.userId). ok = errors empty.\n}\nconst r = guard(form, sessionUserId);\nconsole.log(\"ok:\", r.ok);\nconsole.log(\"errors:\", r.errors.join(\"; \") || \"none\");\nconsole.log(\"willMutateAs:\", r.willMutateAs);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Model a Server Action's input guard: read a FormData-like map, reject missing/oversized fields and a client-supplied id that does not match the session user, and only then report a mutation would run. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1524,6 +1568,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A Server-Action guard that treats FormData as untrusted input and returns a typed result: rejecting missing/oversized fields before any mutation runs.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Your action is an async \"use server\" function invoked from a form action. · It validates every FormData field server-side before mutating. · It derives the acting user from the session, never from client-supplied ids.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This \"validate, mutate, revalidate\" shape is the spine of the next three lessons: forms add richer validation, revalidation makes the mutation visible, and RLS later enforces the authorization this action checks in code.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This \"validate, mutate, revalidate\" shape is the spine of the next three lessons: forms add richer validation, revalidation makes the mutation visible, and RLS later enforces the authorization this action checks in code.",
       "type": "transfer"
     },
@@ -1538,20 +1590,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Action guard rejects invalid/oversized fields",
-        "Mutation binds to the session user, not client id",
-        "You can explain the action-as-endpoint security rule"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend For a mutation, write a Server Action or hand-write a POST /api route the client fetches?.",
+        "Verification evidence — Your action is an async \"use server\" function invoked from a form action. · It validates every FormData field server-side before mutating. · It derives the acting user from the session, never from client-supplied ids.",
+        "Transfer evidence — This \"validate, mutate, revalidate\" shape is the spine of the next three lessons: forms add richer validation, revalidation makes the mutation visible, and RLS later enforces the authorization this action checks in code."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "forms-validation": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A schema validator that checks a submitted object field-by-field and returns a map of field → error message (empty when valid).",
       "unlock": "You can turn a validation pass into per-field errors the form re-renders, and explain why coercion and trimming happen before the rules.",
       "outcome": "Validate form input against a schema and return a structured, field-keyed error result the UI can render, so bad input is rejected with precise messages instead of a thrown 500.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim validation is done because the happy path saved — validation is judged by how precisely it rejects the 20 wrong inputs, not the one right one."
     },
     {
@@ -1778,8 +1833,8 @@
       "type": "lab",
       "check": "valid: false\nemail: ok\nage: must be 13+\nname: required",
       "title": "Validate a submission into per-field errors",
-      "starter": "const submission = { email: \"  Alice@EXAMPLE.com \", age: \"12\", name: \"\" };\n// Apply the schema pattern from the worked example to this 3-field signup form.\n// FormData values arrive as strings, so coerce/normalize BEFORE you check them.\n// Write one rule per field. A rule hands back an error message, or null when the value passes.\nconst rules = {\n  // TODO email: trim + lowercase, required, must match a basic email pattern\n  // TODO age:   coerce to a number, whole number, at least 13\n  // TODO name:  required once trimmed\n};\nfunction checkSubmission(input, rules) {\n  const errors = {};\n  for (const field in rules) { const msg = rules[field](input[field]); if (msg) errors[field] = msg; }\n  return { valid: Object.keys(errors).length === 0, errors };\n}\nconst r = checkSubmission(submission, rules);\nconsole.log(\"valid:\", r.valid);\nconsole.log(\"email:\", r.errors.email ?? \"ok\");\nconsole.log(\"age:\", r.errors.age ?? \"ok\");\nconsole.log(\"name:\", r.errors.name ?? \"ok\");",
-      "summary": "You already have the schema runner — write the field rules it applies. Coerce and normalize each field, then check it, so \"12\" fails the age minimum and a blank name is caught. Print the valid flag and each field's message.",
+      "starter": "const submission = { email: \"  Alice@EXAMPLE.com \", age: \"12\", name: \"\" };\n// Apply the schema pattern from the worked example to this 3-field signup form.\n// FormData values arrive as strings, so coerce/normalize BEFORE you check them.\n// Write one rule per field. A rule hands back an error message, or null when the value passes.\nconst rules = {\n  // TODO email: trim + lowercase, required, must match a basic email pattern\n  // TODO age:   coerce to a number, whole number, at least 13\n  // TODO name:  required once trimmed\n};\nfunction checkSubmission(input, rules) {\n  const errors = {};\n  for (const field in rules) { const msg = rules[field](input[field]); if (msg) errors[field] = msg; }\n  return { valid: Object.keys(errors).length === 0, errors };\n}\nconst r = checkSubmission(submission, rules);\nconsole.log(\"valid:\", r.valid);\nconsole.log(\"email:\", r.errors.email ?? \"ok\");\nconsole.log(\"age:\", r.errors.age ?? \"ok\");\nconsole.log(\"name:\", r.errors.name ?? \"ok\");\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "You already have the schema runner — write the field rules it applies. Coerce and normalize each field, then check it, so \"12\" fails the age minimum and a blank name is caught. Print the valid flag and each field's message. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -1832,6 +1887,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A schema validator that checks a submitted object field-by-field and returns a map of field → error message (empty when valid).",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Your validator returns per-field errors, not a single boolean. · You coerce types and normalize (trim/lowercase) before applying rules. · The server runs the schema even if the client is bypassed.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This schema-and-errors shape plugs straight into the Server Action from the last lesson (return the errors map to the form) and into RLS later (the DB rejects what code validation misses — defense in depth).",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This schema-and-errors shape plugs straight into the Server Action from the last lesson (return the errors map to the form) and into RLS later (the DB rejects what code validation misses — defense in depth).",
       "type": "transfer"
     },
@@ -1846,10 +1909,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Validator returns a correct field → error map",
-        "Coercion + normalization run before rules",
-        "Server-side validation is the enforced boundary"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend Validate only on the client for snappy feedback, or validate on the server too?.",
+        "Verification evidence — Your validator returns per-field errors, not a single boolean. · You coerce types and normalize (trim/lowercase) before applying rules. · The server runs the schema even if the client is bypassed.",
+        "Transfer evidence — This schema-and-errors shape plugs straight into the Server Action from the last lesson (return the errors map to the form) and into RLS later (the DB rejects what code validation misses — defense in depth)."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "optimistic-updates": [
@@ -2094,8 +2160,8 @@
       "type": "lab",
       "check": "ok: {\"likes\":6,\"pending\":false} confirmed\nerr: {\"likes\":5,\"pending\":false} rolled-back",
       "title": "Apply, confirm, and roll back an optimistic update",
-      "starter": "function optimistic(state, change, serverResult) {\n  // serverResult: { ok: true, value } to confirm, or { ok: false } to fail.\n  // TODO: snapshot -> apply change -> if ok reconcile with serverResult.value,\n  //       else restore snapshot. Return { state, status }.\n}\nconst base = { likes: 5, pending: false };\nconst okCase  = optimistic(base, { likes: 6, pending: true }, { ok: true, value: { likes: 6, pending: false } });\nconst errCase = optimistic(base, { likes: 6, pending: true }, { ok: false });\nconsole.log(\"ok:\", JSON.stringify(okCase.state), okCase.status);\nconsole.log(\"err:\", JSON.stringify(errCase.state), errCase.status);",
-      "summary": "Implement the cycle over a small state object. Run two scenarios: a mutation that succeeds (reconcile with the server value) and one that fails (restore the exact snapshot). Print the resulting state and status for each.",
+      "starter": "function optimistic(state, change, serverResult) {\n  // serverResult: { ok: true, value } to confirm, or { ok: false } to fail.\n  // TODO: snapshot -> apply change -> if ok reconcile with serverResult.value,\n  //       else restore snapshot. Return { state, status }.\n}\nconst base = { likes: 5, pending: false };\nconst okCase  = optimistic(base, { likes: 6, pending: true }, { ok: true, value: { likes: 6, pending: false } });\nconst errCase = optimistic(base, { likes: 6, pending: true }, { ok: false });\nconsole.log(\"ok:\", JSON.stringify(okCase.state), okCase.status);\nconsole.log(\"err:\", JSON.stringify(errCase.state), errCase.status);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Implement the cycle over a small state object. Run two scenarios: a mutation that succeeds (reconcile with the server value) and one that fails (restore the exact snapshot). Print the resulting state and status for each. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2148,6 +2214,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An optimistic-state reducer that applies a pending change, then either confirms it with the server value or restores the exact snapshot on error.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You snapshot state before applying any optimistic change. · On success you reconcile with the authoritative server value. · On failure you restore the snapshot exactly and surface an error.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This reconcile-with-authoritative-truth instinct is exactly what revalidation does at the cache layer next: after a mutation, you refresh the server-rendered data so the whole page agrees with the database, not just the optimistic component.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This reconcile-with-authoritative-truth instinct is exactly what revalidation does at the cache layer next: after a mutation, you refresh the server-rendered data so the whole page agrees with the database, not just the optimistic component.",
       "type": "transfer"
     },
@@ -2162,20 +2236,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Reducer confirms with server value on success",
-        "Reducer restores the snapshot on failure",
-        "You can explain snapshot-vs-inverse rollback"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A comment post takes ~800ms. Update optimistically, or wait for the server round-trip before showing it?.",
+        "Verification evidence — You snapshot state before applying any optimistic change. · On success you reconcile with the authoritative server value. · On failure you restore the snapshot exactly and surface an error.",
+        "Transfer evidence — This reconcile-with-authoritative-truth instinct is exactly what revalidation does at the cache layer next: after a mutation, you refresh the server-rendered data so the whole page agrees with the database, not just the optimistic component."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "revalidation-caching": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A revalidation planner that, given a mutation and the cache entries tagged/pathed in the app, computes the exact set of entries invalidated by revalidatePath vs revalidateTag.",
       "unlock": "You can decide, for a given mutation, whether to invalidate by path or by tag and predict what gets refreshed.",
       "outcome": "Keep cached data correct after a mutation: choose between revalidatePath (by route) and revalidateTag (by cache tag), and reason about which cached entries a mutation must invalidate.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim the cache is fresh because one page updated — a mutation can leave OTHER cached routes stale unless you invalidate by the tag they share."
     },
     {
@@ -2412,8 +2489,8 @@
       "type": "lab",
       "check": "byPath: detail\nbyTag: detail,carousel,listing\nstale if path only: carousel,listing",
       "title": "Compute what a mutation invalidates",
-      "starter": "const entries = [\n  { id: \"detail\",   route: \"/products/42\", tags: [\"products\", \"product:42\"] },\n  { id: \"carousel\", route: \"/\",            tags: [\"products\"] },\n  { id: \"listing\",  route: \"/category/toys\", tags: [\"products\"] },\n  { id: \"about\",    route: \"/about\",       tags: [\"marketing\"] },\n];\n// byPath: entries whose route === the given route.\n// byTag: entries whose tags include the given tag.\n// staleAfterPathOnly: entries that byTag would clear but byPath missed.\nfunction plan(entries, route, tag) {\n  // TODO: return { byPath:[ids], byTag:[ids], staleAfterPathOnly:[ids] }\n}\nconst r = plan(entries, \"/products/42\", \"products\");\nconsole.log(\"byPath:\", r.byPath.join(\",\"));\nconsole.log(\"byTag:\", r.byTag.join(\",\"));\nconsole.log(\"stale if path only:\", r.staleAfterPathOnly.join(\",\"));",
-      "summary": "Given cache entries (each with a route and a set of tags) and a mutation, compute the entries cleared by revalidatePath(route) vs revalidateTag(tag), and show which entries the path-only approach leaves stale.",
+      "starter": "const entries = [\n  { id: \"detail\",   route: \"/products/42\", tags: [\"products\", \"product:42\"] },\n  { id: \"carousel\", route: \"/\",            tags: [\"products\"] },\n  { id: \"listing\",  route: \"/category/toys\", tags: [\"products\"] },\n  { id: \"about\",    route: \"/about\",       tags: [\"marketing\"] },\n];\n// byPath: entries whose route === the given route.\n// byTag: entries whose tags include the given tag.\n// staleAfterPathOnly: entries that byTag would clear but byPath missed.\nfunction plan(entries, route, tag) {\n  // TODO: return { byPath:[ids], byTag:[ids], staleAfterPathOnly:[ids] }\n}\nconst r = plan(entries, \"/products/42\", \"products\");\nconsole.log(\"byPath:\", r.byPath.join(\",\"));\nconsole.log(\"byTag:\", r.byTag.join(\",\"));\nconsole.log(\"stale if path only:\", r.staleAfterPathOnly.join(\",\"));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given cache entries (each with a route and a set of tags) and a mutation, compute the entries cleared by revalidatePath(route) vs revalidateTag(tag), and show which entries the path-only approach leaves stale. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2466,6 +2543,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A revalidation planner that, given a mutation and the cache entries tagged/pathed in the app, computes the exact set of entries invalidated by revalidatePath vs revalidateTag.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You invalidate route-local changes with revalidatePath. · You tag shared-data fetches and invalidate them with revalidateTag. · After a mutation you can name every cached surface you cleared and why.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This \"make every cached surface agree with the source of truth after a write\" habit carries into the Supabase modules: after an RLS-enforced write, you revalidate the reads so the page reflects exactly what the database now permits and holds.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This \"make every cached surface agree with the source of truth after a write\" habit carries into the Supabase modules: after an RLS-enforced write, you revalidate the reads so the page reflects exactly what the database now permits and holds.",
       "type": "transfer"
     },
@@ -2480,10 +2565,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Planner computes byPath vs byTag correctly",
-        "Stale-if-path-only entries are identified",
-        "You can choose path vs tag per mutation"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A mutation changes data shown on exactly one page. Use revalidatePath or revalidateTag?.",
+        "Verification evidence — You invalidate route-local changes with revalidatePath. · You tag shared-data fetches and invalidate them with revalidateTag. · After a mutation you can name every cached surface you cleared and why.",
+        "Transfer evidence — This \"make every cached surface agree with the source of truth after a write\" habit carries into the Supabase modules: after an RLS-enforced write, you revalidate the reads so the page reflects exactly what the database now permits and holds."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "supabase-client-setup": [
@@ -2740,8 +2828,8 @@
       "type": "lab",
       "check": "{\"context\":\"browser\",\"key\":\"service_role\",\"safe\":false,\"rlsEnforced\":false,\"note\":\"service_role key exposed to client\"}\n{\"context\":\"browser\",\"key\":\"anon\",\"safe\":true,\"rlsEnforced\":true,\"note\":\"runs under user RLS\"}\n{\"context\":\"server-trusted\",\"key\":\"service_role\",\"safe\":true,\"rlsEnforced\":false,\"note\":\"server-only admin, bypasses RLS\"}\n{\"context\":\"server-trusted\",\"key\":\"anon\",\"safe\":true,\"rlsEnforced\":true,\"note\":\"runs under user RLS\"}",
       "title": "Select a safe client/key pairing",
-      "starter": "// context: \"browser\" | \"server-trusted\".  key: \"anon\" | \"service_role\".\n// Rules:\n//  - service_role in browser  -> unsafe, \"service_role key exposed to client\"\n//  - anon anywhere            -> safe, rlsEnforced: true\n//  - service_role on server   -> safe, rlsEnforced: false (bypasses RLS)\nconst cases = [\n  { context: \"browser\", key: \"service_role\" },\n  { context: \"browser\", key: \"anon\" },\n  { context: \"server-trusted\", key: \"service_role\" },\n  { context: \"server-trusted\", key: \"anon\" },\n];\nfunction evaluate(c) {\n  // TODO: return { context, key, safe, rlsEnforced, note }\n}\nfor (const c of cases) console.log(JSON.stringify(evaluate(c)));",
-      "summary": "Given an execution context and a requested key, decide whether the pairing is safe, whether RLS is enforced, and flag the dangerous case of a service_role key in the browser.",
+      "starter": "// context: \"browser\" | \"server-trusted\".  key: \"anon\" | \"service_role\".\n// Rules:\n//  - service_role in browser  -> unsafe, \"service_role key exposed to client\"\n//  - anon anywhere            -> safe, rlsEnforced: true\n//  - service_role on server   -> safe, rlsEnforced: false (bypasses RLS)\nconst cases = [\n  { context: \"browser\", key: \"service_role\" },\n  { context: \"browser\", key: \"anon\" },\n  { context: \"server-trusted\", key: \"service_role\" },\n  { context: \"server-trusted\", key: \"anon\" },\n];\nfunction evaluate(c) {\n  // TODO: return { context, key, safe, rlsEnforced, note }\n}\nfor (const c of cases) console.log(JSON.stringify(evaluate(c)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given an execution context and a requested key, decide whether the pairing is safe, whether RLS is enforced, and flag the dangerous case of a service_role key in the browser. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -2794,6 +2882,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A client-selector that, given an execution context and a requested key, decides whether the pairing is safe and flags a service_role key reaching the browser.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: The browser only ever uses the anon key. · The service_role key exists only in trusted server code, never in NEXT_PUBLIC_. · You can state whether RLS is enforced for a given client/key pairing.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This key boundary sets up the entire authorization story: the anon key means RLS is your real access control (next lessons), and the service_role bypass is the escape hatch you reserve for deliberate, server-only admin work.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This key boundary sets up the entire authorization story: the anon key means RLS is your real access control (next lessons), and the service_role bypass is the escape hatch you reserve for deliberate, server-only admin work.",
       "type": "transfer"
     },
@@ -2808,10 +2904,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Selector flags service_role in the browser",
-        "anon vs service_role RLS behavior stated correctly",
-        "Privileged work is kept server-only"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A server-side report needs to read across all tenants. Use the service_role key, or the user client with a broad RLS policy?.",
+        "Verification evidence — The browser only ever uses the anon key. · The service_role key exists only in trusted server code, never in NEXT_PUBLIC_. · You can state whether RLS is enforced for a given client/key pairing.",
+        "Transfer evidence — This key boundary sets up the entire authorization story: the anon key means RLS is your real access control (next lessons), and the service_role bypass is the escape hatch you reserve for deliberate, server-only admin work."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "postgres-schema-basics": [
@@ -3046,8 +3145,8 @@
       "type": "lab",
       "check": "problems found: 4\n1. no primary key\n2. no owner FK to auth.users\n3. title should be NOT NULL\n4. slug should be UNIQUE",
       "title": "Lint a table definition",
-      "starter": "const table = {\n  name: \"todos\",\n  columns: [\n    { name: \"id\", type: \"uuid\", primaryKey: false },\n    { name: \"owner_email\", type: \"text\" },            // wrong: owner should be a uuid FK to auth.users\n    { name: \"title\", type: \"text\", notNull: false },  // should be NOT NULL\n    { name: \"slug\", type: \"text\", unique: false },     // should be UNIQUE\n  ],\n};\n// Checks:\n//  - exactly one column with primaryKey:true  -> else \"no primary key\"\n//  - a column named user_id, type uuid, references \"auth.users\" -> else \"no owner FK to auth.users\"\n//  - title column present and notNull          -> else \"title should be NOT NULL\"\n//  - slug column present and unique            -> else \"slug should be UNIQUE\"\nfunction lint(table) {\n  // TODO: return array of problem strings (empty if clean)\n}\n// Print a computed count, then each problem numbered \"N. <problem>\".\nconst found = lint(table);\nconsole.log(\"problems found: \" + found.length);\nfound.forEach((p, i) => console.log((i + 1) + \". \" + p));",
-      "summary": "Given a table's columns and constraints, check for the essentials: a primary key, an owner FK to auth.users, and required NOT NULL/UNIQUE constraints. Print the count of problems found, then each one numbered.",
+      "starter": "const table = {\n  name: \"todos\",\n  columns: [\n    { name: \"id\", type: \"uuid\", primaryKey: false },\n    { name: \"owner_email\", type: \"text\" },            // wrong: owner should be a uuid FK to auth.users\n    { name: \"title\", type: \"text\", notNull: false },  // should be NOT NULL\n    { name: \"slug\", type: \"text\", unique: false },     // should be UNIQUE\n  ],\n};\n// Checks:\n//  - exactly one column with primaryKey:true  -> else \"no primary key\"\n//  - a column named user_id, type uuid, references \"auth.users\" -> else \"no owner FK to auth.users\"\n//  - title column present and notNull          -> else \"title should be NOT NULL\"\n//  - slug column present and unique            -> else \"slug should be UNIQUE\"\nfunction lint(table) {\n  // TODO: return array of problem strings (empty if clean)\n}\n// Print a computed count, then each problem numbered \"N. <problem>\".\nconst found = lint(table);\nconsole.log(\"problems found: \" + found.length);\nfound.forEach((p, i) => console.log((i + 1) + \". \" + p));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given a table's columns and constraints, check for the essentials: a primary key, an owner FK to auth.users, and required NOT NULL/UNIQUE constraints. Print the count of problems found, then each one numbered. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3100,6 +3199,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A schema linter that checks a table definition for the essentials — a primary key, a typed owner FK to auth.users, and appropriate NOT NULL/UNIQUE constraints — and reports what is missing.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Every table has a primary key giving rows stable identity. · Ownership is a user_id FK to auth.users with a sensible referential action. · NOT NULL and UNIQUE constraints make invalid/duplicate rows impossible.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: The user_id column you insist on here is the literal variable the next lesson's RLS policies evaluate: auth.uid() = user_id. Get the schema right and RLS becomes a one-line policy; skip the owner column and RLS is impossible.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "The user_id column you insist on here is the literal variable the next lesson's RLS policies evaluate: auth.uid() = user_id. Get the schema right and RLS becomes a one-line policy; skip the owner column and RLS is impossible.",
       "type": "transfer"
     },
@@ -3114,20 +3221,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Linter flags missing PK, owner FK, and constraints",
-        "Ownership keyed to auth.users(id), not email",
-        "You can justify each constraint's purpose"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend For a primary key, use a surrogate uuid or a natural key like the email address?.",
+        "Verification evidence — Every table has a primary key giving rows stable identity. · Ownership is a user_id FK to auth.users with a sensible referential action. · NOT NULL and UNIQUE constraints make invalid/duplicate rows impossible.",
+        "Transfer evidence — The user_id column you insist on here is the literal variable the next lesson's RLS policies evaluate: auth.uid() = user_id. Get the schema right and RLS becomes a one-line policy; skip the owner column and RLS is impossible."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "ssr-auth-sessions": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An auth-decision function that authorizes a protected action only when the identity came from a server-validated source, and rejects a session-only (cookie-read) identity.",
       "unlock": "You can explain why getSession() is not safe for authorization and getUser()/getClaims() are.",
       "outcome": "Verify a user server-side the safe way: use getUser()/getClaims() (server-validated) for authorization decisions, and never trust the user object from getSession() for them.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a route is protected because getSession() returned a user — that user came from the cookie and was not validated against the auth server or the signing key."
     },
     {
@@ -3357,8 +3467,8 @@
       "type": "lab",
       "check": "{\"source\":\"getClaims\",\"allowed\":true,\"reason\":\"validated identity\"}\n{\"source\":\"getUser\",\"allowed\":true,\"reason\":\"validated identity\"}\n{\"source\":\"getSession\",\"allowed\":false,\"reason\":\"identity not server-validated\"}\n{\"source\":\"getClaims\",\"allowed\":false,\"reason\":\"no identity\"}",
       "title": "Authorize only a validated identity",
-      "starter": "// source: \"getUser\" | \"getClaims\" | \"getSession\".  present: is there a user/claims object?\n// Allow only when the source is validated AND present.\nconst attempts = [\n  { source: \"getClaims\", present: true },\n  { source: \"getUser\",   present: true },\n  { source: \"getSession\",present: true },   // cookie read -> not trustworthy for authz\n  { source: \"getClaims\", present: false },  // no identity -> deny\n];\nconst VALIDATED = new Set([\"getUser\", \"getClaims\"]);\nfunction authorize(a) {\n  // TODO: return { source, allowed, reason }\n}\nfor (const a of attempts) console.log(JSON.stringify(authorize(a)));",
-      "summary": "Given an identity source and a protected action, allow the action only when the identity came from a server-validated method (getUser/getClaims) and is present; reject cookie-only (getSession) identities and missing ones.",
+      "starter": "// source: \"getUser\" | \"getClaims\" | \"getSession\".  present: is there a user/claims object?\n// Allow only when the source is validated AND present.\nconst attempts = [\n  { source: \"getClaims\", present: true },\n  { source: \"getUser\",   present: true },\n  { source: \"getSession\",present: true },   // cookie read -> not trustworthy for authz\n  { source: \"getClaims\", present: false },  // no identity -> deny\n];\nconst VALIDATED = new Set([\"getUser\", \"getClaims\"]);\nfunction authorize(a) {\n  // TODO: return { source, allowed, reason }\n}\nfor (const a of attempts) console.log(JSON.stringify(authorize(a)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given an identity source and a protected action, allow the action only when the identity came from a server-validated method (getUser/getClaims) and is present; reject cookie-only (getSession) identities and missing ones. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3411,6 +3521,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An auth-decision function that authorizes a protected action only when the identity came from a server-validated source, and rejects a session-only (cookie-read) identity.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Protected routes verify identity with getClaims()/getUser(), never getSession(). · You can explain what each method validates (or does not). · In middleware you return the response carrying refreshed cookies.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This validated identity is the auth.uid() the next lesson's RLS depends on: the database gets the real user from the validated token, so RLS and your route guards enforce the same truth — code guards plus RLS is defense in depth.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This validated identity is the auth.uid() the next lesson's RLS depends on: the database gets the real user from the validated token, so RLS and your route guards enforce the same truth — code guards plus RLS is defense in depth.",
       "type": "transfer"
     },
@@ -3425,20 +3543,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Only validated-source identities are authorized",
-        "getSession-based authorization is rejected",
-        "You can explain each method's trust level"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend To protect every request in middleware, use getClaims() or getUser()?.",
+        "Verification evidence — Protected routes verify identity with getClaims()/getUser(), never getSession(). · You can explain what each method validates (or does not). · In middleware you return the response carrying refreshed cookies.",
+        "Transfer evidence — This validated identity is the auth.uid() the next lesson's RLS depends on: the database gets the real user from the validated token, so RLS and your route guards enforce the same truth — code guards plus RLS is defense in depth."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "row-level-security": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An RLS policy evaluator that, given a policy predicate, the current user, and a set of rows, computes exactly which rows are visible — the database's authorization decision, in code.",
       "unlock": "You can write a per-user SELECT policy and explain why enabling RLS without a policy denies ALL rows.",
       "outcome": "Enforce authorization in the database with RLS: enable it per table, write a USING policy (auth.uid() = user_id) that filters reads, and evaluate which rows a given user can see.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a table is secure because your queries filter by user in the app — app-side filtering is bypassable; RLS is the boundary the database itself enforces."
     },
     {
@@ -3666,8 +3787,8 @@
       "type": "lab",
       "check": "with policy: [1,3]\nno policy: []\ninsert own: true\ninsert as other: false",
       "title": "Evaluate an RLS SELECT policy",
-      "starter": "const rows = [\n  { id: 1, user_id: \"u_1\", title: \"mine A\" },\n  { id: 2, user_id: \"u_2\", title: \"theirs\" },\n  { id: 3, user_id: \"u_1\", title: \"mine B\" },\n  { id: 4, user_id: \"u_3\", title: \"other\" },\n];\nconst currentUser = \"u_1\";\n// Two policy clauses, modelled as predicates you must implement:\n//   selectPolicy.using(row, uid)     decides whether an EXISTING row may be read\n//   insertPolicy.withCheck(row, uid) decides whether a NEW row may be created\nconst selectPolicy = { using: (row, uid) => row.user_id === uid };\nconst insertPolicy = { withCheck: (row, uid) => row.user_id === uid };\nfunction visibleRows(rows, uid, policy) {\n  // TODO: with RLS on and NO policy the table denies everything;\n  //       otherwise keep only the rows this user's policy admits.\n}\nfunction canInsert(newRow, uid, policy) {\n  // TODO: a write is allowed only when the policy admits the NEW row.\n}\nconsole.log(\"with policy:\", JSON.stringify(visibleRows(rows, currentUser, selectPolicy).map(r => r.id)));\nconsole.log(\"no policy:\", JSON.stringify(visibleRows(rows, currentUser, null).map(r => r.id)));\nconsole.log(\"insert own:\", canInsert({ id: 5, user_id: \"u_1\", title: \"new\" }, currentUser, insertPolicy));\nconsole.log(\"insert as other:\", canInsert({ id: 6, user_id: \"u_2\", title: \"forge\" }, currentUser, insertPolicy));",
-      "summary": "Model both RLS clauses as predicates: USING decides which existing rows a user may READ, WITH CHECK decides which new rows they may CREATE. This JS is a stand-in — the database runs `create policy ... for select to authenticated using ((select auth.uid()) = user_id)` and the matching WITH CHECK policy on EVERY query from EVERY client, whereas a filter() only runs where you remember to call it.",
+      "starter": "const rows = [\n  { id: 1, user_id: \"u_1\", title: \"mine A\" },\n  { id: 2, user_id: \"u_2\", title: \"theirs\" },\n  { id: 3, user_id: \"u_1\", title: \"mine B\" },\n  { id: 4, user_id: \"u_3\", title: \"other\" },\n];\nconst currentUser = \"u_1\";\n// Two policy clauses, modelled as predicates you must implement:\n//   selectPolicy.using(row, uid)     decides whether an EXISTING row may be read\n//   insertPolicy.withCheck(row, uid) decides whether a NEW row may be created\nconst selectPolicy = { using: (row, uid) => row.user_id === uid };\nconst insertPolicy = { withCheck: (row, uid) => row.user_id === uid };\nfunction visibleRows(rows, uid, policy) {\n  // TODO: with RLS on and NO policy the table denies everything;\n  //       otherwise keep only the rows this user's policy admits.\n}\nfunction canInsert(newRow, uid, policy) {\n  // TODO: a write is allowed only when the policy admits the NEW row.\n}\nconsole.log(\"with policy:\", JSON.stringify(visibleRows(rows, currentUser, selectPolicy).map(r => r.id)));\nconsole.log(\"no policy:\", JSON.stringify(visibleRows(rows, currentUser, null).map(r => r.id)));\nconsole.log(\"insert own:\", canInsert({ id: 5, user_id: \"u_1\", title: \"new\" }, currentUser, insertPolicy));\nconsole.log(\"insert as other:\", canInsert({ id: 6, user_id: \"u_2\", title: \"forge\" }, currentUser, insertPolicy));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Model both RLS clauses as predicates: USING decides which existing rows a user may READ, WITH CHECK decides which new rows they may CREATE. This JS is a stand-in — the database runs `create policy ... for select to authenticated using ((select auth.uid()) = user_id)` and the matching WITH CHECK policy on EVERY query from EVERY client, whereas a filter() only runs where you remember to call it. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -3720,6 +3841,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An RLS policy evaluator that, given a policy predicate, the current user, and a set of rows, computes exactly which rows are visible — the database's authorization decision, in code.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: RLS is enabled on tables holding per-user data. · A SELECT policy uses ((select auth.uid()) = user_id), scoped to authenticated, so users see only their own rows. · You can explain why enabling RLS with no policy returns zero rows.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This evaluator is the engine for the whole next module: reads-under-RLS apply this SELECT predicate, writes apply WITH CHECK, realtime authorizes channels with RLS on realtime.messages, and storage authorizes files with RLS on storage.objects — all the same per-row predicate you just built.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This evaluator is the engine for the whole next module: reads-under-RLS apply this SELECT predicate, writes apply WITH CHECK, realtime authorizes channels with RLS on realtime.messages, and storage authorizes files with RLS on storage.objects — all the same per-row predicate you just built.",
       "type": "transfer"
     },
@@ -3735,10 +3864,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Evaluator returns exactly the owner's rows",
-        "Deny-by-default (no policy → no rows) modeled",
-        "You can write a per-user USING policy"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend Enforce per-user access with an app-side .eq(\"user_id\", me) filter, or a database RLS policy?.",
+        "Verification evidence — RLS is enabled on tables holding per-user data. · A SELECT policy uses ((select auth.uid()) = user_id), scoped to authenticated, so users see only their own rows. · You can explain why enabling RLS with no policy returns zero rows.",
+        "Transfer evidence — This evaluator is the engine for the whole next module: reads-under-RLS apply this SELECT predicate, writes apply WITH CHECK, realtime authorizes channels with RLS on realtime.messages, and storage authorizes files with RLS on storage.objects — all the same per-row predicate you just built."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "reads-under-rls": [
@@ -3970,8 +4102,8 @@
       "type": "lab",
       "check": "rows: [{\"id\":2,\"title\":\"B\"}]\nfilteredToEmpty: false",
       "title": "Simulate an RLS read with projection",
-      "starter": "const table = [\n  { id: 1, user_id: \"u_1\", title: \"A\", secret: \"x\" },\n  { id: 2, user_id: \"u_2\", title: \"B\", secret: \"y\" },\n  { id: 3, user_id: \"u_1\", title: \"C\", secret: \"z\" },\n];\nconst currentUser = \"u_2\";\nconst select = [\"id\", \"title\"];               // projection — note: NOT \"secret\"\nconst policy = (row, uid) => row.user_id === uid;\nfunction read(table, uid, select, policy) {\n  // TODO: filter rows by policy(row, uid); project each kept row to the select columns.\n  // return { rows: [...projected], filteredToEmpty: (table not empty but rows empty) }\n}\nconst r = read(table, currentUser, select, policy);\nconsole.log(\"rows:\", JSON.stringify(r.rows));\nconsole.log(\"filteredToEmpty:\", r.filteredToEmpty);",
-      "summary": "Apply the SELECT policy to filter rows for a user, then project only requested columns. Return the visible rows (projected) and a flag telling apart \"filtered to empty by RLS\" from \"table was empty\".",
+      "starter": "const table = [\n  { id: 1, user_id: \"u_1\", title: \"A\", secret: \"x\" },\n  { id: 2, user_id: \"u_2\", title: \"B\", secret: \"y\" },\n  { id: 3, user_id: \"u_1\", title: \"C\", secret: \"z\" },\n];\nconst currentUser = \"u_2\";\nconst select = [\"id\", \"title\"];               // projection — note: NOT \"secret\"\nconst policy = (row, uid) => row.user_id === uid;\nfunction read(table, uid, select, policy) {\n  // TODO: filter rows by policy(row, uid); project each kept row to the select columns.\n  // return { rows: [...projected], filteredToEmpty: (table not empty but rows empty) }\n}\nconst r = read(table, currentUser, select, policy);\nconsole.log(\"rows:\", JSON.stringify(r.rows));\nconsole.log(\"filteredToEmpty:\", r.filteredToEmpty);\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Apply the SELECT policy to filter rows for a user, then project only requested columns. Return the visible rows (projected) and a flag telling apart \"filtered to empty by RLS\" from \"table was empty\". Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4024,6 +4156,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A read simulator that applies the SELECT policy AND a requested column projection, returning the exact rows+columns a user gets — and distinguishing \"filtered by RLS\" from \"actually empty\".",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: You treat a filtered/empty result as a possible authorization outcome, not an automatic bug. · You never bypass RLS with service_role to \"get rows back\". · You project only the columns the view needs.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: The silent-filter behavior you learned here is exactly why writes need WITH CHECK next: reads quietly hide unauthorized rows, but a write that would violate ownership must be actively REJECTED, and that is a different policy clause.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "The silent-filter behavior you learned here is exactly why writes need WITH CHECK next: reads quietly hide unauthorized rows, but a write that would violate ownership must be actively REJECTED, and that is a different policy clause.",
       "type": "transfer"
     },
@@ -4038,20 +4178,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Simulator applies policy then projection correctly",
-        "filtered-to-empty vs truly-empty distinguished",
-        "You never escalate to service_role to bypass a filter"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A list view needs 3 of a table's 15 columns. Use select(\"*\") or a narrow projection?.",
+        "Verification evidence — You treat a filtered/empty result as a possible authorization outcome, not an automatic bug. · You never bypass RLS with service_role to \"get rows back\". · You project only the columns the view needs.",
+        "Transfer evidence — The silent-filter behavior you learned here is exactly why writes need WITH CHECK next: reads quietly hide unauthorized rows, but a write that would violate ownership must be actively REJECTED, and that is a different policy clause."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "writes-transactions": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A write evaluator that applies WITH CHECK to an insert/update (allow or reject) AND models a multi-step transaction that rolls back entirely if any step fails.",
       "unlock": "You can explain why a bad write is rejected while a bad read is silently filtered, and why partial multi-step writes must roll back.",
       "outcome": "Write safely under RLS and atomically: understand that INSERT/UPDATE are checked by WITH CHECK (a write violating ownership is REJECTED, not silently dropped), and wrap multi-step writes in a transaction so they all commit or all roll back.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim a multi-step write succeeded because the first statement did — without a transaction, a later failure leaves half-written, inconsistent data."
     },
     {
@@ -4295,8 +4438,8 @@
       "type": "lab",
       "check": "insert: rejected: with check failed\ncommitted: false state: {\"a\":100,\"b\":50}",
       "title": "Evaluate a write policy and a transaction",
-      "starter": "const currentUser = \"u_1\";\nconst withCheck = (row, uid) => row.user_id === uid;\n// 1) insert authorization\nconst insertRow = { id: 9, user_id: \"u_2\", title: \"sneaky\" };   // owned by someone else\n// 2) transaction: apply steps to a copy; if ANY step throws, return the ORIGINAL state.\nconst accounts = { a: 100, b: 50 };\nconst steps = [\n  (s) => { s.a -= 30; },\n  (s) => { if (s.a < 0) throw new Error(\"overdraft\"); s.b += 30; },  // succeeds here\n  (s) => { throw new Error(\"audit failed\"); },                      // forces rollback\n];\nfunction evalInsert(row, uid) { /* TODO: \"allowed\" or \"rejected: with check failed\" */ }\nfunction runTxn(state, steps) { /* TODO: all-or-nothing; return { committed, state } */ }\nconsole.log(\"insert:\", evalInsert(insertRow, currentUser));\nconst t = runTxn(accounts, steps);\nconsole.log(\"committed:\", t.committed, \"state:\", JSON.stringify(t.state));",
-      "summary": "Apply WITH CHECK to an insert (allow/reject) and run a multi-step transaction that must commit only if every step succeeds — otherwise roll the whole thing back to the starting state.",
+      "starter": "const currentUser = \"u_1\";\nconst withCheck = (row, uid) => row.user_id === uid;\n// 1) insert authorization\nconst insertRow = { id: 9, user_id: \"u_2\", title: \"sneaky\" };   // owned by someone else\n// 2) transaction: apply steps to a copy; if ANY step throws, return the ORIGINAL state.\nconst accounts = { a: 100, b: 50 };\nconst steps = [\n  (s) => { s.a -= 30; },\n  (s) => { if (s.a < 0) throw new Error(\"overdraft\"); s.b += 30; },  // succeeds here\n  (s) => { throw new Error(\"audit failed\"); },                      // forces rollback\n];\nfunction evalInsert(row, uid) { /* TODO: \"allowed\" or \"rejected: with check failed\" */ }\nfunction runTxn(state, steps) { /* TODO: all-or-nothing; return { committed, state } */ }\nconsole.log(\"insert:\", evalInsert(insertRow, currentUser));\nconst t = runTxn(accounts, steps);\nconsole.log(\"committed:\", t.committed, \"state:\", JSON.stringify(t.state));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Apply WITH CHECK to an insert (allow/reject) and run a multi-step transaction that must commit only if every step succeeds — otherwise roll the whole thing back to the starting state. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4349,6 +4492,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A write evaluator that applies WITH CHECK to an insert/update (allow or reject) AND models a multi-step transaction that rolls back entirely if any step fails.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: INSERT/UPDATE policies use WITH CHECK, and a violating write is rejected (not dropped). · Multi-step writes run in one transaction / RPC — all commit or all roll back. · You can explain the read (silent filter) vs write (loud reject) asymmetry.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: Atomic, authorized writes are the backbone of the capstone's CRUD: every create/update runs through a WITH CHECK policy and, where multi-step, an RPC — the same two invariants (authorized + atomic) you proved here.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "Atomic, authorized writes are the backbone of the capstone's CRUD: every create/update runs through a WITH CHECK policy and, where multi-step, an RPC — the same two invariants (authorized + atomic) you proved here.",
       "type": "transfer"
     },
@@ -4363,20 +4514,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Insert evaluator rejects a foreign-owned row",
-        "Transaction rolls back fully on any step failure",
-        "You can explain WITH CHECK vs USING"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A checkout does three dependent writes. Fire three client calls, or one RPC/transaction?.",
+        "Verification evidence — INSERT/UPDATE policies use WITH CHECK, and a violating write is rejected (not dropped). · Multi-step writes run in one transaction / RPC — all commit or all roll back. · You can explain the read (silent filter) vs write (loud reject) asymmetry.",
+        "Transfer evidence — Atomic, authorized writes are the backbone of the capstone's CRUD: every create/update runs through a WITH CHECK policy and, where multi-step, an RPC — the same two invariants (authorized + atomic) you proved here."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "realtime": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A realtime authorization simulator that decides, at channel-join time, whether a user may subscribe to a topic and which change events they then receive under RLS.",
       "unlock": "You can explain when Realtime authorization is evaluated (at connect/join, then cached) and why it means you cannot receive events for rows you cannot read.",
       "outcome": "Subscribe to database changes over a channel and understand that Realtime access is authorized by RLS at CONNECT time (per channel/topic), cached for the connection — so a client only receives change events for rows it is allowed to see.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim Realtime is secure because the UI hides other users' data — security comes from RLS deciding the subscription at connect time, not from client-side filtering of events."
     },
     {
@@ -4621,8 +4775,8 @@
       "type": "lab",
       "check": "joined: true\nreceived: [1]",
       "title": "Authorize a realtime subscription and its events",
-      "starter": "const user = { id: \"u_1\", rooms: [\"room:42\"] };            // rooms this user belongs to\nconst joinTopic = \"room:42\";\nconst changeEvents = [\n  { room: \"room:42\", row: { id: 1, user_id: \"u_1\" } },\n  { room: \"room:42\", row: { id: 2, user_id: \"u_2\" } },\n  { room: \"room:99\", row: { id: 3, user_id: \"u_1\" } },     // different room\n];\n// canJoin: user is a member of the topic. readPolicy: row.user_id === user.id.\nfunction subscribe(user, topic, events) {\n  // TODO: if !canJoin -> { joined:false, received: [] }.\n  // else received = events in this topic whose row passes the read policy. Return their ids.\n}\nconst r = subscribe(user, joinTopic, changeEvents);\nconsole.log(\"joined:\", r.joined);\nconsole.log(\"received:\", JSON.stringify(r.received));",
-      "summary": "At join time, decide whether a user may subscribe to a topic (per an RLS-style rule), then — if joined — compute which change events they receive under the same read policy. Deliver zero events on a denied join.",
+      "starter": "const user = { id: \"u_1\", rooms: [\"room:42\"] };            // rooms this user belongs to\nconst joinTopic = \"room:42\";\nconst changeEvents = [\n  { room: \"room:42\", row: { id: 1, user_id: \"u_1\" } },\n  { room: \"room:42\", row: { id: 2, user_id: \"u_2\" } },\n  { room: \"room:99\", row: { id: 3, user_id: \"u_1\" } },     // different room\n];\n// canJoin: user is a member of the topic. readPolicy: row.user_id === user.id.\nfunction subscribe(user, topic, events) {\n  // TODO: if !canJoin -> { joined:false, received: [] }.\n  // else received = events in this topic whose row passes the read policy. Return their ids.\n}\nconst r = subscribe(user, joinTopic, changeEvents);\nconsole.log(\"joined:\", r.joined);\nconsole.log(\"received:\", JSON.stringify(r.received));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "At join time, decide whether a user may subscribe to a topic (per an RLS-style rule), then — if joined — compute which change events they receive under the same read policy. Deliver zero events on a denied join. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4675,6 +4829,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A realtime authorization simulator that decides, at channel-join time, whether a user may subscribe to a topic and which change events they then receive under RLS.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Subscriptions are authorized by RLS at connect time, not by client-side event filtering. · A user only receives change events for rows their RLS permits. · You can explain why authorization is evaluated once at join and cached.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: Connect-time RLS authorization is the same principle as storage next: access to a file is decided by RLS policies on storage.objects, just as access to a live channel is decided by RLS on realtime.messages — one authorization model across data, streams, and files.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "Connect-time RLS authorization is the same principle as storage next: access to a file is decided by RLS policies on storage.objects, just as access to a live channel is decided by RLS on realtime.messages — one authorization model across data, streams, and files.",
       "type": "transfer"
     },
@@ -4689,20 +4851,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Simulator denies join for a non-member topic",
-        "Only readable rows' events are delivered",
-        "You can explain connect-time RLS authorization"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend For per-user live updates, rely on RLS-authorized Realtime, or subscribe broadly and filter in the client?.",
+        "Verification evidence — Subscriptions are authorized by RLS at connect time, not by client-side event filtering. · A user only receives change events for rows their RLS permits. · You can explain why authorization is evaluated once at join and cached.",
+        "Transfer evidence — Connect-time RLS authorization is the same principle as storage next: access to a file is decided by RLS policies on storage.objects, just as access to a live channel is decided by RLS on realtime.messages — one authorization model across data, streams, and files."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "storage": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A storage-policy evaluator that decides whether a user may access an object given a bucket policy keyed on bucket_id and a path-prefix ownership rule.",
       "unlock": "You can write a storage access rule that ties a file to its owner via the path, and explain why storage authorization is the same RLS model as tables.",
       "outcome": "Store files in buckets and secure them with RLS on storage.objects: scope access by bucket_id and a per-user path prefix (the user's id as the first folder) so users only read/write their own files.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim uploads are secure because the bucket is 'private' — a private bucket without correct storage.objects policies still needs RLS to decide who touches which object."
     },
     {
@@ -4920,8 +5085,8 @@
       "type": "lab",
       "check": "{\"op\":\"read\",\"path\":\"u_1/avatar.png\",\"allowed\":true}\n{\"op\":\"write\",\"path\":\"u_2/avatar.png\",\"allowed\":false}\n{\"op\":\"read\",\"path\":\"u_1/logo.png\",\"allowed\":false}\n{\"op\":\"write\",\"path\":\"u_1/new.png\",\"allowed\":true}",
       "title": "Evaluate a per-user storage policy",
-      "starter": "const user = \"u_1\";\n// policy: allow if bucket === \"avatars\" AND first path folder === user.\nconst attempts = [\n  { op: \"read\",  bucket: \"avatars\", path: \"u_1/avatar.png\" },\n  { op: \"write\", bucket: \"avatars\", path: \"u_2/avatar.png\" },   // someone else's folder\n  { op: \"read\",  bucket: \"public\",  path: \"u_1/logo.png\" },     // wrong bucket\n  { op: \"write\", bucket: \"avatars\", path: \"u_1/new.png\" },\n];\nfunction firstFolder(path) { return path.split(\"/\")[0]; }\nfunction evaluate(a, user) {\n  // TODO: return { op, path, allowed } — allowed iff bucket===\"avatars\" && firstFolder===user\n}\nfor (const a of attempts) console.log(JSON.stringify(evaluate(a, user)));",
-      "summary": "Model a storage.objects policy keyed on bucket_id and a path-prefix owner rule. For each access attempt (read/write on a path in a bucket), decide allow or deny for the current user.",
+      "starter": "const user = \"u_1\";\n// policy: allow if bucket === \"avatars\" AND first path folder === user.\nconst attempts = [\n  { op: \"read\",  bucket: \"avatars\", path: \"u_1/avatar.png\" },\n  { op: \"write\", bucket: \"avatars\", path: \"u_2/avatar.png\" },   // someone else's folder\n  { op: \"read\",  bucket: \"public\",  path: \"u_1/logo.png\" },     // wrong bucket\n  { op: \"write\", bucket: \"avatars\", path: \"u_1/new.png\" },\n];\nfunction firstFolder(path) { return path.split(\"/\")[0]; }\nfunction evaluate(a, user) {\n  // TODO: return { op, path, allowed } — allowed iff bucket===\"avatars\" && firstFolder===user\n}\nfor (const a of attempts) console.log(JSON.stringify(evaluate(a, user)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Model a storage.objects policy keyed on bucket_id and a path-prefix owner rule. For each access attempt (read/write on a path in a bucket), decide allow or deny for the current user. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -4974,6 +5139,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A storage-policy evaluator that decides whether a user may access an object given a bucket policy keyed on bucket_id and a path-prefix ownership rule.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Files are secured by RLS policies on storage.objects, not by bucket privacy alone. · Ownership is encoded in the path prefix and checked against auth.uid(). · Reads use USING and uploads use WITH CHECK, mirroring table RLS.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: You have now applied one authorization model — RLS with auth.uid() — across tables, reads, writes, realtime channels, and files. The capstone assembles exactly this: an auth-gated CRUD app where every data, stream, and file path is enforced by the same policy engine.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "You have now applied one authorization model — RLS with auth.uid() — across tables, reads, writes, realtime channels, and files. The capstone assembles exactly this: an auth-gated CRUD app where every data, stream, and file path is enforced by the same policy engine.",
       "type": "transfer"
     },
@@ -4988,10 +5161,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Evaluator allows only same-prefix same-bucket access",
-        "Uploads to another user's prefix are denied",
-        "You can write a path-prefix storage policy"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend Isolate each user's files with one shared bucket + path-prefix RLS, or a separate bucket per user?.",
+        "Verification evidence — Files are secured by RLS policies on storage.objects, not by bucket privacy alone. · Ownership is encoded in the path prefix and checked against auth.uid(). · Reads use USING and uploads use WITH CHECK, mirroring table RLS.",
+        "Transfer evidence — You have now applied one authorization model — RLS with auth.uid() — across tables, reads, writes, realtime channels, and files. The capstone assembles exactly this: an auth-gated CRUD app where every data, stream, and file path is enforced by the same policy engine."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "middleware-route-protection": [
@@ -5242,8 +5418,8 @@
       "type": "lab",
       "check": "{\"path\":\"/dashboard\",\"decision\":\"redirect:/login\",\"rlsStillRequired\":true}\n{\"path\":\"/login\",\"decision\":\"allow\",\"rlsStillRequired\":false}\n{\"path\":\"/api/private/data\",\"decision\":\"redirect:/login\",\"rlsStillRequired\":true}\n{\"path\":\"/_next/static/x.js\",\"decision\":\"skip\",\"rlsStillRequired\":false}",
       "title": "Decide route protection, layered with RLS",
-      "starter": "const protectedPrefixes = [\"/dashboard\", \"/api/private\"];\nconst session = { user: null };                      // unauthenticated\nfunction matched(path) { return !path.startsWith(\"/_next\") && path !== \"/favicon.ico\"; }\nconst requests = [\"/dashboard\", \"/login\", \"/api/private/data\", \"/_next/static/x.js\"];\nfunction decide(path, session) {\n  // TODO: if !matched(path) -> { path, decision:\"skip\", rlsStillRequired:false }.\n  // if path is under a protected prefix and no user -> { decision:\"redirect:/login\", rlsStillRequired:true }.\n  // else -> { decision:\"allow\", rlsStillRequired: path.startsWith(\"/api\") }  // APIs always need RLS\n}\nfor (const p of requests) console.log(JSON.stringify(decide(p, session)));",
-      "summary": "Given a matcher, a set of protected prefixes, and a validated session, decide allow vs redirect for each path — and mark that data endpoints still require RLS even when middleware allows them.",
+      "starter": "const protectedPrefixes = [\"/dashboard\", \"/api/private\"];\nconst session = { user: null };                      // unauthenticated\nfunction matched(path) { return !path.startsWith(\"/_next\") && path !== \"/favicon.ico\"; }\nconst requests = [\"/dashboard\", \"/login\", \"/api/private/data\", \"/_next/static/x.js\"];\nfunction decide(path, session) {\n  // TODO: if !matched(path) -> { path, decision:\"skip\", rlsStillRequired:false }.\n  // if path is under a protected prefix and no user -> { decision:\"redirect:/login\", rlsStillRequired:true }.\n  // else -> { decision:\"allow\", rlsStillRequired: path.startsWith(\"/api\") }  // APIs always need RLS\n}\nfor (const p of requests) console.log(JSON.stringify(decide(p, session)));\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given a matcher, a set of protected prefixes, and a validated session, decide allow vs redirect for each path — and mark that data endpoints still require RLS even when middleware allows them. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5296,6 +5472,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A route-protection decider that, given a path, a matcher config, and a validated session, returns allow / redirect-to-login — and treats a protected API path as still requiring data-layer authorization.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: A matcher scopes middleware to the right paths and skips static assets. · Middleware refreshes the session and returns the response with cookies. · You rely on RLS + server-side checks for data, treating middleware as UX defense in depth.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This \"perimeter plus vault\" layering is the shape of the whole security stack you have built: validated identity (auth lesson) feeds middleware AND RLS, and the capstone wires all three so a request is gated at the edge and enforced at the row.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This \"perimeter plus vault\" layering is the shape of the whole security stack you have built: validated identity (auth lesson) feeds middleware AND RLS, and the capstone wires all three so a request is gated at the edge and enforced at the row.",
       "type": "transfer"
     },
@@ -5310,20 +5494,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Decider redirects unauthenticated protected paths and skips assets",
-        "API paths flagged as still requiring RLS",
-        "You can explain middleware vs RLS responsibilities"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend For protecting a route, is middleware redirect sufficient, or do you also need server-side + RLS checks?.",
+        "Verification evidence — A matcher scopes middleware to the right paths and skips static assets. · Middleware refreshes the session and returns the response with cookies. · You rely on RLS + server-side checks for data, treating middleware as UX defense in depth.",
+        "Transfer evidence — This \"perimeter plus vault\" layering is the shape of the whole security stack you have built: validated identity (auth lesson) feeds middleware AND RLS, and the capstone wires all three so a request is gated at the edge and enforced at the row."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "env-secrets": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "An env-var leak detector that flags any NEXT_PUBLIC_* variable holding a secret and any secret read where the client can reach it.",
       "unlock": "You can state exactly which env vars ship to the browser and why the NEXT_PUBLIC_ prefix is a publish decision, not a naming style.",
       "outcome": "Classify every environment variable correctly: NEXT_PUBLIC_* is inlined into the browser bundle (never a secret), everything else is server-only — and detect a secret smuggled into a public variable.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim an env var is private because it lives in .env — the NEXT_PUBLIC_ prefix, not the file, decides whether it is inlined into the client bundle."
     },
     {
@@ -5571,8 +5758,8 @@
       "type": "lab",
       "check": "{\"name\":\"NEXT_PUBLIC_SUPABASE_URL\",\"scope\":\"public\",\"leaked\":false}\n{\"name\":\"NEXT_PUBLIC_SUPABASE_ANON_KEY\",\"scope\":\"public\",\"leaked\":false}\n{\"name\":\"SUPABASE_SERVICE_ROLE_KEY\",\"scope\":\"server\",\"leaked\":false}\n{\"name\":\"NEXT_PUBLIC_SERVICE_ROLE_KEY\",\"scope\":\"public\",\"leaked\":true}\n{\"name\":\"DATABASE_URL\",\"scope\":\"server\",\"leaked\":false}\nleaks: NEXT_PUBLIC_SERVICE_ROLE_KEY",
       "title": "Detect leaked secrets in env vars",
-      "starter": "const envVars = [\n  { name: \"NEXT_PUBLIC_SUPABASE_URL\", secret: false },\n  { name: \"NEXT_PUBLIC_SUPABASE_ANON_KEY\", secret: false },   // anon is safe public\n  { name: \"SUPABASE_SERVICE_ROLE_KEY\", secret: true },        // server-only, ok\n  { name: \"NEXT_PUBLIC_SERVICE_ROLE_KEY\", secret: true },     // LEAK: secret published\n  { name: \"DATABASE_URL\", secret: true },\n];\nfunction classify(v) {\n  const isPublic = v.name.startsWith(\"NEXT_PUBLIC_\");\n  // TODO: return { name, scope: \"public\"|\"server\", leaked: isPublic && v.secret }\n}\nfor (const v of envVars) console.log(JSON.stringify(classify(v)));\nconst leaks = envVars.filter(v => v.name.startsWith(\"NEXT_PUBLIC_\") && v.secret).map(v => v.name);\nconsole.log(\"leaks:\", leaks.join(\",\") || \"none\");",
-      "summary": "Classify each env var as public (NEXT_PUBLIC_) or server-only, decide whether its value is a secret, and flag any secret that is exposed to the browser via a public prefix.",
+      "starter": "const envVars = [\n  { name: \"NEXT_PUBLIC_SUPABASE_URL\", secret: false },\n  { name: \"NEXT_PUBLIC_SUPABASE_ANON_KEY\", secret: false },   // anon is safe public\n  { name: \"SUPABASE_SERVICE_ROLE_KEY\", secret: true },        // server-only, ok\n  { name: \"NEXT_PUBLIC_SERVICE_ROLE_KEY\", secret: true },     // LEAK: secret published\n  { name: \"DATABASE_URL\", secret: true },\n];\nfunction classify(v) {\n  const isPublic = v.name.startsWith(\"NEXT_PUBLIC_\");\n  // TODO: return { name, scope: \"public\"|\"server\", leaked: isPublic && v.secret }\n}\nfor (const v of envVars) console.log(JSON.stringify(classify(v)));\nconst leaks = envVars.filter(v => v.name.startsWith(\"NEXT_PUBLIC_\") && v.secret).map(v => v.name);\nconsole.log(\"leaks:\", leaks.join(\",\") || \"none\");\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Classify each env var as public (NEXT_PUBLIC_) or server-only, decide whether its value is a secret, and flag any secret that is exposed to the browser via a public prefix. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5625,6 +5812,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "An env-var leak detector that flags any NEXT_PUBLIC_* variable holding a secret and any secret read where the client can reach it.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Only non-secret values carry the NEXT_PUBLIC_ prefix. · The service_role key, DB URL, and private keys are server-only (no prefix). · You can detect a secret exposed via a public-prefixed variable before deploy.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This is the config-layer twin of the server/client boundary lesson: there you kept secrets out of the \"use client\" import graph; here you keep them out of the NEXT_PUBLIC_ namespace. Same rule — the browser is untrusted — enforced at both code and configuration.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This is the config-layer twin of the server/client boundary lesson: there you kept secrets out of the \"use client\" import graph; here you keep them out of the NEXT_PUBLIC_ namespace. Same rule — the browser is untrusted — enforced at both code and configuration.",
       "type": "transfer"
     },
@@ -5639,20 +5834,23 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Detector flags every secret behind NEXT_PUBLIC_",
-        "anon-safe vs service-role-unsafe classified correctly",
-        "Secrets stay server-only and are proxied when needed"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend A client component needs data that requires a private API key. Prefix the key NEXT_PUBLIC_, or add a server endpoint?.",
+        "Verification evidence — Only non-secret values carry the NEXT_PUBLIC_ prefix. · The service_role key, DB URL, and private keys are server-only (no prefix). · You can detect a secret exposed via a public-prefixed variable before deploy.",
+        "Transfer evidence — This is the config-layer twin of the server/client boundary lesson: there you kept secrets out of the \"use client\" import graph; here you keep them out of the NEXT_PUBLIC_ namespace. Same rule — the browser is untrusted — enforced at both code and configuration."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "deploy-vercel": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A deploy-readiness gate that verifies all required env vars are present, none are secrets behind a public prefix, and returns a pass/fail with the exact blocking issues.",
       "unlock": "You can enumerate the env vars a production deploy needs and gate the deploy on their correct presence and scope.",
       "outcome": "Ship the app with a correct production configuration: every required env var set in the platform (with the public/server split preserved), and a pre-deploy check that fails the build if a required secret is missing or a secret is exposed.",
-      "intensity": "standard",
+      "intensity": "deep",
       "doNotClaim": "Don't claim it is production-ready because it builds — a build can succeed while a missing server secret or a leaked public one waits to fail (or breach) at runtime."
     },
     {
@@ -5879,8 +6077,8 @@
       "type": "lab",
       "check": "ok: false\nissues: exposed secret: NEXT_PUBLIC_SERVICE_ROLE_KEY | missing: DATABASE_URL | missing: SUPABASE_SERVICE_ROLE_KEY",
       "title": "Gate a production deploy on its env",
-      "starter": "const required = {\n  public: [\"NEXT_PUBLIC_SUPABASE_URL\", \"NEXT_PUBLIC_SUPABASE_ANON_KEY\"],\n  server: [\"SUPABASE_SERVICE_ROLE_KEY\", \"DATABASE_URL\"],\n};\nconst platformEnv = {\n  NEXT_PUBLIC_SUPABASE_URL: \"https://x.supabase.co\",\n  NEXT_PUBLIC_SUPABASE_ANON_KEY: \"anon_...\",\n  NEXT_PUBLIC_SERVICE_ROLE_KEY: \"svc_...\",   // exposed secret\n  // SUPABASE_SERVICE_ROLE_KEY missing, DATABASE_URL missing\n};\nfunction gate(env, required) {\n  // TODO: issues = missing required (public+server) + any NEXT_PUBLIC_ name matching SERVICE_ROLE/SECRET/DATABASE_URL.\n  // return { ok, issues } sorted for determinism.\n}\nconst r = gate(platformEnv, required);\nconsole.log(\"ok:\", r.ok);\nconsole.log(\"issues:\", r.issues.join(\" | \") || \"none\");",
-      "summary": "Given the platform env and the required var lists, fail the deploy if any required variable is missing OR any secret is exposed via a public prefix. Print the pass/fail and each blocking issue.",
+      "starter": "const required = {\n  public: [\"NEXT_PUBLIC_SUPABASE_URL\", \"NEXT_PUBLIC_SUPABASE_ANON_KEY\"],\n  server: [\"SUPABASE_SERVICE_ROLE_KEY\", \"DATABASE_URL\"],\n};\nconst platformEnv = {\n  NEXT_PUBLIC_SUPABASE_URL: \"https://x.supabase.co\",\n  NEXT_PUBLIC_SUPABASE_ANON_KEY: \"anon_...\",\n  NEXT_PUBLIC_SERVICE_ROLE_KEY: \"svc_...\",   // exposed secret\n  // SUPABASE_SERVICE_ROLE_KEY missing, DATABASE_URL missing\n};\nfunction gate(env, required) {\n  // TODO: issues = missing required (public+server) + any NEXT_PUBLIC_ name matching SERVICE_ROLE/SECRET/DATABASE_URL.\n  // return { ok, issues } sorted for determinism.\n}\nconst r = gate(platformEnv, required);\nconsole.log(\"ok:\", r.ok);\nconsole.log(\"issues:\", r.issues.join(\" | \") || \"none\");\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Given the platform env and the required var lists, fail the deploy if any required variable is missing OR any secret is exposed via a public prefix. Print the pass/fail and each blocking issue. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -5933,6 +6131,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A deploy-readiness gate that verifies all required env vars are present, none are secrets behind a public prefix, and returns a pass/fail with the exact blocking issues.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: Every required env var is set on the platform, with the public/server split preserved. · A pre-deploy or startup gate fails on a missing required variable. · The gate also fails on any secret exposed behind a public prefix.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This presence-and-scope gate is the deploy-time enforcement of everything the security lessons built: the env-leak rule, the server-only service_role key, and the validated-identity boundary all become a single pass/fail the capstone runs before it declares the app shippable.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This presence-and-scope gate is the deploy-time enforcement of everything the security lessons built: the env-leak rule, the server-only service_role key, and the validated-identity boundary all become a single pass/fail the capstone runs before it declares the app shippable.",
       "type": "transfer"
     },
@@ -5947,15 +6153,18 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Gate fails on any missing required var",
-        "Gate fails on a secret behind NEXT_PUBLIC_",
-        "You can enumerate a deploy's required env vars"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend Validate required env vars with a startup/pre-deploy check, or just let missing ones surface when first used?.",
+        "Verification evidence — Every required env var is set on the platform, with the public/server split preserved. · A pre-deploy or startup gate fails on a missing required variable. · The gate also fails on any secret exposed behind a public prefix.",
+        "Transfer evidence — This presence-and-scope gate is the deploy-time enforcement of everything the security lessons built: the env-leak rule, the server-only service_role key, and the validated-identity boundary all become a single pass/fail the capstone runs before it declares the app shippable."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ],
   "capstone-rls-crud": [
     {
-      "time": "60–90 min",
+      "time": "Multi-day",
       "type": "sprint-contract",
       "proof": "A pipeline that runs a create request through validate → RLS authorize → mutate → revalidate → RLS-filtered read, and reports the outcome plus what each stage enforced.",
       "unlock": "You can assemble validation, RLS authorization, revalidation, and RLS-filtered reads into one correct, defensible request path.",
@@ -6204,8 +6413,8 @@
       "type": "lab",
       "check": "{\"stage\":\"read\",\"ok\":true,\"revalidated\":true,\"visibleAfter\":[1,2]}\n{\"stage\":\"authorize\",\"ok\":false,\"error\":\"with check failed\"}\n{\"stage\":\"identity\",\"ok\":false,\"error\":\"unauthenticated\"}",
       "title": "Compose the auth-gated CRUD pipeline",
-      "starter": "const user = { id: \"u_1\" };                     // validated identity (ssr-auth lesson)\nconst store = [ { id: 1, user_id: \"u_1\", title: \"existing\" } ];\nconst nextId = () => Math.max(0, ...store.map(r => r.id)) + 1;  // ids are DB-assigned; model it\nconst validate = (form) => { const t = String(form.title ?? \"\").trim(); return t ? { ok: true, title: t } : { ok: false, error: \"title required\" }; };\nconst withCheck = (row, uid) => row.user_id === uid;    // RLS WITH CHECK (write)\nconst selectPolicy = (row, uid) => row.user_id === uid; // RLS USING (read)\nlet cacheStale = false;                          // a mutation sets it; revalidate clears it\nfunction createTodo(user, form, ownerId) {\n  // TODO: run the pipeline and return the shape shown in the check.\n  //  no user       -> stage \"identity\",  ok false, error \"unauthenticated\"\n  //  invalid form  -> stage \"validate\",  ok false, error <message>\n  //  foreign owner -> stage \"authorize\", ok false, error \"with check failed\"  (NEW row fails WITH CHECK)\n  //  otherwise: insert the row with its id, set the cache stale, revalidate (clear it),\n  //             then return { stage:\"read\", ok:true, revalidated, visibleAfter } —\n  //             visibleAfter = the ids this user can read via selectPolicy.\n}\nconsole.log(JSON.stringify(createTodo(user, { title: \"buy milk\" }, \"u_1\")));   // valid\nconsole.log(JSON.stringify(createTodo(user, { title: \"x\" }, \"u_2\")));          // foreign owner\nconsole.log(JSON.stringify(createTodo(null, { title: \"y\" }, \"u_1\")));          // no identity",
-      "summary": "Wire the course primitives into one create path: identity check → validate → RLS WITH CHECK authorize → mutate (assigning the DB-style id) → revalidate the cache → RLS-filtered read-back. A valid request flows all the way to a consistent, owner-only read; a foreign-owned write is rejected at authorize; an unauthenticated one dies at identity.",
+      "starter": "const user = { id: \"u_1\" };                     // validated identity (ssr-auth lesson)\nconst store = [ { id: 1, user_id: \"u_1\", title: \"existing\" } ];\nconst nextId = () => Math.max(0, ...store.map(r => r.id)) + 1;  // ids are DB-assigned; model it\nconst validate = (form) => { const t = String(form.title ?? \"\").trim(); return t ? { ok: true, title: t } : { ok: false, error: \"title required\" }; };\nconst withCheck = (row, uid) => row.user_id === uid;    // RLS WITH CHECK (write)\nconst selectPolicy = (row, uid) => row.user_id === uid; // RLS USING (read)\nlet cacheStale = false;                          // a mutation sets it; revalidate clears it\nfunction createTodo(user, form, ownerId) {\n  // TODO: run the pipeline and return the shape shown in the check.\n  //  no user       -> stage \"identity\",  ok false, error \"unauthenticated\"\n  //  invalid form  -> stage \"validate\",  ok false, error <message>\n  //  foreign owner -> stage \"authorize\", ok false, error \"with check failed\"  (NEW row fails WITH CHECK)\n  //  otherwise: insert the row with its id, set the cache stale, revalidate (clear it),\n  //             then return { stage:\"read\", ok:true, revalidated, visibleAfter } —\n  //             visibleAfter = the ids this user can read via selectPolicy.\n}\nconsole.log(JSON.stringify(createTodo(user, { title: \"buy milk\" }, \"u_1\")));   // valid\nconsole.log(JSON.stringify(createTodo(user, { title: \"x\" }, \"u_2\")));          // foreign owner\nconsole.log(JSON.stringify(createTodo(null, { title: \"y\" }, \"u_1\")));          // no identity\n\n// Local execution is practice feedback only; it cannot create mastery evidence.\n// Retain one minimized boundary failure as a regression and name the production evidence still required.\n",
+      "summary": "Wire the course primitives into one create path: identity check → validate → RLS WITH CHECK authorize → mutate (assigning the DB-style id) → revalidate the cache → RLS-filtered read-back. A valid request flows all the way to a consistent, owner-only read; a foreign-owned write is rejected at authorize; an unauthenticated one dies at identity. Match the exact observable contract, retain a boundary-failure regression, and name the browser, database, RLS, identity, deployment, and production evidence still required. Local output remains practice-only evidence.",
       "language": "js"
     },
     {
@@ -6258,6 +6467,14 @@
       ]
     },
     {
+      "type": "calibration",
+      "artifact": "A pipeline that runs a create request through validate → RLS authorize → mutate → revalidate → RLS-filtered read, and reports the outcome plus what each stage enforced.",
+      "weak": "The happy path runs, but identity, authorization, failure handling, isolation, consistency, and deployment evidence are absent.",
+      "passing": "The exact JavaScript reference passes and every verification item is evidenced: An unauthenticated request is rejected before any work. · Invalid input is rejected in the Server Action; a foreign-owned write is rejected by RLS WITH CHECK. · The read-back runs under the SELECT policy and returns only the user's own rows.",
+      "excellent": "Passing evidence plus an adversarial boundary case, retained regression, production proof plan, reviewer objection, and transfer: This validated → authorized → atomic → consistent → isolated pipeline is the template for every feature on this stack: swap the entity and the policy, and the same stages give you an auth-gated, RLS-enforced surface — the exact shape the Stripe & Auth course reuses for entitlement-gated access.",
+      "note": "Local-practice calibration only; browser, deployed Next.js, real Postgres/RLS, identity, and expert review remain required."
+    },
+    {
       "text": "This validated → authorized → atomic → consistent → isolated pipeline is the template for every feature on this stack: swap the entity and the policy, and the same stages give you an auth-gated, RLS-enforced surface — the exact shape the Stripe & Auth course reuses for entitlement-gated access.",
       "type": "transfer"
     },
@@ -6273,10 +6490,13 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Unauthenticated + invalid + foreign-owned requests each rejected at the right stage",
-        "Valid create flows to a consistent RLS-filtered read-back",
-        "Read-back returns only the user's rows (no service_role bypass)"
-      ]
+        "Build evidence — match the exact observable application contract.",
+        "Debug evidence — retain a minimized boundary or consistency regression.",
+        "Decision evidence — defend Build the CRUD path as one inline handler, or compose the tested primitives (validate, RLS policies, revalidate)?.",
+        "Verification evidence — An unauthenticated request is rejected before any work. · Invalid input is rejected in the Server Action; a foreign-owned write is rejected by RLS WITH CHECK. · The read-back runs under the SELECT policy and returns only the user's own rows.",
+        "Transfer evidence — This validated → authorized → atomic → consistent → isolated pipeline is the template for every feature on this stack: swap the entity and the policy, and the same stages give you an auth-gated, RLS-enforced surface — the exact shape the Stripe & Auth course reuses for entitlement-gated access."
+      ],
+      "practiceOnlyNotice": "This deterministic local lab is practice feedback only, not controlled mastery evidence or certification."
     }
   ]
 }

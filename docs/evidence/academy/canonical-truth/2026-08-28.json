@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
+  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 600,
-    "solutionEntries": 587,
-    "labLessonsWithSolutions": 547,
-    "labLessonsWithoutSolutions": 53,
-    "sourceLedgers": 21
+    "solutionEntries": 607,
+    "labLessonsWithSolutions": 567,
+    "labLessonsWithoutSolutions": 33,
+    "sourceLedgers": 22
   },
   "legacyManifest": {
     "coursesCovered": 23,
@@ -37,8 +37,8 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "53 lab lessons lack same-slug solution entries",
-    "11 courses lack course-level source ledgers",
+    "33 lab lessons lack same-slug solution entries",
+    "10 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
   ],
@@ -544,14 +544,13 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 20,
-      "sourceLedger": null,
+      "labLessonsWithoutSolutions": 0,
+      "sourceLedger": "docs/academy/evidence/nextjs-supabase/sources.json",
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",
       "blockers": [
         "certification_harness_v2_pending",
-        "lab_trust_unverified_current_runtime",
-        "source_ledger_missing"
+        "lab_trust_unverified_current_runtime"
       ],
       "route": "/academy/course/nextjs-supabase"
     },

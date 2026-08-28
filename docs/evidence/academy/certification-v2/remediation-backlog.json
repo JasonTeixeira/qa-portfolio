@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:c96af2348aa49a94a822d5f702515e4e15c53c5132c673f40f275f458be8bc7d",
-  "generatedAt": "2026-08-28T20:53:19.582Z",
+  "registryVersion": "sha256:cc54cf4a90910000b88a350a3b5985be0b7591f3a1242da5d21a1403cda820a0",
+  "generatedAt": "2026-08-28T21:01:31.852Z",
   "items": [
     {
       "rank": 1,
@@ -54,13 +54,12 @@
       "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
       "courseSlugs": [
         "git-the-terminal",
-        "nextjs-supabase",
         "programming-fundamentals",
         "stripe-auth"
       ],
-      "lessonCount": 53,
-      "findingCount": 53,
-      "priority": 4040053
+      "lessonCount": 33,
+      "findingCount": 33,
+      "priority": 4030033
     },
     {
       "rank": 3,
@@ -224,12 +223,11 @@
       "severity": "high",
       "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
       "courseSlugs": [
-        "career-interview_career_portfolio",
-        "nextjs-supabase"
+        "career-interview_career_portfolio"
       ],
-      "lessonCount": 3,
-      "findingCount": 3,
-      "priority": 3020003
+      "lessonCount": 2,
+      "findingCount": 2,
+      "priority": 3010002
     },
     {
       "rank": 9,
@@ -686,14 +684,13 @@
         "career-programming_cs_foundations",
         "data-structures",
         "git-the-terminal",
-        "nextjs-supabase",
         "programming-fundamentals",
         "python-basics",
         "stripe-auth"
       ],
-      "lessonCount": 206,
-      "findingCount": 206,
-      "priority": 2110206
+      "lessonCount": 186,
+      "findingCount": 186,
+      "priority": 2100186
     },
     {
       "rank": 21,

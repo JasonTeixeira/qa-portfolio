@@ -29,7 +29,7 @@ const NAV_LINKS = [
   { href: '/field-notes', label: 'Field notes' },
   { href: '/how-it-works', label: 'How it works' },
   { href: '/academy/catalog', label: 'Courses' },
-  { href: '/academy/why-proof', label: 'Why proof' },
+  { href: '/academy/proof-not-paper', label: 'Why proof' },
   // Gold sub-brand: the Interview Mastery add-on gets its accent in the nav.
   { href: '/interview', label: 'Interview', tint: '#E0A93E' },
   { href: '/academy/pricing', label: 'Pricing' },
@@ -147,7 +147,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
   {
     head: 'Product',
     links: [
-      { href: '/academy/why-proof', label: 'Why proof' },
+      { href: '/academy/proof-not-paper', label: 'Why proof' },
       { href: '/academy/pricing', label: 'Pricing' },
       { href: '/interview', label: 'Interview Mastery' },
       { href: '/academy/how-we-audit', label: 'How we audit' },

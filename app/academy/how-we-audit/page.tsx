@@ -139,7 +139,7 @@ export default function HowWeAuditPage() {
               ledgers — not quotes — will sit here.
             </p>
             <div style={{ display: 'flex', gap: 18, marginTop: 18, flexWrap: 'wrap' }}>
-              <Link href="/academy/why-proof" style={{ ...mono, fontSize: 12, color: '#8FA0FF', textDecoration: 'none' }}>
+              <Link href="/academy/proof-not-paper" style={{ ...mono, fontSize: 12, color: '#8FA0FF', textDecoration: 'none' }}>
                 the manifesto →
               </Link>
               <Link href="/academy/engine" style={{ ...mono, fontSize: 12, color: GREEN, textDecoration: 'none' }}>

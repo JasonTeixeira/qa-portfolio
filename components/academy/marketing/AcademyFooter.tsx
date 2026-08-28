@@ -10,7 +10,7 @@ type FooterLink = {
 // Real routes only — verified to exist. No Legal/Terms/Privacy (deferred).
 const LINKS: FooterLink[] = [
   { label: 'How it works', href: '/how-it-works' },
-  { label: 'Why proof', href: '/academy/why-proof' },
+  { label: 'Why proof', href: '/academy/proof-not-paper' },
   { label: 'Proof, not paper', href: '/academy/proof-not-paper' },
   { label: 'Help', href: '/academy/help' },
   { label: 'Contact', href: 'mailto:contact@sageideas.dev' },

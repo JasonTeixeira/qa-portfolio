@@ -401,6 +401,12 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             <span style={{ fontSize: 12.5, color: '#9C9CA6' }}>
               {coursesCount} courses · {lessonsCount} lessons — every proof verifiable by code
             </span>
+            <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
+              No paid testimonials.{' '}
+              <Link href="/academy/how-we-audit" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
+                see how we audit our own courses →
+              </Link>
+            </span>
           </div>
 
           {/* Interview Mastery add-on — addition, not in the design file */}

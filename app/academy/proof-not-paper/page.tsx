@@ -10,12 +10,13 @@ const DISPLAY = 'Fraunces, Georgia, serif'
 // - Course 00 "Engineering Judgment" → /academy/course/[slug] with the seed slug
 //   'career-engineering_judgment_foundation' (GATE_COURSE_SLUG in
 //   components/academy/path/PathDomainSection.tsx, line 14).
-// - "See how proof works" → /academy/why-proof (the existing manifesto page,
-//   app/academy/why-proof/page.tsx).
+// - "See how proof works" → /academy/how-we-audit (the live proof/self-audit
+//   page). why-proof was folded into this page (301), so its old destination
+//   would self-loop; how-we-audit is where "how proof works" is actually shown.
 // - "See the loop" → /academy/resources/sprint-loop (the real sprint-loop explainer,
 //   app/academy/resources/sprint-loop/page.tsx).
 const COURSE_00_HREF = '/academy/course/career-engineering_judgment_foundation'
-const WHY_PROOF_HREF = '/academy/why-proof'
+const WHY_PROOF_HREF = '/academy/how-we-audit'
 const SPRINT_LOOP_HREF = '/academy/resources/sprint-loop'
 
 export const metadata: Metadata = {

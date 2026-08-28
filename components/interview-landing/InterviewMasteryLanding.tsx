@@ -282,7 +282,7 @@ export function InterviewMasteryLanding() {
               </div>
               <div className={styles.priceCtas}>
                 <Link href="/academy/interview/checkout" className={styles.goldCta}>Add to my plan</Link>
-                <Link href="/academy/guarantee" className={styles.monoDim} style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>14-day loop-ready guarantee</Link>
+                <Link href="/academy/interview/guarantee" className={styles.monoDim} style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>14-day loop-ready guarantee</Link>
               </div>
             </div>
           </div>

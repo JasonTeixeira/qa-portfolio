@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'The loop-ready guarantee, without the fine-print games — Sage Academy',
+  title: 'The ship-proof guarantee, without the fine-print games — Sage Academy',
   description:
-    'Exactly what Interview Mastery promises, what it never promises, and how refunds work — in plain language. Follow your plan for 14 days and your readiness score rises, or you don’t pay.',
+    'Exactly what a Sage Academy membership promises, what it never promises, and how refunds work — in plain language. Ship real, code-verifiable proof in your first 14 days, or you don’t pay.',
   alternates: { canonical: 'https://www.sageideas.dev/academy/guarantee' },
 }
 
@@ -12,22 +12,22 @@ const TERMS = [
   {
     glyph: '01',
     title: 'The promise',
-    body: 'Follow your plan for 14 days — the sessions it schedules, at the level you chose in onboarding — and your readiness score will rise. If it doesn’t, Interview Mastery is free until it does, one month at a time, automatically. No form, no support ticket; the same scoring engine that grades you triggers the credit.',
+    body: 'Try a full lesson free before you pay a cent — no card, no trial countdown. Then, in your first 14 days as a member, if you haven’t shipped a single piece of real, code-verifiable proof — a passing lab, a built project, a certificate that resolves at a public link — email us and get every dollar back. One line is enough; there is no form-maze.',
   },
   {
     glyph: '02',
-    title: 'What "following the plan" means',
-    body: 'Completing at least 80% of scheduled sessions in the window. Skipped weeks pause the clock rather than void the guarantee — life happens. Deliberately tanking sessions to farm free months voids it; the transcripts make this obvious, and we read them when a claim looks odd.',
+    title: 'What "shipped proof" means',
+    body: 'Our proof is verified by code, not self-reported. Labs run against real checks you can’t fake your way past. Certificates resolve at a public /verify link anyone — a hiring manager, a client — can open and confirm. That verifiable output is the thing we put money behind, because it’s the thing that actually moves your career.',
   },
   {
     glyph: '03',
     title: 'Plain refunds',
-    body: 'First 14 days after purchase: full refund, any reason, even if your score went up. Annual plans: prorated refund of unused months any time in the first 90 days. Refunds land on the original card within 5 business days.',
+    body: 'First 14 days after you upgrade: full refund, any reason, even if you already shipped. Monthly ($25/mo): cancel anytime — access runs to the end of the cycle you paid for, nothing clawed back. Annual ($250/yr): prorated refund of unused months any time in the first 90 days. Refunds land on the original card within 5 business days.',
   },
   {
     glyph: '04',
-    title: 'The plateau clause',
-    body: 'The guarantee doesn’t expire after your first two weeks. Any time you’re active and your readiness stays flat for two consecutive weeks while following the plan, the next month is credited. Plateaus are our problem to fix, not yours to pay for.',
+    title: 'No lock-in, no dark patterns',
+    body: 'Cancel from your account in two clicks — no “call to retain,” no hidden downgrade path. Your certificates keep resolving at their public links after you leave; proof you earned stays yours. We’d rather you stay because the loop is working than because leaving is annoying.',
   },
 ]
 
@@ -39,14 +39,14 @@ export default function GuaranteePage() {
       style={{
         minHeight: '100vh',
         background: '#0B0B0E',
-        backgroundImage: 'radial-gradient(110% 70% at 50% -8%, rgba(224,169,62,0.06) 0%, transparent 55%)',
+        backgroundImage: 'radial-gradient(110% 70% at 50% -8%, rgba(61,90,254,0.07) 0%, transparent 55%)',
         color: '#F2EFE9',
         fontFamily: 'var(--font-sans), sans-serif',
       }}
     >
       <main style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 3vw, 32px) 80px' }}>
-        <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E' }}>
-          Plain-language policy · 2 minute read
+        <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>
+          Membership · plain-language policy · 2 minute read
         </div>
         <h1
           style={{
@@ -56,14 +56,15 @@ export default function GuaranteePage() {
             fontSize: 'clamp(32px, 4.4vw, 52px)',
             letterSpacing: '-0.025em',
             lineHeight: 1.05,
-            maxWidth: '18ch',
+            maxWidth: '20ch',
           }}
         >
-          The loop-ready guarantee, without the fine-print games.
+          The ship-proof guarantee, without the fine-print games.
         </h1>
-        <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '58ch' }}>
-          Our scoring is honest enough that we can put money on it. Here is exactly what we promise,
-          what we don’t, and how refunds work.
+        <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '60ch' }}>
+          We sell verifiable skill, not a certificate you frame and forget. Our proof is honest
+          enough that we can put money on it. Here is exactly what a membership promises, what it
+          doesn’t, and how refunds work.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 44 }}>
@@ -80,7 +81,7 @@ export default function GuaranteePage() {
                 gap: 18,
               }}
             >
-              <span style={{ ...mono, fontSize: 13, color: '#E0A93E', paddingTop: 2 }}>{t.glyph}</span>
+              <span style={{ ...mono, fontSize: 13, color: '#8FA0FF', paddingTop: 2 }}>{t.glyph}</span>
               <div>
                 <div style={{ fontFamily: 'var(--font-serif), Georgia, serif', fontWeight: 600, fontSize: 20, letterSpacing: '-0.015em' }}>
                   {t.title}
@@ -93,40 +94,44 @@ export default function GuaranteePage() {
 
         <div
           style={{
-            border: '1px solid rgba(224,169,62,0.35)',
+            border: '1px solid rgba(61,90,254,0.35)',
             borderRadius: 16,
-            background: 'linear-gradient(165deg, #17150E, #111115)',
+            background: 'linear-gradient(165deg, #0E1020, #111115)',
             padding: 26,
             marginTop: 16,
           }}
         >
-          <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E', marginBottom: 10 }}>
+          <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF', marginBottom: 10 }}>
             What we will never promise
           </div>
           <p style={{ margin: 0, fontSize: 14.5, color: '#B6B6C0', maxWidth: '66ch' }}>
-            A job. Hiring involves luck, timing, and people we don’t control. We promise the thing we
-            can measure and you can verify: that your interview performance, scored against a
-            consistent bar, gets better — or you don’t pay.
+            A job, or a paper credential that impresses on its own. Hiring involves luck, timing, and
+            people we don’t control — and the industry is drowning in certificates that mean nothing.
+            We promise the thing we can measure and you can show: real, code-verifiable proof that you
+            can build — or you don’t pay.
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 36, flexWrap: 'wrap' }}>
           <Link
-            href="/interview"
+            href="/academy/pricing"
             style={{
               display: 'inline-flex',
               color: '#0B0B0E',
-              background: 'linear-gradient(135deg, #F0C36A, #D99A2B)',
+              background: 'linear-gradient(135deg, #6E86FF, #3D5AFE)',
               textDecoration: 'none',
               fontSize: 14.5,
               fontWeight: 700,
               padding: '13px 26px',
               borderRadius: 24,
-              boxShadow: '0 0 22px rgba(224,169,62,0.3)',
+              boxShadow: '0 0 22px rgba(61,90,254,0.3)',
               whiteSpace: 'nowrap',
             }}
           >
-            Explore Interview Mastery
+            See plans
+          </Link>
+          <Link href="/academy/how-we-audit" style={{ ...mono, fontSize: 11, color: '#8FA0FF', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            how we hold our own courses to this bar →
           </Link>
           <Link href="/academy/help" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'none' }}>
             questions? talk to us →

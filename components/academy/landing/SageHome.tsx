@@ -175,8 +175,12 @@ export async function SageHome() {
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 30 }}>
                 <a href="#offer" style={btnPrimary}>Start with Engineering Judgment</a>
-                <a href="#lesson" style={btnGhost}>See a real lesson</a>
+                <Link href="/academy/concepts" style={btnGhost}>Read a lesson free — no signup</Link>
               </div>
+              <p style={{ ...mono, margin: '16px 0 0', fontSize: 11, color: '#9598A2', letterSpacing: '0.02em' }}>
+                No paid-for testimonials. Instead,{' '}
+                <Link href="/academy/how-we-audit" style={{ color: '#8FA0FF', textDecoration: 'underline', textUnderlineOffset: 3 }}>see how we audit our own courses →</Link>
+              </p>
               <div style={{ display: 'flex', gap: 28, marginTop: 36, borderTop: `1px solid ${LINE}`, paddingTop: 22, flexWrap: 'wrap' }}>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{coursesCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>courses</span></div>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{lessonsCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>lessons</span></div>
@@ -368,6 +372,10 @@ export async function SageHome() {
                 </div>
               </div>
             </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, marginTop: 32 }}>
+              <Link href="/academy/concepts" style={{ ...btnGhost, fontSize: 14 }}>Read a full lesson free — no signup →</Link>
+              <span style={{ ...mono, fontSize: 11, color: '#9598A2' }}>34 lessons open to read, right now, no account.</span>
+            </div>
           </div>
         </section>
 
@@ -513,7 +521,7 @@ export async function SageHome() {
             </div>
             <div style={{ marginTop: 24, fontSize: 15, color: '#9598A2', maxWidth: '44ch' }}>
               Every claim on this page follows its own rule.{' '}
-              <Link href="/academy/why-proof" style={{ color: '#8FA0FF', textDecoration: 'none' }}>Read the manifesto →</Link>
+              <Link href="/academy/proof-not-paper" style={{ color: '#8FA0FF', textDecoration: 'none' }}>Read the manifesto →</Link>
             </div>
           </div>
         </section>
@@ -532,7 +540,11 @@ export async function SageHome() {
               <Link href="/academy/signup" style={{ ...btnPrimary, fontSize: 15.5, padding: '16px 32px', borderRadius: 28, boxShadow: '0 0 28px rgba(61,90,254,0.4)' }}>Start with Engineering Judgment</Link>
               <a href="#lesson" style={{ ...btnGhost, fontSize: 15.5, padding: '15px 32px', borderRadius: 28 }}>See a real lesson</a>
             </div>
-            <div style={{ ...mono, marginTop: 22, fontSize: 11, color: '#9598A2' }}>annual emphasis · honest guarantee · cancel anytime</div>
+            <div style={{ ...mono, marginTop: 22, fontSize: 11, color: '#9598A2', display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>the ship-proof guarantee →</Link>
+              <span>cancel anytime</span>
+              <Link href="/academy/about" style={{ color: '#8FA0FF', textDecoration: 'none' }}>who&apos;s behind this →</Link>
+            </div>
           </div>
         </section>
 
@@ -551,7 +563,7 @@ export async function SageHome() {
                 <Link href="/interview" style={{ display: 'inline-flex', alignItems: 'center', color: '#0B0B0E', background: 'linear-gradient(135deg, #F0C36A, #D99A2B)', textDecoration: 'none', fontSize: 15, fontWeight: 700, padding: '15px 26px', borderRadius: 26, boxShadow: '0 0 22px rgba(224,169,62,0.3)', whiteSpace: 'nowrap' }}>
                   Explore Interview Mastery →
                 </Link>
-                <Link href="/academy/guarantee" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+                <Link href="/academy/interview/guarantee" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'underline', textUnderlineOffset: 3 }}>
                   loop-ready guarantee
                 </Link>
               </div>

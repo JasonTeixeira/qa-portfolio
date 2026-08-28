@@ -60,6 +60,10 @@ const nextConfig: NextConfig = {
       { source: '/academy/content-engine/:path*', destination: '/academy/catalog', permanent: true },
       { source: '/academy/ai-automation-systems/:path*', destination: '/academy/catalog', permanent: true },
       { source: '/academy/my-courses', destination: '/academy/dashboard', permanent: true },
+      // Manifesto consolidation: proof-not-paper is the canonical anti-cert
+      // wedge; fold the near-duplicate why-proof into it so attention (and link
+      // equity) lands on one page.
+      { source: '/academy/why-proof', destination: '/academy/proof-not-paper', permanent: true },
       { source: '/services/all', destination: '/services', permanent: false },
       // Old case-study URLs → new /work URLs
       { source: '/case-studies', destination: '/work', permanent: true },

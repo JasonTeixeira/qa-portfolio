@@ -9077,13 +9077,13 @@ test('gamification: pickCelebration fires streak only on a milestone day', async
   });
   assert.equal(hit?.kind, 'streak');
   assert.equal(hit?.value, 7);
-  // 6 is NOT a milestone → no streak celebration
+  // 6 is NOT a milestone → no streak celebration (a routine +XP nudge is fine, just not 'streak')
   const miss = pickCelebration({
     ...base,
     streak: { current: 6, longest: 6, freezes: 2, activeToday: true },
     awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
   });
-  assert.equal(miss, null);
+  assert.notEqual(miss?.kind, 'streak');
 });
 
 test('gamification: pickCelebration returns goal-hit when only the goal was met', async () => {
@@ -9098,23 +9098,37 @@ test('gamification: pickCelebration returns goal-hit when only the goal was met'
   assert.equal(c?.value, 40);
 });
 
-test('gamification: pickCelebration is null when nothing notable happened', async () => {
+test('gamification: pickCelebration gives a routine +XP nudge when XP was awarded but no milestone hit', async () => {
   const { pickCelebration } = await import('../../lib/academy/gamification-logic.ts');
-  assert.equal(
-    pickCelebration({
-      streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
-      xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
-      dailyGoal: { goalXp: 40, todayXp: 20, met: false },
-      awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
-    }),
-    null,
-  );
-  // no award at all → null
+  const c = pickCelebration({
+    streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
+    xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
+    dailyGoal: { goalXp: 40, todayXp: 20, met: false },
+    awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
+  });
+  assert.equal(c?.kind, 'progress');
+  assert.equal(c?.value, 20);
+  assert.equal(c?.label, '+20 XP');
+});
+
+test('gamification: pickCelebration is null only when no XP was awarded', async () => {
+  const { pickCelebration } = await import('../../lib/academy/gamification-logic.ts');
+  // no award object at all → null
   assert.equal(
     pickCelebration({
       streak: { current: 2, longest: 5, freezes: 2, activeToday: false },
       xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
       dailyGoal: { goalXp: 40, todayXp: 20, met: false },
+    }),
+    null,
+  );
+  // awarded but zero XP → null
+  assert.equal(
+    pickCelebration({
+      streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
+      xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
+      dailyGoal: { goalXp: 40, todayXp: 20, met: false },
+      awarded: { xp: 0, leveledUp: false, streakIncreased: false, freezeUsed: false, goalJustMet: false },
     }),
     null,
   );

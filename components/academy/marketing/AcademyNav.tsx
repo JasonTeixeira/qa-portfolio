@@ -15,7 +15,7 @@ type NavLink = {
 const NAV_LINKS: NavLink[] = [
   { key: 'how-it-works', label: 'How it works', href: '/how-it-works' },
   { key: 'courses', label: 'Courses', href: '/academy/catalog' },
-  { key: 'why-proof', label: 'Why proof', href: '/academy/why-proof' },
+  { key: 'why-proof', label: 'Why proof', href: '/academy/proof-not-paper' },
   { key: 'pricing', label: 'Pricing', href: '/academy/catalog#pricing' },
 ]
 

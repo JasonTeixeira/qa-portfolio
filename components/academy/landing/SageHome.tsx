@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getAcademyStats } from './stats'
 import { AcademyNav, AcademyFooter } from './AcademyChrome'
 import { HeroTicker } from './HeroTicker'
+import { HeroLab } from './HeroLab'
+import { ProofWall } from './ProofWall'
 
 /**
  * The front page, implemented 1:1 from
@@ -47,22 +49,6 @@ const container: React.CSSProperties = {
   margin: '0 auto',
   padding: 'clamp(56px, 8vw, 100px) clamp(20px, 4vw, 48px)',
 }
-
-const HERO_NODES = [
-  { label: 'Client', kind: 'client', left: 0, top: 105, w: 62, border: '#2A2A33', bg: '#141418', radius: 20, ink: '#B6B6C0' },
-  { label: 'Checkout', kind: 'service · suspect', left: 82, top: 100, w: 92, border: 'rgba(61,90,254,0.6)', bg: 'rgba(61,90,254,0.08)', radius: 9, ink: INK },
-  { label: 'retry?', kind: 'decision', left: 178, top: 12, w: 70, border: AMBER, bg: 'rgba(224,169,62,0.08)', radius: 9, ink: INK },
-  { label: 'Worker', kind: 'process', left: 170, top: 168, w: 74, border: '#2A2A33', bg: '#141418', radius: 9, ink: INK },
-  { label: 'Stripe', kind: 'external', left: 290, top: 12, w: 68, border: '#2A2A33', bg: 'transparent', radius: 9, ink: '#9598A2' },
-  { label: 'Ledger', kind: 'store · truth', left: 270, top: 168, w: 88, border: 'rgba(24,182,99,0.6)', bg: 'rgba(24,182,99,0.07)', radius: 16, ink: INK },
-]
-const HERO_EDGES = [
-  { x1: 64, y1: 127, x2: 79, y2: 125, color: '#3A3A44', dash: 'none', anim: false },
-  { x1: 140, y1: 97, x2: 196, y2: 60, color: AMBER, dash: '3 4', anim: false },
-  { x1: 140, y1: 150, x2: 178, y2: 184, color: '#3A3A44', dash: 'none', anim: false },
-  { x1: 250, y1: 35, x2: 287, y2: 35, color: AMBER, dash: '6 5', anim: true },
-  { x1: 246, y1: 191, x2: 267, y2: 191, color: GREEN, dash: 'none', anim: false },
-]
 
 const LOOP: [string, string][] = [
   ['Frame', 'turn a messy stake into a question'],
@@ -189,63 +175,8 @@ export async function SageHome() {
               </div>
             </div>
 
-            {/* hero visual: live SageDiagram */}
-            <figure style={{ margin: 0, minWidth: 0, border: `1px solid ${LINE}`, borderRadius: 16, background: '#111115', overflow: 'hidden', boxShadow: '0 32px 80px -32px rgba(0,0,0,0.85)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: `1px solid ${LINE}` }}>
-                <span style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9598A2' }}>Lesson 07 · figure</span>
-                <span style={{ ...mono, fontSize: 10, color: '#8FA0FF' }}>SageDiagram · auto-layout</span>
-              </div>
-              <div style={{ padding: '18px 20px 0' }}>
-                <div style={{ ...serif, fontWeight: 560, fontSize: 18, letterSpacing: '-0.01em' }}>Where can a charge be issued twice?</div>
-              </div>
-              <div style={{ position: 'relative', width: 360, maxWidth: 'calc(100% - 24px)', height: 250, margin: '8px auto 0' }}>
-                <svg viewBox="0 0 360 250" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} preserveAspectRatio="none">
-                  {HERO_EDGES.map((e, i) => (
-                    <g key={i} className="sgEdge" style={{ opacity: 0, animation: `edgeIn 0.45s ease-out ${0.25 + i * 0.18}s forwards` }}>
-                      <line
-                        x1={e.x1}
-                        y1={e.y1}
-                        x2={e.x2}
-                        y2={e.y2}
-                        stroke={e.color}
-                        strokeWidth="1.5"
-                        strokeDasharray={e.dash}
-                        style={e.anim ? { animation: 'edgeDash 0.9s linear infinite' } : undefined}
-                      />
-                      <circle cx={e.x2} cy={e.y2} r="3" fill={e.color} />
-                    </g>
-                  ))}
-                </svg>
-                {HERO_NODES.map((n) => (
-                  <div
-                    key={n.label}
-                    style={{
-                      position: 'absolute',
-                      left: n.left,
-                      top: n.top,
-                      width: n.w,
-                      border: `1.5px solid ${n.border}`,
-                      borderRadius: n.radius,
-                      background: n.bg,
-                      padding: '8px 10px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <div style={{ fontSize: 11.5, fontWeight: 600, color: n.ink, lineHeight: 1.25 }}>{n.label}</div>
-                    <div style={{ ...mono, fontSize: 8.5, color: '#9598A2', marginTop: 1 }}>{n.kind}</div>
-                  </div>
-                ))}
-              </div>
-              <figcaption style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 20px', borderTop: `1px solid ${LINE}`, marginTop: 10, flexWrap: 'wrap' }}>
-                <span style={{ ...mono, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 9.5, color: '#9C9CA6', whiteSpace: 'nowrap' }}>
-                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: AMBER }} />suspect edge
-                </span>
-                <span style={{ ...mono, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 9.5, color: '#9C9CA6', whiteSpace: 'nowrap' }}>
-                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: GREEN }} />source of truth
-                </span>
-                <span style={{ marginLeft: 'auto', fontSize: 12, color: '#9598A2', fontStyle: 'italic' }}>Every lesson makes the failure a location.</span>
-              </figcaption>
-            </figure>
+            {/* hero visual: interactive in-browser lab */}
+            <HeroLab />
           </div>
         </header>
 
@@ -525,6 +456,9 @@ export async function SageHome() {
             </div>
           </div>
         </section>
+
+        {/* ============ G2. RECEIPTS, NOT TESTIMONIALS ============ */}
+        <ProofWall coursesCount={coursesCount} lessonsCount={lessonsCount} />
 
         {/* ============ H. THE OFFER ============ */}
         <section id="offer" style={{ ...section, background: '#0D0D11' }}>

@@ -143,7 +143,7 @@ function constrainedShell(language: LabLanguage): string {
     `ulimit -S -f ${fileBlocks}`,
     `ulimit -H -f ${fileBlocks}`,
     `cd ${WORK_ROOT}`,
-    `exec setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all timeout --signal=KILL --kill-after=1 ${EVALUATOR_LIMITS.wallTimeMs / 1000}s ${executionCommand(language)}`,
+    `exec /usr/local/bin/academy-setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all timeout --signal=KILL --kill-after=1 ${EVALUATOR_LIMITS.wallTimeMs / 1000}s ${executionCommand(language)}`,
   ].join('; ')
 }
 

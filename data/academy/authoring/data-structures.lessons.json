@@ -315,7 +315,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You classify O(1)/O(n)/O(n^2) from code correctly",
+        "Observable evidence — You classify O(1)/O(n)/O(n^2) from code correctly Output check: n: 12\nrepeated values: 3\nnaive ops: 66\nmap ops: 12",
         "You justify dropping constants",
         "Your measured op counts confirm the growth gap"
       ]
@@ -617,7 +617,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Dynamic array doubles and logs resizes",
+        "Observable evidence — Dynamic array doubles and logs resizes Output check: n=10 cap=16 resizes=4 copies=15 ratio=1.50\nn=100 cap=128 resizes=7 copies=127 ratio=1.27\nn=1000 cap=1024 resizes=10 copies=1023 ratio=1.02",
         "You explain amortized O(1) append",
         "You explain the O(n) cost of front insert/delete"
       ]
@@ -919,7 +919,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "You define cache line + locality",
+        "Observable evidence — You define cache line + locality Output check: n: 64\ncontiguous lines: 8\ncontiguous accesses: 64\nstrided lines: 8\nstrided accesses: 8\nstrided lines per access: 1",
         "Your sim shows the line-load gap",
         "You explain equal-Big-O, unequal-speed"
       ]
@@ -1211,7 +1211,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Aggregate cost run shows amortized O(1)",
+        "Observable evidence — Aggregate cost run shows amortized O(1) Output check: doubling total: 31 avg: 1\nconstant  total: 40 avg: 2",
         "Constant-growth shown O(n^2)",
         "Amortized vs average-case distinguished"
       ]
@@ -1514,7 +1514,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "O(1) push_front preserves the chain",
+        "Observable evidence — O(1) push_front preserves the chain Output check: forward: [10, 20, 30, 40]\nreversed: [40, 30, 20, 10]\nnew head value: 40",
         "O(n) traversal returns all values",
         "Array-vs-list tradeoff explained both ways"
       ]
@@ -1833,7 +1833,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "O(1) push/pop stack",
+        "Observable evidence — O(1) push/pop stack Output check: '(a[b]{c})' -> 2\n'([]{})' -> 2\n'((()))' -> 3\n'(a]b)' -> -1\n'abc' -> 0",
         "Bracket checker handles interleaving + empty-pop",
         "LIFO use cases named"
       ]
@@ -2455,7 +2455,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Cost model weights by frequency",
+        "Observable evidence — Cost model weights by frequency Output check: random-heavy {'list': 20080, 'linked': 100000, 'deque': 100000} -> list\nfront-heavy {'list': 70030, 'linked': 100, 'deque': 100} -> linked",
         "Winner flips with the workload",
         "Near-tie tiebreaker justified"
       ]
@@ -2764,7 +2764,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Chaining map stores + compares keys",
+        "Observable evidence — Chaining map stores + compares keys Output check: buckets: 4\nchain lengths: [1, 3, 1, 3]\nlongest chain: 3\nempty buckets: 0",
         "Collided key still returns correct value",
         "Average vs worst-case O explained"
       ]
@@ -3060,7 +3060,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "O(n) order-preserving dedup",
+        "Observable evidence — O(n) order-preserving dedup Output check: first repeat: 3\nonly in first: [1, 2]\ndistinct count: 4",
         "Set algebra computed correctly",
         "Hashability requirement explained"
       ]
@@ -3367,7 +3367,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Table resizes + rehashes on threshold",
+        "Observable evidence — Table resizes + rehashes on threshold Output check: final buckets: 32\nresize events: [(3, 8), (6, 16), (11, 32)]\nfinal load factor: 0.375",
         "Load factor computed correctly",
         "Chaining vs open addressing explained"
       ]
@@ -3689,7 +3689,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Consistent __hash__/__eq__ on a key class",
+        "Observable evidence — Consistent __hash__/__eq__ on a key class Output check: kept ids: ['a', 'c', 'd']\nkey of a: ('pin', 1.0, 2.0)\ndistinct keys: 3",
         "Equal instances dedupe + are found",
         "Hash/eq contract stated correctly"
       ]
@@ -4006,7 +4006,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Three traversals implemented with base cases",
+        "Observable evidence — Three traversals implemented with base cases Output check: level order: [4, 2, 6, 1, 3, 5, 7]\nmax depth: 3",
         "In-order sorted on a BST",
         "Use case per order named"
       ]
@@ -4591,7 +4591,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "heapq priority queue pops in order",
+        "Observable evidence — heapq priority queue pops in order Output check: top (min): (1, 'pager')\npop order: [(1, 'pager'), (2, 'ticket'), (3, 'email'), (4, 'backup')]",
         "Heap property + index arithmetic explained",
         "Not-sorted misconception corrected"
       ]
@@ -4875,7 +4875,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Trie insert/contains/starts_with correct",
+        "Observable evidence — Trie insert/contains/starts_with correct Output check: under 'ca': ['car', 'care', 'cart', 'cat']\nunder 'car': ['car', 'care', 'cart']\nunder 'do': ['dog']\nunder 'x': []",
         "is_word vs path distinction handled",
         "O(L) scaling explained"
       ]
@@ -5871,7 +5871,7 @@
     {
       "type": "unlock-gate",
       "criteria": [
-        "Decision procedure routes profiles correctly",
+        "Observable evidence — Decision procedure routes profiles correctly Output check: undo history -> stack\ntask scheduler -> queue / deque\nspell suggest -> trie\ntop players -> heap\nunique visitors -> set\nfriend network -> graph",
         "Checks ordered specific-to-general",
         "Each pick justified by dominant op"
       ]
@@ -5879,12 +5879,12 @@
   ],
   "capstone-pick-and-implement": [
     {
-      "time": "60–90 min",
+      "time": "2–4 hrs",
       "type": "sprint-contract",
       "proof": "A working leaderboard that combines a hash map (O(1) score lookup) and a heap (top-k by score), printing the computed top-3 and an exact lookup — the artifact the whole course was building toward.",
       "unlock": "You can run the entire loop: requirements -> structure choice -> implementation -> proof, composing the structures from all five modules.",
       "outcome": "Take a real feature spec (a leaderboard needing top-k plus exact lookup), CHOOSE the structures, IMPLEMENT them, and PROVE the choice with a computed result — the full course loop in one build.",
-      "intensity": "standard",
+      "intensity": "capstone",
       "doNotClaim": "Don't claim a feature is done because it 'works' on one input — prove it answers its REQUIRED questions (top-k AND exact lookup) with the right complexity, using computed output, not a demo screenshot."
     },
     {
@@ -6179,6 +6179,14 @@
         "Walk the full loop: requirements -> structure choice -> implementation -> proof.",
         "Explain why composing two structures beats forcing one for this spec."
       ]
+    },
+    {
+      "type": "calibration",
+      "artifact": "A working leaderboard that combines a hash map (O(1) score lookup) and a heap (top-k by score), printing the computed top-3 and an exact lookup — the artifact the whole course was building toward.",
+      "weak": "The artifact follows the visible happy path but cannot survive an injected failure, independent check, or reviewer challenge.",
+      "passing": "The artifact satisfies every verification item: The design composes a hash map (O(1) lookup) and a heap (top-k), each chosen from the requirements. · top_k returns the correct highest scorers and score_of is O(1) exact lookup. · The result is PROVEN by computed output (real top-3 + lookup), not a hardcoded demo.",
+      "excellent": "Passing evidence plus a novel constraint, a documented repair, and this independent transfer: This loop — frame the questions, route each to a structure, implement, prove with computed output — is the transferable skill of the entire course. Every future feature is this same procedure applied to new requirements.",
+      "note": "Score only inspectable evidence. Confidence, polish, and completion time cannot substitute for a passing artifact and defensible reasoning."
     },
     {
       "text": "This loop — frame the questions, route each to a structure, implement, prove with computed output — is the transferable skill of the entire course. Every future feature is this same procedure applied to new requirements.",

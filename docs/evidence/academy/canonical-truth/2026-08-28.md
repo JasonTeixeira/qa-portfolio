@@ -1,7 +1,7 @@
 # Sage Academy Canonical Truth Baseline
 
 **Observed:** 2026-08-28
-**Registry:** `sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7`
+**Registry:** `sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0`
 **Scope:** repository authoring corpus and checked-in evidence only; live database state was not mutated or asserted.
 
 ## Defensible inventory
@@ -9,9 +9,9 @@
 - 32 registered course bundles
 - 640 authored lessons
 - 370 lab blocks
-- 555 solution entries
-- 284 lab lessons with same-slug solutions
-- 86 lab lessons without same-slug solutions
+- 558 solution entries
+- 287 lab lessons with same-slug solutions
+- 83 lab lessons without same-slug solutions
 - 3 course-level source ledgers
 - 0 certified courses
 
@@ -19,7 +19,7 @@
 
 - 32 authored course bundles versus 23 courses represented in the legacy manifest
 - 640 authored lessons versus 456 lessons represented in the legacy manifest
-- 86 lab lessons lack same-slug solution entries
+- 83 lab lessons lack same-slug solution entries
 - 29 courses lack course-level source ledgers
 - Current lab output-substring evidence is not eligible for mastery or certification
 - No course is certified by Academy Certification Harness V2
@@ -34,7 +34,7 @@
 | `career-programming_cs_foundations` | 20 | 20 | 20 | 0 | no | uncertified |
 | `python-basics` | 12 | 12 | 12 | 0 | no | uncertified |
 | `git-the-terminal` | 20 | 0 | 20 | 20 | no | uncertified |
-| `data-structures` | 20 | 0 | 20 | 3 | no | uncertified |
+| `data-structures` | 20 | 0 | 20 | 0 | no | uncertified |
 | `career-backend_engineering` | 20 | 20 | 20 | 0 | yes | uncertified |
 | `career-frontend_fullstack` | 20 | 20 | 20 | 0 | no | uncertified |
 | `career-architecture_system_design` | 20 | 20 | 0 | 0 | no | uncertified |

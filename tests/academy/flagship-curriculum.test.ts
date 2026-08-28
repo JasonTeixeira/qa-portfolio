@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import test from 'node:test'
 
 import { REQUIRED_SECTIONS, type SprintIntensity } from '../../lib/academy/engine'
@@ -179,12 +182,50 @@ test('every automation-foundation lesson produces a practical lab with a referen
       const key = `${courseSlug}/${lessonSlug}`
       const lab = blocks.find((block) => block.type === 'lab')
       assert(lab, `${key}: missing practical lab`)
-      assert((lab.starter as string | undefined)?.includes('TODO'), `${key}: lab needs novice scaffolding`)
+      const starter = lab.starter as string | undefined
+      assert((starter?.length ?? 0) > 100 && starter?.includes('#'), `${key}: lab needs novice scaffolding`)
       assert((lab.check as string | undefined)?.trim(), `${key}: missing observable lab check`)
       assert.equal(solutions[lessonSlug]?.language, lab.language, `${key}: solution language mismatch`)
       assert((solutions[lessonSlug]?.code?.length ?? 0) > 40, `${key}: missing substantive solution`)
     }
   }
+})
+
+test('every automation-foundation reference implementation satisfies its exact lab check', () => {
+  const runtimeDir = mkdtempSync(join(tmpdir(), 'academy-foundation-labs-'))
+  const normalize = (value: string) => value.replace(/\r\n/g, '\n').trimEnd()
+  let executed = 0
+
+  try {
+    for (const courseSlug of automationFoundationCourses) {
+      const lessons = JSON.parse(
+        readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'),
+      ) as Record<string, Array<Record<string, unknown>>>
+      const solutions = JSON.parse(
+        readFileSync(`data/academy/authoring/${courseSlug}.lab_solutions.json`, 'utf8'),
+      ) as Record<string, { code: string; stdin?: string }>
+
+      for (const [lessonSlug, blocks] of Object.entries(lessons)) {
+        const key = `${courseSlug}/${lessonSlug}`
+        const lab = blocks.find((block) => block.type === 'lab')
+        const solution = solutions[lessonSlug]
+        const result = spawnSync('python3', ['-I', '-c', solution.code], {
+          cwd: runtimeDir,
+          input: solution.stdin ?? '',
+          encoding: 'utf8',
+          timeout: 10_000,
+        })
+
+        assert.equal(result.status, 0, `${key}: reference runtime failed: ${result.stderr}`)
+        assert.equal(normalize(result.stdout), normalize(String(lab?.check)), `${key}: check drift`)
+        executed += 1
+      }
+    }
+  } finally {
+    rmSync(runtimeDir, { recursive: true, force: true })
+  }
+
+  assert.equal(executed, 40)
 })
 
 test('automation-foundation capstones use calibrated evidence gates', () => {

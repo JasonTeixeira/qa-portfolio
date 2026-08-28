@@ -11,6 +11,10 @@
     "language": "python",
     "code": "LINE = 8\n\ndef lines_touched(indices):\n    seen = set()\n    for i in indices:\n        seen.add(i // LINE)\n    return len(seen)\n\nn = 64\nseq = list(range(n))\nstride = list(range(0, n, 8))\nprint(\"n:\", n)\nprint(\"contiguous lines:\", lines_touched(seq))\nprint(\"contiguous accesses:\", len(seq))\nprint(\"strided lines:\", lines_touched(stride))\nprint(\"strided accesses:\", len(stride))\nprint(\"strided lines per access:\", lines_touched(stride) // len(stride))"
   },
+  "amortized-analysis": {
+    "language": "python",
+    "code": "def total_cost_doubling(n):\n    cap, size, total = 1, 0, 0\n    for _ in range(n):\n        if size == cap:\n            total += size\n            cap *= 2\n        total += 1\n        size += 1\n    return total\n\ndef total_cost_constant(n, step=4):\n    cap, size, total = step, 0, 0\n    for _ in range(n):\n        if size == cap:\n            total += size\n            cap += step\n        total += 1\n        size += 1\n    return total\n\nn = 16\nd = total_cost_doubling(n)\nc = total_cost_constant(n)\nprint(\"doubling total:\", d, \"avg:\", d // n)\nprint(\"constant  total:\", c, \"avg:\", c // n)"
+  },
   "linked-lists": {
     "language": "python",
     "code": "def values_in_order(nodes, head):\n    out = []\n    i = head\n    while i != -1:\n        out.append(nodes[i][0])\n        i = nodes[i][1]\n    return out\n\ndef reverse_links(nodes, head):\n    prev = -1\n    cur = head\n    while cur != -1:\n        nxt = nodes[cur][1]\n        nodes[cur][1] = prev\n        prev = cur\n        cur = nxt\n    return prev\n\nnodes = [[10, 1], [20, 2], [30, 3], [40, -1]]\nhead = 0\nprint(\"forward:\", values_in_order(nodes, head))\nhead = reverse_links(nodes, head)\nprint(\"reversed:\", values_in_order(nodes, head))\nprint(\"new head value:\", nodes[head][0])"
@@ -51,9 +55,17 @@
     "language": "python",
     "code": "def range_query(tree, lo, hi):\n    out = []\n    if tree is None:\n        return out\n    value, left, right = tree\n    if value > lo:\n        out += range_query(left, lo, hi)\n    if lo <= value <= hi:\n        out.append(value)\n    if value < hi:\n        out += range_query(right, lo, hi)\n    return out\n\ndef floor_value(tree, x):\n    best = None\n    node = tree\n    while node is not None:\n        value, left, right = node\n        if value == x:\n            return value\n        if value < x:\n            best = value\n            node = right\n        else:\n            node = left\n    return best\n\nbst = (5,\n       (3, (2, None, None), (4, None, None)),\n       (8, (6, None, None), (9, None, None)))\nprint(\"range [3,6]:\", range_query(bst, 3, 6))\nprint(\"floor of 7:\", floor_value(bst, 7))\nprint(\"floor of 1:\", floor_value(bst, 1))"
   },
+  "heaps-priority-queues": {
+    "language": "python",
+    "code": "import heapq\n\ntasks = []\njobs = [(3, \"email\"), (1, \"pager\"), (4, \"backup\"), (2, \"ticket\")]\nfor job in jobs:\n    heapq.heappush(tasks, job)\ntop = tasks[0]\norder = []\nwhile tasks:\n    order.append(heapq.heappop(tasks))\n\nprint(\"top (min):\", top)\nprint(\"pop order:\", order)"
+  },
   "tries": {
     "language": "python",
     "code": "END = \"$\"\n\ndef add_word(root, word):\n    node = root\n    for ch in word:\n        node = node.setdefault(ch, {})\n    node[END] = True\n\ndef walk_to(root, prefix):\n    node = root\n    for ch in prefix:\n        if ch not in node:\n            return None\n        node = node[ch]\n    return node\n\ndef completions(root, prefix):\n    node = walk_to(root, prefix)\n    out = []\n    if node is None:\n        return out\n    def collect(n, acc):\n        for ch in sorted(n):\n            if ch == END:\n                out.append(prefix + acc)\n            else:\n                collect(n[ch], acc + ch)\n    collect(node, \"\")\n    return out\n\nroot = {}\nfor w in [\"car\", \"cart\", \"care\", \"cat\", \"dog\"]:\n    add_word(root, w)\nprint(\"under 'ca':\", completions(root, \"ca\"))\nprint(\"under 'car':\", completions(root, \"car\"))\nprint(\"under 'do':\", completions(root, \"do\"))\nprint(\"under 'x':\", completions(root, \"x\"))"
+  },
+  "graph-representations": {
+    "language": "python",
+    "code": "adj = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()}\n\ndef to_matrix(adj, vertex_count):\n    matrix = [[0] * vertex_count for _ in range(vertex_count)]\n    for source, neighbors in adj.items():\n        for target in neighbors:\n            matrix[source][target] = 1\n    return matrix\n\nvertex_count = 4\nmatrix = to_matrix(adj, vertex_count)\nprint(\"neighbors of 0:\", sorted(adj[0]))\nprint(\"edge 0->2?\", matrix[0][2])\nprint(\"edge 2->1?\", matrix[2][1])\nprint(\"matrix row 0:\", matrix[0])"
   },
   "bfs-dfs": {
     "language": "python",

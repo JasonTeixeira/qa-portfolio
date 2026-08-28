@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
-  "generatedAt": "2026-08-28T16:20:24.048Z",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "generatedAt": "2026-08-28T16:43:06.753Z",
   "courseSlug": "career-programming_cs_foundations",
   "title": "Programming and Computer Science Foundations",
-  "contentHash": "sha256:4b1af7d4a8b6aefeaadeb31ddfe804b16cd12970c91346fc74f6d8d06cdcca2f",
+  "contentHash": "sha256:cf078d58837cd78852922044e02a9a6a35701d4fb75d022965220bc924bc624a",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -26,234 +26,44 @@
     },
     "structure": {
       "id": "structure",
-      "status": "pass",
-      "score": 100,
-      "checks": [
-        {
-          "id": "lesson-rollup-structure",
-          "mode": "deterministic",
-          "status": "pass",
-          "required": true,
-          "summary": "20/20 lesson(s) passed this dimension."
-        }
-      ],
-      "findings": []
-    },
-    "pedagogy": {
-      "id": "pedagogy",
       "status": "fail",
       "score": 0,
       "checks": [
         {
-          "id": "lesson-rollup-pedagogy",
+          "id": "lesson-rollup-structure",
           "mode": "deterministic",
           "status": "fail",
           "required": true,
-          "summary": "0/20 lesson(s) passed this dimension."
+          "summary": "19/20 lesson(s) passed this dimension."
         }
       ],
       "findings": [
         {
           "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
+          "category": "structure",
+          "message": "lesson block 8: callout field 'tone' must be one of tip | note",
+          "remediation": "Repair the block so it satisfies the runtime LessonBlock contract.",
           "mode": "deterministic",
-          "id": "0818113306f42a80",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "terminal-files"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "91b6157fa9f047bf",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "python-functions-inputs-outputs"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "56357d9862e7b8fb",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "types-dataclasses"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6088f812a2e0ce95",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "lists-dicts-sets"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "e3d3c1b94e72d735",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "files-json-csv"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "60d62b913d7bd9c0",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "errors-validation"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "72d9fdae9f6c846c",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "testing-basics"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "0cd3e4e32198abfe",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "complexity-big-o"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "05eb8642c4d1b839",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "frequency-maps"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "387ed4230dd9c271",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "stacks-queues"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "5b07d736b492dd11",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "two-pointers-windows"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "08fdf2ff71a31536",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "binary-search"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "58070174ce75f3d6",
+          "id": "f43d10a8826205d4",
           "courseSlug": "career-programming_cs_foundations",
           "lessonSlug": "heaps-top-k"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "10023a9a1eb6baac",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "graphs-bfs-dfs"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "b65e7d1fd2c6859f",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "dynamic-programming-intro"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "62ed50247a2dfd19",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "processes-ports-env-vars"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "6fc1e436a7fd4e42",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "http-dns-tls-basics"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required standard loop sections: worked-example, debug, tradeoff, unlock-gate",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "632e3a6262c12ea9",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "debugging-loop"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "fbe329c2fe1855b8",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "integration-mini-project"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Missing required capstone loop sections: debug, tradeoff, calibration, unlock-gate",
-          "remediation": "Restore the capstone learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "515a5c338f52d166",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "track-1-capstone"
         }
       ]
+    },
+    "pedagogy": {
+      "id": "pedagogy",
+      "status": "pending",
+      "score": null,
+      "checks": [
+        {
+          "id": "lesson-rollup-pedagogy",
+          "mode": "deterministic",
+          "status": "pending",
+          "required": true,
+          "summary": "0/20 lesson(s) passed this dimension."
+        }
+      ],
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -657,7 +467,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 77.8,
+  "deterministicScore": 88.3,
   "compositeScore": null,
   "hardFails": [
     {

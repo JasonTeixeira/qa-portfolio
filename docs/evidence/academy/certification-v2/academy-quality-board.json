@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
-  "generatedAt": "2026-08-28T16:20:24.048Z",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "generatedAt": "2026-08-28T16:43:06.753Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -16,7 +16,7 @@
     "coursesCertified": 0,
     "hardFailCounts": {
       "H1": 0,
-      "H2": 456,
+      "H2": 453,
       "H3": 0,
       "H4": 0,
       "H5": 143
@@ -345,11 +345,11 @@
       "courseSlug": "career-programming_cs_foundations",
       "title": "Programming and Computer Science Foundations",
       "lessonCount": 20,
-      "contentHash": "sha256:4b1af7d4a8b6aefeaadeb31ddfe804b16cd12970c91346fc74f6d8d06cdcca2f",
+      "contentHash": "sha256:cf078d58837cd78852922044e02a9a6a35701d4fb75d022965220bc924bc624a",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 77.8,
+      "deterministicScore": 88.3,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -375,12 +375,12 @@
           "score": null
         },
         "structure": {
-          "status": "pass",
-          "score": 100
-        },
-        "pedagogy": {
           "status": "fail",
           "score": 0
+        },
+        "pedagogy": {
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",
@@ -631,16 +631,16 @@
       "courseSlug": "data-structures",
       "title": "Data Structures",
       "lessonCount": 20,
-      "contentHash": "sha256:c5afb4b196db403711a7e5159307bd83952eded20c0dfb1648b6f440bb34bd83",
+      "contentHash": "sha256:4e353b97e86dc150ca01caf90506b288a6a8f79cdfb1c6e9607ac876ddd92b16",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
       "deterministicScore": 80,
       "compositeScore": null,
-      "hardFailCount": 23,
+      "hardFailCount": 20,
       "hardFailCounts": {
         "H1": 0,
-        "H2": 23,
+        "H2": 20,
         "H3": 0,
         "H4": 0,
         "H5": 0

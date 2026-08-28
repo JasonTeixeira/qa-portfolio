@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "observedOn": "2026-08-28",
-  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
   "totals": {
     "courses": 32,
     "lessons": 640,
     "labBlocks": 370,
-    "solutionEntries": 555,
-    "labLessonsWithSolutions": 284,
-    "labLessonsWithoutSolutions": 86,
+    "solutionEntries": 558,
+    "labLessonsWithSolutions": 287,
+    "labLessonsWithoutSolutions": 83,
     "sourceLedgers": 3
   },
   "legacyManifest": {
@@ -37,7 +37,7 @@
   "contradictions": [
     "32 authored course bundles versus 23 courses represented in the legacy manifest",
     "640 authored lessons versus 456 lessons represented in the legacy manifest",
-    "86 lab lessons lack same-slug solution entries",
+    "83 lab lessons lack same-slug solution entries",
     "29 courses lack course-level source ledgers",
     "Current lab output-substring evidence is not eligible for mastery or certification",
     "No course is certified by Academy Certification Harness V2"
@@ -164,7 +164,7 @@
       "lessons": 20,
       "legacyManifestLessons": 0,
       "labBlocks": 20,
-      "labLessonsWithoutSolutions": 3,
+      "labLessonsWithoutSolutions": 0,
       "sourceLedger": null,
       "lifecycleStatus": "draft",
       "certificationStatus": "uncertified",

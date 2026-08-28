@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
-  "registryVersion": "sha256:93dcd2f608dcee64e280a2574f3a2a26540dced53bacb572698af3b9c932e7c7",
-  "generatedAt": "2026-08-28T16:20:24.048Z",
+  "registryVersion": "sha256:316bd5e02d538190890016de1bbf1b3087f543bdec04ec7f0fc7093616387ff0",
+  "generatedAt": "2026-08-28T16:43:06.753Z",
   "items": [
     {
       "rank": 1,
@@ -43,7 +43,6 @@
       "remediation": "Provide a private reference solution and verify it in the controlled evaluator.",
       "courseSlugs": [
         "agents-tool-use",
-        "data-structures",
         "git-the-terminal",
         "nextjs-supabase",
         "programming-fundamentals",
@@ -53,9 +52,9 @@
         "system-design",
         "the-llm-api"
       ],
-      "lessonCount": 86,
-      "findingCount": 86,
-      "priority": 4100086
+      "lessonCount": 83,
+      "findingCount": 83,
+      "priority": 4090083
     },
     {
       "rank": 3,
@@ -221,14 +220,13 @@
         "career-observability_reliability_performance",
         "career-platform_engineering_internal_developer_platforms",
         "career-product_execution_market_feedback",
-        "career-programming_cs_foundations",
         "career-qa_sdet_test_automation_engineering",
         "career-security_identity",
         "career-ux_ui_product_design_for_engineers"
       ],
-      "lessonCount": 342,
-      "findingCount": 342,
-      "priority": 3200342
+      "lessonCount": 324,
+      "findingCount": 324,
+      "priority": 3190324
     },
     {
       "rank": 8,
@@ -272,16 +270,27 @@
         "career-interview_career_portfolio",
         "career-observability_reliability_performance",
         "career-product_execution_market_feedback",
-        "career-programming_cs_foundations",
         "career-security_identity",
         "nextjs-supabase"
       ],
-      "lessonCount": 28,
-      "findingCount": 28,
-      "priority": 3140028
+      "lessonCount": 26,
+      "findingCount": 26,
+      "priority": 3130026
     },
     {
       "rank": 10,
+      "category": "structure",
+      "severity": "high",
+      "remediation": "Repair the block so it satisfies the runtime LessonBlock contract.",
+      "courseSlugs": [
+        "career-programming_cs_foundations"
+      ],
+      "lessonCount": 1,
+      "findingCount": 1,
+      "priority": 3010001
+    },
+    {
+      "rank": 11,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: rendered-axe-wcag-2.2-aa.",
@@ -324,7 +333,7 @@
       "priority": 2320640
     },
     {
-      "rank": 11,
+      "rank": 12,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: keyboard-and-focus.",
@@ -367,7 +376,7 @@
       "priority": 2320640
     },
     {
-      "rank": 12,
+      "rank": 13,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: screen-reader-semantics.",
@@ -410,7 +419,7 @@
       "priority": 2320640
     },
     {
-      "rank": 13,
+      "rank": 14,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: reduced-motion.",
@@ -453,7 +462,7 @@
       "priority": 2320640
     },
     {
-      "rank": 14,
+      "rank": 15,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: zoom-and-reflow.",
@@ -496,7 +505,7 @@
       "priority": 2320640
     },
     {
-      "rank": 15,
+      "rank": 16,
       "category": "accessibility",
       "severity": "medium",
       "remediation": "Complete required accessibility evidence: target-size.",
@@ -539,7 +548,7 @@
       "priority": 2320640
     },
     {
-      "rank": 16,
+      "rank": 17,
       "category": "consistency",
       "severity": "medium",
       "remediation": "Complete required consistency evidence: rendered-consistency.",
@@ -582,7 +591,7 @@
       "priority": 2320640
     },
     {
-      "rank": 17,
+      "rank": 18,
       "category": "performance",
       "severity": "medium",
       "remediation": "Complete required performance evidence: rendered-performance.",
@@ -625,7 +634,7 @@
       "priority": 2320640
     },
     {
-      "rank": 18,
+      "rank": 19,
       "category": "ux",
       "severity": "medium",
       "remediation": "Complete required ux evidence: human-ux-review.",
@@ -668,7 +677,7 @@
       "priority": 2320640
     },
     {
-      "rank": 19,
+      "rank": 20,
       "category": "visual",
       "severity": "medium",
       "remediation": "Complete required visual evidence: human-visual-review.",
@@ -711,7 +720,7 @@
       "priority": 2320640
     },
     {
-      "rank": 20,
+      "rank": 21,
       "category": "sources",
       "severity": "medium",
       "remediation": "Complete required sources evidence: source-ledger-schema.",
@@ -751,7 +760,7 @@
       "priority": 2290580
     },
     {
-      "rank": 21,
+      "rank": 22,
       "category": "media",
       "severity": "medium",
       "remediation": "Complete required media evidence: promised-media-integrity.",

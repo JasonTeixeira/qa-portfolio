@@ -5,7 +5,14 @@ import { describe, it } from 'node:test'
 import { EVALUATOR_LIMITS, type PrivateLabSpec } from '../../lib/academy/lab-evaluator/contract'
 import { getTrustedEvaluationAttestation, isTrustedLabEvaluation } from '../../lib/academy/lab-evaluator/signing'
 import { executePrivateCaseInVercelSandbox, type VercelSandboxCreate } from '../../services/academy-lab-evaluator/src/vercel-sandbox-executor'
-import { evaluateLabWithVercelSandbox } from '../../services/academy-lab-evaluator/src/vercel-sandbox-evaluate'
+import {
+  evaluateLabWithVercelSandbox,
+  // @ts-expect-error RED checkpoint: fail-closed environment parsing is intentionally absent.
+  loadVercelSandboxEvaluatorConfig,
+} from '../../services/academy-lab-evaluator/src/vercel-sandbox-evaluate'
+// @ts-expect-error RED checkpoint: immutable stored-spec validation is intentionally absent.
+import { validateStoredPrivateSpec } from '../../services/academy-lab-evaluator/src/supabase-spec-store'
+import { privateSpecDigest } from '../../scripts/academy/lab-evaluator/staging/core'
 
 const IMAGE = `academy-runtime@sha256:${'a'.repeat(64)}`
 
@@ -87,6 +94,54 @@ function input(language: PrivateLabSpec['language'] = 'python') {
 }
 
 describe('Vercel Sandbox academy evaluator boundary', () => {
+  it('loads managed execution only with an explicit provider, strong secret, and three pinned images', () => {
+    const env = {
+      ACADEMY_LAB_EVALUATOR_PROVIDER: 'vercel-sandbox',
+      ACADEMY_LAB_EVALUATOR_SECRET: 'test-only-secret-that-is-at-least-thirty-two-bytes',
+      ACADEMY_EVALUATOR_IMAGE_PYTHON: IMAGE,
+      ACADEMY_EVALUATOR_IMAGE_JAVASCRIPT: IMAGE,
+      ACADEMY_EVALUATOR_IMAGE_SQL: IMAGE,
+    }
+    assert.deepEqual(loadVercelSandboxEvaluatorConfig(env), {
+      secret: env.ACADEMY_LAB_EVALUATOR_SECRET,
+      images: { python: IMAGE, javascript: IMAGE, sql: IMAGE },
+    })
+    assert.equal(loadVercelSandboxEvaluatorConfig({}), null)
+    assert.throws(() => loadVercelSandboxEvaluatorConfig({
+      ...env,
+      ACADEMY_EVALUATOR_IMAGE_PYTHON: 'python:latest',
+    }), /digest-pinned/i)
+    assert.throws(() => loadVercelSandboxEvaluatorConfig({
+      ...env,
+      ACADEMY_LAB_EVALUATOR_SECRET: 'short',
+    }), /secret/i)
+  })
+
+  it('accepts only the exact immutable Supabase spec record pinned by the public manifest', () => {
+    const privateSpec = spec()
+    const digest = privateSpecDigest(privateSpec)
+    assert.equal(validateStoredPrivateSpec({
+      lab_key: privateSpec.labKey,
+      spec_revision: privateSpec.specRevision,
+      spec_digest: digest,
+      spec: privateSpec,
+    }, {
+      labKey: privateSpec.labKey,
+      specRevision: privateSpec.specRevision,
+      specDigest: digest,
+    }).labKey, privateSpec.labKey)
+    assert.throws(() => validateStoredPrivateSpec({
+      lab_key: privateSpec.labKey,
+      spec_revision: privateSpec.specRevision,
+      spec_digest: digest,
+      spec: { ...privateSpec, referenceSolution: 'tampered' },
+    }, {
+      labKey: privateSpec.labKey,
+      specRevision: privateSpec.specRevision,
+      specDigest: digest,
+    }), /digest mismatch/i)
+  })
+
   it('produces a request-bound aggregate attestation without returning hidden cases', async () => {
     const privateSpec = spec()
     const evaluation = await evaluateLabWithVercelSandbox({

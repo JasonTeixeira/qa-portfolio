@@ -66,6 +66,7 @@ describe('academy mastery evidence trust boundary', () => {
 
   it('removes the learner-output substring verifier from the application path', () => {
     const action = readFileSync('app/academy/_actions/evidence.ts', 'utf8')
+    const evaluator = readFileSync('lib/academy/lab-evaluator/client-server.ts', 'utf8')
     const runner = readFileSync('components/academy/lab/LabRunner.tsx', 'utf8')
     assert.equal(action.includes('submittedOutput'), false)
     assert.equal(action.includes('.includes(check'), false)
@@ -80,6 +81,11 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(action, /mastery_writes_disabled/)
     assert.equal(runner.includes('lastOutputRef'), false)
     assert.match(runner, /verifyLab\(courseSlug, lessonSlug, code\)/)
+    assert.match(evaluator, /ACADEMY_LAB_EVALUATOR_PROVIDER/)
+    assert.match(evaluator, /evaluateLabWithVercelSandbox/)
+    assert.match(evaluator, /academy_private_lab_specs/)
+    assert.match(evaluator, /flagshipLabSpecDigest/)
+    assert.match(evaluator, /validateStoredPrivateSpec/)
   })
 
   it('denies generic lab_verified writes and provides an atomic append-only ledger function', () => {

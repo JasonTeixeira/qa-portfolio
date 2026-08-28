@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getAcademyStats } from '@/components/academy/landing/stats'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { ACADEMY_PLANS } from '@/lib/academy/plans'
+import { buildCourse, buildFAQPage } from '@/lib/seo/jsonld'
+
+const SITE = 'https://www.sageideas.dev'
 
 /**
  * Public pricing page, implemented 1:1 from
@@ -170,8 +173,22 @@ const FAQS = [
 export default async function AcademyPricingPage() {
   const { coursesCount, lessonsCount } = await getAcademyStats()
 
+  const pricingLd = [
+    buildCourse({
+      name: 'Sage Academy membership',
+      description:
+        'One membership, every course as it ships — interactive lessons, in-browser labs, spaced-recall mastery loops, leagues, and certificates verifiable by code.',
+      url: `${SITE}/academy/pricing`,
+      priceCents: ACADEMY_PLANS.monthly.amountCents,
+      cadence: 'monthly',
+      workload: 'PT30M',
+    }),
+    buildFAQPage(FAQS.map((f) => ({ question: f.q, answer: f.a }))),
+  ]
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingLd) }} />
       <AcademyNav />
       <div
         style={{
@@ -392,6 +409,9 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               marginTop: 26,
             }}
           >
+            <span style={{ ...mono, fontSize: 11, color: INK, border: `1px solid rgba(61,90,254,0.4)`, background: 'rgba(61,90,254,0.08)', borderRadius: 999, padding: '6px 14px' }}>
+              ✦ Every plan starts with a <b style={{ color: '#8FA0FF' }}>7-day free trial</b> — cancel anytime, we remind you first.
+            </span>
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
               14-day honest guarantee on every plan: no proof shipped, full refund.{' '}
               <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>

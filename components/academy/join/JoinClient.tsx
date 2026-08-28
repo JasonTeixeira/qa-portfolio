@@ -111,13 +111,13 @@ export function JoinClient({
                 'Starting…'
               ) : (
                 <>
-                  {signedIn ? `Start ${interval} membership` : 'Sign in & subscribe'}
+                  {signedIn ? 'Start 7-day free trial' : 'Sign in & start free trial'}
                   <Icon name="arrow-right" size={16} aria-hidden="true" />
                 </>
               )}
             </button>
             <p className={styles.fine}>
-              Secure checkout by Stripe. {interval === 'yearly' ? 'Billed $200/year.' : 'Billed $20/month.'} Cancel anytime.
+              Free for 7 days, then {plan.price}{plan.cadence}. We&apos;ll remind you before it renews. Cancel anytime · secure checkout by Stripe.
             </p>
             <p className={styles.msg} role="status" aria-live="polite">{msg}</p>
           </div>

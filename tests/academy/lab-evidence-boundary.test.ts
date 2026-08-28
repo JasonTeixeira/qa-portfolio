@@ -115,4 +115,15 @@ describe('academy mastery evidence trust boundary', () => {
     assert.match(privateSpecsMigration, /grant select[\s\S]*?to service_role/i)
     assert.match(privateSpecsMigration, /append-only/i)
   })
+
+  it('defines secret-free, base-digest-required images for managed sandbox boot', () => {
+    const python = readFileSync('services/academy-lab-evaluator/runtimes/python-sql/Dockerfile.vercel-sandbox', 'utf8')
+    const javascript = readFileSync('services/academy-lab-evaluator/runtimes/javascript/Dockerfile.vercel-sandbox', 'utf8')
+    for (const dockerfile of [python, javascript]) {
+      assert.match(dockerfile, /^ARG BASE_IMAGE/m)
+      assert.match(dockerfile, /^FROM \$\{BASE_IMAGE\}$/m)
+      assert.match(dockerfile, /^WORKDIR \/vercel\/sandbox$/m)
+      assert.equal(/secret|reference|private-spec/i.test(dockerfile), false)
+    }
+  })
 })

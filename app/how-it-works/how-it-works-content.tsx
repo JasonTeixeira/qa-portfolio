@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 
 /**
  * "How it works" — the mastery loop, implemented 1:1 from
@@ -246,21 +247,22 @@ export function HowItWorksContent() {
             </h2>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
               <Link
-                href="/academy/course/programming-fundamentals"
+                href="/academy/course/career-engineering_judgment_foundation"
                 style={{ display: 'inline-flex', color: '#fff', background: ACCENT, textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '15px 28px', borderRadius: 26, boxShadow: '0 0 24px rgba(61,90,254,0.35)', whiteSpace: 'nowrap' }}
               >
                 Start with Engineering Judgment
               </Link>
               <Link
-                href="/academy/catalog"
+                href="/academy/try"
                 style={{ display: 'inline-flex', color: INK, border: `1px solid ${LINE_STRONG}`, textDecoration: 'none', fontSize: 15, padding: '14px 28px', borderRadius: 26, whiteSpace: 'nowrap' }}
               >
-                Browse the catalog
+                Try a lesson free
               </Link>
             </div>
           </div>
         </section>
 
+        <EcosystemBand />
         <AcademyFooter />
       </div>
     </>

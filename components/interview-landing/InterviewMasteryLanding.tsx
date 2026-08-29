@@ -375,10 +375,12 @@ export function InterviewMasteryLanding() {
 
       <footer className={styles.footer}>
         <span>Sage Academy · Interview Mastery</span>
-        <Link href="/pricing">Plans</Link>
+        <Link href="/academy/method">The method</Link>
+        <Link href="/academy/try">Try a lesson</Link>
+        <Link href="/academy/pricing">Plans</Link>
         <Link href="/academy/help">Help</Link>
         <Link href="/academy/legal">Legal</Link>
-        <span className={styles.footRight}>proof over promises · © {new Date().getFullYear()}</span>
+        <span className={styles.footRight}>an add-on to <Link href="/academy">Sage Academy</Link> · © {new Date().getFullYear()}</span>
       </footer>
     </div>
   )

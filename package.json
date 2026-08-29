@@ -231,7 +231,8 @@
     "sagebot:launch-readiness-loop:deploy": "node scripts/discord/run-launch-readiness-loop.mjs --deploy --seed",
     "discord:content-calendar-readiness": "tsx scripts/discord/write-content-calendar-readiness.ts",
     "discord:interaction-engine-readiness": "tsx scripts/discord/write-interaction-engine-readiness.ts",
-    "discord:content-engine-proof": "npm run discord:content-calendar-readiness && npm run discord:interaction-engine-readiness && npm run discord:content-factory:week:dry-run && npm run discord:content-factory-readiness && npm run discord:smoke-learning-generator && npm run discord:smoke-weekly-leaderboard-recap"
+    "discord:content-engine-proof": "npm run discord:content-calendar-readiness && npm run discord:interaction-engine-readiness && npm run discord:content-factory:week:dry-run && npm run discord:content-factory-readiness && npm run discord:smoke-learning-generator && npm run discord:smoke-weekly-leaderboard-recap",
+    "i18n:heal": "tsx scripts/heal-i18n.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.879.0",

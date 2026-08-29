@@ -5,6 +5,8 @@
  * "typical"). Horizontally scrollable on narrow screens.
  */
 
+import { getT } from '@/lib/i18n/t'
+
 const INK = '#F2EFE9'
 const LINE = '#1E1E24'
 const GREEN = '#18B663'
@@ -24,17 +26,19 @@ const ROWS: Row[] = [
   { label: 'The promise', sage: 'Verifiable skill', bootcamp: 'A job (fine print)', cert: 'Hours of video', sageWin: true },
 ]
 
-export function CompareTable() {
+export async function CompareTable() {
+  const t = await getT()
+
   return (
     <section id="compare" style={{ borderTop: `1px solid ${LINE}`, background: '#0D0D11' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 100px) clamp(20px, 4vw, 48px)' }}>
         <div style={{ maxWidth: 680 }}>
-          <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>The honest comparison</div>
+          <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>{t('The honest comparison')}</div>
           <h2 style={{ ...serif, margin: '14px 0 0', fontWeight: 600, fontSize: 'clamp(30px, 3.6vw, 48px)', lineHeight: 1.04, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-            Not a bootcamp. Not another <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>certificate.</em>
+            {t('Not a bootcamp. Not another')} <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>{t('certificate.')}</em>
           </h2>
           <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '58ch', textWrap: 'pretty' }}>
-            The industry sells you a price tag or a piece of paper. We sell the one thing a hiring manager can actually check.
+            {t('The industry sells you a price tag or a piece of paper. We sell the one thing a hiring manager can actually check.')}
           </p>
         </div>
 
@@ -55,15 +59,15 @@ export function CompareTable() {
                   }}
                 >
                   <div style={{ ...serif, fontSize: 18, fontWeight: 600, color: INK }}>Sage Academy</div>
-                  <div style={{ ...mono, fontSize: 10.5, color: '#8FA0FF', marginTop: 2 }}>proof, not paper</div>
+                  <div style={{ ...mono, fontSize: 10.5, color: '#8FA0FF', marginTop: 2 }}>{t('proof, not paper')}</div>
                 </th>
                 <th style={{ textAlign: 'left', padding: '16px 20px' }}>
-                  <div style={{ ...serif, fontSize: 18, fontWeight: 600, color: DIM }}>Bootcamp</div>
-                  <div style={{ ...mono, fontSize: 10.5, color: '#5A5A64', marginTop: 2 }}>the big bet</div>
+                  <div style={{ ...serif, fontSize: 18, fontWeight: 600, color: DIM }}>{t('Bootcamp')}</div>
+                  <div style={{ ...mono, fontSize: 10.5, color: '#5A5A64', marginTop: 2 }}>{t('the big bet')}</div>
                 </th>
                 <th style={{ textAlign: 'left', padding: '16px 20px' }}>
-                  <div style={{ ...serif, fontSize: 18, fontWeight: 600, color: DIM }}>Cert / video library</div>
-                  <div style={{ ...mono, fontSize: 10.5, color: '#5A5A64', marginTop: 2 }}>the badge</div>
+                  <div style={{ ...serif, fontSize: 18, fontWeight: 600, color: DIM }}>{t('Cert / video library')}</div>
+                  <div style={{ ...mono, fontSize: 10.5, color: '#5A5A64', marginTop: 2 }}>{t('the badge')}</div>
                 </th>
               </tr>
             </thead>
@@ -72,7 +76,7 @@ export function CompareTable() {
                 const last = i === ROWS.length - 1
                 return (
                   <tr key={r.label}>
-                    <td style={{ padding: '16px 18px 16px 0', verticalAlign: 'top', fontSize: 13.5, color: DIM, whiteSpace: 'nowrap' }}>{r.label}</td>
+                    <td style={{ padding: '16px 18px 16px 0', verticalAlign: 'top', fontSize: 13.5, color: DIM, whiteSpace: 'nowrap' }}>{t(r.label)}</td>
                     <td
                       style={{
                         padding: '16px 20px',
@@ -89,11 +93,11 @@ export function CompareTable() {
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8 }}>
                         {r.sageWin ? <span style={{ color: GREEN }}>✓</span> : null}
-                        {r.sage}
+                        {t(r.sage)}
                       </span>
                     </td>
-                    <td style={{ padding: '16px 20px', borderBottom: `1px solid ${LINE}`, fontSize: 14, color: DIM }}>{r.bootcamp}</td>
-                    <td style={{ padding: '16px 20px', borderBottom: `1px solid ${LINE}`, fontSize: 14, color: DIM }}>{r.cert}</td>
+                    <td style={{ padding: '16px 20px', borderBottom: `1px solid ${LINE}`, fontSize: 14, color: DIM }}>{t(r.bootcamp)}</td>
+                    <td style={{ padding: '16px 20px', borderBottom: `1px solid ${LINE}`, fontSize: 14, color: DIM }}>{t(r.cert)}</td>
                   </tr>
                 )
               })}

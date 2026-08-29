@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useT } from '@/components/i18n/locale-provider'
 
 /**
  * "The ideas in motion" — the three AI-engineering concept explainers (RAG,
@@ -62,6 +63,7 @@ const CLIPS: Clip[] = [
 ]
 
 export function VideoSection() {
+  const t = useT()
   const [active, setActive] = useState(0)
   const clip = CLIPS[active]
 
@@ -69,17 +71,17 @@ export function VideoSection() {
     <section id="watch" style={{ borderTop: `1px solid ${LINE}` }}>
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 100px) clamp(20px, 4vw, 48px)' }}>
         <div style={{ maxWidth: 680 }}>
-          <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>The ideas in motion</div>
+          <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>{t('The ideas in motion')}</div>
           <h2 style={{ ...serif, margin: '14px 0 0', fontWeight: 600, fontSize: 'clamp(30px, 3.6vw, 48px)', lineHeight: 1.04, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-            The concepts behind modern AI — <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>explained</em>, not name-dropped.
+            {t('The concepts behind modern AI —')} <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>{t('explained')}</em>{t(', not name-dropped.')}
           </h2>
           <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '58ch', textWrap: 'pretty' }}>
-            The same clarity every lesson is built for — the ideas you&apos;ll actually use, each explained in under a minute.
+            {t("The same clarity every lesson is built for — the ideas you'll actually use, each explained in under a minute.")}
           </p>
         </div>
 
         {/* Tabs */}
-        <div role="tablist" aria-label="Concept explainers" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
+        <div role="tablist" aria-label={t('Concept explainers')} style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
           {CLIPS.map((c, i) => {
             const on = i === active
             return (
@@ -106,7 +108,7 @@ export function VideoSection() {
                   transition: 'border-color 160ms ease, background 160ms ease, color 160ms ease',
                 }}
               >
-                {c.tab}
+                {t(c.tab)}
                 <span style={{ fontSize: 10.5, color: on ? '#8FA0FF' : '#5A5A64' }}>{c.dur}</span>
               </button>
             )
@@ -119,7 +121,7 @@ export function VideoSection() {
               key={clip.key}
               controls
               preload="none"
-              aria-label={`${clip.title} — narrated`}
+              aria-label={`${t(clip.title)} — narrated`}
               poster={clip.poster}
               style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}
             >
@@ -129,10 +131,10 @@ export function VideoSection() {
           </figure>
 
           <div style={{ minWidth: 0 }}>
-            <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>{clip.tab} · {clip.dur}</div>
-            <h3 style={{ ...serif, margin: '12px 0 0', fontWeight: 600, fontSize: 'clamp(22px, 2.4vw, 30px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: INK }}>{clip.title}</h3>
-            <p style={{ margin: '14px 0 0', color: '#9C9CA6', fontSize: 15.5, lineHeight: 1.6, maxWidth: '46ch' }}>{clip.blurb}</p>
-            <div style={{ ...mono, fontSize: 11, color: '#5A5A64', marginTop: 20 }}>narrated by the founder · no faces, no fluff</div>
+            <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>{t(clip.tab)} · {clip.dur}</div>
+            <h3 style={{ ...serif, margin: '12px 0 0', fontWeight: 600, fontSize: 'clamp(22px, 2.4vw, 30px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: INK }}>{t(clip.title)}</h3>
+            <p style={{ margin: '14px 0 0', color: '#9C9CA6', fontSize: 15.5, lineHeight: 1.6, maxWidth: '46ch' }}>{t(clip.blurb)}</p>
+            <div style={{ ...mono, fontSize: 11, color: '#5A5A64', marginTop: 20 }}>{t('narrated by the founder · no faces, no fluff')}</div>
           </div>
         </div>
       </div>

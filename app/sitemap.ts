@@ -6,8 +6,36 @@ import { comparisons } from '@/data/compare/comparisons'
 import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { getServiceIndustryPages } from '@/lib/seo/service-industry-pages'
+import { locales, defaultLocale, localeHrefLang } from '@/lib/i18n/config'
 
 const SITE = 'https://www.sageideas.dev'
+
+// Academy funnel pages that are actually translated (shell + Phase 1 body +
+// Phase 1b metadata). Only these get a sitemap hreflang cluster — honest
+// hreflang: never advertise a locale variant for a page still in English.
+const TRANSLATED_PATHS = new Set<string>([
+  '/academy',
+  '/academy/about',
+  '/academy/method',
+  '/academy/proof-not-paper',
+  '/academy/projects',
+  '/academy/pricing',
+  '/academy/try',
+  '/academy/guarantee',
+  '/academy/how-we-audit',
+  '/academy/catalog',
+])
+
+/** Build a per-entry sitemap `alternates.languages` hreflang map for a path. */
+function localeAlternates(path: string): { languages: Record<string, string> } | undefined {
+  if (!TRANSLATED_PATHS.has(path)) return undefined
+  const languages: Record<string, string> = {}
+  for (const l of locales) {
+    languages[localeHrefLang[l]] = l === defaultLocale ? `${SITE}${path}` : `${SITE}/${l}${path}`
+  }
+  languages['x-default'] = `${SITE}${path}`
+  return { languages }
+}
 
 const staticRoutes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
   { path: '/', priority: 1.0, changeFrequency: 'weekly' },
@@ -21,6 +49,8 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy/starter', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/academy/map', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/academy/method', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/academy/about', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/academy/proof-not-paper', priority: 0.75, changeFrequency: 'monthly' },
   { path: '/academy/projects', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/academy/try', priority: 0.85, changeFrequency: 'monthly' },
   ...(conceptsManifest as { concepts: { slug: string }[] }).concepts.map((c) => ({ path: `/academy/concepts/${c.slug}`, priority: 0.7, changeFrequency: 'monthly' as const })),
@@ -81,11 +111,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = getAllBlogPosts()
   const serviceIndustryPages = getServiceIndustryPages()
   return [
-    ...staticRoutes.map((r) => ({
-      url: `${SITE}${r.path}`,
-      changeFrequency: r.changeFrequency,
-      priority: r.priority,
-    })),
+    ...staticRoutes.map((r) => {
+      const alternates = localeAlternates(r.path)
+      return {
+        url: `${SITE}${r.path}`,
+        changeFrequency: r.changeFrequency,
+        priority: r.priority,
+        ...(alternates ? { alternates } : {}),
+      }
+    }),
     ...tiers.map((t) => ({
       url: `${SITE}/services/${t.slug}`,
       changeFrequency: 'monthly' as const,

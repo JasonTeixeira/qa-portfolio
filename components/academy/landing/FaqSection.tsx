@@ -6,6 +6,7 @@
  */
 
 import Link from 'next/link'
+import { getT } from '@/lib/i18n/t'
 
 const INK = '#F2EFE9'
 const LINE = '#1E1E24'
@@ -42,14 +43,16 @@ const FAQS: QA[] = [
   },
 ]
 
-export function FaqSection() {
+export async function FaqSection() {
+  const t = await getT()
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: FAQS.map((f) => ({
       '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
+      name: t(f.q),
+      acceptedAnswer: { '@type': 'Answer', text: t(f.a) },
     })),
   }
 
@@ -57,9 +60,9 @@ export function FaqSection() {
     <section id="faq" style={{ borderTop: `1px solid ${LINE}` }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div style={{ maxWidth: 900, margin: '0 auto', padding: 'clamp(56px, 8vw, 100px) clamp(20px, 4vw, 48px)' }}>
-        <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>Straight answers</div>
+        <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>{t('Straight answers')}</div>
         <h2 style={{ ...serif, margin: '14px 0 32px', fontWeight: 600, fontSize: 'clamp(30px, 3.6vw, 48px)', lineHeight: 1.04, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-          The questions you were about to ask.
+          {t('The questions you were about to ask.')}
         </h2>
 
         <div style={{ borderTop: `1px solid ${LINE}` }}>
@@ -80,20 +83,20 @@ export function FaqSection() {
                   color: INK,
                 }}
               >
-                {f.q}
+                {t(f.q)}
                 <span aria-hidden="true" style={{ ...mono, fontSize: 22, color: '#8FA0FF', lineHeight: 1, flexShrink: 0 }}>+</span>
               </summary>
-              <p style={{ margin: '0 4px 24px', color: '#9C9CA6', fontSize: 15.5, lineHeight: 1.7, maxWidth: '70ch' }}>{f.a}</p>
+              <p style={{ margin: '0 4px 24px', color: '#9C9CA6', fontSize: 15.5, lineHeight: 1.7, maxWidth: '70ch' }}>{t(f.a)}</p>
             </details>
           ))}
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, marginTop: 36 }}>
           <Link href="/academy/signup" style={{ display: 'inline-flex', alignItems: 'center', background: '#3D5AFE', color: '#fff', textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '15px 28px', borderRadius: 26, boxShadow: '0 0 22px rgba(61,90,254,0.35)' }}>
-            Start free
+            {t('Start free')}
           </Link>
           <Link href="/academy/help" style={{ ...mono, fontSize: 12, color: '#8FA0FF', textDecoration: 'none' }}>
-            still have a question? talk to us →
+            {t('still have a question? talk to us →')}
           </Link>
         </div>
       </div>

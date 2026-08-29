@@ -1,11 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
-export const metadata: Metadata = {
-  title: 'The ship-proof guarantee, without the fine-print games — Sage Academy',
-  description:
-    'Exactly what a Sage Academy membership promises, what it never promises, and how refunds work — in plain language. Ship real, code-verifiable proof in your first 14 days, or you don’t pay.',
-  alternates: { canonical: 'https://www.sageideas.dev/academy/guarantee' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('The ship-proof guarantee, without the fine-print games — Sage Academy'),
+    description: t(
+      "Exactly what a Sage Academy membership promises, what it never promises, and how refunds work — in plain language. Ship real, code-verifiable proof in your first 14 days, or you don’t pay."
+    ),
+    alternates: localizedAlternates('/academy/guarantee', locale),
+  }
 }
 
 const TERMS = [
@@ -33,7 +41,8 @@ const TERMS = [
 
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 
-export default function GuaranteePage() {
+export default async function GuaranteePage() {
+  const t = await getT()
   return (
     <div
       style={{
@@ -46,7 +55,7 @@ export default function GuaranteePage() {
     >
       <main style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 3vw, 32px) 80px' }}>
         <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>
-          Membership · plain-language policy · 2 minute read
+          {t('Membership · plain-language policy · 2 minute read')}
         </div>
         <h1
           style={{
@@ -59,18 +68,16 @@ export default function GuaranteePage() {
             maxWidth: '20ch',
           }}
         >
-          The ship-proof guarantee, without the fine-print games.
+          {t('The ship-proof guarantee, without the fine-print games.')}
         </h1>
         <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '60ch' }}>
-          We sell verifiable skill, not a certificate you frame and forget. Our proof is honest
-          enough that we can put money on it. Here is exactly what a membership promises, what it
-          doesn’t, and how refunds work.
+          {t('We sell verifiable skill, not a certificate you frame and forget. Our proof is honest enough that we can put money on it. Here is exactly what a membership promises, what it doesn’t, and how refunds work.')}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 44 }}>
-          {TERMS.map((t) => (
+          {TERMS.map((term) => (
             <div
-              key={t.glyph}
+              key={term.glyph}
               style={{
                 border: '1px solid #1E1E24',
                 borderRadius: 16,
@@ -81,12 +88,12 @@ export default function GuaranteePage() {
                 gap: 18,
               }}
             >
-              <span style={{ ...mono, fontSize: 13, color: '#8FA0FF', paddingTop: 2 }}>{t.glyph}</span>
+              <span style={{ ...mono, fontSize: 13, color: '#8FA0FF', paddingTop: 2 }}>{term.glyph}</span>
               <div>
                 <div style={{ fontFamily: 'var(--font-serif), Georgia, serif', fontWeight: 600, fontSize: 20, letterSpacing: '-0.015em' }}>
-                  {t.title}
+                  {t(term.title)}
                 </div>
-                <p style={{ margin: '8px 0 0', fontSize: 14.5, color: '#9C9CA6', maxWidth: '62ch' }}>{t.body}</p>
+                <p style={{ margin: '8px 0 0', fontSize: 14.5, color: '#9C9CA6', maxWidth: '62ch' }}>{t(term.body)}</p>
               </div>
             </div>
           ))}
@@ -102,13 +109,10 @@ export default function GuaranteePage() {
           }}
         >
           <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF', marginBottom: 10 }}>
-            What we will never promise
+            {t('What we will never promise')}
           </div>
           <p style={{ margin: 0, fontSize: 14.5, color: '#B6B6C0', maxWidth: '66ch' }}>
-            A job, or a paper credential that impresses on its own. Hiring involves luck, timing, and
-            people we don’t control — and the industry is drowning in certificates that mean nothing.
-            We promise the thing we can measure and you can show: real, code-verifiable proof that you
-            can build — or you don’t pay.
+            {t('A job, or a paper credential that impresses on its own. Hiring involves luck, timing, and people we don’t control — and the industry is drowning in certificates that mean nothing. We promise the thing we can measure and you can show: real, code-verifiable proof that you can build — or you don’t pay.')}
           </p>
         </div>
 
@@ -128,13 +132,13 @@ export default function GuaranteePage() {
               whiteSpace: 'nowrap',
             }}
           >
-            See plans
+            {t('See plans')}
           </Link>
           <Link href="/academy/how-we-audit" style={{ ...mono, fontSize: 11, color: '#8FA0FF', textDecoration: 'underline', textUnderlineOffset: 3 }}>
-            how we hold our own courses to this bar →
+            {t('how we hold our own courses to this bar →')}
           </Link>
           <Link href="/academy/help" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'none' }}>
-            questions? talk to us →
+            {t('questions? talk to us →')}
           </Link>
         </div>
       </main>

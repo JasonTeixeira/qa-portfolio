@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { loadRuntime, type LabRuntime } from '@/components/academy/lab/runtimes'
+import { useT } from '@/components/i18n/locale-provider'
 
 /**
  * The hero's "prove it live" moment: a real in-browser Python runtime a visitor
@@ -45,6 +46,7 @@ const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 type Phase = 'idle' | 'booting' | 'ready' | 'running'
 
 export function HeroLab() {
+  const t = useT()
   const [code, setCode] = useState(STARTER)
   const [phase, setPhase] = useState<Phase>('idle')
   const [output, setOutput] = useState<string | null>(null)
@@ -60,7 +62,7 @@ export function HeroLab() {
         runtimeRef.current = await loadRuntime('python')
       } catch {
         setPhase('idle')
-        setOutput('Could not start the runtime. Refresh and try again.')
+        setOutput(t('Could not start the runtime. Refresh and try again.'))
         return
       }
     }
@@ -72,7 +74,7 @@ export function HeroLab() {
       buf = e instanceof Error ? e.message : String(e)
     }
     const clean = buf.trim()
-    setOutput(clean.length ? clean : '(ran with no output)')
+    setOutput(clean.length ? clean : t('(ran with no output)'))
     setPassed(clean === EXPECTED)
     setPhase('ready')
   }
@@ -84,7 +86,15 @@ export function HeroLab() {
   }
 
   const statusLabel =
-    phase === 'booting' ? 'starting python…' : phase === 'running' ? 'running…' : passed === true ? '✓ check passed' : passed === false ? '✗ check failed' : 'ready to run'
+    phase === 'booting'
+      ? t('starting python…')
+      : phase === 'running'
+        ? t('running…')
+        : passed === true
+          ? `✓ ${t('check passed')}`
+          : passed === false
+            ? `✗ ${t('check failed')}`
+            : t('ready to run')
   const statusColor = passed === true ? C.green : passed === false ? C.red : C.dim
 
   return (
@@ -110,7 +120,7 @@ export function HeroLab() {
         }}
       >
         <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.12em', color: C.dim }}>
-          In-browser Python · no signup
+          {t('In-browser Python · no signup')}
         </span>
         <span style={{ ...mono, fontSize: 10.5, color: statusColor }}>{statusLabel}</span>
       </figcaption>
@@ -122,7 +132,7 @@ export function HeroLab() {
           if (passed !== null) setPassed(null)
         }}
         spellCheck={false}
-        aria-label="Editable Python — fix the average function"
+        aria-label={t('Editable Python — fix the average function')}
         style={{
           ...mono,
           display: 'block',
@@ -144,15 +154,15 @@ export function HeroLab() {
         {output !== null ? (
           <div style={{ ...mono, fontSize: 12.5, lineHeight: 1.6 }}>
             {passed === true ? (
-              <span style={{ color: C.green }}>✓ output is {EXPECTED} — the check passes.</span>
+              <span style={{ color: C.green }}>✓ {t('output is')} {EXPECTED} {t('— the check passes.')}</span>
             ) : (
               <span style={{ color: C.red }}>
-                ✗ got <b style={{ color: C.ink }}>{output}</b> · expected {EXPECTED}
+                ✗ {t('got')} <b style={{ color: C.ink }}>{output}</b> · {t('expected')} {EXPECTED}
               </span>
             )}
           </div>
         ) : (
-          <div style={{ ...mono, fontSize: 12.5, color: C.dim }}>Run it. It fails. Fix line 3, run again — watch it go green.</div>
+          <div style={{ ...mono, fontSize: 12.5, color: C.dim }}>{t('Run it. It fails. Fix line 3, run again — watch it go green.')}</div>
         )}
       </div>
 
@@ -186,7 +196,7 @@ export function HeroLab() {
             opacity: phase === 'booting' || phase === 'running' ? 0.7 : 1,
           }}
         >
-          {phase === 'booting' ? 'starting…' : phase === 'running' ? 'running…' : '▸ Run'}
+          {phase === 'booting' ? t('starting…') : phase === 'running' ? t('running…') : `▸ ${t('Run')}`}
         </button>
         {passed !== null ? (
           <button
@@ -194,23 +204,23 @@ export function HeroLab() {
             onClick={reset}
             style={{ ...mono, background: 'transparent', border: `1px solid ${C.line}`, color: C.dim, fontSize: 11.5, padding: '8px 14px', borderRadius: 18, cursor: 'pointer' }}
           >
-            reset
+            {t('reset')}
           </button>
         ) : null}
 
         {passed === true ? (
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginLeft: 'auto', flexWrap: 'wrap' }}>
-            <span style={{ ...mono, fontSize: 11, color: C.green }}>that&apos;s a lesson, minus the signup.</span>
+            <span style={{ ...mono, fontSize: 11, color: C.green }}>{t("that's a lesson, minus the signup.")}</span>
             <Link
               href="/academy/signup"
               style={{ ...mono, fontSize: 11.5, fontWeight: 600, color: C.accentInk, textDecoration: 'underline', textUnderlineOffset: 3 }}
             >
-              start free →
+              {t('start free')} →
             </Link>
           </span>
         ) : (
           <span style={{ ...mono, fontSize: 10.5, color: '#5A5A64', marginLeft: 'auto' }}>
-            real runtime · in a lesson this check is server-verified
+            {t('real runtime · in a lesson this check is server-verified')}
           </span>
         )}
       </div>

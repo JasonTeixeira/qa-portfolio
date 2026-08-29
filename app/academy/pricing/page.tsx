@@ -4,6 +4,9 @@ import { getAcademyStats } from '@/components/academy/landing/stats'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { ACADEMY_PLANS } from '@/lib/academy/plans'
 import { buildCourse, buildFAQPage } from '@/lib/seo/jsonld'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -28,10 +31,16 @@ const SITE = 'https://www.sageideas.dev'
  *   add-on slot), styled in the design's gold accent.
  */
 
-export const metadata: Metadata = {
-  title: 'Pricing · Sage Academy',
-  description:
-    'Simple, honest pricing. Every plan includes everything — every course as it ships, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Pricing · Sage Academy'),
+    description: t(
+      'Simple, honest pricing. Every plan includes everything — every course as it ships, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.',
+    ),
+    alternates: localizedAlternates('/academy/pricing', locale),
+  }
 }
 
 const ACCENT = '#3D5AFE'
@@ -171,6 +180,7 @@ const FAQS = [
 ]
 
 export default async function AcademyPricingPage() {
+  const t = await getT()
   const { coursesCount, lessonsCount } = await getAcademyStats()
 
   const pricingLd = [
@@ -267,7 +277,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             }}
           />
           <div style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>
-            Simple, honest pricing
+            {t('Simple, honest pricing')}
           </div>
           <h1
             style={{
@@ -281,12 +291,12 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               textWrap: 'balance',
             }}
           >
-            You&rsquo;re not buying hours of video. You&rsquo;re buying{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>a body of work.</em>
+            {t('You’re not buying hours of video. You’re buying')}{' '}
+            <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>{t('a body of work.')}</em>
           </h1>
           <p style={{ margin: '20px auto 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '54ch', textWrap: 'pretty' }}>
-            Every plan includes everything — all {coursesCount} courses as they ship, every lab and proof, spaced
-            recall, leagues, and verifiable certificates. Pick the commitment, not the features.
+            {t('Every plan includes everything — all')} {coursesCount}{' '}
+            {t('courses as they ship, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.')}
           </p>
         </header>
 
@@ -337,12 +347,12 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                       boxShadow: '0 0 18px rgba(61,90,254,0.45)',
                     }}
                   >
-                    {p.tag}
+                    {t(p.tag)}
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                   <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9598A2' }}>
-                    {p.name}
+                    {t(p.name)}
                   </span>
                   {p.sideTag && (
                     <span
@@ -356,7 +366,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {p.sideTag}
+                      {t(p.sideTag)}
                     </span>
                   )}
                 </div>
@@ -364,14 +374,14 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                   <span style={{ ...serif, fontWeight: 600, fontSize: p.priceSize, letterSpacing: '-0.035em', lineHeight: 1 }}>
                     {p.price}
                   </span>
-                  {p.per && <span style={{ color: '#9598A2', fontSize: 14, whiteSpace: 'nowrap' }}>{p.per}</span>}
+                  {p.per && <span style={{ color: '#9598A2', fontSize: 14, whiteSpace: 'nowrap' }}>{t(p.per)}</span>}
                 </div>
-                <div style={{ fontSize: 13, color: '#9598A2', marginBottom: 22, minHeight: 20 }}>{p.note}</div>
+                <div style={{ fontSize: 13, color: '#9598A2', marginBottom: 22, minHeight: 20 }}>{t(p.note)}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 26, flex: 1 }}>
                   {p.feats.map((f) => (
                     <div key={f} style={{ display: 'flex', gap: 11, alignItems: 'baseline', fontSize: 13.5, color: '#B6B6C0' }}>
                       <span style={{ color: p.tick, flexShrink: 0, fontSize: 12 }}>◆</span>
-                      {f}
+                      {t(f)}
                     </div>
                   ))}
                 </div>
@@ -393,7 +403,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                     boxShadow: p.ctaShadow,
                   }}
                 >
-                  {p.cta}
+                  {t(p.cta)}
                 </a>
               </div>
             ))}
@@ -410,21 +420,23 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             }}
           >
             <span style={{ ...mono, fontSize: 11, color: INK, border: `1px solid rgba(61,90,254,0.4)`, background: 'rgba(61,90,254,0.08)', borderRadius: 999, padding: '6px 14px' }}>
-              ✦ Every plan starts with a <b style={{ color: '#8FA0FF' }}>7-day free trial</b> — cancel anytime, we remind you first.
+              ✦ {t('Every plan starts with a')}{' '}
+              <b style={{ color: '#8FA0FF' }}>{t('7-day free trial')}</b>{' '}
+              {t('— cancel anytime, we remind you first.')}
             </span>
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-              14-day honest guarantee on every plan: no proof shipped, full refund.{' '}
+              {t('14-day honest guarantee on every plan: no proof shipped, full refund.')}{' '}
               <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
-                read the plain-language terms →
+                {t('read the plain-language terms')} →
               </Link>
             </span>
             <span style={{ fontSize: 12.5, color: '#9C9CA6' }}>
-              {coursesCount} courses · {lessonsCount} lessons — every proof verifiable by code
+              {coursesCount} {t('courses')} · {lessonsCount} {t('lessons — every proof verifiable by code')}
             </span>
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-              No paid testimonials.{' '}
+              {t('No paid testimonials.')}{' '}
               <Link href="/academy/how-we-audit" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
-                see how we audit our own courses →
+                {t('see how we audit our own courses')} →
               </Link>
             </span>
           </div>
@@ -452,17 +464,19 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               <span style={{ color: AMBER, fontSize: 12, flexShrink: 0 }}>◆</span>
               <span>
                 <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.12em', color: AMBER }}>
-                  Add-on · Interview Mastery
+                  {t('Add-on · Interview Mastery')}
                 </span>
                 <span style={{ display: 'block', fontSize: 13.5, color: '#B6B6C0', marginTop: 3 }}>
-                  Mock interviews with an AI interviewer who calls your bluffs — add it to any plan.
+                  {t('Mock interviews with an AI interviewer who calls your bluffs — add it to any plan.')}
                 </span>
               </span>
             </span>
             <span style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexShrink: 0 }}>
               <span style={{ ...serif, fontWeight: 600, fontSize: 24, letterSpacing: '-0.02em' }}>+$39</span>
-              <span style={{ fontSize: 13, color: '#9598A2' }}>/ month · $24/mo on annual</span>
-              <span style={{ ...mono, fontSize: 10.5, color: AMBER }}>Learn more →</span>
+              <span style={{ fontSize: 13, color: '#9598A2' }}>
+                {t('/ month ·')} $24/mo {t('on annual')}
+              </span>
+              <span style={{ ...mono, fontSize: 10.5, color: AMBER }}>{t('Learn more')} →</span>
             </span>
           </a>
         </section>
@@ -479,7 +493,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             {OUTCOMES.map((o) => (
               <div key={o} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '8px 0' }}>
                 <span style={{ color: GREEN, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 15, color: '#B6B6C0' }}>{o}</span>
+                <span style={{ fontSize: 15, color: '#B6B6C0' }}>{t(o)}</span>
               </div>
             ))}
           </div>
@@ -497,15 +511,15 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                 letterSpacing: '-0.02em',
               }}
             >
-              Honest answers
+              {t('Honest answers')}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {FAQS.map((f) => (
                 <div key={f.q} style={{ padding: '22px 0', borderBottom: `1px solid ${LINE}` }}>
                   <div style={{ ...serif, fontWeight: 600, fontSize: 18, letterSpacing: '-0.01em', marginBottom: 8 }}>
-                    {f.q}
+                    {t(f.q)}
                   </div>
-                  <p style={{ margin: 0, fontSize: 14.5, color: '#9C9CA6', maxWidth: '68ch', textWrap: 'pretty' }}>{f.a}</p>
+                  <p style={{ margin: 0, fontSize: 14.5, color: '#9C9CA6', maxWidth: '68ch', textWrap: 'pretty' }}>{t(f.a)}</p>
                 </div>
               ))}
             </div>

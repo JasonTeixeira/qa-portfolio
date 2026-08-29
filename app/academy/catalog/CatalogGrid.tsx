@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useT } from '@/components/i18n/locale-provider'
 
 /**
  * Filter bar + course grid from "Sage Courses.dc.html" — the sticky track
@@ -56,6 +57,7 @@ function labelOf(t: TrackKey): string {
 }
 
 export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
+  const t = useT()
   const [track, setTrack] = useState<'all' | TrackKey>('all')
   const [q, setQ] = useState('')
 
@@ -86,13 +88,13 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
           borderBottom: `1px solid ${LINE}`,
         }}
       >
-        {TRACKS.map((t) => {
-          const selected = track === t.key
+        {TRACKS.map((trackOpt) => {
+          const selected = track === trackOpt.key
           return (
             <button
-              key={t.key}
+              key={trackOpt.key}
               type="button"
-              onClick={() => setTrack(t.key)}
+              onClick={() => setTrack(trackOpt.key)}
               aria-pressed={selected}
               style={{
                 ...mono,
@@ -108,7 +110,7 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
                 transition: 'all 0.18s',
               }}
             >
-              {t.label}
+              {t(trackOpt.label)}
             </button>
           )
         })}
@@ -116,8 +118,8 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search courses…"
-          aria-label="Search courses"
+          placeholder={t('Search courses…')}
+          aria-label={t('Search courses')}
           style={{
             ...mono,
             marginLeft: 'auto',
@@ -132,11 +134,13 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
           }}
         />
         <div style={{ ...mono, fontSize: 11, color: '#9598A2', alignSelf: 'center', whiteSpace: 'nowrap' }}>
-          {sorted.length} {sorted.length === 1 ? 'course' : 'courses'} · {liveCount} live
+          {sorted.length} {t(sorted.length === 1 ? 'course' : 'courses')} · {liveCount} {t('live')}
         </div>
       </div>
       {sorted.length === 0 ? (
-        <p style={{ ...mono, fontSize: 13, color: '#9598A2', padding: '20px 0' }}>No courses match &ldquo;{q}&rdquo;. Try another term or track.</p>
+        <p style={{ ...mono, fontSize: 13, color: '#9598A2', padding: '20px 0' }}>
+          {t('No courses match')} &ldquo;{q}&rdquo;. {t('Try another term or track.')}
+        </p>
       ) : null}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 18 }}>
@@ -163,10 +167,10 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <span style={{ ...mono, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.1em', color: tint }}>
-                  {labelOf(c.track)}
+                  {t(labelOf(c.track))}
                 </span>
                 <span style={{ ...mono, fontSize: 9.5, color: c.live ? '#18B663' : '#9598A2', whiteSpace: 'nowrap' }}>
-                  {c.live ? '✓ live' : '⬜ in production'}
+                  {c.live ? <>✓ {t('live')}</> : <>⬜ {t('in production')}</>}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -189,7 +193,7 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px solid ${LINE}`, paddingTop: 13 }}>
                 <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>{c.meta}</span>
                 <span style={{ ...mono, fontSize: 11, color: c.live ? '#8FA0FF' : '#9598A2' }}>
-                  {c.live ? 'Enroll →' : 'Notify me →'}
+                  {c.live ? <>{t('Enroll')} →</> : <>{t('Notify me')} →</>}
                 </span>
               </div>
             </Link>

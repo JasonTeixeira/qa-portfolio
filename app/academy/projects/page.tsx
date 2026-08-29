@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
 const SITE = 'https://www.sageideas.dev'
 const INK = '#F2EFE9'
@@ -16,17 +19,24 @@ const RED = '#E5484D'
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 const serif = { fontFamily: 'var(--font-serif), Georgia, serif' } as const
 
-export const metadata: Metadata = {
-  title: 'What you’ll ship — the artifacts, not a certificate — Sage Academy',
-  description:
-    'You don’t finish Sage Academy with a PDF. You finish with real, code-verified artifacts: decision memos, idempotent APIs, schema reviews, RAG features with eval harnesses — proof a reviewer can run.',
-  alternates: { canonical: `${SITE}/academy/projects` },
-  openGraph: {
-    title: 'What you’ll ship at Sage Academy',
-    description: 'Real, code-verified artifacts — not a certificate. Decision memos, production APIs, RAG features, system designs.',
-    images: ['/og?title=What+you%27ll+ship&subtitle=Real+artifacts%2C+not+a+certificate'],
-  },
-  twitter: { card: 'summary_large_image', images: ['/og?title=What+you%27ll+ship&subtitle=Real+artifacts%2C+not+a+certificate'] },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('What you’ll ship — the artifacts, not a certificate — Sage Academy'),
+    description: t(
+      "You don’t finish Sage Academy with a PDF. You finish with real, code-verified artifacts: decision memos, idempotent APIs, schema reviews, RAG features with eval harnesses — proof a reviewer can run."
+    ),
+    alternates: localizedAlternates('/academy/projects', locale),
+    openGraph: {
+      title: t('What you’ll ship at Sage Academy'),
+      description: t(
+        'Real, code-verified artifacts — not a certificate. Decision memos, production APIs, RAG features, system designs.'
+      ),
+      images: ['/og?title=What+you%27ll+ship&subtitle=Real+artifacts%2C+not+a+certificate'],
+    },
+    twitter: { card: 'summary_large_image', images: ['/og?title=What+you%27ll+ship&subtitle=Real+artifacts%2C+not+a+certificate'] },
+  }
 }
 
 type Line = { t: string; c?: string }
@@ -128,20 +138,20 @@ const ARTIFACTS: Artifact[] = [
 
 const kicker: React.CSSProperties = { ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: ACCENT_INK }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const t = await getT()
   return (
     <>
       <AcademyNav />
       <div style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip', minHeight: '100vh' }}>
         <main style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px, 7vw, 92px) clamp(20px, 4vw, 48px) 96px' }}>
           <div className="sage-rise" style={{ maxWidth: 720, backgroundImage: 'radial-gradient(90% 60% at 0% -20%, rgba(61,90,254,0.08) 0%, transparent 60%)' }}>
-            <div style={kicker}>What you’ll ship</div>
+            <div style={kicker}>{t('What you’ll ship')}</div>
             <h1 style={{ ...serif, margin: '16px 0 0', fontWeight: 600, fontSize: 'clamp(34px, 5.4vw, 68px)', lineHeight: 1.0, letterSpacing: '-0.03em', maxWidth: '18ch', textWrap: 'balance' }}>
-              You don’t finish with a certificate. You finish with <em style={{ fontStyle: 'italic', color: ACCENT_INK }}>these.</em>
+              {t('You don’t finish with a certificate. You finish with')}{' '}<em style={{ fontStyle: 'italic', color: ACCENT_INK }}>{t('these.')}</em>
             </h1>
             <p style={{ margin: '24px 0 0', color: DIM, fontSize: 'clamp(16px, 1.4vw, 19px)', lineHeight: 1.6, maxWidth: '56ch' }}>
-              Every course ends in a real, code-verified artifact — the kind of thing you put in front of a hiring
-              manager and say &ldquo;run it yourself.&rdquo; Here&apos;s what stacks up in your portfolio.
+              {t("Every course ends in a real, code-verified artifact — the kind of thing you put in front of a hiring manager and say “run it yourself.” Here's what stacks up in your portfolio.")}
             </p>
           </div>
 
@@ -162,9 +172,9 @@ export default function ProjectsPage() {
                 </div>
                 {/* meta */}
                 <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: a.color }}>{a.track}</div>
-                  <div style={{ ...serif, margin: '10px 0 0', fontSize: 22, fontWeight: 600, color: INK, letterSpacing: '-0.015em' }}>{a.name}</div>
-                  <p style={{ margin: '10px 0 0', fontSize: 14.5, color: DIM, lineHeight: 1.6 }}>{a.proves}</p>
+                  <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: a.color }}>{t(a.track)}</div>
+                  <div style={{ ...serif, margin: '10px 0 0', fontSize: 22, fontWeight: 600, color: INK, letterSpacing: '-0.015em' }}>{t(a.name)}</div>
+                  <p style={{ margin: '10px 0 0', fontSize: 14.5, color: DIM, lineHeight: 1.6 }}>{t(a.proves)}</p>
                 </div>
               </div>
             ))}
@@ -173,15 +183,15 @@ export default function ProjectsPage() {
           <div style={{ border: `1px solid ${LINE}`, borderRadius: 18, background: 'linear-gradient(165deg, #0E1020, #111115)', padding: 'clamp(28px, 4vw, 44px)', marginTop: 40, display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ maxWidth: '46ch' }}>
               <div style={{ ...serif, fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 600, letterSpacing: '-0.02em' }}>
-                Every artifact lands in one verifiable portfolio.
+                {t('Every artifact lands in one verifiable portfolio.')}
               </div>
               <p style={{ margin: '10px 0 0', color: DIM, fontSize: 15, lineHeight: 1.6 }}>
-                Each passing proof stacks into an evidence ledger with a public link — the certificate is a <span style={{ ...mono, color: ACCENT_INK }}>curl</span> command anyone can run, not a PDF they take on faith.
+                {t('Each passing proof stacks into an evidence ledger with a public link — the certificate is a')}{' '}<span style={{ ...mono, color: ACCENT_INK }}>curl</span>{' '}{t('command anyone can run, not a PDF they take on faith.')}
               </p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-              <Link href="/academy/signup" style={{ display: 'inline-flex', background: ACCENT, color: '#fff', textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '15px 28px', borderRadius: 26, boxShadow: '0 0 22px rgba(61,90,254,0.35)' }}>Start building yours</Link>
-              <Link href="/academy/method" style={{ display: 'inline-flex', color: INK, border: `1px solid #2A2A33`, textDecoration: 'none', fontSize: 15, padding: '14px 26px', borderRadius: 26 }}>See the method →</Link>
+              <Link href="/academy/signup" style={{ display: 'inline-flex', background: ACCENT, color: '#fff', textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '15px 28px', borderRadius: 26, boxShadow: '0 0 22px rgba(61,90,254,0.35)' }}>{t('Start building yours')}</Link>
+              <Link href="/academy/method" style={{ display: 'inline-flex', color: INK, border: `1px solid #2A2A33`, textDecoration: 'none', fontSize: 15, padding: '14px 26px', borderRadius: 26 }}>{t('See the method')} →</Link>
             </div>
           </div>
         </main>

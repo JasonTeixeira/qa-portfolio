@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
+import { DefectLedger } from '@/components/academy/audit/DefectLedger'
 
 /**
  * "How we audit ourselves" — pre-launch social proof that is actually true.
@@ -148,6 +149,19 @@ export default function HowWeAuditPage() {
               </Link>
             </div>
           </div>
+
+          <section style={{ marginTop: 'clamp(52px, 7vw, 84px)', borderTop: `1px solid ${LINE}`, paddingTop: 'clamp(40px, 5vw, 64px)' }}>
+            <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>The full ledger</div>
+            <h2 style={{ ...serif, margin: '14px 0 0', fontWeight: 600, fontSize: 'clamp(26px, 3.2vw, 40px)', lineHeight: 1.05, letterSpacing: '-0.02em', textWrap: 'balance' }}>
+              All 73 — in public, nothing hidden.
+            </h2>
+            <p style={{ margin: '16px 0 32px', color: '#9C9CA6', fontSize: 16, lineHeight: 1.6, maxWidth: '60ch' }}>
+              The three above are the headline. Here is every defect the audit found in our own lessons — filter by
+              severity, search the text, read the verbatim quote and the fix. This is the bar every course clears before
+              it reaches you.
+            </p>
+            <DefectLedger />
+          </section>
         </main>
       </div>
       <EcosystemBand />

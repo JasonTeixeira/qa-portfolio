@@ -240,6 +240,7 @@ export default async function RootLayout({
     pathname === '/academy/catalog' ||
     pathname === '/academy/why-proof' ||
     pathname === '/academy/pricing' ||
+    pathname === '/academy/method' ||
     pathname === '/academy/how-we-audit' ||
     pathname === '/interview' ||
     pathname === '/how-it-works' ||

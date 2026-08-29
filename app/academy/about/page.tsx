@@ -129,6 +129,17 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* Founder welcome — the trust anchor. Real voice, no face; poster-first
+            (preload=none) so it costs nothing until played. */}
+        <figure style={{ margin: '0 0 28px', border: '1px solid #1E1E24', borderRadius: 16, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 28px 70px -34px rgba(0,0,0,0.85)' }}>
+          <video controls preload="none" poster="/video/academy/sa-founder.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+            <source src="/video/academy/sa-founder.mp4" type="video/mp4" />
+          </video>
+          <figcaption style={{ fontFamily: MONO, fontSize: 11, color: '#9598A2', padding: '12px 16px', borderTop: '1px solid #1E1E24' }}>
+            ▸ a 45-second note from me — why this exists, in my own voice
+          </figcaption>
+        </figure>
+
         <p
           style={{
             margin: '0 0 18px',

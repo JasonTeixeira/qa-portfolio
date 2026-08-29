@@ -20,6 +20,15 @@ type Clip = { key: string; tab: string; dur: string; title: string; blurb: strin
 
 const CLIPS: Clip[] = [
   {
+    key: 'founder',
+    tab: 'Welcome',
+    dur: '0:45',
+    title: 'A note from the founder',
+    blurb: 'Why Sage Academy exists — judgment over syntax, proof over paper — in the founder’s own voice. Under a minute, no fluff.',
+    src: '/video/academy/sa-founder.mp4',
+    poster: '/video/academy/sa-founder.jpg',
+  },
+  {
     key: 'rag',
     tab: 'RAG',
     dur: '0:47',

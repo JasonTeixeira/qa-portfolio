@@ -142,6 +142,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
       { href: '/academy/map', label: 'The map' },
       { href: '/academy/method', label: 'The method' },
       { href: '/academy/projects', label: 'What you ship' },
+      { href: '/academy/try', label: 'Try a lesson' },
       { href: '/how-it-works', label: 'How it works' },
       { href: '/academy/catalog', label: 'Courses' },
       { href: '/field-notes', label: 'Field notes' },

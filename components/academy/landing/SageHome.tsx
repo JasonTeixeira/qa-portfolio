@@ -166,7 +166,7 @@ export async function SageHome() {
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 30 }}>
                 <a href="#offer" style={btnPrimary}>Start with Engineering Judgment</a>
-                <Link href="/academy/concepts" style={btnGhost}>Read a lesson free — no signup</Link>
+                <Link href="/academy/try" style={btnGhost}>Try a real lesson — no signup</Link>
               </div>
               <p style={{ ...mono, margin: '16px 0 0', fontSize: 11, color: '#9598A2', letterSpacing: '0.02em' }}>
                 No paid-for testimonials. Instead,{' '}

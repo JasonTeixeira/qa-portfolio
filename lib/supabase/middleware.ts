@@ -67,6 +67,7 @@ function isCacheableMarketing(pathname: string): boolean {
     pathname === '/academy/why-proof' ||
     pathname === '/academy/how-we-audit' ||
     pathname === '/academy/method' ||
+    pathname === '/academy/projects' ||
     pathname === '/how-it-works'
   );
 }
@@ -219,6 +220,7 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/starter' ||
     pathname === '/academy/map' ||
     pathname === '/academy/method' ||
+    pathname === '/academy/projects' ||
     // Main-menu marketing pages: public sell surfaces in the academy skin.
     pathname === '/academy/catalog' ||
     pathname === '/academy/why-proof' ||

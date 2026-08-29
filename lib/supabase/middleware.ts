@@ -54,27 +54,20 @@ const PORTAL_VALID_SEGMENTS = new Set([
  * ~300ms–1.5s dynamic render into a ~20ms edge HIT.
  */
 function isCacheableMarketing(pathname: string): boolean {
-  if (
+  // ONLY the pages that render their own static client nav (AcademyChrome) and
+  // are NOT wrapped in the studio MarketingChrome — MarketingChrome reads server
+  // auth (getUser), so caching a page it wraps could serve a stale/anon nav to a
+  // signed-in visitor. This list mirrors the `isAcademyHome` set in the root
+  // layout (the pages the studio chrome never wraps); keep them in sync.
+  return (
     pathname === '/' ||
     pathname === '/academy' ||
     pathname === '/academy/pricing' ||
     pathname === '/academy/catalog' ||
-    pathname === '/academy/map' ||
-    pathname === '/academy/starter' ||
     pathname === '/academy/why-proof' ||
-    pathname === '/academy/proof-not-paper' ||
     pathname === '/academy/how-we-audit' ||
-    pathname === '/academy/about' ||
-    pathname === '/academy/guarantee' ||
-    pathname === '/academy/interview/guarantee' ||
-    pathname === '/academy/efficacy' ||
-    pathname === '/academy/concepts'
-  ) {
-    return true;
-  }
-  if (pathname.startsWith('/academy/concepts/')) return true;
-  if (/^\/academy\/course\/[^/]+$/.test(pathname)) return true;
-  return false;
+    pathname === '/how-it-works'
+  );
 }
 
 function isPublic(pathname: string) {

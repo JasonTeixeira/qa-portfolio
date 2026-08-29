@@ -30,7 +30,7 @@ const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 const NAV_LINKS = [
   { href: '/academy/method', label: 'The method' },
   { href: '/academy/catalog', label: 'Courses' },
-  { href: '/academy/projects', label: 'Projects' },
+  { href: '/academy/labs', label: 'Labs' },
   { href: '/academy/proof-not-paper', label: 'Why proof' },
   // Gold sub-brand: the Interview Mastery add-on gets its accent in the nav.
   { href: '/interview', label: 'Interview', tint: '#E0A93E' },

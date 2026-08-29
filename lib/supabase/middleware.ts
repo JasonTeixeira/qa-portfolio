@@ -244,6 +244,9 @@ export async function updateSession(request: NextRequest) {
     // Concept pages: programmatic-SEO lesson previews — public by design.
     pathname === '/academy/concepts' ||
     pathname.startsWith('/academy/concepts/') ||
+    // The Labs — the public workshop of buildable projects + per-lab specs.
+    pathname === '/academy/labs' ||
+    pathname.startsWith('/academy/labs/') ||
     // Course landings are the per-course sell pages — public like /academy.
     // Exactly one segment after /course/: the lesson player, map, and every
     // deeper surface stay behind needsAcademyLogin.

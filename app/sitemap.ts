@@ -73,6 +73,8 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy/pricing', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/field-notes', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/academy/how-we-audit', priority: 0.7, changeFrequency: 'monthly' },
+  // The Labs — the workshop of buildable projects (hreflang added once its chrome is translated).
+  { path: '/academy/labs', priority: 0.85, changeFrequency: 'weekly' },
   // Phase 2a public marketing pages (translated)
   { path: '/academy/efficacy', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/academy/help', priority: 0.6, changeFrequency: 'monthly' },

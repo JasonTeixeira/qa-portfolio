@@ -1,0 +1,995 @@
+[
+  {
+    "slug": "approval-gated-agent",
+    "title": "Build a tool-using agent with a human-approval guardrail",
+    "track": "ai-engineering",
+    "difficulty": 4,
+    "hours": 7,
+    "tagline": "An agent that can act, but never fires the loaded gun without you signing off first.",
+    "whatYouBuild": "A ReAct-style agent (reason, act, observe, repeat) wired to at least three real tools — one read-only (search/lookup), one side-effecting (send email, write a file, hit a write API), and one that costs money or is irreversible (e.g. place an order, delete a record). Every side-effecting or irreversible tool call pauses the loop and requires explicit human approval before it executes, with the full proposed call (tool, arguments, reasoning) shown for review. You finish with a working agent, an approval audit log, and a report of what happened when you deliberately tried to get it to skip the gate.",
+    "resumeLine": "Built a tool-using ReAct agent with a human-in-the-loop approval gate on side-effecting actions — logged reasoning traces, approval decisions, and denial handling for every irreversible tool call.",
+    "proves": [
+      "Understands the reason-act-observe agent loop, not just prompt chaining",
+      "Knows the difference between read-only and side-effecting tool calls and treats them differently",
+      "Can design a guardrail that actually blocks execution, not just a prompt that asks nicely",
+      "Thinks about agent safety and auditability, not just capability"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API with function/tool calling",
+      "a persistent run log (SQLite or JSON lines)"
+    ],
+    "prerequisites": [
+      "what-is-an-agent",
+      "function-calling-basics"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Define at least 3 tools with typed schemas: 1 read-only (e.g. web/file search), 1 low-risk side-effecting (e.g. write a local file), 1 high-risk/irreversible (e.g. send a real email, place a mock order, delete a record)",
+      "Implement the agent loop: model proposes a tool call with reasoning -> loop checks the tool's risk tier -> read-only tools execute immediately -> side-effecting/irreversible tools pause and emit a pending-approval record instead of executing",
+      "Build an approval interface (CLI prompt is enough) that shows the pending tool name, full arguments, and the agent's stated reasoning, and accepts approve/deny/edit-then-approve",
+      "On denial, feed a structured denial reason back into the agent's context so it can adapt its plan rather than retrying blindly or looping forever",
+      "Log every step of every run (reasoning, tool calls, approvals, denials, final outcome) to a durable log, and write a report showing at least 5 full runs including 1 where you denied an action and the agent recovered",
+      "Red-team your own gate: attempt at least 3 prompt-injection or instruction-override tricks (e.g. a tool result containing 'ignore the approval step') and document whether the gate held"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Read-only tool calls execute without pausing; side-effecting and irreversible tool calls always pause for approval before any execution occurs",
+        "kind": "test"
+      },
+      {
+        "label": "Denying a proposed action prevents the underlying side effect from happening (verified by checking no email sent / no file written / no order record created)",
+        "kind": "test"
+      },
+      {
+        "label": "A prompt-injection attempt embedded in a tool observation does not cause an unapproved side-effecting call to execute",
+        "kind": "test"
+      },
+      {
+        "label": "The run log contains a complete, replayable trace (reasoning, proposed call, approval decision, result) for at least 5 runs",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "An approval-gated agent + audit log + red-team report documenting attempted bypasses",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "prompt-injection-firewall",
+    "title": "Build a prompt-injection input firewall",
+    "track": "ai-engineering",
+    "difficulty": 4,
+    "hours": 6,
+    "tagline": "Untrusted text is the new SQL injection — build the filter that catches it before it reaches your model.",
+    "whatYouBuild": "An input firewall that sits between untrusted content (user messages, fetched web pages, tool outputs, uploaded documents) and your LLM app's system prompt and tool-execution layer. It detects and neutralizes common injection patterns (instruction-override, role-hijack, delimiter-breakout, exfiltration attempts) using layered defenses — pattern/heuristic detection, an isolation/delimiting strategy, and an LLM-based classifier as a second opinion. You finish with a firewall, a labeled attack corpus, and a measured catch-rate/false-positive-rate on held-out attacks you did not use to tune it.",
+    "resumeLine": "Built a layered prompt-injection firewall (heuristic detector + isolation boundary + LLM classifier) for untrusted LLM inputs; measured on a 40+ case attack corpus with tracked precision/recall and a held-out test split.",
+    "proves": [
+      "Understands prompt injection as a real, exploitable attack class rather than a theoretical risk",
+      "Can design defense-in-depth instead of relying on a single 'ignore instructions in user input' system prompt",
+      "Knows how to measure a security control (precision/recall) instead of eyeballing it",
+      "Distinguishes tuning data from held-out evaluation data — did not just optimize on the test set"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API",
+      "regex/heuristic layer",
+      "a small labeled dataset"
+    ],
+    "prerequisites": [
+      "what-is-an-agent",
+      "llm-eval-harness"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Assemble an attack corpus of >=40 labeled examples: direct injection ('ignore previous instructions...'), indirect injection (malicious instructions embedded in a fetched document/tool result), role-hijack, delimiter/markdown-fence breakout, and data-exfiltration attempts, plus >=20 benign examples that resemble attacks but are not (negative controls)",
+      "Split the corpus into a tuning set and a held-out test set before building any detector, and never look at the held-out set while tuning",
+      "Implement layer 1: fast heuristic/pattern detection (suspicious phrase lists, structural anomalies, encoding tricks) that runs on every input before it reaches the model",
+      "Implement layer 2: structural isolation — untrusted content is wrapped in explicit, model-visible boundaries (e.g. tagged/delimited blocks) so the system prompt can instruct the model to treat anything inside as data, never instructions",
+      "Implement layer 3: an LLM-based classifier that scores the input for injection likelihood as a second opinion, used when layer 1 is ambiguous",
+      "Run the full pipeline against the held-out test set and report precision, recall, and false-positive rate; document at least 2 attacks that got past the firewall and why"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "On the held-out test set, the firewall catches at least 80% of true injection attempts (recall >= 0.8)",
+        "kind": "test"
+      },
+      {
+        "label": "The firewall flags no more than 10% of benign negative-control inputs as attacks (false-positive rate <= 0.1)",
+        "kind": "test"
+      },
+      {
+        "label": "At least one indirect injection (attack embedded in a simulated tool/document result, not the user message) is correctly caught",
+        "kind": "test"
+      },
+      {
+        "label": "A report exists showing the tune/test split, the metrics, and a walkthrough of at least 2 successful bypasses",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "An input firewall pipeline + labeled attack corpus + precision/recall report on held-out data",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "structured-output-extractor",
+    "title": "Build a structured-output extractor with schema-conformance guarantees",
+    "track": "ai-engineering",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Make the model hand you valid JSON every single time, not just when it feels like it.",
+    "whatYouBuild": "An extraction pipeline that takes messy real-world text (e.g. job postings, invoices, support tickets, resumes — pick one real domain) and reliably returns data conforming to a strict JSON schema, even when the source text is incomplete, ambiguous, or adversarially malformed. You implement schema-constrained generation, validation against the schema, and an automatic repair loop for validation failures, then prove conformance across a stress-test suite including edge cases designed to break naive parsing.",
+    "resumeLine": "Built a structured-output extraction pipeline (schema-constrained generation + JSON Schema validation + automatic repair loop) achieving 100% schema conformance across a 30+ case stress-test suite including malformed and adversarial inputs.",
+    "proves": [
+      "Can go beyond 'ask the model for JSON and hope' to actually guaranteeing conformance",
+      "Understands JSON Schema validation and how to use it as a hard gate, not a suggestion",
+      "Can design a repair/retry loop that fixes failures instead of just erroring out",
+      "Tests against edge cases and adversarial inputs, not just the happy path"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API with structured-output/tool-calling support",
+      "a JSON Schema validator (e.g. jsonschema/Pydantic/Zod)"
+    ],
+    "prerequisites": [
+      "function-calling-basics",
+      "what-is-an-eval"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Pick one real extraction domain (e.g. job posting -> {title, company, salary_range, remote, required_skills[]}) and write a strict schema (required fields, types, enums, nested arrays) using JSON Schema or a Pydantic/Zod model",
+      "Implement the extractor using the model's native structured-output or tool-calling mode (not just a 'return JSON' instruction in the prompt)",
+      "Validate every output against the schema programmatically; on validation failure, feed the specific validation error back to the model and retry with a bounded attempt limit (e.g. max 3 repair attempts) rather than retrying blind",
+      "Build a stress-test suite of >=30 inputs: clean cases, missing-field cases, ambiguous cases (data present but unclear), and adversarial cases (text that tries to inject fake JSON or break the parser)",
+      "Run the full suite and report the conformance rate, the repair-loop success rate (how many failures were fixed by retry vs. exhausted attempts), and which input patterns caused the most failures",
+      "Handle the unrecoverable case explicitly: after exhausting repair attempts, return a typed error/failure result instead of silently returning invalid or null data"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Every output that is returned as 'success' validates against the JSON Schema with zero exceptions across all 30+ stress-test cases",
+        "kind": "test"
+      },
+      {
+        "label": "At least one deliberately malformed/ambiguous input triggers the repair loop and is successfully corrected within the attempt limit",
+        "kind": "test"
+      },
+      {
+        "label": "An input engineered to be unrecoverable (e.g. required data genuinely absent from the text) returns an explicit typed failure, not a silently invalid or fabricated JSON object",
+        "kind": "test"
+      },
+      {
+        "label": "A conformance report exists showing pass rate, repair success rate, and a breakdown of failure patterns by input category",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A structured-output extractor + JSON Schema + stress-test suite + conformance report",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "semantic-search-embeddings-index",
+    "title": "Build a semantic search index and measure retrieval quality",
+    "track": "ai-engineering",
+    "difficulty": 3,
+    "hours": 6,
+    "tagline": "Embeddings are cheap to generate and easy to get wrong — prove yours actually retrieves the right thing.",
+    "whatYouBuild": "A semantic search engine over a real dataset of your choosing (e.g. a docs corpus, a set of support tickets, a product catalog, your own notes — at least 500 documents/chunks). You build the embedding pipeline, chunking strategy, and vector index, implement ranked retrieval with a similarity metric, and then rigorously evaluate it: you hand-label a query/relevant-document ground-truth set and measure recall@k and precision@k against it, comparing your semantic approach to a plain keyword-search baseline on the same queries.",
+    "resumeLine": "Built a semantic search index over 500+ real documents (chunking, embedding, vector index, ranked retrieval) and evaluated it against a hand-labeled ground-truth set, measuring recall@k/precision@k and benchmarking against a keyword-search baseline.",
+    "proves": [
+      "Can build a real embeddings pipeline end to end, not just call an API once",
+      "Understands chunking strategy and why it materially affects retrieval quality",
+      "Knows how to build ground truth and measure retrieval with recall@k/precision@k instead of eyeballing results",
+      "Can honestly compare an AI approach against a simpler baseline instead of assuming it wins"
+    ],
+    "stack": [
+      "Python",
+      "an embeddings API or local embedding model",
+      "a vector index (FAISS, Chroma, or pgvector)",
+      "a keyword search baseline (BM25 or simple TF-IDF)"
+    ],
+    "prerequisites": [
+      "what-is-an-eval",
+      "vector-basics"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Choose a real dataset of >=500 documents or chunks (public docs, your own writing, an open dataset — must be real content, not synthetic filler) and define a chunking strategy (size, overlap, boundary rules) with a stated rationale",
+      "Generate embeddings for every chunk and build a vector index supporting top-k nearest-neighbor retrieval by cosine similarity (or your chosen metric)",
+      "Implement a keyword-search baseline (BM25 or TF-IDF) over the same chunked corpus using the same chunks, so the comparison is apples-to-apples",
+      "Hand-write >=20 realistic queries against the dataset and manually label the truly relevant chunk(s) for each — this ground-truth set must be built before running either retrieval method against it",
+      "Run both the semantic index and the keyword baseline over all 20+ queries, computing recall@5 and precision@5 (or your chosen k) for each system",
+      "Write a results report comparing the two systems, including at least 2 concrete cases where semantic search wins (paraphrase/synonym queries) and at least 1 case where keyword search wins or ties (exact term/code/ID lookups), with an honest explanation of why"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "The vector index returns nearest-neighbor results for a query in under 1 second for the full corpus size used",
+        "kind": "test"
+      },
+      {
+        "label": "Recall@5 and precision@5 are computed against the hand-labeled ground-truth set for both the semantic index and the keyword baseline, not just one",
+        "kind": "test"
+      },
+      {
+        "label": "At least one documented query shows semantic search retrieving a relevant chunk that the keyword baseline misses due to paraphrasing/synonymy",
+        "kind": "test"
+      },
+      {
+        "label": "A results report exists with the recall@k/precision@k table for both systems and a written comparison",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A semantic search index + keyword-search baseline + labeled ground truth + retrieval-quality comparison report",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "token-bucket-rate-limiter",
+    "title": "A rate limiter that survives a burst",
+    "track": "backend",
+    "difficulty": 2,
+    "hours": 4,
+    "tagline": "Per-key token buckets that cap burst traffic without punishing steady, well-behaved callers.",
+    "whatYouBuild": "A token-bucket rate limiter you can drop in front of any endpoint: each key (user or API token) gets its own bucket that refills continuously over time and drains on every request. You prove it two ways — a burst above capacity gets rejected immediately, and a caller who paces requests under the refill rate never gets throttled.",
+    "resumeLine": "Implemented a per-key token-bucket rate limiter (continuous refill, burst capacity, 429 on exhaustion) with a load test proving it caps bursts while passing steady traffic under the refill rate.",
+    "proves": [
+      "Understands token-bucket vs fixed-window tradeoffs, not just the name",
+      "Can reason about time-based state without relying on a cron job or sleep loop",
+      "Designs a shared resource (the limiter) to be safe under concurrent callers"
+    ],
+    "stack": [
+      "Python",
+      "Redis (or an in-memory store for the base version)"
+    ],
+    "prerequisites": [
+      "http-methods",
+      "state-and-storage"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Each key gets a bucket with a max capacity and a refill rate (tokens/second).",
+      "On each request: lazily compute tokens added since last check (elapsed * rate, capped at capacity), then attempt to remove 1 token.",
+      "If a token is available, allow the request and persist the new token count + timestamp.",
+      "If no token is available, reject with 429 and a Retry-After header computed from the refill rate.",
+      "Buckets are independent per key — one key's traffic never affects another key's budget.",
+      "Expose allow(key) -> { allowed: bool, remaining: number, retryAfterMs?: number }."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "A burst of 2x capacity requests in one instant allows exactly `capacity` and rejects the rest",
+        "kind": "test"
+      },
+      {
+        "label": "Requests paced at or under the refill rate are never rejected over a sustained run",
+        "kind": "test"
+      },
+      {
+        "label": "Two different keys hitting the limiter concurrently do not affect each other's remaining count",
+        "kind": "test"
+      },
+      {
+        "label": "A rejected request returns a Retry-After value that, once waited out, results in an allowed request",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A reusable rate-limiter module + a passing burst/steady-state test suite",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "durable-job-queue-dlq",
+    "title": "A job queue that doesn't lose work",
+    "track": "backend",
+    "difficulty": 3,
+    "hours": 6,
+    "tagline": "At-least-once processing with exponential backoff and a dead-letter queue for the jobs that never recover.",
+    "whatYouBuild": "A durable background job queue: producers enqueue jobs, a worker pulls and processes them at-least-once, failures get retried with exponential backoff, and a job that fails N times lands in a dead-letter queue instead of retrying forever or vanishing. You finish with a system that survives a worker crash mid-job and never silently drops work.",
+    "resumeLine": "Built a durable job queue (at-least-once delivery, visibility timeout, exponential backoff, dead-letter queue after N failures) and proved crash-mid-processing never loses a job.",
+    "proves": [
+      "Understands at-least-once delivery and why idempotent handlers matter downstream",
+      "Designs for the worker crash, not just the happy path",
+      "Knows when to stop retrying and escalate instead of retrying forever"
+    ],
+    "stack": [
+      "Python",
+      "Redis or SQLite (durable store)",
+      "a worker process"
+    ],
+    "prerequisites": [
+      "state-and-storage",
+      "idempotent-charge-api"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "enqueue(job) persists the job with status=pending and a unique id before returning.",
+      "A worker claims a pending job atomically, sets status=processing with a visibility timeout, and never lets two workers claim the same job concurrently.",
+      "On success, mark status=done. On failure, increment attempt count and reschedule with exponential backoff (base * 2^attempt, capped).",
+      "If a job's attempt count exceeds N (configurable), move it to a dead-letter queue instead of rescheduling.",
+      "If a worker dies mid-processing (visibility timeout expires without completion), the job becomes reclaimable by another worker.",
+      "Expose queue_depth(), dlq_depth(), and a way to requeue a DLQ job manually."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "A job whose handler always fails ends up in the DLQ after exactly N attempts, not before and not after",
+        "kind": "test"
+      },
+      {
+        "label": "Retry delays between attempts increase (backoff is actually exponential, not fixed)",
+        "kind": "test"
+      },
+      {
+        "label": "A job whose worker is killed mid-processing (visibility timeout expires) is picked up and completed by a second worker, exactly once counted as success",
+        "kind": "test"
+      },
+      {
+        "label": "Two workers polling concurrently never both claim the same pending job",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A working job queue + worker + DLQ, with a crash-recovery test suite",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "zero-downtime-column-migration",
+    "title": "Add a column without taking the site down",
+    "track": "data",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "The expand-backfill-contract pattern that lets old and new code read the same table during a live migration.",
+    "whatYouBuild": "A safe schema migration for a live table: you add a new nullable column, backfill it in batches without locking the table or blocking writes, then prove that both an 'old' reader (unaware of the column) and a 'new' reader (using the column) work correctly at every point during the migration — including mid-backfill.",
+    "resumeLine": "Executed a zero-downtime schema migration (expand/backfill/contract) on a live table — batched backfill, dual-read compatibility, and a test suite proving old and new code paths both work throughout the rollout.",
+    "proves": [
+      "Understands why 'just add a NOT NULL column' breaks production at scale",
+      "Can sequence a migration so two versions of the app stay compatible mid-deploy",
+      "Batches a backfill instead of running one table-locking UPDATE"
+    ],
+    "stack": [
+      "PostgreSQL",
+      "Python or SQL migration scripts",
+      "a migration tool (Alembic/Flyway-style, or hand-rolled)"
+    ],
+    "prerequisites": [
+      "postgresql-table-design",
+      "state-and-storage"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Phase 1 (expand): add the new column as nullable, with no default that forces a table rewrite.",
+      "Phase 2 (backfill): populate the new column in small batches (e.g. 1,000 rows at a time) with a short pause between batches, never holding a long-running transaction or table lock.",
+      "During backfill, an 'old' reader (SELECT without the new column) must keep working unmodified.",
+      "During backfill, a 'new' reader (SELECT that treats NULL-in-new-column as 'not yet backfilled' and falls back) must return correct results for both backfilled and not-yet-backfilled rows.",
+      "Phase 3 (contract): once 100% backfilled and verified, add the NOT NULL constraint (or equivalent) and drop the fallback path.",
+      "Every phase must be independently revertible without data loss."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Running the old query against the table mid-backfill returns the same row count and columns as before the migration started",
+        "kind": "test"
+      },
+      {
+        "label": "Running the new query mid-backfill returns correct values for backfilled rows and a defined fallback for not-yet-backfilled rows (no NULLs leak into consumer logic)",
+        "kind": "test"
+      },
+      {
+        "label": "The backfill runs in bounded batches — no single query touches more than the configured batch size",
+        "kind": "test"
+      },
+      {
+        "label": "After Phase 3, the NOT NULL constraint holds and 100% of rows have a non-null value",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A phased migration script set (expand/backfill/contract) + a dual-reader compatibility test suite",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "idempotent-etl-pipeline",
+    "title": "An ETL pipeline safe to run twice",
+    "track": "data",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Extract, transform, load — designed so a re-run, a retry, or a crash mid-load never duplicates a row.",
+    "whatYouBuild": "An ETL pipeline that reads records from a source (CSV/API), transforms them, and loads them into a destination table keyed on a natural key (not an auto-increment id). You make the load step an upsert on that natural key, then prove that running the exact same batch multiple times — including a batch that partially loaded before crashing — leaves the destination table with exactly one row per source record, not one row per run.",
+    "resumeLine": "Built an idempotent ETL pipeline (natural-key upsert, re-run-safe load step) and proved with automated tests that re-running the same batch, or resuming a crashed batch, never duplicates or double-counts rows.",
+    "proves": [
+      "Understands why append-only loads break under retries and crash-resume scenarios",
+      "Designs the load step around a natural key instead of relying on the pipeline to run exactly once",
+      "Can reason about partial-failure states, not just clean success/failure"
+    ],
+    "stack": [
+      "Python",
+      "pandas or plain SQL",
+      "PostgreSQL or SQLite as the destination"
+    ],
+    "prerequisites": [
+      "postgresql-table-design",
+      "idempotent-charge-api"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Extract: read a batch of source records from a file or API, each with a natural key (e.g. order_id + line_number).",
+      "Transform: normalize/clean fields (types, trimming, derived columns) into the destination row shape.",
+      "Load: upsert each transformed row into the destination table by natural key — insert if new, update in place if the key already exists (no plain INSERT-only path).",
+      "The whole batch must be safe to re-run from the start at any time, including after a simulated crash partway through the load.",
+      "Track a load_run log (run id, row count, started/completed timestamps) separate from the data table, for auditability.",
+      "Provide a dedupe check: after N re-runs of the same source batch, row count in the destination equals the number of distinct natural keys in the source."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Running the full pipeline 3 times on the same source batch results in the same row count as running it once",
+        "kind": "test"
+      },
+      {
+        "label": "A run that crashes after loading half the batch, when re-run from scratch, produces a destination table identical to a clean single run",
+        "kind": "test"
+      },
+      {
+        "label": "A source record whose values change between runs updates the existing destination row in place rather than inserting a duplicate",
+        "kind": "test"
+      },
+      {
+        "label": "The load_run log records one entry per pipeline invocation, independent of how many rows were upserted",
+        "kind": "output"
+      }
+    ],
+    "artifact": "A re-runnable ETL pipeline (extract/transform/upsert-load) + a passing re-run and crash-resume test suite",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "accessible-combobox-from-scratch",
+    "title": "Build an accessible autocomplete from scratch",
+    "track": "frontend",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "No headless library. Just you, ARIA, and a screen reader that has to actually understand your widget.",
+    "whatYouBuild": "A single-select combobox (type-ahead autocomplete) built with plain HTML, CSS, and JS/React — no Radix, no downshift, no react-aria. You wire the ARIA 1.2 combobox pattern by hand: roles, states, `aria-activedescendant`, and live-region announcements, then drive the whole thing with a keyboard and a screen reader instead of a mouse. You finish with a widget that a blind user can actually operate, not one that merely looks accessible in a screenshot.",
+    "resumeLine": "Built a WCAG 2.2 AA accessible combobox from scratch (ARIA 1.2 pattern, roving `aria-activedescendant`, full keyboard nav, live-region announcements), verified with an automated axe-core suite plus a manual NVDA/VoiceOver pass.",
+    "proves": [
+      "Understands ARIA beyond copy-pasted attributes — knows why aria-activedescendant beats moving DOM focus for this pattern",
+      "Can build for keyboard-only and screen-reader-only users, not just sighted mouse users",
+      "Ships automated a11y checks instead of eyeballing it once and calling it done"
+    ],
+    "stack": [
+      "React",
+      "TypeScript",
+      "axe-core",
+      "Playwright",
+      "a screen reader (NVDA or VoiceOver)"
+    ],
+    "prerequisites": [
+      "semantic-html",
+      "aria-basics"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Render a text input plus a listbox popup of filtered options; no third-party combobox/autocomplete library.",
+      "Wire the ARIA 1.2 combobox pattern: `role=\"combobox\"` on the input, `aria-expanded`, `aria-controls`, `aria-autocomplete=\"list\"`, `role=\"listbox\"` on the popup, `role=\"option\"` on each item.",
+      "Move the active option with `aria-activedescendant` instead of moving real DOM focus off the input.",
+      "Support full keyboard operation: ArrowDown/ArrowUp cycle options, Enter selects, Escape closes and restores the prior value, Home/End jump to first/last option.",
+      "Add a visually-hidden `aria-live=\"polite\"` region that announces result count on every filter (e.g. \"4 results available\") and the selected value on commit.",
+      "Ensure focus never leaves the input while the popup is open, and closing the popup returns the DOM to its prior state (no orphaned focus, no trapped focus)."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "An automated axe-core scan of the open combobox reports zero violations",
+        "kind": "test"
+      },
+      {
+        "label": "A keyboard-only Playwright test can open the popup, filter, arrow through options, and commit a selection with Enter — using no mouse events",
+        "kind": "test"
+      },
+      {
+        "label": "Escape while the popup is open closes it and restores the input's pre-search value without submitting a selection",
+        "kind": "test"
+      },
+      {
+        "label": "Manual screen-reader pass (NVDA or VoiceOver) confirms the option count and selected value are announced without extra unlabeled noise",
+        "kind": "review"
+      }
+    ],
+    "artifact": "A dependency-free accessible combobox component + a passing axe-core/Playwright a11y suite + a manual screen-reader pass writeup",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "optimistic-ui-with-rollback",
+    "title": "Optimistic UI that survives a failed request",
+    "track": "frontend",
+    "difficulty": 3,
+    "hours": 4,
+    "tagline": "Instant-feeling UI is easy. Instant-feeling UI that doesn't lie to the user when the server says no is the actual skill.",
+    "whatYouBuild": "A small CRUD surface (a task list or comment thread) where every mutation applies to the UI immediately, before the network round-trip resolves. You snapshot prior state before the optimistic update, reconcile with the server's real response on success, and on failure roll the UI back to the exact pre-mutation snapshot while surfacing a visible, specific error toast — not a silent revert the user has to notice on their own.",
+    "resumeLine": "Implemented optimistic UI updates with snapshot-based rollback and visible failure feedback (instant apply, server reconciliation on success, exact-state revert plus toast on failure), proven with a suite that forces the failure path via network mocking.",
+    "proves": [
+      "Understands optimistic UI is a state machine, not just \"update first, ask questions later\"",
+      "Designs explicitly for the failure path instead of only demoing the happy path",
+      "Can reason about race conditions between an optimistic update and a slower/failed server response"
+    ],
+    "stack": [
+      "React",
+      "TypeScript",
+      "TanStack Query (or hand-rolled optimistic mutation state)",
+      "MSW (Mock Service Worker)",
+      "Vitest",
+      "React Testing Library"
+    ],
+    "prerequisites": [
+      "client-server-state",
+      "async-state-management"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Build a list UI (add/edit/delete items) backed by a mock API with a configurable artificial delay and a configurable failure toggle.",
+      "On mutation, snapshot the current list state, then apply the change to the UI immediately (before the request resolves).",
+      "On server success, reconcile the optimistic item with the server's authoritative response (e.g. real id, server timestamp) rather than trusting the client-generated placeholder forever.",
+      "On server failure, roll the UI back to the exact pre-mutation snapshot (not just \"remove the new item\" — full state restore) and show a toast naming what failed and why.",
+      "Prevent a slow, now-stale optimistic update from clobbering a newer successful mutation on the same item (guard with a request/version token).",
+      "Disable or visually mark an item as \"pending\" while its mutation is in flight, so a second edit on the same item is a deliberate action, not an accident."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Adding an item updates the UI in the same tick, before the mocked network delay resolves",
+        "kind": "test"
+      },
+      {
+        "label": "Forcing the mock API to fail rolls the list back to the exact pre-mutation state and renders a toast with a specific error message",
+        "kind": "test"
+      },
+      {
+        "label": "A stale in-flight mutation cannot overwrite a newer successful mutation on the same item (version/token guard verified under a simulated race)",
+        "kind": "test"
+      },
+      {
+        "label": "Successful mutation replaces the client-optimistic id/timestamp with the server's authoritative values",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A working optimistic-UI list app + a Vitest/RTL suite that exercises both the success and forced-failure paths",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "e2e-suite-catches-a-regression",
+    "title": "An E2E suite that actually catches regressions",
+    "track": "quality",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Most E2E suites are flaky theater. Prove yours isn't by planting a real bug and watching it fail.",
+    "whatYouBuild": "A Playwright E2E suite covering one critical user flow end-to-end (signup → checkout, or login → create → verify, on a small seeded app). You write it with deterministic waits and test isolation from the start, run it green on main, then intentionally plant a regression on a branch and prove the exact same suite fails for the exact reason you planted — the way a real CI gate is supposed to behave.",
+    "resumeLine": "Wrote a deterministic Playwright E2E suite for a critical user flow (network-aware waits, isolated seeded state, zero sleep-based assertions) and proved its regression-catching value by planting a bug and confirming the suite failed on the correct assertion, then passed again after the fix.",
+    "proves": [
+      "Writes E2E tests that catch real bugs instead of green-but-worthless suites",
+      "Understands flake sources (races, shared state, timing) and eliminates them deliberately",
+      "Treats a test suite as a gate with evidence, not a checkbox — proves the negative case, not just the happy path"
+    ],
+    "stack": [
+      "Playwright",
+      "TypeScript",
+      "a small seeded web app (Next.js or similar)",
+      "GitHub Actions (or local CI runner)"
+    ],
+    "prerequisites": [
+      "e2e-testing-basics",
+      "http-methods"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "prove"
+    ],
+    "spec": [
+      "Pick one critical multi-step flow (e.g. signup → add item → checkout → confirmation) in a small app with seedable test data.",
+      "Write the E2E test using Playwright's built-in auto-waiting and locator-based assertions — zero hardcoded `sleep`/`waitForTimeout` calls.",
+      "Seed and tear down test data per test (fresh user/cart per run) so tests can run in parallel without cross-test contamination.",
+      "Run the suite 10x consecutively in CI (or a local loop) to establish a flake-free baseline before trusting it as a gate.",
+      "On a separate branch, plant one deliberate regression in the flow (e.g. checkout button stops firing, or a total miscalculates) and re-run the suite.",
+      "Document which specific assertion failed and why, then revert the regression and confirm the suite returns to green."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "The suite passes 10/10 consecutive runs on main with zero retries needed (flake-free baseline)",
+        "kind": "test"
+      },
+      {
+        "label": "With the planted regression branch checked out, the suite fails, and the failure is the specific planted assertion — not a timeout or an unrelated cascade failure",
+        "kind": "test"
+      },
+      {
+        "label": "Reverting the regression returns the suite to 10/10 green without any test-code changes",
+        "kind": "test"
+      },
+      {
+        "label": "Suite contains zero `waitForTimeout`/hardcoded-sleep calls; all waits are condition-based",
+        "kind": "review"
+      }
+    ],
+    "artifact": "A Playwright E2E suite + CI config + a before/after run log proving the planted regression was caught and the fix restored green",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "visual-regression-harness",
+    "title": "A visual-regression harness that knows the difference between a bug and a repaint",
+    "track": "quality",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Pixel-diffing is trivial. A harness that doesn't cry wolf on font antialiasing is the hard part.",
+    "whatYouBuild": "A baseline-screenshot visual-regression harness for a handful of key pages/components at multiple breakpoints. You capture and commit baselines, diff every subsequent run against them with a tuned pixel/percentage threshold, and prove the harness in both directions: it must flag a real intentional visual break, and it must NOT flag a genuinely harmless no-op change (a comment-only commit, an unrelated file edit).",
+    "resumeLine": "Built a visual-regression testing harness (Playwright screenshot baselines across 3 breakpoints, tuned pixel-diff threshold, CI gate) and proved its precision with a two-sided test: it flags an intentional visual break and stays silent on a no-op change.",
+    "proves": [
+      "Understands visual regression as a signal-to-noise problem, not just \"take a screenshot and diff it\"",
+      "Can tune a diff threshold deliberately instead of picking an arbitrary number and hoping",
+      "Proves both the true-positive and true-negative case — most people only demo the true positive"
+    ],
+    "stack": [
+      "Playwright (screenshot + toHaveScreenshot)",
+      "TypeScript",
+      "GitHub Actions",
+      "pixelmatch (or Playwright's built-in comparator)"
+    ],
+    "prerequisites": [
+      "e2e-testing-basics",
+      "css-fundamentals"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Choose 3-4 key surfaces (e.g. landing hero, a form, a data table) and capture baseline screenshots at 3 breakpoints (mobile/tablet/desktop) with animations and dynamic content (dates, avatars) disabled or mocked.",
+      "Commit baselines to the repo and wire a CI job that regenerates screenshots on every PR and diffs them against baseline with a tuned threshold (e.g. maxDiffPixelRatio).",
+      "Fail the CI job and upload a diff-image artifact when any surface exceeds the threshold; pass silently when it doesn't.",
+      "Prove the true positive: on a branch, make one intentional visual break (e.g. shift a button 40px, change a brand color) and confirm the harness fails on exactly that surface.",
+      "Prove the true negative: on a separate branch, make a genuinely cosmetic no-op (a code comment, a variable rename with zero rendered-output change) and confirm the harness stays green.",
+      "Document the threshold you chose and why (what real-world noise — font rendering, subpixel rounding — it needed to tolerate without masking real breaks)."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "CI run against the intentional-visual-break branch fails specifically on the modified surface, with a diff image artifact showing the changed region",
+        "kind": "test"
+      },
+      {
+        "label": "CI run against the no-op branch (comment/rename only, zero rendered change) passes with no flagged surfaces",
+        "kind": "test"
+      },
+      {
+        "label": "Baseline regeneration is a deliberate, reviewed action (a labeled script/command), never an automatic silent overwrite on every run",
+        "kind": "review"
+      },
+      {
+        "label": "Threshold and rationale are documented in the repo (what noise it tolerates, what it still catches)",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A committed baseline-screenshot suite + CI config + two run logs (intentional-break fail, no-op pass) + threshold rationale doc",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "iac-deploy-with-rollback",
+    "title": "Deploy infrastructure that can undo itself",
+    "track": "cloud",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Define your infra as code, deploy it for real, then prove you can roll back to the exact prior state.",
+    "whatYouBuild": "A small but real cloud stack (a VM or container service, a storage bucket, and networking) defined entirely in Terraform, with state stored remotely and versioned. You deploy it, make a breaking change, and then prove you can revert to the last-known-good state using the plan/apply workflow instead of clicking around a console.",
+    "resumeLine": "Defined and deployed cloud infrastructure as code in Terraform (remote state, plan/apply workflow) and proved a controlled rollback to a prior state after a bad change, with before/after plan output as evidence.",
+    "proves": [
+      "Can define real infrastructure declaratively instead of hand-clicking a console",
+      "Understands state as the source of truth, not the live resources",
+      "Treats deploys as reversible operations, not one-way doors",
+      "Can produce evidence (plan diffs, logs) that a change was safe"
+    ],
+    "stack": [
+      "Terraform",
+      "a cloud provider (AWS/GCP/Azure free tier)",
+      "remote state backend",
+      "git"
+    ],
+    "prerequisites": [
+      "what-is-infrastructure-as-code",
+      "cloud-provider-basics"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Define at least 3 real resources in Terraform (e.g. compute instance, storage bucket, network/security group) with variables for environment-specific values.",
+      "Configure a remote state backend (not local .tfstate) so state is shared and lockable.",
+      "Run terraform plan and apply to stand up the stack for real; capture the applied state as v1.",
+      "Make a breaking change (e.g. a config that removes required egress or misconfigures a resource), apply it, and observe the failure.",
+      "Roll back to v1 using version-controlled config (git revert + apply, or a saved plan) — not manual console edits — and verify the stack matches v1 exactly.",
+      "Document the diff between the broken and rolled-back plans as proof the rollback was clean."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "terraform apply succeeds and stands up all defined resources on the real provider",
+        "kind": "output"
+      },
+      {
+        "label": "The breaking change is applied and its failure mode is captured (error output or health-check failure)",
+        "kind": "output"
+      },
+      {
+        "label": "terraform plan after rollback shows zero pending changes against the v1 config",
+        "kind": "test"
+      },
+      {
+        "label": "A written rollback log shows the before/broken/after plan diffs in order",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A Terraform module + remote state + a rollback log with before/broken/after plan diffs",
+    "interactive": false,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "secrets-rotation-zero-downtime",
+    "title": "Rotate a secret without anyone noticing",
+    "track": "security",
+    "difficulty": 3,
+    "hours": 4,
+    "tagline": "Move a hardcoded secret into a real secret store, then rotate it live with zero downtime.",
+    "whatYouBuild": "A small running service that starts with a hardcoded API key (the wrong way), which you migrate into a managed secret store with versioning. You then build the read-at-runtime path so the service pulls the current secret on every use, rotate the underlying secret while the service keeps serving traffic, and prove the old secret is dead and never appears in source or logs.",
+    "resumeLine": "Migrated a hardcoded application secret into a managed secret store, implemented runtime secret fetching with caching, and rotated the secret with zero downtime, verified by a git-history and log scan showing no plaintext secret exposure.",
+    "proves": [
+      "Knows secrets don't belong in source control or logs, and can prove it, not just assert it",
+      "Can rotate credentials without a deploy or an outage",
+      "Understands secret versioning and the cutover window between old and new",
+      "Builds the verification, not just the fix"
+    ],
+    "stack": [
+      "a secret manager (AWS Secrets Manager / GCP Secret Manager / Vault)",
+      "a small HTTP service (Python or Node)",
+      "git",
+      "structured logging"
+    ],
+    "prerequisites": [
+      "environment-variables-vs-secrets",
+      "http-service-basics"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Start with a service that authenticates an outbound call using a hardcoded API key in source — commit it once to establish the 'before' state.",
+      "Move the secret into a secret manager with versioning enabled; strip it from source entirely.",
+      "Implement runtime secret fetch with short-TTL in-memory caching so the service reads the current version without a restart.",
+      "Rotate the secret in the store (create a new version, mark old as pending-deletion) while sending continuous traffic to the service; measure request success rate through the rotation window.",
+      "Scan full git history and application logs for the old plaintext secret value to prove it was fully purged from source and never printed.",
+      "Revoke the old secret version at the provider and prove requests using it now fail."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "A git-history grep for the original plaintext secret returns zero matches after the purge commit",
+        "kind": "test"
+      },
+      {
+        "label": "A log scan across the full rotation window returns zero occurrences of any secret value",
+        "kind": "test"
+      },
+      {
+        "label": "Continuous request success rate stays ≥99% through the live rotation window (no restart, no downtime)",
+        "kind": "output"
+      },
+      {
+        "label": "A request made with the revoked secret version is rejected by the provider after rotation completes",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A working service with runtime secret fetch + a rotation run report (success-rate log, git/log scan results)",
+    "interactive": false,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "auth-flow-done-right",
+    "title": "Build a login that survives an attack",
+    "track": "security",
+    "difficulty": 3,
+    "hours": 6,
+    "tagline": "Password hashing, sessions, CSRF protection, and rate limiting — then prove the common attacks fail.",
+    "whatYouBuild": "A minimal but real authentication flow: signup, login, and a protected route, backed by properly hashed passwords, signed sessions (or JWTs) with sane expiry, CSRF/SameSite protection on state-changing requests, and rate limiting on login attempts. You finish by writing attack scripts against your own service and showing each one fails the way it should.",
+    "resumeLine": "Implemented a production-pattern auth flow (bcrypt/argon2 password hashing, signed sessions with expiry, CSRF protection via SameSite + token, rate-limited login) and validated it with attack scripts proving brute-force, session-fixation, and CSRF attempts all fail.",
+    "proves": [
+      "Understands why plaintext/weak-hashed passwords and unbounded login attempts are disqualifying, not stylistic",
+      "Can implement session/token auth correctly, including expiry and invalidation",
+      "Defends state-changing requests against CSRF, not just XSS",
+      "Tests security claims with real attack scripts instead of asserting them"
+    ],
+    "stack": [
+      "Node/Express or Python/FastAPI",
+      "bcrypt or argon2",
+      "a session store or JWT library",
+      "a rate limiter (in-memory or Redis)"
+    ],
+    "prerequisites": [
+      "http-methods",
+      "what-is-a-session",
+      "state-and-storage"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Build signup/login endpoints that hash passwords with bcrypt or argon2 (never plaintext, never fast general-purpose hashes like MD5/SHA1).",
+      "Issue a signed session cookie or JWT on login with a defined expiry and a working logout that invalidates it.",
+      "Set cookies with HttpOnly, Secure, and SameSite=Lax/Strict; add a CSRF token check on all state-changing (POST/PUT/DELETE) routes.",
+      "Rate-limit the login endpoint per IP/account (e.g. 5 attempts per 60s) and return 429 once exceeded.",
+      "Build one protected route that rejects requests with a missing, expired, or tampered session/token.",
+      "Write attack scripts: a brute-force login loop, a forged/tampered token request, and a cross-site POST without the CSRF token."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Stored user records contain only hashed passwords — a database dump shows no plaintext or reversible encoding",
+        "kind": "test"
+      },
+      {
+        "label": "The brute-force script is blocked with 429 responses after the configured attempt threshold",
+        "kind": "test"
+      },
+      {
+        "label": "A tampered or expired session/JWT is rejected by the protected route with 401",
+        "kind": "test"
+      },
+      {
+        "label": "A forged cross-site POST without a valid CSRF token is rejected",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A working auth service + 3 attack scripts + a pass/fail report for each attack",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "debug-to-the-line",
+    "title": "Turn a mystery bug into an exact line and a reason",
+    "track": "foundations",
+    "difficulty": 2,
+    "hours": 3,
+    "tagline": "A program is silently wrong. Instrument it, isolate the exact failing line, explain why, then lock in the fix with a regression test.",
+    "whatYouBuild": "You're handed a program that runs without crashing but produces wrong output on some inputs. You add logging/breakpoints to narrow the failure to one function, then one line, then the specific value that breaks the assumption — and write down the causal chain, not just the symptom. You fix the line and add a regression test that fails on the old code and passes on the new. This is the core Sage mental model: don't debug the vibe, make the failure a location.",
+    "resumeLine": "Diagnosed a silent logic defect in an unfamiliar codebase to the exact failing line using systematic instrumentation (bisection, targeted logging), documented root cause, and shipped a fix with a regression test proven to fail on the original code.",
+    "proves": [
+      "Can debug methodically under ambiguity instead of guessing and re-running",
+      "Narrows a failure to a location and a mechanism, not a vague description",
+      "Writes the regression test that proves the bug is understood, not just silenced",
+      "Communicates a root-cause chain another engineer could follow"
+    ],
+    "stack": [
+      "Python or JavaScript",
+      "a debugger or print/log instrumentation",
+      "a test framework (pytest/vitest)"
+    ],
+    "prerequisites": [
+      "reading-a-stack-trace",
+      "writing-your-first-test"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Start from a provided program (20-80 lines) that passes some inputs and silently produces wrong output on others — no exception, no crash.",
+      "Reproduce the failure with a minimal input and record the observed-vs-expected output.",
+      "Bisect the call path with targeted logging or a debugger to narrow the defect from 'somewhere in this file' to one function.",
+      "Narrow further to the exact line and the specific runtime value that violates an assumption the code silently relies on.",
+      "Write a one-paragraph root-cause explanation: what the code assumed, what actually happened, and why the mismatch produced that specific wrong output.",
+      "Fix the line and add a regression test that fails against the original buggy code and passes against the fix."
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "The regression test fails when run against the original buggy source",
+        "kind": "test"
+      },
+      {
+        "label": "The regression test passes against the fixed source",
+        "kind": "test"
+      },
+      {
+        "label": "The root-cause writeup names the exact file, line number, and the specific value that triggers the defect",
+        "kind": "artifact"
+      },
+      {
+        "label": "Full existing test suite still passes after the fix (no new regressions introduced)",
+        "kind": "test"
+      }
+    ],
+    "artifact": "The fixed program + a regression test + a root-cause writeup naming the exact line and mechanism",
+    "interactive": true,
+    "addedMonth": "2026-08",
+    "status": "live",
+    "featured": false
+  }
+]

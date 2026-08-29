@@ -62,7 +62,7 @@ export default function MethodPage() {
       <AcademyNav />
       <div style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip' }}>
         {/* ── HERO ── */}
-        <header style={{ ...container, backgroundImage: 'radial-gradient(90% 55% at 50% -8%, rgba(61,90,254,0.09) 0%, transparent 58%)' }}>
+        <header className="sage-rise" style={{ ...container, backgroundImage: 'radial-gradient(90% 55% at 50% -8%, rgba(61,90,254,0.09) 0%, transparent 58%)' }}>
           <div style={kicker}>The method</div>
           <h1 style={{ ...serif, margin: '16px 0 0', fontWeight: 600, fontSize: 'clamp(38px, 6vw, 82px)', lineHeight: 0.98, letterSpacing: '-0.03em', maxWidth: '16ch', textWrap: 'balance' }}>
             We don’t teach you to code. We forge how you <em style={{ fontStyle: 'italic', color: ACCENT_INK }}>think.</em>
@@ -79,7 +79,7 @@ export default function MethodPage() {
 
         {/* ── THE GAP ── */}
         <section style={section}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ maxWidth: 620 }}>
               <div style={kicker}>The gap nobody closes</div>
               <h2 style={h2}>The industry teaches facts. Interviews, reviews, and outages test <em style={{ fontStyle: 'italic', color: '#E5484D' }}>judgment.</em></h2>
@@ -100,7 +100,7 @@ export default function MethodPage() {
 
         {/* ── THE LOOP (signature diagram) ── */}
         <section style={{ ...section, background: '#0D0D11' }}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ maxWidth: 640 }}>
               <div style={kicker}>The engine</div>
               <h2 style={h2}>Every lesson runs the loop the best engineers run on autopilot.</h2>
@@ -117,7 +117,7 @@ export default function MethodPage() {
 
         {/* ── LEARNING SCIENCE ── */}
         <section style={section}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ maxWidth: 640 }}>
               <div style={kicker}>Engineered on the science</div>
               <h2 style={h2}>Four forces, in every lesson — because this is how humans actually learn.</h2>
@@ -136,7 +136,7 @@ export default function MethodPage() {
 
         {/* ── MENTAL MODELS / LIVING KNOWLEDGE ── */}
         <section style={{ ...section, background: '#0D0D11' }}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ maxWidth: 660 }}>
               <div style={kicker}>What you actually keep</div>
               <h2 style={h2}>Not a pile of facts — a living map of models you can defend.</h2>

@@ -133,7 +133,7 @@ export default function ProjectsPage() {
       <AcademyNav />
       <div style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip', minHeight: '100vh' }}>
         <main style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(48px, 7vw, 92px) clamp(20px, 4vw, 48px) 96px' }}>
-          <div style={{ maxWidth: 720, backgroundImage: 'radial-gradient(90% 60% at 0% -20%, rgba(61,90,254,0.08) 0%, transparent 60%)' }}>
+          <div className="sage-rise" style={{ maxWidth: 720, backgroundImage: 'radial-gradient(90% 60% at 0% -20%, rgba(61,90,254,0.08) 0%, transparent 60%)' }}>
             <div style={kicker}>What you’ll ship</div>
             <h1 style={{ ...serif, margin: '16px 0 0', fontWeight: 600, fontSize: 'clamp(34px, 5.4vw, 68px)', lineHeight: 1.0, letterSpacing: '-0.03em', maxWidth: '18ch', textWrap: 'balance' }}>
               You don’t finish with a certificate. You finish with <em style={{ fontStyle: 'italic', color: ACCENT_INK }}>these.</em>
@@ -144,7 +144,7 @@ export default function ProjectsPage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: 20, marginTop: 52 }}>
+          <div className="sage-rise" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: 20, marginTop: 52 }}>
             {ARTIFACTS.map((a) => (
               <div key={a.name} style={{ border: `1px solid ${LINE}`, borderRadius: 18, background: '#111115', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 {/* artifact preview */}

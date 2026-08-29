@@ -200,7 +200,7 @@ export async function SageHome() {
 
         {/* ============ B. THE WEDGE ============ */}
         <section style={{ ...section, background: '#0D0D11' }}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }}>
               <div>
                 <h2 style={{ ...h2, margin: 0 }}>Tutorials teach syntax. Nobody teaches judgment.</h2>
@@ -237,7 +237,7 @@ export async function SageHome() {
 
         {/* ============ C. THE LOOP ============ */}
         <section id="loop" style={section}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
               <div style={{ maxWidth: 660, flex: '1 1 380px' }}>
                 <div style={kicker}>The Sage Learning OS</div>
@@ -267,7 +267,7 @@ export async function SageHome() {
 
         {/* ============ D. HOW A LESSON WORKS ============ */}
         <section id="lesson" style={{ ...section, background: '#0D0D11' }}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ maxWidth: 660, marginBottom: 44 }}>
               <div style={kicker}>Anatomy of a lesson</div>
               <h2 style={{ ...h2, margin: '14px 0 16px' }}>Visual-first. Real labs. Proof, not vibes.</h2>
@@ -320,7 +320,7 @@ export async function SageHome() {
 
         {/* ============ E. CATALOG PREVIEW ============ */}
         <section id="catalog" style={section}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, marginBottom: 40 }}>
               <div style={{ maxWidth: 620 }}>
                 <div style={kicker}>The catalog</div>
@@ -360,7 +360,7 @@ export async function SageHome() {
 
         {/* ============ F. THE PROOF ============ */}
         <section id="proof" style={{ ...section, background: '#0D0D11' }}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }}>
               <div>
                 <div style={kicker}>The evidence ledger</div>
@@ -397,7 +397,7 @@ export async function SageHome() {
 
         {/* ============ G. RETENTION + HONEST SCORING ============ */}
         <section style={section}>
-          <div style={container}>
+          <div className="sage-rise" style={container}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 20 }}>
               <div style={{ border: `1px solid ${LINE}`, borderRadius: 14, background: '#111115', padding: 28, display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9598A2' }}>Honest scoring</div>

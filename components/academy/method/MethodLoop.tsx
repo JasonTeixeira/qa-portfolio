@@ -32,6 +32,13 @@ const STEPS: Step[] = [
 export function MethodLoop() {
   return (
     <div>
+      {/* A highlight travels through the ten steps, so the loop visibly *runs*.
+          Each step's top-rail glows in sequence; reduced-motion shows them static. */}
+      <style>{`
+@keyframes sgLoopRail { 0%, 100% { opacity: 0.35; box-shadow: none } 8% { opacity: 1; box-shadow: 0 0 16px 1px currentColor } 22% { opacity: 0.35; box-shadow: none } }
+.sgLoopStep .sgLoopRail { animation: sgLoopRail 6s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .sgLoopStep .sgLoopRail { animation: none; opacity: 0.7 } }
+`}</style>
       <div
         style={{
           display: 'grid',
@@ -39,9 +46,10 @@ export function MethodLoop() {
           gap: 14,
         }}
       >
-        {STEPS.map((s) => (
+        {STEPS.map((s, i) => (
           <div
             key={s.n}
+            className="sgLoopStep"
             style={{
               position: 'relative',
               border: `1px solid ${LINE}`,
@@ -51,7 +59,7 @@ export function MethodLoop() {
               overflow: 'hidden',
             }}
           >
-            <span aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: s.color, opacity: 0.7 }} />
+            <span aria-hidden="true" className="sgLoopRail" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: s.color, color: s.color, opacity: 0.7, animationDelay: `${i * 0.55}s` }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ ...mono, fontSize: 11, color: s.color }}>{s.n}</span>
               <span style={{ ...serif, fontSize: 18, fontWeight: 600, color: INK, letterSpacing: '-0.01em' }}>{s.name}</span>

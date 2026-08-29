@@ -9136,6 +9136,35 @@ test('gamification: pickCelebration is null only when no XP was awarded', async 
 
 // ------------------------------------------------------- fsrs: scheduling
 
+test('curriculum-graph: computeTiers ranks by longest prereq path', async () => {
+  const { computeTiers, CURRICULUM_PREREQS } = await import('../../lib/academy/curriculum-graph.ts');
+  const tiers = computeTiers(CURRICULUM_PREREQS);
+  assert.equal(tiers.foundations, 0);           // entry point
+  assert.equal(tiers.backend, 1);               // needs foundations
+  assert.equal(tiers['ai-engineering'], 2);     // needs foundations + backend
+  assert.equal(tiers.career, 3);                // needs ai-engineering + architecture
+});
+
+test('curriculum-graph: buildCurriculumGraph — 12 software-AI nodes, live tracks available, prereq edges met by progress', async () => {
+  const { buildCurriculumGraph } = await import('../../lib/academy/curriculum-graph.ts');
+  const g = buildCurriculumGraph();
+  assert.equal(g.nodes.length, 12);
+  const byId = Object.fromEntries(g.nodes.map((n) => [n.id, n]));
+  // live tracks are startable (soft locks — never "locked")
+  assert.equal(byId.foundations.state, 'available');
+  assert.equal(byId['ai-engineering'].state, 'available');
+  // building tracks read as building
+  assert.equal(byId.backend.state, 'building');
+  // an edge is "met" only when the prereq is complete
+  const aiEdges = g.edges.filter((e) => e.to === 'ai-engineering');
+  assert.ok(aiEdges.length >= 1);
+  assert.ok(aiEdges.every((e) => e.met === false));
+  // now complete foundations → its outgoing edges flip to met
+  const g2 = buildCurriculumGraph({ foundations: { pct: 100 } });
+  assert.equal(g2.nodes.find((n) => n.id === 'foundations').state, 'complete');
+  assert.ok(g2.edges.filter((e) => e.from === 'foundations').every((e) => e.met === true));
+});
+
 test('fsrs: scheduler is configured at 0.90 target retention', async () => {
   const { fsrs, generatorParameters } = await import('ts-fsrs');
   const params = generatorParameters({ request_retention: 0.9, enable_fuzz: true });

@@ -192,6 +192,7 @@ export async function updateSession(request: NextRequest) {
     pathname === '/academy/guarantee' ||
     pathname === '/academy/interview/guarantee' ||
     pathname === '/academy/starter' ||
+    pathname === '/academy/map' ||
     // Main-menu marketing pages: public sell surfaces in the academy skin.
     pathname === '/academy/catalog' ||
     pathname === '/academy/why-proof' ||

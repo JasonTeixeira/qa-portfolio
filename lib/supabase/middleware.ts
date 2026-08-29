@@ -46,6 +46,37 @@ const PORTAL_VALID_SEGMENTS = new Set([
   'not-found-render',
 ]);
 
+/**
+ * Marketing pages whose ANONYMOUS server render is identical for every visitor —
+ * safe to CDN edge-cache. Vercel only shares a cached response when it carries no
+ * Set-Cookie, so signed-in requests (which bear auth cookies) are never cached and
+ * stay personalized automatically. This turns a repeat anonymous hit from a full
+ * ~300ms–1.5s dynamic render into a ~20ms edge HIT.
+ */
+function isCacheableMarketing(pathname: string): boolean {
+  if (
+    pathname === '/' ||
+    pathname === '/academy' ||
+    pathname === '/academy/pricing' ||
+    pathname === '/academy/catalog' ||
+    pathname === '/academy/map' ||
+    pathname === '/academy/starter' ||
+    pathname === '/academy/why-proof' ||
+    pathname === '/academy/proof-not-paper' ||
+    pathname === '/academy/how-we-audit' ||
+    pathname === '/academy/about' ||
+    pathname === '/academy/guarantee' ||
+    pathname === '/academy/interview/guarantee' ||
+    pathname === '/academy/efficacy' ||
+    pathname === '/academy/concepts'
+  ) {
+    return true;
+  }
+  if (pathname.startsWith('/academy/concepts/')) return true;
+  if (/^\/academy\/course\/[^/]+$/.test(pathname)) return true;
+  return false;
+}
+
 function isPublic(pathname: string) {
   if (PUBLIC_PATHS.has(pathname)) return true;
   return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + '/'));
@@ -340,6 +371,13 @@ export async function updateSession(request: NextRequest) {
       response.cookies.getAll().forEach((c) => rewrite.cookies.set(c));
       return rewrite;
     }
+  }
+
+  // Edge-cache anonymous hits on identical-for-everyone marketing pages. Vercel
+  // won't share-cache a response that sets a cookie, so this only ever caches the
+  // truly-anonymous render; signed-in visitors stay private + personalized.
+  if (request.method === 'GET' && isCacheableMarketing(pathname)) {
+    response.headers.set('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
   }
 
   // Pass through (with refreshed cookies) for everything else, public or otherwise.

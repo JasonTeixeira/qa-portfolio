@@ -234,10 +234,32 @@ export default function AboutPage() {
           ))}
         </div>
 
+        {/* Builder credibility — the honest trust anchor. No invented metrics;
+            the claim is simply that a practitioner writes this, not a content team. */}
+        <div
+          style={{
+            border: '1px solid rgba(61,90,254,0.3)',
+            borderRadius: 14,
+            background: 'linear-gradient(165deg, #0E1020, #111115)',
+            padding: 24,
+            marginBottom: 30,
+          }}
+        >
+          <div style={{ fontFamily: MONO, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#8FA0FF', marginBottom: 12 }}>
+            Taught by a builder, not a content company
+          </div>
+          <p style={{ margin: 0, fontSize: 15, color: '#B6B6C0', lineHeight: 1.65 }}>
+            I don&apos;t teach engineering from a textbook. I design, build, ship, and operate real
+            production software — solo — and the mental models in here are the exact ones that hold up
+            when you&apos;re the only person who can fix it at 3am. Every lesson is the loop I actually
+            run, written by the same hands that ship the systems.
+          </p>
+        </div>
+
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <Link
-            href="/field-notes"
+            href="/academy/signup"
             style={{
               display: 'inline-flex',
               color: '#fff',
@@ -251,10 +273,10 @@ export default function AboutPage() {
               boxShadow: '0 0 22px rgba(61,90,254,0.35)',
             }}
           >
-            Read the field notes →
+            Start free →
           </Link>
           <Link
-            href="/how-it-works"
+            href="/academy/method"
             style={{
               display: 'inline-flex',
               color: '#B6B6C0',
@@ -266,7 +288,22 @@ export default function AboutPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            The manifesto
+            See the method
+          </Link>
+          <Link
+            href="/academy/projects"
+            style={{
+              display: 'inline-flex',
+              color: '#B6B6C0',
+              border: '1px solid #2A2A33',
+              textDecoration: 'none',
+              fontSize: 14.5,
+              padding: '12px 26px',
+              borderRadius: 24,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            What you&apos;ll build
           </Link>
         </div>
       </article>

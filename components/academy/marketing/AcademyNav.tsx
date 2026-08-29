@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-type ActiveLink = 'how-it-works' | 'courses' | 'why-proof' | 'pricing'
+type ActiveLink = 'method' | 'courses' | 'projects' | 'why-proof' | 'pricing'
 
 type AcademyNavProps = {
   active?: ActiveLink
@@ -13,10 +13,11 @@ type NavLink = {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { key: 'how-it-works', label: 'How it works', href: '/how-it-works' },
+  { key: 'method', label: 'The method', href: '/academy/method' },
   { key: 'courses', label: 'Courses', href: '/academy/catalog' },
+  { key: 'projects', label: 'Projects', href: '/academy/projects' },
   { key: 'why-proof', label: 'Why proof', href: '/academy/proof-not-paper' },
-  { key: 'pricing', label: 'Pricing', href: '/academy/catalog#pricing' },
+  { key: 'pricing', label: 'Pricing', href: '/academy/pricing' },
 ]
 
 const LINE = '#1E1E24'

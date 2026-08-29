@@ -26,9 +26,9 @@ const BLUE = '#3D5AFE'
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 
 const NAV_LINKS = [
-  { href: '/field-notes', label: 'Field notes' },
-  { href: '/how-it-works', label: 'How it works' },
+  { href: '/academy/method', label: 'The method' },
   { href: '/academy/catalog', label: 'Courses' },
+  { href: '/academy/projects', label: 'Projects' },
   { href: '/academy/proof-not-paper', label: 'Why proof' },
   // Gold sub-brand: the Interview Mastery add-on gets its accent in the nav.
   { href: '/interview', label: 'Interview', tint: '#E0A93E' },

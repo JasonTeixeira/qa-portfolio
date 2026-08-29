@@ -195,8 +195,9 @@ export default function ProofNotPaperPage() {
 
         {/* The film — the anti-cert wedge, narrated. Poster-first. */}
         <figure style={{ margin: 'clamp(40px, 6vw, 64px) 0 0', border: '1px solid #1E1E24', borderRadius: 18, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 32px 80px -34px rgba(0,0,0,0.85)' }}>
-          <video controls preload="none" poster="/video/academy/sa-proof.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+          <video controls preload="none" aria-label="Forget the certificate, ship the proof — the anti-cert film, narrated" poster="/video/academy/sa-proof.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
             <source src="/video/academy/sa-proof.mp4" type="video/mp4" />
+            <track kind="captions" srcLang="en" label="English" src="/video/academy/sa-proof.vtt" default />
           </video>
           <figcaption style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#9598A2', padding: '13px 18px', borderTop: '1px solid #1E1E24' }}>▸ forget the certificate, ship the proof — 40 seconds, narrated</figcaption>
         </figure>

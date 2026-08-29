@@ -462,6 +462,14 @@ export async function SageHome() {
               Every claim on this page follows its own rule.{' '}
               <Link href="/academy/proof-not-paper" style={{ color: '#8FA0FF', textDecoration: 'none' }}>Read the manifesto →</Link>
             </div>
+            {/* The anti-cert film — narrated, poster-first. Left-aligned to clear the right-side art. */}
+            <figure style={{ position: 'relative', zIndex: 1, margin: 'clamp(32px, 5vw, 52px) 0 0', maxWidth: 620, border: `1px solid ${LINE}`, borderRadius: 16, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 28px 70px -32px rgba(0,0,0,0.85)' }}>
+              <video controls preload="none" aria-label="Forget the certificate, ship the proof — the anti-cert film, narrated" poster="/video/academy/sa-proof.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+                <source src="/video/academy/sa-proof.mp4" type="video/mp4" />
+                <track kind="captions" srcLang="en" label="English" src="/video/academy/sa-proof.vtt" default />
+              </video>
+              <figcaption style={{ ...mono, fontSize: 11, color: '#9598A2', padding: '12px 16px', borderTop: `1px solid ${LINE}` }}>▸ forget the certificate, ship the proof — 40s, narrated</figcaption>
+            </figure>
           </div>
         </section>
 

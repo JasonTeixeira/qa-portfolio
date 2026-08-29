@@ -16,7 +16,7 @@ const ACCENT = '#3D5AFE'
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 const serif = { fontFamily: 'var(--font-serif), Georgia, serif' } as const
 
-type Clip = { key: string; tab: string; dur: string; title: string; blurb: string; src: string; poster: string }
+type Clip = { key: string; tab: string; dur: string; title: string; blurb: string; src: string; poster: string; captions: string }
 
 const CLIPS: Clip[] = [
   {
@@ -27,33 +27,17 @@ const CLIPS: Clip[] = [
     blurb: 'Why Sage Academy exists — judgment over syntax, proof over paper — in the founder’s own voice. Under a minute, no fluff.',
     src: '/video/academy/sa-founder.mp4',
     poster: '/video/academy/sa-founder.jpg',
+    captions: '/video/academy/sa-founder.vtt',
   },
   {
-    key: 'rag',
-    tab: 'RAG',
-    dur: '0:47',
-    title: 'RAG — how AI reads your data',
-    blurb: 'Retrieval-augmented generation: give a model the right context on demand, so it answers from your sources instead of guessing.',
-    src: '/video/academy/sa-rag.mp4',
-    poster: '/video/academy/sa-rag.jpg',
-  },
-  {
-    key: 'evals',
-    tab: 'Evals',
-    dur: '0:45',
-    title: 'Evals — how you know it works',
-    blurb: 'Stop vibe-checking. Score AI output against a rubric and a golden set, so a regression fails loudly instead of shipping quietly.',
-    src: '/video/academy/sa-evals.mp4',
-    poster: '/video/academy/sa-evals.jpg',
-  },
-  {
-    key: 'agents',
-    tab: 'Agents',
-    dur: '0:52',
-    title: 'Agents — how AI takes action',
-    blurb: 'The think → act → observe loop, plus the human-approval guardrail that turns a chatbot into something that safely does the work.',
-    src: '/video/academy/sa-agents.mp4',
-    poster: '/video/academy/sa-agents.jpg',
+    key: 'method',
+    tab: 'The method',
+    dur: '0:34',
+    title: 'The method, in 30 seconds',
+    blurb: 'Frame → map → decide → prove. The exact loop behind every lesson — built on active recall, spaced repetition, and productive failure.',
+    src: '/video/academy/sa-method.mp4',
+    poster: '/video/academy/sa-method.jpg',
+    captions: '/video/academy/sa-method.vtt',
   },
 ]
 
@@ -67,22 +51,24 @@ export function VideoSection() {
         <div style={{ maxWidth: 680 }}>
           <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>The ideas in motion</div>
           <h2 style={{ ...serif, margin: '14px 0 0', fontWeight: 600, fontSize: 'clamp(30px, 3.6vw, 48px)', lineHeight: 1.04, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-            The concepts behind modern AI — <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>explained</em>, not name-dropped.
+            Why it exists, and how it works — <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>said plainly</em>.
           </h2>
           <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '58ch', textWrap: 'pretty' }}>
-            The same clarity every lesson is built for — three of the ideas you&apos;ll actually use, in under a minute each.
+            The same clarity every lesson is built for — two short films, no faces, no fluff, under a minute each.
           </p>
         </div>
 
         {/* Tabs */}
-        <div role="tablist" aria-label="Concept explainers" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
+        <div role="tablist" aria-label="Founder films" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
           {CLIPS.map((c, i) => {
             const on = i === active
             return (
               <button
                 key={c.key}
                 role="tab"
+                id={`watch-tab-${c.key}`}
                 aria-selected={on}
+                aria-controls="watch-panel"
                 onClick={() => setActive(i)}
                 style={{
                   ...mono,
@@ -107,16 +93,18 @@ export function VideoSection() {
           })}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(24px, 4vw, 48px)', alignItems: 'center', marginTop: 24 }}>
+        <div role="tabpanel" id="watch-panel" aria-labelledby={`watch-tab-${clip.key}`} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(24px, 4vw, 48px)', alignItems: 'center', marginTop: 24 }}>
           <figure style={{ margin: 0, minWidth: 0, border: `1px solid ${LINE}`, borderRadius: 16, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 32px 80px -32px rgba(0,0,0,0.85)' }}>
             <video
               key={clip.key}
               controls
               preload="none"
+              aria-label={`${clip.title} — narrated`}
               poster={clip.poster}
               style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}
             >
               <source src={clip.src} type="video/mp4" />
+              <track kind="captions" srcLang="en" label="English" src={clip.captions} default />
             </video>
           </figure>
 

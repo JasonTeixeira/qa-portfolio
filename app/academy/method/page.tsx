@@ -82,8 +82,9 @@ export default function MethodPage() {
         <section style={section}>
           <div className="sage-rise" style={{ maxWidth: 1000, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(20px, 4vw, 48px)' }}>
             <figure style={{ margin: 0, border: `1px solid ${LINE}`, borderRadius: 18, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 32px 80px -34px rgba(0,0,0,0.85)' }}>
-              <video controls preload="none" poster="/video/academy/sa-method.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+              <video controls preload="none" aria-label="The method in 30 seconds — frame, map, decide, prove; narrated" poster="/video/academy/sa-method.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
                 <source src="/video/academy/sa-method.mp4" type="video/mp4" />
+                <track kind="captions" srcLang="en" label="English" src="/video/academy/sa-method.vtt" default />
               </video>
               <figcaption style={{ ...mono, fontSize: 11, color: DIM, padding: '13px 18px', borderTop: `1px solid ${LINE}` }}>▸ the method in 30 seconds — narrated</figcaption>
             </figure>

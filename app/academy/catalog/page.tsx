@@ -145,7 +145,7 @@ export default async function CatalogPage() {
         <header style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px) 36px', position: 'relative' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/art/academy/band-brush.png"
+            src="/art/academy/band-brush.webp"
             alt=""
             style={{
               position: 'absolute',
@@ -214,7 +214,7 @@ export default async function CatalogPage() {
             <div style={{ position: 'relative', minHeight: 220 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/art/academy/featured-judgment.png"
+                src="/art/academy/featured-judgment.webp"
                 alt=""
                 style={{
                   position: 'absolute',
@@ -239,7 +239,7 @@ export default async function CatalogPage() {
           <div style={{ maxWidth: 760, margin: '0 auto', padding: 'clamp(40px, 6vw, 64px) clamp(20px, 4vw, 48px) clamp(48px, 7vw, 80px)', textAlign: 'center' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/art/academy/loop-brush.png"
+              src="/art/academy/loop-brush.webp"
               alt="The Sage loop: frame, route, map, decide, prove"
               style={{
                 display: 'block',

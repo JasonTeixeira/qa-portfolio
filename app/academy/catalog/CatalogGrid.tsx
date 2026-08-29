@@ -40,12 +40,12 @@ const TRACKS: { key: 'all' | TrackKey; label: string; tint: string }[] = [
 ]
 
 const EMBLEMS: Record<TrackKey, string> = {
-  foundations: '/art/academy/emblem-foundations.png',
-  engineering: '/art/academy/emblem-engineering.png',
-  data: '/art/academy/emblem-data.png',
-  ai: '/art/academy/emblem-ai.png',
-  shipit: '/art/academy/emblem-shipit.png',
-  growth: '/art/academy/emblem-growth.png',
+  foundations: '/art/academy/emblem-foundations.webp',
+  engineering: '/art/academy/emblem-engineering.webp',
+  data: '/art/academy/emblem-data.webp',
+  ai: '/art/academy/emblem-ai.webp',
+  shipit: '/art/academy/emblem-shipit.webp',
+  growth: '/art/academy/emblem-growth.webp',
 }
 
 function tintOf(t: TrackKey): string {

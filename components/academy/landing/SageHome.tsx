@@ -81,12 +81,12 @@ const ARC = [
 ]
 
 const COURSES = [
-  { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.png', name: 'Engineering Judgment & the Sage Learning OS', outcome: 'Turn a messy incident into a decision a reviewer can inspect. The loop every other course runs on.', meta: '16 lessons · 4 modules', artifact: 'decision memo', href: '/academy/course/career-engineering_judgment_foundation' },
-  { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.png', name: 'Think Like a Senior Engineer: Concept Maps', outcome: 'Build maps you can defend the edges of — for systems, codebases, and outages.', meta: '30 lessons · 6 modules', artifact: 'concept atlas', href: '/academy/catalog' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.png', name: 'Programming Fundamentals', outcome: 'The mechanics under the syntax: memory, state, control flow, and honest debugging.', meta: '18 lessons · 2 modules', artifact: 'debug log', href: '/academy/course/programming-fundamentals' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.png', name: 'Backend Engineering', outcome: 'APIs, queues, idempotency, and failure repair under real load.', meta: '20 lessons · 5 modules', artifact: 'production API', href: '/academy/catalog' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.png', name: 'Frontend & Fullstack Product Engineering', outcome: 'Product surfaces with real data flow, accessibility, and request-path judgment.', meta: '20 lessons · 5 modules', artifact: 'fullstack app', href: '/academy/catalog' },
-  { track: 'Data', tint: GREEN, emblem: '/art/academy/emblem-data.png', name: 'Databases & Data Modeling', outcome: 'Schemas that survive review — modeling, constraints, and migration judgment.', meta: '20 lessons · 5 modules', artifact: 'schema review', href: '/academy/catalog' },
+  { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.webp', name: 'Engineering Judgment & the Sage Learning OS', outcome: 'Turn a messy incident into a decision a reviewer can inspect. The loop every other course runs on.', meta: '16 lessons · 4 modules', artifact: 'decision memo', href: '/academy/course/career-engineering_judgment_foundation' },
+  { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.webp', name: 'Think Like a Senior Engineer: Concept Maps', outcome: 'Build maps you can defend the edges of — for systems, codebases, and outages.', meta: '30 lessons · 6 modules', artifact: 'concept atlas', href: '/academy/catalog' },
+  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Programming Fundamentals', outcome: 'The mechanics under the syntax: memory, state, control flow, and honest debugging.', meta: '18 lessons · 2 modules', artifact: 'debug log', href: '/academy/course/programming-fundamentals' },
+  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Backend Engineering', outcome: 'APIs, queues, idempotency, and failure repair under real load.', meta: '20 lessons · 5 modules', artifact: 'production API', href: '/academy/catalog' },
+  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Frontend & Fullstack Product Engineering', outcome: 'Product surfaces with real data flow, accessibility, and request-path judgment.', meta: '20 lessons · 5 modules', artifact: 'fullstack app', href: '/academy/catalog' },
+  { track: 'Data', tint: GREEN, emblem: '/art/academy/emblem-data.webp', name: 'Databases & Data Modeling', outcome: 'Schemas that survive review — modeling, constraints, and migration judgment.', meta: '20 lessons · 5 modules', artifact: 'schema review', href: '/academy/catalog' },
 ]
 
 const EVIDENCE = [
@@ -245,7 +245,7 @@ export async function SageHome() {
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/art/academy/loop-brush.png"
+                src="/art/academy/loop-brush.webp"
                 alt="The Sage loop: frame, route, map, decide, prove"
                 style={{ width: 'min(340px, 100%)', flex: '0 1 auto', margin: '-20px 0', WebkitMaskImage: 'radial-gradient(72% 82% at 50% 50%, #000 42%, transparent 96%)', maskImage: 'radial-gradient(72% 82% at 50% 50%, #000 42%, transparent 96%)' }}
               />
@@ -370,7 +370,7 @@ export async function SageHome() {
                 </p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/art/academy/proof-brush.png"
+                  src="/art/academy/proof-brush.webp"
                   alt=""
                   style={{ display: 'block', width: 'min(400px, 90%)', margin: '4px 0 -24px -12px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(75% 78% at 50% 50%, #000 38%, transparent 95%)', maskImage: 'radial-gradient(75% 78% at 50% 50%, #000 38%, transparent 95%)' }}
                 />
@@ -450,7 +450,7 @@ export async function SageHome() {
             <div style={{ ...serif, position: 'absolute', right: -40, top: '50%', transform: 'translateY(-50%)', fontWeight: 700, fontSize: 'clamp(180px, 26vw, 360px)', lineHeight: 1, color: 'rgba(255,255,255,0.025)', userSelect: 'none', pointerEvents: 'none' }}>94</div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/art/academy/band-brush.png"
+              src="/art/academy/band-brush.webp"
               alt=""
               style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', width: 'min(46%, 560px)', opacity: 0.55, pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(80% 80% at 60% 50%, #000 30%, transparent 96%)', maskImage: 'radial-gradient(80% 80% at 60% 50%, #000 30%, transparent 96%)' }}
             />

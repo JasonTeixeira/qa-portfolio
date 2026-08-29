@@ -141,7 +141,7 @@ export function HowItWorksContent() {
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/art/academy/loop-brush.png"
+            src="/art/academy/loop-brush.webp"
             alt="The Sage loop: frame, route, map, decide, prove"
             style={{
               display: 'block',
@@ -215,7 +215,7 @@ export function HowItWorksContent() {
           <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 48px)', position: 'relative' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/art/academy/loop-band.png"
+              src="/art/academy/loop-band.webp"
               alt=""
               style={{
                 position: 'absolute',

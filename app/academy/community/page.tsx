@@ -4,10 +4,18 @@ import { ensureCommunityProfile, listFriends, listIncomingRequests, listCohorts 
 import { AcademyShell } from '@/components/academy/academy-shell'
 import { GroupSubNav } from '@/components/academy/shell/GroupSubNav'
 import { CommunityHub } from '@/components/academy/community/CommunityHub'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
-export const metadata: Metadata = {
-  title: 'Community — Sage Academy',
-  robots: { index: false, follow: false },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Community — Sage Academy'),
+    alternates: localizedAlternates('/academy/community', locale),
+    robots: { index: false, follow: false },
+  }
 }
 
 export const dynamic = 'force-dynamic'

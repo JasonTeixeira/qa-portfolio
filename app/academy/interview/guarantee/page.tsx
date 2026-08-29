@@ -1,11 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
-export const metadata: Metadata = {
-  title: 'The loop-ready guarantee, without the fine-print games — Interview Mastery',
-  description:
-    'Exactly what Interview Mastery promises, what it never promises, and how refunds work — in plain language. Follow your plan for 14 days and your readiness score rises, or you don’t pay.',
-  alternates: { canonical: 'https://www.sageideas.dev/academy/interview/guarantee' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: `${t('The loop-ready guarantee, without the fine-print games')} — Interview Mastery`,
+    description: t(
+      'Exactly what Interview Mastery promises, what it never promises, and how refunds work — in plain language. Follow your plan for 14 days and your readiness score rises, or you don’t pay.'
+    ),
+    alternates: localizedAlternates('/academy/interview/guarantee', locale),
+  }
 }
 
 const TERMS = [
@@ -33,7 +41,8 @@ const TERMS = [
 
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 
-export default function InterviewGuaranteePage() {
+export default async function InterviewGuaranteePage() {
+  const t = await getT()
   return (
     <div
       style={{
@@ -46,7 +55,7 @@ export default function InterviewGuaranteePage() {
     >
       <main style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 3vw, 32px) 80px' }}>
         <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E' }}>
-          Interview Mastery · plain-language policy · 2 minute read
+          {`Interview Mastery · ${t('plain-language policy · 2 minute read')}`}
         </div>
         <h1
           style={{
@@ -59,17 +68,16 @@ export default function InterviewGuaranteePage() {
             maxWidth: '18ch',
           }}
         >
-          The loop-ready guarantee, without the fine-print games.
+          {t('The loop-ready guarantee, without the fine-print games.')}
         </h1>
         <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '58ch' }}>
-          Our scoring is honest enough that we can put money on it. Here is exactly what we promise,
-          what we don’t, and how refunds work.
+          {t('Our scoring is honest enough that we can put money on it. Here is exactly what we promise, what we don’t, and how refunds work.')}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 44 }}>
-          {TERMS.map((t) => (
+          {TERMS.map((term) => (
             <div
-              key={t.glyph}
+              key={term.glyph}
               style={{
                 border: '1px solid #1E1E24',
                 borderRadius: 16,
@@ -80,12 +88,12 @@ export default function InterviewGuaranteePage() {
                 gap: 18,
               }}
             >
-              <span style={{ ...mono, fontSize: 13, color: '#E0A93E', paddingTop: 2 }}>{t.glyph}</span>
+              <span style={{ ...mono, fontSize: 13, color: '#E0A93E', paddingTop: 2 }}>{term.glyph}</span>
               <div>
                 <div style={{ fontFamily: 'var(--font-serif), Georgia, serif', fontWeight: 600, fontSize: 20, letterSpacing: '-0.015em' }}>
-                  {t.title}
+                  {t(term.title)}
                 </div>
-                <p style={{ margin: '8px 0 0', fontSize: 14.5, color: '#9C9CA6', maxWidth: '62ch' }}>{t.body}</p>
+                <p style={{ margin: '8px 0 0', fontSize: 14.5, color: '#9C9CA6', maxWidth: '62ch' }}>{t(term.body)}</p>
               </div>
             </div>
           ))}
@@ -101,12 +109,12 @@ export default function InterviewGuaranteePage() {
           }}
         >
           <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E', marginBottom: 10 }}>
-            What we will never promise
+            {t('What we will never promise')}
           </div>
           <p style={{ margin: 0, fontSize: 14.5, color: '#B6B6C0', maxWidth: '66ch' }}>
-            A job. Hiring involves luck, timing, and people we don’t control. We promise the thing we
-            can measure and you can verify: that your interview performance, scored against a
-            consistent bar, gets better — or you don’t pay.
+            {t(
+              'A job. Hiring involves luck, timing, and people we don’t control. We promise the thing we can measure and you can verify: that your interview performance, scored against a consistent bar, gets better — or you don’t pay.'
+            )}
           </p>
         </div>
 
@@ -126,10 +134,10 @@ export default function InterviewGuaranteePage() {
               whiteSpace: 'nowrap',
             }}
           >
-            Explore Interview Mastery
+            {t('Explore')} Interview Mastery
           </Link>
           <Link href="/academy/help" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'none' }}>
-            questions? talk to us →
+            {t('questions? talk to us →')}
           </Link>
         </div>
       </main>

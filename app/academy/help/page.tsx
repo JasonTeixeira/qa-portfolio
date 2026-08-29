@@ -2,17 +2,27 @@ import type { Metadata } from 'next'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { HelpContent } from './HelpContent'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
 const DISPLAY = 'Fraunces, Georgia, serif'
 const MONO = '"JetBrains Mono", monospace'
 
-export const metadata: Metadata = {
-  title: 'Help · Sage Academy',
-  description:
-    'Answers grounded in how Sage Academy actually works — streak freezes, proof-based unlocks, verifiable certificates, exporting your work, and billing.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Help · Sage Academy'),
+    description: t(
+      'Answers grounded in how Sage Academy actually works — streak freezes, proof-based unlocks, verifiable certificates, exporting your work, and billing.'
+    ),
+    alternates: localizedAlternates('/academy/help', locale),
+  }
 }
 
-export default function HelpPage() {
+export default async function HelpPage() {
+  const t = await getT()
   return (
     <div
       style={{
@@ -47,7 +57,7 @@ export default function HelpPage() {
               marginBottom: 14,
             }}
           >
-            Help center
+            {t('Help center')}
           </div>
           <h1
             style={{
@@ -61,7 +71,7 @@ export default function HelpPage() {
               textWrap: 'balance',
             }}
           >
-            How can we help?
+            {t('How can we help?')}
           </h1>
         </div>
 

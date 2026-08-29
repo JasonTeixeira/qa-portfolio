@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 import { InterviewShell } from '@/components/academy/interview/InterviewShell'
 import { EmptyState } from '@/components/academy/interview/EmptyState'
 import { FirstRunCockpit } from '@/components/academy/interview/cockpit/FirstRunCockpit'
@@ -11,9 +14,14 @@ import {
 import type { ReadinessRow } from '@/components/academy/interview/RubricBars'
 import type { RecoScenario } from '@/components/academy/interview/cockpit/RecommendedStrip'
 
-export const metadata: Metadata = {
-  title: 'Interview Mastery — Prep cockpit',
-  robots: { index: false, follow: false },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: `Interview Mastery — ${t('Prep cockpit')}`,
+    alternates: localizedAlternates('/academy/interview', locale),
+    robots: { index: false, follow: false },
+  }
 }
 
 export const dynamic = 'force-dynamic'
@@ -31,6 +39,7 @@ const DEFAULT_PLACEMENT_SLUG = 'the-lying-test-suite'
  *      bars, and real session history with real verdicts.
  */
 export default async function InterviewCockpitPage() {
+  const t = await getT()
   const sb = await createSupabaseServerClient()
   const {
     data: { user },
@@ -59,10 +68,12 @@ export default async function InterviewCockpitPage() {
     return (
       <InterviewShell active="prep">
         <EmptyState
-          kicker="Interview Mastery · start here"
-          title="Set your target first."
-          line="Your readiness score, weekly plan, and every mock are shaped by the role, level, and date you're aiming at. Set the target, then one mock builds the rest."
-          ctas={[{ href: '/academy/interview/onboarding', label: 'Set my target →' }]}
+          kicker={`Interview Mastery · ${t('start here')}`}
+          title={t('Set your target first.')}
+          line={t(
+            "Your readiness score, weekly plan, and every mock are shaped by the role, level, and date you're aiming at. Set the target, then one mock builds the rest."
+          )}
+          ctas={[{ href: '/academy/interview/onboarding', label: t('Set my target →') }]}
         />
       </InterviewShell>
     )
@@ -99,10 +110,12 @@ export default async function InterviewCockpitPage() {
     return (
       <InterviewShell active="prep">
         <EmptyState
-          kicker="Interview Mastery · start here"
-          title="Set your target first."
-          line="Your readiness score, weekly plan, and every mock are shaped by the role, level, and date you're aiming at. Set the target, then one mock builds the rest."
-          ctas={[{ href: '/academy/interview/onboarding', label: 'Set my target →' }]}
+          kicker={`Interview Mastery · ${t('start here')}`}
+          title={t('Set your target first.')}
+          line={t(
+            "Your readiness score, weekly plan, and every mock are shaped by the role, level, and date you're aiming at. Set the target, then one mock builds the rest."
+          )}
+          ctas={[{ href: '/academy/interview/onboarding', label: t('Set my target →') }]}
         />
       </InterviewShell>
     )

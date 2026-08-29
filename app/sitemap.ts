@@ -14,6 +14,7 @@ const SITE = 'https://www.sageideas.dev'
 // Phase 1b metadata). Only these get a sitemap hreflang cluster — honest
 // hreflang: never advertise a locale variant for a page still in English.
 const TRANSLATED_PATHS = new Set<string>([
+  // Phase 1 — funnel pages (full body + metadata)
   '/academy',
   '/academy/about',
   '/academy/method',
@@ -24,6 +25,14 @@ const TRANSLATED_PATHS = new Set<string>([
   '/academy/guarantee',
   '/academy/how-we-audit',
   '/academy/catalog',
+  // Phase 2a — public marketing pages with translated bodies
+  '/academy/concepts',
+  '/academy/efficacy',
+  '/academy/help',
+  '/academy/map',
+  '/academy/resources/sprint-loop',
+  '/academy/interview/mastery',
+  '/academy/interview/guarantee',
 ])
 
 /** Build a per-entry sitemap `alternates.languages` hreflang map for a path. */
@@ -64,6 +73,12 @@ const staticRoutes: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/academy/pricing', priority: 0.85, changeFrequency: 'monthly' },
   { path: '/field-notes', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/academy/how-we-audit', priority: 0.7, changeFrequency: 'monthly' },
+  // Phase 2a public marketing pages (translated)
+  { path: '/academy/efficacy', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/academy/help', priority: 0.6, changeFrequency: 'monthly' },
+  { path: '/academy/resources/sprint-loop', priority: 0.65, changeFrequency: 'monthly' },
+  { path: '/academy/interview/mastery', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/academy/interview/guarantee', priority: 0.55, changeFrequency: 'monthly' },
   { path: '/capabilities', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/industries', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pricing', priority: 0.9, changeFrequency: 'monthly' },

@@ -5,6 +5,7 @@ import { HeroTicker } from './HeroTicker'
 import { HeroLab } from './HeroLab'
 import { ProofWall } from './ProofWall'
 import { VideoSection } from './VideoSection'
+import { LabsHomeSection } from './LabsHomeSection'
 import { CompareTable } from './CompareTable'
 import { FaqSection } from './FaqSection'
 import { StickyCta } from './StickyCta'
@@ -359,6 +360,9 @@ export async function SageHome() {
             </div>
           </div>
         </section>
+
+        {/* ============ E2. THE LABS — build real things ============ */}
+        <LabsHomeSection />
 
         {/* ============ F. THE PROOF ============ */}
         <section id="proof" style={{ ...section, background: '#0D0D11' }}>

@@ -244,6 +244,12 @@ export default async function RootLayout({
     pathname === '/academy/projects' ||
     pathname === '/academy/try' ||
     pathname === '/academy/how-we-audit' ||
+    pathname === '/academy/about' ||
+    pathname === '/academy/proof-not-paper' ||
+    pathname === '/academy/help' ||
+    pathname === '/academy/concepts' ||
+    pathname === '/academy/map' ||
+    pathname === '/academy/starter' ||
     pathname === '/interview' ||
     pathname === '/how-it-works' ||
     pathname === '/field-notes' ||

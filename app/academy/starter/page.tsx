@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { StarterPath } from '@/components/academy/landing/StarterPath'
 
 const SITE = 'https://www.sageideas.dev'
@@ -27,6 +28,7 @@ export default function AcademyStarterPage() {
       <div style={{ minHeight: '100vh', background: '#0B0B0E', backgroundImage: 'radial-gradient(110% 60% at 50% -8%, rgba(61,90,254,0.07) 0%, transparent 55%)' }}>
         <StarterPath />
       </div>
+      <EcosystemBand current="starter" />
       <AcademyFooter />
     </>
   )

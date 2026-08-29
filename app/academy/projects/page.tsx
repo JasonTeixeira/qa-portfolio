@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 
 const SITE = 'https://www.sageideas.dev'
 const INK = '#F2EFE9'
@@ -185,6 +186,7 @@ export default function ProjectsPage() {
           </div>
         </main>
       </div>
+      <EcosystemBand current="projects" />
       <AcademyFooter />
     </>
   )

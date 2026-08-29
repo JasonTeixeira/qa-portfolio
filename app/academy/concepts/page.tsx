@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllConcepts, getConceptCourses } from '@/lib/academy/concepts'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 
 export const metadata: Metadata = {
   title: 'Engineering concepts, taught as judgment — Sage Academy',
@@ -41,7 +43,9 @@ export default function ConceptsIndexPage() {
   const concepts = getAllConcepts()
 
   return (
-    <div style={S.page}>
+    <>
+      <AcademyNav />
+      <div style={S.page}>
       <main style={S.main}>
         <div style={S.kicker}>Concepts · free previews of the judgment library</div>
         <h1 style={S.h1}>The questions, answered the senior-engineer way.</h1>
@@ -105,6 +109,9 @@ export default function ConceptsIndexPage() {
           )
         })}
       </main>
-    </div>
+      </div>
+      <EcosystemBand current="method" heading="Free previews are the doorway — here’s the rest." />
+      <AcademyFooter />
+    </>
   )
 }

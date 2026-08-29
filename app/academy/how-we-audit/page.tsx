@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 
 /**
  * "How we audit ourselves" — pre-launch social proof that is actually true.
@@ -149,6 +150,7 @@ export default function HowWeAuditPage() {
           </div>
         </main>
       </div>
+      <EcosystemBand />
       <AcademyFooter />
     </>
   )

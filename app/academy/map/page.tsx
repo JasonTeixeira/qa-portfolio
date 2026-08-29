@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { SkillTree } from '@/components/academy/map/SkillTree'
 import { buildCurriculumGraph } from '@/lib/academy/curriculum-graph'
 
@@ -57,6 +58,7 @@ export default function AcademyMapPage() {
           </div>
         </main>
       </div>
+      <EcosystemBand current="map" />
       <AcademyFooter />
     </>
   )

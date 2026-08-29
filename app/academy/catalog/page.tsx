@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { getAcademyStats } from '@/components/academy/landing/stats'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import type { TopicKey } from '@/lib/academy/topics'
 import { CatalogGrid, type CatalogCard, type TrackKey } from './CatalogGrid'
 
@@ -285,6 +286,7 @@ export default async function CatalogPage() {
           </div>
         </section>
 
+        <EcosystemBand current="catalog" />
         <AcademyFooter />
       </div>
     </>

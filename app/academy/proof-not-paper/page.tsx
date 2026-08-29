@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
-import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -592,7 +592,8 @@ export default function ProofNotPaperPage() {
       </article>
       </main>
 
-      <AcademyFooter tagline="forget the certificate → ship the proof" />
+      <EcosystemBand />
+      <AcademyFooter />
     </div>
   )
 }

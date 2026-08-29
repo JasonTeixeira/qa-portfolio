@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
-import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { HelpContent } from './HelpContent'
 
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -68,6 +68,7 @@ export default function HelpPage() {
         <HelpContent />
       </main>
 
+      <EcosystemBand />
       <AcademyFooter />
     </div>
   )

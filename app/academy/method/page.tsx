@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { MethodLoop } from '@/components/academy/method/MethodLoop'
 
 const SITE = 'https://www.sageideas.dev'
@@ -176,6 +177,7 @@ export default function MethodPage() {
           </div>
         </section>
       </div>
+      <EcosystemBand current="method" />
       <AcademyFooter />
     </>
   )

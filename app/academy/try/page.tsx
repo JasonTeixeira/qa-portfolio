@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { IdempotencyLab } from '@/components/academy/sample/IdempotencyLab'
 
 const SITE = 'https://www.sageideas.dev'
@@ -146,6 +147,7 @@ export default function TryLessonPage() {
           </div>
         </main>
       </div>
+      <EcosystemBand current="try" />
       <AcademyFooter />
     </>
   )

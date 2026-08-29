@@ -30,14 +30,34 @@ const CLIPS: Clip[] = [
     captions: '/video/academy/sa-founder.vtt',
   },
   {
-    key: 'method',
-    tab: 'The method',
-    dur: '0:34',
-    title: 'The method, in 30 seconds',
-    blurb: 'Frame → map → decide → prove. The exact loop behind every lesson — built on active recall, spaced repetition, and productive failure.',
-    src: '/video/academy/sa-method.mp4',
-    poster: '/video/academy/sa-method.jpg',
-    captions: '/video/academy/sa-method.vtt',
+    key: 'rag',
+    tab: 'RAG',
+    dur: '0:47',
+    title: 'RAG — how AI reads your data',
+    blurb: 'Retrieval-augmented generation: give a model the right context on demand, so it answers from your sources instead of guessing.',
+    src: '/video/academy/sa-rag.mp4',
+    poster: '/video/academy/sa-rag.jpg',
+    captions: '/video/academy/sa-rag.vtt',
+  },
+  {
+    key: 'evals',
+    tab: 'Evals',
+    dur: '0:45',
+    title: 'Evals — how you know it works',
+    blurb: 'Stop vibe-checking. Score AI output against a rubric and a golden set, so a regression fails loudly instead of shipping quietly.',
+    src: '/video/academy/sa-evals.mp4',
+    poster: '/video/academy/sa-evals.jpg',
+    captions: '/video/academy/sa-evals.vtt',
+  },
+  {
+    key: 'agents',
+    tab: 'Agents',
+    dur: '0:52',
+    title: 'Agents — how AI takes action',
+    blurb: 'The think → act → observe loop, plus the human-approval guardrail that turns a chatbot into something that safely does the work.',
+    src: '/video/academy/sa-agents.mp4',
+    poster: '/video/academy/sa-agents.jpg',
+    captions: '/video/academy/sa-agents.vtt',
   },
 ]
 
@@ -51,15 +71,15 @@ export function VideoSection() {
         <div style={{ maxWidth: 680 }}>
           <div style={{ ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>The ideas in motion</div>
           <h2 style={{ ...serif, margin: '14px 0 0', fontWeight: 600, fontSize: 'clamp(30px, 3.6vw, 48px)', lineHeight: 1.04, letterSpacing: '-0.025em', textWrap: 'balance' }}>
-            Why it exists, and how it works — <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>said plainly</em>.
+            The concepts behind modern AI — <em style={{ fontStyle: 'italic', color: '#8FA0FF' }}>explained</em>, not name-dropped.
           </h2>
           <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '58ch', textWrap: 'pretty' }}>
-            The same clarity every lesson is built for — two short films, no faces, no fluff, under a minute each.
+            The same clarity every lesson is built for — the ideas you&apos;ll actually use, each explained in under a minute.
           </p>
         </div>
 
         {/* Tabs */}
-        <div role="tablist" aria-label="Founder films" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
+        <div role="tablist" aria-label="Concept explainers" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 36 }}>
           {CLIPS.map((c, i) => {
             const on = i === active
             return (

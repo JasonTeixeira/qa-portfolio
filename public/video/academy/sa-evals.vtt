@@ -1,0 +1,21 @@
+WEBVTT
+
+00:00:00.400 --> 00:00:05.600
+You tweaked a prompt. Is it better now — or worse?
+By hand, you can't tell.
+
+00:00:06.900 --> 00:00:12.500
+Most teams "test" with three clicks and ship. What actually hits it
+is ten thousand real inputs. That's not testing — that's hoping.
+
+00:00:13.700 --> 00:00:28.800
+An eval is a test suite for your AI. You build a golden set of real
+cases with known answers, run your AI over every one, and have a
+judge score each result.
+
+00:00:30.300 --> 00:00:37.400
+"Seems fine" becomes a number. When it drops, you catch the
+regression before your users do.
+
+00:00:38.700 --> 00:00:43.900
+That's an eval. Learn to build it at Sage Academy — or have it built for you.

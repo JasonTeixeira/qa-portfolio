@@ -1,0 +1,21 @@
+WEBVTT
+
+00:00:00.400 --> 00:00:06.900
+Ask an AI about your own docs, and it invents an answer —
+it never saw your data.
+
+00:00:08.200 --> 00:00:14.000
+A model only knows what it was trained on: frozen, months old,
+and public — not your private, current data.
+
+00:00:15.200 --> 00:00:30.900
+RAG fixes that. First you index your docs — split them into chunks,
+embed them as vectors, store them. Then, to answer a question,
+you retrieve the closest passages and hand them to the model as context.
+
+00:00:32.400 --> 00:00:40.200
+It doesn't memorize your data — it looks it up, fresh every time,
+and cites the source.
+
+00:00:41.600 --> 00:00:46.700
+That's RAG. Learn to build it at Sage Academy — or have it built for you.

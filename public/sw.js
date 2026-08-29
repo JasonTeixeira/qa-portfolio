@@ -5,7 +5,11 @@
 //   - API: network-only (never cache)
 //   - Cross-origin: pass-through
 
-const VERSION = 'sage-sw-v1-2026-05-25'
+// Bump this on meaningful deploys. The `activate` handler purges every cache
+// whose name doesn't start with the current VERSION, so a bump forces all
+// clients to drop stale/bloated caches on their next visit. (Leaving it frozen
+// let the runtime cache accumulate for months → slow revalidation storms.)
+const VERSION = 'sage-sw-v2-2026-08-29'
 const SHELL_CACHE = `${VERSION}-shell`
 const STATIC_CACHE = `${VERSION}-static`
 const RUNTIME_CACHE = `${VERSION}-runtime`
@@ -77,11 +81,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (isStaticAsset(url)) {
-    event.respondWith(staleWhileRevalidate(req, STATIC_CACHE))
+    event.respondWith(staleWhileRevalidate(req, STATIC_CACHE, 240))
     return
   }
 
-  event.respondWith(staleWhileRevalidate(req, RUNTIME_CACHE))
+  event.respondWith(staleWhileRevalidate(req, RUNTIME_CACHE, 80))
 })
 
 async function networkFirstShell(req) {
@@ -105,12 +109,27 @@ async function networkFirstShell(req) {
   }
 }
 
-async function staleWhileRevalidate(req, cacheName) {
+// Bound a cache so stale-while-revalidate can't grow it without limit. Cache
+// Storage keys come back in insertion order, so deleting from the front evicts
+// the oldest entries (approximate FIFO).
+async function trimCache(cacheName, maxEntries) {
+  const cache = await caches.open(cacheName)
+  const keys = await cache.keys()
+  if (keys.length <= maxEntries) return
+  await Promise.all(keys.slice(0, keys.length - maxEntries).map((k) => cache.delete(k)))
+}
+
+async function staleWhileRevalidate(req, cacheName, maxEntries) {
   const cache = await caches.open(cacheName)
   const cached = await cache.match(req)
   const network = fetch(req)
     .then((res) => {
-      if (res && res.ok) cache.put(req, res.clone()).catch(() => null)
+      if (res && res.ok) {
+        cache
+          .put(req, res.clone())
+          .then(() => (maxEntries ? trimCache(cacheName, maxEntries) : null))
+          .catch(() => null)
+      }
       return res
     })
     .catch(() => null)

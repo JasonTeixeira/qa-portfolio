@@ -57,8 +57,14 @@ function labelOf(t: TrackKey): string {
 
 export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
   const [track, setTrack] = useState<'all' | TrackKey>('all')
+  const [q, setQ] = useState('')
 
-  const filtered = cards.filter((c) => track === 'all' || c.track === track)
+  const needle = q.trim().toLowerCase()
+  const filtered = cards.filter(
+    (c) =>
+      (track === 'all' || c.track === track) &&
+      (!needle || `${c.name} ${c.outcome}`.toLowerCase().includes(needle)),
+  )
   // live first — same stable sort as the design's renderVals()
   const sorted = [...filtered].sort((a, b) => (b.live ? 1 : 0) - (a.live ? 1 : 0))
   const liveCount = sorted.filter((c) => c.live).length
@@ -106,10 +112,32 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
             </button>
           )
         })}
-        <div style={{ ...mono, marginLeft: 'auto', fontSize: 11, color: '#9598A2', alignSelf: 'center' }}>
-          {sorted.length} courses · {liveCount} live
+        <input
+          type="search"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search courses…"
+          aria-label="Search courses"
+          style={{
+            ...mono,
+            marginLeft: 'auto',
+            width: 'clamp(140px, 22vw, 220px)',
+            fontSize: 12,
+            padding: '9px 14px',
+            borderRadius: 20,
+            border: `1px solid ${LINE}`,
+            background: '#0B0B0E',
+            color: INK,
+            outline: 'none',
+          }}
+        />
+        <div style={{ ...mono, fontSize: 11, color: '#9598A2', alignSelf: 'center', whiteSpace: 'nowrap' }}>
+          {sorted.length} {sorted.length === 1 ? 'course' : 'courses'} · {liveCount} live
         </div>
       </div>
+      {sorted.length === 0 ? (
+        <p style={{ ...mono, fontSize: 13, color: '#9598A2', padding: '20px 0' }}>No courses match &ldquo;{q}&rdquo;. Try another term or track.</p>
+      ) : null}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 18 }}>
         {sorted.map((c) => {

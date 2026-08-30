@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { LABS, labBySlug, LAB_TRACKS } from '@/data/academy/labs'
+import { InteractiveLab } from '@/components/academy/labs/InteractiveLab'
 import { getT } from '@/lib/i18n/t'
 import { getLocale } from '@/lib/i18n/server'
 import { localizedAlternates } from '@/lib/i18n/alternates'
@@ -81,6 +82,9 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
               </Link>
             </div>
           </header>
+
+          {/* Playable in-browser lab (renders only for labs with a runtime) */}
+          <InteractiveLab slug={slug} />
 
           {/* What it proves */}
           <section style={sectionWrap}>

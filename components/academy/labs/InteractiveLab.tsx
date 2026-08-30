@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import type { ComponentType } from 'react'
+import { LAB_CONFIGS } from './lab-configs'
 
 const INK = '#F2EFE9'
 const ACCENT_INK = '#8FA0FF'
@@ -10,25 +10,24 @@ const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 const serif = { fontFamily: 'var(--font-serif), Georgia, serif' } as const
 
 /**
- * Registry of labs that are playable in-browser. A slug maps to its interactive
- * component (lazy-loaded, client-only — Pyodide etc. never download until the
- * lab is on screen). Labs without an entry simply don't render this section, so
- * the spec/proof pages degrade cleanly. Add a playable lab = add one line here.
+ * Renders the in-browser lab for a slug when a playable config exists
+ * (see lab-configs.ts). PyLab is loaded client-only (ssr:false) so the Pyodide
+ * runtime never touches the server or the initial bundle. Labs without a config
+ * render nothing, so spec/proof pages degrade cleanly. Add a playable lab =
+ * one config entry — no new component.
  */
-const REGISTRY: Record<string, ComponentType> = {
-  'idempotent-charge-api': dynamic(
-    () => import('@/components/academy/sample/IdempotencyLab').then((m) => m.IdempotencyLab),
-    { ssr: false, loading: () => <div style={{ ...mono, fontSize: 12, color: '#5A5A64', padding: '24px 0' }}>Loading the runtime…</div> },
-  ),
-}
+const PyLab = dynamic(() => import('./PyLab').then((m) => m.PyLab), {
+  ssr: false,
+  loading: () => <div style={{ ...mono, fontSize: 12, color: '#5A5A64', padding: '24px 0' }}>Loading the runtime…</div>,
+})
 
 export function hasInteractiveLab(slug: string): boolean {
-  return slug in REGISTRY
+  return slug in LAB_CONFIGS
 }
 
 export function InteractiveLab({ slug }: { slug: string }) {
-  const Comp = REGISTRY[slug]
-  if (!Comp) return null
+  const config = LAB_CONFIGS[slug]
+  if (!config) return null
   return (
     <section style={{ borderTop: `1px solid ${LINE}` }}>
       <div style={{ maxWidth: 820, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(20px, 4vw, 48px)' }}>
@@ -39,7 +38,7 @@ export function InteractiveLab({ slug }: { slug: string }) {
           Do the work — watch the check go green.
         </h2>
         <div style={{ marginTop: 24 }}>
-          <Comp />
+          <PyLab config={config} />
         </div>
       </div>
     </section>

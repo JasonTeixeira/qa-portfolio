@@ -991,5 +991,999 @@
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
+  },
+  {
+    "slug": "rag-cross-encoder-reranker",
+    "title": "Add a cross-encoder re-ranker to a RAG pipeline and prove it improves recall@k",
+    "track": "ai-engineering",
+    "difficulty": 4,
+    "hours": 6,
+    "tagline": "Retrieve wide with embeddings, then re-rank with a real cross-encoder and measure the lift, not just eyeball it.",
+    "whatYouBuild": "A two-stage retrieval pipeline over a real document corpus: stage one does wide bi-encoder retrieval (top 50-100 candidates via cosine similarity on embeddings), stage two re-scores those candidates with a cross-encoder that jointly encodes query and passage, then returns a re-ordered top-k. You build a labeled eval set of query-to-relevant-passage pairs and compute recall@k and MRR before and after re-ranking, so the improvement is a number, not a vibe.",
+    "resumeLine": "Built a two-stage RAG retrieval pipeline (bi-encoder recall + cross-encoder re-ranking) and measured a recall@5 and MRR improvement against a labeled eval set of 40+ query-passage pairs.",
+    "proves": [
+      "Understands why bi-encoder similarity alone under-ranks relevant passages, and what a cross-encoder buys you",
+      "Can build and defend a labeled retrieval eval set instead of asserting quality by inspection",
+      "Knows the latency/cost tradeoff of re-ranking and where to draw the candidate-pool cutoff",
+      "Can quantify a retrieval improvement with standard IR metrics (recall@k, MRR)"
+    ],
+    "stack": [
+      "Python",
+      "a bi-encoder embedding model",
+      "a cross-encoder scoring model (e.g. an MS MARCO-trained cross-encoder)",
+      "a vector store or in-memory cosine search",
+      "an eval harness for recall@k / MRR"
+    ],
+    "prerequisites": [
+      "vector-basics",
+      "what-is-an-eval"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "prove"
+    ],
+    "spec": [
+      "Ingest a real multi-document corpus (100+ chunks minimum) and build a bi-encoder embedding index for stage-one retrieval",
+      "Hand-label a query set of 40+ queries, each with at least one known-relevant chunk ID, drawn from the actual corpus (no synthetic gold labels copy-pasted from the passage text)",
+      "Implement stage-one retrieval that returns the top 50-100 candidates by embedding similarity",
+      "Implement stage-two re-ranking with a cross-encoder that scores each (query, candidate) pair independently and re-sorts to a final top-k",
+      "Compute recall@k (k=3, k=5) and MRR for bi-encoder-only vs bi-encoder+re-ranker on the full labeled query set, and report the delta",
+      "Measure and report added latency per query from the re-ranking stage, and state the candidate-pool size you chose as the latency/quality tradeoff point"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "recall@5 and MRR are computed against the labeled eval set for both bi-encoder-only and bi-encoder+re-ranker configurations",
+        "kind": "test"
+      },
+      {
+        "label": "The re-ranked configuration shows a measured recall@5 or MRR improvement over bi-encoder-only on the labeled set, with the numbers reported not asserted",
+        "kind": "test"
+      },
+      {
+        "label": "For at least 3 example queries, a passage that ranked outside top-5 in stage one is promoted into the final top-5 after re-ranking, and this is shown with before/after rankings",
+        "kind": "test"
+      },
+      {
+        "label": "A report captures the eval methodology, the labeled query set, per-config metrics, and measured added latency from re-ranking",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A two-stage retrieval pipeline + labeled eval set + before/after recall@k and MRR report",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "semantic-llm-response-cache",
+    "title": "Build a semantic cache for LLM calls and prove the cost, latency, and correctness tradeoffs",
+    "track": "ai-engineering",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Cache by meaning, not exact string match — then prove it actually saves money without serving stale garbage.",
+    "whatYouBuild": "A caching layer that sits in front of an LLM API and serves cached responses for semantically equivalent requests (paraphrases, reordered words, minor typos) using embedding similarity against a similarity threshold, not just exact-string keys. You instrument it to track hit rate, dollars saved, and latency saved across a realistic query mix, and you implement explicit invalidation (TTL plus manual purge) so the cache doesn't silently serve outdated answers after the underlying prompt, model, or system context changes.",
+    "resumeLine": "Built a semantic LLM response cache with embedding-similarity keying and TTL/manual invalidation, measuring a 40%+ cache hit rate and cost/latency reduction across a 100-query mixed workload while catching over-eager false-positive cache hits.",
+    "proves": [
+      "Understands why exact-string caching misses most real-world duplicate traffic and how semantic keying closes that gap",
+      "Can pick and justify a similarity threshold that balances hit rate against false-positive risk",
+      "Knows how to instrument a system to prove cost and latency claims with real numbers, not estimates",
+      "Thinks about cache invalidation and staleness as a first-class correctness problem, not an afterthought"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API",
+      "an embedding model for semantic keys",
+      "a key-value store (Redis or SQLite) with TTL support"
+    ],
+    "prerequisites": [
+      "vector-basics",
+      "state-and-storage"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Implement a cache lookup that embeds incoming requests and checks for a prior request within a configurable cosine-similarity threshold, returning the cached response on a hit",
+      "Implement cache writes that store the response keyed by the request embedding plus a TTL and a version tag tied to the prompt template/model version in use",
+      "Build a 100+ query test workload that mixes exact repeats, paraphrases, near-duplicates, and genuinely distinct queries, and run it through both a no-cache baseline and the semantic cache",
+      "Instrument and report cache hit rate, total LLM API cost, and p50/p95 latency for both configurations, showing the measured delta",
+      "Implement explicit invalidation: a TTL expiry path and a manual purge-by-version path triggered when the prompt template or model changes, and prove a stale entry is never served after either",
+      "Stress-test the similarity threshold with at least 5 near-miss queries designed to be similar-but-not-equivalent (e.g. negated or entity-swapped versions of a cached query) and document any false-positive hits and how the threshold was tuned in response"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Cache hit rate, total cost, and p50/p95 latency are measured and reported for cached vs uncached runs over the same 100+ query workload",
+        "kind": "test"
+      },
+      {
+        "label": "After a TTL expiry or a version-tag change, a request that would have hit the stale cache entry instead misses and triggers a fresh LLM call",
+        "kind": "test"
+      },
+      {
+        "label": "At least one near-miss query in the false-positive stress test is caught and the similarity threshold or key design is adjusted with the reasoning documented",
+        "kind": "test"
+      },
+      {
+        "label": "A report shows the cost/latency comparison table plus the invalidation test results",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A semantic LLM cache with TTL/version invalidation + cost/latency comparison report + false-positive stress-test log",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "grounded-claim-hallucination-detector",
+    "title": "Build a hallucination detector that flags ungrounded claims in LLM answers",
+    "track": "ai-engineering",
+    "difficulty": 4,
+    "hours": 7,
+    "tagline": "Split the answer into claims, check each one against the retrieved context, and catch what the model made up.",
+    "whatYouBuild": "A post-generation checker for a RAG pipeline that decomposes an LLM's answer into individual factual claims, then verifies each claim against the retrieved source passages using an entailment check (NLI model or LLM-as-judge with the source text as evidence), labeling each claim as supported, contradicted, or unverifiable. You deliberately inject false claims into a test set of answers and measure the detector's precision and recall at catching them, including at least one adversarial case where a false claim is phrased to sound well-grounded.",
+    "resumeLine": "Built a claim-level hallucination detector for a RAG pipeline that decomposes answers into atomic claims and checks each against retrieved context via entailment, catching 85%+ of injected false claims across a 30-example adversarial test set with a measured false-positive rate on true claims.",
+    "proves": [
+      "Understands that hallucination detection at the answer level is too coarse and claim-level decomposition is what actually works",
+      "Can implement an entailment/grounding check instead of asking the model to grade its own homework with no evidence",
+      "Builds an adversarial eval set on purpose, rather than testing only on easy, obviously-wrong cases",
+      "Reports precision and recall on both directions of error (missed hallucinations and false alarms on true claims)"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API",
+      "a RAG retrieval pipeline (existing or built for this lab)",
+      "an NLI/entailment model or LLM-as-judge grounding check"
+    ],
+    "prerequisites": [
+      "what-is-an-eval",
+      "vector-basics"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Build or reuse a RAG pipeline that generates answers grounded in retrieved passages, and capture both the answer and the exact source passages used for each generation",
+      "Implement claim decomposition: split a generated answer into a list of atomic, independently-checkable factual claims",
+      "Implement per-claim grounding verification: for each claim, check it against the retrieved source passages and label it supported, contradicted, or unverifiable (not present in sources)",
+      "Build a labeled test set of 30+ answers where you deliberately inject false or unsupported claims into otherwise-grounded answers, tracking which specific sentences are the injected falsehoods",
+      "Include at least 5 adversarial cases where the injected false claim is phrased in a confident, source-adjacent style specifically to evade a naive check",
+      "Run the detector over the full test set and report precision, recall, and false-positive rate, comparing claim-level detection against a naive whole-answer LLM-judge baseline"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "The detector correctly labels the source-supported claims in a clean, non-adversarial answer as supported, with false-positive rate reported",
+        "kind": "test"
+      },
+      {
+        "label": "The detector catches at least 85% of the deliberately injected false claims across the 30+ example labeled test set, with recall reported",
+        "kind": "test"
+      },
+      {
+        "label": "At least 3 of the 5 adversarial (confidently-phrased) injected false claims are still caught, not just the easy obvious ones",
+        "kind": "test"
+      },
+      {
+        "label": "A report compares claim-level detection precision/recall against a naive whole-answer LLM-judge baseline on the same test set",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "A claim-level hallucination detector + adversarial labeled test set + precision/recall report vs a naive baseline",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "schema-validated-function-router",
+    "title": "Build a function-calling router that rejects bad arguments before any tool runs",
+    "track": "ai-engineering",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Route the request to the right tool, validate every argument against its schema, and never let a malformed call through.",
+    "whatYouBuild": "A router that takes a natural-language request, selects the correct tool from a registry of 5+ tools with distinct typed schemas (including tools with overlapping or confusable purposes), and validates the model's proposed arguments against the tool's schema before execution — checking types, required fields, enum constraints, and value ranges. Invalid or underspecified calls are rejected with a structured error fed back to the model for a repair attempt, and only schema-valid calls ever reach the actual tool execution layer.",
+    "resumeLine": "Built a function-calling router with JSON-schema argument validation across 5+ tools, blocking 100% of malformed tool calls pre-execution and driving a self-correction retry loop, verified against a 25-case test suite of ambiguous and adversarial routing requests.",
+    "proves": [
+      "Can design a tool registry with clean, unambiguous schemas and correctly route between tools that plausibly overlap",
+      "Treats schema validation as a hard gate before execution, not a soft prompt-level suggestion",
+      "Builds a repair loop that feeds validation errors back to the model instead of failing silently or crashing",
+      "Tests routing correctness against deliberately ambiguous and malformed inputs, not just the happy path"
+    ],
+    "stack": [
+      "Python",
+      "an LLM API with function/tool calling",
+      "a JSON Schema validation library"
+    ],
+    "prerequisites": [
+      "function-calling-basics",
+      "what-is-an-eval"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Define a registry of 5+ tools with typed JSON schemas, including at least 2 pairs of tools whose names or purposes are plausibly confusable (e.g. get_order_status vs get_order_history)",
+      "Implement routing: the model selects a tool and proposes arguments from a natural-language request, and the router captures the raw proposed call before any execution",
+      "Implement a hard validation gate that checks the proposed arguments against the selected tool's schema (types, required fields, enums, ranges) and blocks execution on any violation",
+      "On validation failure, return a structured error describing exactly what's wrong and feed it back to the model for one repair attempt, re-validating the repaired call before allowing execution",
+      "Build a 25+ case test suite covering correct routing, tool-confusion cases, missing required fields, wrong types, out-of-range enum/values, and at least 3 adversarial cases where the request tries to talk the model into skipping a required field or using an invalid value",
+      "Log every routing decision, validation result, and repair attempt so a run can be replayed and audited"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "The router selects the correct tool for all unambiguous routing cases in the test suite",
+        "kind": "test"
+      },
+      {
+        "label": "Every malformed or schema-invalid tool call in the test suite is blocked before reaching tool execution, with zero invalid calls executed",
+        "kind": "test"
+      },
+      {
+        "label": "At least 2 of the tool-confusion test cases route to the correct tool despite plausible overlap with a similarly-named tool",
+        "kind": "test"
+      },
+      {
+        "label": "A repair attempt on a validation failure produces a re-validated, schema-valid call in at least 3 of the deliberately malformed test cases",
+        "kind": "test"
+      }
+    ],
+    "artifact": "A schema-validated function-calling router + repair loop + 25-case routing/validation test suite with audit log",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "signature-verified-webhook-receiver",
+    "title": "Signature-Verified Webhook Receiver",
+    "track": "backend",
+    "difficulty": 3,
+    "hours": 8,
+    "tagline": "Accept third-party webhooks without trusting the network.",
+    "whatYouBuild": "An HTTP endpoint that verifies HMAC-SHA256 signatures on inbound webhooks (Stripe-style), rejects requests with invalid or missing signatures, and enforces a replay window using a stored nonce/timestamp so the same event can't be processed twice. Includes a signed test client to simulate a real sender.",
+    "resumeLine": "Built a webhook receiver with HMAC signature verification, timestamp-based replay protection, and idempotent event processing, backed by automated tests for forged and replayed payloads.",
+    "proves": [
+      "route",
+      "decide",
+      "prove"
+    ],
+    "stack": [
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "crypto (HMAC-SHA256)",
+      "Vitest"
+    ],
+    "prerequisites": [
+      "http-fundamentals",
+      "hashing-and-hmac"
+    ],
+    "phases": [
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "POST /webhooks/:provider accepts raw request body and a signature header; verification runs against the raw bytes, not a re-serialized JSON object",
+      "Signature check uses constant-time comparison (timingSafeEqual) and a per-provider shared secret loaded from environment config",
+      "Requests older than a 5-minute timestamp window are rejected with 400, independent of signature validity",
+      "Each verified event's unique ID is stored in a processed_events table with a unique constraint; a duplicate ID short-circuits with 200 OK and no side effects",
+      "Invalid signature, expired timestamp, and duplicate event each return distinct, documented status codes and error bodies",
+      "A CLI or script signs a payload with a known secret so tests can generate valid, invalid, expired, and replayed requests deterministically"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Forged signature (wrong secret) is rejected with 401 and no DB row is written",
+        "kind": "test"
+      },
+      {
+        "label": "Tampered payload with a valid-looking signature header is rejected",
+        "kind": "test"
+      },
+      {
+        "label": "Replaying an already-processed event ID returns 200 without duplicating side effects (checked via row count)",
+        "kind": "test"
+      },
+      {
+        "label": "Timestamp outside the replay window is rejected even with a correct signature",
+        "kind": "test"
+      }
+    ],
+    "artifact": "Running webhook endpoint + signed test client + test suite proving forged/replayed/expired requests are rejected",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "cursor-based-pagination",
+    "title": "Cursor-Based Pagination Under Live Writes",
+    "track": "backend",
+    "difficulty": 3,
+    "hours": 7,
+    "tagline": "Paginate a list that keeps changing underneath you.",
+    "whatYouBuild": "A paginated API endpoint over a growing table that uses an opaque, encoded cursor (not raw offset/limit) so results stay stable as rows are inserted or deleted mid-scroll. Includes a seeding script that inserts rows concurrently with pagination requests to prove correctness under real churn.",
+    "resumeLine": "Implemented cursor-based pagination with opaque tie-breaker cursors, replacing offset pagination to eliminate duplicate and skipped rows under concurrent inserts, verified with a concurrent-write test harness.",
+    "proves": [
+      "route",
+      "map",
+      "prove"
+    ],
+    "stack": [
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "base64/JSON cursor encoding",
+      "Vitest"
+    ],
+    "prerequisites": [
+      "sql-fundamentals",
+      "api-pagination-patterns"
+    ],
+    "phases": [
+      "route",
+      "map",
+      "prove"
+    ],
+    "spec": [
+      "GET /items?cursor=&limit= orders results by (created_at, id) with id as a tie-breaker for rows sharing a timestamp",
+      "Cursor is an opaque, base64-encoded token containing the last-seen (created_at, id) pair; clients never construct or parse it themselves",
+      "Query uses a keyset WHERE clause (created_at, id) > (cursor.created_at, cursor.id) rather than OFFSET, so page cost stays O(limit) regardless of position",
+      "Response includes next_cursor (null on the last page) and does not leak total count or page number as an implicit contract",
+      "A load-test script inserts new rows between paginated requests and walks the full result set to verify no row is skipped or duplicated",
+      "An index on (created_at, id) is created and its use is confirmed via EXPLAIN so pagination doesn't degrade to a sequential scan"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Walking all pages while inserting new rows between requests yields zero duplicate IDs and zero skipped existing IDs",
+        "kind": "test"
+      },
+      {
+        "label": "Tampering with the decoded cursor payload (e.g. injecting a future timestamp) is rejected with 400, not a SQL error",
+        "kind": "test"
+      },
+      {
+        "label": "EXPLAIN ANALYZE on a paginated query shows an index scan, not a sequential scan, at page 500",
+        "kind": "output"
+      },
+      {
+        "label": "Offset-based pagination on the same dataset is shown (in a comparison test) to skip or duplicate rows under identical concurrent inserts",
+        "kind": "test"
+      }
+    ],
+    "artifact": "Paginated API + concurrent-write test harness + EXPLAIN output proving index usage",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "cache-aside-with-invalidation",
+    "title": "Cache-Aside Read Path with Correct Invalidation",
+    "track": "data",
+    "difficulty": 3,
+    "hours": 7,
+    "tagline": "Speed up reads without ever serving stale data.",
+    "whatYouBuild": "A read-through cache-aside layer in front of a PostgreSQL-backed API: reads check Redis first and populate on miss, writes invalidate (not update) the cache key inside the same transaction boundary as the DB write, and a race-condition test proves no stale value survives a concurrent read-during-write.",
+    "resumeLine": "Built a cache-aside layer with write-path invalidation and TTL fallback, eliminating stale reads under concurrent read/write load, validated with a race-condition test suite against Redis and PostgreSQL.",
+    "proves": [
+      "map",
+      "decide",
+      "prove"
+    ],
+    "stack": [
+      "Node.js",
+      "Redis",
+      "PostgreSQL",
+      "Vitest",
+      "Docker Compose"
+    ],
+    "prerequisites": [
+      "caching-fundamentals",
+      "sql-fundamentals"
+    ],
+    "phases": [
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "GET /resource/:id checks Redis by key first; on miss it reads PostgreSQL, writes the value to Redis with a TTL, and returns it",
+      "PUT/PATCH /resource/:id writes to PostgreSQL first, then deletes (not updates) the corresponding Redis key so the next read repopulates from source of truth",
+      "Cache key includes a version or entity-type prefix so invalidation can never accidentally hit an unrelated key",
+      "A TTL is set on every cache write as a safety net independent of explicit invalidation, in case a delete is missed",
+      "Write path uses a DB transaction that only triggers the cache delete after commit succeeds, so a failed write never invalidates a still-correct cached value",
+      "A documented decision note explains why invalidate-then-lazy-repopulate was chosen over write-through update, including the race it avoids"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "After an update, a read issued immediately after returns the new value, never the pre-update cached value",
+        "kind": "test"
+      },
+      {
+        "label": "Concurrent test: read request in-flight during a write does not leave a stale value cached afterward (verified by a follow-up read)",
+        "kind": "test"
+      },
+      {
+        "label": "A failed/rolled-back DB write does not delete or corrupt the existing valid cache entry",
+        "kind": "test"
+      },
+      {
+        "label": "Cache hit vs miss is observable via response headers or logs, used to assert hit rate in tests",
+        "kind": "test"
+      }
+    ],
+    "artifact": "Cache-aside service + Redis/Postgres Docker Compose setup + race-condition test suite + invalidation design note",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "data-quality-gate",
+    "title": "Data Quality Gate for Batch Ingestion",
+    "track": "data",
+    "difficulty": 3,
+    "hours": 8,
+    "tagline": "Stop bad data before it reaches the warehouse.",
+    "whatYouBuild": "A pre-load validation gate that runs schema, null, range, and uniqueness checks against an incoming batch file before it's allowed into the target table. A single corrupt row fails the whole batch with a precise, row-level error report instead of silently loading partial or malformed data.",
+    "resumeLine": "Built a schema-and-constraint data quality gate for batch ingestion (type, null, range, and uniqueness checks) that blocks corrupt batches from loading and emits a row-level failure report, cutting bad-data incidents at the load boundary.",
+    "proves": [
+      "decide",
+      "prove"
+    ],
+    "stack": [
+      "Python",
+      "Pandas",
+      "Pydantic",
+      "PostgreSQL",
+      "pytest"
+    ],
+    "prerequisites": [
+      "etl-fundamentals",
+      "data-validation-basics"
+    ],
+    "phases": [
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Ingestion pipeline reads a CSV batch and validates every row against a Pydantic schema (types, required fields) before any DB write is attempted",
+      "Rule set includes: not-null checks on required columns, range checks (e.g. non-negative amounts, valid date bounds), and a uniqueness check on the batch's natural key",
+      "A single failing row blocks the entire batch load (all-or-nothing) — no partial writes reach the target table",
+      "Validation produces a structured report (row number, column, rule violated, offending value) written to a file, not just a log line",
+      "Gate is runnable as a standalone check (dry-run mode) that validates without loading, for use in a pre-load CI step",
+      "Passing batches are loaded inside a single transaction so the gate and the load share the same all-or-nothing guarantee"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "A batch with one row containing a null in a required column is fully rejected; zero rows land in the target table",
+        "kind": "test"
+      },
+      {
+        "label": "A batch with a duplicate natural key across two rows is rejected with both offending row numbers reported",
+        "kind": "test"
+      },
+      {
+        "label": "An out-of-range value (e.g. negative price) fails validation with the specific rule and value named in the report",
+        "kind": "test"
+      },
+      {
+        "label": "A fully valid batch passes the gate and loads all rows in one transaction",
+        "kind": "test"
+      }
+    ],
+    "artifact": "CLI data-quality gate + sample corrupt/clean batch fixtures + row-level failure report + pytest suite",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "virtualized-list-60fps-10k-rows",
+    "title": "Virtualized List Rendering 10k+ Rows at 60fps",
+    "track": "frontend",
+    "difficulty": 4,
+    "hours": 10,
+    "tagline": "Windowed rendering that stays smooth at 10,000+ rows.",
+    "whatYouBuild": "A windowed list component that renders only the visible slice of a 10,000+ row dataset, recycling DOM nodes as the user scrolls instead of mounting every row. It supports variable row heights, keyboard scrolling, and a measured scroll-position cache so jumping to an arbitrary index doesn't jank.",
+    "resumeLine": "Built a from-scratch virtualized list renderer (no react-window) handling 10k+ rows with sub-16ms frame times, verified with Chrome DevTools performance traces and a Playwright scroll-jank regression test.",
+    "proves": [
+      "can profile and eliminate render bottlenecks",
+      "understands DOM recycling and windowing math",
+      "writes performance tests, not just performance claims"
+    ],
+    "stack": [
+      "React",
+      "TypeScript",
+      "ResizeObserver",
+      "Chrome DevTools Performance panel",
+      "Playwright"
+    ],
+    "prerequisites": [
+      "react-rendering-model",
+      "browser-performance-basics"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Render only rows intersecting the viewport plus a configurable overscan buffer, never mounting the full dataset",
+      "Support variable, unknown-until-measured row heights via ResizeObserver without layout thrashing",
+      "Maintain scroll-position accuracy when jumping to an arbitrary row index (e.g. index 8,432) with no visible flash",
+      "Recycle DOM nodes (pool reuse) instead of creating/destroying nodes on every scroll frame",
+      "Keep scripting + rendering under 16ms per frame during continuous fast scroll, measured via a Performance trace",
+      "Support keyboard navigation (arrow keys, Page Up/Down, Home/End) that moves focus and scrolls correctly"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Automated Playwright test scrolls 10,000 rows end-to-end and asserts no dropped frames beyond a defined budget",
+        "kind": "test"
+      },
+      {
+        "label": "Unit tests cover the windowing math (visible range calculation, overscan, variable-height offset cache) for edge cases like resize mid-scroll",
+        "kind": "test"
+      },
+      {
+        "label": "Chrome DevTools performance trace exported showing sub-16ms frame times during fast scroll, committed as an artifact",
+        "kind": "artifact"
+      },
+      {
+        "label": "Code review confirms no unnecessary re-renders via React DevTools profiler flame chart",
+        "kind": "review"
+      }
+    ],
+    "artifact": "Standalone virtualized-list npm-installable component with a live 10k-row demo page and a committed performance trace report",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "accessible-modal-focus-trap",
+    "title": "Accessible Modal with a Real Focus Trap",
+    "track": "frontend",
+    "difficulty": 3,
+    "hours": 6,
+    "tagline": "A dialog that keyboard and screen-reader users can actually use.",
+    "whatYouBuild": "An ARIA-compliant modal dialog component with a correct focus trap: focus moves into the dialog on open, cycles only among its focusable elements on Tab/Shift+Tab, closes on Escape, and restores focus to the exact triggering element on close — validated against axe-core and a real screen reader, not just visual inspection.",
+    "resumeLine": "Implemented a WCAG 2.2-compliant modal dialog (ARIA dialog pattern, focus trap, focus restoration) with automated axe-core scans and NVDA/VoiceOver manual verification scripts, eliminating a common accessibility failure class.",
+    "proves": [
+      "understands ARIA authoring practices, not just aria-* attribute copy-paste",
+      "can build and verify keyboard-only interaction paths",
+      "tests accessibility with real assistive tech, not just linters"
+    ],
+    "stack": [
+      "React",
+      "TypeScript",
+      "axe-core",
+      "Playwright",
+      "NVDA/VoiceOver manual test scripts"
+    ],
+    "prerequisites": [
+      "aria-authoring-patterns",
+      "keyboard-navigation-basics"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Implement role=\"dialog\" with aria-modal=\"true\", aria-labelledby, and correct focus-trap logic (Tab/Shift+Tab cycle within dialog only)",
+      "Move focus to the first focusable element (or a specified initial-focus target) on open, and restore focus to the exact element that triggered the modal on close",
+      "Close on Escape key and on backdrop click, both dispatching the same onClose contract",
+      "Prevent background content interaction and screen-reader access via inert or aria-hidden on siblings while open",
+      "Support nested/stacked modals without breaking focus trap or restoration order",
+      "Zero critical/serious axe-core violations across open, focused, and closed states"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Playwright test drives the dialog with keyboard only (Tab, Shift+Tab, Escape) and asserts focus never escapes the trap and returns to the trigger on close",
+        "kind": "test"
+      },
+      {
+        "label": "Automated axe-core scan run in CI against open and closed states with zero critical/serious violations",
+        "kind": "test"
+      },
+      {
+        "label": "Manual screen reader walkthrough (NVDA or VoiceOver) recorded/scripted confirming the dialog is announced correctly and content outside is not reachable",
+        "kind": "artifact"
+      },
+      {
+        "label": "Code review verifies no reliance on autofocus alone and correct handling of dynamically added/removed focusable children",
+        "kind": "review"
+      }
+    ],
+    "artifact": "Reusable accessible Modal component with axe-core CI gate and a documented manual screen-reader test script",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "consumer-driven-contract-test-suite",
+    "title": "Consumer-Driven Contract Test Suite",
+    "track": "quality",
+    "difficulty": 4,
+    "hours": 9,
+    "tagline": "Contracts that fail the build the moment an API breaks a consumer.",
+    "whatYouBuild": "A Pact-style consumer-driven contract testing setup between a frontend consumer and a backend provider: the consumer defines its expectations as a contract, the provider is verified against that contract in CI, and a broken change on the provider side fails the pipeline before it ever reaches a shared environment.",
+    "resumeLine": "Set up consumer-driven contract testing (Pact) between frontend and API teams, catching a deliberately introduced breaking response-shape change in CI before deployment — replacing brittle end-to-end integration tests with fast, isolated contract verification.",
+    "proves": [
+      "understands contract testing vs end-to-end testing tradeoffs",
+      "can design consumer expectations that catch real breaking changes",
+      "wires provider verification into CI as a hard gate"
+    ],
+    "stack": [
+      "Pact (pact-js)",
+      "Node.js",
+      "Jest",
+      "GitHub Actions",
+      "Pact Broker (or local pact file exchange)"
+    ],
+    "prerequisites": [
+      "api-contract-basics",
+      "ci-pipeline-fundamentals"
+    ],
+    "phases": [
+      "frame",
+      "map",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Define consumer-side Pact tests that specify expected request shape and response schema for at least 3 real endpoints (e.g. list, get-by-id, create)",
+      "Generate and publish the resulting pact contract file(s) as a build artifact or to a Pact Broker",
+      "Implement a provider verification step that replays each interaction from the contract against the real (or a test double of the) provider and asserts the response matches",
+      "Wire provider verification into CI so it runs on every provider PR before merge",
+      "Version the contract and demonstrate \"can-i-deploy\" style compatibility checking between consumer and provider versions",
+      "Document the difference in failure signal between this suite and a full E2E test for the same endpoints"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Consumer contract tests pass and generate a valid pact JSON file for all defined interactions",
+        "kind": "test"
+      },
+      {
+        "label": "Provider verification test suite replays the contract and passes against the current correct provider implementation",
+        "kind": "test"
+      },
+      {
+        "label": "A deliberately introduced breaking change (renamed field, changed type, removed field) on the provider causes provider verification to fail in CI with a clear diff",
+        "kind": "test"
+      },
+      {
+        "label": "CI run artifact/log showing the red build from the breaking change, committed as proof",
+        "kind": "artifact"
+      }
+    ],
+    "artifact": "Contract test suite (consumer + provider verification) with CI wiring and a documented red-build proof from a breaking change",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "p99-load-test-budget-gate",
+    "title": "p99 Load Test with a Latency Budget Gate",
+    "track": "quality",
+    "difficulty": 4,
+    "hours": 8,
+    "tagline": "A load test that fails the build when p99 latency blows the budget.",
+    "whatYouBuild": "A scripted load test that drives realistic concurrent traffic against an API, measures p50/p95/p99 latency and error rate under load, and enforces a hard performance budget as an automated CI gate — proven by intentionally introducing a slow code path and watching the gate fail.",
+    "resumeLine": "Built an automated p99 latency budget gate (k6 + CI) that load-tests critical API endpoints under realistic concurrency and fails the pipeline on SLO violations, catching a deliberately introduced N+1 query regression before merge.",
+    "proves": [
+      "can design and run realistic load tests, not just single-request benchmarks",
+      "understands percentile latency vs average latency and why it matters",
+      "turns a performance target into an enforced, automated gate"
+    ],
+    "stack": [
+      "k6",
+      "Node.js/Express (or existing API)",
+      "GitHub Actions",
+      "Grafana or k6 HTML report"
+    ],
+    "prerequisites": [
+      "http-performance-basics",
+      "ci-pipeline-fundamentals"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Write a k6 (or equivalent) load test script simulating realistic ramping concurrent users against at least 2 critical endpoints",
+      "Capture p50, p95, and p99 latency plus error rate per endpoint from each run",
+      "Define an explicit latency budget (e.g. p99 < 300ms, error rate < 1%) as a machine-checked threshold, not a manual read of a dashboard",
+      "Fail the CI job with a non-zero exit code and a readable summary when any endpoint exceeds its budget",
+      "Produce a human-readable report (HTML or markdown) summarizing latency distribution per run, kept as a build artifact",
+      "Demonstrate the gate catching a real regression: introduce a slow path (e.g. N+1 query or added synchronous delay) and show the run go red"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Load test run against the healthy baseline passes the budget gate with p99 latency reported under threshold",
+        "kind": "test"
+      },
+      {
+        "label": "Load test run against a deliberately regressed slow path fails the budget gate with a clear per-endpoint breakdown of which threshold was violated",
+        "kind": "test"
+      },
+      {
+        "label": "CI job artifact (HTML/markdown report) showing p50/p95/p99 and error rate for both the passing and failing runs",
+        "kind": "artifact"
+      },
+      {
+        "label": "Code review confirms the budget thresholds are configurable and the gate logic can't silently pass on a k6 script error",
+        "kind": "review"
+      }
+    ],
+    "artifact": "k6 load test suite with a CI-enforced p99 latency budget gate and before/after regression reports",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "blue-green-health-gated-cutover",
+    "title": "Blue-Green Deployment with Health-Gated Cutover",
+    "track": "cloud",
+    "difficulty": 4,
+    "hours": 6,
+    "tagline": "Deploy a green environment, gate traffic on real health checks, and roll back in one command.",
+    "whatYouBuild": "A deployment script that stands up a green instance of a running service alongside the live blue instance, runs a health-check gate against green before it ever receives production traffic, and flips a load balancer or reverse proxy only when green passes. If the health gate fails, the script leaves blue serving 100% of traffic and tears down the bad green deploy automatically.",
+    "resumeLine": "Built a zero-downtime blue-green deployment pipeline with automated health-gated traffic cutover and sub-5-second rollback, verified with a chaos test that killed a bad deploy before it received a single request.",
+    "proves": [
+      "can ship zero-downtime deploys",
+      "understands health checks vs liveness theater",
+      "can build automated rollback, not just manual rollback"
+    ],
+    "stack": [
+      "Docker",
+      "nginx or Caddy (reverse proxy)",
+      "Bash or Node.js CLI",
+      "a simple HTTP service (Express/Fastify) as the deploy target",
+      "docker compose"
+    ],
+    "prerequisites": [
+      "docker-fundamentals",
+      "reverse-proxy-basics",
+      "http-status-codes"
+    ],
+    "phases": [
+      "frame",
+      "route",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Two identical service containers (blue, green) behind a single reverse-proxy upstream config that routes 100% of traffic to whichever is currently 'live'",
+      "Deploy script that starts the new version as green while blue keeps serving all live traffic unchanged",
+      "Health gate that polls green's /healthz (must check a real dependency, e.g. DB connection, not just 'process is up') for N consecutive passes within a timeout before cutover is allowed",
+      "Cutover step that atomically rewrites the proxy upstream to point at green with zero dropped connections (verified via a load-generating script running concurrently during the flip)",
+      "Automatic rollback: if the health gate fails or times out, green is torn down and blue is untouched — the script must exit non-zero and blue must never lose traffic",
+      "A deliberately broken build (green fails its DB health check) used as the negative test case"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Concurrent load test shows zero failed requests during a successful blue-green cutover",
+        "kind": "test"
+      },
+      {
+        "label": "Deploying a build with a broken health endpoint results in green being torn down and blue still serving 100% of traffic",
+        "kind": "test"
+      },
+      {
+        "label": "Reverse proxy config and deploy script are captured with before/after diffs of the upstream target",
+        "kind": "artifact"
+      },
+      {
+        "label": "Rollback completes in under 5 seconds from health-gate failure detection",
+        "kind": "output"
+      }
+    ],
+    "artifact": "A deploy.sh (or deploy.ts) script + proxy config + a recorded terminal session showing a successful cutover and a rejected bad-deploy cutover, both under live load",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "rbac-enforcement-at-the-boundary",
+    "title": "Role-Based Access Control, Enforced at the Boundary",
+    "track": "security",
+    "difficulty": 3,
+    "hours": 5,
+    "tagline": "Define roles and permissions once, enforce them at every route, and prove a lower-privilege user gets denied.",
+    "whatYouBuild": "A small API with at least three roles (e.g. viewer, editor, admin) and a permission model that maps roles to allowed actions on protected resources. Authorization is enforced centrally at the request boundary — not scattered as ad-hoc if-checks inside handlers — so adding a new protected route can't accidentally skip the check.",
+    "resumeLine": "Designed and implemented a role-based access control layer with centralized middleware enforcement across 8+ protected endpoints, closing a privilege-escalation gap where lower-role users could previously call admin-only mutations directly.",
+    "proves": [
+      "can design a real permission model, not just 'if user.isAdmin'",
+      "understands enforcement-at-the-boundary vs scattered checks",
+      "can write tests that prove denial, not just allowance"
+    ],
+    "stack": [
+      "Node.js/Express or FastAPI",
+      "JWT or session-based auth",
+      "PostgreSQL or SQLite for role/permission storage",
+      "a test client (supertest or httpx)"
+    ],
+    "prerequisites": [
+      "authn-vs-authz",
+      "jwt-basics",
+      "http-status-codes"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "Role/permission model with at least 3 roles and a resource-action matrix (e.g. viewer: read; editor: read+write; admin: read+write+delete+manage-users), stored in a table or config, not hardcoded per-route",
+      "Centralized authorization middleware/decorator that every protected route must pass through — no route may implement its own bespoke privilege check",
+      "At least 8 protected endpoints spanning read, write, and destructive/admin-only actions, each declaring its required permission explicitly",
+      "A deliberate negative-privilege test: a viewer-role user attempts an editor-only write and an admin-only delete, both must return 403 with no side effects (verify the resource is unchanged in the DB)",
+      "Audit log entry emitted on every authorization denial (who, what action, what resource, when)",
+      "A documented threat model note: what this RBAC layer does NOT protect against (e.g. row-level ownership checks, IDOR) so scope is honest"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Automated test suite proves a viewer-role token is denied on every editor/admin-only route with 403 and unchanged DB state",
+        "kind": "test"
+      },
+      {
+        "label": "Automated test suite proves an admin-role token succeeds on the same routes",
+        "kind": "test"
+      },
+      {
+        "label": "Adding a new protected route without the authorization decorator fails a lint/CI check (route-audit script) rather than silently shipping unprotected",
+        "kind": "test"
+      },
+      {
+        "label": "Denial audit log entries are produced and inspectable for every 403",
+        "kind": "output"
+      }
+    ],
+    "artifact": "API source + permission matrix doc + automated test suite (positive and negative cases) + audit log sample output",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "xss-sanitizer-stops-stored-payload",
+    "title": "An Input Sanitizer That Actually Stops XSS",
+    "track": "security",
+    "difficulty": 3,
+    "hours": 4,
+    "tagline": "Escape and allowlist untrusted HTML at the boundary, then prove a real stored-XSS payload renders inert.",
+    "whatYouBuild": "A sanitization layer sitting between untrusted user input (e.g. a comment or bio field) and both storage and render, using an allowlist-based HTML sanitizer rather than hand-rolled regex escaping. You feed it a battery of real-world stored-XSS payloads and prove each one is neutralized on render, not just on the happy path.",
+    "resumeLine": "Closed a stored-XSS vulnerability in a user-generated-content field by replacing ad-hoc regex escaping with an allowlist-based sanitizer, verified against a 12-payload OWASP-derived attack corpus with zero script execution.",
+    "proves": [
+      "understands why blocklist regex XSS filters fail",
+      "can implement allowlist sanitization correctly",
+      "writes verifiable proof, not just 'looks safe'"
+    ],
+    "stack": [
+      "Node.js/Express or similar",
+      "DOMPurify or sanitize-html (server-side allowlist sanitizer)",
+      "Playwright (headless browser to prove script non-execution)",
+      "a comment/note feature as the vulnerable surface"
+    ],
+    "prerequisites": [
+      "http-fundamentals",
+      "dom-basics",
+      "same-origin-policy"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "A working before-state: a comment/bio field that stores and renders raw user HTML with no sanitization, deliberately vulnerable, used as the control case",
+      "Sanitization applied at write-time using an allowlist library (permitted tags/attributes explicitly enumerated) rather than a custom regex or blocklist",
+      "A corpus of at least 12 real stored-XSS payloads (script tags, event-handler attributes like onerror/onload, javascript: URIs, SVG/foreignObject vectors, encoded/obfuscated variants) sourced from OWASP's XSS filter evasion cheat sheet",
+      "Each payload submitted through the actual form/API, stored, then rendered in a real headless browser session with a script-execution detector (e.g. a page.on('dialog') or window flag hook) to prove no JS ran",
+      "Legitimate formatting (bold, links, line breaks) still renders correctly after sanitization — prove the fix doesn't just strip everything",
+      "A short writeup explaining why a regex-based blocklist approach fails against at least 2 of the corpus payloads (e.g. case variation, encoding, nested tags)"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Automated Playwright suite submits all 12+ payloads and asserts zero script executions across all of them",
+        "kind": "test"
+      },
+      {
+        "label": "Same suite run against the unsanitized 'before' version fails on at least 8 of the payloads, proving the vulnerability was real",
+        "kind": "test"
+      },
+      {
+        "label": "Allowlisted formatting (bold/link/line-break) renders correctly post-sanitization",
+        "kind": "output"
+      },
+      {
+        "label": "Writeup identifies the specific evasion technique that defeats naive regex escaping",
+        "kind": "review"
+      }
+    ],
+    "artifact": "Sanitizer implementation + before/after code diff + Playwright test suite with pass/fail report for all 12+ payloads + short writeup",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
+  },
+  {
+    "slug": "recursion-to-iteration-explicit-stack",
+    "title": "Turn Recursion Into Iteration Without Losing Correctness",
+    "track": "foundations",
+    "difficulty": 3,
+    "hours": 4,
+    "tagline": "Convert a stack-overflowing recursive function into an iterative one with an explicit stack, and prove it survives inputs the original crashed on.",
+    "whatYouBuild": "You start with a genuinely recursive function (e.g. a tree/graph traversal or a recursive-descent parser) that provably stack-overflows on deep input, then rewrite it to use an explicit heap-allocated stack instead of the call stack — preserving exact output equivalence on every input the original could still handle, while now succeeding on inputs that used to crash.",
+    "resumeLine": "Rewrote a recursive tree-traversal algorithm to use an explicit stack after profiling a production stack-overflow on deeply nested input, eliminating the crash while proving output-identical behavior against the original across 500+ generated test cases.",
+    "proves": [
+      "understands call-stack mechanics, not just recursion syntax",
+      "can manage explicit state (stack frames as data) correctly",
+      "validates correctness with differential testing, not just 'it ran'"
+    ],
+    "stack": [
+      "Python or JavaScript/TypeScript",
+      "a property-based testing library (Hypothesis or fast-check)",
+      "a deep/degenerate input generator (e.g. a skewed linked-list-shaped tree)"
+    ],
+    "prerequisites": [
+      "recursion-basics",
+      "big-o-basics",
+      "stack-vs-heap"
+    ],
+    "phases": [
+      "frame",
+      "decide",
+      "prove"
+    ],
+    "spec": [
+      "A real recursive function operating on a non-trivial structure (e.g. DFS/traversal over a tree, or a recursive-descent expression parser) — not a toy factorial/fibonacci",
+      "A reproducible crash: a generated pathologically deep/skewed input (e.g. a 50,000-node degenerate tree) that provably triggers a RecursionError / stack overflow / RangeError on the original implementation, captured as evidence",
+      "An iterative rewrite using an explicit stack data structure that manually manages the state each recursive call frame used to hold (current node, visited children index, partial results) — no use of the language's call stack for the traversal itself",
+      "Differential test harness that runs both implementations on hundreds of randomly generated inputs (shallow and moderately deep, where the recursive version still works) and asserts byte-for-byte identical output",
+      "The same pathological deep input from step 2 is fed to the iterative version and completes successfully, with peak memory/heap usage measured and reported",
+      "A short complexity note: confirm the iterative version's time complexity matches the recursive original (no accidental O(n) becoming O(n^2) from list operations on the explicit stack)"
+    ],
+    "acceptanceChecks": [
+      {
+        "label": "Original recursive implementation reproducibly crashes (RecursionError/stack overflow) on the generated deep input, captured as a logged stack trace",
+        "kind": "test"
+      },
+      {
+        "label": "Property-based differential test shows identical output between recursive and iterative versions across 500+ generated cases",
+        "kind": "test"
+      },
+      {
+        "label": "Iterative version completes successfully on the same deep input that crashed the recursive version, with measured peak memory reported",
+        "kind": "output"
+      },
+      {
+        "label": "Complexity note confirms no asymptotic regression introduced by the explicit-stack rewrite",
+        "kind": "review"
+      }
+    ],
+    "artifact": "Recursive + iterative implementations, differential property-based test suite, crash-reproduction log, and a before/after performance note",
+    "interactive": false,
+    "addedMonth": "2026-09",
+    "status": "live",
+    "featured": false
   }
 ]

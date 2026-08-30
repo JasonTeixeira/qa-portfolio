@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:800px; height:800px; overflow:hidden; }
+  body { display:grid; place-items:center;
+    background: radial-gradient(60% 55% at 38% 32%, #6E82FF 0%, #3D5AFE 46%, #1A2680 100%); }
+  .glow { position:absolute; inset:0; background: radial-gradient(38% 34% at 34% 28%, rgba(255,255,255,0.35), transparent 60%); }
+  svg { position:relative; filter: drop-shadow(0 14px 40px rgba(0,0,0,0.35)); }
+</style></head>
+<body>
+  <div class="glow"></div>
+  <svg width="440" height="440" viewBox="0 0 64 64" fill="none">
+    <g transform="translate(0 -5)">
+      <path d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z" fill="none" stroke="#fff" stroke-width="4.2" stroke-linejoin="round"/>
+      <circle cx="26" cy="54" r="3.4" fill="#fff"/>
+      <circle cx="36" cy="54" r="3.4" fill="#fff"/>
+      <circle cx="46" cy="54" r="3.4" fill="#fff"/>
+    </g>
+  </svg>
+</body></html>

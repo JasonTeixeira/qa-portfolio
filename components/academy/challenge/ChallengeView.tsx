@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { FieldNote } from '@/lib/field-notes'
+import { getT } from '@/lib/i18n/t'
 import styles from './challenge.module.css'
 
 interface ChallengeViewProps {
@@ -17,31 +18,35 @@ interface ChallengeViewProps {
  * (read the full note, train the skill). Standings render an honest empty
  * state. If the design fabricated it, we omit or replace it.
  */
-export function ChallengeView({ note }: ChallengeViewProps) {
+export async function ChallengeView({ note }: ChallengeViewProps) {
+  const t = await getT()
   const noteHref = `/field-notes/${note.slug}`
 
   return (
     <div className={styles.page}>
       {/* meta bar — honest cadence only, no invented participant counts */}
       <div className={styles.metaBar}>
-        <span className={styles.metaMono}>This week&apos;s map-along · one map, all of us</span>
-        <span className={styles.cadence}>read the note, map the system, compare</span>
+        <span className={styles.metaMono}>{t("This week's map-along · one map, all of us")}</span>
+        <span className={styles.cadence}>{t('read the note, map the system, compare')}</span>
       </div>
 
       {/* hero */}
       <header className={styles.hero}>
-        <div className={styles.eyebrow}>This week&apos;s challenge</div>
-        <h1 className={styles.title}>{note.title}.</h1>
+        <div className={styles.eyebrow}>{t("This week's challenge")}</div>
+        <h1 className={styles.title}>
+          {note.title}
+          {t('.')}
+        </h1>
         <div className={styles.motif} aria-hidden="true">
-          <span className={styles.motifStep}>frame</span>
+          <span className={styles.motifStep}>{t('frame')}</span>
           <span className={styles.motifArrow}>→</span>
-          <span className={styles.motifStep}>route</span>
+          <span className={styles.motifStep}>{t('route')}</span>
           <span className={styles.motifArrow}>→</span>
-          <span className={styles.motifStep}>map</span>
+          <span className={styles.motifStep}>{t('map')}</span>
           <span className={styles.motifArrow}>→</span>
-          <span className={styles.motifStep}>decide</span>
+          <span className={styles.motifStep}>{t('decide')}</span>
           <span className={styles.motifArrow}>→</span>
-          <span className={styles.motifStep}>prove</span>
+          <span className={styles.motifStep}>{t('prove')}</span>
         </div>
       </header>
 
@@ -49,7 +54,7 @@ export function ChallengeView({ note }: ChallengeViewProps) {
         {/* THE INCIDENT — real field note as the problem statement */}
         <section className={styles.card} aria-labelledby="brief-label">
           <div id="brief-label" className={`${styles.cardLabel} ${styles.cardLabelRed}`}>
-            The incident · {note.category}
+            {t('The incident ·')} {note.category}
           </div>
           <p className={styles.brief}>{note.summary}</p>
 
@@ -64,42 +69,44 @@ export function ChallengeView({ note }: ChallengeViewProps) {
           )}
 
           <div className={styles.mustBlock}>
-            <div className={styles.mustLabel}>Your map must</div>
+            <div className={styles.mustLabel}>{t('Your map must')}</div>
             <div className={styles.mustRow}>
-              <span className={styles.mustNum}>01</span> Name the suspect edge — and why it&apos;s cheapest to check first
+              <span className={styles.mustNum}>01</span>{' '}
+              {t("Name the suspect edge — and why it's cheapest to check first")}
             </div>
             <div className={styles.mustRow}>
-              <span className={styles.mustNum}>02</span> Draw the path with directions and owners
+              <span className={styles.mustNum}>02</span> {t('Draw the path with directions and owners')}
             </div>
             <div className={styles.mustRow}>
-              <span className={styles.mustNum}>03</span> Defend at least one omission in writing
+              <span className={styles.mustNum}>03</span> {t('Defend at least one omission in writing')}
             </div>
           </div>
 
           <Link href={noteHref} className={styles.briefLink}>
-            Read the full field note →
+            {t('Read the full field note →')}
           </Link>
         </section>
 
         {/* ACTION — honest. No submission backend; route to real places. */}
         <section className={styles.actionCard} aria-labelledby="action-label">
           <div id="action-label" className={`${styles.cardLabel} ${styles.cardLabelAccent}`}>
-            Take the challenge
+            {t('Take the challenge')}
           </div>
           <p className={styles.actionBody}>
-            There&apos;s no scoreboard to game here — the point is the reasoning. Draw the map for
-            yourself: name the suspect edge, then read how it actually broke and got fixed.
+            {t(
+              "There's no scoreboard to game here — the point is the reasoning. Draw the map for yourself: name the suspect edge, then read how it actually broke and got fixed.",
+            )}
           </p>
           <div className={styles.actionButtons}>
             <Link href={noteHref} className={styles.btnPrimary}>
-              Read the full field note →
+              {t('Read the full field note →')}
             </Link>
             <Link href="/academy/catalog" className={styles.btnGhost}>
-              Train the skill →
+              {t('Train the skill →')}
             </Link>
           </div>
           <p className={styles.actionNote}>
-            Submissions open with cohorts — no public submit form yet.
+            {t('Submissions open with cohorts — no public submit form yet.')}
           </p>
         </section>
       </div>
@@ -107,17 +114,18 @@ export function ChallengeView({ note }: ChallengeViewProps) {
       {/* STANDINGS — honest empty state. NEVER fabricated names/votes/ranks. */}
       <section className={styles.standings} aria-labelledby="standings-label">
         <div id="standings-label" className={styles.standingsHeader}>
-          Standings
+          {t('Standings')}
         </div>
         <div className={styles.emptyState}>
-          <div className={styles.emptyTitle}>No standings yet</div>
+          <div className={styles.emptyTitle}>{t('No standings yet')}</div>
           <p className={styles.emptyBody}>
-            Be the first to name the suspect edge. When cohort submissions and voting open, the
-            best-defended maps land here — until then there&apos;s nothing to fake.
+            {t(
+              "Be the first to name the suspect edge. When cohort submissions and voting open, the best-defended maps land here — until then there's nothing to fake.",
+            )}
           </p>
         </div>
         <div className={styles.rubricNote}>
-          the rubric will weigh defended omissions over pretty boxes — and it&apos;ll be public
+          {t("the rubric will weigh defended omissions over pretty boxes — and it'll be public")}
         </div>
       </section>
     </div>

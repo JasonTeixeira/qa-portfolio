@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { AtlasIntake } from './AtlasIntake'
+import { useT } from '@/components/i18n/locale-provider'
 
 const SEEN_KEY = 'sage-atlas-v1'
 /** Auto-open on first visit only — after the splash (~2.1s) clears AND the
@@ -15,6 +16,7 @@ const AUTO_OPEN_DELAY = 4500
  * forever; the auto-open fires once (tracked in localStorage).
  */
 export function AtlasLauncher() {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -90,7 +92,7 @@ export function AtlasLauncher() {
               boxShadow: '0 0 10px rgba(61,90,254,0.7)',
             }}
           />
-          Find your path
+          {t('Find your path')}
         </button>
       )}
     </>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SageMark } from '@/components/academy/brand/SageMark';
+import { getT } from '@/lib/i18n/t';
 
 /* ── Fixed dark palette (design spec) ── */
 const C = {
@@ -22,7 +23,8 @@ const FONT_MONO = "var(--ac-font-mono, 'JetBrains Mono', ui-monospace, monospace
  * Left value-prop panel of the Academy auth split screen. Presentation only —
  * pure static content, no auth wiring. Hidden below the split breakpoint.
  */
-export function AcademyValuePanel() {
+export async function AcademyValuePanel() {
+  const t = await getT();
   return (
     <div
       style={{
@@ -50,7 +52,7 @@ export function AcademyValuePanel() {
       >
         <SageMark size={26} radius={8} />
         <span style={{ fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em', color: C.text }}>
-          Sage Academy
+          {t('Sage Academy')}
         </span>
       </Link>
 
@@ -68,8 +70,8 @@ export function AcademyValuePanel() {
             color: C.text,
           }}
         >
-          In 25 minutes, you&rsquo;ll have shipped your first{' '}
-          <em style={{ fontStyle: 'italic', fontWeight: 500, color: C.accentInk }}>proof.</em>
+          {t('In 25 minutes, you’ll have shipped your first')}{' '}
+          <em style={{ fontStyle: 'italic', fontWeight: 500, color: C.accentInk }}>{t('proof.')}</em>
         </div>
 
         {/* Mini artifact / proof card */}
@@ -94,7 +96,7 @@ export function AcademyValuePanel() {
           >
             <span style={dot} />
             <span style={{ fontSize: 13, color: '#B6B6C0', flex: 1 }}>
-              Framed the incident as a question
+              {t('Framed the incident as a question')}
             </span>
             <span
               style={{
@@ -108,16 +110,16 @@ export function AcademyValuePanel() {
                 whiteSpace: 'nowrap',
               }}
             >
-              PASSED
+              {t('PASSED')}
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 18px' }}>
             <span style={dot} />
             <span style={{ fontSize: 13, color: '#B6B6C0', flex: 1 }}>
-              decision-memo.md · row one of your ledger
+              {t('decision-memo.md · row one of your ledger')}
             </span>
             <span style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.accentInk, whiteSpace: 'nowrap' }}>
-              +25 min ↑
+              {t('+25 min ↑')}
             </span>
           </div>
         </div>
@@ -135,20 +137,17 @@ export function AcademyValuePanel() {
           }}
         >
           <span>
-            <span style={{ color: C.text }}>12,480</span> engineers
+            <span style={{ color: C.green }}>{t('every')}</span> {t('proof verifiable by code')}
           </span>
           <span>
-            <span style={{ color: C.green }}>every</span> proof verifiable by code
-          </span>
-          <span>
-            <span style={{ color: C.text }}>cancel</span> anytime, no lock-in
+            <span style={{ color: C.text }}>{t('cancel')}</span> {t('anytime, no lock-in')}
           </span>
         </div>
       </div>
 
       {/* Footer strip */}
       <div style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.faint }}>
-        frame → route → map → decide → prove
+        {t('frame → route → map → decide → prove')}
       </div>
     </div>
   );

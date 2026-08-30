@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AtlasOrb } from './AtlasOrb'
+import { useT } from '@/components/i18n/locale-provider'
 import {
   ATLAS_QUESTIONS,
   recommendPath,
@@ -35,6 +36,7 @@ type SentKind = 'ok' | 'dev' | 'emailFailed'
 /** Atlas "Find your path" — a guided, keyboard-first intake. Presentational +
  *  self-contained; AtlasLauncher owns once-per-visitor + mount timing. */
 export function AtlasIntake({ onClose }: { onClose: () => void }) {
+  const t = useT()
   const [phase, setPhase] = useState<Phase>('q')
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<AtlasAnswers>({})
@@ -55,6 +57,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
 
   const q = ATLAS_QUESTIONS[step]
   const path = useMemo(() => recommendPath(answers), [answers])
+  const activePrompt = t(q.prompt)
 
   useEffect(() => {
     setReduced(!!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)
@@ -65,7 +68,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
     if (phase !== 'q') return
     setPicked(null)
     setFocusIdx(0)
-    const prompt = ATLAS_QUESTIONS[step].prompt
+    const prompt = activePrompt
     if (reduced) {
       setTyped(prompt)
       setSpeaking(false)
@@ -83,7 +86,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
       }
     }, 24)
     return () => window.clearInterval(id)
-  }, [phase, step, reduced])
+  }, [phase, activePrompt, reduced])
 
   // Focus the first option when a question mounts; focus email on reveal.
   useEffect(() => {
@@ -153,7 +156,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
     if (submitting) return
     const value = email.trim()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setError('Please enter a valid email.')
+      setError(t('Please enter a valid email.'))
       return
     }
     setError('')
@@ -166,13 +169,13 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
-        setError(data?.error ?? 'Something went wrong. Try again.')
+        setError(data?.error ?? t('Something went wrong. Try again.'))
         return
       }
       setSent(data?.dev ? 'dev' : data?.emailFailed ? 'emailFailed' : 'ok')
       setPhase('sent')
     } catch {
-      setError('Network hiccup — try again.')
+      setError(t('Network hiccup — try again.'))
     } finally {
       setSubmitting(false)
     }
@@ -277,7 +280,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center' }}>
               <AtlasOrb speaking={speaking} size={96} />
               <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.accentInk }}>
-                Atlas · your guide
+                {t('Atlas · your guide')}
               </div>
             </div>
 
@@ -307,7 +310,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                           color: done || active ? C.accentInk : C.faint,
                         }}
                       >
-                        {RAIL_LABELS[qq.id]}
+                        {t(RAIL_LABELS[qq.id])}
                       </span>
                     </div>
                   )
@@ -318,7 +321,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
             {phase === 'q' && (
               <div key={step} style={{ animation: anim('atlasStepIn 0.45s cubic-bezier(0.16,1,0.3,1) both') }}>
                 <div style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.faint, marginTop: 20 }}>
-                  {q.eyebrow}
+                  {t(q.eyebrow)}
                 </div>
                 <h2
                   aria-live="polite"
@@ -384,8 +387,8 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                           {`0${i + 1}`}
                         </span>
                         <span style={{ display: 'flex', flexDirection: 'column', gap: 1, flex: 1, minWidth: 0 }}>
-                          <span style={{ fontSize: 15, fontWeight: 600 }}>{o.label}</span>
-                          {o.hint ? <span style={{ fontSize: 12.5, fontWeight: 400, color: C.faint }}>{o.hint}</span> : null}
+                          <span style={{ fontSize: 15, fontWeight: 600 }}>{t(o.label)}</span>
+                          {o.hint ? <span style={{ fontSize: 12.5, fontWeight: 400, color: C.faint }}>{t(o.hint)}</span> : null}
                         </span>
                         <span className="atlasArrow" aria-hidden style={{ color: C.accentInk, fontSize: 15 }}>
                           →
@@ -397,7 +400,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
                   <span style={{ fontFamily: MONO, fontSize: 10.5, color: C.faint }}>
-                    press <b style={{ color: C.muted, fontWeight: 500 }}>1–{q.options.length}</b> · <b style={{ color: C.muted, fontWeight: 500 }}>↑↓</b> to move
+                    {t('Press a number, or use ↑↓ and Enter')}
                   </span>
                   {step > 0 ? (
                     <button
@@ -405,7 +408,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                       className="atlasGhost"
                       style={{ background: 'none', border: 'none', color: C.faint, cursor: 'pointer', fontSize: 13, fontFamily: MONO }}
                     >
-                      ← back
+                      {t('← back')}
                     </button>
                   ) : (
                     <button
@@ -413,7 +416,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                       className="atlasGhost"
                       style={{ background: 'none', border: 'none', color: C.faint, cursor: 'pointer', fontSize: 13, fontFamily: MONO }}
                     >
-                      skip
+                      {t('skip')}
                     </button>
                   )}
                 </div>
@@ -423,7 +426,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
             {phase === 'reveal' && (
               <div style={{ marginTop: 20, animation: anim('atlasStepIn 0.5s cubic-bezier(0.16,1,0.3,1) both') }}>
                 <div style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.green }}>
-                  Your path
+                  {t('Your path')}
                 </div>
                 <h2
                   style={{
@@ -436,9 +439,9 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                     margin: '9px 0 12px',
                   }}
                 >
-                  {path.headline}
+                  {t(path.headline)}
                 </h2>
-                <p style={{ color: C.muted, fontSize: 14.5, lineHeight: 1.66, margin: 0 }}>{path.why}</p>
+                <p style={{ color: C.muted, fontSize: 14.5, lineHeight: 1.66, margin: 0 }}>{t(path.why)}</p>
 
                 {/* plan card */}
                 <div
@@ -451,9 +454,9 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                   }}
                 >
                   <div style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.13em', textTransform: 'uppercase', color: C.faint }}>
-                    Start here
+                    {t('Start here')}
                   </div>
-                  <div style={{ fontSize: 16.5, fontWeight: 600, color: C.text, margin: '5px 0 14px' }}>{path.startTitle}</div>
+                  <div style={{ fontSize: 16.5, fontWeight: 600, color: C.text, margin: '5px 0 14px' }}>{t(path.startTitle)}</div>
                   <div style={{ display: 'grid', gap: 11 }}>
                     {path.steps.map((s, i) => (
                       <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', fontSize: 13.5, color: C.muted, lineHeight: 1.5 }}>
@@ -474,19 +477,19 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                         >
                           {`0${i + 1}`}
                         </span>
-                        <span style={{ paddingTop: 2 }}>{s}</span>
+                        <span style={{ paddingTop: 2 }}>{t(s)}</span>
                       </div>
                     ))}
                   </div>
                   <div style={{ fontFamily: MONO, fontSize: 11.5, color: C.faint, marginTop: 14, paddingTop: 12, borderTop: `1px solid ${C.line}` }}>
-                    {path.cadence}
+                    {t(path.cadence)}
                   </div>
                 </div>
 
                 {/* email = reward */}
                 <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <label htmlFor="atlas-email" style={{ fontSize: 13.5, color: C.text, fontWeight: 600 }}>
-                    Save your path — and I&rsquo;ll send your first lesson.
+                    {t('Save your path — and I’ll send your first lesson.')}
                   </label>
                   <input
                     aria-hidden
@@ -534,12 +537,12 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {submitting ? 'Saving…' : 'Save my path'}
+                      {submitting ? t('Saving…') : t('Save my path')}
                     </button>
                   </div>
                   {error ? <div style={{ color: C.danger, fontSize: 12.5 }}>{error}</div> : null}
                   <a href={path.startHref} className="atlasGhost" style={{ fontFamily: MONO, fontSize: 12.5, color: C.faint, textDecoration: 'none' }}>
-                    or just start free now, no email →
+                    {t('or just start free now, no email →')}
                   </a>
                 </form>
               </div>
@@ -557,12 +560,12 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                     margin: '0 0 12px',
                   }}
                 >
-                  {sent === 'ok' ? 'Your path is on its way.' : 'Path saved.'}
+                  {sent === 'ok' ? t('Your path is on its way.') : t('Path saved.')}
                 </h2>
                 <p style={{ color: C.muted, fontSize: 14.5, lineHeight: 1.66, margin: '0 auto', maxWidth: '38ch' }}>
-                  {sent === 'ok' && 'Check your inbox — your first lesson and next steps are waiting. Or start right now:'}
-                  {sent === 'dev' && 'Saved (email isn’t wired up in this environment yet). You can start right now:'}
-                  {sent === 'emailFailed' && 'You’re on the list — the email didn’t go through, but your path is saved. Start right now:'}
+                  {sent === 'ok' && t('Check your inbox — your first lesson and next steps are waiting. Or start right now:')}
+                  {sent === 'dev' && t('Saved (email isn’t wired up in this environment yet). You can start right now:')}
+                  {sent === 'emailFailed' && t('You’re on the list — the email didn’t go through, but your path is saved. Start right now:')}
                 </p>
                 <a
                   href={path.startHref}
@@ -579,7 +582,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                     textDecoration: 'none',
                   }}
                 >
-                  Start free — no card
+                  {t('Start free — no card')}
                 </a>
                 <div style={{ marginTop: 14 }}>
                   <button
@@ -587,7 +590,7 @@ export function AtlasIntake({ onClose }: { onClose: () => void }) {
                     className="atlasGhost"
                     style={{ background: 'none', border: 'none', color: C.faint, cursor: 'pointer', fontSize: 13, fontFamily: MONO }}
                   >
-                    close
+                    {t('close')}
                   </button>
                 </div>
               </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { AcademyPlan, PlanInterval } from '@/lib/academy/plans'
 import { trackEvent } from '@/lib/analytics/events'
+import { useT } from '@/components/i18n/locale-provider'
 
 /**
  * Sage Academy pricing surface — reskin of the rendered design at
@@ -81,54 +82,54 @@ const OUTCOMES = [
   'Certificates verifiable by code, not screenshots',
 ]
 
-function buildTiers(monthly: AcademyPlan, yearly: AcademyPlan): Tier[] {
+function buildTiers(monthly: AcademyPlan, yearly: AcademyPlan, t: (source: string) => string): Tier[] {
   return [
     {
       key: 'monthly',
-      name: 'Monthly',
+      name: t('Monthly'),
       price: monthly.price,
-      per: '/ month',
-      note: 'for trying the water',
+      per: t('/ month'),
+      note: t('for trying the water'),
       feats: [
-        'Everything in the academy',
-        'Cancel any month, keep your ledger',
-        'Upgrade to annual anytime — prorated',
+        t('Everything in the academy'),
+        t('Cancel any month, keep your ledger'),
+        t('Upgrade to annual anytime — prorated'),
       ],
-      cta: 'Start monthly',
+      cta: t('Start monthly'),
       tick: COLORS.faint,
       interval: 'monthly',
     },
     {
       key: 'annual',
-      name: 'Annual',
+      name: t('Annual'),
       price: yearly.price,
-      per: '/ year',
-      note: '≈ $21/month · billed yearly',
+      per: t('/ year'),
+      note: t('≈ $21/month · billed yearly'),
       feats: [
-        'Everything in the academy',
-        'Two months free vs monthly',
-        'Yearly portfolio review checkpoint',
-        'Price locked as new courses ship',
+        t('Everything in the academy'),
+        t('Two months free vs monthly'),
+        t('Yearly portfolio review checkpoint'),
+        t('Price locked as new courses ship'),
       ],
-      cta: 'Start annual',
+      cta: t('Start annual'),
       highlight: true,
-      sideTag: 'save 2 months',
+      sideTag: t('save 2 months'),
       tick: COLORS.accentInk,
       interval: 'yearly',
     },
     {
       key: 'team',
-      name: 'Team',
+      name: t('Team'),
       price: '$190',
-      per: '/ seat · yr',
-      note: 'per seat / year · 5+ seats',
+      per: t('/ seat · yr'),
+      note: t('per seat / year · 5+ seats'),
       feats: [
-        'Everything, for every engineer',
-        'Manager view of team evidence ledgers',
-        'Cohort onboarding sprint',
-        'Invoice billing + seat management',
+        t('Everything, for every engineer'),
+        t('Manager view of team evidence ledgers'),
+        t('Cohort onboarding sprint'),
+        t('Invoice billing + seat management'),
       ],
-      cta: 'Talk to us',
+      cta: t('Talk to us'),
       tick: COLORS.green,
       href: 'mailto:hello@sageideas.dev?subject=Sage%20Academy%20—%20Team%20plan',
     },
@@ -136,6 +137,7 @@ function buildTiers(monthly: AcademyPlan, yearly: AcademyPlan): Tier[] {
 }
 
 function PlanCta({ tier }: { tier: Tier }) {
+  const t = useT()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -199,9 +201,9 @@ function PlanCta({ tier }: { tier: Tier }) {
         window.location.href = data.signIn
         return
       }
-      setError(typeof data?.error === 'string' ? data.error : "Couldn't start checkout. Please try again.")
+      setError(typeof data?.error === 'string' ? data.error : t("Couldn't start checkout. Please try again."))
     } catch {
-      setError('Network error. Please try again.')
+      setError(t('Network error. Please try again.'))
     } finally {
       setLoading(false)
     }
@@ -210,7 +212,7 @@ function PlanCta({ tier }: { tier: Tier }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
       <button type="button" onClick={onClick} disabled={loading} style={{ ...style, opacity: loading ? 0.7 : 1 }}>
-        {loading ? 'Loading…' : tier.cta}
+        {loading ? t('Loading…') : tier.cta}
       </button>
       {error ? (
         <p role="alert" style={{ margin: 0, fontSize: '12px', color: '#F87171', textAlign: 'center' }}>
@@ -222,6 +224,7 @@ function PlanCta({ tier }: { tier: Tier }) {
 }
 
 function PlanCard({ tier }: { tier: Tier }) {
+  const t = useT()
   const cardStyle: React.CSSProperties = tier.highlight
     ? {
         position: 'relative',
@@ -264,7 +267,7 @@ function PlanCard({ tier }: { tier: Tier }) {
             boxShadow: '0 0 18px rgba(61,90,254,0.45)',
           }}
         >
-          Most chosen
+          {t('Most chosen')}
         </div>
       ) : null}
 
@@ -339,7 +342,8 @@ type PricingElProps = {
 }
 
 export function PricingEl({ monthly, yearly }: PricingElProps) {
-  const tiers = buildTiers(monthly, yearly)
+  const t = useT()
+  const tiers = buildTiers(monthly, yearly, t)
 
   return (
     <div
@@ -370,7 +374,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
             color: COLORS.accentInk,
           }}
         >
-          Simple, honest pricing
+          {t('Simple, honest pricing')}
         </div>
         <h1
           style={{
@@ -384,12 +388,15 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
             textWrap: 'balance',
           }}
         >
-          You&rsquo;re not buying hours of video. You&rsquo;re buying{' '}
-          <em style={{ fontStyle: 'italic', fontWeight: 500, color: COLORS.accentInk }}>a body of work.</em>
+          {t('You’re not buying hours of video. You’re buying')}{' '}
+          <em style={{ fontStyle: 'italic', fontWeight: 500, color: COLORS.accentInk }}>
+            {t('a body of work.')}
+          </em>
         </h1>
         <p style={{ margin: '20px auto 0', color: COLORS.softMuted, fontSize: '16.5px', maxWidth: '54ch' }}>
-          Every plan includes everything — all 23 courses as they ship, every lab and proof, spaced recall, leagues,
-          and verifiable certificates. Pick the commitment, not the features.
+          {t(
+            'Every plan includes everything — all 23 courses as they ship, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.',
+          )}
         </p>
       </header>
 
@@ -426,7 +433,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
           }}
         >
           <span style={{ fontFamily: MONO, fontSize: '10.5px', color: '#959AA2' }}>
-            Cancel anytime, no lock-in — and a full lesson is free before you pay.
+            {t('Cancel anytime, no lock-in — and a full lesson is free before you pay.')}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ display: 'flex' }}>
@@ -436,7 +443,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
               <span style={avatarStyle('#1A1A20', '#959AA2', -7)}>+</span>
             </span>
             <span style={{ fontSize: '12.5px', color: COLORS.softMuted }}>
-              Every proof verifiable by code — no invented numbers, ever.
+              {t('Every proof verifiable by code — no invented numbers, ever.')}
             </span>
           </span>
         </div>
@@ -462,7 +469,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
               <span aria-hidden style={{ color: COLORS.green, flexShrink: 0 }}>
                 ✓
               </span>
-              <span style={{ fontSize: '15px', color: '#B6B6C0' }}>{outcome}</span>
+              <span style={{ fontSize: '15px', color: '#B6B6C0' }}>{t(outcome)}</span>
             </div>
           ))}
         </div>
@@ -480,7 +487,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
               letterSpacing: '-0.02em',
             }}
           >
-            Honest answers
+            {t('Honest answers')}
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {ACADEMY_FAQ.map((item) => (
@@ -494,9 +501,11 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
                     marginBottom: '8px',
                   }}
                 >
-                  {item.q}
+                  {t(item.q)}
                 </div>
-                <p style={{ margin: 0, fontSize: '14.5px', color: COLORS.softMuted, maxWidth: '68ch' }}>{item.a}</p>
+                <p style={{ margin: 0, fontSize: '14.5px', color: COLORS.softMuted, maxWidth: '68ch' }}>
+                  {t(item.a)}
+                </p>
               </div>
             ))}
           </div>

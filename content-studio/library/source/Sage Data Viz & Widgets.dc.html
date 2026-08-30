@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0B0E; }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(143,160,255,0.35); }
+  a { color: #8FA0FF; text-decoration: none; }
+  a:hover { color: #B9C4FF; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #0B0B0E; background-image: radial-gradient(90% 60% at 20% -10%, rgba(79,227,207,0.05) 0%, transparent 55%), radial-gradient(70% 50% at 85% -5%, rgba(255,125,177,0.05) 0%, transparent 60%); color: #F2EFE9; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 1.6;">
+  <div style="height: 4px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+
+  <div style="max-width: 1220px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 4vw, 48px) 110px;">
+
+    <header data-screen-label="Header" style="margin-bottom: 60px;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #9598A2;">
+        <span style="width: 26px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #4FE3CF, #FF7DB1);"></span>
+        <span>Sage Academy · Phase 4 · Depth · <a href="Sage System Design Kit.dc.html">← the kit</a></span>
+      </div>
+      <h1 style="margin: 16px 0 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(38px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.026em; max-width: 18ch; text-wrap: balance;">Numbers that teach. Widgets that judge.</h1>
+      <p style="margin: 18px 0 0; color: #9C9CA6; max-width: 62ch; font-size: 17px; text-wrap: pretty;">The chart language for every metric a course will ever show, and three more interactive patterns — sequence builder, incident replay, recall card. All live.</p>
+    </header>
+
+    <!-- ============ CHARTS ============ -->
+    <section data-screen-label="Chart language" style="margin-bottom: 72px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">The chart language</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">mono axes · hairline grid · one hue per series · thresholds always named</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px;">
+
+        <!-- latency histogram -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+            <div style="font-size: 14.5px; font-weight: 700;">Latency histogram</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">viz/histogram</span>
+          </div>
+          <svg viewBox="0 0 300 130" style="width: 100%; height: auto;">
+            <line x1="0" y1="110" x2="300" y2="110" stroke="#1E1E24" stroke-width="1"></line>
+            <rect x="10" y="55" width="18" height="55" rx="2" fill="rgba(110,203,255,0.75)"></rect>
+            <rect x="32" y="25" width="18" height="85" rx="2" fill="rgba(110,203,255,0.75)"></rect>
+            <rect x="54" y="38" width="18" height="72" rx="2" fill="rgba(110,203,255,0.75)"></rect>
+            <rect x="76" y="62" width="18" height="48" rx="2" fill="rgba(110,203,255,0.75)"></rect>
+            <rect x="98" y="80" width="18" height="30" rx="2" fill="rgba(110,203,255,0.55)"></rect>
+            <rect x="120" y="92" width="18" height="18" rx="2" fill="rgba(110,203,255,0.45)"></rect>
+            <rect x="142" y="99" width="18" height="11" rx="2" fill="rgba(110,203,255,0.35)"></rect>
+            <rect x="164" y="104" width="18" height="6" rx="2" fill="rgba(110,203,255,0.3)"></rect>
+            <rect x="230" y="88" width="18" height="22" rx="2" fill="rgba(255,107,107,0.7)"></rect>
+            <line x1="52" y1="12" x2="52" y2="110" stroke="#5EE08C" stroke-width="1.5" stroke-dasharray="3 4"></line>
+            <text x="58" y="20" font-family="JetBrains Mono, monospace" font-size="9" fill="#5EE08C">p50 · 34ms</text>
+            <line x1="239" y1="40" x2="239" y2="110" stroke="#FF6B6B" stroke-width="1.5" stroke-dasharray="3 4"></line>
+            <text x="176" y="48" font-family="JetBrains Mono, monospace" font-size="9" fill="#FF6B6B">p99 · 480ms</text>
+            <text x="10" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#9598A2">0ms</text>
+            <text x="266" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#9598A2">500ms</text>
+          </svg>
+          <div style="font-size: 12.5px; color: #9598A2; margin-top: 12px; line-height: 1.55;">The tail is always shown, always red. Averages are banned — the lesson lives at p99.</div>
+        </div>
+
+        <!-- SLO gauge -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+            <div style="font-size: 14.5px; font-weight: 700;">SLO burn gauge</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">viz/gauge</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <svg viewBox="0 0 140 84" style="width: 150px; flex-shrink: 0;">
+              <path d="M14 76 A56 56 0 0 1 126 76" stroke="#1E1E24" stroke-width="10" fill="none" stroke-linecap="round"></path>
+              <path d="M14 76 A56 56 0 0 1 126 76" stroke="url(#gaugeGrad)" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="123 176"></path>
+              <defs><linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5EE08C"></stop><stop offset="0.7" stop-color="#F5C64F"></stop><stop offset="1" stop-color="#FF6B6B"></stop></linearGradient></defs>
+              <text x="70" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="20" font-weight="600" fill="#F5C64F">70%</text>
+              <text x="70" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#9598A2">error budget burned</text>
+            </svg>
+            <div style="font-size: 12.5px; color: #9598A2; line-height: 1.6;">Green until 60%, gold to 85%, red after. The gauge never says "fine" — it says how much runway is left, in budget language.</div>
+          </div>
+        </div>
+
+        <!-- capacity curve -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+            <div style="font-size: 14.5px; font-weight: 700;">Capacity curve</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">viz/curve</span>
+          </div>
+          <svg viewBox="0 0 300 130" style="width: 100%; height: auto;">
+            <line x1="0" y1="110" x2="300" y2="110" stroke="#1E1E24" stroke-width="1"></line>
+            <line x1="0" y1="70" x2="300" y2="70" stroke="#17171C" stroke-width="1"></line>
+            <line x1="0" y1="30" x2="300" y2="30" stroke="#17171C" stroke-width="1"></line>
+            <path d="M0 100 C60 96 110 88 160 72 C210 56 250 34 300 14 L300 110 L0 110 Z" fill="rgba(79,227,207,0.09)"></path>
+            <path d="M0 100 C60 96 110 88 160 72 C210 56 250 34 300 14" stroke="#4FE3CF" stroke-width="2" fill="none"></path>
+            <line x1="0" y1="38" x2="300" y2="38" stroke="#FF6B6B" stroke-width="1.5" stroke-dasharray="4 5"></line>
+            <text x="6" y="32" font-family="JetBrains Mono, monospace" font-size="9" fill="#FF6B6B">single primary ceiling · 120k rps</text>
+            <circle cx="252" cy="33" r="4" fill="#F5C64F"></circle>
+            <text x="176" y="58" font-family="JetBrains Mono, monospace" font-size="9" fill="#F5C64F">shard before here</text>
+            <text x="6" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#9598A2">now</text>
+            <text x="252" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#9598A2">+18 mo</text>
+          </svg>
+          <div style="font-size: 12.5px; color: #9598A2; margin-top: 12px; line-height: 1.55;">Growth curves always carry their ceiling and the decision point — a chart without a decision is decoration.</div>
+        </div>
+
+        <!-- mastery spark -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+            <div style="font-size: 14.5px; font-weight: 700;">Mastery bars</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">viz/bars</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-bottom: 5px;"><span style="color: #B6B6C0;">Caching &amp; read path</span><span style="color: #F5C64F;">78</span></div><div style="height: 7px; border-radius: 4px; background: #1E1E24; overflow: hidden;"><div style="width: 78%; height: 100%; background: #F5C64F;"></div></div></div>
+            <div><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-bottom: 5px;"><span style="color: #B6B6C0;">Sharding &amp; replication</span><span style="color: #5EE08C;">64</span></div><div style="height: 7px; border-radius: 4px; background: #1E1E24; overflow: hidden;"><div style="width: 64%; height: 100%; background: #5EE08C;"></div></div></div>
+            <div><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-bottom: 5px;"><span style="color: #B6B6C0;">Consensus &amp; failover</span><span style="color: #6ECBFF;">31 · capped by proof</span></div><div style="height: 7px; border-radius: 4px; background: #1E1E24; overflow: hidden; position: relative;"><div style="width: 31%; height: 100%; background: #6ECBFF;"></div><div style="position: absolute; left: 52%; top: -2px; bottom: -2px; width: 2px; background: rgba(110,203,255,0.5);"></div></div></div>
+          </div>
+          <div style="font-size: 12.5px; color: #9598A2; margin-top: 14px; line-height: 1.55;">Bar hue = tier band. The proof cap tick shows where mastery stalls until evidence lands.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SEQUENCE BUILDER ============ -->
+    <section data-screen-label="Sequence builder" style="margin-bottom: 40px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">Widget · sequence builder</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">tap steps in order · judged on commit</span>
+      </div>
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 24px;">
+        <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 19px; letter-spacing: -0.012em; max-width: 56ch;">Order the zero-downtime migration of a live payments table.</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;">
+          <sc-for list="{{ seqPool }}" as="s" hint-placeholder-count="5">
+            <span tabindex="0" onClick="{{ s.onClick }}" style="cursor: pointer; font-size: 13.5px; font-weight: 500; padding: 10px 16px; border-radius: 100px; border: 1px solid {{ s.border }}; background: {{ s.bg }}; color: {{ s.ink }}; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: {{ s.numColor }};">{{ s.num }}</span>{{ s.label }}</span>
+          </sc-for>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+          <span tabindex="0" onClick="{{ seqCommit }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid rgba(255,125,177,0.45); color: #FF7DB1; transition: all 0.2s;" style-hover="background: rgba(255,125,177,0.08);">Commit order</span>
+          <span tabindex="0" onClick="{{ seqReset }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid #2A2A33; color: #9C9CA6;" style-hover="border-color: #3A3A44;">Reset</span>
+          <span style="font-size: 13px; color: {{ seqFeedbackColor }};">{{ seqFeedback }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INCIDENT REPLAY ============ -->
+    <section data-screen-label="Incident replay" style="margin-bottom: 40px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">Widget · incident replay</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">scrub a real outage minute by minute</span>
+      </div>
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; padding: 24px;">
+        <div style="display: flex; gap: 6px; margin-bottom: 20px;">
+          <sc-for list="{{ incSteps }}" as="t" hint-placeholder-count="5">
+            <span tabindex="0" onClick="{{ t.onClick }}" style="cursor: pointer; flex: 1; height: 7px; border-radius: 4px; background: {{ t.bg }}; transition: background 0.2s;"></span>
+          </sc-for>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 600; color: {{ incColor }}; min-width: 96px;">{{ incTime }}</div>
+          <div style="flex: 1; min-width: 260px;">
+            <div style="font-size: 15px; font-weight: 700; color: {{ incColor }};">{{ incTitle }}</div>
+            <div style="font-size: 13.5px; color: #B6B6C0; margin-top: 5px; line-height: 1.6; max-width: 70ch;">{{ incBody }}</div>
+          </div>
+          <div style="border: 1px solid #26262E; border-radius: 10px; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9598A2; line-height: 1.9; min-width: 150px;">p99 <span style="color: {{ incColor }};">{{ incP99 }}</span><br>error rate <span style="color: {{ incColor }};">{{ incErr }}</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RECALL CARD ============ -->
+    <section data-screen-label="Recall card">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">Widget · recall card</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">spaced repetition · grade yourself honestly</span>
+      </div>
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 28px; max-width: 640px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #B79CFF;">Recall · due today · Caching, card 3 of 4</div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 21px; letter-spacing: -0.012em; line-height: 1.3; margin-top: 12px;">Why must a TTL always carry jitter?</div>
+        <sc-if value="{{ recallShown }}" hint-placeholder-val="{{ false }}">
+          <div style="border-left: 2px solid rgba(183,156,255,0.5); padding: 4px 0 4px 16px; margin-top: 16px; font-size: 14.5px; color: #C9C7C0; line-height: 1.6; animation: fadeUp 0.3s ease;">Identical TTLs expire together, turning cache expiry into a synchronized stampede on the origin. Jitter spreads expiry over time so misses trickle instead of flood.</div>
+          <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
+            <span tabindex="0" onClick="{{ recallGradeEasy }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid rgba(94,224,140,0.45); color: #5EE08C;" style-hover="background: rgba(94,224,140,0.08);">Knew it → 12d</span>
+            <span tabindex="0" onClick="{{ recallGradeHard }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid rgba(245,198,79,0.45); color: #F5C64F;" style-hover="background: rgba(245,198,79,0.08);">Shaky → 3d</span>
+            <span tabindex="0" onClick="{{ recallGradeFail }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid rgba(255,107,107,0.45); color: #FF6B6B;" style-hover="background: rgba(255,107,107,0.08);">Blank → tomorrow</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ recallHidden }}" hint-placeholder-val="{{ true }}">
+          <span tabindex="0" onClick="{{ recallReveal }}" style="display: inline-block; cursor: pointer; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(183,156,255,0.45); color: #B79CFF;" style-hover="background: rgba(183,156,255,0.08);">Reveal answer</span>
+        </sc-if>
+        <div style="min-height: 22px; margin-top: 14px; font-size: 13px; color: {{ recallNoteColor }};">{{ recallNote }}</div>
+      </div>
+    </section>
+
+  </div>
+  <div style="height: 4px; background: linear-gradient(90deg, #8FA0FF, #B79CFF, #E08FFF, #FF7DB1, #FFA94D, #F5C64F, #5EE08C, #4FE3CF, #6ECBFF);"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { seqOrder: [], seqJudged: false, incStep: 0, recallShown: false, recallNote: '', recallNoteColor: '#9598A2' };
+
+  renderVals() {
+    const rgba = (hex, a) => {
+      const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+    };
+    const PINK = '#FF7DB1', GREEN = '#5EE08C', RED = '#FF6B6B', GOLD = '#F5C64F';
+
+    // ---- sequence builder ----
+    const steps = [
+      { id: 'dual', label: 'Dual-write to old + new table' },
+      { id: 'backfill', label: 'Backfill historical rows' },
+      { id: 'verify', label: 'Verify parity with shadow reads' },
+      { id: 'cut', label: 'Cut reads over to new table' },
+      { id: 'drop', label: 'Stop old writes, archive table' }
+    ];
+    const correct = ['dual', 'backfill', 'verify', 'cut', 'drop'];
+    const order = this.state.seqOrder;
+    const judged = this.state.seqJudged;
+    const seqPool = steps.map(s => {
+      const pos = order.indexOf(s.id);
+      const picked = pos !== -1;
+      let border = '#26262E', bg = 'transparent', ink = '#D9D6CF', numColor = '#9598A2';
+      if (picked) { border = rgba(PINK, 0.5); bg = rgba(PINK, 0.07); numColor = PINK; }
+      if (judged && picked) {
+        const ok = correct[pos] === s.id;
+        border = rgba(ok ? GREEN : RED, 0.55); bg = rgba(ok ? GREEN : RED, 0.07); numColor = ok ? GREEN : RED;
+      }
+      return {
+        label: s.label, border, bg, ink, numColor,
+        num: picked ? String(pos + 1) : '·',
+        onClick: () => {
+          if (this.state.seqJudged) return;
+          this.setState(st => ({
+            seqOrder: st.seqOrder.includes(s.id) ? st.seqOrder.filter(x => x !== s.id) : [...st.seqOrder, s.id]
+          }));
+        }
+      };
+    });
+    let seqFeedback = order.length < 5 ? 'Tap all five in the order you\u2019d run them.' : 'Ready — commit when sure.';
+    let seqFeedbackColor = '#9598A2';
+    if (judged) {
+      const right = order.every((id, i) => correct[i] === id);
+      seqFeedback = right
+        ? 'Correct — parity verification before cutover is the step everyone skips and regrets.'
+        : 'Wrong steps are red. Rule of thumb: never cut reads before shadow reads prove parity.';
+      seqFeedbackColor = right ? GREEN : RED;
+    }
+
+    // ---- incident replay ----
+    const inc = [
+      { time: '14:02', title: 'Steady state', body: 'Payments p99 at 38ms. A routine deploy ships a config change to the cache tier.', p99: '38ms', err: '0.01%', color: GREEN },
+      { time: '14:07', title: 'TTLs synchronized', body: 'The deploy reset every key\u2019s TTL to the same 300s. Nobody notices — the graphs look fine. The bomb is armed.', p99: '41ms', err: '0.01%', color: GOLD },
+      { time: '14:12', title: 'Mass expiry', body: '4.1M keys expire in the same second. Hit ratio falls off a cliff: 94% → 11%. Every miss is now an origin read.', p99: '190ms', err: '0.4%', color: GOLD },
+      { time: '14:13', title: 'Primary saturates', body: 'Postgres connection pool exhausts. Queries queue, timeouts cascade upstream into checkout. This is the stampede.', p99: '2.4s', err: '9%', color: RED },
+      { time: '14:26', title: 'Recovery', body: 'On-call enables request coalescing and staggers TTLs with jitter. Hit ratio climbs back. Total damage: 13 minutes of failed checkouts.', p99: '52ms', err: '0.02%', color: GREEN }
+    ];
+    const i = this.state.incStep;
+    const incSteps = inc.map((t, idx) => ({
+      bg: idx === i ? t.color : (idx < i ? rgba(t.color, 0.4) : '#1E1E24'),
+      onClick: () => this.setState({ incStep: idx })
+    }));
+
+    // ---- recall ----
+    const shown = this.state.recallShown;
+    const grade = (note, color, days) => () => this.setState({ recallNote: note + ' Next review in ' + days + '.', recallNoteColor: color, recallShown: false });
+
+    return {
+      seqPool,
+      seqCommit: () => { if (this.state.seqOrder.length === 5) this.setState({ seqJudged: true }); },
+      seqReset: () => this.setState({ seqOrder: [], seqJudged: false }),
+      seqFeedback, seqFeedbackColor,
+      incSteps, incTime: inc[i].time, incTitle: inc[i].title, incBody: inc[i].body,
+      incP99: inc[i].p99, incErr: inc[i].err, incColor: inc[i].color,
+      recallShown: shown, recallHidden: !shown,
+      recallReveal: () => this.setState({ recallShown: true, recallNote: '', recallNoteColor: '#9598A2' }),
+      recallGradeEasy: grade('Scheduled.', GREEN, '12 days'),
+      recallGradeHard: grade('Scheduled.', GOLD, '3 days'),
+      recallGradeFail: grade('No shame — that\u2019s the system working.', RED, '1 day'),
+      recallNote: this.state.recallNote, recallNoteColor: this.state.recallNoteColor
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0B0E; }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(143,160,255,0.35); }
+  a { color: #8FA0FF; text-decoration: none; }
+  a:hover { color: #B9C4FF; }
+  @keyframes demoFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes demoScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+  @keyframes demoDash { to { stroke-dashoffset: -120; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #0B0B0E; background-image: radial-gradient(90% 60% at 20% -10%, rgba(143,160,255,0.05) 0%, transparent 55%), radial-gradient(70% 50% at 85% -5%, rgba(94,224,140,0.04) 0%, transparent 60%); color: #F2EFE9; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 1.6;">
+  <div style="height: 4px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+
+  <div style="max-width: 1220px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 4vw, 48px) 110px;">
+
+    <header data-screen-label="Header" style="margin-bottom: 60px;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #9598A2;">
+        <span style="width: 26px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #8FA0FF, #5EE08C);"></span>
+        <span>Sage Academy · Phase 5 · Refinement · <a href="Sage System Design Kit.dc.html">← the kit</a></span>
+      </div>
+      <h1 style="margin: 16px 0 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(38px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.026em; max-width: 18ch; text-wrap: balance;">The rules that keep it all one thing.</h1>
+      <p style="margin: 18px 0 0; color: #9C9CA6; max-width: 62ch; font-size: 17px; text-wrap: pretty;">Motion, accessibility, and the complete system index — the governance layer that makes five pages behave like one design system.</p>
+    </header>
+
+    <!-- ============ MOTION ============ -->
+    <section data-screen-label="Motion spec" style="margin-bottom: 72px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">Motion</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">transform + opacity + dash offset · nothing bounces · click any card to replay</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+
+        <div tabindex="0" onClick="{{ replay }}" style="cursor: pointer; border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;" style-hover="border-color: #3A3A44;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;"><div style="font-size: 14.5px; font-weight: 700;">Enter · fade-up</div><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #5EE08C;">240ms</span></div>
+          <div style="height: 74px; display: grid; place-items: center; border: 1px dashed #26262E; border-radius: 12px;">
+            <div key="{{ replayKey }}" style="width: 130px; height: 38px; border: 1.5px solid rgba(94,224,140,0.55); border-radius: 10px; background: rgba(94,224,140,0.07); animation: demoFade 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;"></div>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; margin-top: 12px; line-height: 1.8;">translateY(10px) → 0 · opacity 0 → 1<br>ease: cubic-bezier(0.16, 1, 0.3, 1)</div>
+        </div>
+
+        <div tabindex="0" onClick="{{ replay }}" style="cursor: pointer; border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;" style-hover="border-color: #3A3A44;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;"><div style="font-size: 14.5px; font-weight: 700;">Emphasis · scale-in</div><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #F5C64F;">420ms</span></div>
+          <div style="height: 74px; display: grid; place-items: center; border: 1px dashed #26262E; border-radius: 12px;">
+            <div key="{{ replayKey }}" style="width: 56px; height: 56px; border: 1.5px solid rgba(245,198,79,0.55); border-radius: 50%; background: rgba(245,198,79,0.09); animation: demoScale 0.42s cubic-bezier(0.16, 1, 0.3, 1) both; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #F5C64F;">84</div>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; margin-top: 12px; line-height: 1.8;">scale(0.96) → 1 · for verdicts &amp; rewards only<br>never on layout containers</div>
+        </div>
+
+        <div tabindex="0" onClick="{{ replay }}" style="cursor: pointer; border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;" style-hover="border-color: #3A3A44;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;"><div style="font-size: 14.5px; font-weight: 700;">Flow · dash drift</div><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF;">1.2–4.5s loop</span></div>
+          <div style="height: 74px; display: grid; place-items: center; border: 1px dashed #26262E; border-radius: 12px;">
+            <svg width="170" height="14" viewBox="0 0 170 14"><line x1="4" y1="7" x2="160" y2="7" stroke="rgba(143,160,255,0.25)" stroke-width="2"></line><line x1="4" y1="7" x2="160" y2="7" stroke="#8FA0FF" stroke-width="2" stroke-dasharray="14 92" style="animation: demoDash 1.4s linear infinite;"></line><circle cx="162" cy="7" r="3.5" fill="#8FA0FF"></circle></svg>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; margin-top: 12px; line-height: 1.8;">diagram edges only · speed encodes traffic<br>hot 1.2s · normal 1.6s · async 3.4s · repl 4.5s</div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;"><div style="font-size: 14.5px; font-weight: 700;">The scale</div><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">three durations, one ease</span></div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+            <div style="display: flex; align-items: center; gap: 12px;"><span style="color: #6ECBFF; width: 52px;">120ms</span><div style="flex: 1; height: 5px; border-radius: 3px; background: #1E1E24;"><div style="width: 18%; height: 100%; border-radius: 3px; background: #6ECBFF;"></div></div><span style="color: #9598A2;">hover, press</span></div>
+            <div style="display: flex; align-items: center; gap: 12px;"><span style="color: #5EE08C; width: 52px;">240ms</span><div style="flex: 1; height: 5px; border-radius: 3px; background: #1E1E24;"><div style="width: 40%; height: 100%; border-radius: 3px; background: #5EE08C;"></div></div><span style="color: #9598A2;">enter, exit</span></div>
+            <div style="display: flex; align-items: center; gap: 12px;"><span style="color: #F5C64F; width: 52px;">420ms</span><div style="flex: 1; height: 5px; border-radius: 3px; background: #1E1E24;"><div style="width: 70%; height: 100%; border-radius: 3px; background: #F5C64F;"></div></div><span style="color: #9598A2;">verdicts, reveals</span></div>
+          </div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; margin-top: 16px; line-height: 1.8;">prefers-reduced-motion: everything → 0.01ms<br>flows freeze to their base line, nothing disappears</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACCESSIBILITY ============ -->
+    <section data-screen-label="Accessibility" style="margin-bottom: 72px;">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 28px; letter-spacing: -0.02em;">Accessibility floor</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">non-negotiable · checked before any course ships</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="font-size: 14.5px; font-weight: 700; margin-bottom: 14px;">Contrast pairs</div>
+          <div style="display: flex; flex-direction: column; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+            <div style="display: flex; justify-content: space-between; padding: 9px 13px; border-radius: 9px; background: #0B0B0E;"><span style="color: #F2EFE9;">ink on canvas</span><span style="color: #5EE08C;">15.2:1 ✓</span></div>
+            <div style="display: flex; justify-content: space-between; padding: 9px 13px; border-radius: 9px; background: #111115; border: 1px solid #1E1E24;"><span style="color: #B6B6C0;">body on card</span><span style="color: #5EE08C;">8.1:1 ✓</span></div>
+            <div style="display: flex; justify-content: space-between; padding: 9px 13px; border-radius: 9px; background: #111115; border: 1px solid #1E1E24;"><span style="color: #9598A2;">meta on card</span><span style="color: #5EE08C;">5.3:1 ✓</span></div>
+            <div style="display: flex; justify-content: space-between; padding: 9px 13px; border-radius: 9px; background: #111115; border: 1px solid #1E1E24;"><span style="color: #FFA94D;">cache hue on card</span><span style="color: #5EE08C;">7.9:1 ✓</span></div>
+          </div>
+          <div style="font-size: 12.5px; color: #9598A2; margin-top: 14px; line-height: 1.55;">Every spectrum hue clears 4.5:1 on both surfaces. #6E6E78 is the floor for disabled text and never carries meaning.</div>
+        </div>
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 22px;">
+          <div style="font-size: 14.5px; font-weight: 700; margin-bottom: 14px;">Interaction floor</div>
+          <div style="display: flex; flex-direction: column; gap: 11px; font-size: 13.5px; color: #B6B6C0; line-height: 1.6;">
+            <div style="display: flex; gap: 10px;"><span style="color: #5EE08C;">—</span><span>Every interactive element is focusable; focus ring is 2px #8FA0FF, offset 2.</span></div>
+            <div style="display: flex; gap: 10px;"><span style="color: #5EE08C;">—</span><span>Hit targets ≥ 44px on touch surfaces; chips get invisible padding, not bigger borders.</span></div>
+            <div style="display: flex; gap: 10px;"><span style="color: #5EE08C;">—</span><span>Color never carries meaning alone — status chips always pair hue with a word.</span></div>
+            <div style="display: flex; gap: 10px;"><span style="color: #5EE08C;">—</span><span>Widgets are keyboard-completable: tab to option, enter to select, escape to reset.</span></div>
+          </div>
+          <div style="margin-top: 16px; display: flex; gap: 10px; align-items: center;">
+            <span tabindex="0" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 9px 18px; border-radius: 100px; border: 1px solid #2A2A33; color: #B6B6C0; outline: 2px solid #8FA0FF; outline-offset: 2px;">focused chip</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">← the ring, always</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SYSTEM INDEX ============ -->
+    <section data-screen-label="System index">
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: linear-gradient(170deg, #14141A, #101014); padding: clamp(28px, 4vw, 44px); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+        <h2 style="margin: 0 0 6px; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The complete system.</h2>
+        <p style="margin: 0 0 24px; color: #9C9CA6; font-size: 15px; max-width: 60ch;">Five pages, one language. Start any new course surface from these — never from scratch.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+          <a href="Sage System Design Kit.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #FF7DB1;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #FF7DB1;">The kit · foundation</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Spectrum · icons · emblems · diagram language · systems stage · core widgets</div>
+          </a>
+          <a href="Sage Lesson Layouts.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #FFA94D;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #FFA94D;">Phase 1 · surfaces</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Seven lesson templates · utility icons</div>
+          </a>
+          <a href="Sage Mastery & States.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #F5C64F;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #F5C64F;">Phase 2 · progression</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Tiers · rings · streaks · certificate · six states</div>
+          </a>
+          <a href="Sage Covers & Brand.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #E08FFF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #E08FFF;">Phase 3 · identity</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Monogram · generative covers · social frames</div>
+          </a>
+          <a href="Sage Data Viz & Widgets.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #4FE3CF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #4FE3CF;">Phase 4 · depth</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Chart language · sequence builder · incident replay · recall card</div>
+          </a>
+          <a href="Sage Motion & Standards.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #8FA0FF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #8FA0FF;">Phase 5 · refinement</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Motion spec · accessibility floor · this index</div>
+          </a>
+          <a href="Sage Domain Diagrams.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #E08FFF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #E08FFF;">Phase 6 · domains</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">AI · automation · SWE · security · networking vocabularies · sequence, flow &amp; state diagrams</div>
+          </a>
+          <a href="Sage Code & Comparison.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #6ECBFF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #6ECBFF;">Phase 7 · code &amp; comparison</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Code system · matrices · decision tree · CS visuals</div>
+          </a>
+          <a href="Sage Algorithms in Motion.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #FF7DB1;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #FF7DB1;">Phase 8 · algorithms in motion</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">The algorithm player · sort, search &amp; BFS with code synced to the visual</div>
+          </a>
+          <a href="Sage Data & Cloud.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #4FE3CF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #4FE3CF;">Phase 9 · data &amp; cloud</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Nested cloud zones · k8s · cold starts · dataset anatomy · streaming pipelines</div>
+          </a>
+          <a href="Sage Motion Scenes.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #B79CFF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #B79CFF;">Phase 10 · motion scenes</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Life of a request · consistent-hash ring · backpressure sim · scale-out moment</div>
+          </a>
+          <a href="Sage Directors Cut.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #FF7DB1;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #FF7DB1;">Phase 11 · the director's cut</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Directed scenes · acts on one clock · particle swarms · kinetic counters · film-style scrub</div>
+          </a>
+          <a href="Sage Production Package.dc.html" style="border: 1px solid #26262E; border-radius: 12px; padding: 16px 18px; display: block; transition: border-color 0.2s;" style-hover="border-color: #E08FFF;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #E08FFF;">Phase 12 · the production package</div>
+            <div style="font-size: 14.5px; font-weight: 700; color: #F2EFE9; margin-top: 5px;">Title stinger · three sanctioned transitions · 16:9 branded video frame</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <div style="height: 4px; background: linear-gradient(90deg, #8FA0FF, #B79CFF, #E08FFF, #FF7DB1, #FFA94D, #F5C64F, #5EE08C, #4FE3CF, #6ECBFF);"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { replayKey: 0 };
+  renderVals() {
+    return {
+      replayKey: 'k' + this.state.replayKey,
+      replay: () => this.setState(s => ({ replayKey: s.replayKey + 1 }))
+    };
+  }
+}
+</script>
+</body>
+</html>

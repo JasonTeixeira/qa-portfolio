@@ -20,7 +20,7 @@ export type EcosystemKey = 'method' | 'try' | 'projects' | 'map' | 'catalog' | '
 const STOPS: { key: EcosystemKey; href: string; label: string; blurb: string }[] = [
   { key: 'method', href: '/academy/method', label: 'The method', blurb: 'Why it actually builds senior engineers' },
   { key: 'try', href: '/academy/try', label: 'Try a lesson', blurb: 'Fix real code in your browser — free, no signup' },
-  { key: 'projects', href: '/academy/projects', label: 'What you’ll build', blurb: 'The real artifacts you ship, not a certificate' },
+  { key: 'projects', href: '/academy/labs', label: 'The Labs', blurb: 'Real builds you ship and keep — new ones every month' },
   { key: 'map', href: '/academy/map', label: 'The map', blurb: 'The whole curriculum, connected' },
   { key: 'catalog', href: '/academy/catalog', label: 'Browse courses', blurb: 'Every track, foundations to AI engineering' },
 ]

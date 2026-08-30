@@ -9,6 +9,38 @@ a great voice reading a weak script still dies; this is what makes it stick.
 
 ---
 
+## 0. THE SYNC LAW (non-negotiable — every video, every second)
+People remember ~10% of what they *hear*, ~50–70% of what they *see* — and the
+most when a word and its image hit **at the same instant.** (Dual Coding, Paivio;
+Temporal Contiguity, Mayer; picture-superiority effect.) So:
+
+> **Show what you say — the moment you say it.**
+
+- **Every spoken idea has exactly one visual, timed to the word.** When the voice
+  says *"it made that up,"* the red ✗ stamps **on that word** — not two seconds
+  later, not before.
+- **The visual *shows the thing* the voice names** (the noun, the action) — never
+  decorative, never generic stock. The picture *is* the point being made.
+- **Keyword-on-screen syncs to the spoken word** (reinforce), never the full
+  sentence (that's redundancy — it splits attention and *lowers* recall).
+- **The turn, the failure, and the reveal happen *visually*, on the beat** — the
+  ✗ appears as it fails, the diagram resolves as the idea resolves, the ✓ lands on
+  *"grounded."*
+- **Give a beat.** When a key visual needs to land, pause the voice a half-second so
+  the eye catches up. Silence + one clear image is allowed and powerful.
+- **Nothing on screen without a verbal anchor; nothing spoken without a visual
+  anchor.** If a line has no picture, either cut the line or find the picture.
+- **Scripts are written as aligned rows — VO ↔ VISUAL — so sync is *designed*, not
+  improvised.**
+- **How we nail it technically:** narration is generated with **word-level
+  timestamps** (ElevenLabs with-timestamps), and the composition triggers each
+  keyword/visual off those timestamps — frame-accurate, every time.
+
+If audio and visual aren't locked together, the video doesn't ship. This is the
+staple that makes it *stick.*
+
+---
+
 ## 1. Who's talking (the persona — our unique voice)
 A **senior engineer who has shipped, been burned, and is showing you the real
 thing.** Not a professor. Not a hype guy. Builder to builder.

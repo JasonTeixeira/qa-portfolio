@@ -150,6 +150,7 @@ const TIERS: Tier[] = [
 ]
 
 const OUTCOMES = [
+  'Real, resume-ready builds you ship and keep — new ones every month',
   'A portfolio of decision memos and passing proofs',
   'Retention that holds under pressure — recall at 1/3/7/30 days',
   'Honest mastery scores a reviewer would agree with',
@@ -294,9 +295,8 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             {t('You’re not buying hours of video. You’re buying')}{' '}
             <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>{t('a body of work.')}</em>
           </h1>
-          <p style={{ margin: '20px auto 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '54ch', textWrap: 'pretty' }}>
-            {t('Every plan includes everything — all')} {coursesCount}{' '}
-            {t('courses as they ship, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.')}
+          <p style={{ margin: '20px auto 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '56ch', textWrap: 'pretty' }}>
+            {t('Every plan includes everything — every course as it ships, the full Labs workshop of buildable projects (new ones every month), every proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.')}
           </p>
         </header>
 

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<style>
+  :root{--ink:#fff;--faint:#C7CAD6;--accentblue:#3D5AFE;--pop:'Poppins',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{overflow:hidden;background:#0B0D18}
+  .shot{position:relative;width:100%;height:100%;overflow:hidden;background-size:cover;background-position:center}
+  .scrim{position:absolute;inset:0}
+  .ov{position:absolute;inset:0;display:flex;flex-direction:column}
+  .k{font-family:var(--mono);font-weight:500;color:#B9C2FF;text-transform:uppercase}
+  .t{font-family:var(--pop);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.0;text-shadow:0 3px 22px rgba(0,0,0,.5)}
+  .hl{color:#111219;padding:0 .18em;border-radius:.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .lg{display:flex;align-items:center;gap:.5em;font-family:var(--pop);font-weight:800;color:#fff}
+  .lg .mk{border-radius:22%;background:var(--accentblue);display:grid;place-items:center;flex:none}
+
+  /* 16:9 — text on the left */
+  body[data-r="16x9"] .ov{padding:60px 64px;justify-content:center}
+  body[data-r="16x9"] .scrim{background:linear-gradient(90deg,rgba(9,11,22,.94) 0%,rgba(9,11,22,.6) 34%,transparent 62%)}
+  body[data-r="16x9"] .k{font-size:26px;letter-spacing:.18em}
+  body[data-r="16x9"] .t{font-size:88px;max-width:54%}
+  body[data-r="16x9"] .lg{margin-top:34px;font-size:26px}
+  body[data-r="16x9"] .lg .mk{width:42px;height:42px}
+
+  /* 9:16 — text stacked at the bottom */
+  body[data-r="9x16"] .ov{padding:90px 80px;justify-content:flex-end}
+  body[data-r="9x16"] .scrim{background:linear-gradient(0deg,rgba(9,11,22,.96) 6%,rgba(9,11,22,.55) 34%,transparent 60%)}
+  body[data-r="9x16"] .k{font-size:36px;letter-spacing:.16em}
+  body[data-r="9x16"] .t{font-size:120px;max-width:100%;margin-top:16px}
+  body[data-r="9x16"] .lg{margin-top:48px;font-size:40px}
+  body[data-r="9x16"] .lg .mk{width:62px;height:62px}
+
+  /* 4:5 — text bottom, tighter */
+  body[data-r="4x5"] .ov{padding:70px 66px;justify-content:flex-end}
+  body[data-r="4x5"] .scrim{background:linear-gradient(0deg,rgba(9,11,22,.96) 4%,rgba(9,11,22,.5) 36%,transparent 62%)}
+  body[data-r="4x5"] .k{font-size:30px;letter-spacing:.16em}
+  body[data-r="4x5"] .t{font-size:92px;max-width:100%;margin-top:14px}
+  body[data-r="4x5"] .lg{margin-top:36px;font-size:32px}
+  body[data-r="4x5"] .lg .mk{width:50px;height:50px}
+</style></head>
+<body>
+  <div class="shot" id="shot"><div class="scrim"></div>
+    <div class="ov">
+      <div class="k" id="k"></div>
+      <div class="t" id="t"></div>
+      <div class="lg"><span class="mk" id="mk"></span><span id="brand">Sage Academy</span></div>
+    </div>
+  </div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const dims = { '16x9':[1280,720], '9x16':[1080,1920], '4x5':[1080,1350] };
+  const r = p.get('r') || '16x9';
+  const [w,h] = dims[r] || dims['16x9'];
+  document.body.dataset.r = r;
+  document.documentElement.style.width = w+'px'; document.documentElement.style.height = h+'px';
+  document.body.style.width = w+'px'; document.body.style.height = h+'px';
+  const hero = p.get('hero'); if (hero) document.getElementById('shot').style.backgroundImage = "url('"+hero+"')";
+  document.getElementById('k').textContent = p.get('kicker') || '';
+  const hl = p.get('hl') || '#FF6B4A';
+  const title = (p.get('title')||'').replace('<hl>','<span class="hl" style="background:'+hl+'">').replace('</hl>','</span>');
+  document.getElementById('t').innerHTML = title;
+  const s = r==='9x16'?36:r==='4x5'?30:20;
+  document.getElementById('mk').innerHTML = '<svg width="'+s+'" height="'+s+'" viewBox="0 0 64 64" fill="none"><g transform="translate(0 -6)"><path d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z" fill="none" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><circle cx="26" cy="54" r="3.8" fill="#fff"/><circle cx="36" cy="54" r="3.8" fill="#fff"/><circle cx="46" cy="54" r="3.8" fill="#fff"/></g></svg>';
+  document.title = 'thumb '+r;
+</script>
+</body></html>

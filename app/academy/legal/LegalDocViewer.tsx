@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './legal.module.css'
 
 type Section = {
@@ -92,9 +93,7 @@ export function LegalDocViewer() {
     <div className={styles.root}>
       <div className={styles.topbar}>
         <Link href="/academy" className={styles.brand}>
-          <span className={styles.diamond} aria-hidden="true">
-            ◆
-          </span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandName}>Sage Academy</span>
         </Link>
         <span className={styles.topnote}>

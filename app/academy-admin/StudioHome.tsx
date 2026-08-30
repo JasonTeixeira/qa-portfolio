@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { saveCourse } from './_actions'
 import type { AdminCourseRow } from '@/lib/academy/admin'
 import { Icon } from '@/components/academy/ui/Icon'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './studio.module.css'
 
 const TOPICS = ['foundations', 'ai-engineering', 'ship-it', 'growth', 'data']
@@ -40,7 +41,7 @@ export function StudioHome({ courses, fieldNoteCount }: { courses: AdminCourseRo
     <div className={styles.shell}>
       <header className={styles.appBar}>
         <Link href="/academy-admin" className={styles.brand}>
-          <span className={styles.logoTile} aria-hidden="true">◆</span>
+          <SageMark size={24} radius={7} bg="#E0A93E" fg="#0B0B0E" glow={false} />
           <span className={styles.wordmark}>Sage Studio</span>
           <span className={styles.authorPill}>Author</span>
         </Link>

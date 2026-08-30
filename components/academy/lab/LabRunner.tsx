@@ -7,6 +7,7 @@ import { verifyLab } from '@/app/academy/_actions/evidence'
 import { useSound } from '@/hooks/useSound'
 import { Icon } from '@/components/academy/ui/Icon'
 import { loadRuntime, normalizeLanguage, RUNTIME_LABEL, RUNTIME_FILE, type LabRuntime } from './runtimes'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './lab.module.css'
 
 type Status = 'loading' | 'ready' | 'running' | 'error'
@@ -133,7 +134,7 @@ export function LabRunner({
     <div className={styles.root}>
       <header className={styles.topbar}>
         <Link href={backHref} className={styles.back}>
-          <span className={styles.mark} aria-hidden="true">◆</span>
+          <SageMark size={24} radius={7} />
           <Icon name="arrow-left" size={13} /> lesson
         </Link>
         <span className={styles.crumb}>

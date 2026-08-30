@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { PublicProfile } from '@/lib/academy/profiles'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './public-profile.module.css'
 
 /** Initials monogram from a display name (max two letters). */
@@ -54,9 +55,7 @@ export function PublicProfileView({ profile }: { profile: PublicProfile; shareUr
     <div className={styles.root}>
       <header className={styles.topbar}>
         <Link href="/academy" className={styles.brand}>
-          <span className={styles.brandMark} aria-hidden="true">
-            ◆
-          </span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandName}>Sage Academy</span>
         </Link>
         <span className={styles.topPath}>public profile · sageideas.dev/academy/u/{profile.handle}</span>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SageMark } from '@/components/academy/brand/SageMark'
 
 type ActiveLink = 'method' | 'courses' | 'projects' | 'why-proof' | 'pricing'
 
@@ -67,22 +68,7 @@ export function AcademyNav({ active }: AcademyNavProps) {
           color: 'inherit',
         }}
       >
-        {/* ◆ is a decorative brand glyph — hidden from assistive technology */}
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'grid',
-            placeItems: 'center',
-            width: 24,
-            height: 24,
-            borderRadius: 7,
-            background: ACCENT,
-            color: '#fff',
-            fontSize: 11,
-          }}
-        >
-          ◆
-        </span>
+        <SageMark size={24} radius={7} />
         <span style={{ fontSize: 14, fontWeight: 700 }}>Sage Academy</span>
       </Link>
 

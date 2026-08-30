@@ -13,6 +13,7 @@ import type { UnitState } from '@/lib/academy/evidence-events-logic'
 import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
 import { NotesPanel } from './NotesPanel'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import type { LessonNote } from '@/lib/academy/notes'
 import { Icon } from '@/components/academy/ui/Icon'
 import { CourseRail } from './CourseRail'
@@ -313,7 +314,7 @@ export function LessonPlayer({
       {/* top bar — mono breadcrumb strip with the ◆ mark + mastery chip (design) */}
       <header className={styles.topbar}>
         <Link href="/academy/dashboard" className={styles.topbarBrand}>
-          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandLabel}>← dashboard</span>
         </Link>
         <span className={styles.crumb}>

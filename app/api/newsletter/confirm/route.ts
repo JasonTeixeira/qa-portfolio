@@ -1,62 +1,38 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import { QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { getDynamoDocClient } from '@/lib/awsDynamo';
-import { nowIso, sha256, subscriberPk, subscriberSk, normalizeEmail } from '@/lib/newsletter';
+import { NextResponse, type NextRequest } from 'next/server'
+import { verifyToken } from '@/lib/newsletter'
+import { addContact } from '@/lib/newsletter-audience'
+import { sendEmail, SITE } from '@/lib/email/send'
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic'
 
-const TABLE = process.env.NEWSLETTER_TABLE_NAME;
-
-function redirect(url: string) {
-  // NextResponse.redirect requires an absolute URL.
-  const base = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3040';
-  return NextResponse.redirect(new URL(url, base), { status: 302 });
+function redirect(path: string) {
+  return NextResponse.redirect(new URL(path, SITE), { status: 302 })
 }
 
+const welcomeHtml = `<!doctype html><html><body style="margin:0;background:#0B0B0E;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#F2EFE9">
+  <div style="max-width:520px;margin:0 auto;padding:40px 24px">
+    <div style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#18B663;font-family:monospace">You're in ✓</div>
+    <h1 style="font-size:26px;line-height:1.2;margin:18px 0 0;font-weight:600">See you Monday.</h1>
+    <p style="color:#B6B6C0;font-size:15px;line-height:1.6;margin:16px 0 0">One real incident, mapped in public — every Monday. No fluff, unsubscribe anytime from any email.</p>
+  </div></body></html>`
+
 export async function GET(req: NextRequest) {
-  const url = new URL(req.url);
-  const emailRaw = url.searchParams.get('email') ?? '';
-  const token = url.searchParams.get('token') ?? '';
+  const token = new URL(req.url).searchParams.get('token') ?? ''
+  const verified = verifyToken(token)
+  if (!verified) return redirect('/field-notes?subscribe=invalid')
 
-  const okRedirect = url.searchParams.get('ok') ?? '/blog';
-  const errRedirect = url.searchParams.get('err') ?? '/blog';
+  // Add to the Resend audience (best-effort — no-op if not configured).
+  await addContact(verified.email)
 
-  const email = normalizeEmail(emailRaw);
-  if (!email || !token) return redirect(errRedirect);
-  if (!TABLE) return redirect(okRedirect);
+  // Best-effort welcome; never block the redirect on it.
+  await sendEmail({
+    to: verified.email,
+    subject: "You're in — the Monday note",
+    templateKey: 'newsletter-welcome',
+    html: welcomeHtml,
+    text: "You're subscribed to the Monday note. One real incident, mapped in public, every Monday. Unsubscribe anytime.",
+    metadata: { source: verified.source },
+  }).catch(() => null)
 
-  const db = getDynamoDocClient();
-  const existing = await db.send(
-    new QueryCommand({
-      TableName: TABLE,
-      KeyConditionExpression: 'pk = :pk AND sk = :sk',
-      ExpressionAttributeValues: {
-        ':pk': subscriberPk(email),
-        ':sk': subscriberSk,
-      },
-      Limit: 1,
-    })
-  );
-
-  const item = existing.Items?.[0] as Record<string, unknown> | undefined;
-  if (!item) return redirect(errRedirect);
-  const currentHash = (item.confirmTokenHash as string | undefined) ?? '';
-  const currentStatus = (item.status as string | undefined) ?? '';
-  if (currentStatus === 'active') return redirect(okRedirect);
-  if (!currentHash || currentHash !== sha256(token)) return redirect(errRedirect);
-
-  await db.send(
-    new UpdateCommand({
-      TableName: TABLE,
-      Key: { pk: subscriberPk(email), sk: subscriberSk },
-      UpdateExpression: 'SET #status = :active, updatedAt = :now, confirmedAt = :now REMOVE confirmTokenHash',
-      ExpressionAttributeNames: { '#status': 'status' },
-      ExpressionAttributeValues: {
-        ':active': 'active',
-        ':now': nowIso(),
-      },
-    })
-  );
-
-  return redirect(okRedirect);
+  return redirect('/field-notes?subscribed=1')
 }

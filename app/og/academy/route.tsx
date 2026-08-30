@@ -80,7 +80,20 @@ export async function GET(req: NextRequest) {
               fontSize: 22,
             }}
           >
-            ◆
+            <svg width="30" height="30" viewBox="0 0 64 64" fill="none">
+              <g transform="translate(0 -6)">
+                <path
+                  d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="4.5"
+                  strokeLinejoin="round"
+                />
+                <circle cx="26" cy="54" r="3.5" fill="#fff" />
+                <circle cx="36" cy="54" r="3.5" fill="#fff" />
+                <circle cx="46" cy="54" r="3.5" fill="#fff" />
+              </g>
+            </svg>
           </div>
           <span style={{ color: '#FAFAFA', fontSize: 22, letterSpacing: '0.12em', fontWeight: 700 }}>
             SAGE ACADEMY

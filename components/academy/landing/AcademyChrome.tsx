@@ -17,6 +17,7 @@ import { LocaleLink } from '@/components/i18n/locale-link'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { useT } from '@/components/i18n/locale-provider'
 import { SageChat, FunnelTelemetry } from './SageChat'
+import { SageMark } from '../brand/SageMark'
 
 const INK = '#F2EFE9'
 const DIM = '#B6B6C0'
@@ -61,21 +62,7 @@ export function AcademyNav() {
       }}
     >
       <LocaleLink href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit' }}>
-        <span
-          style={{
-            display: 'grid',
-            placeItems: 'center',
-            width: 26,
-            height: 26,
-            borderRadius: 8,
-            background: BLUE,
-            color: '#fff',
-            fontSize: 12,
-            boxShadow: '0 0 18px rgba(61,90,254,0.35)',
-          }}
-        >
-          ◆
-        </span>
+        <SageMark size={26} radius={8} />
         <span>
           <span style={{ display: 'block', fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1.15, color: INK }}>
             Sage Academy
@@ -209,21 +196,7 @@ export function AcademyFooter() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '36px 28px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: INK, fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em' }}>
-              <span
-                style={{
-                  display: 'grid',
-                  placeItems: 'center',
-                  width: 26,
-                  height: 26,
-                  borderRadius: 8,
-                  background: BLUE,
-                  color: '#fff',
-                  fontSize: 12,
-                  boxShadow: '0 0 18px rgba(61,90,254,0.35)',
-                }}
-              >
-                ◆
-              </span>
+              <SageMark size={26} radius={8} />
               Sage Academy
             </div>
             <div style={{ ...mono, marginTop: 14, fontSize: 10.5, color: MUTED, lineHeight: 1.8 }}>

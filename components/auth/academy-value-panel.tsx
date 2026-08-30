@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SageMark } from '@/components/academy/brand/SageMark';
 
 /* ── Fixed dark palette (design spec) ── */
 const C = {
@@ -47,21 +48,7 @@ export function AcademyValuePanel() {
           alignSelf: 'flex-start',
         }}
       >
-        <span
-          style={{
-            display: 'grid',
-            placeItems: 'center',
-            width: 26,
-            height: 26,
-            borderRadius: 8,
-            background: C.accent,
-            color: '#fff',
-            fontSize: 12,
-            boxShadow: '0 0 18px rgba(61,90,254,0.35)',
-          }}
-        >
-          ◆
-        </span>
+        <SageMark size={26} radius={8} />
         <span style={{ fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em', color: C.text }}>
           Sage Academy
         </span>

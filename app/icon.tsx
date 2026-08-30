@@ -3,7 +3,7 @@ import { ImageResponse } from 'next/og'
 export const size = { width: 32, height: 32 }
 export const contentType = 'image/png'
 
-/** Branded S-mark favicon — gradient matching the real logo colors */
+/** Sage Academy favicon — the Cloud Native brand mark, white on brand blue. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -14,29 +14,24 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#09090B',
-          borderRadius: 6,
+          background: '#3D5AFE',
+          borderRadius: 7,
         }}
       >
-        {/* Gradient S matching the logo ribbon flow */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 20,
-            fontWeight: 800,
-            fontFamily: 'Georgia, serif',
-            fontStyle: 'italic',
-            background: 'linear-gradient(180deg, #E85D3A 0%, #C7236E 35%, #A8C633 65%, #3D5AFE 100%)',
-            backgroundClip: 'text',
-            color: 'transparent',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          S
-        </div>
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+          <g transform="translate(0 -6)">
+            <path
+              d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z"
+              fill="none"
+              stroke="#fff"
+              strokeWidth="5"
+              strokeLinejoin="round"
+            />
+            <circle cx="26" cy="54" r="3.6" fill="#fff" />
+            <circle cx="36" cy="54" r="3.6" fill="#fff" />
+            <circle cx="46" cy="54" r="3.6" fill="#fff" />
+          </g>
+        </svg>
       </div>
     ),
     { ...size }

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+import { SageMark } from '../brand/SageMark'
+
 /**
  * First-land brand moment: a sub-2s full-screen reveal that dissolves into the
  * homepage and hands off to the hero's cinematic entrance. Guards:
@@ -108,22 +110,15 @@ export function SplashIntro() {
             }}
           />
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
-            <span
+            <SageMark
+              size={76}
+              radius={20}
+              glow={false}
               style={{
-                display: 'grid',
-                placeItems: 'center',
-                width: 76,
-                height: 76,
-                borderRadius: 20,
-                background: '#3D5AFE',
-                color: '#fff',
-                fontSize: 34,
                 boxShadow: '0 0 60px rgba(61,90,254,0.55), 0 0 0 1px rgba(255,255,255,0.06) inset',
                 animation: 'sageSplashMark 0.9s cubic-bezier(0.16,1,0.3,1) both',
               }}
-            >
-              ◆
-            </span>
+            />
             <span
               style={{
                 fontFamily: 'var(--font-serif), Georgia, serif',

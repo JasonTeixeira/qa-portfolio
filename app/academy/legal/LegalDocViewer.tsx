@@ -78,7 +78,7 @@ const DOCS: LegalDoc[] = [
       {
         num: '5',
         title: 'Transfers & processors',
-        body: 'Processors: Stripe (billing), Resend (email), our cloud provider (hosting). EU/UK data is handled under SCCs. The full processor list lives at sageideas.dev/processors.',
+        body: 'Processors: Stripe (billing), Resend (email), our cloud provider (hosting). EU/UK data is handled under SCCs. The current processor list is maintained in our full Privacy Policy at sageideas.dev/legal/privacy.',
       },
     ],
   },
@@ -132,8 +132,8 @@ export function LegalDocViewer() {
       <main className={styles.main}>
         <h1 className={styles.h1}>The fine print, unfine-printed.</h1>
         <p className={styles.subtitle}>
-          Effective July 2026. Each section starts with the honest summary; the
-          binding text follows it.
+          Effective May 2026. Each section starts with the honest summary; the
+          full binding text lives in the documents linked at the bottom.
         </p>
 
         <div className={styles.tabs} role="tablist" aria-label="Legal documents">
@@ -167,9 +167,21 @@ export function LegalDocViewer() {
           </div>
         ))}
 
+        <div style={{ marginTop: 36, padding: '18px 20px', border: '1px solid #1E1E24', borderRadius: 12, background: '#0E0E12' }}>
+          <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF', marginBottom: 12 }}>
+            The full, binding documents
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            <a href="/legal/privacy" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Privacy Policy →</a>
+            <a href="/legal/terms" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Terms of Service →</a>
+            <a href="/legal/cookies" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Cookie Policy →</a>
+            <a href="/legal/msa" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>MSA →</a>
+            <a href="/legal/nda" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>NDA →</a>
+          </div>
+        </div>
+
         <div className={styles.footer}>
-          Questions about any clause: legal@sageideas.dev · Sage Ideas LLC,
-          Delaware
+          Questions about any clause: legal@sageideas.dev · Sage Ideas LLC, a Florida company (Orlando, FL)
         </div>
       </main>
     </div>

@@ -5,7 +5,9 @@ import { sendEmail } from '@/lib/awsSes';
 import { nowIso, randomToken, sha256, subscriberPk, subscriberSk, normalizeEmail } from '@/lib/newsletter';
 import { rateLimit } from '@/lib/rate-limit';
 
-export const dynamic = 'force-static';
+// POST handler reads req.json() + request headers (rate limiting) and writes to
+// DynamoDB/SES — it must run per-request, never be statically evaluated.
+export const dynamic = 'force-dynamic';
 
 const TABLE = process.env.NEWSLETTER_TABLE_NAME;
 const SITE_URL = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL;

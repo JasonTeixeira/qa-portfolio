@@ -78,3 +78,6 @@ public/academy/voice/
 # generated quality scorecards
 proof-artifacts/
 content-studio/brand-board.html
+content-studio/thumbnail-board.html
+content-studio/renders/thumbs/
+content-studio/renders/tb-qc-*.png

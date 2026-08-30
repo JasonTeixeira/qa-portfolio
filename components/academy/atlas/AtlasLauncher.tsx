@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react'
 import { AtlasIntake } from './AtlasIntake'
 
 const SEEN_KEY = 'sage-atlas-v1'
-/** Auto-open after the splash (~2.1s) has cleared, on first visit only. */
-const AUTO_OPEN_DELAY = 2700
+/** Auto-open on first visit only — after the splash (~2.1s) clears AND the
+ *  visitor has had a couple seconds with the hero, so it invites rather than
+ *  interrupts. */
+const AUTO_OPEN_DELAY = 4500
 
 /**
  * Mounts the Atlas intake: a persistent "Find your path" launcher plus a

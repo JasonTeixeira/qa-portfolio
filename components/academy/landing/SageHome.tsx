@@ -6,6 +6,7 @@ import { HeroLab } from './HeroLab'
 import { ProofWall } from './ProofWall'
 import { VideoSection } from './VideoSection'
 import { LabsHomeSection } from './LabsHomeSection'
+import { LABS } from '@/data/academy/labs'
 import { CompareTable } from './CompareTable'
 import { FaqSection } from './FaqSection'
 import { StickyCta } from './StickyCta'
@@ -178,7 +179,7 @@ export async function SageHome() {
               <div style={{ display: 'flex', gap: 28, marginTop: 36, borderTop: `1px solid ${LINE}`, paddingTop: 22, flexWrap: 'wrap' }}>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{coursesCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('courses')}</span></div>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{lessonsCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('lessons')}</span></div>
-                <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>14</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('blocks per lesson')}</span></div>
+                <div><span style={{ ...serif, fontWeight: 600, fontSize: 24, color: '#8FA0FF' }}>{LABS.length}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('builds to ship')}</span></div>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24, color: GREEN }}>100%</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('proofs verifiable')}</span></div>
               </div>
             </div>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#0B0B0E;--s1:#111115;--line:#1E1E24;--line2:#2A2A33;--ink:#F2EFE9;--muted:#9C9CA6;--faint:#6C6E7C;
+    --brand:#3D5AFE;--client:#6ECBFF;--gateway:#8FA0FF;--service:#B79CFF;--db:#5EE08C;--failure:#FF6B6B;
+    --ok:#5EE08C;--warn:#F5C64F;
+    --display:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .stage{width:1920px;height:1080px;position:relative;display:grid;place-items:center;
+    background:radial-gradient(1400px 900px at 50% 32%,rgba(61,90,254,.06),transparent 70%),var(--bg)}
+  .stage::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.045) 1.3px,transparent 1.3px);background-size:40px 40px;opacity:.7}
+  .rail{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--client),var(--db),var(--warn),var(--service),var(--failure),var(--gateway))}
+  .beat{position:relative;z-index:2;width:1520px;display:flex;flex-direction:column;align-items:center;gap:34px;text-align:center}
+  .kicker{font-family:var(--mono);font-size:22px;letter-spacing:.28em;text-transform:uppercase;color:var(--gateway)}
+  .hero{font-family:var(--display);font-weight:600;font-size:150px;line-height:.98;letter-spacing:-.02em}
+  .hero .accent{color:var(--brand)}
+  .big{font-family:var(--display);font-weight:600;font-size:96px;line-height:1.02;letter-spacing:-.015em}
+  .big.accent{color:var(--brand)}
+  .sub{font-size:36px;color:var(--muted);font-weight:500;max-width:1200px;line-height:1.35}
+  .key{font-family:var(--mono);font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);padding:14px 26px;border:1px solid var(--line2);border-radius:12px;background:rgba(255,255,255,.02)}
+  .under{font-size:34px;color:var(--muted);font-weight:500}
+  /* chat */
+  .bubble{font-size:44px;font-weight:600;padding:30px 40px;border-radius:22px;max-width:1200px;line-height:1.25}
+  .bubble.bot{background:var(--s1);border:1px solid var(--line2);color:var(--ink)}
+  .bubble.bot b{color:var(--warn)}
+  .bubble.good{border-color:rgba(94,224,140,.5);background:rgba(94,224,140,.06)}
+  .bubble.invent{border-color:rgba(255,107,107,.35)}
+  .qbubble{font-family:var(--mono);font-size:32px;color:var(--muted);padding:22px 34px;border:1px dashed var(--line2);border-radius:18px}
+  /* stamp */
+  .stamp{font-family:var(--display);font-weight:700;padding:20px 44px;border-radius:16px;transform:rotate(-4deg);font-size:64px;letter-spacing:.01em}
+  .stamp.fail{color:var(--failure);border:5px solid var(--failure)}
+  .stamp.pass{color:var(--ok);border:5px solid var(--ok)}
+  .chip{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:34px;padding:18px 32px;border-radius:14px}
+  .chip.ok{color:var(--ok);border:1px solid rgba(94,224,140,.45);background:rgba(94,224,140,.05)}
+  /* diagram flow */
+  .flow{display:flex;align-items:center;gap:26px}
+  .node{display:flex;flex-direction:column;gap:8px;padding:28px 38px;border-radius:20px;border:2.5px solid;background:rgba(255,255,255,.02);min-width:230px}
+  .node .k{font-family:var(--mono);font-size:20px;letter-spacing:.12em;text-transform:uppercase}
+  .node .n{font-family:var(--display);font-weight:600;font-size:44px;color:var(--ink)}
+  .edge{width:60px;height:3px;background:var(--gateway);position:relative}
+  .edge::after{content:"";position:absolute;right:-2px;top:-6px;border-left:12px solid var(--gateway);border-top:7px solid transparent;border-bottom:7px solid transparent}
+  /* analogy split */
+  .split{display:grid;grid-template-columns:1fr auto 1fr;gap:40px;align-items:center;width:100%}
+  .pane{border:2px solid var(--line2);border-radius:24px;padding:44px;background:rgba(255,255,255,.015);position:relative}
+  .pane .h{font-family:var(--mono);font-size:26px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+  .pane .b{font-family:var(--display);font-weight:600;font-size:60px;line-height:1.05}
+  .pane.weak{border-color:rgba(255,107,107,.4)} .pane.weak .h{color:var(--failure)}
+  .pane.gold{border-color:rgba(94,224,140,.4)} .pane.gold .h{color:var(--ok)}
+  .mini{position:absolute;top:28px;right:34px;font-size:46px}.mini.fail{color:var(--failure)}.mini.pass{color:var(--ok)}
+  .vs{font-family:var(--display);font-style:italic;font-size:48px;color:var(--gateway)}
+  /* close */
+  .handle{font-family:var(--display);font-weight:700;font-size:120px;line-height:1.0;letter-spacing:-.02em}
+  .door{font-family:var(--mono);font-size:40px;letter-spacing:.12em;color:var(--brand)}
+  .mark{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:30px;font-weight:600;margin-top:10px}
+  .mark svg{width:56px;height:56px}
+  /* progress */
+  .prog{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:3}
+  .prog i{width:44px;height:5px;border-radius:3px;background:var(--line2)}
+  .prog i.on{background:var(--brand)}
+  #startbtn{position:absolute;z-index:9;inset:0;display:grid;place-items:center;background:var(--bg);font-family:var(--mono);color:var(--faint);font-size:24px}
+</style></head>
+<body>
+<div class="stage" id="stage"><div class="rail"></div>
+  <div id="startbtn">rag-render · window.__scene(i)</div>
+</div>
+<script>
+const MARK = `<svg viewBox="10 15 48 48" fill="none"><path d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z" fill="none" stroke="#F2EFE9" stroke-width="4.2" stroke-linejoin="round"/><circle cx="26" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="36" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="46" cy="54" r="3.4" fill="#F2EFE9"/></svg>`;
+const scenes = [
+  // 0 — cold open scar
+  `<div class="beat"><div class="bubble bot">You have <b>30 days</b> to request a refund.</div>
+    <div class="stamp fail">✗ MADE IT UP</div><div class="under">Confident. Clean. Total lie — we never had one.</div></div>`,
+  // 1 — it didn't know
+  `<div class="beat"><div class="big">It didn't know.</div><div class="big accent">So it made something up.</div>
+    <div class="sub">And your AI is probably <b style="color:var(--ink)">one line of code</b> from the exact same bug.</div></div>`,
+  // 2 — honesty not smarts
+  `<div class="beat"><div class="kicker">the real problem</div><div class="hero">Honesty,<br><span class="accent">not smarts.</span></div></div>`,
+  // 3 — closed vs open book
+  `<div class="beat"><div class="split"><div class="pane weak"><span class="mini fail">✗</span><div class="h">closed book</div><div class="b">bluffs from<br>memory</div></div>
+    <div class="vs">vs</div><div class="pane gold"><span class="mini pass">✓</span><div class="h">open book</div><div class="b">reads you<br>the page</div></div></div>
+    <div class="key">Answer from the source</div></div>`,
+  // 4 — RAG diagram, grounded
+  `<div class="beat"><div class="flow">
+    <div class="node" style="border-color:var(--client)"><span class="k" style="color:var(--client)">question</span><span class="n">Ask</span></div>
+    <div class="edge"></div>
+    <div class="node" style="border-color:var(--gateway)"><span class="k" style="color:var(--gateway)">retrieve</span><span class="n">Find the page</span></div>
+    <div class="edge"></div>
+    <div class="node" style="border-color:var(--db)"><span class="k" style="color:var(--db)">answer</span><span class="n">From it</span></div></div>
+    <div class="chip ok">✓ grounded · cited [1]</div></div>`,
+  // 5 — still guessing (out of scope)
+  `<div class="beat"><div class="qbubble">Q — something the docs never covered</div>
+    <div class="bubble bot invent">Enterprise refunds process in 5 business days.</div>
+    <div class="stamp fail">✗ STILL GUESSING</div></div>`,
+  // 6 — or don't answer
+  `<div class="beat"><div class="bubble bot good">That's not in the documents.</div>
+    <div class="stamp pass">✓ OR DON'T ANSWER</div><div class="under">One line: if the page doesn't answer it — <b style="color:var(--ink)">don't</b>.</div></div>`,
+  // 7 — proven not vibes
+  `<div class="beat"><svg width="440" height="270" viewBox="0 0 180 120"><path d="M20 110 A70 70 0 0 1 160 110" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="13"/><path d="M20 110 A70 70 0 0 1 160 110" fill="none" stroke="var(--ok)" stroke-width="13" stroke-linecap="round"/><text x="90" y="96" text-anchor="middle" font-family="Fraunces" font-weight="700" font-size="40" fill="#F2EFE9">100%</text></svg>
+    <div class="big">Proven, not vibes.</div><div class="sub"><b style="color:var(--ok)">0 ungrounded claims</b> — a number you could gate a deploy on.</div></div>`,
+  // 8 — close / handle
+  `<div class="beat"><div class="handle">Answer from the source —<br>or don't answer.</div>
+    <div class="door">sageideas.dev/academy</div><div class="mark">${MARK}<span>proof, not paper.</span></div></div>`,
+];
+function build(){ const st=document.getElementById('stage'); return st; }
+window.__scene=(i)=>{
+  document.getElementById('startbtn')?.remove();
+  const st=document.getElementById('stage');
+  st.querySelectorAll('.beat,.prog').forEach(n=>n.remove());
+  st.insertAdjacentHTML('beforeend', scenes[i]);
+  const prog=document.createElement('div'); prog.className='prog';
+  prog.innerHTML=scenes.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('');
+  st.appendChild(prog);
+};
+window.__count=scenes.length;
+</script>
+</body></html>

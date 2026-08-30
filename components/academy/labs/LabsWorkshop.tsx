@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useT } from '@/components/i18n/locale-provider'
 import { LAB_TRACKS, type LabProject, type LabTrack } from '@/data/academy/labs'
 
 const INK = '#F2EFE9'
@@ -36,6 +37,7 @@ function DifficultyMeter({ level, tint }: { level: number; tint: string }) {
 }
 
 function LabCard({ lab, featured }: { lab: LabProject; featured?: boolean }) {
+  const t = useT()
   const track = LAB_TRACKS[lab.track]
   const [hover, setHover] = useState(false)
   return (
@@ -100,7 +102,7 @@ function LabCard({ lab, featured }: { lab: LabProject; featured?: boolean }) {
         }}
       >
         <div style={{ ...mono, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: GREEN, marginBottom: 6 }}>
-          Résumé line
+          {t('Résumé line')}
         </div>
         <div style={{ fontSize: 13, lineHeight: 1.55, color: '#CFE9DA' }}>{lab.resumeLine}</div>
       </div>
@@ -122,7 +124,7 @@ function LabCard({ lab, featured }: { lab: LabProject; featured?: boolean }) {
           }}
         >
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: GREEN }} />
-          {lab.acceptanceChecks.length} checks · proof
+          {lab.acceptanceChecks.length} {t('checks · proof')}
         </span>
       </div>
     </Link>
@@ -132,6 +134,7 @@ function LabCard({ lab, featured }: { lab: LabProject; featured?: boolean }) {
 type SortableTrack = LabTrack | 'all'
 
 export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
+  const t = useT()
   const [track, setTrack] = useState<SortableTrack>('all')
   const [maxDiff, setMaxDiff] = useState<number>(5)
   const [q, setQ] = useState('')
@@ -187,18 +190,18 @@ export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
         {/* Filter bar */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
           <button type="button" onClick={() => setTrack('all')} style={track === 'all' ? chipOn(BLUE) : chipBase}>
-            All · {labs.length}
+            {t('All')} · {labs.length}
           </button>
           {(Object.keys(LAB_TRACKS) as LabTrack[])
-            .filter((t) => trackCounts[t])
-            .map((t) => (
+            .filter((tk) => trackCounts[tk])
+            .map((tk) => (
               <button
-                key={t}
+                key={tk}
                 type="button"
-                onClick={() => setTrack(track === t ? 'all' : t)}
-                style={track === t ? chipOn(LAB_TRACKS[t].tint) : chipBase}
+                onClick={() => setTrack(track === tk ? 'all' : tk)}
+                style={track === tk ? chipOn(LAB_TRACKS[tk].tint) : chipBase}
               >
-                {LAB_TRACKS[t].label} · {trackCounts[t]}
+                {LAB_TRACKS[tk].label} · {trackCounts[tk]}
               </button>
             ))}
         </div>
@@ -208,8 +211,8 @@ export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search builds, stacks, skills…"
-            aria-label="Search builds"
+            placeholder={t('Search builds, stacks, skills…')}
+            aria-label={t('Search builds')}
             style={{
               flex: '1 1 260px',
               minWidth: 0,
@@ -223,7 +226,7 @@ export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
             }}
           />
           <label style={{ ...mono, fontSize: 11.5, color: DIM, display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-            up to
+            {t('up to')}
             <input
               type="range"
               min={1}
@@ -240,7 +243,7 @@ export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
             onClick={() => setNewOnly((v) => !v)}
             style={newOnly ? chipOn(GREEN) : chipBase}
           >
-            ✦ New this month
+            ✦ {t('New this month')}
           </button>
         </div>
 
@@ -260,7 +263,7 @@ export function LabsWorkshop({ labs }: { labs: LabProject[] }) {
 
         {filtered.length === 0 && (
           <div style={{ ...mono, fontSize: 13, color: DIM, padding: '40px 0', textAlign: 'center' }}>
-            No builds match that filter yet — more ship every month.
+            {t('No builds match that filter yet — more ship every month.')}
           </div>
         )}
       </div>

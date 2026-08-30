@@ -7,6 +7,7 @@ import { clusterList } from '@/data/content/clusters'
 import { getAllBlogPosts } from '@/lib/blog-server'
 import { getServiceIndustryPages } from '@/lib/seo/service-industry-pages'
 import { locales, defaultLocale, localeHrefLang } from '@/lib/i18n/config'
+import { LABS } from '@/data/academy/labs'
 
 const SITE = 'https://www.sageideas.dev'
 
@@ -33,6 +34,7 @@ const TRANSLATED_PATHS = new Set<string>([
   '/academy/resources/sprint-loop',
   '/academy/interview/mastery',
   '/academy/interview/guarantee',
+  '/academy/labs',
 ])
 
 /** Build a per-entry sitemap `alternates.languages` hreflang map for a path. */
@@ -191,6 +193,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE}${page.path}`,
       changeFrequency: 'monthly' as const,
       priority: 0.62,
+    })),
+    // Per-lab pages — the buildable projects catalog.
+    ...LABS.map((l) => ({
+      url: `${SITE}/academy/labs/${l.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
   ]
 }

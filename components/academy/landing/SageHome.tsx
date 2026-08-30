@@ -10,6 +10,7 @@ import { LABS } from '@/data/academy/labs'
 import { CompareTable } from './CompareTable'
 import { FaqSection } from './FaqSection'
 import { StickyCta } from './StickyCta'
+import { SplashIntro } from './SplashIntro'
 import { getT } from '@/lib/i18n/t'
 
 /**
@@ -131,6 +132,7 @@ export async function SageHome() {
 
   return (
     <>
+      <SplashIntro />
       <AcademyNav />
       <StickyCta />
       <div
@@ -159,24 +161,24 @@ export async function SageHome() {
         <header style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 104px) clamp(20px, 4vw, 48px) clamp(48px, 6vw, 80px)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(36px, 5vw, 72px)', alignItems: 'center' }}>
             <div style={{ minWidth: 0 }}>
-              <div style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>
+              <div data-reveal style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF', ['--reveal-i' as string]: 0 } as React.CSSProperties}>
                 {t('Engineering judgment · proven, not claimed')}
               </div>
-              <h1 style={{ ...serif, margin: '20px 0 0', fontWeight: 600, fontSize: 'clamp(42px, 5.6vw, 78px)', lineHeight: 0.99, letterSpacing: '-0.028em', textWrap: 'balance' }}>
+              <h1 data-reveal style={{ ...serif, margin: '20px 0 0', fontWeight: 600, fontSize: 'clamp(42px, 5.6vw, 78px)', lineHeight: 0.99, letterSpacing: '-0.028em', textWrap: 'balance', ['--reveal-i' as string]: 1 } as React.CSSProperties}>
                 {t('Learn to think like a senior engineer — and')} <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>{t('prove it.')}</em>
               </h1>
-              <p style={{ margin: '22px 0 0', color: '#9C9CA6', fontSize: 'clamp(16px, 1.3vw, 18px)', maxWidth: '50ch', textWrap: 'pretty' }}>
+              <p data-reveal style={{ margin: '22px 0 0', color: '#9C9CA6', fontSize: 'clamp(16px, 1.3vw, 18px)', maxWidth: '50ch', textWrap: 'pretty', ['--reveal-i' as string]: 2 } as React.CSSProperties}>
                 {coursesCount} {t('courses that end in evidence a reviewer trusts — not a certificate of completion.')}
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 30 }}>
+              <div data-reveal style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 30, ['--reveal-i' as string]: 3 } as React.CSSProperties}>
                 <a href="#offer" style={btnPrimary}>{t('Start with Engineering Judgment')}</a>
                 <Link href="/academy/try" style={btnGhost}>{t('Try a real lesson — no signup')}</Link>
               </div>
-              <p style={{ ...mono, margin: '16px 0 0', fontSize: 11, color: '#9598A2', letterSpacing: '0.02em' }}>
+              <p data-reveal style={{ ...mono, margin: '16px 0 0', fontSize: 11, color: '#9598A2', letterSpacing: '0.02em', ['--reveal-i' as string]: 4 } as React.CSSProperties}>
                 {t('No paid-for testimonials. Instead,')}{' '}
                 <Link href="/academy/how-we-audit" style={{ color: '#8FA0FF', textDecoration: 'underline', textUnderlineOffset: 3 }}>{t('see how we audit our own courses →')}</Link>
               </p>
-              <div style={{ display: 'flex', gap: 28, marginTop: 36, borderTop: `1px solid ${LINE}`, paddingTop: 22, flexWrap: 'wrap' }}>
+              <div data-reveal style={{ display: 'flex', gap: 28, marginTop: 36, borderTop: `1px solid ${LINE}`, paddingTop: 22, flexWrap: 'wrap', ['--reveal-i' as string]: 5 } as React.CSSProperties}>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{coursesCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('courses')}</span></div>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24 }}>{lessonsCount}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('lessons')}</span></div>
                 <div><span style={{ ...serif, fontWeight: 600, fontSize: 24, color: '#8FA0FF' }}>{LABS.length}</span> <span style={{ fontSize: 13, color: '#9598A2' }}>{t('builds to ship')}</span></div>
@@ -185,7 +187,9 @@ export async function SageHome() {
             </div>
 
             {/* hero visual: interactive in-browser lab */}
-            <HeroLab />
+            <div data-reveal style={{ minWidth: 0, ['--reveal-i' as string]: 4 } as React.CSSProperties}>
+              <HeroLab />
+            </div>
           </div>
         </header>
 

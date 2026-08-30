@@ -104,6 +104,53 @@ The visuals *carry the teaching*; they don't repeat the words.
 
 ---
 
+## 6b. Personality & Heartbeat (why people *follow*, not just learn)
+Pedagogy makes it *land*; personality makes them *come back*. This is the North
+Star that keeps 10,000 videos feeling like one person.
+
+**The character (sharpened).** Not "a senior engineer." *This* one:
+- Been **burned by hype and cargo-culting**, and it made him allergic to both.
+  Loves an idea that's *elegantly simple*; rolls his eyes at "it depends."
+- **Dry sense of humor.** Deadpan, self-aware, never zany. The knowing wink.
+- **Tells on himself.** The 3am incident, the bug he shipped, the interview he
+  bombed. His scars are the lesson.
+- **Genuinely delighted** by a clever idea — earned wonder, never hype.
+- Has **takes.** Opinions you could disagree with. That's what invites the comment.
+
+**Rituals (the heartbeat — build these into every episode):**
+- **Cold-open on the break.** No intro, no "hey guys." We *always* open on the
+  thing failing/lying. That's the show's signature — viewers learn to expect it.
+- **The audience is "builders."** Talk to builders, not "guys" or "students."
+- **One handle per episode** — the quotable seven-word line, said twice, called
+  back at the end.
+- **Signature sign-off:** "...the door's in the description. **Proof, not paper.**
+  I'll see you in the next one."
+
+**Retention engineering (past the arc):**
+- **Open a loop early, pay it off late:** "I'll show you the one line that fixes
+  this — but first, watch it break."
+- **Re-hook every ~25s:** "here's the part that broke my brain," "and this is
+  where almost everyone stops," "watch what happens next."
+- **First 3 seconds are sacred** — a scar, a bold claim, or the failure itself.
+  Never a warm-up.
+
+**Emotional dynamics.** Vary the energy — don't stay on one note. Tension → an
+"oh no" low → the relief of the reveal → a breath → the punch of the proof.
+Whisper, build, land.
+
+**One defensible hot take per episode** (backed by proof — on brand):
+*"Most RAG tutorials lie to you."* A spicy, *provable* opinion. It earns the
+comment and the share without a single hype adjective.
+
+**End with a question to the room** (drives comments/algorithm):
+*"What's the worst hallucination you've ever shipped? Tell me below."*
+
+**Humor, calibrated.** Dry, in-context, self-aware. Example texture:
+*"This AI is about to invent a company policy that doesn't exist. With total
+confidence. Honestly? Respect."* Never a joke that costs clarity.
+
+---
+
 ## 7. Voice: do / don't
 **Do:** contractions · "you / I / we / let's" · short sentences · a real scar ·
 one idea · a picture in the mind · an analogy · honest edges · earned wonder.

@@ -8,9 +8,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getT()
   const locale = await getLocale()
   return {
-    title: `${t('The loop-ready guarantee, without the fine-print games')} — Interview Mastery`,
+    title: `${t('How Interview Mastery works — our honest promise')} — Sage Academy`,
     description: t(
-      'Exactly what Interview Mastery promises, what it never promises, and how refunds work — in plain language. Follow your plan for 14 days and your readiness score rises, or you don’t pay.'
+      'Exactly what Interview Mastery gives you, how the scoring works, and what it will never claim — in plain language. Voice mocks, a consistent rubric, a debrief and a drill every session, added to your membership. Cancel anytime.'
     ),
     alternates: localizedAlternates('/academy/interview/guarantee', locale),
   }
@@ -19,23 +19,23 @@ export async function generateMetadata(): Promise<Metadata> {
 const TERMS = [
   {
     glyph: '01',
-    title: 'The promise',
-    body: 'Follow your plan for 14 days — the sessions it schedules, at the level you chose in onboarding — and your readiness score will rise. If it doesn’t, Interview Mastery is free until it does, one month at a time, automatically. No form, no support ticket; the same scoring engine that grades you triggers the credit.',
+    title: 'What you get',
+    body: 'Voice-first mock interviews across all four tracks — intern through senior — that adapt, interrupt, and pressure-test the way a real loop does. Every session is scored against a consistent rubric and ends with a debrief and a specific drill to run before the next one. It is added to your Sage Academy membership; there is nothing extra to install.',
   },
   {
     glyph: '02',
-    title: 'What "following the plan" means',
-    body: 'Completing at least 80% of scheduled sessions in the window. Skipped weeks pause the clock rather than void the guarantee — life happens. Deliberately tanking sessions to farm free months voids it; the transcripts make this obvious, and we read them when a claim looks odd.',
+    title: 'How the scoring works',
+    body: 'The same rubric grades every session, so your readiness score means the same thing this week as it did last week. Scores are capped by your weakest dimension and verdicts use real committee language, including "no hire." The scoring is transparent on purpose: you can see exactly which dimension moved and which one held you back.',
   },
   {
     glyph: '03',
-    title: 'Plain refunds',
-    body: 'First 14 days after purchase: full refund, any reason, even if your score went up. Annual plans: prorated refund of unused months any time in the first 90 days. Refunds land on the original card within 5 business days.',
+    title: 'What it does not promise',
+    body: 'A job. Hiring involves luck, timing, and people we do not control, so we will never claim to land you one. We promise the thing we can measure and you can verify: structured reps and an honest, consistent read on how your interview performance is trending over time.',
   },
   {
     glyph: '04',
-    title: 'The plateau clause',
-    body: 'The guarantee doesn’t expire after your first two weeks. Any time you’re active and your readiness stays flat for two consecutive weeks while following the plan, the next month is credited. Plateaus are our problem to fix, not yours to pay for.',
+    title: 'Cancel anytime',
+    body: 'No lock-in and no long-term contract. Interview Mastery rides on your membership, so if it is not helping you can cancel from your account settings whenever you like and keep access through the end of the period you already paid for.',
   },
 ]
 
@@ -55,7 +55,7 @@ export default async function InterviewGuaranteePage() {
     >
       <main style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 3vw, 32px) 80px' }}>
         <div style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E' }}>
-          {`Interview Mastery · ${t('plain-language policy · 2 minute read')}`}
+          {`Interview Mastery · ${t('plain-language, 2 minute read')}`}
         </div>
         <h1
           style={{
@@ -68,10 +68,10 @@ export default async function InterviewGuaranteePage() {
             maxWidth: '18ch',
           }}
         >
-          {t('The loop-ready guarantee, without the fine-print games.')}
+          {t('How Interview Mastery works — our honest promise.')}
         </h1>
         <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '58ch' }}>
-          {t('Our scoring is honest enough that we can put money on it. Here is exactly what we promise, what we don’t, and how refunds work.')}
+          {t('No hype and no fine print. Here is exactly what you get, how the scoring stays honest, and what we will never claim.')}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 44 }}>
@@ -109,11 +109,11 @@ export default async function InterviewGuaranteePage() {
           }}
         >
           <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#E0A93E', marginBottom: 10 }}>
-            {t('What we will never promise')}
+            {t('The one line to remember')}
           </div>
           <p style={{ margin: 0, fontSize: 14.5, color: '#B6B6C0', maxWidth: '66ch' }}>
             {t(
-              'A job. Hiring involves luck, timing, and people we don’t control. We promise the thing we can measure and you can verify: that your interview performance, scored against a consistent bar, gets better — or you don’t pay.'
+              'We cannot promise a job, and we will not pretend to. What we can promise is the reps and an honest, consistent read on your interview performance — scored against the same bar every time, added to your membership, cancel anytime.'
             )}
           </p>
         </div>

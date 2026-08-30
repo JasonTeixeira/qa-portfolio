@@ -151,10 +151,10 @@ export function AcademyValuePanel() {
             <span style={{ color: C.text }}>12,480</span> engineers
           </span>
           <span>
-            <span style={{ color: C.green }}>2,847</span> proofs this week
+            <span style={{ color: C.green }}>every</span> proof verifiable by code
           </span>
           <span>
-            <span style={{ color: C.text }}>14-day</span> honest guarantee
+            <span style={{ color: C.text }}>cancel</span> anytime, no lock-in
           </span>
         </div>
       </div>

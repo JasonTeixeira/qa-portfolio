@@ -8,9 +8,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getT()
   const locale = await getLocale()
   return {
-    title: t('The ship-proof guarantee, without the fine-print games — Sage Academy'),
+    title: t('Billing & cancellation — Sage Academy'),
     description: t(
-      "Exactly what a Sage Academy membership promises, what it never promises, and how refunds work — in plain language. Ship real, code-verifiable proof in your first 14 days, or you don’t pay."
+      'Exactly what a Sage Academy membership includes, how the 7-day free trial and cancellation work, and how plan changes are prorated — in plain language.'
     ),
     alternates: localizedAlternates('/academy/guarantee', locale),
   }
@@ -19,29 +19,29 @@ export async function generateMetadata(): Promise<Metadata> {
 const TERMS = [
   {
     glyph: '01',
-    title: 'The promise',
-    body: 'Try a full lesson free before you pay a cent — no card, no trial countdown. Then, in your first 14 days as a member, if you haven’t shipped a single piece of real, code-verifiable proof — a passing lab, a built project, a certificate that resolves at a public link — email us and get every dollar back. One line is enough; there is no form-maze.',
+    title: 'What a membership includes',
+    body: 'One price, everything in the academy: every course as it ships, the full Labs workshop of buildable projects, every proof and eval, spaced recall, leagues, and certificates that resolve at a public /verify link anyone can open. New courses are added at no extra charge while you’re a member.',
   },
   {
     glyph: '02',
-    title: 'What "shipped proof" means',
-    body: 'Our proof is verified by code, not self-reported. Labs run against real checks you can’t fake your way past. Certificates resolve at a public /verify link anyone — a hiring manager, a client — can open and confirm. That verifiable output is the thing we put money behind, because it’s the thing that actually moves your career.',
+    title: 'Try before you pay',
+    body: 'You can read a full lesson free — no card, no account required. When you’re ready, every plan starts with a 7-day free trial: full access, and we remind you before it renews. If it isn’t for you, cancel during the trial and you’re never charged.',
   },
   {
     glyph: '03',
-    title: 'Plain refunds',
-    body: 'First 14 days after you upgrade: full refund, any reason, even if you already shipped. Monthly ($25/mo): cancel anytime — access runs to the end of the cycle you paid for, nothing clawed back. Annual ($250/yr): prorated refund of unused months any time in the first 90 days. Refunds land on the original card within 5 business days.',
+    title: 'Cancel anytime — no lock-in',
+    body: 'Cancel from your account in two clicks — no “call to retain,” no hidden downgrade path. When you cancel, access runs to the end of the billing period you already paid for; there is no partial-period refund. Your certificates keep resolving at their public links after you leave — proof you earned stays yours.',
   },
   {
     glyph: '04',
-    title: 'No lock-in, no dark patterns',
-    body: 'Cancel from your account in two clicks — no “call to retain,” no hidden downgrade path. Your certificates keep resolving at their public links after you leave; proof you earned stays yours. We’d rather you stay because the loop is working than because leaving is annoying.',
+    title: 'Plan changes are prorated',
+    body: 'Upgrade from monthly to annual anytime and the unused days on your current period are credited automatically — you never pay for the same week twice. Team seats are per-person and reassignable by an admin at no cost.',
   },
 ]
 
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 
-export default async function GuaranteePage() {
+export default async function BillingPage() {
   const t = await getT()
   return (
     <div
@@ -68,10 +68,10 @@ export default async function GuaranteePage() {
             maxWidth: '20ch',
           }}
         >
-          {t('The ship-proof guarantee, without the fine-print games.')}
+          {t('Billing & cancellation, without the fine-print games.')}
         </h1>
         <p style={{ margin: '18px 0 0', color: '#9C9CA6', fontSize: 17, maxWidth: '60ch' }}>
-          {t('We sell verifiable skill, not a certificate you frame and forget. Our proof is honest enough that we can put money on it. Here is exactly what a membership promises, what it doesn’t, and how refunds work.')}
+          {t('We sell verifiable skill, not a certificate you frame and forget. Here is exactly what a membership includes, how the free trial and cancellation work, and how plan changes are handled — in plain language.')}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 44 }}>
@@ -112,7 +112,7 @@ export default async function GuaranteePage() {
             {t('What we will never promise')}
           </div>
           <p style={{ margin: 0, fontSize: 14.5, color: '#B6B6C0', maxWidth: '66ch' }}>
-            {t('A job, or a paper credential that impresses on its own. Hiring involves luck, timing, and people we don’t control — and the industry is drowning in certificates that mean nothing. We promise the thing we can measure and you can show: real, code-verifiable proof that you can build — or you don’t pay.')}
+            {t('A job, or a money-back guarantee. Hiring involves luck, timing, and people we don’t control, and we don’t offer refunds — so we don’t pretend to. What we do offer is honest: a free lesson before you pay, a 7-day trial, cancel anytime with no lock-in, and real, code-verifiable proof of what you can build.')}
           </p>
         </div>
 

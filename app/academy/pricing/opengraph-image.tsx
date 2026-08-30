@@ -27,7 +27,7 @@ export default function Image() {
           <div style={{ display: 'flex', fontSize: 66, fontWeight: 700, letterSpacing: -2, lineHeight: 1.08, maxWidth: 1000 }}>
             You're not buying hours of video. You're buying a body of work.
           </div>
-          <div style={{ display: 'flex', fontSize: 30, color: '#9C9CA6' }}>$20/mo · $200/yr · 14-day honest guarantee</div>
+          <div style={{ display: 'flex', fontSize: 30, color: '#9C9CA6' }}>$20/mo · $200/yr · cancel anytime</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div

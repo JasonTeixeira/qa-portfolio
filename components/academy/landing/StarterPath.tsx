@@ -5,9 +5,10 @@ import Link from 'next/link'
 
 /**
  * Lead magnet: "The free AI-Engineering Starter Path." The lessons are already
- * public (reciprocity — value first, no wall), so the path shows immediately;
- * the email exchange is for the *guided* version — a paced sequence + build
- * notes delivered over a week. Foot-in-the-door into the nurture funnel.
+ * public (reciprocity — value first, no wall), so the path shows immediately
+ * and IS the value. The email is an honest opt-in to the Monday note (one real
+ * build, mapped in public each week) — not a separate paced drip we haven't
+ * wired. Foot-in-the-door into the nurture funnel.
  */
 
 const INK = '#F2EFE9'
@@ -59,7 +60,7 @@ export function StarterPath() {
       </h1>
       <p style={{ margin: '20px 0 0', color: '#9C9CA6', fontSize: 17.5, lineHeight: 1.6, maxWidth: '56ch' }}>
         Seven steps from “I use AI” to “I can build with it” — real lessons you run in the browser, in the right order.
-        Free to start right now. Want it paced, with my build notes? Drop your email and I&apos;ll send the guided version.
+        Free to start right now, no email needed. Want a weekly nudge? Drop your email for the Monday note — one real build, mapped in public.
       </p>
 
       {/* Email capture */}
@@ -67,7 +68,7 @@ export function StarterPath() {
         <input type="text" name="company" value={honey} onChange={(e) => setHoney(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
         {state === 'done' ? (
           <div style={{ ...mono, display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: GREEN, border: `1px solid rgba(24,182,99,0.4)`, borderRadius: 12, padding: '14px 18px', background: 'rgba(24,182,99,0.06)', width: '100%' }}>
-            ✓ You&apos;re in — the guided path is on its way. Meanwhile, start with step 01 below.
+            ✓ You&apos;re in — the Monday note lands each week. Meanwhile, start with step 01 below.
           </div>
         ) : (
           <>
@@ -77,7 +78,7 @@ export function StarterPath() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@email.com"
-              aria-label="Email for the guided starter path"
+              aria-label="Email for the Monday note"
               style={{ flex: '1 1 240px', minWidth: 0, background: '#111115', border: `1px solid ${LINE}`, borderRadius: 12, padding: '14px 16px', color: INK, fontSize: 15, outline: 'none' }}
             />
             <button
@@ -85,7 +86,7 @@ export function StarterPath() {
               disabled={state === 'loading'}
               style={{ background: ACCENT, color: '#fff', border: 'none', borderRadius: 12, padding: '14px 24px', fontSize: 15, fontWeight: 600, cursor: state === 'loading' ? 'wait' : 'pointer', whiteSpace: 'nowrap' }}
             >
-              {state === 'loading' ? 'Sending…' : 'Send me the path'}
+              {state === 'loading' ? 'Sending…' : 'Get the Monday note'}
             </button>
           </>
         )}

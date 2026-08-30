@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { LABS, labBySlug, LAB_TRACKS } from '@/data/academy/labs'
-import { InteractiveLab } from '@/components/academy/labs/InteractiveLab'
+import { InteractiveLab, hasInteractiveLab } from '@/components/academy/labs/InteractiveLab'
 import { getT } from '@/lib/i18n/t'
 import { getLocale } from '@/lib/i18n/server'
 import { localizedAlternates } from '@/lib/i18n/alternates'
@@ -49,6 +49,9 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
   if (!lab) notFound()
   const t = await getT()
   const track = LAB_TRACKS[lab.track]
+  // Interactive = flagged AND a real in-browser runtime actually renders, so the
+  // "#run" anchor never scrolls to an empty section. Otherwise route to signup.
+  const isInteractive = lab.interactive && hasInteractiveLab(slug)
 
   const kicker: React.CSSProperties = { ...mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', color: ACCENT_INK }
   const h2: React.CSSProperties = { ...serif, margin: '10px 0 0', fontWeight: 600, fontSize: 'clamp(24px, 3vw, 34px)', lineHeight: 1.08, letterSpacing: '-0.02em' }
@@ -77,14 +80,18 @@ export default async function LabDetailPage({ params }: { params: Promise<{ slug
             </h1>
             <p style={{ margin: '20px 0 0', fontSize: 18, lineHeight: 1.6, color: DIM, textWrap: 'pretty' }}>{lab.whatYouBuild}</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 30 }}>
-              <Link href="/academy/signup" style={{ display: 'inline-flex', background: BLUE, color: '#fff', textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '14px 26px', borderRadius: 24, boxShadow: '0 0 22px rgba(61,90,254,0.3)' }}>
-                {lab.interactive ? t('Open the build') : t('Start this build')}
+              <Link href={isInteractive ? '#run' : '/academy/signup'} style={{ display: 'inline-flex', background: BLUE, color: '#fff', textDecoration: 'none', fontSize: 15, fontWeight: 600, padding: '14px 26px', borderRadius: 24, boxShadow: '0 0 22px rgba(61,90,254,0.3)' }}>
+                {isInteractive ? t('Open the build') : t('Start this build')}
               </Link>
             </div>
           </header>
 
-          {/* Playable in-browser lab (renders only for labs with a runtime) */}
-          <InteractiveLab slug={slug} />
+          {/* Playable in-browser lab (renders only for labs with a runtime).
+              Wrapped with id="run" so the header CTA can scroll to it in-page
+              for interactive labs instead of routing away to signup. */}
+          <div id="run">
+            <InteractiveLab slug={slug} />
+          </div>
 
           {/* What it proves */}
           <section style={sectionWrap}>

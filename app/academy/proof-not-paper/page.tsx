@@ -31,6 +31,15 @@ export async function generateMetadata(): Promise<Metadata> {
       "Forget the certificate. Ship the proof. A badge says you showed up. A proof says you can build — and anyone can check it. Our credential isn’t a printable PDF; it’s a verifiable, revocable proof record.",
     ),
     alternates: localizedAlternates('/academy/proof-not-paper', locale),
+    openGraph: {
+      title: t('Proof, not paper · Sage Academy'),
+      description: t('A badge says you showed up. A proof says you can build — and anyone can check it.'),
+      images: ['/og?title=Forget+the+certificate&subtitle=Ship+the+proof'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/og?title=Forget+the+certificate&subtitle=Ship+the+proof'],
+    },
   }
 }
 

@@ -23,7 +23,7 @@ const FAQS: QA[] = [
   },
   {
     q: '$25 a month — what’s the catch?',
-    a: 'None. You start with a 7-day free trial — full access, cancel anytime, and we remind you before it renews. After that it’s $25/month with a 14-day money-back guarantee. No up-front bootcamp bill, no income-share fine print, no lock-in.',
+    a: 'None. You start with a 7-day free trial — full access, cancel anytime, and we remind you before it renews. After that it’s $25/month, and you can cancel whenever you like — access runs to the end of the period you paid for. No up-front bootcamp bill, no income-share fine print, no lock-in.',
   },
   {
     q: 'Will this get me a job?',

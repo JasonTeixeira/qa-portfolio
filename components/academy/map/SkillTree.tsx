@@ -52,11 +52,11 @@ export function SkillTree({ graph, currentTrackId }: { graph: SkillGraph; curren
             const inner = <SkillNode node={n} current={n.id === currentTrackId} />
             const style = { position: 'absolute' as const, left: n.x, top: n.y, width: NODE_DIMS.w, height: NODE_DIMS.h }
             return CLICKABLE.has(n.state) ? (
-              <Link key={n.id} href="/academy/catalog" style={{ ...style, textDecoration: 'none' }} aria-label={`${n.name} — ${n.state}`}>
+              <Link key={n.id} href={`/academy/catalog?track=${n.id}`} style={{ ...style, textDecoration: 'none' }} aria-label={`${n.name} — ${n.state}`} title={n.outcome}>
                 {inner}
               </Link>
             ) : (
-              <div key={n.id} style={style} aria-label={`${n.name} — ${n.state}`}>
+              <div key={n.id} style={style} aria-label={`${n.name} — ${n.state}`} title={n.outcome}>
                 {inner}
               </div>
             )

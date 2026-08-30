@@ -56,7 +56,7 @@
       }
     ],
     "artifact": "An approval-gated agent + audit log + red-team report documenting attempted bypasses",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -119,7 +119,7 @@
       }
     ],
     "artifact": "An input firewall pipeline + labeled attack corpus + precision/recall report on held-out data",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -180,7 +180,7 @@
       }
     ],
     "artifact": "A structured-output extractor + JSON Schema + stress-test suite + conformance report",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -243,7 +243,7 @@
       }
     ],
     "artifact": "A semantic search index + keyword-search baseline + labeled ground truth + retrieval-quality comparison report",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -303,7 +303,7 @@
       }
     ],
     "artifact": "A reusable rate-limiter module + a passing burst/steady-state test suite",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -365,7 +365,7 @@
       }
     ],
     "artifact": "A working job queue + worker + DLQ, with a crash-recovery test suite",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -426,7 +426,7 @@
       }
     ],
     "artifact": "A phased migration script set (expand/backfill/contract) + a dual-reader compatibility test suite",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -487,7 +487,7 @@
       }
     ],
     "artifact": "A re-runnable ETL pipeline (extract/transform/upsert-load) + a passing re-run and crash-resume test suite",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -550,7 +550,7 @@
       }
     ],
     "artifact": "A dependency-free accessible combobox component + a passing axe-core/Playwright a11y suite + a manual screen-reader pass writeup",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -613,7 +613,7 @@
       }
     ],
     "artifact": "A working optimistic-UI list app + a Vitest/RTL suite that exercises both the success and forced-failure paths",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -674,7 +674,7 @@
       }
     ],
     "artifact": "A Playwright E2E suite + CI config + a before/after run log proving the planted regression was caught and the fix restored green",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -736,7 +736,7 @@
       }
     ],
     "artifact": "A committed baseline-screenshot suite + CI config + two run logs (intentional-break fail, no-op pass) + threshold rationale doc",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -925,7 +925,7 @@
       }
     ],
     "artifact": "A working auth service + 3 attack scripts + a pass/fail report for each attack",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false
@@ -987,7 +987,7 @@
       }
     ],
     "artifact": "The fixed program + a regression test + a root-cause writeup naming the exact line and mechanism",
-    "interactive": true,
+    "interactive": false,
     "addedMonth": "2026-08",
     "status": "live",
     "featured": false

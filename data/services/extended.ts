@@ -123,8 +123,8 @@ const aiReliabilityAudit: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '2 weeks', label: 'Median delivery', context: 'every audit' },
-    { value: '50–200', label: 'Eval cases shipped', context: 'production-grounded' },
+    { value: '2 weeks', label: 'Typical delivery', context: 'fixed scope' },
+    { value: '50–200', label: 'Eval cases in scope', context: 'production-grounded' },
     { value: '3+', label: 'Providers compared', context: 'on cost vs quality' },
   ],
   addOns: [
@@ -231,8 +231,8 @@ const ragSystemsEngineering: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '4–6 wk', label: 'Production timeline' },
-    { value: '≥ 0.85', label: 'Typical recall@10', context: 'on tuned corpora' },
-    { value: '< $0.01', label: 'Median cost / query', context: 'after optimization' },
+    { value: '≥ 0.85', label: 'Recall@10 target', context: 'agreed before kickoff' },
+    { value: '< $0.01', label: 'Cost / query target', context: 'after optimization' },
   ],
   addOns: [
     {
@@ -333,7 +333,7 @@ const agentOps: ExtendedTier = {
   resultMetrics: [
     { value: '100%', label: 'Run trace coverage' },
     { value: '< 1 min', label: 'Time to replay any run' },
-    { value: '0', label: 'Runaway $$ incidents post-install', context: 'across deployments' },
+    { value: 'Capped', label: 'Per-run + per-day budgets', context: 'runaway spend prevented' },
   ],
   addOns: [
     {
@@ -434,8 +434,8 @@ const internalAiCopilot: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '4 weeks', label: 'Time to live in Slack' },
-    { value: '60%+', label: 'Typical "answered" rate', context: 'on internal queries' },
-    { value: '< 3s', label: 'Median response latency' },
+    { value: '60%+', label: 'Answered-rate target', context: 'on internal queries' },
+    { value: '< 3s', label: 'Response-latency target' },
   ],
   addOns: [
     {
@@ -618,7 +618,7 @@ const opsAutomationSprint: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '5', label: 'Workflows shipped', context: 'in 1 week' },
-    { value: '> 99%', label: 'Median success rate', context: 'across deployed workflows' },
+    { value: '> 99%', label: 'Success-rate target', context: 'idempotent + retried' },
     { value: '$0', label: 'Vendor lock-in cost', context: 'all open-source where possible' },
   ],
   addOns: [
@@ -700,7 +700,7 @@ const incidentPostmortem: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '< 2 min', label: 'Alert → war-room', context: 'median' },
-    { value: '100%', label: 'Postmortems with timeline', context: 'previously: ~30%' },
+    { value: 'Every', label: 'Incident gets a timeline', context: 'auto-collected' },
   ],
   addOns: [
     {
@@ -852,7 +852,7 @@ const feedbackRouter: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '3 weeks', label: 'Time to live' },
-    { value: '60–80%', label: 'Typical dedup ratio', context: 'after first month' },
+    { value: '60–80%', label: 'Dedup-ratio target', context: 'after first month' },
   ],
   addOns: [
     {
@@ -921,7 +921,7 @@ const dataHygieneBot: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '12+', label: 'Audits shipped' },
+    { value: '12+', label: 'Data-quality audits', context: 'in base scope' },
     { value: '$0/mo', label: 'Hosting cost', context: 'GitHub Actions' },
   ],
   addOns: [],
@@ -994,7 +994,7 @@ const docsAsProduct: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '3 weeks', label: 'Time to live' },
-    { value: '40–60%', label: 'Typical "answered" rate', context: 'after tuning' },
+    { value: '40–60%', label: 'Answered-rate target', context: 'after tuning' },
   ],
   addOns: [
     {
@@ -1083,7 +1083,7 @@ const aiOnboarding: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '4 weeks', label: 'Time to live' },
-    { value: '15–35%', label: 'Typical activation lift', context: 'against control' },
+    { value: '15–35%', label: 'Activation-lift target', context: 'measured against control' },
   ],
   addOns: [
     {
@@ -1173,7 +1173,7 @@ const supportDeflection: ExtendedTier = {
   ],
   resultMetrics: [
     { value: '4 weeks', label: 'Time to live' },
-    { value: '25–45%', label: 'Typical 90-day deflection lift' },
+    { value: '25–45%', label: '90-day deflection-lift target' },
   ],
   addOns: [
     {
@@ -1368,7 +1368,7 @@ const foundersTechPartner: ExtendedTier = {
   ],
   deliverables: [
     'Weekly 30-min strategy call',
-    'Async Slack for in-between questions (24-hour response SLA)',
+    'Async Slack for in-between questions (typically same or next business day)',
     'One shipped piece of work / month (build, audit, hire-rubric, vendor pick, etc.)',
     'Quarterly written check-in',
   ],
@@ -1384,8 +1384,8 @@ const foundersTechPartner: ExtendedTier = {
   ],
   phases: [],
   resultMetrics: [
-    { value: '12', label: 'Shipped artifacts/year' },
-    { value: '< 24h', label: 'Slack response SLA' },
+    { value: '12', label: 'Shipped artifacts/year', context: 'one per month' },
+    { value: 'Async', label: 'Slack updates', context: 'business days' },
   ],
   addOns: [],
   caseStudySlugs: [],
@@ -1449,7 +1449,7 @@ const stackXray: ExtendedTier = {
   name: 'Stack X-Ray',
   shortName: 'Stack X-Ray',
   category: 'diagnostics',
-  tagline: 'Tooling spend + integration debt audit. Find $X/month and 5 automation wins.',
+  tagline: 'Tooling spend + integration debt audit. Find the automation wins hiding in your stack — mapped and prioritized.',
   description:
     'A 5-day diagnostic of your full tool stack. Spend, overlap, integration debt, automation gaps, vendor risk. Output: a 1-page savings + automation report you can act on this quarter.',
   price: '$1,200',
@@ -1761,7 +1761,7 @@ const aiImplementationConsulting: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '2 weeks', label: 'Median delivery', context: 'every consult' },
+    { value: '2 weeks', label: 'Typical delivery', context: 'fixed scope' },
     { value: '3', label: 'Ranked opportunities', context: 'with cost models' },
     { value: '100%', label: 'Credit toward build', context: 'within 60 days' },
   ],
@@ -1890,7 +1890,7 @@ const aiAgentDevelopment: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '4 weeks', label: 'Median delivery', context: 'spec to launch' },
+    { value: '4 weeks', label: 'Typical delivery', context: 'spec to launch' },
     { value: '30–80', label: 'Eval cases at launch', context: 'real-workflow grounded' },
     { value: '$50–$400', label: 'Typical run cost / mo', context: 'small business volume' },
   ],
@@ -2015,7 +2015,7 @@ const aiVoiceAgent: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '3 weeks', label: 'Median delivery', context: 'spec to live calls' },
+    { value: '3 weeks', label: 'Typical delivery', context: 'spec to live calls' },
     { value: '$0.10–$0.50', label: 'Cost per call', context: 'all-in (telco + LLM + TTS)' },
     { value: '24/7', label: 'Coverage', context: 'never misses a call' },
   ],
@@ -2142,7 +2142,7 @@ const aiLeadEngine: ExtendedTier = {
     },
   ],
   resultMetrics: [
-    { value: '4 weeks', label: 'Median delivery', context: 'spec to first leads' },
+    { value: '4 weeks', label: 'Typical delivery', context: 'spec to first leads' },
     { value: 'Approval-gated', label: 'Outreach quality', context: 'no auto-spam' },
     { value: '$200–$800', label: 'Typical tooling / mo', context: 'small business volume' },
   ],

@@ -118,6 +118,20 @@ export function FieldNotesList({ notes }: FieldNotesListProps) {
 
       {/* Note rows */}
       <div style={{ border: '1px solid #1E1E24', borderRadius: 14, overflow: 'hidden' }}>
+        {visible.length === 0 ? (
+          <div
+            style={{
+              padding: '40px 24px',
+              textAlign: 'center',
+              fontFamily: MONO,
+              fontSize: 12.5,
+              color: '#9598A2',
+              background: '#111115',
+            }}
+          >
+            No notes in this category yet.
+          </div>
+        ) : null}
         {visible.map((note) => (
           <Link
             key={note.slug}

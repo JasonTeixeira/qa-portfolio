@@ -360,7 +360,7 @@ function ReviewCard() {
   return (
     <>
       <div style={{ ...mono, display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: MUTED }}>
-        <span>MASTERY</span>
+        <span>MASTERY · illustrative</span>
         <span style={{ color: AMBER }}>78</span>
       </div>
       <div style={{ position: 'relative', height: 8, borderRadius: 4, background: '#1A1A20' }}>
@@ -378,7 +378,7 @@ function RepairCard() {
       <span style={{ ...serif, fontWeight: 600, fontSize: 34, color: CORAL }}>71</span>
       <span style={{ color: FAINT, fontSize: 18 }}>→</span>
       <span style={{ ...serif, fontWeight: 600, fontSize: 34, color: GREEN }}>94</span>
-      <span style={{ ...mono, fontSize: 10.5, color: MUTED, marginLeft: 'auto' }}>the repair IS the lesson</span>
+      <span style={{ ...mono, fontSize: 10.5, color: MUTED, marginLeft: 'auto' }}>illustrative — the repair IS the lesson</span>
     </div>
   )
 }

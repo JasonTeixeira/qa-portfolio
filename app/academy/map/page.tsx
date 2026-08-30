@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: t('The Map — every track, one path — Sage Academy'),
     description: t(
-      'The whole Sage Academy curriculum as a connected skill-tree: foundations to AI engineering, with the prerequisites drawn in. See the path, track your progress, pick your next move.',
+      'The whole Sage Academy curriculum, mapped as a connected skill-tree: foundations to AI engineering, with the prerequisites drawn in. See the path, pick your next move.',
     ),
     alternates: localizedAlternates('/academy/map', locale),
     openGraph: {

@@ -18,7 +18,7 @@ const SITE = 'https://www.sageideas.dev'
  *
  * Honesty deltas (intentional departures, per the no-fake-green rule):
  * - Prices come from ACADEMY_PLANS ($25/mo, $250/yr), not the mock's
- *   $29/$250; the annual note is recomputed (≈ $17/month · billed yearly).
+ *   $29/$250; the annual note is recomputed (≈ $21/month · billed yearly).
  * - The mock's Team tier showed an invented $190/seat price with no Stripe
  *   backing — shown as "Custom" with the same feature list and contact CTA.
  * - The mock's social-proof line ("12,480 engineers · 2,847 proofs shipped
@@ -112,7 +112,7 @@ const TIERS: Tier[] = [
     sideTag: 'save 2 months',
     price: ACADEMY_PLANS.yearly.price,
     per: '/ year',
-    note: '≈ $17/month · billed yearly',
+    note: '≈ $21/month · billed yearly',
     feats: [
       'Everything in the academy',
       'Two months free vs monthly',
@@ -173,10 +173,6 @@ const FAQS = [
   {
     q: 'How much time does it take?',
     a: 'A lesson is 20–40 minutes and ends in a proof. Recall is about six minutes a day. One sprint a week is the intended cadence — this is designed around a job, not instead of one.',
-  },
-  {
-    q: 'What does the guarantee actually mean?',
-    a: "If you finish your first sprint and haven't shipped a proof you'd show a reviewer, tell us within 14 days and we refund in full. We'd rather refund than argue.",
   },
 ]
 
@@ -425,9 +421,9 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               {t('— cancel anytime, we remind you first.')}
             </span>
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-              {t('14-day honest guarantee on every plan: no proof shipped, full refund.')}{' '}
+              {t('Cancel anytime, no lock-in — access runs to the end of the period you paid for.')}{' '}
               <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
-                {t('read the plain-language terms')} →
+                {t('billing & cancellation, in plain language')} →
               </Link>
             </span>
             <span style={{ fontSize: 12.5, color: '#9C9CA6' }}>

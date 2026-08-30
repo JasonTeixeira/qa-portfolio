@@ -193,7 +193,7 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px solid ${LINE}`, paddingTop: 13 }}>
                 <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>{c.meta}</span>
                 <span style={{ ...mono, fontSize: 11, color: c.live ? '#8FA0FF' : '#9598A2' }}>
-                  {c.live ? <>{t('Enroll')} →</> : <>{t('Notify me')} →</>}
+                  {c.live ? <>{t('Enroll')} →</> : <>{t('Join to get notified')} →</>}
                 </span>
               </div>
             </Link>

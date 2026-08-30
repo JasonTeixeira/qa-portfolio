@@ -24,8 +24,8 @@ export function ChallengeView({ note }: ChallengeViewProps) {
     <div className={styles.page}>
       {/* meta bar — honest cadence only, no invented participant counts */}
       <div className={styles.metaBar}>
-        <span className={styles.metaMono}>The Weekly Challenge · one map, all of us</span>
-        <span className={styles.cadence}>new challenge every Monday</span>
+        <span className={styles.metaMono}>This week&apos;s map-along · one map, all of us</span>
+        <span className={styles.cadence}>read the note, map the system, compare</span>
       </div>
 
       {/* hero */}

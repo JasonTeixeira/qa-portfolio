@@ -14,6 +14,7 @@ import {
   extendedCategories,
   extendedTiersByCategory,
 } from '@/data/services/extended'
+import { pricingFaq } from '@/data/services/pricing-faq'
 
 // Recommended on-ramp — the primary accent across the productized grid.
 const RECOMMENDED_SLUG = 'audit'
@@ -390,6 +391,45 @@ export function ServicesEl() {
             { label: 'Operate', detail: 'Documentation, handoff, care plan, or continued studio engagement when the system needs stewardship.' },
           ]}
         />
+      </Section>
+
+      {/* ── Pricing FAQ ────────────────────────────────────────────── */}
+      <Section
+        index="04C"
+        eyebrow="pricing & faq"
+        ariaLabel="Pricing FAQ"
+        heading={
+          <>
+            Questions before{' '}
+            <span className="italic text-[var(--sage-accent)]">you commit.</span>
+          </>
+        }
+        lede="How pricing, scope changes, retainers, and cancellations actually work — in plain terms. Larger catalog engagements are inquiry-first and priced in writing before any work begins."
+        width="max-w-3xl"
+      >
+        <div className="overflow-hidden rounded-[6px] border border-[var(--sage-border)] bg-[var(--sage-surface-1)] divide-y divide-[var(--sage-border)]">
+          {pricingFaq.map((item) => (
+            <details key={item.q} className="group px-5 py-4 sm:px-6">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[var(--sage-ink)]">
+                <span
+                  className="text-[15px] font-normal leading-snug"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
+                  {item.q}
+                </span>
+                <span
+                  aria-hidden
+                  className="shrink-0 text-lg leading-none text-[var(--sage-ink-faint)] transition-transform duration-200 group-open:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 max-w-[64ch] text-[13px] leading-[1.7] text-[var(--sage-ink-muted)]">
+                {item.a}
+              </p>
+            </details>
+          ))}
+        </div>
       </Section>
 
       {/* ── Custom / close ─────────────────────────────────────────── */}

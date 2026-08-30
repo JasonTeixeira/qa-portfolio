@@ -383,7 +383,7 @@ export function LessonPlayer({
                 </ul>
                 <Link href="/academy/join" className={styles.gateBtn}>Start 7-day free trial <Icon name="arrow-right" size={16} /></Link>
                 <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#5A5A64', margin: '12px 0 0' }}>
-                  Cancel anytime · we remind you before day 7 · 14-day money-back
+                  Cancel anytime · we remind you before day 7 · no lock-in
                 </p>
                 {!signedIn ? (
                   <a href="/login?next=/academy/join" className={styles.gateLink}>Already a member? Sign in</a>

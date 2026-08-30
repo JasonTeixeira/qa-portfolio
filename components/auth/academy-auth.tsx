@@ -310,7 +310,7 @@ export function AcademyAuth({
         }}
       >
         {signup
-          ? 'Free to create an account — lesson 07 is open before you ever pay. By continuing you agree to the terms; the 14-day guarantee starts when you do.'
+          ? 'Free to create an account — lesson 07 is open before you ever pay. By continuing you agree to the terms; cancel anytime, no lock-in.'
           : 'Signing in keeps your ledger, progress, and certificates right where you left them.'}
       </p>
 

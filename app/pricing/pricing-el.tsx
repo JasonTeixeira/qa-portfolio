@@ -69,8 +69,8 @@ const ACADEMY_FAQ: Faq[] = [
     a: 'A lesson is 20–40 minutes and ends in a proof. Recall is about six minutes a day. One sprint a week is the intended cadence — this is designed around a job, not instead of one.',
   },
   {
-    q: 'What does the guarantee actually mean?',
-    a: "If you finish your first sprint and haven't shipped a proof you'd show a reviewer, tell us within 14 days and we refund in full. We'd rather refund than argue.",
+    q: 'Can I cancel?',
+    a: 'Anytime, no lock-in — access runs to the end of the period you paid for, and you keep every artifact and proof you shipped. Try a full lesson free first, no card required.',
   },
 ]
 
@@ -426,7 +426,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
           }}
         >
           <span style={{ fontFamily: MONO, fontSize: '10.5px', color: '#959AA2' }}>
-            14-day honest guarantee on every plan: no proof shipped, full refund.
+            Cancel anytime, no lock-in — and a full lesson is free before you pay.
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ display: 'flex' }}>
@@ -436,7 +436,7 @@ export function PricingEl({ monthly, yearly }: PricingElProps) {
               <span style={avatarStyle('#1A1A20', '#959AA2', -7)}>+</span>
             </span>
             <span style={{ fontSize: '12.5px', color: COLORS.softMuted }}>
-              12,480 engineers · 2,847 proofs shipped this week
+              Every proof verifiable by code — no invented numbers, ever.
             </span>
           </span>
         </div>

@@ -146,7 +146,7 @@ export const tiers: Tier[] = [
       },
       {
         q: 'Can the cost be applied to a larger engagement?',
-        a: 'Yes. If you move forward with Ship, Automate, Build, SEO Sprint, Content Engine, or Brand Sprint within 30 days, the full $750 is credited toward that engagement.',
+        a: 'Yes. If you move forward with Ship, Automate, Build, SEO Sprint, Content Engine, or Brand Sprint within 30 days, the full $750 applies toward that engagement.',
       },
       {
         q: 'How much access do you need?',
@@ -188,9 +188,9 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '5 days', label: 'Median delivery', context: 'every audit since 2024' },
-      { value: '10', label: 'Top-priority fixes surfaced', context: 'every audit' },
-      { value: '40%', label: 'Of audits roll into a Ship/Build', context: 'past 12 months' },
+      { value: '~5 days', label: 'Typical turnaround', context: 'audit scope, fixed' },
+      { value: 'Top 10', label: 'Priority fixes surfaced', context: 'ranked by impact / effort' },
+      { value: 'Fixed', label: 'Scope and price', context: 'no surprise change orders' },
     ],
     addOns: [
       {
@@ -304,9 +304,9 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '14 days', label: 'Time to production', context: 'guaranteed' },
-      { value: '95+', label: 'Median Lighthouse score', context: 'across past Ship sites' },
-      { value: '<1.5s', label: 'Median LCP', context: 'measured on production' },
+      { value: '14 days', label: 'Time to production', context: 'fixed sprint window' },
+      { value: '90+', label: 'Lighthouse target', context: 'perf, a11y, SEO, best practices' },
+      { value: '<1.5s', label: 'LCP target', context: 'on launch' },
     ],
     addOns: [
       {
@@ -419,9 +419,9 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '21 days', label: 'Median time to production', context: 'guaranteed' },
-      { value: '70–90%', label: 'Manual hours eliminated', context: 'typical workflow' },
-      { value: '<2%', label: 'Exception rate at steady state', context: 'measured at 30 days' },
+      { value: '21 days', label: 'Time to production', context: 'fixed sprint window' },
+      { value: '70–90%', label: 'Manual hours targeted', context: 'typical workflow' },
+      { value: '<2%', label: 'Exception-rate target', context: 'at steady state' },
     ],
     addOns: [
       {
@@ -543,9 +543,9 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '200+', label: 'SEO checkpoints in audit', context: 'every sprint' },
-      { value: '30 days', label: 'Median time to first ranking lift', context: 'past sprints' },
-      { value: '95+', label: 'Lighthouse SEO score', context: 'sitewide post-sprint' },
+      { value: '200+', label: 'SEO checkpoints', context: 'in the audit' },
+      { value: '30 days', label: 'Fix sprint', context: 'audit to handoff' },
+      { value: '95+', label: 'Lighthouse SEO target', context: 'sitewide post-sprint' },
     ],
     addOns: [
       {
@@ -664,10 +664,10 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '12', label: 'Long-form pieces / quarter', context: 'guaranteed' },
+      { value: '12', label: 'Long-form pieces / quarter', context: '4 per month, scoped' },
       {
         value: '3–9 mo',
-        label: 'Median compounding window',
+        label: 'Typical compounding window',
         context: 'before sustained organic lift',
       },
       {
@@ -798,12 +798,12 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '14 days', label: 'Time to delivered system', context: 'guaranteed' },
+      { value: '14 days', label: 'Time to delivered system', context: 'fixed sprint window' },
       { value: '3', label: 'Considered logo directions', context: 'never 30' },
       {
         value: 'AA',
         label: 'WCAG contrast on every color pair',
-        context: 'shipped, not promised',
+        context: 'part of scope',
       },
     ],
     addOns: [
@@ -913,7 +913,7 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '24', label: 'Long-form pieces / quarter', context: 'guaranteed' },
+      { value: '24', label: 'Long-form pieces / quarter', context: '8 per month, scoped' },
       { value: '3–9 mo', label: 'Compounding window', context: 'typical' },
       { value: 'compounds', label: 'Combined SEO + content moat', context: 'over 3–9 months' },
     ],
@@ -1035,7 +1035,7 @@ export const tiers: Tier[] = [
     resultMetrics: [
       { value: '4–12 wk', label: 'Engagement length', context: 'fixed at scoping' },
       { value: '90 days', label: 'Post-launch support', context: 'included' },
-      { value: '0', label: 'Surprise change orders', context: 'in past Builds' },
+      { value: 'Fixed-fee', label: 'Milestone billing', context: 'no surprise change orders' },
     ],
     addOns: [
       {
@@ -1136,8 +1136,8 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '20 hrs/wk', label: 'Engineering capacity', context: 'guaranteed' },
-      { value: '24h', label: 'Async response SLA', context: 'business days' },
+      { value: '~20 hrs/wk', label: 'Engineering capacity', context: 'per week, scoped' },
+      { value: 'Async', label: 'Updates throughout', context: 'business days' },
       { value: '1', label: 'Surface area owned end-to-end', context: 'per engagement' },
     ],
     addOns: [
@@ -1377,7 +1377,7 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '5 days', label: 'Time to live', context: 'guaranteed' },
+      { value: '5 days', label: 'Time to live', context: 'fixed sprint window' },
       { value: '95+', label: 'Lighthouse', context: 'mobile + desktop' },
       { value: '<1.5s', label: 'LCP', context: 'on launch' },
     ],
@@ -1479,9 +1479,9 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '7-10 days', label: 'Time to live', context: 'guaranteed' },
+      { value: '7-10 days', label: 'Time to live', context: 'fixed sprint window' },
       { value: '95+', label: 'Lighthouse SEO', context: 'sitewide' },
-      { value: '4', label: 'Pages shipped', context: 'every Marketing tier' },
+      { value: '4', label: 'Pages shipped', context: 'fixed scope' },
     ],
     addOns: [
       {
@@ -1583,7 +1583,7 @@ export const tiers: Tier[] = [
       },
     ],
     resultMetrics: [
-      { value: '14 days', label: 'Time to live', context: 'guaranteed' },
+      { value: '14 days', label: 'Time to live', context: 'fixed sprint window' },
       { value: '95+', label: 'Lighthouse SEO', context: 'sitewide' },
       { value: '30 days', label: 'Post-launch support', context: 'included' },
     ],

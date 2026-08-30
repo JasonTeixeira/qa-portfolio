@@ -18,6 +18,15 @@ export async function generateMetadata(): Promise<Metadata> {
       "Twenty years of incidents taught me one thing: the difference between engineers isn’t what they know — it’s what they can defend."
     ),
     alternates: localizedAlternates('/academy/about', locale),
+    openGraph: {
+      title: t('About · Sage Academy'),
+      description: t('Why this exists — from a builder who ships and operates production software solo.'),
+      images: ['/og?title=About&subtitle=The+difference+is+what+you+can+defend'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/og?title=About&subtitle=The+difference+is+what+you+can+defend'],
+    },
   }
 }
 

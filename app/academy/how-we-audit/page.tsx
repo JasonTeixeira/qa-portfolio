@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: t('How we audit ourselves — Sage Academy'),
     description: t(
-      'Before launch we ran our own rule on our own lessons: 18 independent audit passes, every code claim executed, 73 defects found and fixed, re-verified to a 95+ bar. The receipts, in public.'
+      'Before launch we ran our own rule on our own lessons: 18 independent audit passes, every code claim executed, 73 defects found, 47 fixed, re-verified to a 95+ bar. The receipts, in public.'
     ),
     alternates: localizedAlternates('/academy/how-we-audit', locale),
   }

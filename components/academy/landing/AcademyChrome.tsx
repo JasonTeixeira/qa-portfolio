@@ -160,7 +160,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
       { href: '/academy/pricing', label: 'Pricing' },
       { href: '/interview', label: 'Interview Mastery' },
       { href: '/academy/how-we-audit', label: 'How we audit' },
-      { href: '/academy/onboarding', label: 'Placement test' },
+      { href: '/academy/onboarding', label: 'Get started' },
       { href: '/academy/help', label: 'Help center' },
     ],
   },

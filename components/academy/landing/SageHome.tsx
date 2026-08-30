@@ -504,7 +504,7 @@ export async function SageHome() {
               <a href="#lesson" style={{ ...btnGhost, fontSize: 15.5, padding: '15px 32px', borderRadius: 28 }}>{t('See a real lesson')}</a>
             </div>
             <div style={{ ...mono, marginTop: 22, fontSize: 11, color: '#9598A2', display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>{t('the ship-proof guarantee →')}</Link>
+              <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>{t('billing & cancellation →')}</Link>
               <span>{t('cancel anytime')}</span>
               <Link href="/academy/about" style={{ color: '#8FA0FF', textDecoration: 'none' }}>{t("who's behind this →")}</Link>
             </div>
@@ -520,14 +520,14 @@ export async function SageHome() {
                 {t('40 interviews of practice. Before the')} <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#F0C36A' }}>{t('4 that count.')}</em>
               </h2>
               <p style={{ margin: 0, color: '#9C9CA6', maxWidth: '50ch', textWrap: 'pretty' }}>
-                {t('Voice-first mocks that adapt, interrupt, and pressure-test — scored against a consistent bar, every session ending in a debrief and a drill. Added to your membership, backed by the loop-ready guarantee.')}
+                {t('Voice-first mocks that adapt, interrupt, and pressure-test — scored against a consistent bar, every session ending in a debrief and a drill. Added to your membership, cancel anytime.')}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 26, alignItems: 'center' }}>
                 <Link href="/interview" style={{ display: 'inline-flex', alignItems: 'center', color: '#0B0B0E', background: 'linear-gradient(135deg, #F0C36A, #D99A2B)', textDecoration: 'none', fontSize: 15, fontWeight: 700, padding: '15px 26px', borderRadius: 26, boxShadow: '0 0 22px rgba(224,169,62,0.3)', whiteSpace: 'nowrap' }}>
                   {t('Explore Interview Mastery →')}
                 </Link>
                 <Link href="/academy/interview/guarantee" style={{ ...mono, fontSize: 11, color: '#9598A2', textDecoration: 'underline', textUnderlineOffset: 3 }}>
-                  {t('loop-ready guarantee')}
+                  {t('how it works')}
                 </Link>
               </div>
             </div>

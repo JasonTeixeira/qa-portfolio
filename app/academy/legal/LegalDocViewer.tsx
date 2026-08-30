@@ -26,7 +26,7 @@ const DOCS: LegalDoc[] = [
       {
         num: '1',
         title: 'The service',
-        body: 'Sage Academy provides courses, labs, evaluation gates, recall systems, and related tooling on a subscription basis. Features may evolve; material removals of paid functionality entitle you to a prorated refund.',
+        body: 'Sage Academy provides courses, labs, evaluation gates, recall systems, and related tooling on a subscription basis. Features may evolve; if we materially remove paid functionality you can cancel and keep access through the period you paid for.',
       },
       {
         num: '2',
@@ -79,33 +79,6 @@ const DOCS: LegalDoc[] = [
         num: '5',
         title: 'Transfers & processors',
         body: 'Processors: Stripe (billing), Resend (email), our cloud provider (hosting). EU/UK data is handled under SCCs. The current processor list is maintained in our full Privacy Policy at sageideas.dev/legal/privacy.',
-      },
-    ],
-  },
-  {
-    label: 'Refund policy',
-    summary:
-      'The 14-day honest guarantee is real: no proof shipped in your first 14 days, full refund, same-day, no argument. After that, cancel anytime and keep access through your paid period. Annual unused time converts to credit if you downgrade.',
-    sections: [
-      {
-        num: '1',
-        title: 'The honest guarantee',
-        body: 'Within 14 days of your first charge: reply "guarantee" to any billing email for a full refund, processed same business day. We may ask one optional question. Abuse (repeat sign-ups) voids eligibility.',
-      },
-      {
-        num: '2',
-        title: 'After 14 days',
-        body: 'Subscriptions are non-refundable but cancellable — access continues through the period you paid for. Exceptional circumstances (medical, bereavement) are handled case-by-case, generously.',
-      },
-      {
-        num: '3',
-        title: 'Plan changes',
-        body: 'Monthly → annual: unused days credit automatically. Annual → monthly: remaining value converts to account credit at the daily rate. Nobody pays for the same week twice.',
-      },
-      {
-        num: '4',
-        title: 'Team plans',
-        body: 'Unused seats refund at the seat rate within 30 days of purchase. Seat reassignment is free and unlimited.',
       },
     ],
   },

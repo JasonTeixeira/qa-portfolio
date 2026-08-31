@@ -1,9 +1,9 @@
 [
  {
   "slug": "rag",
-  "file": "renders/video/rag-flagship-long.mp4",
-  "thumb": "renders/thumbs-ship/rag-16x9.png",
   "title": "RAG that doesn't lie: answer from the source (or don't)",
+  "file": "renders/video/pub/rag.mp4",
+  "thumb": "renders/thumbs-ship/rag-16x9.png",
   "tags": [
    "RAG",
    "retrieval augmented generation",
@@ -13,41 +13,36 @@
    "vector search",
    "embeddings",
    "LLM evals",
-   "faithfulness",
    "grounding",
-   "AI app development",
-   "prompt engineering",
    "RAG tutorial",
    "build a RAG app"
   ],
-  "desc": "Ship an LLM on your own docs and it answers with total confidence — then makes the answer up. This is how RAG fixes it for real: retrieve the actual page, answer only from it, cite it, refuse when it's not there, and prove it's grounded with a number you can gate a deploy on.\n\nIn this video:\n• Why a bigger model does NOT fix hallucination (it's honesty, not smarts)\n• Retrieval end-to-end: chunk → embed → nearest-neighbor search (top-k)\n• Answering strictly from context, with citations\n• The one-line guardrail that makes it say \"I don't know\"\n• Faithfulness evals — turning \"seems good\" into a number\n\n⏱ Chapters:\n0:00 The problem: AIs make things up\n0:45 Why a bigger model won't help\n1:03 The fix: RAG (open-book)\n1:23 How it works: retrieve + answer\n1:56 The step everyone skips\n2:14 A real example\n2:47 3 common mistakes\n3:12 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#RAG #AIEngineering #LLM #MachineLearning"
+  "desc": "Ship an LLM on your own docs and it answers with total confidence — then makes the answer up. RAG fixes that: retrieve the real page, answer only from it, cite it, refuse when it's not there, and prove it's grounded.\n\nIn this video:\n• Why a bigger model does NOT fix hallucination\n• Retrieval: chunk → embed → nearest-neighbor search\n• Answering strictly from context, with citations\n• The one line that lets it say \"I don't know\"\n• Testing that answers are grounded\n\n⏱ Chapters:\n0:00 The problem: AIs make things up\n0:45 Why a bigger model won't help\n1:03 The fix: RAG (open-book)\n1:23 How it works: retrieve + answer\n1:56 The step everyone skips\n2:14 A real example\n2:47 3 common mistakes\n3:12 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#RAG #AIEngineering #LLM #MachineLearning"
  },
  {
   "slug": "evals",
-  "file": "renders/video/evals.mp4",
-  "thumb": "renders/thumbs-ship/evals-16x9.png",
   "title": "LLM Evals: stop shipping on vibes — test your AI for real",
+  "file": "renders/video/pub/evals.mp4",
+  "thumb": "renders/thumbs-ship/evals-16x9.png",
   "tags": [
    "LLM evals",
    "AI evaluation",
    "LLM-as-judge",
-   "faithfulness",
    "AI testing",
    "prompt engineering",
    "RAG evals",
    "machine learning",
    "AI engineering",
    "model evaluation",
-   "regression testing",
-   "ML testing"
+   "LLMOps"
   ],
-  "desc": "\"It works in the three examples I tried\" is not a test — it's a vibe, and vibes don't survive production. This is how you actually measure an LLM feature so a prompt tweak can't quietly break it.\n\nIn this video:\n• Ground-truth datasets (your answer key)\n• Metrics: exact match, semantic, and LLM-as-judge with a rubric\n• Wiring the score into CI so bad changes can't deploy\n• Slicing the score so a healthy average can't hide a broken category\n• Growing a golden set from real production failures\n\n⏱ Chapters:\n0:00 Why \"it works\" isn't a test\n0:46 Build an eval (3 parts)\n1:18 Scoring: LLM-as-judge\n1:48 The gate: block bad changes\n2:19 The big mistake: averages hide\n2:37 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#LLM #AIEngineering #MachineLearning #LLMOps"
+  "desc": "\"It works in the three examples I tried\" is not a test — it's a guess, and guesses don't survive production. Here's how to actually measure an LLM feature so a prompt tweak can't quietly break it.\n\nIn this video:\n• Ground-truth datasets (your answer key)\n• Scoring with LLM-as-judge and a rubric\n• A gate that blocks regressions before they ship\n• Slicing the score so a broken category can't hide\n\n⏱ Chapters:\n0:00 Why \"it works\" isn't a test\n0:46 Build an eval (3 parts)\n1:18 Scoring: LLM-as-judge\n1:48 The gate: block bad changes\n2:19 The big mistake: averages hide\n2:37 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#LLM #AIEngineering #MachineLearning #LLMOps"
  },
  {
   "slug": "embeddings",
-  "file": "renders/video/embeddings.mp4",
-  "thumb": "renders/thumbs-ship/embeddings-16x9.png",
   "title": "Embeddings & vector search: why \"nearest\" isn't \"relevant\"",
+  "file": "renders/video/pub/embeddings.mp4",
+  "thumb": "renders/thumbs-ship/embeddings-16x9.png",
   "tags": [
    "embeddings",
    "vector search",
@@ -57,18 +52,16 @@
    "nearest neighbor",
    "re-ranking",
    "RAG",
-   "retrieval",
    "AI engineering",
-   "hybrid search",
-   "embedding models"
+   "hybrid search"
   ],
   "desc": "Search that matches meaning instead of keywords — that's embeddings. But the closest vector isn't always the right passage, and that one gap quietly wrecks most RAG demos. Here's the pipeline done right.\n\nIn this video:\n• Embeddings: turning text into meaning-vectors\n• Cosine similarity and nearest-neighbor search\n• Why nearest ≠ most relevant — and how re-ranking fixes it\n• Hybrid search: vectors for meaning + keywords for precision\n\n⏱ Chapters:\n0:00 Keyword search vs meaning\n0:31 What embeddings are\n1:05 Nearest-neighbor search\n1:20 Nearest ≠ relevant\n1:34 Re-ranking (the fix)\n2:02 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#Embeddings #VectorSearch #RAG #AIEngineering"
  },
  {
   "slug": "chunking",
-  "file": "renders/video/chunking.mp4",
-  "thumb": "renders/thumbs-ship/chunking-16x9.png",
   "title": "Chunking: the boring choice that makes or breaks RAG",
+  "file": "renders/video/pub/chunking.mp4",
+  "thumb": "renders/thumbs-ship/chunking-16x9.png",
   "tags": [
    "chunking",
    "RAG",
@@ -79,9 +72,79 @@
    "document processing",
    "AI engineering",
    "LLM",
-   "context window",
    "chunk size"
   ],
-  "desc": "Same docs, same model, garbage answers — nine times out of ten it's not the model, it's how you chopped up the docs. Chunking is a knob, not a guess. Here's how to split so retrieval actually works.\n\nIn this video:\n• Why chunks that are too big dilute and too small lose context\n• Splitting on structure (paragraphs/headings), not character count\n• Overlap so ideas across the seam aren't lost\n• Tagging source for citations\n• Treating chunking as a knob you eval\n\n⏱ Chapters:\n0:00 Why your RAG returns garbage\n0:45 Too big vs too small\n1:10 Split on meaning\n1:24 Overlap the edges\n1:49 Test your chunking\n2:04 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#Chunking #RAG #AIEngineering #LLM"
+  "desc": "Same docs, same model, garbage answers — nine times out of ten it's not the model, it's how you chopped up the docs. Chunking is a knob, not a guess. Here's how to split so retrieval actually works.\n\nIn this video:\n• Why chunks too big dilute and too small lose context\n• Splitting on structure, not character count\n• Overlap so ideas across the seam aren't lost\n• Tagging source for citations\n• Treating chunking as a knob you eval\n\n⏱ Chapters:\n0:00 Why your RAG returns garbage\n0:45 Too big vs too small\n1:10 Split on meaning\n1:24 Overlap the edges\n1:49 Test your chunking\n2:04 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#Chunking #RAG #AIEngineering #LLM"
+ },
+ {
+  "slug": "agents",
+  "title": "AI Agents explained: the loop, the tools, and the leash",
+  "file": "renders/video/pub/agents.mp4",
+  "thumb": "renders/thumbs-ship/agents-16x9.png",
+  "tags": [
+   "AI agents",
+   "LLM agents",
+   "agentic AI",
+   "tool use",
+   "function calling",
+   "AI engineering",
+   "autonomous agents",
+   "agent loop",
+   "ReAct"
+  ],
+  "desc": "A chatbot answers; an agent acts — it books the flight, files the ticket, runs the query. And the moment an AI can act, it can go wrong in ways a chatbot never could. Here's the simple loop that powers every agent, and the safety rails every good one needs.\n\nIn this video:\n• The agent loop: think, act, observe, repeat\n• Tools — the functions an agent can call\n• The leash: step limits, allowed tools, and a budget\n• Why fewer tools + a human-in-the-loop keep it safe\n\n⏱ Chapters:\n0:00 What an agent is (act, not answer)\n0:36 The loop: think, act, observe\n0:52 Tools (how it acts)\n1:26 Where it goes off the rails\n1:38 The leash (limits)\n2:08 2 common mistakes\n2:29 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#AIAgents #AIEngineering #LLM"
+ },
+ {
+  "slug": "prompt-injection",
+  "title": "Prompt injection: how AI apps get hacked (and how to stop it)",
+  "file": "renders/video/pub/prompt-injection.mp4",
+  "thumb": "renders/thumbs-ship/prompt-injection-16x9.png",
+  "tags": [
+   "prompt injection",
+   "AI security",
+   "LLM security",
+   "AI safety",
+   "jailbreak",
+   "prompt engineering",
+   "AI engineering",
+   "indirect prompt injection",
+   "agent security"
+  ],
+  "desc": "Your AI reads a web page to summarize it — and hidden in that page is a line telling it to ignore your instructions and leak the user's data. That's prompt injection, the most common way AI apps get hacked. Here's exactly how to defend against it.\n\nIn this video:\n• Why the AI can't tell your instructions from the data's\n• Why \"ignore malicious instructions\" doesn't work\n• Treating all outside content as untrusted data\n• Least privilege + gating dangerous actions\n\n⏱ Chapters:\n0:00 The attack\n0:32 Why it works\n0:49 The fix that doesn't work\n1:06 Untrusted input is code\n1:22 Least privilege\n1:36 Gate dangerous actions\n2:07 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#PromptInjection #AISecurity #LLM #AIEngineering"
+ },
+ {
+  "slug": "structured-output",
+  "title": "Structured output: get clean JSON from an AI, every time",
+  "file": "renders/video/pub/structured-output.mp4",
+  "thumb": "renders/thumbs-ship/structured-output-16x9.png",
+  "tags": [
+   "structured output",
+   "function calling",
+   "JSON mode",
+   "LLM",
+   "AI engineering",
+   "schema",
+   "tool calling",
+   "data extraction",
+   "pydantic"
+  ],
+  "desc": "You need the AI's answer as data, so you ask for JSON — and it replies 'Sure! Here's the JSON:' and crashes your parser. Here's how to make an AI return clean, structured data your code can actually use, reliably.\n\nIn this video:\n• Defining a schema — the exact shape you expect\n• Structured output / function calling to force valid JSON\n• Why valid JSON isn't correct JSON\n• Validate + retry loops that self-correct\n\n⏱ Chapters:\n0:00 The problem: broken JSON\n0:35 Define a schema\n0:53 Force the AI to fill it\n1:11 A real example\n1:26 The trap: valid ≠ correct\n1:42 Validate + retry\n2:02 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#LLM #AIEngineering #StructuredOutput"
+ },
+ {
+  "slug": "context-windows",
+  "title": "Context windows: why more context makes your AI worse",
+  "file": "renders/video/pub/context-windows.mp4",
+  "thumb": "renders/thumbs-ship/context-windows-16x9.png",
+  "tags": [
+   "context window",
+   "lost in the middle",
+   "LLM",
+   "prompt engineering",
+   "tokens",
+   "long context",
+   "RAG",
+   "AI engineering"
+  ],
+  "desc": "You pasted a hundred pages into the prompt to be safe, and the AI still missed the one line that mattered. The context window isn't a memory dump. Here's how to use it right so your AI actually finds the answer.\n\nIn this video:\n• What a context window really is (a token budget)\n• \"Lost in the middle\" — why buried info gets ignored\n• Packing on purpose: important info at the edges\n• Retrieve + compress instead of stuffing\n\n⏱ Chapters:\n0:00 The problem: 100 pages, missed\n0:28 What a context window is\n0:44 Lost in the middle\n1:00 Pack on purpose\n1:15 Retrieve, don't stuff\n1:55 Recap\n\n🔧 Build this exact system, free, in your browser → https://sageideas.dev/academy\n\n👉 Subscribe for one un-hyped AI-engineering lesson at a time. Proof, not paper.\n\n#LLM #AIEngineering #ContextWindow"
  }
 ]

@@ -14,11 +14,15 @@ const c = new Composio({ apiKey: KEY, toolkitVersions: 'latest' });
 const exec = (s, a) => c.tools.execute(s, { userId: ENT, dangerouslySkipVersionCheck: true, arguments: a });
 
 const CF = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3DWykmKyHYu8fTqj3UjqZPP0CO5';
-const THUMB = { rag: `${CF}/33a783b7-35a2-41f7-be7c-58f7525e6a36.png`, evals: `${CF}/7bacbcb4-620f-4f6b-bb50-e3063a682a13.png`, embeddings: `${CF}/9144460d-822c-40d3-9db7-fc091f755813.png`, chunking: `${CF}/f2496798-9e82-4f5c-afb4-fded4108139b.png` };
-const FILE = { rag: 'renders/video/pub/rag.mp4', evals: 'renders/video/pub/evals.mp4', embeddings: 'renders/video/pub/embeddings.mp4', chunking: 'renders/video/pub/chunking.mp4' };
+const THUMB = {
+  rag: `${CF}/33a783b7-35a2-41f7-be7c-58f7525e6a36.png`, evals: `${CF}/7bacbcb4-620f-4f6b-bb50-e3063a682a13.png`,
+  embeddings: `${CF}/9144460d-822c-40d3-9db7-fc091f755813.png`, chunking: `${CF}/f2496798-9e82-4f5c-afb4-fded4108139b.png`,
+  agents: `${CF}/ff975de7-71ec-4cf5-bb24-de22dc60b5f4.png`, 'prompt-injection': `${CF}/75afa62e-1911-4108-997c-bbc802e28a48.png`,
+  'structured-output': `${CF}/4994f33c-452e-4ea3-aaa8-f469fdf31108.png`, 'context-windows': `${CF}/b093d121-582b-401d-8149-36f885f37e16.png`,
+};
 
 async function uploadNative(slug, m) {
-  const buf = fs.readFileSync(path.resolve(root, FILE[slug]));
+  const buf = fs.readFileSync(path.resolve(root, m.file));
   // 1) authenticated resumable init through the proxy
   const init = await c.tools.proxyExecute({
     toolkitSlug: 'youtube', connectedAccountId: CA,
@@ -37,7 +41,7 @@ async function uploadNative(slug, m) {
 }
 
 const meta = JSON.parse(fs.readFileSync(path.join(root, 'scripts/yt-meta.json'), 'utf8'));
-const only = (arg('only', 'evals,embeddings,chunking')).split(',');
+const only = (arg('only', 'rag,evals,embeddings,chunking,agents,prompt-injection,structured-output,context-windows')).split(',');
 const out = [];
 for (const slug of only) {
   const m = meta.find(x => x.slug === slug); if (!m) { console.log('unknown', slug); continue; }

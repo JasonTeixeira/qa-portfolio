@@ -1,5 +1,10 @@
 # The Sage Teaching Voice
 
+> ⚠️ **SUPERSEDED for script structure + language (2026-08-31).** The clever/cold-open style below
+> was ambiguous and didn't land. **`TEACHING_CLARITY.md` is now the LOCKED standard** for how we
+> WRITE (structure, wording, teaching). This file remains authoritative ONLY for the **Sync Law**,
+> visual grammar, and warmth. When they conflict, CLARITY wins.
+
 The writing system behind every Sage video and lesson. This is the crown jewel —
 a great voice reading a weak script still dies; this is what makes it stick.
 

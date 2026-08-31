@@ -1,0 +1,82 @@
+[
+ {
+  "slug": "rag",
+  "file": "renders/video/rag-flagship-long.mp4",
+  "thumb": "renders/thumbs-ship/rag-16x9.png",
+  "title": "RAG that doesn't lie: answer from the source (or don't)",
+  "tags": [
+   "RAG",
+   "retrieval augmented generation",
+   "LLM",
+   "AI engineering",
+   "hallucination",
+   "vector search",
+   "embeddings",
+   "LLM evals",
+   "faithfulness",
+   "grounding",
+   "AI app development",
+   "prompt engineering"
+  ],
+  "desc": "Ship an LLM on your own docs and it will answer confidently — and make things up. RAG fixes that: retrieve the real page, answer from it, cite it, and refuse when the answer isn't there. Then verify it's grounded with a faithfulness check you can gate a deploy on.\n\nYou'll learn:\n• Why a bigger model doesn't fix hallucination (it's honesty, not smarts)\n• Retrieval: chunk → embed → nearest-neighbor search (top-k)\n• Answering from context + citations\n• The one-line guardrail that makes it say 'I don't know'\n• Faithfulness evals — a number, not a vibe\n\nBuild this exact system, free, in your browser → https://sageideas.dev/academy\n\nProof, not paper."
+ },
+ {
+  "slug": "evals",
+  "file": "renders/video/evals.mp4",
+  "thumb": "renders/thumbs-ship/evals-16x9.png",
+  "title": "LLM Evals: stop shipping on vibes — test your AI for real",
+  "tags": [
+   "LLM evals",
+   "AI evaluation",
+   "LLM-as-judge",
+   "faithfulness",
+   "AI testing",
+   "prompt engineering",
+   "RAG evals",
+   "machine learning",
+   "AI engineering",
+   "model evaluation",
+   "regression testing"
+  ],
+  "desc": "'It works in the three examples I tried' is not a test — it's a vibe. This is how you actually measure an LLM feature: a dataset of real cases, a metric that scores them, and a gate that blocks regressions before they ship.\n\nYou'll learn:\n• Ground-truth datasets (your answer key)\n• Metrics: exact match, semantic, and LLM-as-judge with a rubric\n• Wiring the score into CI so bad changes can't deploy\n• Slicing the score so a healthy average can't hide a broken category\n• Growing a golden set from production failures\n\nBuild the eval harness, free → https://sageideas.dev/academy\n\nProof, not paper."
+ },
+ {
+  "slug": "embeddings",
+  "file": "renders/video/embeddings.mp4",
+  "thumb": "renders/thumbs-ship/embeddings-16x9.png",
+  "title": "Embeddings & vector search: why \"nearest\" isn't \"relevant\"",
+  "tags": [
+   "embeddings",
+   "vector search",
+   "vector database",
+   "semantic search",
+   "cosine similarity",
+   "nearest neighbor",
+   "re-ranking",
+   "RAG",
+   "retrieval",
+   "AI engineering",
+   "hybrid search"
+  ],
+  "desc": "Search that matches meaning, not keywords — that's embeddings. But the closest vector isn't always the right passage, and that gap quietly wrecks RAG demos. Here's the full pipeline done right.\n\nYou'll learn:\n• Embeddings: turning text into meaning-vectors\n• Cosine similarity and nearest-neighbor search\n• Why nearest ≠ most relevant — and how re-ranking fixes it\n• Hybrid search: vectors for meaning + keywords for precision\n\nBuild it, free → https://sageideas.dev/academy\n\nProof, not paper."
+ },
+ {
+  "slug": "chunking",
+  "file": "renders/video/chunking.mp4",
+  "thumb": "renders/thumbs-ship/chunking-16x9.png",
+  "title": "Chunking: the boring choice that makes or breaks RAG",
+  "tags": [
+   "chunking",
+   "RAG",
+   "retrieval augmented generation",
+   "text splitting",
+   "embeddings",
+   "vector search",
+   "document processing",
+   "AI engineering",
+   "LLM",
+   "context window"
+  ],
+  "desc": "Same docs, same model, garbage answers — nine times out of ten it's how you chopped up the docs. Chunking is a knob, not a guess. Here's how to split so retrieval actually works.\n\nYou'll learn:\n• Why chunks that are too big dilute and too small lose context\n• Splitting on structure (paragraphs/headings), not character count\n• Overlap so ideas across the seam aren't lost\n• Tagging source for citations\n• Treating chunking as a knob you eval\n\nBuild it, free → https://sageideas.dev/academy\n\nProof, not paper."
+ }
+]

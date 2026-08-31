@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat, mark, door } = H;
+const card = (c, t, sub) => `<div style="border:2px solid var(--${c});border-radius:18px;padding:26px 34px;min-width:200px"><div style="font-family:var(--display);font-size:34px">${t}</div><div style="font-family:var(--mono);font-size:18px;color:var(--${c});margin-top:8px">${sub}</div></div>`;
+
+const BEATS = [
+ ['01',9, beat(wrap('pop','works',0.2, P.terminal([{t:'case 1  ✓',c:'g'},{t:'case 2  ✓',c:'g'},{t:'case 3  ✓',c:'g'}],{cmd:'▸ the 3 you tried'})), cap('vibe',3.4,'That\'s not a test — <b>that\'s a vibe.</b>'))],
+ ['02',9, beat(`<div class="row">${wrap('rise','tweak',0.3, card('gateway','prompt v1','?'))}<span style="font-size:40px;color:var(--muted)">vs</span>${wrap('rise','better',1.6, card('gateway','prompt v2','?'))}</div>`, cap('blind',4.0,'Better — or did you just break five others? <b>You\'re flying blind.</b>'))],
+ ['03',9, beat(wrap('pop','eval',0.5, P.steps([{l:'a dataset of real cases',c:'client'},{l:'a metric that scores them',c:'service'},{l:'a target you won\'t ship below',c:'db'}])), key('three',5.0,'the eval = dataset + metric + target'))],
+ ['04',9, beat(kicker('answer',0.2,'the dataset = your answer key'), wrap('pop','key',1.0, P.table(['input','expected'],[['refund window?','30 days [§2]'],['who qualifies?','see §4'],['how to file?','see §5']])), cap('beats',4.5,'Twenty checked cases beat twenty thousand you never looked at.'))],
+ ['05',9, beat(wrap('pop','metric',0.4, P.chips(['exact match','semantic similarity','LLM-as-judge'])), cap('rubric',4.5,'For the fuzzy ones — is it <b>faithful</b>, is it <b>relevant</b> — you grade against a rubric.'))],
+ ['06',9, beat(wrap('pop','judge',0.4, P.flow([{l:'answer',icon:'message-square',c:'client'},{l:'+ source',icon:'file-text',c:'service'},{l:'Judge',icon:'scale',c:'gateway'},{l:'score',icon:'badge-check',c:'db'}],{gap:14})), key('rubric',5.0,'a model grades it against a checklist'))],
+ ['07',9, beat(wrap('pop','number',0.5, P.bars([{v:82,l:'',c:'db'},{v:74},{v:91},{v:88},{v:63,c:'warn'},{v:79}],{labels:false})), cap('feeling',4.0,'Run every case → a <b>number</b> you can watch move.'))],
+ ['08',9, beat(wrap('pop','CI',0.4, P.terminal([{t:'eval score: 0.71',c:'r'},{t:'threshold: 0.85'},{t:'✗ deploy blocked',c:'r'}],{cmd:'▸ CI'})), key('deploy',4.5,'below the bar → the deploy fails'))],
+ ['09',9, beat(kicker('improve',0.2,'you “improved” the prompt'), wrap('pop','caught',1.2, P.groupedBars([{v:[88]},{v:[76]}])), stamp('fail','twelve',4.5,'−12% · REGRESSION'))],
+ ['10',9, beat(wrap('pop','average',0.4, P.gauge(88,{label:'88% avg'})), cap('hide',3.5,'A healthy average can <b>hide</b> one broken category.'))],
+ ['11',9, beat(wrap('pop','slice',0.4, P.hbars([{l:'billing',v:94},{l:'refunds',v:91},{l:'shipping',v:88},{l:'enterprise',v:31,c:'failure'}])), key('weak',5.0,'slice the score → the weak spot lights up'))],
+ ['12',9, beat(wrap('pop','Production',0.4, P.flow([{l:'prod failure',icon:'flame',c:'failure'},{l:'golden set',icon:'shield-check',c:'db'}])), cap('meaner',4.0,'Every real failure becomes a new test. Your eval gets <b>meaner</b> every week.'))],
+ ['13',9, beat(wrap('pop','proxy',0.4, `<div class="title">The eval is a <span style="color:var(--warn)">proxy</span>, not the truth.</div>`), cap('overfit',3.5,'Chase it too hard and you overfit. Keep it honest.'))],
+ ['14',9, beat(wrap('rise','whole',0.3, P.steps([{l:'Dataset of real cases',c:'client'},{l:'Metric that scores',c:'service'},{l:'Gate that blocks regressions',c:'warn'},{l:'Slices so nothing hides',c:'ok'}])), key('slices',5.5,'the eval harness'))],
+ ['15',13, beat(wrap('fade','measure',0.3, `<div class="big">You can't ship<br>what you can't <span class="accent">measure.</span></div>`), door('academy',6.5), mark('Proof',9.0))],
+];
+mount(BEATS);
+</script></body></html>

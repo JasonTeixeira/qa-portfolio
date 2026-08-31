@@ -29,6 +29,20 @@ The old "clever" voice was ambiguous and didn't land. This replaces it.
 - **Explain like they're smart but brand new.** Never assume jargon. Never dumb down the idea — just make the words simple.
 - **Every sentence earns its place.** If it doesn't help them understand, cut it.
 
+## Visual density + examples (LOCKED — Jason 2026-08-31)
+- **PACK EVERY BEAT AND EVERY SCENE with a supporting visual — always.** Never a bare text card.
+  Every moment on screen has a diagram, chart, example, animation, or infographic that SHOWS the
+  idea being spoken. If a beat is turning text-heavy, add a visual that illustrates it. Pull from
+  `library/primitives.js` — there's a visual for everything.
+- **Examples, metaphors, and analogies at 220% — always.** Don't stop at one. Layer multiple
+  concrete examples and everyday analogies throughout the lesson. The more ways the idea is shown,
+  the harder it sticks. Over-illustrate on purpose.
+- **Length follows the teaching — never the reverse.** Videos CAN and SHOULD be longer when the
+  topic deserves it. Never cut examples or visuals to save time. Pack it full; let runtime land
+  where it lands.
+- Keep it FLUID, not mechanical: dwell is a natural breath (~0.7s), scenes dissolve smoothly.
+  Dense visuals + continuous narration = a flowing, human lesson, not a slideshow.
+
 ## The test (must pass)
 After watching, the viewer can finish these out loud:
 - "The problem was ______."
@@ -75,7 +89,7 @@ Scaffold lives at `scripts/scenes/_TEMPLATE.mjs` — copy it, rename, fill in.
 1. `scripts/scenes/<slug>.mjs` — write the script to the template.
 2. `node scripts/gen-vo-generic.mjs --scenes scripts/scenes/<slug>.mjs --out renders/vo-<slug>`
 3. `video/<slug>.html` — beats built from `library/primitives.js` + `mount()`.
-4. `node scripts/build-vo.mjs --in renders/vo-<slug> --out renders/video/vo-<slug>.mp3 --durs renders/vo-<slug>/beat-durs.json --hold 2.0`
+4. `node scripts/build-vo.mjs --in renders/vo-<slug> --out renders/video/vo-<slug>.mp3 --durs renders/vo-<slug>/beat-durs.json --hold 0.7`  (0.7s = a natural breath; keeps narration FLOWING, not choppy — never go back to big 2s+ dwells)
 5. `node scripts/render-motion.mjs --comp video/<slug>.html --audio renders/video/vo-<slug>.mp3 --words renders/vo-<slug>/words.json --durs renders/vo-<slug>/beat-durs.json --out renders/video/<slug>.mp4`
 6. thumbnail (thumbnail-recipe.md) → add to gen-descriptions.mjs CFG → `node scripts/yt-native.mjs --only <slug>`
 

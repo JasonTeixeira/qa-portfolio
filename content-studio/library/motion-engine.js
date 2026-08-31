@@ -57,7 +57,7 @@ export const H = {
 const norm = s => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
 function cueTime(key, word, fb) { const wd = (window.__WORDS || {})[key]; if (!wd) return fb; const t = norm(word); const hit = wd.words.find(x => norm(x.w) === t) || wd.words.find(x => norm(x.w).startsWith(t)) || wd.words.find(x => norm(x.w).includes(t)); return hit ? hit.start : fb; }
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x)), eOut = p => 1 - Math.pow(1 - p, 3), eBack = p => { const c = 2.2; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
-const XF = 0.42;
+const XF = 0.55; // scene crossfade — a touch longer for a smoother, more fluid dissolve
 function anim(el, lt) {
   const kind = el.dataset.anim, d = +el.dataset.d || 0, t = +el.dataset.t || 0.6; let p = clamp((lt - d) / t, 0, 1);
   if (el.classList.contains('word')) { const e = eOut(clamp((lt - d) / 0.5, 0, 1)); el.style.opacity = e; el.style.transform = `translateY(${(1 - e) * 22}px)`; return; }

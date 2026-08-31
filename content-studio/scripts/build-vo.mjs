@@ -14,12 +14,10 @@ const outMp3 = path.join(root, arg('out', 'renders/video/vo-full.mp3'));
 const dursOut = path.join(root, arg('durs', path.join(arg('in', 'renders/vo'), 'beat-durs.json')));
 const held = path.join(voDir, '_held');
 fs.mkdirSync(held, { recursive: true });
-const HOLD = +arg('hold', '2.4'); // uniform dwell seconds after each beat's narration
-// optional per-beat overrides for the 9-beat short; else uniform HOLD
-const HOLDS_9 = [2.4, 2.4, 2.8, 3.6, 2.8, 3.0, 3.2, 3.6, 2.8];
+const HOLD = +arg('hold', '0.7'); // dwell seconds after each beat — a natural breath, not dead air
 
 const clips = fs.readdirSync(voDir).filter(f => /^\d.*\.mp3$/.test(f)).sort();
-const HOLDS = clips.length === 9 ? HOLDS_9 : clips.map(() => HOLD);
+const HOLDS = clips.map(() => HOLD);
 const durs = [];
 const listFile = path.join(held, 'concat.txt');
 let list = '';

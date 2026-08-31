@@ -23,7 +23,7 @@ rmSync(work, { recursive: true, force: true }); mkdirSync(work, { recursive: tru
 const q = s => `'${String(s).replace(/'/g, "'\\''")}'`;
 const sh = c => execSync(c, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
 
-const browser = await chromium.launch({ args: ['--force-color-profile=srgb'] });
+const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--allow-file-access-from-files'] });
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 // inject word-level timestamps so the composition lands each visual on its spoken word
 const wordsPath = resolve(ROOT, arg('words', 'renders/vo/words.json'));

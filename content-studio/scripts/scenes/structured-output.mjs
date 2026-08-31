@@ -1,13 +1,12 @@
-// #7 Structured output — "make the model return JSON you can trust"
+// #7 Structured output — CLEAR
 export default [
-  ['01', "You need the model's answer as data your code can use. Instead it says: Sure! Here's the JSON you wanted — and that friendly sentence just crashed your parser."],
-  ['02', "The problem is free text. Your program needs a guaranteed shape — these fields, these types — every single time. Not usually. Every time."],
-  ['03', "So you start with a schema. You declare the exact structure you expect: a name string, an amount number, a date. This is the contract."],
-  ['04', "Then you use structured output — or function calling — to force the model to fill that schema. It can't ramble; it can only return JSON that fits the shape."],
-  ['05', "Extract from an invoice: name, date, amount. Out comes a clean object, keys and types exactly as declared. Your code can trust the shape."],
-  ['06', "But here's the trap that bites people. Valid JSON is not correct JSON. The model can return a perfectly-shaped object with the wrong amount in it. Structure isn't truth."],
-  ['07', "So you still validate, and you still eval. Check the types against the schema — and check the values against reality."],
-  ['08', "And when validation fails, don't crash. Feed the error back to the model — 'amount must be a number' — and let it try again. A retry loop that self-corrects."],
-  ['09', "So the recipe: define a schema, constrain the model to it, validate the result, and retry on failure. Reliable data from an unreliable narrator."],
-  ['10', "Make the model speak your program's language. Learn how, free → sageideas dot dev slash academy. Proof, not paper. I'll see you in the next one."],
+  ['01', "Hey, welcome back. Today you're going to learn how to make an AI return clean, structured data — like JSON — that your code can actually use, reliably, every single time. This is the trick that turns a chatbot into a real building block in your app."],
+  ['02', "Let me show you the problem. Your program needs the AI's answer as data. So you ask it for JSON. And it replies: Sure! Here's the JSON you asked for — and that one friendly sentence just crashed your parser. Free text and code don't mix."],
+  ['03', "So here's the core idea. You need a guaranteed shape. You start by writing a schema — that's just a definition of the exact fields and types you expect back. For example: a name that's text, an amount that's a number, a date. That schema is your contract."],
+  ['04', "Then you use a feature called structured output — sometimes called function calling. It forces the AI to fill in your schema. The AI can't ramble or add a greeting. It can only return JSON that matches the shape you defined."],
+  ['05', "Let me show an example. You give it a messy invoice and your schema. Out comes a clean object: name, date, amount — exactly the fields you asked for, in exactly the right types. Your code can trust the structure."],
+  ['06', "But here's the trap that catches people. Valid JSON is not the same as correct JSON. The AI can return a perfectly-shaped object that has the wrong number in it. The structure is right, but the value is wrong. Shape is not truth."],
+  ['07', "So you don't stop at the shape. You validate. You check the types against your schema, and you check the values against reality. And if it fails, you don't crash — you feed the error back to the AI, like 'amount must be a number,' and let it try again. A little retry loop that fixes itself."],
+  ['08', "So let's recap. Define a schema — the exact shape you want. Force the AI to fill it with structured output. Validate the result. And retry on failure. That's how you get reliable data out of an unreliable narrator."],
+  ['09', "If you want to build this into your own app, for free, head to sageideas dot dev slash academy. That's it for today. Proof, not paper. I'll see you in the next one."],
 ];

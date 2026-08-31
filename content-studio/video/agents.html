@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat } = H;
+const num = items => `<div style="display:flex;flex-direction:column;gap:22px;text-align:left">${items.map((t,i)=>`<div style="display:flex;align-items:flex-start;gap:18px"><span style="flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--${['failure','warn'][i]});color:var(--${['failure','warn'][i]});display:grid;place-items:center;font-family:var(--mono);font-size:20px">${i+1}</span><span style="font-size:32px;font-weight:600;max-width:1000px;line-height:1.3">${t}</span></div>`).join('')}</div>`;
+const BEATS = [
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','Agents',1.0,`<div class="big">AI <span class="accent">Agents</span></div>`), cap('rails',2.8,'The simple loop that powers every agent — and the rails that keep it safe.'))],
+ ['02',10, beat(kicker('new',0.2,"what's different"), wrap('rise','act',1.2,`<div class="row" style="gap:40px"><div style="border:2px solid var(--line2);border-radius:18px;padding:26px 34px;text-align:center"><div style="font-family:var(--display);font-size:30px">Chatbot</div><div style="font-family:var(--mono);font-size:18px;color:var(--muted);margin-top:8px">answers</div></div><span style="color:var(--gateway);font-size:34px">→</span><div style="border:2px solid var(--gateway);border-radius:18px;padding:26px 34px;text-align:center"><div style="font-family:var(--display);font-size:30px;color:var(--brand2)">Agent</div><div style="font-family:var(--mono);font-size:18px;color:var(--gateway);margin-top:8px">acts</div></div></div>`), cap('mess',5.5,'When an AI can act, it can also mess up in ways a chatbot never could.'))],
+ ['03',9, beat(kicker('idea',0.2,'the core idea'), wrap('pop','loop',1.2, P.cycle([{l:'think',icon:'brain'},{l:'act',icon:'zap'},{l:'observe',icon:'eye'}])), key('done',5.5,'an agent is a loop — until the job is done'))],
+ ['04',9, beat(kicker('how',0.2,'it acts with tools'), wrap('pop','tools',1.2, P.flow([{l:'Model',icon:'cpu',tag:'makes text',c:'gateway'},{l:'Tools',icon:'wrench',tag:'functions it can call',c:'service'}])), cap('call',5.0,'A tool is just a function the AI can call — search, book, send email.'))],
+ ['05',10, beat(kicker('example',0.2,'the loop in action'), wrap('pop','flight',1.2, P.flow([{l:'search',icon:'search',c:'client'},{l:'results',icon:'list',c:'service'},{l:'pick',icon:'circle-check',c:'gateway'},{l:'book',icon:'badge-check',c:'db'}],{gap:12})), key('before',6.0,'each step decided from what came back'))],
+ ['06',9, beat(kicker('danger',0.2,'where it gets dangerous'), wrap('pop','forever',1.0, P.cycle([{l:'loop',icon:'refresh-cw'},{l:'∞',icon:'infinity'},{l:'burn',icon:'flame'}])), stamp('fail','rails',5.0,'✗ OFF THE RAILS'))],
+ ['07',10, beat(kicker('fix',0.2,'put it on a leash'), wrap('pop','limits',1.2, P.kpi([{v:'≤ 8',l:'max steps',c:'warn'},{v:'3',l:'allowed tools',c:'client'},{v:'$0.50',l:'budget',c:'db'}])), key('fence',6.0,'free to think — inside a fence you drew'))],
+ ['08',9, beat(kicker('see',0.2,'log every step'), wrap('pop','log',1.2, P.terminal([{t:'▸ think: need flights',c:'d'},{t:'▸ call search_flights()',c:'g'},{t:'▸ observe: 4 results',c:'d'},{t:'▸ call book()',c:'g'}],{cmd:'agent.trace'})), key('debug',5.5,'you can\'t debug what you can\'t see'))],
+ ['09',12, beat(kicker('mistakes',0.2,'2 common mistakes'), wrap('rise','confused',1.2, num(['<b>Too many tools</b> — 30 tools confuse it. Give it a few sharp ones.','<b>No human approval</b> — for money or deletes, put a human in the loop.'])))],
+ ['10',10, beat(kicker('recap',0.2,'recap'), wrap('rise','loop',1.0, P.steps([{l:'A loop: think, act, observe',c:'client'},{l:'Tools to act with',c:'service'},{l:'A leash to stay safe',c:'warn'},{l:'A log of every step',c:'db'}])), key('did',6.5,'that\'s an agent'))],
+ ['11',13, beat(wrap('fade','free',0.3,`<div class="big">Build a safe agent,<br><span class="accent">free.</span></div>`), H.door('academy',5.0), H.mark('Proof',8.0))],
+];
+mount(BEATS);
+</script></body></html>

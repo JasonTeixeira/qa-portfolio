@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat } = H;
+// "lost in the middle" — U-shaped attention curve
+const attnCurve = `<svg viewBox="0 0 460 240" width="640"><rect x="8" y="8" width="444" height="200" rx="12" fill="none" stroke="var(--line2)"/>
+  <path d="M30,50 C110,55 150,180 230,185 C310,180 350,55 430,50" fill="none" stroke="var(--brand2)" stroke-width="3"/>
+  <text x="30" y="230" font-family="var(--mono)" font-size="14" fill="var(--db)">start ▲</text>
+  <text x="205" y="230" font-family="var(--mono)" font-size="14" fill="var(--failure)">middle ▼ ignored</text>
+  <text x="392" y="230" font-family="var(--mono)" font-size="14" fill="var(--db)">end ▲</text></svg>`;
+const BEATS = [
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','window',1.0,`<div class="big">The context <span class="accent">window</span></div>`), cap('lost',2.8,'How to use it right — so your AI finds the answer instead of getting lost.'))],
+ ['02',9, beat(kicker('problem',0.2,'the problem'), wrap('pop','pasted',1.2, P.chat([{u:true,t:'[100 pages of docs pasted…] what\'s the refund window?'},{bad:true,t:'I couldn\'t find that.'}])), cap('hurt',5.0,'More text didn\'t help — it actually <b>hurt.</b>'))],
+ ['03',9, beat(kicker('idea',0.2,'the core idea'), wrap('pop','budget',1.2, `<div class="row" style="gap:20px">${P.icon('layers',60)}<div><div style="font-family:var(--display);font-size:44px">a token budget</div><div style="font-family:var(--mono);font-size:20px;color:var(--muted);margin-top:6px">all the AI can see at once</div></div></div>`), cap('fit',5.0,'Everything the AI knows right now has to fit inside the window.'))],
+ ['04',10, beat(kicker('key',0.2,'"lost in the middle"'), wrap('pop','middle',1.2, attnCurve), key('ignored',6.0,'the middle gets ignored — so more isn\'t better'))],
+ ['05',9, beat(kicker('fix',0.2,'pack on purpose'), wrap('pop','edges',1.2, P.bars([{v:95,c:'db'},{v:40,c:'gateway'},{v:25,c:'gateway'},{v:35,c:'gateway'},{v:92,c:'db'}])), key('edges',5.5,'put the important stuff first and last'))],
+ ['06',9, beat(kicker('fix',0.2,"don't stuff — retrieve"), wrap('pop','relevant',1.2, P.flow([{l:'question',icon:'message-square',c:'client'},{l:'pull few',icon:'search',c:'gateway'},{l:'small window',icon:'layers',c:'db'}])), key('sharp',5.5,'keep the window small and sharp'))],
+ ['07',9, beat(kicker('fix',0.2,'compress long history'), wrap('pop','summarize',1.2, P.flow([{l:'long chat',icon:'message-square',c:'service'},{l:'summary',icon:'file-text',c:'db'}])), cap('noise',4.5,'Keep the meaning, without the noise.'))],
+ ['08',9, beat(kicker('mistake',0.2,'the mistake to avoid'), wrap('pop','buried',1.0, `<div class="big" style="font-size:56px">Rules buried in the<br><span style="color:var(--failure)">middle</span> get skipped.</div>`), key('edges',4.5,'keep the rules at the edges'))],
+ ['09',10, beat(kicker('recap',0.2,'recap'), wrap('rise','retrieve',1.0, P.steps([{l:'Retrieve only what\'s relevant',c:'client'},{l:'Order by importance',c:'gateway'},{l:'Compress long history',c:'service'},{l:'Put what matters at the edges',c:'db'}])), key('noisy',6.5,'small + sharp beats giant + noisy'))],
+ ['10',13, beat(wrap('fade','pro',0.3,`<div class="big">Use the window<br>like a <span class="accent">pro.</span></div>`), H.door('academy',4.5), H.mark('Proof',7.5))],
+];
+mount(BEATS);
+</script></body></html>

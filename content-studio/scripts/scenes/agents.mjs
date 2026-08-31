@@ -1,15 +1,14 @@
-// #5 Agents — "an agent is a loop with tools, and a leash"
+// #5 Agents — CLEAR (TEACHING_CLARITY.md)
 export default [
-  ['01', "You asked the AI to DO something, not just answer — book the flight, fix the ticket, run the query. The moment it acts, it stops being a chatbot and becomes an agent."],
-  ['02', "And an agent isn't one call to a model. It's a loop. Think, act, observe — then think again with what it just learned. Over and over, until the job is done."],
-  ['03', "But a model can't act on its own. It can only produce text. So you give it tools — functions it's allowed to call — and a way to ask for them."],
-  ['04', "Here's the loop in motion. The model picks a tool. You run it. You feed the result back. It looks at the result and decides the next move."],
-  ['05', "Search flights, read the results, pick one, call book. Four steps, one goal — and the model drove each decision using what came back from the last."],
-  ['06', "Which is exactly where it gets dangerous. A loop with no limit can run forever, burn your budget, or wander completely off the rails."],
-  ['07', "So you put it on a leash. A cap on steps. A short list of allowed tools. A token budget. The agent is free to think — inside a fence you drew."],
-  ['08', "And you log every single step — the thought, the tool, the result. You cannot debug an agent you cannot see. The trace is the whole game."],
-  ['09', "One counterintuitive trap: more tools make it worse. Hand it thirty tools and it gets confused. A few sharp, well-named tools beat a giant toolbox."],
-  ['10', "And for anything with real blast radius — sending money, deleting data — you don't let it act alone. You put a human in the loop to approve."],
-  ['11', "So that's an agent. A loop, a set of tools, a leash to keep it safe, and a trace so you can see what it did."],
-  ['12', "Give a model hands, then teach it restraint. Build a real agent, free → sageideas dot dev slash academy. Proof, not paper. I'll see you in the next one."],
+  ['01', "Hey, welcome back. Today you're going to learn what an AI agent actually is — and how to build one that gets things done without going off the rails. By the end, you'll understand the simple loop that powers every agent, and the safety rails every good one needs."],
+  ['02', "Let me start with what's new here. A normal chatbot just answers questions. An agent is different — an agent takes actions. It books the flight, files the ticket, runs the query. And the moment an AI can act in the real world, it can also mess up in ways a chatbot never could."],
+  ['03', "So here's the core idea: an agent is a loop. Not one answer — a loop. It thinks, it takes an action, it looks at the result, and then it thinks again using what it just learned. It repeats that until the job is done."],
+  ['04', "But a model can't actually do anything on its own — all it can produce is text. So we give it tools. A tool is just a function the AI is allowed to call, like search flights, or send email, or run a database query."],
+  ['05', "Let's watch the loop in action. The customer says: book me a flight. The agent calls the search tool. We run it and hand back the results. The agent reads them, picks a flight, and calls the book tool. Four steps, one goal — and it decided each step from what came back before."],
+  ['06', "Now, here's where it gets dangerous. A loop with no limit can run forever. It can call the same tool a hundred times, burn through your budget, or wander completely off task."],
+  ['07', "So you put the agent on a leash. You give it three limits: a maximum number of steps, a short list of tools it's allowed to use, and a spending budget. It's free to think — but only inside a fence you drew."],
+  ['08', "And you log every single step: what it thought, which tool it called, and what came back. This is not optional. You cannot debug an agent you can't see, and agents fail in weird ways. The log is how you find out why."],
+  ['09', "Two common mistakes to avoid. First, too many tools. Give an agent thirty tools and it gets confused and picks the wrong one. A few sharp, well-named tools work far better. Second, letting it do risky things alone. For anything that spends money or deletes data, put a human in the loop to approve it first."],
+  ['10', "So let's recap. An agent is a loop: think, act, observe, repeat. It acts using tools you give it. You keep it safe with a leash — step limits, allowed tools, and a budget. And you log every step so you can see what it did."],
+  ['11', "If you want to build a real, safe agent yourself, for free, head to sageideas dot dev slash academy. That's it for today. Proof, not paper. I'll see you in the next one."],
 ];

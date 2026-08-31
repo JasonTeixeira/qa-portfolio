@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat } = H;
+const BEATS = [
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','structured',1.0,`<div class="big"><span class="accent">Structured</span> output</div>`), cap('use',2.8,'Get clean data — like JSON — that your code can actually use, every time.'))],
+ ['02',9, beat(kicker('problem',0.2,'the problem'), wrap('pop','json',1.2, P.chat([{u:true,t:'Return the data as JSON.'},{bad:true,t:'Sure! Here\'s the JSON you asked for: { … }'}])), stamp('fail','crash',5.0,'✗ PARSER CRASH'))],
+ ['03',9, beat(kicker('idea',0.2,'the core idea: a schema'), wrap('pop','schema',1.2, P.codeBlock([{t:'{',c:'c'},{t:'  name:   string'},{t:'  amount: number'},{t:'  date:   string'},{t:'}',c:'c'}],{file:'schema'})), key('contract',6.0,'the exact shape you expect — your contract'))],
+ ['04',9, beat(kicker('how',0.2,'force the AI to fill it'), wrap('pop','fill',1.2, P.flow([{l:'AI',icon:'cpu',c:'gateway'},{l:'+ schema',icon:'braces',c:'service'},{l:'valid JSON',icon:'circle-check',c:'db'}])), cap('ramble',5.0,'It can\'t ramble or add a greeting — only JSON that matches the shape.'))],
+ ['05',9, beat(kicker('example',0.2,'a real example'), wrap('pop','invoice',1.2, `<div class="row" style="gap:30px"><div style="font-family:var(--mono);font-size:22px;color:var(--muted)">messy invoice</div><span style="color:var(--gateway);font-size:28px">→</span>${P.kpi([{v:'"Acme"',l:'name',c:'client'},{v:'$420',l:'amount',c:'db'},{v:'Aug 3',l:'date',c:'service'}],{cols:3})}</div>`), key('trust',6.0,'clean object — your code can trust it'))],
+ ['06',9, beat(kicker('trap',0.2,'the trap'), wrap('pop','valid',1.0, `<div class="big" style="font-size:56px">Valid JSON ≠ <span style="color:var(--failure)">correct</span> JSON</div>`), cap('wrong',3.5,'Right shape, <b>wrong value.</b> Structure is not truth.'))],
+ ['07',9, beat(kicker('fix',0.2,'validate, then retry'), wrap('pop','validate',1.2, P.cycle([{l:'validate',icon:'shield-check'},{l:'fail',icon:'x'},{l:'feedback',icon:'refresh-cw'},{l:'retry',icon:'repeat'}])), key('fixes',6.0,'a retry loop that fixes itself'))],
+ ['08',10, beat(kicker('recap',0.2,'recap'), wrap('rise','schema',1.0, P.steps([{l:'Define a schema',c:'client'},{l:'Force the AI to fill it',c:'gateway'},{l:'Validate the result',c:'service'},{l:'Retry on failure',c:'db'}])), key('narrator',6.5,'reliable data from an unreliable narrator'))],
+ ['09',13, beat(wrap('fade','app',0.3,`<div class="big">Build it into<br>your <span class="accent">app.</span></div>`), H.door('academy',4.5), H.mark('Proof',7.5))],
+];
+mount(BEATS);
+</script></body></html>

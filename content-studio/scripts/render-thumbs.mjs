@@ -3,10 +3,10 @@ import { resolve } from 'node:path';
 const tpl = 'file://' + resolve('templates/hybrid-thumb.html');
 const hero = n => 'file://' + resolve(`renders/heroes/${n}.png`);
 const thumbs = [
-  { n:'rag',        kicker:'AI ENGINEERING · 01', title:'RAG that <hl>doesn’t lie</hl>',   hl:'#5EE08C' },
-  { n:'evals',      kicker:'AI ENGINEERING · 02', title:'Stop shipping on <hl>vibes</hl>', hl:'#F5C64F' },
-  { n:'embeddings', kicker:'AI ENGINEERING · 03', title:'Nearest isn’t <hl>relevant</hl>', hl:'#E08FFF' },
-  { n:'chunking',   kicker:'AI ENGINEERING · 04', title:'The choice that <hl>breaks RAG</hl>', hl:'#6ECBFF' },
+  { n:'rag',        kicker:'AI ENGINEERING · 01', title:'RAG that <hl>doesn’t lie</hl>',      hl:'#5EE08C' },
+  { n:'evals',      kicker:'AI ENGINEERING · 02', title:'Test your LLM, <hl>not vibes</hl>',   hl:'#F5C64F' },
+  { n:'embeddings', kicker:'AI ENGINEERING · 03', title:'Fix your <hl>vector search</hl>',     hl:'#E08FFF' },
+  { n:'chunking',   kicker:'AI ENGINEERING · 04', title:'Chunking <hl>breaks RAG</hl>',        hl:'#6ECBFF' },
 ];
 const b = await chromium.launch({ args:['--allow-file-access-from-files'] });
 const p = await b.newPage({ viewport:{width:1280,height:720}, deviceScaleFactor:2 });

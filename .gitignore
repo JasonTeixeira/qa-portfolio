@@ -99,3 +99,6 @@ content-studio/renders/vid-frame-*.png
 content-studio/ds-showcase.html
 content-studio/renders/ds-*.png
 content-studio/renders/scenes-proof.png
+
+content-studio/node_modules/
+content-studio/renders/*-proof.png

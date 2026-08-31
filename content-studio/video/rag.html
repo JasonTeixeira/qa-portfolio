@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat } = H;
+const intro = (kick, big, sub) => beat(kicker(kick.c, kick.d, kick.t), wrap('pop', big.c, big.d, `<div class="big">${big.t}</div>`), sub?cap(sub.c,sub.d,sub.t):'');
+const num = items => `<div style="display:flex;flex-direction:column;gap:20px;text-align:left">${items.map((t,i)=>`<div style="display:flex;align-items:flex-start;gap:18px"><span style="flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--${['failure','warn','client'][i]});color:var(--${['failure','warn','client'][i]});display:grid;place-items:center;font-family:var(--mono);font-size:20px">${i+1}</span><span style="font-size:32px;font-weight:600;max-width:900px;line-height:1.3">${t}</span></div>`).join('')}</div>`;
+
+const BEATS = [
+ ['01',10, intro({t:"TODAY YOU'LL LEARN",c:'learn',d:0.2}, {t:'RAG',c:'RAG',d:0.9}, {t:'How to make an AI answer from your real docs — or honestly say <b>"I don\'t know."</b>',c:'documents',d:2.2})],
+ ['02',7, beat(kicker('problem',0.2,'the problem'), wrap('pop','chatbot',1.2, P.chat([{u:true,t:"What's your refund policy?"}])))],
+ ['03',9, beat(wrap('pop','confidently',0.3, P.chat([{u:true,t:'refund policy?'},{bad:true,t:'You have 30 days to get a refund.'}])), stamp('fail','made',4.5,'✗ MADE IT UP'), cap('hallucination',6.2,'It didn\'t know — so it invented an answer. That\'s a <b>hallucination.</b>'))],
+ ['04',9, beat(wrap('pop','smarter',0.5, P.flow([{l:'7B',icon:'cpu',tag:'small',c:'gateway'},{l:'70B',icon:'cpu',tag:'smarter',c:'gateway'}])), cap('guessing',4.5,'A smarter model doesn\'t lie less. The problem is it\'s <b>guessing</b> instead of looking things up.'))],
+ ['05',11, beat(kicker('RAG',0.2,'the fix: RAG'), wrap('rise','closed',1.5, `<div class="row" style="gap:50px"><div style="border:2px solid var(--failure);border-radius:20px;padding:34px;display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--failure)">${P.icon('book',84)}<span style="font-family:var(--mono);font-size:18px;text-transform:uppercase">closed book</span><span style="font-family:var(--display);font-size:28px;color:var(--ink)">guesses</span></div><span class="vs" style="font-family:var(--display);font-style:italic;font-size:40px;color:var(--gateway)">vs</span><div style="border:2px solid var(--ok);border-radius:20px;padding:34px;display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--ok)">${P.icon('book-open',84)}<span style="font-family:var(--mono);font-size:18px;text-transform:uppercase">open book</span><span style="font-family:var(--display);font-size:28px;color:var(--ink)">looks it up</span></div></div>`), key('memory',7.0,'RAG makes your AI open-book'))],
+ ['06',9, beat(kicker('step',0.2,'step 1 — retrieve'), wrap('pop','search',1.5, P.flow([{l:'Question',icon:'message-square',c:'client'},{l:'Search docs',icon:'search',c:'gateway'},{l:'Top paragraphs',icon:'file-text',c:'service'}])), key('relevant',6.0,'pull only the relevant paragraphs'))],
+ ['07',9, beat(kicker('step',0.2,'step 2 — answer'), wrap('pop','paragraphs',1.2, P.flow([{l:'Paragraphs',icon:'file-text',c:'service'},{l:'AI',icon:'cpu',tag:'use only this',c:'gateway'},{l:'Answer',icon:'circle-check',tag:'+ cite',c:'db'}])), key('guessing',6.0,'now it reads the real doc'))],
+ ['08',10, beat(kicker('extra',0.2,'the step everyone skips'), wrap('pop','rule',1.5, P.flow([{l:'not in docs',icon:'search-x',c:'failure'},{l:'STOP',icon:'shield',c:'warn'},{l:'"I don\'t know"',icon:'circle-check',c:'db'}])), key('answer',6.5,'let it admit when it doesn\'t know'))],
+ ['09',9, beat(kicker('example',0.2,'a real example'), wrap('pop','return',1.2, P.chat([{u:true,t:'How long to return an item?'},{good:true,t:'You have 30 days. [source: returns policy]'}])), key('source',6.0,'correct — with a real source'))],
+ ['10',9, beat(wrap('pop','moon',0.5, P.chat([{u:true,t:'Do you ship to the moon?'},{good:true,t:"I don't have information about that."}])), cap('safe',5.0,'Not in the docs → it refuses instead of inventing. <b>Honest, and safe.</b>'))],
+ ['11',12, beat(kicker('mistakes',0.2,'3 common mistakes'), wrap('rise','chunking',1.5, num(['<b>Bad chunking</b> — cutting docs mid-sentence. Cut on paragraphs.','<b>Trusting search blindly</b> — re-order results by real relevance.','<b>Never testing</b> — measure how often answers are backed by the source.'])))],
+ ['12',11, beat(kicker('recap',0.2,'recap'), wrap('rise','learned',1.0, P.steps([{l:'AIs guess when they don\'t know',c:'failure'},{l:'RAG retrieves the real doc first',c:'client'},{l:'Let it say "I don\'t know"',c:'warn'},{l:'Test that answers are grounded',c:'db'}])))],
+ ['13',14, beat(wrap('fade','browser',0.3, `<div class="big">Build it yourself,<br><span class="accent">free.</span></div>`), H.door('academy',5.0), H.mark('Proof',8.0))],
+];
+mount(BEATS);
+</script></body></html>

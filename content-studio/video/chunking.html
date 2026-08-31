@@ -2,22 +2,22 @@
 <script type="module">
 import { mount, H } from '../library/motion-engine.js';
 import * as P from '../library/primitives.js';
-const { wrap, cap, key, kicker, stamp, beat, chunkGrid, mark, door } = H;
-const bigChunk = `<svg viewBox="0 0 440 160" width="560"><rect x="10" y="10" width="420" height="140" rx="10" fill="none" stroke="var(--warn)" stroke-width="2"/>${[0,1,2,3,4].map(i=>`<line x1="30" y1="${34+i*24}" x2="410" y2="${34+i*24}" stroke="var(--faint)"/>`).join('')}<text x="220" y="150" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--warn)">one chunk · five topics</text></svg>`;
-const tinyChunk = `<svg viewBox="0 0 440 120" width="520"><rect x="150" y="30" width="140" height="50" rx="8" fill="none" stroke="var(--failure)" stroke-width="2"/><line x1="170" y1="55" x2="270" y2="55" stroke="var(--faint)"/><line x1="130" y1="20" x2="130" y2="100" stroke="var(--failure)" stroke-dasharray="5 4"/><text x="220" y="104" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--failure)">half a thought</text></svg>`;
-const overlap = `<svg viewBox="0 0 460 120" width="560"><rect x="10" y="35" width="230" height="50" rx="8" fill="var(--db)" fill-opacity=".08" stroke="var(--db)"/><rect x="200" y="35" width="230" height="50" rx="8" fill="var(--gateway)" fill-opacity=".08" stroke="var(--gateway)"/><rect x="200" y="35" width="40" height="50" fill="var(--warn)" fill-opacity=".22"/><text x="220" y="108" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--warn)">shared overlap</text></svg>`;
-
+const { wrap, cap, key, kicker, stamp, beat, chunkGrid } = H;
+const bigChunk=`<svg viewBox="0 0 440 160" width="540"><rect x="10" y="10" width="420" height="140" rx="10" fill="none" stroke="var(--warn)" stroke-width="2"/>${[0,1,2,3,4].map(i=>`<line x1="30" y1="${34+i*24}" x2="410" y2="${34+i*24}" stroke="var(--faint)"/>`).join('')}<text x="220" y="150" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--warn)">one chunk · five topics</text></svg>`;
+const tinyChunk=`<svg viewBox="0 0 440 120" width="500"><rect x="150" y="30" width="140" height="50" rx="8" fill="none" stroke="var(--failure)" stroke-width="2"/><line x1="170" y1="55" x2="270" y2="55" stroke="var(--faint)"/><line x1="130" y1="20" x2="130" y2="100" stroke="var(--failure)" stroke-dasharray="5 4"/><text x="220" y="104" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--failure)">half a thought</text></svg>`;
+const overlap=`<svg viewBox="0 0 460 120" width="540"><rect x="10" y="35" width="230" height="50" rx="8" fill="var(--db)" fill-opacity=".08" stroke="var(--db)"/><rect x="200" y="35" width="230" height="50" rx="8" fill="var(--gateway)" fill-opacity=".08" stroke="var(--gateway)"/><rect x="200" y="35" width="40" height="50" fill="var(--warn)" fill-opacity=".22"/><text x="220" y="108" text-anchor="middle" font-family="var(--mono)" font-size="14" fill="var(--warn)">shared overlap</text></svg>`;
 const BEATS = [
- ['01',9, beat(wrap('pop','garbage',0.3, P.chat([{u:true,t:'what\'s the refund window?'},{bad:true,t:'I don\'t have that information.'}])), cap('chunks',3.6,'Same docs. Same model. <b>Garbage.</b> The culprit: the chunks.'))],
- ['02',9, beat(kicker('embed',0.2,'you can\'t embed a whole manual'), wrap('pop','chunks',1.2, chunkGrid()), key('retrieved',4.5,'split into passages → each one is what gets retrieved'))],
- ['03',9, beat(wrap('pop','big',0.4, bigChunk), stamp('fail','diluted',4.5,'✗ DILUTED'))],
- ['04',9, beat(wrap('pop','small',0.4, tinyChunk), cap('half',3.5,'The setup without the punchline. It\'s holding <b>half a thought.</b>'))],
- ['05',9, beat(kicker('structure',0.2,'split on structure, not character count'), wrap('pop','headings',1.4, chunkGrid(2)), key('idea',4.5,'one chunk = one complete idea'))],
- ['06',9, beat(wrap('pop','overlap',0.6, overlap), cap('seam',3.5,'A little overlap, so an idea across the <b>seam</b> isn\'t lost.'))],
- ['07',9, beat(wrap('pop','tag',0.4, P.flow([{l:'chunk',icon:'file-text',c:'service'},{l:'+ source §',icon:'tag',c:'client'},{l:'cite',icon:'badge-check',c:'db'}])), key('cite',4.5,'tag the source → it can cite'))],
- ['08',9, beat(wrap('pop','knob',0.4, `<div class="row">${P.gauge(92,{label:'0.92'})}<div style="font-family:var(--mono);font-size:22px;color:var(--muted)">strategy A → 0.71<br>strategy B → 0.92 ✓</div></div>`), key('measure',5.0,'chunking is a knob — eval it'))],
- ['09',9, beat(wrap('rise','meaning',0.3, P.steps([{l:'Split on meaning',c:'client'},{l:'Overlap the seams',c:'gateway'},{l:'Tag the source',c:'service'},{l:'Measure it',c:'db'}])), key('measure',5.0,'the recipe'))],
- ['10',13, beat(wrap('fade','unglamorous',0.3, `<div class="big">The unglamorous choices<br>are the ones that <span class="accent">ship.</span></div>`), door('academy',5.5), mark('Proof',8.0))],
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','chunking',1.0,`<div class="big"><span class="accent">Chunking</span> —<br>splitting your docs.</div>`), cap('wrong',3.5,'The #1 reason RAG returns garbage — and almost everyone gets it wrong.'))],
+ ['02',9, beat(kicker('problem',0.2,'the problem'), wrap('pop','garbage',1.2, P.chat([{u:true,t:"what's the refund window?"},{bad:true,t:'I don\'t have that information.'}])), cap('docs',4.0,'Great docs, great model — still useless answers. The culprit: how you cut the docs.'))],
+ ['03',9, beat(kicker('why',0.2,'why it matters'), wrap('pop','pieces',1.2, chunkGrid()), key('retrieved',5.5,'each chunk is what gets searched + retrieved'))],
+ ['04',9, beat(kicker('mistake',0.2,'mistake 1 — too big'), wrap('pop','big',1.2, bigChunk), stamp('fail','watered',5.0,'✗ WATERED DOWN'))],
+ ['05',9, beat(kicker('mistake',0.2,'mistake 2 — too small'), wrap('pop','small',1.2, tinyChunk), cap('useless',4.5,'You cut an idea in half. Half a thought is <b>useless.</b>'))],
+ ['06',9, beat(kicker('fix',0.2,'the fix'), wrap('pop','boundaries',1.2, chunkGrid(2)), key('idea',5.5,'split on paragraphs → one complete idea'))],
+ ['07',9, beat(kicker('fix',0.2,'add overlap'), wrap('pop','overlap',1.0, overlap), cap('lost',4.0,'Let chunks share a sentence, so an idea across the line isn\'t <b>lost.</b>'))],
+ ['08',9, beat(kicker('fix',0.2,'tag the source'), wrap('pop','tag',1.0, P.flow([{l:'chunk',icon:'file-text',c:'service'},{l:'+ source §',icon:'tag',c:'client'},{l:'cite',icon:'badge-check',c:'db'}])), key('trust',5.5,'so your AI can cite, not just ask you to trust'))],
+ ['09',9, beat(kicker('mistake',0.2,'the mistake to avoid'), wrap('pop','test',1.0, `<div class="row">${P.gauge(92,{label:'0.92'})}<div style="font-family:var(--mono);font-size:22px;color:var(--muted)">strategy A → 0.71<br>strategy B → 0.92 ✓</div></div>`), key('guessing',5.5,'chunking is a setting you test, not guess'))],
+ ['10',10, beat(kicker('recap',0.2,'recap'), wrap('rise','meaning',1.0, P.steps([{l:'Split on meaning',c:'client'},{l:'Overlap the edges',c:'gateway'},{l:'Tag the source',c:'service'},{l:'Test it',c:'db'}])), key('works',6.5,'boring — and it decides whether your AI works'))],
+ ['11',13, beat(wrap('fade','free',0.3,`<div class="big">Make the boring<br>choices <span class="accent">well.</span></div>`), H.door('academy',4.5), H.mark('Proof',7.5))],
 ];
 mount(BEATS);
 </script></body></html>

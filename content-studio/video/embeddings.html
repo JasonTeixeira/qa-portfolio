@@ -2,20 +2,19 @@
 <script type="module">
 import { mount, H } from '../library/motion-engine.js';
 import * as P from '../library/primitives.js';
-const { wrap, cap, key, kicker, stamp, beat, vspace, mark, door } = H;
-const searchBox = (q, res, ok) => `<div style="border:2px solid var(--${ok?'ok':'failure'});border-radius:16px;padding:22px 28px;min-width:280px"><div style="font-family:var(--mono);font-size:22px;color:var(--muted)">🔍 ${q}</div><div style="font-family:var(--display);font-size:30px;margin-top:12px">${res} <span style="color:var(--${ok?'ok':'failure'})">${ok?'✓':'✗'}</span></div></div>`;
-
+const { wrap, cap, key, kicker, stamp, beat, vspace } = H;
+const sbox=(q,res,ok)=>`<div style="border:2px solid var(--${ok?'ok':'failure'});border-radius:16px;padding:20px 26px;min-width:270px"><div style="font-family:var(--mono);font-size:20px;color:var(--muted)">🔍 ${q}</div><div style="font-family:var(--display);font-size:28px;margin-top:10px">${res} <span style="color:var(--${ok?'ok':'failure'})">${ok?'✓':'✗'}</span></div></div>`;
 const BEATS = [
- ['01',9, beat(`<div class="row">${wrap('rise','keyword',0.3, searchBox('“refund”','keyword: no match',false))}${wrap('rise','meaning',2.0, searchBox('“refund”','meaning: “money back” ✓',true))}</div>`, key('meaning',5.2,'match meaning, not letters'))],
- ['02',9, beat(kicker('embedding',0.2,'an embedding'), wrap('pop','vector',1.0, `<div class="row" style="gap:26px"><div style="font-family:var(--mono);font-size:26px;color:var(--ink)">“money back”</div><span style="color:var(--gateway);font-size:30px">→</span><div style="font-family:var(--mono);font-size:22px;color:var(--brand2)">[0.21, -0.08, 0.44, …]</div></div>`), cap('meaning',4.5,'text → a vector. Similar meaning → <b>nearby numbers.</b>'))],
- ['03',9, beat(wrap('pop','angle',0.4, vspace([[.72,.66],[.68,.72]],null,[[.72,.66],[.68,.72]])), cap('cosine',4.0,'“refund” and “money back” land close — <b>cosine similarity.</b>'))],
- ['04',9, beat(kicker('index',0.2,'a million vectors'), wrap('pop','index',1.0, vspace([[.2,.3],[.3,.6],[.5,.4],[.6,.7],[.7,.3],[.8,.6],[.4,.8],[.25,.5],[.55,.2],[.75,.5],[.35,.35],[.65,.55]])), key('milliseconds',4.5,'approximate nearest-neighbor · milliseconds'))],
- ['05',9, beat(wrap('pop','question',0.4, vspace([[.2,.7],[.3,.4],[.7,.3],[.8,.6],[.15,.3]],[.5,.5],[[.42,.62],[.58,.44],[.6,.66]])), key('top',4.5,'the query → its nearest neighbors'))],
- ['06',9, beat(wrap('pop','catch',0.4, vspace([[.5,.72],[.5,.5],[.66,.44]],[.5,.5],[[.5,.72]])+`<div style="font-family:var(--mono);font-size:20px;color:var(--failure);margin-top:8px">nearest — but wrong passage</div>`), stamp('fail','relevant',4.5,'NEAREST ≠ RELEVANT'))],
- ['07',9, beat(kicker('rerank',0.2,'a second pass · re-ranker'), wrap('pop','reorder',1.0, P.hbars([{l:'true best',v:96,c:'db'},{l:'was #1',v:70},{l:'was #2',v:58}])), cap('worth',4.0,'Looks at query and hit together, reorders by real relevance. <b>Worth it.</b>'))],
- ['08',9, beat(wrap('pop','exact',0.4, P.venn('vectors','keywords')), key('hybrid',4.5,'hybrid: meaning + precision'))],
- ['09',9, beat(wrap('rise','pipeline',0.3, P.steps([{l:'Embed the text',c:'client'},{l:'Index the vectors',c:'service'},{l:'Retrieve the nearest',c:'gateway'},{l:'Re-rank for relevance',c:'db'}])), key('rerank',5.0,'the pipeline'))],
- ['10',13, beat(wrap('fade','goal',0.3, `<div class="big">Nearest is a guess.<br><span class="accent">Relevance is the goal.</span></div>`), door('academy',5.5), mark('Proof',8.0))],
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','meaning',1.0,`<div class="big">Search by <span class="accent">meaning</span>,<br>not just words.</div>`), cap('engine',3.5,'The engine behind almost every AI search feature.'))],
+ ['02',9, beat(kicker('problem',0.2,'the problem'), wrap('rise','refund',1.0,`<div class="row">${sbox('"refund"','keyword: no match',false)}${sbox('"refund"','meaning: "money back" ✓',true)}</div>`), cap('meaning',5.0,'Same meaning, different words. You want to match <b>meaning.</b>'))],
+ ['03',9, beat(kicker('idea',0.2,'the core idea: embeddings'), wrap('pop','numbers',1.2,`<div class="row" style="gap:24px"><div style="font-family:var(--mono);font-size:24px">"money back"</div><span style="color:var(--gateway);font-size:28px">→</span><div style="font-family:var(--mono);font-size:22px;color:var(--brand2)">[0.21, -0.08, 0.44, …]</div></div>`), cap('nearby',5.0,'Turn text into a list of numbers — a <b>vector.</b> Similar meaning → nearby numbers.'))],
+ ['04',9, beat(wrap('pop','close',0.4, vspace([[.70,.66],[.66,.72]],null,[[.70,.66],[.66,.72]])), cap('similar',4.0,'"refund" and "money back" land close together. Closer = more <b>similar</b> (cosine similarity).'))],
+ ['05',9, beat(kicker('search',0.2,'how search works'), wrap('pop','question',1.2, vspace([[.2,.7],[.3,.4],[.7,.3],[.8,.6],[.15,.3]],[.5,.5],[[.42,.62],[.58,.44],[.6,.66]])), key('nearest',6.0,'grab the nearest few — your results'))],
+ ['06',9, beat(kicker('catch',0.2,'the catch'), wrap('pop','closest',1.0, vspace([[.5,.72],[.5,.5],[.66,.44]],[.5,.5],[[.5,.72]])), stamp('fail','relevant',5.0,'NEAREST ≠ RELEVANT'))],
+ ['07',9, beat(kicker('fix',0.2,'the fix: re-rank'), wrap('pop','together',1.2, P.hbars([{l:'truly best',v:96,c:'db'},{l:'was #1',v:70},{l:'was #2',v:55}])), cap('sharper',5.0,'A second pass re-orders results by <b>real relevance.</b> Slower, sharper, worth it.'))],
+ ['08',9, beat(kicker('tip',0.2,'one more tip'), wrap('pop','exact',1.0, P.venn('vectors','keywords')), key('hybrid',5.0,'meaning + exact matches = hybrid search'))],
+ ['09',10, beat(kicker('recap',0.2,'recap'), wrap('rise','vectors',1.0, P.steps([{l:'Embed text into vectors',c:'client'},{l:'Search for the nearest',c:'gateway'},{l:'Re-rank for relevance',c:'db'},{l:'Add keywords for exact matches',c:'service'}])), key('goal',6.5,'nearest is a guess; relevance is the goal'))],
+ ['10',13, beat(wrap('fade','free',0.3,`<div class="big">Build vector search<br>that <span class="accent">works.</span></div>`), H.door('academy',4.5), H.mark('Proof',7.5))],
 ];
 mount(BEATS);
 </script></body></html>

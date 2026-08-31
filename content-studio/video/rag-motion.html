@@ -223,7 +223,7 @@ function cueTime(key,word,fb){ const wd=(window.__WORDS||{})[key]; if(!wd)return
 
 const stage=document.getElementById('stage');
 const beatEls=[]; let starts=[], durs=[], acc=0;
-BEATS.forEach(([key,dFallback,html],i)=>{ const d=(window.__WORDS&&window.__WORDS[key]&&window.__WORDS[key].dur)||dFallback; starts[i]=acc; durs[i]=d; acc+=d; const div=document.createElement('div'); div.innerHTML=html; const b=div.firstElementChild; b.dataset.key=key; b.style.opacity=0; b.style.display='none'; stage.appendChild(b); beatEls.push(b);
+BEATS.forEach(([key,dFallback,html],i)=>{ const d=(window.__DURS&&window.__DURS[i])||(window.__WORDS&&window.__WORDS[key]&&window.__WORDS[key].dur)||dFallback; starts[i]=acc; durs[i]=d; acc+=d; const div=document.createElement('div'); div.innerHTML=html; const b=div.firstElementChild; b.dataset.key=key; b.style.opacity=0; b.style.display='none'; stage.appendChild(b); beatEls.push(b);
   // resolve cues -> data-d (+ per-item stagger)
   b.querySelectorAll('[data-cue]').forEach(el=>{ const base=cueTime(key,el.dataset.cue,+el.dataset.d||0); const si=+el.dataset.si||0, stg=+el.dataset.stag||0; el.dataset.d=(base+si*stg).toFixed(3); });
   // kinetic words

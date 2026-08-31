@@ -32,6 +32,11 @@ try {
   await page.addInitScript(`window.__WORDS=${wj};`);
   console.log('▸ cue timing injected from', arg('words', 'renders/vo/words.json'));
 } catch { console.log('▸ no words.json — falling back to numeric delays'); }
+try {
+  const dj = readFileSync(resolve(ROOT, arg('durs', 'renders/vo/beat-durs.json')), 'utf8');
+  await page.addInitScript(`window.__DURS=${dj};`);
+  console.log('▸ beat durations (with dwell) injected');
+} catch { /* composition falls back to speech-only durations */ }
 await page.goto('file://' + comp, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts && document.fonts.ready);
 const total = dur > 0 ? dur : await page.evaluate(() => window.__duration || 0);

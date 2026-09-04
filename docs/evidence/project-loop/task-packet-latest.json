@@ -1,25 +1,27 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T20:16:17.489Z",
+  "generatedAt": "2026-09-04T20:18:05.956Z",
   "inventoryHash": "sha256:038fe370979f050e66a4189c0dc9660edb3242bf6215ce6bf533add668ec1193",
   "workstream": {
-    "id": "communications-jobs",
-    "label": "Email, Discord, background jobs, and automation",
+    "id": "accessibility-performance",
+    "label": "Accessibility, responsive UX, and performance",
     "dependsOn": [
-      "data-integrity"
+      "critical-user-journeys",
+      "academy",
+      "admin-portal",
+      "communications-jobs"
     ],
     "boundary": "safe_local",
     "scope": [
-      "email",
-      "Discord",
-      "queues",
-      "idempotency",
-      "retry",
-      "dead letters"
+      "WCAG",
+      "keyboard",
+      "screen reader",
+      "motion",
+      "Core Web Vitals"
     ],
-    "sequence": 9,
-    "workstreamId": "communications-jobs",
+    "sequence": 10,
+    "workstreamId": "accessibility-performance",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

@@ -1,6 +1,8 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { isAdminPagePath } from '@/lib/admin/route-policy';
+
 type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
 const PUBLIC_PATHS = new Set(['/login', '/signup']);
@@ -127,12 +129,9 @@ function isAcademyPublicRoute(pathname: string): boolean {
 }
 
 export function requiresConfiguredAuth(pathname: string): boolean {
-  return pathname === '/admin'
-    || pathname.startsWith('/admin/')
+  return isAdminPagePath(pathname)
     || pathname === '/portal'
     || pathname.startsWith('/portal/')
-    || pathname === '/academy-admin'
-    || pathname.startsWith('/academy-admin/')
     || (pathname.startsWith('/academy/') && !isAcademyPublicRoute(pathname));
 }
 
@@ -219,12 +218,8 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Protected zones.
-  const needsAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
+  const needsAdmin = isAdminPagePath(pathname);
   const needsApprovedUser = pathname === '/portal' || pathname.startsWith('/portal/');
-  // Academy authoring studio: must at least be signed in to reach it (the page-level
-  // getAdminUser enforces the academy admin/owner role — the canonical check). Gating
-  // anon here keeps the admin UI bundle/RSC payload from rendering to the public.
-  const needsAcademyAdmin = pathname === '/academy-admin' || pathname.startsWith('/academy-admin/');
   // The academy PRODUCT (catalog, courses, lessons, labs, dashboard, build, evidence,
   // resources) requires a signed-in account — you must log in to see the actual academy.
   // Public stays: the marketing landing (/academy), signup, pricing (/join), the sprint
@@ -233,7 +228,7 @@ export async function updateSession(request: NextRequest) {
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
   if (
-    needsAdmin &&
+    (pathname === '/admin' || pathname.startsWith('/admin/')) &&
     process.env.NODE_ENV !== 'production' &&
     process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview' &&
     !process.env.VERCEL
@@ -250,7 +245,7 @@ export async function updateSession(request: NextRequest) {
     return redirectWithSessionCookies(url, response);
   }
 
-  if (!user && (needsAdmin || needsApprovedUser || needsAcademyAdmin)) {
+  if (!user && (needsAdmin || needsApprovedUser)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     url.search = `?next=${encodeURIComponent(pathname + (search || ''))}`;
@@ -321,7 +316,7 @@ export async function updateSession(request: NextRequest) {
         url.search = `?reason=idle&next=${encodeURIComponent(pathname + (search || ''))}`;
         const r = redirectWithSessionCookies(url, response);
         r.cookies.set('admin_last_active', '', {
-          path: '/admin',
+          path: '/',
           maxAge: 0,
         });
         return r;
@@ -330,7 +325,7 @@ export async function updateSession(request: NextRequest) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        path: '/admin',
+        path: '/',
         maxAge: Math.ceil(IDLE_MS / 1000),
       });
     }

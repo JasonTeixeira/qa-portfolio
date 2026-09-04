@@ -245,6 +245,8 @@ test('dependency audit blocks production risk while preserving dev-only exceptio
 test('package scripts expose the complete local program control surface', () => {
   const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
   const expected = {
+    'test:admin': 'tsx --test tests/admin/admin-integrity.test.ts && npm run audit:admin',
+    'audit:admin': 'tsx tools/admin/write-audit.ts',
     'test:academy-production': 'npm run academy:audit:test && npm run academy:audit:all && npm run academy:program:verify && npm run academy:registry:verify && npm run academy:lab-evaluator:test',
     'project:program:inventory': 'node tools/project-program/cli.mjs inventory',
     'project:program:plan': 'node tools/project-program/cli.mjs plan',
@@ -263,6 +265,7 @@ test('package scripts expose the complete local program control surface', () => 
   }
 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:academy-production'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:admin'))
 })
 
 test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {

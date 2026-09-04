@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:27:46.131Z",
-  "inventoryHash": "sha256:7eb6433720d9527a6ace3a3a788b20235ddabe03d682fd0dc89da082e8f5c418",
+  "generatedAt": "2026-09-04T19:45:15.499Z",
+  "inventoryHash": "sha256:54cfbf679598e8baba09a544b630431be404e52c6968f7aac24c32c05e381e3b",
   "workstream": {
     "id": "admin-portal",
     "label": "Admin and operator workflows",
@@ -70,6 +70,7 @@
     "npm run test:critical-journeys",
     "npm run test:critical-journeys:e2e",
     "npm run test:academy-production",
+    "npm run test:admin",
     "npm run typecheck",
     "npm run lint",
     "npm run build",

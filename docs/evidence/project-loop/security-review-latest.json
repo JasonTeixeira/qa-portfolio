@@ -1,89 +1,61 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:00:00.000Z",
+  "generatedAt": "2026-09-04T19:38:31.000Z",
   "status": "pass_local_code_review",
   "scope": [
-    "Studio and Academy registration",
-    "email verification and referral timing",
-    "authentication and invite callback origins",
-    "service, care, invoice, and portal checkout entry",
-    "webhook-owned payment return state",
-    "account fail-closed behavior",
-    "local and legacy E2E safety boundaries",
-    "staged secret scan"
+    "canonical admin role and MFA boundary",
+    "admin and Academy-authoring page protection",
+    "Academy content and certificate server actions",
+    "all admin API route guards and mutation audit calls",
+    "project status-report input and failure handling",
+    "Academy lab trust copy and persistence boundary"
   ],
   "proof": {
-    "criticalJourneyContracts": "11 passed, 0 failed",
-    "criticalJourneyBrowser": "6 passed, 0 failed; loopback only; external traffic blocked",
-    "unitTests": "334 passed, 0 failed",
+    "adminContracts": "5 passed, 0 failed; 36 privileged files audited with 0 findings",
     "securityTests": "15 passed, 0 failed",
-    "billingTests": "11 passed, 0 failed",
-    "billingSqlIntegration": "PostgreSQL 17 integration passed",
-    "dataIntegrityTests": "8 passed, 0 failed",
-    "canonicalObserver": "15 passed, 0 failed",
+    "unitTests": "334 passed, 0 failed",
+    "canonicalObserver": "17 passed, 0 failed",
     "typecheck": "pass",
     "lint": "pass with 0 errors and 0 warnings",
+    "productionBuild": "pass",
     "dependencyAudit": "0 vulnerabilities across production and development dependency graphs",
-    "secretScan": "gitleaks staged diff: approximately 124.2 KB scanned, no leaks found",
-    "approvalBoundaryAudit": "pass",
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime"
   },
   "remediatedFindings": [
     {
       "severity": "high",
-      "code": "signup_password_in_url",
-      "resolution": "Replaced the GET-driven wizard with a client-side single form that submits credentials only through the final server action."
+      "code": "academy_role_source_split",
+      "resolution": "Academy authoring now derives privilege only from profiles.app_role and repeats the production MFA check server-side."
     },
     {
       "severity": "high",
-      "code": "public_service_role_account_confirmation",
-      "resolution": "Academy signup now uses public Supabase signup and requires email ownership confirmation."
+      "code": "academy_admin_middleware_split",
+      "resolution": "Both admin page families now share the canonical role, MFA, and idle-session boundary."
     },
     {
       "severity": "high",
-      "code": "host_header_callback_injection",
-      "resolution": "Security-sensitive callback URLs use one canonical origin policy and production never trusts request host headers."
+      "code": "academy_input_validation_missing",
+      "resolution": "Strict bounded schemas and runtime block validation now run before every Academy service-role content write."
     },
     {
       "severity": "high",
-      "code": "url_claimed_payment_success",
-      "resolution": "Payment confirmation and completion analytics require a matching webhook-owned fulfillment receipt."
+      "code": "admin_audit_missing",
+      "resolution": "The project status-report route and all Academy content mutations now emit actor-bound audit events."
     },
     {
       "severity": "high",
-      "code": "e2e_defaulted_to_production",
-      "resolution": "Legacy E2E defaults to loopback, remote targets require explicit approval, and live checkout requires a separate mutation flag."
-    },
-    {
-      "severity": "medium",
-      "code": "stripe_session_created_on_get",
-      "resolution": "Shareable checkout routes are review pages; session creation requires an explicit POST button action."
-    },
-    {
-      "severity": "medium",
-      "code": "care_checkout_dead_link",
-      "resolution": "The review page now resolves and discloses all recurring care plans."
-    },
-    {
-      "severity": "medium",
-      "code": "portal_checkout_dead_return_paths",
-      "resolution": "Success and cancellation return to canonical portal routes, with request-scoped idempotency and handled provider errors."
-    },
-    {
-      "severity": "medium",
-      "code": "preverification_referral_credit",
-      "resolution": "Referral attribution occurs only after the auth callback proves email ownership."
+      "code": "substring_lab_copy",
+      "resolution": "The authoring UI explicitly labels expected output as practice-only and reserves trusted mastery for private server checks."
     }
   ],
   "unresolvedCriticalOrHigh": [],
   "devOnlyExceptions": [],
   "externalEvidencePending": [
-    "Apply migration 0121 to isolated staging before relying on hosted fulfillment receipts.",
-    "Verify email confirmation delivery and callback reconciliation with staging Supabase and email credentials.",
-    "Run signed Stripe test-mode checkout, webhook, retry, and receipt reconciliation with explicit approval.",
-    "Run authenticated portal journeys against isolated seeded staging tenants with explicit approval.",
-    "No signup, email, checkout, payment, database, credential, deployment, or other external mutation was performed."
+    "Exercise a real production-equivalent MFA session in isolated staging.",
+    "Verify hosted audit-log persistence and alerting under database failure conditions.",
+    "Exercise Academy content and certificate writes against an isolated staging database.",
+    "No database, credential, deployment, push, payment, or other external mutation was performed."
   ]
 }

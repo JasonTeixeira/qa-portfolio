@@ -4,7 +4,7 @@
   "inventoryHash": "sha256:7eb6433720d9527a6ace3a3a788b20235ddabe03d682fd0dc89da082e8f5c418",
   "status": "active",
   "generatedAt": "2026-09-04T15:09:39.153Z",
-  "updatedAt": "2026-09-04T19:26:43.765Z",
+  "updatedAt": "2026-09-04T19:27:45.728Z",
   "queue": [
     {
       "id": "repository-foundation",
@@ -459,25 +459,61 @@
           "evidence": "No unresolved local critical/high finding; secrets remain out of URLs, authentication and origin checks fail closed, checkout requires explicit POST, success requires a durable server-owned receipt, and legacy live E2E paths require explicit approval"
         }
       }
+    },
+    {
+      "workstreamId": "academy",
+      "status": "green_local_checkpoint",
+      "commit": "a775a20a0f44344e9eeb986eea574a659e067d5c",
+      "inventoryHash": "sha256:7eb6433720d9527a6ace3a3a788b20235ddabe03d682fd0dc89da082e8f5c418",
+      "completedAt": "2026-09-04T19:27:45.728Z",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "evidence": "210 Academy curriculum/certification tests, 11 Academy program-loop tests, 9 registry tests, and 51 secure evaluator boundary tests passed; the audit covered 32 courses and 640 lessons"
+        },
+        "unitTests": {
+          "status": "pass",
+          "evidence": "334 repository unit tests passed, 0 failed"
+        },
+        "typecheck": {
+          "status": "pass",
+          "evidence": "tsc --noEmit"
+        },
+        "lint": {
+          "status": "pass",
+          "evidence": "eslint: 0 errors, 0 warnings"
+        },
+        "build": {
+          "status": "pass",
+          "evidence": "Next.js production build, isolated critical-journey browser tests, and desktop/mobile Lighthouse matrices passed in the 16-command canonical observer"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "evidence": "git diff --check, git diff --cached --check, and staged Gitleaks scan"
+        },
+        "securityReview": {
+          "status": "pass",
+          "evidence": "No unresolved local critical/high finding; 51 evaluator tests prove fail-closed request signing, path confinement, private-test isolation, digest-pinned runtimes, resource limits, teardown, receipt binding, and practice-only fallback"
+        }
+      }
     }
   ],
   "current": {
-    "id": "academy",
-    "label": "Academy curriculum, assessments, and practice labs",
+    "id": "admin-portal",
+    "label": "Admin and operator workflows",
     "dependsOn": [
+      "auth-security",
       "data-integrity"
     ],
     "boundary": "safe_local",
     "scope": [
-      "courses",
-      "lessons",
-      "assessments",
-      "labs",
-      "accessibility",
-      "sources"
+      "admin",
+      "content operations",
+      "moderation",
+      "auditability"
     ],
-    "sequence": 7,
-    "workstreamId": "academy",
+    "sequence": 8,
+    "workstreamId": "admin-portal",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

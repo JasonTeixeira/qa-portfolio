@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T18:22:24.402Z",
+  "generatedAt": "2026-09-04T18:27:11.607Z",
   "inventoryHash": "sha256:2115243835ccaf5d4ff7f29106c333d4f2aac53aca842ff800e8560571762ed5",
   "workstream": {
-    "id": "billing",
-    "label": "Billing and entitlement correctness",
+    "id": "critical-user-journeys",
+    "label": "Critical product journeys and failure recovery",
     "dependsOn": [
-      "auth-security",
-      "data-integrity"
+      "billing"
     ],
     "boundary": "safe_local",
     "scope": [
+      "marketing",
+      "signup",
+      "onboarding",
       "checkout",
-      "webhooks",
-      "entitlements",
-      "refund states",
-      "billing tests"
+      "account",
+      "error recovery"
     ],
-    "sequence": 5,
-    "workstreamId": "billing",
+    "sequence": 6,
+    "workstreamId": "critical-user-journeys",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

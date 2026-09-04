@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "inventoryHash": "sha256:9162659750ff789c8b4b4c62ebba6aa8057f96923761695c0e85845e1fbeb52c",
-  "generatedAt": "2026-09-04T16:46:47.929Z",
+  "inventoryHash": "sha256:2115243835ccaf5d4ff7f29106c333d4f2aac53aca842ff800e8560571762ed5",
+  "generatedAt": "2026-09-04T18:27:11.609Z",
   "ok": true,
   "fixtureProof": {
     "knownGoodPassed": true,
@@ -18,9 +18,9 @@
     ]
   },
   "stateStatus": "active",
-  "currentWorkstream": "auth-security",
+  "currentWorkstream": "critical-user-journeys",
   "boardStatus": "not_local_production_candidate",
-  "backlogItems": 1,
+  "backlogItems": 0,
   "trust": {
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime",

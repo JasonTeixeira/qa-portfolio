@@ -1,24 +1,25 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:45:15.499Z",
+  "generatedAt": "2026-09-04T19:46:08.492Z",
   "inventoryHash": "sha256:54cfbf679598e8baba09a544b630431be404e52c6968f7aac24c32c05e381e3b",
   "workstream": {
-    "id": "admin-portal",
-    "label": "Admin and operator workflows",
+    "id": "communications-jobs",
+    "label": "Email, Discord, background jobs, and automation",
     "dependsOn": [
-      "auth-security",
       "data-integrity"
     ],
     "boundary": "safe_local",
     "scope": [
-      "admin",
-      "content operations",
-      "moderation",
-      "auditability"
+      "email",
+      "Discord",
+      "queues",
+      "idempotency",
+      "retry",
+      "dead letters"
     ],
-    "sequence": 8,
-    "workstreamId": "admin-portal",
+    "sequence": 9,
+    "workstreamId": "communications-jobs",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

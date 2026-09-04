@@ -4,7 +4,7 @@
   "inventoryHash": "sha256:54cfbf679598e8baba09a544b630431be404e52c6968f7aac24c32c05e381e3b",
   "status": "active",
   "generatedAt": "2026-09-04T15:09:39.153Z",
-  "updatedAt": "2026-09-04T19:44:22.558Z",
+  "updatedAt": "2026-09-04T19:46:08.095Z",
   "queue": [
     {
       "id": "repository-foundation",
@@ -496,24 +496,62 @@
           "evidence": "No unresolved local critical/high finding; 51 evaluator tests prove fail-closed request signing, path confinement, private-test isolation, digest-pinned runtimes, resource limits, teardown, receipt binding, and practice-only fallback"
         }
       }
+    },
+    {
+      "workstreamId": "admin-portal",
+      "status": "green_local_checkpoint",
+      "commit": "b3cc7a05ea936fd47315adc7790376757736715e",
+      "inventoryHash": "sha256:54cfbf679598e8baba09a544b630431be404e52c6968f7aac24c32c05e381e3b",
+      "completedAt": "2026-09-04T19:46:08.095Z",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "evidence": "5 admin integrity contracts passed; the source audit checked 36 privileged files with zero findings and deliberately broken fixtures failed closed"
+        },
+        "unitTests": {
+          "status": "pass",
+          "evidence": "334 repository unit tests passed, 0 failed"
+        },
+        "typecheck": {
+          "status": "pass",
+          "evidence": "tsc --noEmit"
+        },
+        "lint": {
+          "status": "pass",
+          "evidence": "eslint: 0 errors, 0 warnings"
+        },
+        "build": {
+          "status": "pass",
+          "evidence": "Next.js production build, isolated critical-journey browser tests, and desktop/mobile Lighthouse matrices passed in the 17-command canonical observer"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "evidence": "git diff --check, git diff --cached --check, and staged Gitleaks scan"
+        },
+        "securityReview": {
+          "status": "pass",
+          "evidence": "No unresolved local critical/high finding; canonical profile authorization, production MFA, bounded service-role input, runtime block validation, generic errors, and actor-bound mutation audit contracts are enforced"
+        }
+      }
     }
   ],
   "current": {
-    "id": "admin-portal",
-    "label": "Admin and operator workflows",
+    "id": "communications-jobs",
+    "label": "Email, Discord, background jobs, and automation",
     "dependsOn": [
-      "auth-security",
       "data-integrity"
     ],
     "boundary": "safe_local",
     "scope": [
-      "admin",
-      "content operations",
-      "moderation",
-      "auditability"
+      "email",
+      "Discord",
+      "queues",
+      "idempotency",
+      "retry",
+      "dead letters"
     ],
-    "sequence": 8,
-    "workstreamId": "admin-portal",
+    "sequence": 9,
+    "workstreamId": "communications-jobs",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

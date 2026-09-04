@@ -1,26 +1,24 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T21:08:55.800Z",
+  "generatedAt": "2026-09-04T21:10:43.682Z",
   "inventoryHash": "sha256:1f929a1e7a4331b3d2a203854bf20fe70d9dd20f38c25ab7117d578f21881a90",
   "workstream": {
-    "id": "observability-recovery",
-    "label": "Observability, incident response, and recovery",
+    "id": "release-readiness",
+    "label": "Local production-candidate release proof",
     "dependsOn": [
-      "communications-jobs",
-      "critical-user-journeys"
+      "accessibility-performance",
+      "observability-recovery"
     ],
     "boundary": "safe_local",
     "scope": [
-      "logs",
-      "metrics",
-      "alerts",
-      "runbooks",
-      "rollback",
-      "recovery"
+      "release manifest",
+      "local gates",
+      "evidence reconciliation",
+      "handoff"
     ],
-    "sequence": 11,
-    "workstreamId": "observability-recovery",
+    "sequence": 12,
+    "workstreamId": "release-readiness",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

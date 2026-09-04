@@ -73,12 +73,12 @@ test('repository migration chain is contiguous, immutable, RLS-covered, and secu
 
   assert.deepEqual(result.findings, [])
   assert.equal(result.ok, true)
-  assert.equal(result.summary.migrationCount, 116)
+  assert.equal(result.summary.migrationCount, 117)
   assert.equal(result.summary.baselineFileCount, 14)
   assert.equal(result.summary.foundationFileCount, 2)
-  assert.equal(result.summary.schemaFileCount, 132)
+  assert.equal(result.summary.schemaFileCount, 133)
   assert.equal(result.summary.incrementalStart, 6)
-  assert.equal(result.summary.incrementalEnd, 121)
+  assert.equal(result.summary.incrementalEnd, 122)
   assert.equal(result.summary.createdTables, result.summary.rlsEnabledTables)
 })
 

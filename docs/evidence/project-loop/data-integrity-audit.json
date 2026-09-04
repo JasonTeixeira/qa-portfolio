@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
   "contractVersion": "data-integrity-v1",
-  "generatedAt": "2026-09-04T18:18:40.548Z",
+  "generatedAt": "2026-09-04T20:02:34.267Z",
   "status": "local_static_green",
   "migrationAudit": {
     "ok": true,
     "findings": [],
     "summary": {
-      "migrationCount": 116,
+      "migrationCount": 117,
       "baselineFileCount": 14,
       "foundationFileCount": 2,
-      "schemaFileCount": 132,
+      "schemaFileCount": 133,
       "incrementalStart": 6,
-      "incrementalEnd": 121,
-      "chainHash": "sha256:399437da1cd2506418756777ad9529683a5b8c839369bab6bb318c08aa9de5bc",
-      "createdTables": 296,
-      "rlsEnabledTables": 296,
-      "securityDefinerFunctions": 19
+      "incrementalEnd": 122,
+      "chainHash": "sha256:1af0cb50b288d95c2e0b143743f071d28703153f12d0b76a7f6b67ef7328bcda",
+      "createdTables": 297,
+      "rlsEnabledTables": 297,
+      "securityDefinerFunctions": 20
     }
   },
   "legacyBaseline": {

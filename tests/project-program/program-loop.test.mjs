@@ -247,6 +247,9 @@ test('package scripts expose the complete local program control surface', () => 
   const expected = {
     'test:admin': 'tsx --test tests/admin/admin-integrity.test.ts && npm run audit:admin',
     'audit:admin': 'tsx tools/admin/write-audit.ts',
+    'test:communications': 'tsx --test tests/communications/communications-integrity.test.ts && npm run test:communications:sql && npm run discord:durable-jobs-readiness && npm run discord:security-privacy-readiness && npm run discord:observability-quality-readiness && npm run audit:communications',
+    'test:communications:sql': 'node tools/communications/run-sql-integration.mjs',
+    'audit:communications': 'tsx tools/communications/write-audit.ts',
     'test:academy-production': 'npm run academy:audit:test && npm run academy:audit:all && npm run academy:program:verify && npm run academy:registry:verify && npm run academy:lab-evaluator:test',
     'project:program:inventory': 'node tools/project-program/cli.mjs inventory',
     'project:program:plan': 'node tools/project-program/cli.mjs plan',
@@ -266,6 +269,7 @@ test('package scripts expose the complete local program control surface', () => 
 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:academy-production'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:admin'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:communications'))
 })
 
 test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {

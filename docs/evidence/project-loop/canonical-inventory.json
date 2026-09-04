@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:46:08.472Z",
-  "inventoryHash": "sha256:54cfbf679598e8baba09a544b630431be404e52c6968f7aac24c32c05e381e3b",
+  "generatedAt": "2026-09-04T20:16:17.466Z",
+  "inventoryHash": "sha256:038fe370979f050e66a4189c0dc9660edb3242bf6215ce6bf533add668ec1193",
   "git": {
-    "head": "b3cc7a05ea936fd47315adc7790376757736715e",
+    "head": "420640e6b9de3497bd4c99c7a4ab4f8c530c178a",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3868,
+    "trackedFiles": 3876,
     "appPages": 235,
     "routeHandlers": 132,
     "apiRoutes": 125,
-    "migrations": 116,
-    "tests": 160,
+    "migrations": 117,
+    "tests": 163,
     "academyCourses": 32,
     "academyLessons": 640,
     "academyLabs": 640
@@ -65,6 +65,7 @@
     "academy:registry:write",
     "audit:admin",
     "audit:business-site",
+    "audit:communications",
     "audit:critical-journeys",
     "audit:data-integrity",
     "audit:strict-ui",
@@ -279,6 +280,8 @@
     "test:billing",
     "test:billing:sql",
     "test:cleanup",
+    "test:communications",
+    "test:communications:sql",
     "test:critical-journeys",
     "test:critical-journeys:e2e",
     "test:data-integrity",
@@ -770,6 +773,10 @@
     {
       "file": "supabase/migrations/0121_billing_integrity.sql",
       "version": "0121"
+    },
+    {
+      "file": "supabase/migrations/0122_email_delivery_integrity.sql",
+      "version": "0122"
     }
   ],
   "files": [
@@ -3541,6 +3548,8 @@
     "lib/booking/confirm-email.ts",
     "lib/booking/slots.ts",
     "lib/changelogData.ts",
+    "lib/communications/delivery-policy.ts",
+    "lib/communications/integrity.ts",
     "lib/discord/analytics.ts",
     "lib/discord/approved-knowledge-operating-packet.ts",
     "lib/discord/ask-sage.ts",
@@ -4462,6 +4471,7 @@
     "supabase/migrations/0119_academy_managed_evaluator_policy_pin.sql",
     "supabase/migrations/0120_academy_lab_release_binding.sql",
     "supabase/migrations/0121_billing_integrity.sql",
+    "supabase/migrations/0122_email_delivery_integrity.sql",
     "supabase/schema_part1_tables.sql",
     "supabase/schema_part2_seed.sql",
     "tests/academy/agents-tool-use-mastery.test.ts",
@@ -4507,6 +4517,9 @@
     "tests/billing/billing-integrity.test.ts",
     "tests/billing/sql/assertions.sql",
     "tests/billing/sql/prelude.sql",
+    "tests/communications/communications-integrity.test.ts",
+    "tests/communications/sql/assertions.sql",
+    "tests/communications/sql/prelude.sql",
     "tests/critical-journeys/critical-journeys.test.ts",
     "tests/data-integrity/data-integrity.test.mjs",
     "tests/data-integrity/fixtures/deliberately-broken.json",
@@ -4628,6 +4641,8 @@
     "tools/academy-program/core.mjs",
     "tools/admin/write-audit.ts",
     "tools/billing/run-sql-integration.mjs",
+    "tools/communications/run-sql-integration.mjs",
+    "tools/communications/write-audit.ts",
     "tools/data-integrity/cli.mjs",
     "tools/data-integrity/core.mjs",
     "tools/engineering-loop/audit-state.mjs",

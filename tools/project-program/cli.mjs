@@ -50,6 +50,7 @@ const REQUIRED_SCRIPTS = Object.freeze({
 const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'program-contract', command: 'npm run project:program:test', severity: 'critical', workstreamId: 'repository-foundation' },
   { id: 'unit-tests', command: 'npm run test:unit', severity: 'critical', workstreamId: 'build-quality' },
+  { id: 'security-contract', command: 'npm run test:security', severity: 'critical', workstreamId: 'auth-security' },
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },

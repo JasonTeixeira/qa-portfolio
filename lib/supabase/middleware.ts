@@ -283,7 +283,10 @@ export async function updateSession(request: NextRequest) {
 
     // Admin-only hardening: MFA step-up + sliding idle timeout.
     if (needsAdmin && isAdmin) {
-      const mfaRequired = process.env.MFA_REQUIRED_FOR_ADMIN === 'true';
+      // Production admin access always requires step-up MFA. The environment
+      // switch only exists so local/preview development can opt into the flow.
+      const mfaRequired =
+        process.env.NODE_ENV === 'production' || process.env.MFA_REQUIRED_FOR_ADMIN === 'true';
       if (mfaRequired) {
         const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
         // currentLevel === 'aal1' means the session has not satisfied the

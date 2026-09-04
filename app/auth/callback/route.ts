@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { logAudit } from '@/lib/admin-guard';
+import { safeRelativeRedirect } from '@/lib/security/safe-redirect';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code');
   const tokenHash = searchParams.get('token_hash');
   const type = searchParams.get('type');
-  const next = searchParams.get('next') ?? '/auth/redirect';
+  const next = safeRelativeRedirect(searchParams.get('next'), '/auth/redirect');
   const errorParam = searchParams.get('error_description') ?? searchParams.get('error');
 
   if (errorParam) {

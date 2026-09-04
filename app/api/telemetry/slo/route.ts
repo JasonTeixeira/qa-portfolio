@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdminApi } from '@/lib/admin-guard';
 import { supabaseAdmin } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
@@ -12,6 +13,9 @@ function p75(values: number[]): number | null {
 }
 
 export async function GET() {
+  const guard = await requireAdminApi();
+  if (guard instanceof NextResponse) return guard;
+
   const sb = supabaseAdmin();
   const horizon = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   try {

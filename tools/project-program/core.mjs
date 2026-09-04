@@ -106,6 +106,7 @@ export const WORKSTREAM_GRAPH = Object.freeze([
 export const SAFE_LOCAL_COMMANDS = Object.freeze([
   'npm run project:program:test',
   'npm run test:unit',
+  'npm run test:security',
   'npm run typecheck',
   'npm run lint',
   'npm run build',

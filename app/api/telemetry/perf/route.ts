@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { rateLimit } from '@/lib/rate-limit';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
@@ -14,7 +15,10 @@ const schema = z.object({
   release: z.string().max(64).nullable().optional(),
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { limit: 120, windowMs: 60_000, prefix: 'telemetry-perf' });
+  if (limited) return limited;
+
   let raw: unknown;
   try {
     raw = await req.json();

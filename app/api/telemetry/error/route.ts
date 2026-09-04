@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { rateLimit } from '@/lib/rate-limit';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
@@ -14,7 +15,10 @@ const schema = z.object({
   release: z.string().max(64).nullable().optional(),
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const limited = await rateLimit(req, { limit: 30, windowMs: 60_000, prefix: 'telemetry-error' });
+  if (limited) return limited;
+
   let raw: unknown;
   try {
     raw = await req.json();
@@ -49,9 +53,13 @@ export async function POST(req: Request) {
     // unauth
   }
 
-  const sb = supabaseAdmin();
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return new NextResponse(null, { status: 204 });
+  }
+
   const ua = req.headers.get('user-agent') ?? null;
   try {
+    const sb = supabaseAdmin();
     await sb.from('error_events').insert({
       user_id: userId,
       organization_id: orgId,

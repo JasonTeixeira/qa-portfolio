@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-09-04T18:22:22.709Z",
+  "timestamp": "2026-09-04T19:05:07.297Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -361,6 +361,24 @@
     {
       "script": "test:cleanup",
       "command": "tsx tests/db/cleanup.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "test:e2e",
+      "command": "playwright test --config=playwright.e2e.config.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "test:e2e:local",
+      "command": "node --env-file-if-exists=.env.local scripts/ops/run-playwright.mjs test --config=playwright.e2e.config.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "test:e2e:local:acquisition",
+      "command": "node --env-file-if-exists=.env.local scripts/ops/run-playwright.mjs test tests/e2e/admin/acquisition.spec.ts --config=playwright.e2e.config.ts --project=chromium",
       "approvalBoundary": "requires_explicit_user_approval_before_running",
       "includedInLocalRelease": false
     }

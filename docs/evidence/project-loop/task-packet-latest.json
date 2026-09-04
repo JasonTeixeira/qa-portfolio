@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T18:27:11.607Z",
-  "inventoryHash": "sha256:2115243835ccaf5d4ff7f29106c333d4f2aac53aca842ff800e8560571762ed5",
+  "generatedAt": "2026-09-04T19:05:09.112Z",
+  "inventoryHash": "sha256:1c6266f02d11e8a26a27f1f8974d40c48f0b05c6071580346e9d60dde9991662",
   "workstream": {
     "id": "critical-user-journeys",
     "label": "Critical product journeys and failure recovery",
@@ -68,6 +68,8 @@
     "npm run test:data-integrity",
     "npm run test:billing",
     "npm run test:billing:sql",
+    "npm run test:critical-journeys",
+    "npm run test:critical-journeys:e2e",
     "npm run typecheck",
     "npm run lint",
     "npm run build",

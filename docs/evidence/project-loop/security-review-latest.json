@@ -1,30 +1,31 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T18:24:00.000Z",
+  "generatedAt": "2026-09-04T19:00:00.000Z",
   "status": "pass_local_code_review",
   "scope": [
-    "Stripe checkout and webhook processing",
-    "invoice lifecycle and recurring subscriptions",
-    "payment receipts, refunds, and event ordering",
-    "entitlement fulfillment and revocation",
-    "Discord premium role assignment",
-    "Academy paid-enrollment certification gate",
-    "billing integrity migration 0121",
+    "Studio and Academy registration",
+    "email verification and referral timing",
+    "authentication and invite callback origins",
+    "service, care, invoice, and portal checkout entry",
+    "webhook-owned payment return state",
+    "account fail-closed behavior",
+    "local and legacy E2E safety boundaries",
     "staged secret scan"
   ],
   "proof": {
+    "criticalJourneyContracts": "11 passed, 0 failed",
+    "criticalJourneyBrowser": "6 passed, 0 failed; loopback only; external traffic blocked",
+    "unitTests": "334 passed, 0 failed",
+    "securityTests": "15 passed, 0 failed",
     "billingTests": "11 passed, 0 failed",
     "billingSqlIntegration": "PostgreSQL 17 integration passed",
-    "unitTests": "334 passed, 0 failed",
-    "securityTests": "13 passed, 0 failed",
     "dataIntegrityTests": "8 passed, 0 failed",
+    "canonicalObserver": "15 passed, 0 failed",
     "typecheck": "pass",
     "lint": "pass with 0 errors and 0 warnings",
     "dependencyAudit": "0 vulnerabilities across production and development dependency graphs",
-    "lighthouseDesktop": "6/6 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
-    "lighthouseMobile": "5/5 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
-    "secretScan": "gitleaks staged diff: approximately 117.7 KB scanned, no leaks found",
+    "secretScan": "gitleaks staged diff: approximately 124.2 KB scanned, no leaks found",
     "approvalBoundaryAudit": "pass",
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime"
@@ -32,61 +33,57 @@
   "remediatedFindings": [
     {
       "severity": "high",
-      "code": "webhook_replay_and_failure_ambiguity",
-      "resolution": "Added a service-only durable claim operation that distinguishes new, successful duplicate, retryable failure, and in-progress deliveries."
+      "code": "signup_password_in_url",
+      "resolution": "Replaced the GET-driven wizard with a client-side single form that submits credentials only through the final server action."
     },
     {
       "severity": "high",
-      "code": "out_of_order_payment_refund_state",
-      "resolution": "Added a database-owned payment receipt state machine that preserves partial and full refund state under late payment events."
+      "code": "public_service_role_account_confirmation",
+      "resolution": "Academy signup now uses public Supabase signup and requires email ownership confirmation."
     },
     {
       "severity": "high",
-      "code": "client_controlled_billing_authority",
-      "resolution": "Checkout and invoice operations now derive amount, currency, state, ownership, and entitlement targets from server-owned records."
+      "code": "host_header_callback_injection",
+      "resolution": "Security-sensitive callback URLs use one canonical origin policy and production never trusts request host headers."
     },
     {
       "severity": "high",
-      "code": "non_atomic_invoice_workflows",
-      "resolution": "Invoice creation, dunning, and manual settlement now execute in transactional database functions and propagate persistence errors."
+      "code": "url_claimed_payment_success",
+      "resolution": "Payment confirmation and completion analytics require a matching webhook-owned fulfillment receipt."
     },
     {
       "severity": "high",
-      "code": "shared_checkout_idempotency",
-      "resolution": "Public clients supply validated request UUIDs; server routes hash them, and shared IP/day checkout keys were removed."
-    },
-    {
-      "severity": "high",
-      "code": "checkout_without_durable_fulfillment",
-      "resolution": "Service and care checkout completion now records a unique durable fulfillment before best-effort downstream capture."
-    },
-    {
-      "severity": "high",
-      "code": "entitlement_persistence_failed_open",
-      "resolution": "Academy membership and Discord premium persistence now fail closed, and Discord role assignment requires configured roles."
-    },
-    {
-      "severity": "high",
-      "code": "unauthorized_subscription_cancellation",
-      "resolution": "Cancellation validates the subscription identifier and verifies local user ownership before any Stripe mutation."
-    },
-    {
-      "severity": "high",
-      "code": "premature_academy_commerce",
-      "resolution": "Paid enrollment now requires both an explicit enablement flag and the canonical certified state; current Academy commerce remains closed."
+      "code": "e2e_defaulted_to_production",
+      "resolution": "Legacy E2E defaults to loopback, remote targets require explicit approval, and live checkout requires a separate mutation flag."
     },
     {
       "severity": "medium",
-      "code": "duplicate_recurring_billing_state",
-      "resolution": "Stable idempotency keys cover customer, product, and subscription creation, and an existing active engagement blocks duplicate creation."
+      "code": "stripe_session_created_on_get",
+      "resolution": "Shareable checkout routes are review pages; session creation requires an explicit POST button action."
+    },
+    {
+      "severity": "medium",
+      "code": "care_checkout_dead_link",
+      "resolution": "The review page now resolves and discloses all recurring care plans."
+    },
+    {
+      "severity": "medium",
+      "code": "portal_checkout_dead_return_paths",
+      "resolution": "Success and cancellation return to canonical portal routes, with request-scoped idempotency and handled provider errors."
+    },
+    {
+      "severity": "medium",
+      "code": "preverification_referral_credit",
+      "resolution": "Referral attribution occurs only after the auth callback proves email ownership."
     }
   ],
   "unresolvedCriticalOrHigh": [],
   "devOnlyExceptions": [],
   "externalEvidencePending": [
-    "Migration 0121 is proven against disposable PostgreSQL but has not been applied to a hosted Supabase project.",
-    "Signed Stripe test-mode concurrency, replay, retry, refund, subscription, and receipt reconciliation require isolated staging credentials.",
-    "Live Discord role assignment and revocation require configured staging credentials and remain outside the local claim.",
-    "No checkout, refund, subscription, database, Discord, credential, deployment, or other external mutation was performed."
+    "Apply migration 0121 to isolated staging before relying on hosted fulfillment receipts.",
+    "Verify email confirmation delivery and callback reconciliation with staging Supabase and email credentials.",
+    "Run signed Stripe test-mode checkout, webhook, retry, and receipt reconciliation with explicit approval.",
+    "Run authenticated portal journeys against isolated seeded staging tenants with explicit approval.",
+    "No signup, email, checkout, payment, database, credential, deployment, or other external mutation was performed."
   ]
 }

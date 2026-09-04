@@ -4,6 +4,7 @@ import path from 'node:path'
 import test from 'node:test'
 
 import { safeRelativeRedirect } from '../../lib/security/safe-redirect'
+import { canonicalSiteOrigin } from '../../lib/security/site-origin'
 import { isFreshWebhookTimestamp } from '../../lib/security/webhook-freshness'
 
 const source = (relativePath: string) =>
@@ -166,4 +167,36 @@ test('production defaults to enforced CSP and mandatory admin MFA', async () => 
   assert.match(adminGuard, /status:\s*503/)
   assert.match(portalAuth, /getAuthenticatorAssuranceLevel/)
   assert.match(portalAuth, /currentLevel\s*!==\s*['"]aal2['"]/)
+})
+
+test('production callback origins ignore request-controlled host headers', () => {
+  assert.equal(canonicalSiteOrigin({
+    configured: undefined,
+    forwardedHost: 'attacker.example',
+    host: 'attacker.example',
+    forwardedProto: 'https',
+    production: true,
+  }), 'https://www.sageideas.dev')
+  assert.equal(canonicalSiteOrigin({
+    configured: 'https://portal.sageideas.dev/callback',
+    forwardedHost: 'attacker.example',
+    host: 'attacker.example',
+    forwardedProto: 'http',
+    production: true,
+  }), 'https://portal.sageideas.dev')
+})
+
+test('public signup never transports passwords in URLs or service-role confirms Academy users', async () => {
+  const signupPage = await source('app/signup/page.tsx')
+  const signupWizard = await source('components/auth/studio-signup-wizard.tsx')
+  const actions = await source('app/auth/actions.ts')
+  const academyAction = actions.slice(
+    actions.indexOf('export async function signUpAcademy'),
+    actions.indexOf('export async function signOut'),
+  )
+
+  assert.doesNotMatch(signupPage, /password\?:\s*string|encodeURIComponent\(password\)/)
+  assert.doesNotMatch(signupWizard, /method=["']GET["']/)
+  assert.match(academyAction, /supabase\.auth\.signUp/)
+  assert.doesNotMatch(academyAction, /auth\.admin\.createUser|email_confirm\s*:\s*true/)
 })

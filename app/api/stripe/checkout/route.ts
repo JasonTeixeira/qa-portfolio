@@ -12,6 +12,7 @@ import {
   isInvoicePayable,
   toPositiveIntegerCents,
 } from '@/lib/billing/integrity';
+import { canonicalSiteOrigin } from '@/lib/security/site-origin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -115,10 +116,13 @@ export async function POST(req: Request) {
     );
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    new URL(req.url).origin;
+  const requestUrl = new URL(req.url);
+  const baseUrl = canonicalSiteOrigin({
+    configured: process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXT_PUBLIC_SITE_URL,
+    forwardedHost: requestUrl.host,
+    forwardedProto: requestUrl.protocol.slice(0, -1),
+    production: process.env.NODE_ENV === 'production',
+  });
 
   try {
     // Every invoice has one active checkout. An expired session becomes the

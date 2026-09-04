@@ -61,4 +61,4 @@ The restore is not proven until all applicable checks pass:
 
 ## Evidence and review
 
-Attach the provider backup inventory, selected recovery point, commands with secrets redacted, checksums, integrity output, achieved RPO/RTO, reviewer identity, and decision to the incident or drill record. A local dry run may validate this procedure, but only a completed isolated remote restore drill can close the live recovery-readiness gap.
+Attach the provider backup inventory, selected recovery point, commands with secrets redacted, checksums, integrity output, achieved RPO/RTO, reviewer identity, and decision to the incident or drill record. A local dry run may validate this procedure, but only a completed isolated remote restore drill can close the **live recovery evidence** and recovery-readiness gap.

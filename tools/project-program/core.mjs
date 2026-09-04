@@ -117,6 +117,7 @@ export const SAFE_LOCAL_COMMANDS = Object.freeze([
   'npm run test:communications',
   'npm run test:accessibility-performance',
   'npm run test:accessibility-performance:e2e',
+  'npm run test:observability-recovery',
   'npm run typecheck',
   'npm run lint',
   'npm run build',

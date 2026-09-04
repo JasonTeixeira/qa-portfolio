@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T22:00:00.000Z",
+  "generatedAt": "2026-09-04T22:30:00.000Z",
   "status": "pass_local_code_review",
   "scope": [
     "canonical admin role and MFA boundary",
@@ -16,13 +16,16 @@
     "Discord durable jobs, privacy, and observability",
     "accessibility and performance audit contract",
     "isolated local browser and Lighthouse execution",
-    "semantic and visual authentication and checkout changes"
+    "semantic and visual authentication and checkout changes",
+    "public health and telemetry privacy boundaries",
+    "Sentry event scrubbing and trace sampling",
+    "alert, incident, rollback, and recovery contracts"
   ],
   "proof": {
     "adminContracts": "5 passed, 0 failed; 36 privileged files audited with 0 findings",
     "securityTests": "15 passed, 0 failed",
     "unitTests": "334 passed, 0 failed",
-    "canonicalObserver": "18 passed, 0 failed",
+    "canonicalObserver": "22 passed, 0 failed",
     "typecheck": "pass",
     "lint": "pass with 0 errors and 0 warnings",
     "productionBuild": "pass",
@@ -35,6 +38,7 @@
     "accessibilityBrowser": "13 passed, 0 failed across route, keyboard, reduced-motion, mobile-overflow, landmark, and WCAG 2.2 AA checks",
     "desktopLighthouse": "6 public routes passed accessibility >= 0.95, LCP <= 2500 ms, CLS <= 0.1, and TBT <= 200 ms",
     "mobileLighthouse": "6 public routes passed accessibility >= 0.95, LCP <= 2500 ms, CLS <= 0.1, and TBT <= 300 ms",
+    "observabilityRecoveryContracts": "6 passed, 0 failed; deliberately broken contract, telemetry privacy, alerts, recovery evidence, and repository audit proved",
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime"
   },
@@ -83,6 +87,21 @@
       "severity": "high",
       "code": "email_retry_policy_missing",
       "resolution": "Delivery attempts use bounded exponential backoff and transition to a durable dead letter after three attempts or a permanent failure."
+    },
+    {
+      "severity": "high",
+      "code": "public_health_privilege_and_disclosure",
+      "resolution": "Public readiness now uses an anonymous bounded probe, removes service-role access, and returns only safe error codes."
+    },
+    {
+      "severity": "high",
+      "code": "telemetry_sensitive_data_retention",
+      "resolution": "Telemetry and Sentry events now minimize URLs, redact common secrets/PII, bound metrics and sampling, and suppress privileged request fields."
+    },
+    {
+      "severity": "high",
+      "code": "observability_false_green",
+      "resolution": "Query failures return unavailable/503 and no-sample states remain unknown; the diagnostic ratio is no longer presented as a true error-rate SLO."
     }
   ],
   "unresolvedCriticalOrHigh": [],
@@ -94,6 +113,8 @@
     "Apply migration 0122 and exercise signed Resend delivery, failure, and replay events in isolated staging.",
     "Observe real scheduled Discord jobs, retries, dead letters, and alerts over an operating window.",
     "Complete assistive-technology and disabled-user testing plus a field Core Web Vitals observation window.",
+    "Configure and prove alert delivery/escalation plus release-correlated scrubbed Sentry events in isolated staging.",
+    "Perform approved isolated deployment rollback and database/storage recovery drills with measured evidence.",
     "No database, credential, deployment, push, payment, or other external mutation was performed."
   ]
 }

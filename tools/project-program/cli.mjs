@@ -59,6 +59,7 @@ const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'admin-production-contract', command: 'npm run test:admin', severity: 'critical', workstreamId: 'admin-portal' },
   { id: 'communications-production-contract', command: 'npm run test:communications', severity: 'critical', workstreamId: 'communications-jobs' },
   { id: 'accessibility-performance-contract', command: 'npm run test:accessibility-performance', severity: 'critical', workstreamId: 'accessibility-performance' },
+  { id: 'observability-recovery-contract', command: 'npm run test:observability-recovery', severity: 'critical', workstreamId: 'observability-recovery' },
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },

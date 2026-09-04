@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { rateLimit } from '@/lib/rate-limit';
 import { createSupabaseServerClient, supabaseAdmin } from '@/lib/supabase/server';
+import { redactTelemetryText, sanitizeTelemetryUrl } from '@/lib/observability/contract';
+import { structuredLog } from '@/lib/observability/structured-log';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -57,22 +59,22 @@ export async function POST(req: NextRequest) {
     return new NextResponse(null, { status: 204 });
   }
 
-  const ua = req.headers.get('user-agent') ?? null;
+  const ua = req.headers.get('user-agent');
   try {
     const sb = supabaseAdmin();
     await sb.from('error_events').insert({
       user_id: userId,
       organization_id: orgId,
-      url: body.url ?? null,
-      user_agent: ua,
-      message: body.message,
-      stack: body.stack ?? null,
+      url: sanitizeTelemetryUrl(body.url),
+      user_agent: ua ? redactTelemetryText(ua, 512) : null,
+      message: redactTelemetryText(body.message, 4000),
+      stack: body.stack ? redactTelemetryText(body.stack, 8000) : null,
       digest: body.digest ?? null,
       severity: body.severity ?? 'error',
       release: body.release ?? null,
     });
   } catch {
-    // swallow
+    structuredLog('warn', 'telemetry_persistence_failed', { signal: 'error_event' })
   }
   return new NextResponse(null, { status: 204 });
 }

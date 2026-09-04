@@ -1,20 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T15:46:36.604Z",
+  "generatedAt": "2026-09-04T15:48:05.869Z",
   "inventoryHash": "sha256:5e461ccb2212202f51c7ca0e22fb57fe0c7ab9a31e6c060b7f26ff2559c34522",
   "items": [
     {
       "rank": 1,
-      "code": "merge_checkpoint_pending",
-      "severity": "high",
-      "workstreamId": "repository-foundation",
-      "summary": "The integration merge is intentionally pending until the checkpoint is GREEN.",
-      "details": {},
-      "workstreamSequence": 1
-    },
-    {
-      "rank": 2,
       "code": "dev_dependency_exception",
       "severity": "medium",
       "workstreamId": "build-quality",
@@ -46,7 +37,7 @@
       "workstreamSequence": 2
     },
     {
-      "rank": 3,
+      "rank": 2,
       "code": "security_review_pending",
       "severity": "medium",
       "workstreamId": "auth-security",

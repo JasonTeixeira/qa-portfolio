@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T17:28:31.951Z",
-  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
+  "generatedAt": "2026-09-04T18:22:24.393Z",
+  "inventoryHash": "sha256:2115243835ccaf5d4ff7f29106c333d4f2aac53aca842ff800e8560571762ed5",
   "git": {
-    "head": "1495a41fa3a0098c4643cbc8f6ae4a85df131c89",
+    "head": "2fdaebc882686067763aa750041c0194fa994b38",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3849,
+    "trackedFiles": 3855,
     "appPages": 234,
     "routeHandlers": 133,
     "apiRoutes": 125,
-    "migrations": 115,
-    "tests": 154,
+    "migrations": 116,
+    "tests": 157,
     "academyCourses": 32,
     "academyLessons": 640,
     "academyLabs": 640
@@ -272,6 +272,8 @@
     "start:local",
     "stop:local",
     "test:all",
+    "test:billing",
+    "test:billing:sql",
     "test:cleanup",
     "test:data-integrity",
     "test:e2e",
@@ -758,6 +760,10 @@
     {
       "file": "supabase/migrations/0120_academy_lab_release_binding.sql",
       "version": "0120"
+    },
+    {
+      "file": "supabase/migrations/0121_billing_integrity.sql",
+      "version": "0121"
     }
   ],
   "files": [
@@ -3513,6 +3519,7 @@
     "lib/auth.ts",
     "lib/awsDynamo.ts",
     "lib/awsSes.ts",
+    "lib/billing/integrity.ts",
     "lib/blog-i18n.ts",
     "lib/blog-schema.ts",
     "lib/blog-server.ts",
@@ -4440,6 +4447,7 @@
     "supabase/migrations/0118_academy_private_lab_specs.sql",
     "supabase/migrations/0119_academy_managed_evaluator_policy_pin.sql",
     "supabase/migrations/0120_academy_lab_release_binding.sql",
+    "supabase/migrations/0121_billing_integrity.sql",
     "supabase/schema_part1_tables.sql",
     "supabase/schema_part2_seed.sql",
     "tests/academy/agents-tool-use-mastery.test.ts",
@@ -4481,6 +4489,9 @@
     "tests/academy/system-design-mastery.test.ts",
     "tests/academy/ux-ui-product-design-mastery.test.ts",
     "tests/academy/vercel-sandbox-evaluator.test.ts",
+    "tests/billing/billing-integrity.test.ts",
+    "tests/billing/sql/assertions.sql",
+    "tests/billing/sql/prelude.sql",
     "tests/data-integrity/data-integrity.test.mjs",
     "tests/data-integrity/fixtures/deliberately-broken.json",
     "tests/data-integrity/fixtures/known-good.json",
@@ -4598,6 +4609,7 @@
     "tests/visual/phase0.spec.ts-snapshots/work-768-chromium-darwin.png",
     "tools/academy-program/cli.mjs",
     "tools/academy-program/core.mjs",
+    "tools/billing/run-sql-integration.mjs",
     "tools/data-integrity/cli.mjs",
     "tools/data-integrity/core.mjs",
     "tools/engineering-loop/audit-state.mjs",

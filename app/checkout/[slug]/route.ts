@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHash } from 'node:crypto'
 import { tiersBySlug } from '@/data/services/tiers'
 import { isSelfServe } from '@/data/services/tier-classification'
 import { getStripe, isStripeConfigured } from '@/lib/stripe/client'
+import { rateLimit } from '@/lib/rate-limit'
 
 /**
  * GET /checkout/<slug> — a shareable, linkable checkout for self-serve
@@ -14,6 +14,8 @@ import { getStripe, isStripeConfigured } from '@/lib/stripe/client'
  * booking page instead of an error.
  */
 export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: string }> }) {
+  const limited = await rateLimit(req, { limit: 10, windowMs: 60_000, prefix: 'checkout-link' })
+  if (limited) return limited
   const { slug } = await ctx.params
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sageideas.dev'
 
@@ -21,15 +23,6 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
   if (!tier || !isSelfServe(tier) || !tier.stripePriceId || !isStripeConfigured()) {
     return NextResponse.redirect(`${base}/book?from=checkout-${encodeURIComponent(slug).slice(0, 64)}`, 302)
   }
-
-  const ip =
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    req.headers.get('x-real-ip') ||
-    'unknown'
-  const dayBucket = new Date().toISOString().slice(0, 10)
-  const idempotencyKey = createHash('sha256')
-    .update(`tier:${tier.slug}:${ip}:${dayBucket}`)
-    .digest('hex')
 
   try {
     const stripe = getStripe()
@@ -46,7 +39,6 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
         metadata: { kind: 'service', slug: tier.slug, tier_name: tier.name, source: req.nextUrl.searchParams.get('src') ?? 'direct' },
         payment_intent_data: { metadata: { kind: 'service', slug: tier.slug } },
       },
-      { idempotencyKey },
     )
     if (session.url) return NextResponse.redirect(session.url, 302)
   } catch (err) {

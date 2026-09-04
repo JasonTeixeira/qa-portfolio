@@ -1,26 +1,30 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T15:46:00.000Z",
+  "generatedAt": "2026-09-04T18:24:00.000Z",
   "status": "pass_local_code_review",
   "scope": [
-    "authentication and authorization middleware",
-    "Academy checkout change",
-    "newsletter subscribe, confirm, and unsubscribe boundaries",
-    "email health diagnostics",
-    "Discord content-factory cron and voice attachments",
-    "new database migration source",
-    "production and development dependency graphs",
+    "Stripe checkout and webhook processing",
+    "invoice lifecycle and recurring subscriptions",
+    "payment receipts, refunds, and event ordering",
+    "entitlement fulfillment and revocation",
+    "Discord premium role assignment",
+    "Academy paid-enrollment certification gate",
+    "billing integrity migration 0121",
     "staged secret scan"
   ],
   "proof": {
+    "billingTests": "11 passed, 0 failed",
+    "billingSqlIntegration": "PostgreSQL 17 integration passed",
     "unitTests": "334 passed, 0 failed",
+    "securityTests": "13 passed, 0 failed",
+    "dataIntegrityTests": "8 passed, 0 failed",
     "typecheck": "pass",
     "lint": "pass with 0 errors and 0 warnings",
     "dependencyAudit": "0 vulnerabilities across production and development dependency graphs",
     "lighthouseDesktop": "6/6 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
     "lighthouseMobile": "5/5 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
-    "secretScan": "gitleaks staged diff: no leaks found",
+    "secretScan": "gitleaks staged diff: approximately 117.7 KB scanned, no leaks found",
     "approvalBoundaryAudit": "pass",
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime"
@@ -28,60 +32,61 @@
   "remediatedFindings": [
     {
       "severity": "high",
-      "code": "shared_cache_on_auth_middleware",
-      "resolution": "Removed public shared-cache headers from the auth-aware middleware response path."
+      "code": "webhook_replay_and_failure_ambiguity",
+      "resolution": "Added a service-only durable claim operation that distinguishes new, successful duplicate, retryable failure, and in-progress deliveries."
     },
     {
       "severity": "high",
-      "code": "missing_auth_config_failed_open",
-      "resolution": "Protected admin, portal, Academy admin, and private Academy routes now return 503 when Supabase auth configuration is absent."
+      "code": "out_of_order_payment_refund_state",
+      "resolution": "Added a database-owned payment receipt state machine that preserves partial and full refund state under late payment events."
     },
     {
       "severity": "high",
-      "code": "unsigned_newsletter_unsubscribe",
-      "resolution": "Confirmation and unsubscribe tokens now use a dedicated 32+ character secret, bind an explicit purpose, expire, reject malformed input, and use timing-safe comparison."
+      "code": "client_controlled_billing_authority",
+      "resolution": "Checkout and invoice operations now derive amount, currency, state, ownership, and entitlement targets from server-owned records."
     },
     {
       "severity": "high",
-      "code": "newsletter_audience_failure_claimed_success",
-      "resolution": "Audience provider failures now propagate as explicit failed results; routes no longer claim a successful subscription-state change."
+      "code": "non_atomic_invoice_workflows",
+      "resolution": "Invoice creation, dunning, and manual settlement now execute in transactional database functions and propagate persistence errors."
     },
     {
       "severity": "high",
-      "code": "email_health_secret_in_query",
-      "resolution": "Moved health authorization to a Bearer header, added recipient validation and no-store responses, and fail-closed when CRON_SECRET is absent."
+      "code": "shared_checkout_idempotency",
+      "resolution": "Public clients supply validated request UUIDs; server routes hash them, and shared IP/day checkout keys were removed."
+    },
+    {
+      "severity": "high",
+      "code": "checkout_without_durable_fulfillment",
+      "resolution": "Service and care checkout completion now records a unique durable fulfillment before best-effort downstream capture."
+    },
+    {
+      "severity": "high",
+      "code": "entitlement_persistence_failed_open",
+      "resolution": "Academy membership and Discord premium persistence now fail closed, and Discord role assignment requires configured roles."
+    },
+    {
+      "severity": "high",
+      "code": "unauthorized_subscription_cancellation",
+      "resolution": "Cancellation validates the subscription identifier and verifies local user ownership before any Stripe mutation."
+    },
+    {
+      "severity": "high",
+      "code": "premature_academy_commerce",
+      "resolution": "Paid enrollment now requires both an explicit enablement flag and the canonical certified state; current Academy commerce remains closed."
     },
     {
       "severity": "medium",
-      "code": "atlas_preconfirmation_enrollment",
-      "resolution": "Removed audience enrollment from the one-off Atlas path email; only the confirmation route can add newsletter membership."
-    },
-    {
-      "severity": "high",
-      "code": "production_dependency_advisories",
-      "resolution": "Updated direct packages and pinned compatible secure transitive runtimes; npm audit --omit=dev reports zero vulnerabilities."
-    },
-    {
-      "severity": "medium",
-      "code": "development_dependency_advisories",
-      "resolution": "Replaced @lhci/cli and http-server with a local Lighthouse runner and native static server; full npm audit reports zero vulnerabilities."
-    },
-    {
-      "severity": "medium",
-      "code": "homepage_accessibility_threshold",
-      "resolution": "Added semantic main content, corrected footer heading order and comparison-table headers, restored accessible contrast and link affordance, and supplied intrinsic image dimensions; desktop and mobile Lighthouse accessibility now score 0.97."
-    },
-    {
-      "severity": "low",
-      "code": "deprecated_edge_runtime",
-      "resolution": "Moved both Open Graph image routes to the supported Node.js runtime and proved 1200x630 PNG responses locally."
+      "code": "duplicate_recurring_billing_state",
+      "resolution": "Stable idempotency keys cover customer, product, and subscription creation, and an existing active engagement blocks duplicate creation."
     }
   ],
   "unresolvedCriticalOrHigh": [],
   "devOnlyExceptions": [],
   "externalEvidencePending": [
-    "Fresh Discord permission/security smoke requires configured Supabase and Discord credentials and remains outside the local code-review claim.",
-    "Migration 0113 is authored and statically verified but has not been applied to any database.",
-    "No checkout session, email, Discord message, deployment, or other external mutation was performed."
+    "Migration 0121 is proven against disposable PostgreSQL but has not been applied to a hosted Supabase project.",
+    "Signed Stripe test-mode concurrency, replay, retry, refund, subscription, and receipt reconciliation require isolated staging credentials.",
+    "Live Discord role assignment and revocation require configured staging credentials and remain outside the local claim.",
+    "No checkout, refund, subscription, database, Discord, credential, deployment, or other external mutation was performed."
   ]
 }

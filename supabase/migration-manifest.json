@@ -41,9 +41,9 @@
     ]
   },
   "incrementalStart": 6,
-  "incrementalEnd": 120,
-  "migrationCount": 115,
-  "chainHash": "sha256:54a3ffdb73e3fefbbd032f0b3d4db4d33b758eee883928250c57dee44e4d7384",
+  "incrementalEnd": 121,
+  "migrationCount": 116,
+  "chainHash": "sha256:399437da1cd2506418756777ad9529683a5b8c839369bab6bb318c08aa9de5bc",
   "destructiveMigrationAllowlist": [
     {
       "file": "0006_app_users_dedupe.sql",

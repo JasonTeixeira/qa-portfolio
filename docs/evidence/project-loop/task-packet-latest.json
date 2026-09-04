@@ -1,27 +1,26 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T20:48:40.434Z",
+  "generatedAt": "2026-09-04T20:49:44.210Z",
   "inventoryHash": "sha256:f84001efadb388dc089605bbf7f79130fe44cb7928611ff7e1999f1dea42a884",
   "workstream": {
-    "id": "accessibility-performance",
-    "label": "Accessibility, responsive UX, and performance",
+    "id": "observability-recovery",
+    "label": "Observability, incident response, and recovery",
     "dependsOn": [
-      "critical-user-journeys",
-      "academy",
-      "admin-portal",
-      "communications-jobs"
+      "communications-jobs",
+      "critical-user-journeys"
     ],
     "boundary": "safe_local",
     "scope": [
-      "WCAG",
-      "keyboard",
-      "screen reader",
-      "motion",
-      "Core Web Vitals"
+      "logs",
+      "metrics",
+      "alerts",
+      "runbooks",
+      "rollback",
+      "recovery"
     ],
-    "sequence": 10,
-    "workstreamId": "accessibility-performance",
+    "sequence": 11,
+    "workstreamId": "observability-recovery",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

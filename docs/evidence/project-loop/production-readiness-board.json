@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T20:48:40.434Z",
+  "generatedAt": "2026-09-04T20:49:44.210Z",
   "inventoryHash": "sha256:f84001efadb388dc089605bbf7f79130fe44cb7928611ff7e1999f1dea42a884",
   "overallStatus": "not_local_production_candidate",
   "trust": {
@@ -12,7 +12,7 @@
   "summary": {
     "totalWorkstreams": 14,
     "safeLocalWorkstreams": 12,
-    "greenLocalWorkstreams": 9,
+    "greenLocalWorkstreams": 10,
     "criticalFindings": 0,
     "highFindings": 0
   },
@@ -209,7 +209,7 @@
         "Core Web Vitals"
       ],
       "sequence": 10,
-      "status": "in_progress",
+      "status": "green_local_checkpoint",
       "findingCount": 0,
       "findings": []
     },
@@ -230,7 +230,7 @@
         "recovery"
       ],
       "sequence": 11,
-      "status": "pending",
+      "status": "in_progress",
       "findingCount": 0,
       "findings": []
     },

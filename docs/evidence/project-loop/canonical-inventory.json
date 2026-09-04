@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:05:09.103Z",
-  "inventoryHash": "sha256:1c6266f02d11e8a26a27f1f8974d40c48f0b05c6071580346e9d60dde9991662",
+  "generatedAt": "2026-09-04T19:12:58.649Z",
+  "inventoryHash": "sha256:9465a2e0c209fde0a5c17af41c81969c54edb0612d9d2d90439129447f372416",
   "git": {
-    "head": "3e165cfb32854847abf86cc7eabf93128bb12c2b",
+    "head": "8f062a2982f61984d2fad2a98cea941ecba00454",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3864,
+    "trackedFiles": 3863,
     "appPages": 235,
-    "routeHandlers": 133,
+    "routeHandlers": 132,
     "apiRoutes": 125,
     "migrations": 116,
     "tests": 159,
@@ -1126,7 +1126,6 @@
     "app/capabilities/page.tsx",
     "app/changelog/page.tsx",
     "app/checkout/[slug]/page.tsx",
-    "app/checkout/[slug]/route.ts",
     "app/checkout/cancel/page.tsx",
     "app/checkout/success/checkout-complete-tracker.tsx",
     "app/checkout/success/page.tsx",

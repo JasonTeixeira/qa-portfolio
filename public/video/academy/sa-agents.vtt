@@ -1,0 +1,20 @@
+WEBVTT
+
+00:00:00.400 --> 00:00:08.500
+A chatbot answers. An agent does — it books the meeting,
+queries the database, sends the email.
+
+00:00:09.800 --> 00:00:18.200
+A plain model only predicts the next word. It's brilliant at language,
+but it can't touch your calendar, your database, or your email.
+
+00:00:19.500 --> 00:00:33.500
+An agent runs a loop: reason, act, observe, repeat. It thinks about
+what to do, calls a tool, reads the result — until the goal is done.
+
+00:00:35.000 --> 00:00:45.200
+Real power, real risk. On anything that matters it pauses for human
+approval and acts only after you say yes — every step logged.
+
+00:00:46.600 --> 00:00:51.200
+That's an agent. Learn to build it at Sage Academy — or have it built for you.

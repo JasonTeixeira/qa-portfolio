@@ -90,7 +90,7 @@ const COMPARE = [
 
 const FAQ = [
   { q: 'Is talking to an AI interviewer actually like the real thing?', a: 'For the parts that matter — thinking out loud under follow-up pressure, being interrupted, defending a decision — yes, and you can rehearse them 40 times instead of 4. What it can’t simulate: a specific interviewer’s mood. No prep can.' },
-  { q: 'Will it just flatter me so I keep subscribing?', a: 'No — flattery would kill the product. Scores are capped by your weakest dimension and verdicts use real committee language, including "no hire." The guarantee only works because the scoring is honest.' },
+  { q: 'Will it just flatter me so I keep subscribing?', a: 'No — flattery would kill the product. Scores are capped by your weakest dimension and verdicts use real committee language, including "no hire." The whole thing only works because the scoring is honest.' },
   { q: 'I’m interviewing in two weeks. Is it too late?', a: 'Two weeks of daily reps is enough to fix your two costliest habits and run three full loop simulations. Set your date in onboarding and the plan compresses around it.' },
   { q: 'Does it cover non-engineering roles?', a: 'Today: software engineering, frontend, data/ML, DevOps/SRE, engineering management, and product management. Behavioral and negotiation tracks work for any role.' },
   { q: 'What happens to my recordings?', a: 'They’re yours. Transcripts and audio live in your account, power your debriefs, and can be deleted any time. They’re never used to train models or shown to other members.' },
@@ -282,13 +282,13 @@ export function InterviewMasteryLanding() {
               </div>
               <div className={styles.priceCtas}>
                 <Link href="/academy/interview/checkout" className={styles.goldCta}>Add to my plan</Link>
-                <Link href="/academy/guarantee" className={styles.monoDim} style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>14-day loop-ready guarantee</Link>
+                <Link href="/academy/interview/guarantee" className={styles.monoDim} style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>how it works</Link>
               </div>
             </div>
           </div>
           <p className={styles.guaranteeNote}>
-            Loop-ready guarantee: if your readiness score hasn’t moved after 14 days of following
-            your plan, the add-on is free until it does.
+            Added to your membership and scored against the same rubric every session, with a debrief
+            and a drill each time. Cancel anytime — no lock-in.
           </p>
         </section>
 
@@ -343,7 +343,7 @@ export function InterviewMasteryLanding() {
               </p>
             </div>
             <div className={styles.b2bCtas}>
-              <a href="mailto:teams@sageideas.dev" className={styles.ghostCta}>Talk to us about cohort seats</a>
+              <a href="mailto:hello@sageideas.dev" className={styles.ghostCta}>Talk to us about cohort seats</a>
             </div>
           </div>
         </section>
@@ -375,10 +375,12 @@ export function InterviewMasteryLanding() {
 
       <footer className={styles.footer}>
         <span>Sage Academy · Interview Mastery</span>
-        <Link href="/pricing">Plans</Link>
+        <Link href="/academy/method">The method</Link>
+        <Link href="/academy/try">Try a lesson</Link>
+        <Link href="/academy/pricing">Plans</Link>
         <Link href="/academy/help">Help</Link>
         <Link href="/academy/legal">Legal</Link>
-        <span className={styles.footRight}>proof over promises · © {new Date().getFullYear()}</span>
+        <span className={styles.footRight}>an add-on to <Link href="/academy">Sage Academy</Link> · © {new Date().getFullYear()}</span>
       </footer>
     </div>
   )

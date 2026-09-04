@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { SageMark } from '@/components/academy/brand/SageMark'
 
-type ActiveLink = 'how-it-works' | 'courses' | 'why-proof' | 'pricing'
+type ActiveLink = 'method' | 'courses' | 'projects' | 'why-proof' | 'pricing'
 
 type AcademyNavProps = {
   active?: ActiveLink
@@ -13,10 +14,11 @@ type NavLink = {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { key: 'how-it-works', label: 'How it works', href: '/how-it-works' },
+  { key: 'method', label: 'The method', href: '/academy/method' },
   { key: 'courses', label: 'Courses', href: '/academy/catalog' },
-  { key: 'why-proof', label: 'Why proof', href: '/academy/why-proof' },
-  { key: 'pricing', label: 'Pricing', href: '/academy/catalog#pricing' },
+  { key: 'projects', label: 'Projects', href: '/academy/projects' },
+  { key: 'why-proof', label: 'Why proof', href: '/academy/proof-not-paper' },
+  { key: 'pricing', label: 'Pricing', href: '/academy/pricing' },
 ]
 
 const LINE = '#1E1E24'
@@ -66,22 +68,7 @@ export function AcademyNav({ active }: AcademyNavProps) {
           color: 'inherit',
         }}
       >
-        {/* ◆ is a decorative brand glyph — hidden from assistive technology */}
-        <span
-          aria-hidden="true"
-          style={{
-            display: 'grid',
-            placeItems: 'center',
-            width: 24,
-            height: 24,
-            borderRadius: 7,
-            background: ACCENT,
-            color: '#fff',
-            fontSize: 11,
-          }}
-        >
-          ◆
-        </span>
+        <SageMark size={24} radius={7} />
         <span style={{ fontSize: 14, fontWeight: 700 }}>Sage Academy</span>
       </Link>
 

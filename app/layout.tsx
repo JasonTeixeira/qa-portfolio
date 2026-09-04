@@ -240,7 +240,18 @@ export default async function RootLayout({
     pathname === '/academy/catalog' ||
     pathname === '/academy/why-proof' ||
     pathname === '/academy/pricing' ||
+    pathname === '/academy/method' ||
+    pathname === '/academy/projects' ||
+    pathname === '/academy/try' ||
     pathname === '/academy/how-we-audit' ||
+    pathname === '/academy/about' ||
+    pathname === '/academy/proof-not-paper' ||
+    pathname === '/academy/help' ||
+    pathname === '/academy/concepts' ||
+    pathname === '/academy/labs' ||
+    pathname.startsWith('/academy/labs/') ||
+    pathname === '/academy/map' ||
+    pathname === '/academy/starter' ||
     pathname === '/interview' ||
     pathname === '/how-it-works' ||
     pathname === '/field-notes' ||

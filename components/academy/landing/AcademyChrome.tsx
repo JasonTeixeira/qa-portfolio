@@ -13,8 +13,11 @@
  */
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { LocaleLink } from '@/components/i18n/locale-link'
+import { LanguageSwitcher } from '@/components/i18n/language-switcher'
+import { useT } from '@/components/i18n/locale-provider'
 import { SageChat, FunnelTelemetry } from './SageChat'
+import { SageMark } from '../brand/SageMark'
 
 const INK = '#F2EFE9'
 const DIM = '#B6B6C0'
@@ -26,10 +29,10 @@ const BLUE = '#3D5AFE'
 const mono = { fontFamily: 'var(--font-mono), monospace' } as const
 
 const NAV_LINKS = [
-  { href: '/field-notes', label: 'Field notes' },
-  { href: '/how-it-works', label: 'How it works' },
+  { href: '/academy/method', label: 'The method' },
   { href: '/academy/catalog', label: 'Courses' },
-  { href: '/academy/why-proof', label: 'Why proof' },
+  { href: '/academy/labs', label: 'Labs' },
+  { href: '/academy/proof-not-paper', label: 'Why proof' },
   // Gold sub-brand: the Interview Mastery add-on gets its accent in the nav.
   { href: '/interview', label: 'Interview', tint: '#E0A93E' },
   { href: '/academy/pricing', label: 'Pricing' },
@@ -39,6 +42,7 @@ const NAV_LINKS = [
 export function AcademyNav() {
   const [hover, setHover] = useState<string | null>(null)
   const [ctaHover, setCtaHover] = useState(false)
+  const t = useT()
   return (
     <nav
       style={{
@@ -57,34 +61,20 @@ export function AcademyNav() {
         borderBottom: `1px solid ${LINE}`,
       }}
     >
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit' }}>
-        <span
-          style={{
-            display: 'grid',
-            placeItems: 'center',
-            width: 26,
-            height: 26,
-            borderRadius: 8,
-            background: BLUE,
-            color: '#fff',
-            fontSize: 12,
-            boxShadow: '0 0 18px rgba(61,90,254,0.35)',
-          }}
-        >
-          ◆
-        </span>
+      <LocaleLink href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit' }}>
+        <SageMark size={26} radius={8} />
         <span>
           <span style={{ display: 'block', fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1.15, color: INK }}>
             Sage Academy
           </span>
           <span style={{ ...mono, display: 'block', fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.18em', color: MUTED }}>
-            Judgment · proven
+            {t('Judgment · proven')}
           </span>
         </span>
-      </Link>
+      </LocaleLink>
       <div className="acadNavLinks" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {NAV_LINKS.map((l) => (
-          <Link
+          <LocaleLink
             key={l.label}
             href={l.href}
             onMouseEnter={() => setHover(l.label)}
@@ -99,10 +89,10 @@ export function AcademyNav() {
               whiteSpace: 'nowrap',
             }}
           >
-            {l.label}
-          </Link>
+            {t(l.label)}
+          </LocaleLink>
         ))}
-        <Link
+        <LocaleLink
           href="/academy/signup"
           onMouseEnter={() => setCtaHover(true)}
           onMouseLeave={() => setCtaHover(false)}
@@ -119,8 +109,9 @@ export function AcademyNav() {
             boxShadow: '0 0 22px rgba(61,90,254,0.3)',
           }}
         >
-          Start learning
-        </Link>
+          {t('Start learning')}
+        </LocaleLink>
+        <LanguageSwitcher className="acadLangSwitch" />
       </div>
       {/* nav-squeeze, from the design helmet CSS */}
       <style
@@ -138,6 +129,11 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
   {
     head: 'Learn',
     links: [
+      { href: '/academy/starter', label: 'Free starter path' },
+      { href: '/academy/map', label: 'The map' },
+      { href: '/academy/method', label: 'The method' },
+      { href: '/academy/projects', label: 'What you ship' },
+      { href: '/academy/try', label: 'Try a lesson' },
       { href: '/how-it-works', label: 'How it works' },
       { href: '/academy/catalog', label: 'Courses' },
       { href: '/field-notes', label: 'Field notes' },
@@ -147,11 +143,11 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
   {
     head: 'Product',
     links: [
-      { href: '/academy/why-proof', label: 'Why proof' },
+      { href: '/academy/proof-not-paper', label: 'Why proof' },
       { href: '/academy/pricing', label: 'Pricing' },
       { href: '/interview', label: 'Interview Mastery' },
       { href: '/academy/how-we-audit', label: 'How we audit' },
-      { href: '/academy/onboarding', label: 'Placement test' },
+      { href: '/academy/onboarding', label: 'Get started' },
       { href: '/academy/help', label: 'Help center' },
     ],
   },
@@ -160,6 +156,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
     links: [
       { href: '/academy/about', label: 'About' },
       { href: '/services', label: 'Hire the studio' },
+      { href: 'https://agency.sageideas.dev', label: 'The agency ↗' },
       { href: '/academy/legal', label: 'Legal' },
       { href: 'mailto:hello@sageideas.dev', label: 'hello@sageideas.dev' },
     ],
@@ -169,6 +166,7 @@ const FOOTER_COLS: { head: string; links: { href: string; label: string }[] }[] 
 export function AcademyFooter() {
   const [email, setEmail] = useState('')
   const [state, setState] = useState<'idle' | 'busy' | 'done' | 'error'>('idle')
+  const t = useT()
 
   async function subscribe() {
     const v = email.trim()
@@ -198,21 +196,7 @@ export function AcademyFooter() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '36px 28px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: INK, fontSize: 14.5, fontWeight: 700, letterSpacing: '-0.01em' }}>
-              <span
-                style={{
-                  display: 'grid',
-                  placeItems: 'center',
-                  width: 26,
-                  height: 26,
-                  borderRadius: 8,
-                  background: BLUE,
-                  color: '#fff',
-                  fontSize: 12,
-                  boxShadow: '0 0 18px rgba(61,90,254,0.35)',
-                }}
-              >
-                ◆
-              </span>
+              <SageMark size={26} radius={8} />
               Sage Academy
             </div>
             <div style={{ ...mono, marginTop: 14, fontSize: 10.5, color: MUTED, lineHeight: 1.8 }}>
@@ -223,19 +207,23 @@ export function AcademyFooter() {
           {FOOTER_COLS.map((col) => (
             <div key={col.head}>
               <h4 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
-                {col.head}
+                {t(col.head)}
               </h4>
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
                 {col.links.map((l) => (
                   <li key={l.label}>
                     {l.href.startsWith('mailto:') || l.href.startsWith('http') ? (
-                      <a href={l.href} style={{ color: '#9C9CA6', textDecoration: 'none', fontSize: 13.5 }}>
+                      <a
+                        href={l.href}
+                        {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        style={{ color: '#9C9CA6', textDecoration: 'none', fontSize: 13.5 }}
+                      >
                         {l.label}
                       </a>
                     ) : (
-                      <Link href={l.href} style={{ color: '#9C9CA6', textDecoration: 'none', fontSize: 13.5 }}>
-                        {l.label}
-                      </Link>
+                      <LocaleLink href={l.href} style={{ color: '#9C9CA6', textDecoration: 'none', fontSize: 13.5 }}>
+                        {t(l.label)}
+                      </LocaleLink>
                     )}
                   </li>
                 ))}
@@ -244,21 +232,21 @@ export function AcademyFooter() {
           ))}
           <div>
             <h4 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
-              The Monday note
+              {t('The Monday note')}
             </h4>
             <p style={{ margin: '0 0 12px', fontSize: 13, color: '#9C9CA6', lineHeight: 1.55 }}>
-              One real incident, mapped in public — in your inbox every Monday.
+              {t('One real incident, mapped in public — in your inbox every Monday.')}
             </p>
             {state === 'done' ? (
               <div style={{ ...mono, display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5, color: '#18B663', padding: '10px 0' }}>
-                ✓ you&apos;re in — see you Monday
+                ✓ {t("you're in — see you Monday")}
               </div>
             ) : (
               <div style={{ display: 'flex', gap: 8 }}>
                 <input
                   type="email"
                   placeholder="you@work.dev"
-                  aria-label="Email for the Monday note"
+                  aria-label={t('Email for the Monday note')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={(e) => {
@@ -294,11 +282,11 @@ export function AcademyFooter() {
                     opacity: state === 'busy' ? 0.7 : 1,
                   }}
                 >
-                  Subscribe
+                  {t('Subscribe')}
                 </button>
               </div>
             )}
-            <div style={{ ...mono, marginTop: 10, fontSize: 9.5, color: FAINT }}>unsubscribe anytime</div>
+            <div style={{ ...mono, marginTop: 10, fontSize: 9.5, color: FAINT }}>{t('unsubscribe anytime')}</div>
           </div>
         </div>
         <div
@@ -317,7 +305,7 @@ export function AcademyFooter() {
           }}
         >
           <span style={{ color: MUTED }}>© 2026 Sage Ideas LLC · sageideas.dev</span>
-          <span>proof, not vibes</span>
+          <span>{t('proof, not vibes')}</span>
         </div>
       </div>
       {/* Sprout chat dock + funnel telemetry ride with the footer so every

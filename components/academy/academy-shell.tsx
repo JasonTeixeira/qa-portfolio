@@ -6,6 +6,7 @@ import { getDueCount } from '@/lib/academy/fsrs'
 import { CommandPalette } from '@/components/academy/search/CommandPalette'
 import { AiTutorPanel } from '@/components/academy/tutor/AiTutorPanel'
 import { Icon, type IconName } from '@/components/academy/ui/Icon'
+import { SageMark } from '@/components/academy/brand/SageMark'
 
 /**
  * The learner shell — the customer-side equivalent of the client portal layout. Gives
@@ -185,15 +186,7 @@ export async function AcademyShell({
       <header className="sticky top-0 z-40 border-b border-[color:var(--ac-rule)] bg-[color-mix(in_srgb,var(--ac-bg)_88%,transparent)] backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
           <Link href="/academy/dashboard" className="group flex items-center gap-2.5 shrink-0">
-            <span
-              className="grid h-7 w-7 place-items-center rounded-[8px] bg-[var(--ac-accent-strong)] text-white"
-              aria-hidden
-            >
-              {/* Real Sage brand mark (monochrome, inherits currentColor) */}
-              <svg viewBox="0 0 64 64" width={17} height={17} fill="currentColor" aria-hidden focusable="false">
-                <path d="M16 18c0-5 4-9 9-9h14c5 0 9 4 9 9v3a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3v-2c0-1.7-1.3-3-3-3H27c-1.7 0-3 1.3-3 3v6c0 1.7 1.3 3 3 3h11c5 0 9 4 9 9v9c0 5-4 9-9 9H25c-5 0-9-4-9-9v-3a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2c0 1.7 1.3 3 3 3h12c1.7 0 3-1.3 3-3v-6c0-1.7-1.3-3-3-3H28c-5 0-9-4-9-9z" />
-              </svg>
-            </span>
+            <SageMark size={28} radius={8} />
             <span className="leading-tight">
               <span
                 className="block text-[15px] font-semibold tracking-tight"

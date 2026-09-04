@@ -20,7 +20,7 @@ function apiKey(): string {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-async function chat(system: string, user: string, json: boolean): Promise<string> {
+async function chat(system: string, user: string, json: boolean, temperature = 0.2): Promise<string> {
   const MAX_ATTEMPTS = 4
   let lastErr: unknown
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -30,7 +30,7 @@ async function chat(system: string, user: string, json: boolean): Promise<string
         headers: { Authorization: `Bearer ${apiKey()}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: MODEL,
-          temperature: 0.2,
+          temperature,
           messages: [
             { role: 'system', content: system },
             { role: 'user', content: user },
@@ -60,15 +60,34 @@ async function chat(system: string, user: string, json: boolean): Promise<string
 export async function translateDictionary(
   dict: Record<string, string>,
   target: LangTarget,
+  note?: string,
 ): Promise<Record<string, string>> {
   const system =
     `You are a professional UI localizer translating a product's interface into ${target.name}. ` +
     `You are given a JSON object whose keys are English source strings and whose values must be the ${target.name} translation. ` +
     `Rules: (1) return a JSON object with the SAME keys; (2) translate each value into natural, concise ${target.name} fit for UI; ` +
     `(3) keep placeholders like {year} and {count} and any HTML exactly as-is; (4) keep brand/proper names untranslated: "Sage Ideas", "Jason Teixeira", "Stripe", "AWS", "Next.js", "AI"; ` +
-    `(5) preserve leading symbols like "./" or "©"; (6) return ONLY the JSON object, no commentary.`
-  const out = await chat(system, JSON.stringify(dict), true)
-  return JSON.parse(out) as Record<string, string>
+    `(5) preserve leading symbols like "./" or "©"; (6) return ONLY the JSON object, no commentary.` +
+    (note ? ` ${note}` : '')
+  // The model occasionally returns malformed JSON. At low temperature the same
+  // input reproduces the SAME bad output, so a plain retry can't escape it — raise
+  // the temperature on each retry to vary the response and break the deterministic
+  // failure. Callers that still can't parse should bisect the dictionary (see
+  // scripts/translate-messages.ts) so one poison key never loses its neighbours.
+  const payload = JSON.stringify(dict)
+  const temps = [0.2, 0.5, 0.9]
+  let lastErr: unknown
+  for (const temperature of temps) {
+    const out = await chat(system, payload, true, temperature)
+    try {
+      return JSON.parse(out) as Record<string, string>
+    } catch (err) {
+      lastErr = err // malformed JSON from the model — re-request hotter
+    }
+  }
+  throw lastErr instanceof Error
+    ? new Error(`translateDictionary(${target.name}): invalid JSON after ${temps.length} attempts — ${lastErr.message}`)
+    : new Error(`translateDictionary(${target.name}): invalid JSON`)
 }
 
 export interface QualityVerdict {

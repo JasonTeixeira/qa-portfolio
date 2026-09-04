@@ -98,7 +98,7 @@ export default async function FieldNotePage({ params }: PageProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           id="note-hero-art"
-          src="/art/academy/note-article.png"
+          src="/art/academy/note-article.webp"
           alt=""
           style={{
             position: 'absolute',

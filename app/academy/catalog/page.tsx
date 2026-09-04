@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import {
-  AcademyNav,
-  AcademyFooter,
-} from '@/components/academy/landing/AcademyChrome'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { getAcademyStats } from '@/components/academy/landing/stats'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { getAcademyRegistryCourse } from '@/lib/academy/registry'
 import type { TopicKey } from '@/lib/academy/topics'
 import { CatalogGrid, type CatalogCard, type TrackKey } from './CatalogGrid'
@@ -40,10 +41,16 @@ const COURSE_00_SLUG = getAcademyRegistryCourse(
 )!.slug
 const COURSE_00_HREF = `/academy/course/${COURSE_00_SLUG}`
 
-export const metadata: Metadata = {
-  title: 'Courses · Sage Academy',
-  description:
-    'The Sage Academy catalog — every course ends in an artifact a reviewer trusts. Foundations, engineering, data, AI engineering, ship-it, and growth tracks.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Courses · Sage Academy'),
+    description: t(
+      'The Sage Academy catalog — every course ends in an artifact a reviewer trusts. Foundations, engineering, data, AI engineering, ship-it, and growth tracks.'
+    ),
+    alternates: localizedAlternates('/academy/catalog', locale),
+  }
 }
 
 export const dynamic = 'force-dynamic'
@@ -248,6 +255,7 @@ const TRACK_BY_TOPIC: Record<TopicKey, TrackKey> = {
 }
 
 export default async function CatalogPage() {
+  const t = await getT()
   const { coursesCount, lessonsCount, courses } = await getAcademyStats()
 
   // Start from the design's static list, then wire real DB courses in: known
@@ -321,7 +329,7 @@ export default async function CatalogPage() {
           }}
         >
           <img
-            src="/art/academy/band-brush.png"
+            src="/art/academy/band-brush.webp"
             alt=""
             style={{
               position: 'absolute',
@@ -338,17 +346,8 @@ export default async function CatalogPage() {
             }}
           />
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div
-              style={{
-                ...mono,
-                fontSize: 11.5,
-                textTransform: 'uppercase',
-                letterSpacing: '0.16em',
-                color: '#8FA0FF',
-              }}
-            >
-              The catalog · {coursesCount} courses · {lessonsCount} lessons · 6
-              tracks
+            <div style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>
+              {t('The catalog ·')} {coursesCount} {t('courses ·')} {lessonsCount} {t('lessons · 6 tracks')}
             </div>
             <h1
               style={{
@@ -362,17 +361,7 @@ export default async function CatalogPage() {
                 textWrap: 'balance',
               }}
             >
-              Every course ends in{' '}
-              <em
-                style={{
-                  fontStyle: 'italic',
-                  fontWeight: 500,
-                  color: '#8FA0FF',
-                }}
-              >
-                an artifact
-              </em>{' '}
-              a reviewer trusts.
+              {t('Every course ends in')} <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>{t('an artifact')}</em> {t('a reviewer trusts.')}
             </h1>
           </div>
         </header>
@@ -400,62 +389,24 @@ export default async function CatalogPage() {
                 'border-color 0.22s, transform 0.22s cubic-bezier(0.16,1,0.3,1)',
             }}
           >
-            <div
-              style={{
-                padding: '30px 32px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-              }}
-            >
-              <span
-                style={{
-                  ...mono,
-                  fontSize: 10.5,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.14em',
-                  color: '#8FA0FF',
-                }}
-              >
-                Start here · Course 00
+            <div style={{ padding: '30px 32px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF' }}>
+                {t('Start here · Course 00')}
               </span>
-              <span
-                style={{
-                  ...serif,
-                  fontWeight: 600,
-                  fontSize: 'clamp(22px, 2.4vw, 28px)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.15,
-                }}
-              >
-                Engineering Judgment &amp; the Sage Learning OS
+              <span style={{ ...serif, fontWeight: 600, fontSize: 'clamp(22px, 2.4vw, 28px)', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+                {t('Engineering Judgment & the Sage Learning OS')}
               </span>
-              <span
-                style={{ fontSize: 14, color: '#9C9CA6', textWrap: 'pretty' }}
-              >
-                The loop every other course runs on: frame → route → map →
-                decide → prove. Turn a messy incident into a decision a reviewer
-                can inspect.
+              <span style={{ fontSize: 14, color: '#9C9CA6', textWrap: 'pretty' }}>
+                {t('The loop every other course runs on: frame → route → map → decide → prove. Turn a messy incident into a decision a reviewer can inspect.')}
               </span>
-              <span
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 16,
-                  marginTop: 6,
-                }}
-              >
-                <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-                  16 lessons · 4 modules · ✓ live
-                </span>
-                <span style={{ ...mono, fontSize: 11.5, color: '#8FA0FF' }}>
-                  Enroll →
-                </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 6 }}>
+                <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>{t('16 lessons · 4 modules · ✓ live')}</span>
+                <span style={{ ...mono, fontSize: 11.5, color: '#8FA0FF' }}>{t('Enroll →')}</span>
               </span>
             </div>
             <div style={{ position: 'relative', minHeight: 220 }}>
               <img
-                src="/art/academy/featured-judgment.png"
+                src="/art/academy/featured-judgment.webp"
                 alt=""
                 style={{
                   position: 'absolute',
@@ -491,8 +442,8 @@ export default async function CatalogPage() {
             }}
           >
             <img
-              src="/art/academy/loop-brush.png"
-              alt="The Sage loop: frame, route, map, decide, prove"
+              src="/art/academy/loop-brush.webp"
+              alt={t('The Sage loop: frame, route, map, decide, prove')}
               style={{
                 display: 'block',
                 width: 'min(460px, 82%)',
@@ -515,7 +466,7 @@ export default async function CatalogPage() {
                 textWrap: 'balance',
               }}
             >
-              Not sure where to start? Course 00 is the operating system.
+              {t('Not sure where to start? Course 00 is the operating system.')}
             </h2>
             <div
               style={{
@@ -542,12 +493,13 @@ export default async function CatalogPage() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Start with Engineering Judgment
+                {t('Start with Engineering Judgment')}
               </Link>
             </div>
           </div>
         </section>
 
+        <EcosystemBand current="catalog" />
         <AcademyFooter />
       </div>
     </>

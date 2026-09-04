@@ -3,6 +3,12 @@ import Link from 'next/link'
 import { getAcademyStats } from '@/components/academy/landing/stats'
 import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
 import { ACADEMY_PLANS } from '@/lib/academy/plans'
+import { buildCourse, buildFAQPage } from '@/lib/seo/jsonld'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
+
+const SITE = 'https://www.sageideas.dev'
 
 /**
  * Public pricing page, implemented 1:1 from
@@ -11,8 +17,8 @@ import { ACADEMY_PLANS } from '@/lib/academy/plans'
  * match the design file.
  *
  * Honesty deltas (intentional departures, per the no-fake-green rule):
- * - Prices come from ACADEMY_PLANS ($20/mo, $200/yr), not the mock's
- *   $29/$250; the annual note is recomputed (≈ $17/month · billed yearly).
+ * - Prices come from ACADEMY_PLANS ($25/mo, $250/yr), not the mock's
+ *   $29/$250; the annual note is recomputed (≈ $21/month · billed yearly).
  * - The mock's Team tier showed an invented $190/seat price with no Stripe
  *   backing — shown as "Custom" with the same feature list and contact CTA.
  * - The mock's social-proof line ("12,480 engineers · 2,847 proofs shipped
@@ -25,10 +31,16 @@ import { ACADEMY_PLANS } from '@/lib/academy/plans'
  *   add-on slot), styled in the design's gold accent.
  */
 
-export const metadata: Metadata = {
-  title: 'Pricing · Sage Academy',
-  description:
-    'Simple, honest pricing. Every plan includes everything — every course as it ships, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Pricing · Sage Academy'),
+    description: t(
+      'Simple, honest pricing. Every plan includes everything — every course as it ships, every lab and proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.',
+    ),
+    alternates: localizedAlternates('/academy/pricing', locale),
+  }
 }
 
 const ACCENT = '#3D5AFE'
@@ -100,7 +112,7 @@ const TIERS: Tier[] = [
     sideTag: 'save 2 months',
     price: ACADEMY_PLANS.yearly.price,
     per: '/ year',
-    note: '≈ $17/month · billed yearly',
+    note: '≈ $21/month · billed yearly',
     feats: [
       'Everything in the academy',
       'Two months free vs monthly',
@@ -138,6 +150,7 @@ const TIERS: Tier[] = [
 ]
 
 const OUTCOMES = [
+  'Real, resume-ready builds you ship and keep — new ones every month',
   'A portfolio of decision memos and passing proofs',
   'Retention that holds under pressure — recall at 1/3/7/30 days',
   'Honest mastery scores a reviewer would agree with',
@@ -161,17 +174,28 @@ const FAQS = [
     q: 'How much time does it take?',
     a: 'A lesson is 20–40 minutes and ends in a proof. Recall is about six minutes a day. One sprint a week is the intended cadence — this is designed around a job, not instead of one.',
   },
-  {
-    q: 'What does the guarantee actually mean?',
-    a: "If you finish your first sprint and haven't shipped a proof you'd show a reviewer, tell us within 14 days and we refund in full. We'd rather refund than argue.",
-  },
 ]
 
 export default async function AcademyPricingPage() {
+  const t = await getT()
   const { coursesCount, lessonsCount } = await getAcademyStats()
+
+  const pricingLd = [
+    buildCourse({
+      name: 'Sage Academy membership',
+      description:
+        'One membership, every course as it ships — interactive lessons, in-browser labs, spaced-recall mastery loops, leagues, and certificates verifiable by code.',
+      url: `${SITE}/academy/pricing`,
+      priceCents: ACADEMY_PLANS.monthly.amountCents,
+      cadence: 'monthly',
+      workload: 'PT30M',
+    }),
+    buildFAQPage(FAQS.map((f) => ({ question: f.q, answer: f.a }))),
+  ]
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingLd) }} />
       <AcademyNav />
       <div
         style={{
@@ -212,7 +236,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             id="pricing-hero-art"
-            src="/art/academy/pricing-hero-right.png"
+            src="/art/academy/pricing-hero-right.webp"
             alt=""
             width={1376}
             height={768}
@@ -232,7 +256,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             id="pricing-hero-art2"
-            src="/art/academy/pricing-hero-left.png"
+            src="/art/academy/pricing-hero-left.webp"
             alt=""
             width={1376}
             height={768}
@@ -250,7 +274,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             }}
           />
           <div style={{ ...mono, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '0.16em', color: '#8FA0FF' }}>
-            Simple, honest pricing
+            {t('Simple, honest pricing')}
           </div>
           <h1
             style={{
@@ -264,12 +288,11 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               textWrap: 'balance',
             }}
           >
-            You&rsquo;re not buying hours of video. You&rsquo;re buying{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>a body of work.</em>
+            {t('You’re not buying hours of video. You’re buying')}{' '}
+            <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#8FA0FF' }}>{t('a body of work.')}</em>
           </h1>
-          <p style={{ margin: '20px auto 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '54ch', textWrap: 'pretty' }}>
-            Every plan includes everything — all {coursesCount} courses as they ship, every lab and proof, spaced
-            recall, leagues, and verifiable certificates. Pick the commitment, not the features.
+          <p style={{ margin: '20px auto 0', color: '#9C9CA6', fontSize: 16.5, maxWidth: '56ch', textWrap: 'pretty' }}>
+            {t('Every plan includes everything — every course as it ships, the full Labs workshop of buildable projects (new ones every month), every proof, spaced recall, leagues, and verifiable certificates. Pick the commitment, not the features.')}
           </p>
         </header>
 
@@ -320,12 +343,12 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                       boxShadow: '0 0 18px rgba(61,90,254,0.45)',
                     }}
                   >
-                    {p.tag}
+                    {t(p.tag)}
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                   <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9598A2' }}>
-                    {p.name}
+                    {t(p.name)}
                   </span>
                   {p.sideTag && (
                     <span
@@ -339,7 +362,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {p.sideTag}
+                      {t(p.sideTag)}
                     </span>
                   )}
                 </div>
@@ -347,14 +370,14 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                   <span style={{ ...serif, fontWeight: 600, fontSize: p.priceSize, letterSpacing: '-0.035em', lineHeight: 1 }}>
                     {p.price}
                   </span>
-                  {p.per && <span style={{ color: '#9598A2', fontSize: 14, whiteSpace: 'nowrap' }}>{p.per}</span>}
+                  {p.per && <span style={{ color: '#9598A2', fontSize: 14, whiteSpace: 'nowrap' }}>{t(p.per)}</span>}
                 </div>
-                <div style={{ fontSize: 13, color: '#9598A2', marginBottom: 22, minHeight: 20 }}>{p.note}</div>
+                <div style={{ fontSize: 13, color: '#9598A2', marginBottom: 22, minHeight: 20 }}>{t(p.note)}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 26, flex: 1 }}>
                   {p.feats.map((f) => (
                     <div key={f} style={{ display: 'flex', gap: 11, alignItems: 'baseline', fontSize: 13.5, color: '#B6B6C0' }}>
                       <span style={{ color: p.tick, flexShrink: 0, fontSize: 12 }}>◆</span>
-                      {f}
+                      {t(f)}
                     </div>
                   ))}
                 </div>
@@ -376,7 +399,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                     boxShadow: p.ctaShadow,
                   }}
                 >
-                  {p.cta}
+                  {t(p.cta)}
                 </a>
               </div>
             ))}
@@ -392,14 +415,25 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               marginTop: 26,
             }}
           >
+            <span style={{ ...mono, fontSize: 11, color: INK, border: `1px solid rgba(61,90,254,0.4)`, background: 'rgba(61,90,254,0.08)', borderRadius: 999, padding: '6px 14px' }}>
+              ✦ {t('Every plan starts with a')}{' '}
+              <b style={{ color: '#8FA0FF' }}>{t('7-day free trial')}</b>{' '}
+              {t('— cancel anytime, we remind you first.')}
+            </span>
             <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
-              14-day honest guarantee on every plan: no proof shipped, full refund.{' '}
+              {t('Cancel anytime, no lock-in — access runs to the end of the period you paid for.')}{' '}
               <Link href="/academy/guarantee" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
-                read the plain-language terms →
+                {t('billing & cancellation, in plain language')} →
               </Link>
             </span>
             <span style={{ fontSize: 12.5, color: '#9C9CA6' }}>
-              {coursesCount} courses · {lessonsCount} lessons — every proof verifiable by code
+              {coursesCount} {t('courses')} · {lessonsCount} {t('lessons — every proof verifiable by code')}
+            </span>
+            <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>
+              {t('No paid testimonials.')}{' '}
+              <Link href="/academy/how-we-audit" style={{ color: '#8FA0FF', textDecoration: 'none' }}>
+                {t('see how we audit our own courses')} →
+              </Link>
             </span>
           </div>
 
@@ -426,17 +460,19 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
               <span style={{ color: AMBER, fontSize: 12, flexShrink: 0 }}>◆</span>
               <span>
                 <span style={{ ...mono, fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.12em', color: AMBER }}>
-                  Add-on · Interview Mastery
+                  {t('Add-on · Interview Mastery')}
                 </span>
                 <span style={{ display: 'block', fontSize: 13.5, color: '#B6B6C0', marginTop: 3 }}>
-                  Mock interviews with an AI interviewer who calls your bluffs — add it to any plan.
+                  {t('Mock interviews with an AI interviewer who calls your bluffs — add it to any plan.')}
                 </span>
               </span>
             </span>
             <span style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexShrink: 0 }}>
               <span style={{ ...serif, fontWeight: 600, fontSize: 24, letterSpacing: '-0.02em' }}>+$39</span>
-              <span style={{ fontSize: 13, color: '#9598A2' }}>/ month · $24/mo on annual</span>
-              <span style={{ ...mono, fontSize: 10.5, color: AMBER }}>Learn more →</span>
+              <span style={{ fontSize: 13, color: '#9598A2' }}>
+                {t('/ month ·')} $24/mo {t('on annual')}
+              </span>
+              <span style={{ ...mono, fontSize: 10.5, color: AMBER }}>{t('Learn more')} →</span>
             </span>
           </a>
         </section>
@@ -453,7 +489,7 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
             {OUTCOMES.map((o) => (
               <div key={o} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '8px 0' }}>
                 <span style={{ color: GREEN, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 15, color: '#B6B6C0' }}>{o}</span>
+                <span style={{ fontSize: 15, color: '#B6B6C0' }}>{t(o)}</span>
               </div>
             ))}
           </div>
@@ -471,15 +507,15 @@ a:focus-visible { outline: 2px solid #8FA0FF; outline-offset: 2px; border-radius
                 letterSpacing: '-0.02em',
               }}
             >
-              Honest answers
+              {t('Honest answers')}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {FAQS.map((f) => (
                 <div key={f.q} style={{ padding: '22px 0', borderBottom: `1px solid ${LINE}` }}>
                   <div style={{ ...serif, fontWeight: 600, fontSize: 18, letterSpacing: '-0.01em', marginBottom: 8 }}>
-                    {f.q}
+                    {t(f.q)}
                   </div>
-                  <p style={{ margin: 0, fontSize: 14.5, color: '#9C9CA6', maxWidth: '68ch', textWrap: 'pretty' }}>{f.a}</p>
+                  <p style={{ margin: 0, fontSize: 14.5, color: '#9C9CA6', maxWidth: '68ch', textWrap: 'pretty' }}>{t(f.a)}</p>
                 </div>
               ))}
             </div>

@@ -145,8 +145,8 @@ const aiSdrAgent: ExtendedTier = {
     { label: 'Week 4', title: 'Send + reply routing', description: 'Wire send tools, build reply classifier, ship dashboard, hand off.', artifacts: ['Send pipeline', 'Reply classifier', 'Dashboard', 'Runbook'] },
   ],
   resultMetrics: [
-    { value: '70%+', label: 'Draft approval rate', context: 'after tuning' },
-    { value: '8–18%', label: 'Reply rate', context: 'on warm research' },
+    { value: '70%+', label: 'Draft-approval target', context: 'after tuning' },
+    { value: '8–18%', label: 'Reply-rate range', context: 'benchmark, not a promise' },
     { value: '100%', label: 'Human-approved sends', context: 'no auto-spam' },
   ],
   addOns: [
@@ -695,7 +695,7 @@ const fractionalCto: ExtendedTier = {
   description:
     'A seasoned engineer-leader in your weekly leadership meeting, your architecture reviews, your hiring loop, and your investor calls. Two-day-a-week commitment. We help you make the bets, write the specs, set the bar, ship the right thing, and avoid the expensive wrong things. Cancel any month.',
   price: 'from $4,800/mo',
-  priceCents: 480_000,
+  priceCents: 0,
   cadence: 'monthly',
   timeline: 'Monthly · cancel any time',
   cta: 'Talk to Sage',

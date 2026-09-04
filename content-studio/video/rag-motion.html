@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#0B0B0E;--s1:#121218;--s2:#16161d;--line:#1E1E24;--line2:#2A2A33;--ink:#F2EFE9;--muted:#9C9CA6;--faint:#6C6E7C;
+    --brand:#3D5AFE;--brand2:#6E86FF;--client:#6ECBFF;--gateway:#8FA0FF;--service:#B79CFF;--db:#5EE08C;--failure:#FF6B6B;--warn:#F5C64F;--ok:#5EE08C;
+    --display:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .stage{width:1920px;height:1080px;position:relative;background:radial-gradient(1500px 950px at 50% 38%,rgba(61,90,254,.05),transparent 72%),var(--bg)}
+  .stage::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1.3px,transparent 1.3px);background-size:46px 46px}
+  .rail{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--client),var(--db),var(--warn),var(--service),var(--failure),var(--gateway));z-index:6}
+  .beat{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;text-align:center;padding:0 130px}
+  .el{opacity:0}.word{display:inline-block;opacity:0;will-change:transform,opacity}
+  .kicker{font-family:var(--mono);font-size:22px;letter-spacing:.3em;text-transform:uppercase;color:var(--gateway)}
+  .cap{font-size:33px;color:var(--muted);font-weight:500;max-width:1180px;line-height:1.35}.cap b{color:var(--ink);font-weight:700}
+  .key{font-family:var(--mono);font-size:25px;letter-spacing:.2em;text-transform:uppercase;padding:12px 24px;border:1px solid var(--line2);border-radius:11px;background:rgba(255,255,255,.02);color:var(--ink)}
+  .handle{font-family:var(--display);font-weight:700;font-size:84px;line-height:1.04;letter-spacing:-.02em}
+  .door{font-family:var(--mono);font-size:34px;letter-spacing:.12em;color:var(--brand2)}
+  .mark{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:29px;font-weight:600}.mark svg{width:54px;height:54px}
+  /* diagram grammar */
+  .flow{display:flex;align-items:center;justify-content:center;gap:30px}
+  .node{display:flex;flex-direction:column;align-items:center;gap:12px;padding:30px 36px;border-radius:22px;border:2.5px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));min-width:210px;position:relative}
+  .node .ico{width:54px;height:54px;stroke-width:2}.node .nm{font-family:var(--display);font-weight:600;font-size:36px;color:var(--ink);line-height:1}
+  .node .tag{font-family:var(--mono);font-size:15px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+  .node.big{padding:44px 52px}.node.big .ico{width:72px;height:72px}.node.big .nm{font-size:46px}
+  .node.dim{opacity:.4}
+  .badge{position:absolute;top:-18px;right:-18px;font-family:var(--mono);font-size:20px;font-weight:700;padding:7px 14px;border-radius:9px;background:var(--bg)}
+  .badge.no{color:var(--failure);border:2px solid var(--failure)}.badge.yes{color:var(--ok);border:2px solid var(--ok)}
+  .slot{border:2px dashed var(--failure);border-radius:10px;padding:6px 14px;font-family:var(--mono);font-size:16px;color:var(--failure);margin-top:2px}
+  .conn{width:86px;height:24px;overflow:visible}.conn.fail path{stroke:var(--failure)!important}
+  .pkt{fill:var(--brand2)}.conn.fail .pkt{fill:var(--failure)}
+  .stamp{font-family:var(--display);font-weight:700;padding:16px 38px;border-radius:14px;font-size:50px;transform-origin:center}
+  .stamp.fail{color:var(--failure);border:5px solid var(--failure)}.stamp.pass{color:var(--ok);border:5px solid var(--ok)}
+  /* chat */
+  .chat{width:880px;border:1px solid var(--line2);border-radius:22px;background:var(--s1);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .chat .hd{display:flex;align-items:center;gap:12px;padding:20px 26px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:19px;color:var(--muted)}
+  .chat .hd .dot{width:13px;height:13px;border-radius:50%;background:var(--db)}
+  .chat .body{padding:30px 28px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+  .msg{font-size:38px;font-weight:600;padding:22px 30px;border-radius:20px;max-width:740px;text-align:left;line-height:1.25}
+  .msg.u{align-self:flex-end;background:rgba(61,90,254,.14);border:1px solid rgba(110,134,255,.3);font-size:30px}
+  .msg.bot{background:var(--s2);border:1px solid var(--line2)}.msg.bot b{color:var(--warn)}
+  .msg.bot.good{border-color:rgba(94,224,140,.5);background:rgba(94,224,140,.06)}.msg.bot.bad{border-color:rgba(255,107,107,.4)}
+  .conf{display:flex;align-items:center;gap:14px;margin-top:6px;width:100%}
+  .conf .track{flex:1;height:14px;border-radius:8px;background:var(--line2);overflow:hidden}
+  .conf .fill{height:100%;background:linear-gradient(90deg,var(--warn),var(--failure));transform:scaleX(0);transform-origin:left}
+  .conf .lbl{font-family:var(--mono);font-size:18px;color:var(--failure)}
+  /* doc */
+  .doc{width:220px;border:2.5px solid var(--service);border-radius:16px;background:rgba(255,255,255,.02);padding:22px;display:flex;flex-direction:column;gap:11px}
+  .doc .dl{font-family:var(--mono);font-size:14px;color:var(--service);letter-spacing:.1em;margin-bottom:4px}
+  .doc .ln{height:11px;border-radius:6px;background:var(--line2)}.doc .ln.hl{background:var(--warn)}
+  .doc.empty{border-color:var(--failure);align-items:center;justify-content:center;color:var(--failure);font-family:var(--mono);font-size:40px;min-height:150px}
+  /* training-data grid */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:20px;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.015)}
+  .cell{width:70px;height:52px;border-radius:8px;background:var(--s2);border:1px solid var(--line2)}
+  .cell.gap{background:transparent;border:2px dashed var(--failure)}
+  /* books */
+  .books{display:grid;grid-template-columns:1fr auto 1fr;gap:52px;align-items:center;width:100%;max-width:1240px}
+  .book{border:2.5px solid var(--line2);border-radius:22px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:20px;position:relative}
+  .book .bico{width:100px;height:100px}.book .lab{font-family:var(--mono);font-size:21px;letter-spacing:.12em;text-transform:uppercase}
+  .book .say{font-family:var(--display);font-weight:600;font-size:38px;line-height:1.1}
+  .book.weak{border-color:rgba(255,107,107,.4)}.book.weak .lab{color:var(--failure)}
+  .book.gold{border-color:rgba(94,224,140,.42)}.book.gold .lab{color:var(--ok)}
+  .vs{font-family:var(--display);font-style:italic;font-size:44px;color:var(--gateway)}
+  /* gate */
+  .gate{display:flex;flex-direction:column;align-items:center;gap:8px;padding:24px 28px;border-radius:16px;border:2.5px solid var(--warn);background:rgba(245,198,79,.06)}
+  .gate .glab{font-family:var(--mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--warn)}
+  /* vector scatter */
+  .vec{width:440px;height:340px;border:1px solid var(--line2);border-radius:18px;background:rgba(255,255,255,.015);position:relative}
+  .vec .axl{position:absolute;font-family:var(--mono);font-size:13px;color:var(--faint)}
+  .pt{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--gateway);transform:translate(-50%,-50%)}
+  .pt.q{width:26px;height:26px;background:var(--brand2);box-shadow:0 0 0 6px rgba(110,134,255,.18)}
+  .pt.near{background:var(--db);box-shadow:0 0 0 5px rgba(94,224,140,.18)}
+  .nnring{position:absolute;border:2px dashed var(--db);border-radius:50%;transform:translate(-50%,-50%)}
+  /* code line */
+  .codeline{font-family:var(--mono);font-size:32px;padding:22px 32px;border:1px solid var(--line2);border-radius:14px;background:var(--s1)}
+  .codeline .kw{color:var(--gateway)}.codeline .st{color:var(--db)}
+  /* claims / proof */
+  .proof{display:flex;align-items:center;gap:56px}
+  .claims{display:flex;flex-direction:column;gap:16px}
+  .claim{display:flex;align-items:center;gap:12px;font-size:24px;font-family:var(--mono);padding:13px 18px;border:1px solid var(--line2);border-radius:11px;background:rgba(255,255,255,.02)}
+  .claim .ck{color:var(--ok);font-size:26px}.claim .src{color:var(--faint)}
+  .gaugewrap{display:flex;flex-direction:column;align-items:center;gap:6px}.gaugewrap .glbl{font-family:var(--mono);font-size:20px;color:var(--ok);letter-spacing:.08em}
+  .deploybar{font-family:var(--mono);font-size:20px;color:var(--ok);border:1px solid rgba(94,224,140,.4);border-radius:10px;padding:10px 18px;background:rgba(94,224,140,.05)}
+  /* checklist */
+  .checks{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+  .chk{display:flex;align-items:center;gap:18px;font-family:var(--display);font-weight:600;font-size:46px}
+  .chk .cb{width:44px;height:44px;border-radius:10px;border:2.5px solid var(--db);display:grid;place-items:center;color:var(--db);font-size:28px;font-family:var(--sans)}
+  .prog{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:6}
+  .prog i{width:44px;height:5px;border-radius:3px;background:var(--line2)}
+</style></head>
+<body>
+<div class="stage" id="stage"><div class="rail"></div></div>
+<script>
+const I={
+  ask:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12Z"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4 2c0 1.2-2 1.5-2 3"/><circle cx="11.5" cy="17" r=".6" fill="currentColor"/></svg>`,
+  model:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 4v3M14 4v3M10 17v3M14 17v3M4 10h3M4 14h3M17 10h3M17 14h3"/></svg>`,
+  doc:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16h4"/></svg>`,
+  answer:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 3.5 7.1L3 20l.9-3.5"/><path d="M8 12h8M12 8v8"/></svg>`,
+  user:`<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
+  bookC:`<svg class="bico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Z"/><path d="M9 4v16"/></svg>`,
+  bookO:`<svg class="bico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6C10 4.5 7 4 4 5v13c3-1 6-.5 8 1 2-1.5 5-2 8-1V5c-3-1-6-.5-8 1Z"/><path d="M12 6v13"/><path d="M15 10.5l1.5 1.5 3-3"/></svg>`,
+  gate:`<svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`,
+};
+const MARK=`<svg viewBox="10 15 48 48" fill="none"><path d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z" fill="none" stroke="#F2EFE9" stroke-width="4.2" stroke-linejoin="round"/><circle cx="26" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="36" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="46" cy="54" r="3.4" fill="#F2EFE9"/></svg>`;
+// connector with a flowing packet; cue = when it draws
+const conn=(cue,fb,fail='')=>`<svg class="conn ${fail}" data-flow viewBox="0 0 86 24"><path class="apath" d="M4 12 H74" stroke="#8FA0FF" stroke-width="3" fill="none" data-anim="draw" data-cue="${cue}" data-d="${fb}" data-t="0.4"/><path d="M70 6 L80 12 L70 18" stroke="#8FA0FF" stroke-width="3" fill="none"/><circle class="pkt" cy="12" r="4" cx="4" opacity="0" data-t0="${fb}"/></svg>`;
+const node=(hue,ico,nm,tag,cue,fb,extra='',cls='')=>`<div class="node el ${cls}" data-anim="pop" data-cue="${cue}" data-d="${fb}" style="border-color:var(--${hue})"><span style="color:var(--${hue})">${ico}</span><span class="nm">${nm}</span><span class="tag">${tag}</span>${extra}</div>`;
+
+// key = VO clip; cue = spoken word to land on; data-d = fallback seconds
+const BEATS=[
+ ['01-hook',7.34,`<div class="beat">
+   <div class="chat el" data-anim="pop" data-cue="Ask" data-d="0.1">
+     <div class="hd"><span class="dot"></span> support-bot · live</div>
+     <div class="body">
+       <div class="msg u el" data-anim="fade" data-cue="documents" data-d="1.2">what's your refund policy?</div>
+       <div class="msg bot bad el" data-anim="fade" data-cue="answers" data-d="3.6">You have <b>30 days</b> to request a refund.
+         <div class="conf"><div class="track"><div class="fill el" data-anim="grow" data-cue="confidence" data-d="4.6"></div></div><span class="lbl el" data-anim="fade" data-cue="confidence" data-d="4.6">100% sure</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="stamp fail el" data-anim="slam" data-cue="makes" data-d="6.1">✗ MADE IT UP</div></div>`],
+ ['02-hook2',7.01,`<div class="beat">
+   <div class="flow">
+     <div class="grid el" data-anim="pop" data-cue="training" data-d="1.4">
+       ${Array.from({length:11}).map(()=>'<div class="cell"></div>').join('')}
+       <div class="cell gap el" data-anim="pop" data-cue="refund" data-d="0.5"></div>
+     </div>
+     ${conn('guessed',2.6,'fail')}
+     ${node('gateway',I.model,'Model','guessed','guessed',2.9,'<span class="slot el" data-anim="pop" data-cue="guessed" data-d="2.9">no policy → invent</span>')}
+     ${conn('ship',5.2,'fail')}
+     ${node('failure',I.user,'Customer','gets a lie','customer',6.0,'<span class="badge no el" data-anim="slam" data-cue="lie" data-d="5.5">✗</span>')}
+   </div>
+   <div class="cap el" data-anim="rise" data-cue="production" data-d="4.0">The refund policy was never in its <b>training data</b> — so it filled the gap.</div></div>`],
+ ['03-frame',7.76,`<div class="beat">
+   <div class="flow" style="gap:44px">
+     ${node('gateway',I.model,'Bigger','smarter · pricier','bigger',0.7,'<span class="badge no el" data-anim="slam" data-cue="model" data-d="1.5">✗</span>','big dimlater')}
+     <div class="vs el" data-anim="fade" data-cue="RAG" data-d="3.1">→</div>
+     <div class="flow" style="gap:22px">
+       ${node('client',I.doc,'Retrieve','the page','Retrieve',4.04)}
+       ${conn('answer',6.0)}
+       ${node('db',I.answer,'Answer','+ cite','answer',6.0,'<span class="badge yes el" data-anim="slam" data-cue="cite" data-d="7.0">[1]</span>')}
+     </div>
+   </div>
+   <div class="key el" data-anim="pop" data-cue="RAG" data-d="3.1">not a bigger model — RAG</div></div>`],
+ ['04-retrieve',8.5,`<div class="beat">
+   <div class="flow" style="gap:40px">
+     <div class="grid el" data-anim="pop" data-cue="chunks" data-d="2.6" style="grid-template-columns:repeat(3,1fr)">
+       ${Array.from({length:6}).map((_,i)=>`<div class="cell el" data-anim="pop" data-cue="chunks" data-si="${i}" data-stag="0.08" data-d="2.6" style="width:60px;height:40px"></div>`).join('')}
+     </div>
+     <div class="vs el" data-anim="fade" data-cue="vectors" data-d="3.9">→</div>
+     <div class="vec el" data-anim="pop" data-cue="vectors" data-d="3.9">
+       <span class="axl" style="left:12px;bottom:8px">meaning-space</span>
+       ${[[18,30],[30,62],[46,22],[62,70],[70,40],[26,80],[82,58],[54,48]].map((p,i)=>`<span class="pt el" data-anim="pop" data-cue="vectors" data-si="${i}" data-stag="0.05" data-d="3.9" style="left:${p[0]}%;top:${p[1]}%"></span>`).join('')}
+       <span class="pt q el" data-anim="pop" data-cue="question" data-d="5.4" style="left:50%;top:52%"></span>
+       <span class="nnring el" data-anim="pop" data-cue="closest" data-d="7.3" style="left:50%;top:52%;width:190px;height:190px"></span>
+       <span class="pt near el" data-anim="pop" data-cue="closest" data-si="0" data-stag="0.06" data-d="7.3" style="left:46%;top:22%"></span>
+       <span class="pt near el" data-anim="pop" data-cue="closest" data-si="1" data-stag="0.06" data-d="7.3" style="left:54%;top:48%"></span>
+       <span class="pt near el" data-anim="pop" data-cue="closest" data-si="2" data-stag="0.06" data-d="7.3" style="left:62%;top:70%"></span>
+     </div>
+   </div>
+   <div class="cap el" data-anim="rise" data-cue="closest" data-d="7.6">Nearest-neighbor search — the passages <b>closest in meaning</b>.</div></div>`],
+ ['05-answer',7.85,`<div class="beat">
+   <div class="flow">
+     <div class="doc el" data-anim="pop" data-cue="passages" data-d="0.6"><span class="dl">THE PAGE</span><div class="ln"></div><div class="ln hl el" data-anim="pop" data-cue="passages" data-d="0.8"></div><div class="ln"></div></div>
+     ${conn('model',1.6)}
+     ${node('gateway',I.model,'Model','answer from it','model',1.6)}
+     ${conn('citation',3.4)}
+     ${node('db',I.answer,'Answer','grounded','citation',3.4,'<span class="badge yes el" data-anim="slam" data-cue="right" data-d="6.0">✓ [1]</span>')}
+   </div>
+   <div class="key el" data-anim="pop" data-cue="source" data-d="7.0">same question — now right, and it shows its source</div></div>`],
+ ['06-abstain',9.43,`<div class="beat">
+   <div class="kicker el" data-anim="fade" data-cue="trap" data-d="0.6">the trap everyone ships</div>
+   <div class="flow">
+     ${node('client',I.ask,'Ask','off-topic','Ask',2.1)}
+     ${conn('cover',3.4,'fail')}
+     <div class="doc empty el" data-anim="pop" data-cue="cover" data-d="3.4">∅</div>
+     ${conn('makes',5.4,'fail')}
+     ${node('failure',I.answer,'Answer','invented','makes',5.6,'<span class="badge no el" data-anim="slam" data-cue="up" data-d="6.1">✗</span>')}
+   </div>
+   <div class="cap el" data-anim="rise" data-cue="refuse" data-d="6.7">Nothing told it it's <b>allowed to refuse</b> — so it didn't.</div></div>`],
+ ['07-abstain2',11.75,`<div class="beat" style="gap:34px">
+   <div class="codeline el" data-anim="pop" data-cue="line" data-d="0.9"><span class="kw">if</span> answer <span class="kw">not in</span> context: <span class="st">abstain()</span></div>
+   <div class="flow">
+     <div class="doc empty el" data-anim="pop" data-cue="context" data-d="2.9" style="min-height:120px;font-size:32px">∅</div>
+     ${conn('answer',4.3)}
+     <div class="gate el" data-anim="pop" data-cue="answer" data-d="4.3"><span style="color:var(--warn)">${I.gate}</span><span class="glab">no source · stop</span></div>
+     ${conn('documents',6.0)}
+     <div class="msg bot good el" data-anim="pop" data-cue="documents" data-d="6.0" style="font-size:30px">That's not in the documents. <span class="badge yes el" data-anim="slam" data-cue="documents" data-d="6.7" style="position:static;margin-left:10px">✓</span></div>
+   </div>
+   <div class="cap el" data-anim="rise" data-cue="demo" data-d="10.0">One guardrail — the difference between a <b style="color:var(--failure)">demo</b> and <b style="color:var(--ok)">production</b>.</div></div>`],
+ ['08-prove',9.15,`<div class="beat">
+   <div class="kicker el" data-anim="fade" data-cue="faithfulness" data-d="1.8">faithfulness check</div>
+   <div class="proof">
+     <div class="claims">
+       <div class="claim el" data-anim="rise" data-cue="traces" data-d="2.7"><span class="ck">✓</span> 30-day window <span class="src">→ doc §2</span></div>
+       <div class="claim el" data-anim="rise" data-cue="claim" data-d="3.5"><span class="ck">✓</span> eligibility <span class="src">→ doc §4</span></div>
+       <div class="claim el" data-anim="rise" data-cue="source" data-d="4.3"><span class="ck">✓</span> how to file <span class="src">→ doc §5</span></div>
+     </div>
+     <div class="gaugewrap">
+       <svg width="360" height="200" viewBox="0 0 180 120" class="el" data-anim="fade" data-cue="Green" data-d="5.0"><path d="M20 110 A70 70 0 0 1 160 110" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="14"/><path class="gaugefill" d="M20 110 A70 70 0 0 1 160 110" fill="none" stroke="var(--ok)" stroke-width="14" stroke-linecap="round" data-anim="draw" data-cue="grounded" data-d="5.6" data-t="1.2"/><text x="90" y="96" text-anchor="middle" font-family="Fraunces" font-weight="700" font-size="38" fill="#F2EFE9">100%</text></svg>
+       <span class="deploybar el" data-anim="pop" data-cue="deploy" data-d="7.3">GATE ≥ 0.9 · deploy ✓</span>
+     </div>
+   </div>
+   <div class="key el" data-anim="pop" data-cue="vibe" data-d="8.5">a number — not a vibe</div></div>`],
+ ['09-close',13.93,`<div class="beat" style="gap:30px">
+   <div class="checks">
+     <div class="chk el" data-anim="rise" data-cue="Retrieve" data-d="0.0"><span class="cb el" data-anim="slam" data-cue="Retrieve" data-d="0.3">✓</span> Retrieve the page</div>
+     <div class="chk el" data-anim="rise" data-cue="Answer" data-d="0.8"><span class="cb el" data-anim="slam" data-cue="source" data-d="1.4">✓</span> Answer from the source</div>
+     <div class="chk el" data-anim="rise" data-cue="Refuse" data-d="2.06"><span class="cb el" data-anim="slam" data-cue="can't" data-d="2.78">✓</span> Refuse when you can't</div>
+     <div class="chk el" data-anim="rise" data-cue="Verify" data-d="3.34"><span class="cb el" data-anim="slam" data-cue="grounded" data-d="4.0">✓</span> Verify it's grounded</div>
+   </div>
+   <div class="handle kin" data-cue="RAG" data-d="4.98" data-stag="0.06">RAG that survives production.</div>
+   <div class="door el" data-anim="rise" data-cue="academy" data-d="8.7">sageideas.dev/academy</div>
+   <div class="mark el" data-anim="fade" data-cue="Proof" data-d="11.26">${MARK}<span>proof, not paper.</span></div></div>`],
+];
+
+// ---- cue resolver: word -> spoken start time within its beat ----
+const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+function cueTime(key,word,fb){ const wd=(window.__WORDS||{})[key]; if(!wd)return fb; const t=norm(word);
+  const hit=wd.words.find(x=>norm(x.w)===t)||wd.words.find(x=>norm(x.w).startsWith(t))||wd.words.find(x=>norm(x.w).includes(t));
+  return hit?hit.start:fb; }
+
+const stage=document.getElementById('stage');
+const beatEls=[]; let starts=[], durs=[], acc=0;
+BEATS.forEach(([key,dFallback,html],i)=>{ const d=(window.__DURS&&window.__DURS[i])||(window.__WORDS&&window.__WORDS[key]&&window.__WORDS[key].dur)||dFallback; starts[i]=acc; durs[i]=d; acc+=d; const div=document.createElement('div'); div.innerHTML=html; const b=div.firstElementChild; b.dataset.key=key; b.style.opacity=0; b.style.display='none'; stage.appendChild(b); beatEls.push(b);
+  // resolve cues -> data-d (+ per-item stagger)
+  b.querySelectorAll('[data-cue]').forEach(el=>{ const base=cueTime(key,el.dataset.cue,+el.dataset.d||0); const si=+el.dataset.si||0, stg=+el.dataset.stag||0; el.dataset.d=(base+si*stg).toFixed(3); });
+  // kinetic words
+  b.querySelectorAll('.kin').forEach(k=>{ const d0=+k.dataset.d||0, st=+k.dataset.stag||0.07; const words=k.textContent.split(' '); k.textContent=''; words.forEach((w,wi)=>{ const s=document.createElement('span'); s.className='word'; s.textContent=w; s.dataset.d=(d0+wi*st).toFixed(3); k.appendChild(s); if(wi<words.length-1)k.appendChild(document.createTextNode(' ')); }); });
+  // dim the "bigger model" after RAG appears (beat 3)
+});
+const TOTAL=acc; window.__duration=TOTAL;
+const prog=document.createElement('div'); prog.className='prog'; prog.innerHTML=BEATS.map(()=>'<i></i>').join(''); stage.appendChild(prog);
+
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const eOut=p=>1-Math.pow(1-p,3);
+const eBack=p=>{const c=2.2;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2);};
+const XF=0.42;
+function anim(el,lt){
+  const kind=el.dataset.anim,d=+el.dataset.d||0,t=+el.dataset.t||0.6;
+  let p=clamp((lt-d)/t,0,1);
+  if(kind==='draw'){const L=el.getTotalLength?el.getTotalLength():300;el.style.strokeDasharray=L;el.style.strokeDashoffset=(1-eOut(p))*L;el.style.opacity=1;return;}
+  if(el.classList.contains('word')){const e=eOut(clamp((lt-d)/0.5,0,1));el.style.opacity=e;el.style.transform=`translateY(${(1-e)*22}px)`;return;}
+  const e=kind==='slam'?eBack(p):eOut(p);
+  if(kind==='slam'){el.style.opacity=clamp(p*4,0,1);el.style.transform=`scale(${0.55+e*0.45}) rotate(-4deg)`;}
+  else if(kind==='pop'){el.style.opacity=eOut(p);el.style.transform=`scale(${0.9+eOut(p)*0.1})`;}
+  else if(kind==='rise'){el.style.opacity=e;el.style.transform=`translateY(${(1-e)*28}px)`;}
+  else if(kind==='grow'){el.style.opacity=1;el.style.transform=`scaleX(${eOut(p)})`;}
+  else {el.style.opacity=eOut(p);}
+}
+window.__seek=(ms)=>{
+  const t=ms/1000;
+  beatEls.forEach((b,k)=>{
+    const inP=(t-(starts[k]-XF))/XF;
+    const outP=k===BEATS.length-1?Infinity:((starts[k]+durs[k])-t)/XF;
+    const op=clamp(Math.min(inP,outP),0,1);
+    if(op<=0.002){b.style.display='none';b.style.opacity=0;return;}
+    b.style.display='flex';b.style.opacity=op;
+    const lt=t-starts[k];
+    b.querySelectorAll('[data-anim],.word').forEach(el=>anim(el,lt));
+    // beat 3: dim the bigger model once RAG shows
+    if(b.dataset.key==='03-frame'){const big=b.querySelector('.dimlater');if(big)big.classList.toggle('dim',lt>3.3);}
+    // secondary motion: packets flow along drawn connectors
+    b.querySelectorAll('.conn[data-flow]').forEach(sv=>{const pk=sv.querySelector('.pkt');const t0=+pk.dataset.t0||0;if(lt>t0+0.4){const f=((lt-t0-0.4)*0.8)%1;pk.setAttribute('cx',(4+f*70).toFixed(1));pk.setAttribute('opacity',0.9);}else pk.setAttribute('opacity',0);});
+  });
+  let cur=0,a=0;for(let k=0;k<BEATS.length;k++){if(t>=a)cur=k;a+=durs[k];}
+  [...prog.children].forEach((n,k)=>n.style.background=k<=cur?'var(--brand)':'var(--line2)');
+};
+window.__seek(0);
+</script>
+</body></html>

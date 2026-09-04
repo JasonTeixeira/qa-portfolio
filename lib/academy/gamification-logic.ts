@@ -71,9 +71,14 @@ export function computeStreakTransition(
   return { current: 1, freezes: prev.freezes, freezeUsed: false, increased: true }
 }
 
-export type Celebration = { kind: 'level' | 'streak' | 'goal'; value: number; label: string; sub: string }
+export type Celebration = { kind: 'level' | 'streak' | 'goal' | 'progress'; value: number; label: string; sub: string }
 
-/** The single most significant celebration to show after an award (or null). */
+/**
+ * The single most significant celebration to show after an award. Precedence:
+ * level-up → streak milestone → daily goal → a routine "you earned XP" nudge.
+ * Returns null only when no XP was actually awarded — every completion that
+ * banks XP earns a beat, so a normal lesson finish is never a silent redirect.
+ */
 export function pickCelebration(state: GamificationState): Celebration | null {
   const a = state.awarded
   if (!a) return null
@@ -82,5 +87,11 @@ export function pickCelebration(state: GamificationState): Celebration | null {
     return { kind: 'streak', value: state.streak.current, label: `${state.streak.current}-day streak`, sub: 'Don’t break the chain' }
   }
   if (a.goalJustMet) return { kind: 'goal', value: state.dailyGoal.goalXp, label: 'Daily goal hit', sub: `${state.dailyGoal.goalXp} XP today` }
+  if (a.xp > 0) {
+    const sub = a.streakIncreased
+      ? `${state.streak.current}-day streak alive`
+      : `${state.dailyGoal.todayXp}/${state.dailyGoal.goalXp} XP toward today’s goal`
+    return { kind: 'progress', value: a.xp, label: `+${a.xp} XP`, sub }
+  }
   return null
 }

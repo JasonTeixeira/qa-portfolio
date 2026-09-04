@@ -17,14 +17,14 @@ type Faq = {
   q: string
   a: string
   /** Which category anchor group this belongs to. */
-  group: 'learning' | 'proofs' | 'billing'
+  group: 'learning' | 'proofs' | 'billing' | 'data'
 }
 
 const CATEGORIES: Category[] = [
-  { glyph: '◆', tint: '#8FA0FF', name: 'Learning & tutor', count: '2 answers', href: '#learning' },
-  { glyph: '✓', tint: '#18B663', name: 'Proofs & certificates', count: '2 answers', href: '#proofs' },
-  { glyph: '$', tint: '#E0A93E', name: 'Billing', count: '1 answer', href: '#billing' },
-  { glyph: '⌥', tint: '#9598A2', name: 'Your data & export', count: '1 answer', href: '#proofs' },
+  { glyph: '◆', tint: '#8FA0FF', name: 'Learning & tutor', count: '5 answers', href: '#learning' },
+  { glyph: '✓', tint: '#18B663', name: 'Proofs & certificates', count: '3 answers', href: '#proofs' },
+  { glyph: '$', tint: '#E0A93E', name: 'Billing', count: '4 answers', href: '#billing' },
+  { glyph: '⌥', tint: '#9598A2', name: 'Your data & export', count: '2 answers', href: '#data' },
 ]
 
 // Every answer below is grounded in a REAL feature in this codebase — see the
@@ -42,6 +42,26 @@ const FAQS: Faq[] = [
     a: 'You start with two streak freezes. Miss a single day and a freeze is spent automatically — your streak holds instead of resetting to zero. The freeze count and the exact dates you used are tracked on your account, and you can earn more freezes back through referrals. Run out of freezes and miss a day, and the streak resets honestly.',
   },
   {
+    group: 'learning',
+    q: 'Is Interview Mastery part of my membership, or separate?',
+    a: 'Interview Mastery is a separate, opt-in add-on — not part of the core learning path. It is a focused track where an AI interviewer runs practice rounds and gives you structured feedback on how you answer. You reach it from the Interview Mastery link; nothing about your main courses, ledger, or streak changes unless you add it.',
+  },
+  {
+    group: 'learning',
+    q: 'What are the review prompts and leagues for?',
+    a: 'The academy schedules spaced recall — it resurfaces earlier ideas right before you would forget them, so a concept sticks instead of evaporating the day after a lesson. Leagues add a light, friendly layer of momentum that reflects your consistency alongside others. Both exist to keep you returning to the work; neither gates access to a lesson.',
+  },
+  {
+    group: 'learning',
+    q: 'Can I install it as an app or use it offline?',
+    a: 'You can install the academy to your home screen or dock as a progressive web app, so it opens in its own window and feels like a native app. It is built to be fast and app-like. A live connection is still needed for the parts that talk to our backend — loading lessons, tutor replies, and server-checked labs — so it is not a fully offline experience.',
+  },
+  {
+    group: 'proofs',
+    q: 'Do I need to install anything to do the Labs?',
+    a: 'No — the Labs run in your browser. You open a build, work against its spec, and submit. Your submission is checked on the server, not self-graded in the tab, so a green result is a claim someone else could re-run. Each lab ends in runnable acceptance checks, and those checks are the proof you can point an employer at.',
+  },
+  {
     group: 'proofs',
     q: 'How do I unlock the next sprint?',
     a: 'Progression is proof-based, not time-based. A sprint spells out its contract up front — the outcome, the proof it expects, and what you must not claim — and an unlock gate lists the exact criteria the next step needs. Meet the criteria with real, verifiable work and the gate opens. There is no XP grind or artificial cap between you and the next lesson; there is a bar you actually clear.',
@@ -52,21 +72,42 @@ const FAQS: Faq[] = [
     a: 'Yes. Each certificate has its own public page at sageideas.dev/academy/certificate/<code> — anyone can open it or curl it, signed in or not, member or not. It reports a live status (VALID or REVOKED), the issue date, and the count of proofs behind it. Cancelling your membership does not take the page down. That permanence is the point of showing it.',
   },
   {
-    group: 'proofs',
-    q: 'Can I take my work with me?',
-    a: 'Always. Settings has an "Export everything" download that pulls your real records live: your profile, every build artifact you have made, and your full proof-of-work ledger — every sprint proven, course completed, and certificate earned — as one JSON file. Your work is yours, whether or not you keep paying.',
+    group: 'billing',
+    q: 'Can I try it without a credit card?',
+    a: 'Yes. There is a free tier — a set of lessons you can work through with no card and no trial countdown. It is meant to show you exactly how the loop and the proofs feel before you decide anything. When you are ready for all-access, you upgrade from Settings.',
+  },
+  {
+    group: 'billing',
+    q: 'I cannot log in — how do I get back into my account?',
+    a: 'Go to the sign-in page and request a reset link; it is sent to the email address on your account. Follow the link, set a new password, and you are back in with your ledger, streak, and proofs untouched. If the email does not arrive, check your spam folder first, then email us and a person will help.',
+  },
+  {
+    group: 'billing',
+    q: 'If I upgrade mid-cycle, do I pay twice?',
+    a: 'No. Upgrades are prorated through the Stripe customer portal — you are charged only the difference for the time left in your current period, not a fresh full charge. The change takes effect right away, and your future renewals simply bill at the new plan.',
   },
   {
     group: 'billing',
     q: 'How do I cancel, and when does billing stop?',
     a: 'Open Settings → Plan & billing and use the billing button — it drops you into the real Stripe customer portal, where you cancel or change your plan directly. Cancelling stops the renewal: you keep all-access until the end of the period you have already paid for, and it simply does not renew after that. No exit interview, no dark patterns.',
   },
+  {
+    group: 'data',
+    q: 'Can I take my work with me?',
+    a: 'Always. Settings has an "Export everything" download that pulls your real records live: your profile, every build artifact you have made, and your full proof-of-work ledger — every sprint proven, course completed, and certificate earned — as one JSON file. Your work is yours, whether or not you keep paying.',
+  },
+  {
+    group: 'data',
+    q: 'What is actually in the export file?',
+    a: 'One plain JSON file with your real records: your profile, every build artifact you have made, and your full proof-of-work ledger — sprints proven, courses completed, and certificates earned. Because it is portable JSON, you (or an employer’s tooling) can read and audit it without going through us.',
+  },
 ]
 
 const GROUP_LABEL: Record<Faq['group'], string> = {
   learning: 'Learning & tutor',
-  proofs: 'Proofs, certificates & your data',
+  proofs: 'Proofs & certificates',
   billing: 'Billing',
+  data: 'Your data & export',
 }
 
 const ROW_BORDER = '1px solid #1E1E24'
@@ -87,7 +128,7 @@ export function HelpContent() {
 
   // Group the (filtered) FAQs in a stable order, anchor id per group.
   const groups: { id: Faq['group']; label: string; items: Faq[] }[] = (
-    ['learning', 'proofs', 'billing'] as const
+    ['learning', 'proofs', 'billing', 'data'] as const
   )
     .map((id) => ({
       id,
@@ -375,7 +416,7 @@ export function HelpContent() {
           </div>
         </div>
         <a
-          href="mailto:contact@sageideas.dev"
+          href="mailto:hello@sageideas.dev"
           style={{
             display: 'inline-flex',
             color: '#fff',

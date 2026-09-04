@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getCourseOverview } from '@/lib/academy/content'
+import { buildCourse } from '@/lib/seo/jsonld'
+import { ACADEMY_PLANS } from '@/lib/academy/plans'
 import { getCourseProgress } from '@/lib/academy/progress'
 import { getAssessmentState } from '@/lib/academy/assessments'
 import { CourseOverview } from '@/components/academy/course/CourseOverview'
@@ -49,8 +51,17 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   const assessment = user ? await getAssessmentState(user.id, slug) : null
   const courseComplete = all.length > 0 && doneCount === all.length
 
+  const courseLd = buildCourse({
+    name: overview.title,
+    description: overview.subtitle || `${overview.title} — a Sage Academy course that ends in proof a reviewer can run.`,
+    url: `https://www.sageideas.dev/academy/course/${slug}`,
+    priceCents: ACADEMY_PLANS.monthly.amountCents,
+    cadence: 'monthly',
+  })
+
   return (
     <AcademyShell active="courses">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseLd) }} />
       {assessment ? <AssessmentBanner slug={slug} state={assessment} courseComplete={courseComplete} /> : null}
       <CourseOverview overview={overview} completed={completed} doneCount={doneCount} continueSlug={continueSlug} />
     </AcademyShell>

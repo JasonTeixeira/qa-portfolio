@@ -6,7 +6,7 @@ import { ChallengeView } from '@/components/academy/challenge/ChallengeView'
 import { AcademyShell } from '@/components/academy/academy-shell'
 
 export const metadata: Metadata = {
-  title: 'Weekly Challenge — Sage Academy',
+  title: "This Week's Map-Along — Sage Academy",
   robots: { index: false, follow: false },
 }
 

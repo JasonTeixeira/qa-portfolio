@@ -1,12 +1,22 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllConcepts, getConceptCourses } from '@/lib/academy/concepts'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
-export const metadata: Metadata = {
-  title: 'Engineering concepts, taught as judgment — Sage Academy',
-  description:
-    'Short, honest answers to the questions engineers actually search — each one a doorway into a lesson that ends in evidence, not a completion checkmark.',
-  alternates: { canonical: 'https://www.sageideas.dev/academy/concepts' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Engineering concepts, taught as judgment — Sage Academy'),
+    description: t(
+      'Short, honest answers to the questions engineers actually search — each one a doorway into a lesson that ends in evidence, not a completion checkmark.'
+    ),
+    alternates: localizedAlternates('/academy/concepts', locale),
+  }
 }
 
 const S = {
@@ -36,19 +46,22 @@ const S = {
   lede: { margin: '18px 0 0', color: '#9C9CA6', fontSize: 16, maxWidth: '58ch' } as const,
 }
 
-export default function ConceptsIndexPage() {
+export default async function ConceptsIndexPage() {
+  const t = await getT()
   const courses = getConceptCourses()
   const concepts = getAllConcepts()
 
   return (
-    <div style={S.page}>
+    <>
+      <AcademyNav />
+      <div style={S.page}>
       <main style={S.main}>
-        <div style={S.kicker}>Concepts · free previews of the judgment library</div>
-        <h1 style={S.h1}>The questions, answered the senior-engineer way.</h1>
+        <div style={S.kicker}>{t('Concepts · free previews of the judgment library')}</div>
+        <h1 style={S.h1}>{t('The questions, answered the senior-engineer way.')}</h1>
         <p style={S.lede}>
-          Each concept below is a real lesson outcome from the academy — the question a developer
-          searches, answered with a map you can defend. No signup wall on the answers; the reps and
-          the evidence ledger are the product.
+          {t(
+            'Each concept below is a real lesson outcome from the academy — the question a developer searches, answered with a map you can defend. No signup wall on the answers; the reps and the evidence ledger are the product.'
+          )}
         </p>
 
         {courses.map((course) => {
@@ -69,7 +82,7 @@ export default function ConceptsIndexPage() {
                   {course.title}
                 </h2>
                 <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#9598A2' }}>
-                  {list.length} concepts
+                  {list.length} {t('concepts')}
                 </span>
               </div>
               <div style={{ borderTop: '1px solid #1E1E24', marginTop: 18 }}>
@@ -96,7 +109,7 @@ export default function ConceptsIndexPage() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {c.durationMin ? `${c.durationMin} min lesson →` : 'lesson →'}
+                      {c.durationMin ? `${c.durationMin} ${t('min lesson →')}` : t('lesson →')}
                     </span>
                   </Link>
                 ))}
@@ -105,6 +118,9 @@ export default function ConceptsIndexPage() {
           )
         })}
       </main>
-    </div>
+      </div>
+      <EcosystemBand current="method" heading={t('Free previews are the doorway — here’s the rest.')} />
+      <AcademyFooter />
+    </>
   )
 }

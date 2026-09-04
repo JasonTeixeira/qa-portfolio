@@ -6,7 +6,7 @@
  * greeting, chips, scripted replies, 550ms typing beat, human fallback).
  *
  * Honesty deltas vs the widget: the pricing reply quotes the real Stripe
- * plans ($20/mo · $200/yr) instead of the mock's $250; the language reply is
+ * plans ($25/mo · $250/yr); the language reply is
  * trimmed to what the site ships today. Unanswered questions emit a
  * `chat_unanswered` analytics event so real gaps feed the FAQ.
  */
@@ -19,8 +19,8 @@ type Msg = { who: 'bot' | 'me'; text: string }
 const REPLIES: [RegExp, string][] = [
   [/start|begin|first|which course|donde|empez|开始|शुरू/i, 'Start with Engineering Judgment (Course 00). It’s the loop every other course runs on — and in about 25 minutes you’ll ship your first artifact. No prerequisites.'],
   [/proof|prove|artifact|certificat|prueba|证明|प्रमाण/i, 'A proof is a check a skeptic can run — a passing eval, a decision memo, a repaired case. Every course ends in one, and they stack into a ledger you can share with anyone.'],
-  [/pric|cost|\$|pay|precio|价格|मूल्य|tarif/i, 'One membership: $20/month or $200/year, every course as it ships — labs, proofs, recall, leagues, certificates. And a 14-day honest guarantee: no proof shipped, full refund.'],
-  [/refund|guarantee|cancel|garant/i, '14 days, no questions — if you haven’t shipped a proof by then, we refund everything. Cancel anytime after that; your ledger stays yours.'],
+  [/pric|cost|\$|pay|precio|价格|मूल्य|tarif/i, 'One membership: $25/month or $250/year, every course as it ships — labs, proofs, recall, leagues, certificates. Every plan starts with a 7-day free trial, cancel anytime.'],
+  [/refund|guarantee|cancel|garant/i, 'No lock-in: cancel anytime and you keep access through the end of the period you paid for. Your ledger and certificates stay yours. Start with a 7-day free trial, and you can read a full lesson free before you pay.'],
   [/interview|mock|behavioral|system design round/i, 'Interview Mastery is the add-on: unlimited voice-first mocks scored against a consistent bar, +$39/mo ($24/mo annual) on top of membership. The /interview page has the full picture.'],
   [/human|person|contact|email|talk|support|help/i, 'A real person reads everything at hello@sageideas.dev — usually same-day. For account things, that’s the fastest path.'],
   [/^(hi|hey|hello|hola|olá|salut|你好|नमस्ते)\b/i, 'Hey! Happy you’re here. What can I help you figure out — courses, proofs, or pricing?'],

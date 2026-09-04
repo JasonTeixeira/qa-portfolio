@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useState } from 'react'
+import { useT } from '@/components/i18n/locale-provider'
 
 const ITEMS = [
   'every lab starts failing — fixing it for real is the only way through',
@@ -19,6 +20,7 @@ const ITEMS = [
 ]
 
 export function HeroTicker() {
+  const t = useT()
   const [tick, setTick] = useState(0)
   const [fade, setFade] = useState(false)
 
@@ -47,7 +49,7 @@ export function HeroTicker() {
         opacity: fade ? 0 : 1,
       }}
     >
-      {ITEMS[tick % ITEMS.length]}
+      {t(ITEMS[tick % ITEMS.length])}
     </span>
   )
 }

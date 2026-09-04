@@ -26,6 +26,38 @@
 }
 .card[data-kind='streak'] { --c: #f5a623; }
 .card[data-kind='goal'] { --c: #2dd4bf; }
+.card[data-kind='progress'] { --c: #3D6BFF; }
+
+/* Routine "+XP" nudge: a gentle, non-blocking corner toast — not a full-screen
+   modal. Big moments (level/streak/goal) keep the overlay; a normal lesson
+   finish gets this. */
+.toastWrap {
+  position: fixed;
+  right: clamp(12px, 3vw, 28px);
+  bottom: clamp(12px, 3vw, 28px);
+  z-index: 80;
+  pointer-events: none;
+  animation: slideIn 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast {
+  --c: #3D6BFF;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1.1rem 0.7rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--c) 42%, transparent);
+  border-radius: 14px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 16%, #0c0c10), #0c0c10);
+  box-shadow: 0 20px 60px -24px rgba(0, 0, 0, 0.85), 0 0 40px -24px color-mix(in srgb, var(--c) 60%, transparent);
+}
+.toast .tGlyph { color: var(--c); display: grid; place-items: center; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--c) 60%, transparent)); }
+.toast .tText { display: flex; flex-direction: column; gap: 1px; }
+.toast .tValue { font-family: var(--font-serif), Georgia, serif; font-weight: 600; font-size: 1.02rem; letter-spacing: -0.01em; color: #f2efe9; line-height: 1.1; }
+.toast .tSub { font-family: var(--font-mono), monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: color-mix(in srgb, var(--c) 80%, white); }
+@keyframes slideIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .toastWrap { animation: none; } }
 
 .glyph { font-size: 3rem; line-height: 1; filter: drop-shadow(0 0 18px color-mix(in srgb, var(--c) 70%, transparent)); animation: bounce 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .value { margin-top: 0.5rem; font-family: var(--font-serif), Georgia, serif; font-weight: 500; font-size: 1.7rem; letter-spacing: -0.01em; color: #f2efe9; }

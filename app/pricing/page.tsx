@@ -29,8 +29,8 @@ const academyPricingFaq = [
     a: 'A lesson is 20–40 minutes and ends in a proof. Recall is about six minutes a day. One sprint a week is the intended cadence — this is designed around a job, not instead of one.',
   },
   {
-    q: 'What does the guarantee actually mean?',
-    a: "If you finish your first sprint and haven't shipped a proof you'd show a reviewer, tell us within 14 days and we refund in full. We'd rather refund than argue.",
+    q: 'Can I cancel?',
+    a: 'Anytime, no lock-in — your access runs to the end of the period you paid for, and you keep every artifact and proof you shipped. Try a full lesson free first, no card required.',
   },
 ] as const
 

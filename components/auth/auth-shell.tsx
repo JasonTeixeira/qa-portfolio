@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { BrandPanel, SageLogo } from '@/components/auth/brand-panel';
 import { GradientMesh } from '@/components/auth/gradient-mesh';
 import { OAuthButtons } from '@/components/auth/oauth-buttons';
+import { getT } from '@/lib/i18n/t';
 
 type Audience = 'studio' | 'academy';
 
@@ -44,7 +45,7 @@ interface AuthShellProps {
   oauth?: boolean;
 }
 
-export function AuthShell({
+export async function AuthShell({
   audience,
   mode,
   kicker,
@@ -59,17 +60,18 @@ export function AuthShell({
   footer,
   oauth = true,
 }: AuthShellProps) {
-  const t = THEME[audience];
+  const theme = THEME[audience];
+  const t = await getT();
   const seg = 'relative rounded-lg py-2 text-center text-[13px] font-medium transition';
 
   return (
-    <div className="relative min-h-screen flex" style={{ background: t.bg }}>
+    <div className="relative min-h-screen flex" style={{ background: theme.bg }}>
       <GradientMesh />
       <div className="relative z-10 flex flex-1">
         <BrandPanel audience={audience} />
 
         <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
-          <div className="auth-card w-full max-w-[440px]" style={{ ['--accent']: t.accent } as CSSProperties}>
+          <div className="auth-card w-full max-w-[440px]" style={{ ['--accent']: theme.accent } as CSSProperties}>
             <style>{`
               .auth-card .auth-field { transition: border-color .15s, box-shadow .15s, background .15s; box-shadow: inset 0 1px 2px rgba(0,0,0,.28); }
               .auth-card .auth-field:focus { outline: none; border-color: var(--accent); background: rgba(0,0,0,.62); box-shadow: inset 0 1px 2px rgba(0,0,0,.28), 0 0 0 4px color-mix(in oklab, var(--accent) 16%, transparent); }
@@ -85,7 +87,7 @@ export function AuthShell({
             <div className="auth-surface rounded-2xl border border-white/[0.09] bg-[#0c0c10]/80 backdrop-blur-xl p-7 sm:p-9">
               <div className="lg:hidden flex items-center gap-2.5 text-white mb-7">
                 <SageLogo className="w-8 h-8" />
-                <span className="font-semibold text-[15px]">{t.mobileLabel}</span>
+                <span className="font-semibold text-[15px]">{t(theme.mobileLabel)}</span>
               </div>
 
               {/* Sign in / Create account toggle */}
@@ -95,7 +97,7 @@ export function AuthShell({
                   aria-current={mode === 'signin' ? 'page' : undefined}
                   className={`${seg} ${mode === 'signin' ? 'auth-seg-on' : 'text-[#8A8A94] hover:text-white'}`}
                 >
-                  Sign in
+                  {t('Sign in')}
                 </Link>
                 <Link
                   href={signUpHref}
@@ -107,7 +109,7 @@ export function AuthShell({
               </div>
 
               <div className="mb-6">
-                <div className="text-[10px] font-mono uppercase tracking-[0.18em] mb-2.5" style={{ color: t.accent }}>
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] mb-2.5" style={{ color: theme.accent }}>
                   {kicker}
                 </div>
                 <h1
@@ -137,7 +139,7 @@ export function AuthShell({
                   <div className="my-6 flex items-center gap-3" aria-hidden>
                     <div className="flex-1 h-px bg-white/[0.08]" />
                     <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-[#52525B]">
-                      or continue with
+                      {t('or continue with')}
                     </span>
                     <div className="flex-1 h-px bg-white/[0.08]" />
                   </div>

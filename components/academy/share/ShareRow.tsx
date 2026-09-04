@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Icon } from '@/components/academy/ui/Icon'
 import styles from './share.module.css'
 
@@ -18,6 +18,20 @@ export function ShareRow({
   cert?: { name: string; issuedYear: number; issuedMonth: number; certId: string }
 }) {
   const [copied, setCopied] = useState(false)
+  // Native share sheet (mobile) — detected client-side to avoid a hydration
+  // mismatch; dramatically higher share rate than link buttons on phones.
+  const [canNativeShare, setCanNativeShare] = useState(false)
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== 'undefined' && typeof navigator.share === 'function')
+  }, [])
+
+  async function nativeShare() {
+    try {
+      await navigator.share({ title: cert ? cert.name : 'Sage Academy', text, url })
+    } catch {
+      /* user dismissed the share sheet */
+    }
+  }
 
   const enc = encodeURIComponent
   const linkedInShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`
@@ -42,6 +56,11 @@ export function ShareRow({
 
   return (
     <div className={styles.row}>
+      {canNativeShare ? (
+        <button type="button" className={styles.btn} onClick={nativeShare}>
+          <Icon name="arrow-right" size={14} aria-hidden="true" /> Share
+        </button>
+      ) : null}
       <button type="button" className={styles.btn} onClick={copy}>
         {copied ? (
           <>

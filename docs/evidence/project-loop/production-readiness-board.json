@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "programVersion": "sageideas-production-program-loop-v1",
+  "generatedAt": "2026-09-04T15:46:36.603Z",
+  "inventoryHash": "sha256:5e461ccb2212202f51c7ca0e22fb57fe0c7ab9a31e6c060b7f26ff2559c34522",
+  "overallStatus": "not_local_production_candidate",
+  "trust": {
+    "academyCertification": "uncertified",
+    "labTrust": "untrusted_current_runtime",
+    "labEvidence": "practice_only"
+  },
+  "summary": {
+    "totalWorkstreams": 14,
+    "safeLocalWorkstreams": 12,
+    "greenLocalWorkstreams": 0,
+    "criticalFindings": 0,
+    "highFindings": 1
+  },
+  "workstreams": [
+    {
+      "id": "repository-foundation",
+      "label": "Repository foundation and canonical truth",
+      "dependsOn": [],
+      "boundary": "safe_local",
+      "scope": [
+        "repository",
+        "configuration",
+        "inventory",
+        "dependency graph",
+        "program state"
+      ],
+      "sequence": 1,
+      "status": "blocked",
+      "findingCount": 1,
+      "findings": [
+        {
+          "code": "merge_checkpoint_pending",
+          "severity": "high",
+          "workstreamId": "repository-foundation",
+          "summary": "The integration merge is intentionally pending until the checkpoint is GREEN.",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "build-quality",
+      "label": "Build, tests, lint, types, and dependency health",
+      "dependsOn": [
+        "repository-foundation"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "build",
+        "unit tests",
+        "integration tests",
+        "lint",
+        "typecheck",
+        "dependencies"
+      ],
+      "sequence": 2,
+      "status": "pending",
+      "findingCount": 1,
+      "findings": [
+        {
+          "code": "dev_dependency_exception",
+          "severity": "medium",
+          "workstreamId": "build-quality",
+          "summary": "Dev-only dependency audit has 9 findings isolated from the production graph.",
+          "details": {
+            "info": 0,
+            "low": 0,
+            "moderate": 3,
+            "high": 6,
+            "critical": 0,
+            "total": 9,
+            "ok": false,
+            "exceptionCount": 2,
+            "exceptions": [
+              {
+                "package": "@lhci/cli@0.15.1",
+                "scope": "local_and_ci_performance_tooling_only",
+                "reason": "Current upstream LHCI depends on a Lighthouse/Puppeteer chain with no non-breaking patched release; npm proposes an older major downgrade.",
+                "control": "Never imported by application runtime; production audit is executed independently with --omit=dev."
+              },
+              {
+                "package": "http-server@14.1.1",
+                "scope": "local_static_export_server_only",
+                "reason": "Latest upstream release retains a vulnerable qs transitive dependency.",
+                "control": "Only binds a local export preview; never imported or deployed in the production application."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth-security",
+      "label": "Authentication, authorization, and application security",
+      "dependsOn": [
+        "build-quality"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "auth",
+        "authorization",
+        "sessions",
+        "input validation",
+        "security controls"
+      ],
+      "sequence": 3,
+      "status": "pending",
+      "findingCount": 1,
+      "findings": [
+        {
+          "code": "security_review_pending",
+          "severity": "medium",
+          "workstreamId": "auth-security",
+          "summary": "The production security review remains pending for auth, billing, and user-data boundaries.",
+          "details": {}
+        }
+      ]
+    },
+    {
+      "id": "data-integrity",
+      "label": "Data model, migrations, RLS, and persistence integrity",
+      "dependsOn": [
+        "auth-security"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "Supabase",
+        "migrations",
+        "RLS",
+        "data contracts",
+        "backup design"
+      ],
+      "sequence": 4,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "billing",
+      "label": "Billing and entitlement correctness",
+      "dependsOn": [
+        "auth-security",
+        "data-integrity"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "checkout",
+        "webhooks",
+        "entitlements",
+        "refund states",
+        "billing tests"
+      ],
+      "sequence": 5,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "critical-user-journeys",
+      "label": "Critical product journeys and failure recovery",
+      "dependsOn": [
+        "billing"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "marketing",
+        "signup",
+        "onboarding",
+        "checkout",
+        "account",
+        "error recovery"
+      ],
+      "sequence": 6,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "academy",
+      "label": "Academy curriculum, assessments, and practice labs",
+      "dependsOn": [
+        "data-integrity"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "courses",
+        "lessons",
+        "assessments",
+        "labs",
+        "accessibility",
+        "sources"
+      ],
+      "sequence": 7,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "admin-portal",
+      "label": "Admin and operator workflows",
+      "dependsOn": [
+        "auth-security",
+        "data-integrity"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "admin",
+        "content operations",
+        "moderation",
+        "auditability"
+      ],
+      "sequence": 8,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "communications-jobs",
+      "label": "Email, Discord, background jobs, and automation",
+      "dependsOn": [
+        "data-integrity"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "email",
+        "Discord",
+        "queues",
+        "idempotency",
+        "retry",
+        "dead letters"
+      ],
+      "sequence": 9,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "accessibility-performance",
+      "label": "Accessibility, responsive UX, and performance",
+      "dependsOn": [
+        "critical-user-journeys",
+        "academy",
+        "admin-portal",
+        "communications-jobs"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "WCAG",
+        "keyboard",
+        "screen reader",
+        "motion",
+        "Core Web Vitals"
+      ],
+      "sequence": 10,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "observability-recovery",
+      "label": "Observability, incident response, and recovery",
+      "dependsOn": [
+        "communications-jobs",
+        "critical-user-journeys"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "logs",
+        "metrics",
+        "alerts",
+        "runbooks",
+        "rollback",
+        "recovery"
+      ],
+      "sequence": 11,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "release-readiness",
+      "label": "Local production-candidate release proof",
+      "dependsOn": [
+        "accessibility-performance",
+        "observability-recovery"
+      ],
+      "boundary": "safe_local",
+      "scope": [
+        "release manifest",
+        "local gates",
+        "evidence reconciliation",
+        "handoff"
+      ],
+      "sequence": 12,
+      "status": "pending",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "staging-validation",
+      "label": "Staging deployment and live integration proof",
+      "dependsOn": [
+        "release-readiness"
+      ],
+      "boundary": "external_approval",
+      "scope": [
+        "deployment",
+        "credentials",
+        "staging database",
+        "live integrations"
+      ],
+      "sequence": 13,
+      "status": "approval_boundary",
+      "findingCount": 0,
+      "findings": []
+    },
+    {
+      "id": "human-beta-certification",
+      "label": "Required human review and controlled beta",
+      "dependsOn": [
+        "staging-validation"
+      ],
+      "boundary": "human_review",
+      "scope": [
+        "expert review",
+        "learner beta",
+        "certification decision",
+        "launch approval"
+      ],
+      "sequence": 14,
+      "status": "approval_boundary",
+      "findingCount": 0,
+      "findings": []
+    }
+  ]
+}

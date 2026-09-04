@@ -67,7 +67,10 @@ export async function POST(req: NextRequest) {
           billing_address_collection: 'auto',
           allow_promotion_codes: true,
           metadata: meta,
-          subscription_data: { metadata: meta },
+          // 7-day free trial (card up front, opt-out): full access now, first
+          // charge on day 7 unless cancelled. subscription mode still collects
+          // the payment method, so it auto-converts.
+          subscription_data: { metadata: meta, trial_period_days: 7 },
         },
         { idempotencyKey },
       )

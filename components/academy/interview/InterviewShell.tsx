@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './interview.module.css'
 
 /** Nav keys that light exactly one destination per page. */
@@ -38,9 +39,14 @@ export function InterviewShell({ active = null, backHref = '/academy/dashboard',
       <header className={styles.topbar}>
         <div className={styles.topbarInner}>
           <Link href="/academy/interview" className={styles.brand}>
-            <span className={styles.brandMark} aria-hidden>
-              ◆
-            </span>
+            <SageMark
+              size={26}
+              radius={8}
+              bg="linear-gradient(135deg, #e0a93e, #d99a2b)"
+              fg="#0B0B0E"
+              glow={false}
+              style={{ boxShadow: '0 0 18px rgba(224, 169, 62, 0.4)' }}
+            />
             <span>
               <span className={styles.brandTitle}>Interview Mastery</span>
               <span className={styles.brandKicker}>Prep cockpit</span>

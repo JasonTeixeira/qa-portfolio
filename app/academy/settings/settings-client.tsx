@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { saveProfile } from '@/app/academy/_actions/profile'
 import type { BillingView } from '@/lib/academy/billing'
+import { SageMark } from '@/components/academy/brand/SageMark'
 
 /**
  * Sage Academy — Settings (interactive layer).
@@ -119,20 +120,7 @@ export function SettingsClient({ data }: { data: SettingsData }) {
           href="/academy/dashboard"
           style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', color: 'inherit' }}
         >
-          <span
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              width: 24,
-              height: 24,
-              borderRadius: 7,
-              background: AC.accent,
-              color: '#fff',
-              fontSize: 11,
-            }}
-          >
-            ◆
-          </span>
+          <SageMark size={24} radius={7} />
           <span style={{ fontFamily: mono, fontSize: 10.5, color: AC.muted }}>← cockpit</span>
         </Link>
         <span style={{ fontFamily: mono, fontSize: 10.5, color: AC.muted }}>

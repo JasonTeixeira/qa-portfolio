@@ -243,7 +243,7 @@ export default function POVPage() {
               they want code. They buy it because they want a system that
               doesn&rsquo;t wake them up at night and doesn&rsquo;t cost them a
               customer when something breaks. Reversibility is the closest thing
-              in software to a money-back guarantee on operational pain.
+              in software to an insurance policy against operational pain.
             </p>
           </Reveal>
 

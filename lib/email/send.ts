@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { signToken } from '@/lib/newsletter';
 
 export const FROM = 'Sage Ideas <sage@sageideas.dev>';
 export const REPLY_TO = 'sage@sageideas.dev';
@@ -24,8 +25,11 @@ export type SendEmailResult =
 
 function unsubHeader(to: string | string[]) {
   const recipient = Array.isArray(to) ? to[0] : to;
+  const token = signToken(recipient, 'email', 'unsubscribe');
+  const url = `${SITE}/api/newsletter/unsubscribe?token=${encodeURIComponent(token)}`;
   return {
-    'List-Unsubscribe': `<${SITE}/unsubscribe?email=${encodeURIComponent(recipient)}>`,
+    'List-Unsubscribe': `<${url}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
   };
 }
 

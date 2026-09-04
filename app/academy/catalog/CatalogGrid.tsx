@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useT } from '@/components/i18n/locale-provider'
 
 /**
  * Filter bar + course grid from "Sage Courses.dc.html" — the sticky track
@@ -40,12 +41,12 @@ const TRACKS: { key: 'all' | TrackKey; label: string; tint: string }[] = [
 ]
 
 const EMBLEMS: Record<TrackKey, string> = {
-  foundations: '/art/academy/emblem-foundations.png',
-  engineering: '/art/academy/emblem-engineering.png',
-  data: '/art/academy/emblem-data.png',
-  ai: '/art/academy/emblem-ai.png',
-  shipit: '/art/academy/emblem-shipit.png',
-  growth: '/art/academy/emblem-growth.png',
+  foundations: '/art/academy/emblem-foundations.webp',
+  engineering: '/art/academy/emblem-engineering.webp',
+  data: '/art/academy/emblem-data.webp',
+  ai: '/art/academy/emblem-ai.webp',
+  shipit: '/art/academy/emblem-shipit.webp',
+  growth: '/art/academy/emblem-growth.webp',
 }
 
 function tintOf(t: TrackKey): string {
@@ -56,9 +57,16 @@ function labelOf(t: TrackKey): string {
 }
 
 export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
+  const t = useT()
   const [track, setTrack] = useState<'all' | TrackKey>('all')
+  const [q, setQ] = useState('')
 
-  const filtered = cards.filter((c) => track === 'all' || c.track === track)
+  const needle = q.trim().toLowerCase()
+  const filtered = cards.filter(
+    (c) =>
+      (track === 'all' || c.track === track) &&
+      (!needle || `${c.name} ${c.outcome}`.toLowerCase().includes(needle)),
+  )
   // live first — same stable sort as the design's renderVals()
   const sorted = [...filtered].sort((a, b) => (b.live ? 1 : 0) - (a.live ? 1 : 0))
   const liveCount = sorted.filter((c) => c.live).length
@@ -80,13 +88,13 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
           borderBottom: `1px solid ${LINE}`,
         }}
       >
-        {TRACKS.map((t) => {
-          const selected = track === t.key
+        {TRACKS.map((trackOpt) => {
+          const selected = track === trackOpt.key
           return (
             <button
-              key={t.key}
+              key={trackOpt.key}
               type="button"
-              onClick={() => setTrack(t.key)}
+              onClick={() => setTrack(trackOpt.key)}
               aria-pressed={selected}
               style={{
                 ...mono,
@@ -102,14 +110,38 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
                 transition: 'all 0.18s',
               }}
             >
-              {t.label}
+              {t(trackOpt.label)}
             </button>
           )
         })}
-        <div style={{ ...mono, marginLeft: 'auto', fontSize: 11, color: '#9598A2', alignSelf: 'center' }}>
-          {sorted.length} courses · {liveCount} live
+        <input
+          type="search"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder={t('Search courses…')}
+          aria-label={t('Search courses')}
+          style={{
+            ...mono,
+            marginLeft: 'auto',
+            width: 'clamp(140px, 22vw, 220px)',
+            fontSize: 12,
+            padding: '9px 14px',
+            borderRadius: 20,
+            border: `1px solid ${LINE}`,
+            background: '#0B0B0E',
+            color: INK,
+            outline: 'none',
+          }}
+        />
+        <div style={{ ...mono, fontSize: 11, color: '#9598A2', alignSelf: 'center', whiteSpace: 'nowrap' }}>
+          {sorted.length} {t(sorted.length === 1 ? 'course' : 'courses')} · {liveCount} {t('live')}
         </div>
       </div>
+      {sorted.length === 0 ? (
+        <p style={{ ...mono, fontSize: 13, color: '#9598A2', padding: '20px 0' }}>
+          {t('No courses match')} &ldquo;{q}&rdquo;. {t('Try another term or track.')}
+        </p>
+      ) : null}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 18 }}>
         {sorted.map((c) => {
@@ -135,10 +167,10 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <span style={{ ...mono, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.1em', color: tint }}>
-                  {labelOf(c.track)}
+                  {t(labelOf(c.track))}
                 </span>
                 <span style={{ ...mono, fontSize: 9.5, color: c.live ? '#18B663' : '#9598A2', whiteSpace: 'nowrap' }}>
-                  {c.live ? '✓ live' : '⬜ in production'}
+                  {c.live ? <>✓ {t('live')}</> : <>⬜ {t('in production')}</>}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -161,7 +193,7 @@ export function CatalogGrid({ cards }: { cards: CatalogCard[] }) {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px solid ${LINE}`, paddingTop: 13 }}>
                 <span style={{ ...mono, fontSize: 10.5, color: '#9598A2' }}>{c.meta}</span>
                 <span style={{ ...mono, fontSize: 11, color: c.live ? '#8FA0FF' : '#9598A2' }}>
-                  {c.live ? 'Enroll →' : 'Notify me →'}
+                  {c.live ? <>{t('Enroll')} →</> : <>{t('Join to get notified')} →</>}
                 </span>
               </div>
             </Link>

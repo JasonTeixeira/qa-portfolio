@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-06-30T13:25:22.579Z",
+  "timestamp": "2026-09-04T15:46:04.788Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -246,7 +246,7 @@
     },
     {
       "script": "discord:content-factory",
-      "command": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts",
+      "command": "tsx --env-file=.env.local scripts/discord/run-content-factory.ts --days=1",
       "approvalBoundary": "requires_explicit_user_approval_before_running",
       "includedInLocalRelease": false
     },

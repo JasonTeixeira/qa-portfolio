@@ -13,6 +13,7 @@ import type { UnitState } from '@/lib/academy/evidence-events-logic'
 import type { ScoreResolution } from '@/lib/academy/caps-logic'
 import { SprintBlock } from './SprintBlocks'
 import { NotesPanel } from './NotesPanel'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import type { LessonNote } from '@/lib/academy/notes'
 import { Icon } from '@/components/academy/ui/Icon'
 import { CourseRail } from './CourseRail'
@@ -313,7 +314,7 @@ export function LessonPlayer({
       {/* top bar — mono breadcrumb strip with the ◆ mark + mastery chip (design) */}
       <header className={styles.topbar}>
         <Link href="/academy/dashboard" className={styles.topbarBrand}>
-          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandLabel}>← dashboard</span>
         </Link>
         <span className={styles.crumb}>
@@ -368,13 +369,23 @@ export function LessonPlayer({
                 </div>
               ) : null}
               <div className={styles.gate}>
-                <span className={styles.gateKicker}><Icon name="lock" size={13} /> All-access</span>
-                <h2 className={styles.gateTitle}>Unlock this lesson</h2>
+                <span className={styles.gateKicker}><Icon name="lock" size={13} /> Pro lesson</span>
+                <h2 className={styles.gateTitle}>You&apos;re one step from the good part.</h2>
                 <p className={styles.gateBody}>
-                  This lesson is part of Sage Academy all-access. One membership opens every course,
-                  lab, and certificate.
+                  You&apos;ve got the momentum — don&apos;t lose it. Start a free 7-day trial and keep going right now.
+                  One membership opens the rest of this course and every other one.
                 </p>
-                <Link href="/academy/join" className={styles.gateBtn}>See membership <Icon name="arrow-right" size={16} /></Link>
+                <ul style={{ listStyle: 'none', margin: '4px 0 20px', padding: 0, display: 'grid', gap: 8 }}>
+                  {['Every course as it ships — labs, projects, proofs', 'In-browser labs checked by code, not vibes', 'Certificates verifiable at a public link'].map((t) => (
+                    <li key={t} style={{ display: 'flex', alignItems: 'baseline', gap: 10, fontSize: 14, color: '#9C9CA6' }}>
+                      <Icon name="check" size={14} /> {t}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/academy/join" className={styles.gateBtn}>Start 7-day free trial <Icon name="arrow-right" size={16} /></Link>
+                <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#5A5A64', margin: '12px 0 0' }}>
+                  Cancel anytime · we remind you before day 7 · no lock-in
+                </p>
                 {!signedIn ? (
                   <a href="/login?next=/academy/join" className={styles.gateLink}>Already a member? Sign in</a>
                 ) : null}

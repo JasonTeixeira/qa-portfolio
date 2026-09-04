@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
-import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
@@ -10,18 +13,34 @@ const DISPLAY = 'Fraunces, Georgia, serif'
 // - Course 00 "Engineering Judgment" → /academy/course/[slug] with the seed slug
 //   'career-engineering_judgment_foundation' (GATE_COURSE_SLUG in
 //   components/academy/path/PathDomainSection.tsx, line 14).
-// - "See how proof works" → /academy/why-proof (the existing manifesto page,
-//   app/academy/why-proof/page.tsx).
+// - "See how proof works" → /academy/how-we-audit (the live proof/self-audit
+//   page). why-proof was folded into this page (301), so its old destination
+//   would self-loop; how-we-audit is where "how proof works" is actually shown.
 // - "See the loop" → /academy/resources/sprint-loop (the real sprint-loop explainer,
 //   app/academy/resources/sprint-loop/page.tsx).
 const COURSE_00_HREF = '/academy/course/career-engineering_judgment_foundation'
-const WHY_PROOF_HREF = '/academy/why-proof'
+const WHY_PROOF_HREF = '/academy/how-we-audit'
 const SPRINT_LOOP_HREF = '/academy/resources/sprint-loop'
 
-export const metadata: Metadata = {
-  title: 'Proof, not paper · Sage Academy',
-  description:
-    'Forget the certificate. Ship the proof. A badge says you showed up. A proof says you can build — and anyone can check it. Our credential isn’t a printable PDF; it’s a verifiable, revocable proof record.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('Proof, not paper · Sage Academy'),
+    description: t(
+      "Forget the certificate. Ship the proof. A badge says you showed up. A proof says you can build — and anyone can check it. Our credential isn’t a printable PDF; it’s a verifiable, revocable proof record.",
+    ),
+    alternates: localizedAlternates('/academy/proof-not-paper', locale),
+    openGraph: {
+      title: t('Proof, not paper · Sage Academy'),
+      description: t('A badge says you showed up. A proof says you can build — and anyone can check it.'),
+      images: ['/og?title=Forget+the+certificate&subtitle=Ship+the+proof'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/og?title=Forget+the+certificate&subtitle=Ship+the+proof'],
+    },
+  }
 }
 
 const PROSE_STYLE = {
@@ -130,7 +149,8 @@ const MECHANISM_CARDS: MechanismCard[] = [
   },
 ]
 
-export default function ProofNotPaperPage() {
+export default async function ProofNotPaperPage() {
+  const t = await getT()
   return (
     <div
       style={{
@@ -168,7 +188,7 @@ export default function ProofNotPaperPage() {
       >
         {/* 1 · Hero */}
         <header>
-          <div style={EYEBROW_STYLE}>The wedge · credentialism</div>
+          <div style={EYEBROW_STYLE}>{t('The wedge · credentialism')}</div>
           <h1
             style={{
               margin: '20px 0 0',
@@ -180,36 +200,37 @@ export default function ProofNotPaperPage() {
               textWrap: 'balance',
             }}
           >
-            Forget the certificate.
+            {t('Forget the certificate.')}
             <br />
             <em style={{ fontStyle: 'italic', fontWeight: 500, color: '#18B663' }}>
-              Ship the proof.
+              {t('Ship the proof.')}
             </em>
           </h1>
           <p style={{ ...PROSE_STYLE, marginTop: 32, fontSize: 19, color: '#C9C9D2' }}>
-            A badge says you showed up. A proof says you can build — and anyone
-            can check it.
+            {t('A badge says you showed up. A proof says you can build — and anyone can check it.')}
           </p>
         </header>
 
+        {/* The film — the anti-cert wedge, narrated. Poster-first. */}
+        <figure style={{ margin: 'clamp(40px, 6vw, 64px) 0 0', border: '1px solid #1E1E24', borderRadius: 18, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 32px 80px -34px rgba(0,0,0,0.85)' }}>
+          <video controls preload="none" aria-label={t('Forget the certificate, ship the proof — the anti-cert film, narrated')} poster="/video/academy/sa-proof.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+            <source src="/video/academy/sa-proof.mp4" type="video/mp4" />
+            <track kind="captions" srcLang="en" label="English" src="/video/academy/sa-proof.vtt" default />
+          </video>
+          <figcaption style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: '#9598A2', padding: '13px 18px', borderTop: '1px solid #1E1E24' }}>▸ {t('forget the certificate, ship the proof — 40 seconds, narrated')}</figcaption>
+        </figure>
+
         {/* 2 · The enemy */}
         <section style={{ marginTop: 'clamp(56px, 8vw, 96px)' }}>
-          <div style={EYEBROW_STYLE}>The enemy</div>
-          <h2 style={{ ...H2_STYLE, marginTop: 18 }}>Certification theater</h2>
+          <div style={EYEBROW_STYLE}>{t('The enemy')}</div>
+          <h2 style={{ ...H2_STYLE, marginTop: 18 }}>{t('Certification theater')}</h2>
           <p style={PROSE_STYLE}>
-            There is a whole industry built on a quiet swap: it sells attendance
-            and memorization, then dresses them up as competence. You sit
-            through the material. You answer questions someone else wrote, in an
-            order someone else picked, from options someone else supplied. A
-            certificate prints. And now — supposedly — you can build the thing.
+            {t('There is a whole industry built on a quiet swap: it sells attendance and memorization, then dresses them up as competence. You sit through the material. You answer questions someone else wrote, in an order someone else picked, from options someone else supplied. A certificate prints. And now — supposedly — you can build the thing.')}
           </p>
           <p style={PROSE_STYLE}>
-            That is the abstraction worth naming as the enemy. Not any one
-            program or vendor — the <em>lie</em> underneath all of them: that a
-            badge, a PDF, or a passed multiple-choice exam is the same as
-            standing up a working system under real constraints. It isn&apos;t.
-            A credential that proves you sat through it is not a credential that
-            proves you can ship it.
+            {t('That is the abstraction worth naming as the enemy. Not any one program or vendor — the')}{' '}
+            <em>{t('lie')}</em>{' '}
+            {t("underneath all of them: that a badge, a PDF, or a passed multiple-choice exam is the same as standing up a working system under real constraints. It isn't. A credential that proves you sat through it is not a credential that proves you can ship it.")}
           </p>
           <blockquote
             style={{
@@ -219,25 +240,24 @@ export default function ProofNotPaperPage() {
             }}
           >
             <span style={QUOTE_TEXT_STYLE}>
-              A badge is a receipt for time spent. Nobody hires a receipt.
+              {t('A badge is a receipt for time spent. Nobody hires a receipt.')}
             </span>
           </blockquote>
         </section>
 
         {/* 3 · The contrast — the centerpiece */}
         <section style={{ marginTop: 'clamp(56px, 8vw, 96px)' }}>
-          <div style={EYEBROW_STYLE}>The contrast</div>
+          <div style={EYEBROW_STYLE}>{t('The contrast')}</div>
           <h2 style={{ ...H2_STYLE, marginTop: 18 }}>
-            The certificate vs. the proof
+            {t('The certificate vs. the proof')}
           </h2>
           <p style={{ ...PROSE_STYLE, marginBottom: 8 }}>
-            Same ambition, opposite standard of evidence. One asks you to trust
-            it. The other hands you a link and dares you to check.
+            {t('Same ambition, opposite standard of evidence. One asks you to trust it. The other hands you a link and dares you to check.')}
           </p>
 
           {/* Illustrative comparison — conceptual, not live data. */}
           <figure
-            aria-label="Illustration: a certificate compared line-by-line against a verifiable proof record"
+            aria-label={t('Illustration: a certificate compared line-by-line against a verifiable proof record')}
             style={{
               margin: '28px 0 0',
               border: '1px solid #1E1E24',
@@ -269,10 +289,10 @@ export default function ProofNotPaperPage() {
                     color: '#E5484D',
                   }}
                 >
-                  ▲ The certificate
+                  ▲ {t('The certificate')}
                 </div>
                 <div style={{ fontSize: 12.5, color: '#7A7A84', marginTop: 6 }}>
-                  what a badge actually attests
+                  {t('what a badge actually attests')}
                 </div>
               </div>
               <div style={{ padding: '16px 20px' }}>
@@ -285,10 +305,10 @@ export default function ProofNotPaperPage() {
                     color: '#18B663',
                   }}
                 >
-                  ✓ The proof
+                  ✓ {t('The proof')}
                 </div>
                 <div style={{ fontSize: 12.5, color: '#7A7A84', marginTop: 6 }}>
-                  what a proof record attests
+                  {t('what a proof record attests')}
                 </div>
               </div>
             </div>
@@ -320,7 +340,7 @@ export default function ProofNotPaperPage() {
                   >
                     ✕
                   </span>
-                  <span>{row.cert}</span>
+                  <span>{t(row.cert)}</span>
                 </div>
                 <div
                   style={{
@@ -339,7 +359,7 @@ export default function ProofNotPaperPage() {
                   >
                     ✓
                   </span>
-                  <span>{row.proof}</span>
+                  <span>{t(row.proof)}</span>
                 </div>
               </div>
             ))}
@@ -353,18 +373,17 @@ export default function ProofNotPaperPage() {
                 color: '#4A4A54',
               }}
             >
-              Illustrative comparison · not live data
+              {t('Illustrative comparison · not live data')}
             </figcaption>
           </figure>
         </section>
 
         {/* 4 · How proof works here */}
         <section style={{ marginTop: 'clamp(56px, 8vw, 96px)' }}>
-          <div style={EYEBROW_STYLE}>The mechanism</div>
-          <h2 style={{ ...H2_STYLE, marginTop: 18 }}>How proof works here</h2>
+          <div style={EYEBROW_STYLE}>{t('The mechanism')}</div>
+          <h2 style={{ ...H2_STYLE, marginTop: 18 }}>{t('How proof works here')}</h2>
           <p style={{ ...PROSE_STYLE, marginBottom: 4 }}>
-            Nothing above is a slogan. Each line maps to a real gate in the
-            product — here is what enforces it.
+            {t('Nothing above is a slogan. Each line maps to a real gate in the product — here is what enforces it.')}
           </p>
 
           <div
@@ -398,7 +417,7 @@ export default function ProofNotPaperPage() {
                     color: card.accent,
                   }}
                 >
-                  {card.tag}
+                  {t(card.tag)}
                 </span>
                 <span
                   style={{
@@ -410,10 +429,10 @@ export default function ProofNotPaperPage() {
                     color: '#F2EFE9',
                   }}
                 >
-                  {card.title}
+                  {t(card.title)}
                 </span>
                 <span style={{ fontSize: 14, lineHeight: 1.6, color: '#9598A2' }}>
-                  {card.body}
+                  {t(card.body)}
                 </span>
               </div>
             ))}
@@ -422,23 +441,19 @@ export default function ProofNotPaperPage() {
 
         {/* 5 · The turn — our own credential, reframed */}
         <section style={{ marginTop: 'clamp(56px, 8vw, 96px)' }}>
-          <div style={EYEBROW_STYLE}>The turn</div>
+          <div style={EYEBROW_STYLE}>{t('The turn')}</div>
           <h2 style={{ ...H2_STYLE, marginTop: 18 }}>
-            So yes — you earn a certificate here
+            {t('So yes — you earn a certificate here')}
           </h2>
           <p style={PROSE_STYLE}>
-            Let&apos;s be honest about the tension. This academy does issue a
-            certificate. The difference is what stands behind it. Ours is not
-            paper you print and file away — it&apos;s a proof record. You shipped
-            a defensible artifact, it passed a real check, and it lives at a
-            public URL where the certificate page itself reports its status.
+            {t("Let's be honest about the tension. This academy does issue a certificate. The difference is what stands behind it. Ours is not paper you print and file away — it's a proof record. You shipped a defensible artifact, it passed a real check, and it lives at a public URL where the certificate page itself reports its status.")}
           </p>
 
           {/* Real verify shape — mirrors the fields on the public certificate page.
               app/academy/certificate/[code]/page.tsx →
               components/academy/certificate/Certificate.tsx. Illustrative code. */}
           <figure
-            aria-label="Illustration: the verify response shape a public certificate page returns"
+            aria-label={t('Illustration: the verify response shape a public certificate page returns')}
             style={{
               margin: '28px 0 0',
               border: '1px solid #1E1E24',
@@ -507,16 +522,12 @@ export default function ProofNotPaperPage() {
                 color: '#4A4A54',
               }}
             >
-              Illustrative shape · the URL is the verify endpoint
+              {t('Illustrative shape · the URL is the verify endpoint')}
             </figcaption>
           </figure>
 
           <p style={PROSE_STYLE}>
-            And it stands only as long as the proof holds. A calendar
-            doesn&apos;t expire it and a subscription doesn&apos;t renew it —
-            it&apos;s revocable, tied to the artifact underneath. That&apos;s the
-            whole reframe: not a certificate you keep, a certificate you can
-            actually verify.
+            {t("And it stands only as long as the proof holds. A calendar doesn't expire it and a subscription doesn't renew it — it's revocable, tied to the artifact underneath. That's the whole reframe: not a certificate you keep, a certificate you can actually verify.")}
           </p>
           <blockquote
             style={{
@@ -526,7 +537,7 @@ export default function ProofNotPaperPage() {
             }}
           >
             <span style={QUOTE_TEXT_STYLE}>
-              Not paper you keep. A proof record anyone can check.
+              {t('Not paper you keep. A proof record anyone can check.')}
             </span>
           </blockquote>
         </section>
@@ -556,7 +567,7 @@ export default function ProofNotPaperPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            Start with Engineering Judgment
+            {t('Start with Engineering Judgment')}
           </Link>
           <Link
             href={WHY_PROOF_HREF}
@@ -571,7 +582,7 @@ export default function ProofNotPaperPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            See how proof works
+            {t('See how proof works')}
           </Link>
           <Link
             href={SPRINT_LOOP_HREF}
@@ -585,13 +596,14 @@ export default function ProofNotPaperPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            See the loop →
+            {t('See the loop')} →
           </Link>
         </div>
       </article>
       </main>
 
-      <AcademyFooter tagline="forget the certificate → ship the proof" />
+      <EcosystemBand />
+      <AcademyFooter />
     </div>
   )
 }

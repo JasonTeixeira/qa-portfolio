@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#0B0B0E;--s1:#121218;--s2:#16161d;--line:#1E1E24;--line2:#2A2A33;--ink:#F2EFE9;--muted:#9C9CA6;--faint:#6C6E7C;
+    --brand:#3D5AFE;--brand2:#6E86FF;--client:#6ECBFF;--cdn:#4FE3CF;--loadbal:#FF7DB1;--gateway:#8FA0FF;--service:#B79CFF;--cache:#FFA94D;--db:#5EE08C;--queue:#F5C64F;--worker:#E08FFF;--failure:#FF6B6B;--ok:#5EE08C;--warn:#F5C64F;
+    --display:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .stage{width:1920px;height:1080px;position:relative;background:radial-gradient(1500px 950px at 50% 40%,rgba(61,90,254,.05),transparent 72%),var(--bg)}
+  .stage::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1.3px,transparent 1.3px);background-size:46px 46px}
+  .rail{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--client),var(--db),var(--warn),var(--service),var(--failure),var(--gateway));z-index:6}
+  .beat{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;text-align:center;padding:0 130px}
+  .el{opacity:0}.word{display:inline-block;opacity:0;will-change:transform,opacity}
+  .kicker{font-family:var(--mono);font-size:22px;letter-spacing:.3em;text-transform:uppercase;color:var(--gateway)}
+  .cap{font-size:34px;color:var(--muted);font-weight:500;max-width:1200px;line-height:1.35}.cap b{color:var(--ink);font-weight:700}
+  .key{font-family:var(--mono);font-size:26px;letter-spacing:.2em;text-transform:uppercase;padding:13px 26px;border:1px solid var(--line2);border-radius:12px;background:rgba(255,255,255,.02);color:var(--ink)}
+  .handle{font-family:var(--display);font-weight:700;font-size:92px;line-height:1.03;letter-spacing:-.02em}
+  .door{font-family:var(--mono);font-size:36px;letter-spacing:.12em;color:var(--brand2)}
+  .mark{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:30px;font-weight:600}.mark svg{width:56px;height:56px}
+  .stamp{font-family:var(--display);font-weight:700;padding:16px 40px;border-radius:14px;font-size:54px;transform-origin:center}
+  .stamp.fail{color:var(--failure);border:5px solid var(--failure)}.stamp.pass{color:var(--ok);border:5px solid var(--ok)}
+  .row{display:flex;align-items:center;justify-content:center;gap:40px}
+  .mbox{display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px 40px;border-radius:20px;border:2.5px solid var(--gateway);position:relative;min-width:200px}
+  .mbox .nm{font-family:var(--display);font-weight:600;font-size:48px}.mbox .tg{font-family:var(--mono);font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  .badge{position:absolute;top:-16px;right:-16px;font-family:var(--mono);font-size:22px;font-weight:700;padding:6px 14px;border-radius:9px;background:var(--bg);color:var(--failure);border:2px solid var(--failure)}
+  .prog{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:6}
+  .prog i{width:26px;height:4px;border-radius:2px;background:var(--line2)}
+  .qmark{font-family:var(--display);font-weight:700;font-size:160px;color:var(--warn);line-height:1}
+</style></head>
+<body>
+<div class="stage" id="stage"><div class="rail"></div></div>
+<script type="module">
+import * as P from '../library/primitives.js';
+const { icon } = P;
+// ---- element helpers ----
+const wrap=(anim,cue,d,inner)=>`<div class="el" data-anim="${anim}" data-cue="${cue}" data-d="${d}">${inner}</div>`;
+const cap=(cue,d,t)=>`<div class="cap el" data-anim="rise" data-cue="${cue}" data-d="${d}">${t}</div>`;
+const key=(cue,d,t)=>`<div class="key el" data-anim="pop" data-cue="${cue}" data-d="${d}">${t}</div>`;
+const stamp=(cls,cue,d,t)=>`<div class="stamp ${cls} el" data-anim="slam" data-cue="${cue}" data-d="${d}">${t}</div>`;
+const beat=(...els)=>`<div class="beat">${els.join('')}</div>`;
+const mbox=(nm,tg,x)=>`<div class="mbox">${icon('cpu',52)}<span class="nm">${nm}</span><span class="tg">${tg}</span>${x||''}</div>`;
+
+// vector scatter helper (meaning-space) with optional query + nearest ring
+const vspace=(pts,q,near)=>P && `<svg viewBox="0 0 440 320" width="620"><rect x="6" y="6" width="428" height="308" rx="14" fill="none" stroke="var(--line2)"/>${pts.map(p=>`<circle cx="${20+p[0]*400}" cy="${300-p[1]*280}" r="7" fill="var(--gateway)" opacity=".8"/>`).join('')}${q?`<circle cx="${20+q[0]*400}" cy="${300-q[1]*280}" r="12" fill="var(--brand2)"/>`:''}${near?near.map(p=>`<circle cx="${20+p[0]*400}" cy="${300-p[1]*280}" r="9" fill="var(--db)"/>`).join(''):''}${q&&near?`<circle cx="${20+q[0]*400}" cy="${300-q[1]*280}" r="80" fill="none" stroke="var(--db)" stroke-dasharray="4 5"/>`:''}</svg>`;
+const chunkGrid=(on)=>`<svg viewBox="0 0 460 200" width="560">${Array.from({length:12}).map((_,i)=>`<rect x="${10+(i%6)*76}" y="${10+Math.floor(i/6)*96}" width="66" height="82" rx="8" fill="none" stroke="var(--${on===i?'warn':'line2'})" stroke-width="${on===i?3:1.5}"/><line x1="${20+(i%6)*76}" y1="${34+Math.floor(i/6)*96}" x2="${56+(i%6)*76}" y2="${34+Math.floor(i/6)*96}" stroke="var(--faint)"/><line x1="${20+(i%6)*76}" y1="${48+Math.floor(i/6)*96}" x2="${66+(i%6)*76}" y2="${48+Math.floor(i/6)*96}" stroke="var(--faint)"/>`).join('')}</svg>`;
+const claims=()=>`<div style="display:flex;align-items:center;gap:50px"><div style="display:flex;flex-direction:column;gap:16px">${[['30-day window','§2'],['eligibility','§4'],['how to file','§5']].map(c=>`<div style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:26px;padding:14px 20px;border:1px solid rgba(94,224,140,.4);border-radius:12px"><span style="color:var(--ok)">✓</span> ${c[0]} <span style="color:var(--faint)">→ doc ${c[1]}</span></div>`).join('')}</div>${P.gauge(100,{label:'100%'})}</div>`;
+
+// ---- BEATS: [clipKey, fallbackDur, html] — centerpiece = warehouse primitive ----
+const BEATS=[
+ ['01',9.06, beat(wrap('pop','shipped',0.2, P.chat([{u:true,t:"what's your refund policy?"},{bad:true,t:"You have <b>30 days</b> to request a refund."}])), stamp('fail','never',7.4,'✗ MADE IT UP'))],
+ ['02',8.82, beat(wrap('pop','know',0.3, P.flow([{l:'Ask',icon:'message-square',tag:'question',c:'client'},{l:'Model',icon:'cpu',tag:'no source',c:'gateway'},{l:'Answer',icon:'circle-help',tag:'invented',c:'failure'}],{edge:'failure'})), cap('line',4.8,'It didn\'t know — so it <b>filled the silence</b>. Your AI is one line from this.'))],
+ ['03',7.80, beat(`<div class="row">${wrap('rise','same',0.3,`<div style="border:2px solid var(--ok);border-radius:18px;padding:26px 34px"><div style="font-size:30px">The truth</div><div style="font-family:var(--mono);font-size:18px;color:var(--ok);margin-top:8px">100% sure ✓</div></div>`)}${wrap('rise','confident',2.6,`<div style="border:2px solid var(--failure);border-radius:18px;padding:26px 34px"><div style="font-size:30px">A lie</div><div style="font-family:var(--mono);font-size:18px;color:var(--failure);margin-top:8px">100% sure ✗</div></div>`)}</div>`, cap('voice',5.2,'Same confident voice for both.'))],
+ ['04',10.91, beat(`<div class="row">${wrap('pop','bigger',0.6, mbox('7B','small','<span class="badge">✗</span>'))}${wrap('pop','smarter',1.6,`<div class="mbox" style="transform:scale(1.12)">${icon('cpu',66)}<span class="nm" style="font-size:58px">70B</span><span class="tg">bigger · pricier</span><span class="badge">✗</span></div>`)}</div>`, key('honesty',6.5,'honesty, not smarts'))],
+ ['05',9.33, beat(`<div class="row" style="gap:60px">${wrap('rise','closed',0.4,`<div style="border:2px solid var(--failure);border-radius:22px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:18px;color:var(--failure)">${icon('book',96)}<span style="font-family:var(--mono);font-size:20px;text-transform:uppercase;letter-spacing:.1em">closed book</span><span style="font-family:var(--display);font-size:34px;color:var(--ink)">bluffs</span></div>`)}<span class="vs" style="font-family:var(--display);font-style:italic;font-size:44px;color:var(--gateway)">vs</span>${wrap('rise','open',1.6,`<div style="border:2px solid var(--ok);border-radius:22px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:18px;color:var(--ok)">${icon('book-open',96)}<span style="font-family:var(--mono);font-size:20px;text-transform:uppercase;letter-spacing:.1em">open book</span><span style="font-family:var(--display);font-size:34px;color:var(--ink)">reads it</span></div>`)}</div>`, key('source',6.0,'answer from the source'))],
+ ['06',9.24, beat(wrap('pop','RAG',1.0, P.flow([{l:'Retrieve',icon:'search',tag:'the page',c:'client'},{l:'Answer',icon:'circle-check',tag:'+ cite',c:'db'}])), key('cite',5.5,'retrieve → answer + cite'))],
+ ['07',7.11, beat(`<div class="row">${wrap('fade','library',0.3, `<div style="display:flex;flex-direction:column;gap:10px;padding:24px;border:2px solid var(--service);border-radius:16px">${Array.from({length:4}).map(()=>'<div style="width:120px;height:12px;border-radius:6px;background:var(--line2)"></div>').join('')}</div>`)}<span style="color:var(--gateway);font-size:30px">→</span>${wrap('pop','chunks',2.4, chunkGrid())}</div>`, key('chunks',5.5,'chunk'))],
+ ['08',6.13, beat(wrap('pop','vector',1.0, vspace([[.2,.7],[.3,.4],[.5,.8],[.6,.3],[.7,.6],[.4,.2],[.8,.5],[.25,.55]])), key('meaning',4.5,'embed → vectors'))],
+ ['09',8.92, beat(wrap('pop','nearest',0.4, vspace([[.2,.7],[.3,.4],[.7,.3],[.8,.6],[.15,.3]],[.5,.5],[[.42,.62],[.58,.44],[.6,.66]])), key('top',6.5,'top-k'))],
+ ['10',6.59, beat(wrap('pop','staple',0.3, P.codeBlock([{t:'prompt = f"""',c:'c'},{t:'Use ONLY this context:',hl:true},{t:'{passages}',c:'g'},{t:'Answer {q} — cite [n]."""'}],{file:'answer.py'})), key('cite',4.5,'answer from THIS'))],
+ ['11',7.71, beat(`<div class="row">${wrap('pop','holding',0.3, P.chat([{u:true,t:'refund policy?'},{good:true,t:'30 days, per the policy. [1]'}]))}${wrap('pop','line',2.6, `<div style="display:flex;flex-direction:column;gap:11px;padding:22px;border:2px solid var(--service);border-radius:14px"><div style="width:130px;height:12px;background:var(--line2);border-radius:6px"></div><div style="width:130px;height:12px;background:var(--warn);border-radius:6px"></div><div style="width:130px;height:12px;background:var(--line2);border-radius:6px"></div></div>`)}</div>`, key('right',5.5,'grounded · cited [1]'))],
+ ['12',9.10, beat(wrap('rise','tutorials',0.3, `<div style="font-family:var(--display);font-weight:600;font-size:64px;max-width:1300px;line-height:1.1">Most tutorials stop at <span style="color:var(--muted)">"retrieve, answer, done."</span></div>`), cap('lies',5.0,'The demos dazzle. Production <b style="color:var(--failure)">quietly lies</b>.'))],
+ ['13',7.62, beat(wrap('pop','cover',0.3, P.flow([{l:'Ask',icon:'message-square',tag:'off-topic',c:'client'},{l:'∅',icon:'search-x',tag:'no match',c:'failure'},{l:'Answer',icon:'circle-help',tag:'invented',c:'failure'}],{edge:'failure'})), stamp('fail','anyway',5.5,'✗ STILL GUESSING'))],
+ ['14',6.92, beat(wrap('pop','line',0.3, P.diff([{s:' ',t:'answer(q, ctx)'},{s:'+',t:'if q not in ctx:'},{s:'+',t:'    return "not in the documents"'}])), key('answer',4.6,'or don\'t answer'))],
+ ['15',8.41, beat(`<div class="row">${wrap('rise','demo',0.4,`<div style="border:2px solid var(--failure);border-radius:18px;padding:34px 48px;font-family:var(--display);font-size:44px">demo <span style="color:var(--failure)">✗</span></div>`)}${wrap('rise','customer',2.4,`<div style="border:2px solid var(--ok);border-radius:18px;padding:34px 48px;font-family:var(--display);font-size:44px">production <span style="color:var(--ok)">✓</span></div>`)}</div>`, cap('difference',5.5,'The whole difference is: it can say <b>"I don\'t know."</b>'))],
+ ['16',5.20, beat(wrap('pop','know',0.5,`<div class="qmark">?</div>`), cap('grounded',2.5,'How do you <b>know</b> it\'s grounded?'))],
+ ['17',10.40, beat(wrap('pop','faithfulness',1.5, claims()), key('claim',6.5,'trace every claim'))],
+ ['18',6.18, beat(wrap('pop','number',0.5, `<div class="row">${P.gauge(100,{label:'100%'})}<div style="font-family:var(--mono);font-size:26px;color:var(--ok);border:1px solid rgba(94,224,140,.4);border-radius:12px;padding:16px 24px">GATE ≥ 0.9 · deploy ✓</div></div>`), key('deploy',4.2,'gate the deploy'))],
+ ['19',7.57, beat(wrap('pop','chunks',0.4, `<svg viewBox="0 0 460 150" width="620"><rect x="10" y="30" width="200" height="90" rx="10" fill="none" stroke="var(--service)"/><rect x="250" y="30" width="200" height="90" rx="10" fill="none" stroke="var(--service)"/><line x1="205" y1="20" x2="230" y2="130" stroke="var(--failure)" stroke-width="3" stroke-dasharray="6 4"/><text x="230" y="145" font-family="var(--mono)" font-size="16" fill="var(--failure)">split mid-thought</text></svg>`), key('meaning',5.0,'chunk on meaning'))],
+ ['20',8.87, beat(wrap('pop','nearest',0.4, vspace([[.3,.6],[.5,.5],[.7,.4],[.55,.66]],[.5,.5],[[.55,.66]])+`<div style="font-family:var(--mono);font-size:20px;color:var(--warn);margin-top:10px">nearest ≠ most relevant → re-rank</div>`), key('relevant',5.5,'distance ≠ relevance'))],
+ ['21',7.48, beat(wrap('rise','moves',0.3, P.steps([{l:'Retrieve the page',c:'client'},{l:'Answer from it',c:'db'},{l:'Refuse when you can\'t',c:'warn'},{l:'Verify it\'s grounded',c:'ok'}])), key('four',5.5,'the four moves'))],
+ ['22',19.51, beat(wrap('fade','source',0.3, P.flow([{l:'Retrieve',icon:'search',c:'client'},{l:'Answer',icon:'circle-check',c:'db'},{l:'Refuse',icon:'shield',c:'warn'},{l:'Verify',icon:'badge-check',c:'ok'}],{gap:14})), `<div class="handle kin" data-cue="production" data-d="4.5" data-stag="0.06">Answer from the source, or don't answer.</div>`, `<div class="door el" data-anim="rise" data-cue="academy" data-d="10.4">sageideas.dev/academy</div>`, `<div class="mark el" data-anim="fade" data-cue="Proof" data-d="15.5"><svg viewBox="10 15 48 48" fill="none"><path d="M20 44 A10 10 0 0 1 20 24 A13 13 0 0 1 45 21 A9 9 0 0 1 48 44 Z" fill="none" stroke="#F2EFE9" stroke-width="4.2" stroke-linejoin="round"/><circle cx="26" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="36" cy="54" r="3.4" fill="#F2EFE9"/><circle cx="46" cy="54" r="3.4" fill="#F2EFE9"/></svg><span>proof, not paper.</span></div>`)],
+];
+
+// ---- engine (cue-synced, dwell-paced, deterministic seek) ----
+const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+function cueTime(key,word,fb){const wd=(window.__WORDS||{})[key];if(!wd)return fb;const t=norm(word);const hit=wd.words.find(x=>norm(x.w)===t)||wd.words.find(x=>norm(x.w).startsWith(t))||wd.words.find(x=>norm(x.w).includes(t));return hit?hit.start:fb;}
+const stage=document.getElementById('stage');
+const beatEls=[]; let starts=[],durs=[],acc=0;
+BEATS.forEach(([key,dFallback,html],i)=>{const d=(window.__DURS&&window.__DURS[i])||(window.__WORDS&&window.__WORDS[key]&&window.__WORDS[key].dur)||dFallback;starts[i]=acc;durs[i]=d;acc+=d;const div=document.createElement('div');div.innerHTML=html;const b=div.firstElementChild;b.dataset.key=key;b.style.opacity=0;b.style.display='none';stage.appendChild(b);beatEls.push(b);
+  b.querySelectorAll('[data-cue]').forEach(el=>{const base=cueTime(key,el.dataset.cue,+el.dataset.d||0);const si=+el.dataset.si||0,stg=+el.dataset.stag||0;el.dataset.d=(base+si*stg).toFixed(3);});
+  b.querySelectorAll('.kin').forEach(k=>{const d0=+k.dataset.d||0,st=+k.dataset.stag||0.07;const words=k.textContent.split(' ');k.textContent='';words.forEach((w,wi)=>{const s=document.createElement('span');s.className='word';s.textContent=w;s.dataset.d=(d0+wi*st).toFixed(3);k.appendChild(s);if(wi<words.length-1)k.appendChild(document.createTextNode(' '));});});
+});
+window.__duration=acc;
+const prog=document.createElement('div');prog.className='prog';prog.innerHTML=BEATS.map(()=>'<i></i>').join('');stage.appendChild(prog);
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),eOut=p=>1-Math.pow(1-p,3),eBack=p=>{const c=2.2;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2);},XF=0.42;
+function anim(el,lt){const kind=el.dataset.anim,d=+el.dataset.d||0,t=+el.dataset.t||0.6;let p=clamp((lt-d)/t,0,1);
+  if(el.classList.contains('word')){const e=eOut(clamp((lt-d)/0.5,0,1));el.style.opacity=e;el.style.transform=`translateY(${(1-e)*22}px)`;return;}
+  const e=kind==='slam'?eBack(p):eOut(p);
+  if(kind==='slam'){el.style.opacity=clamp(p*4,0,1);el.style.transform=`scale(${0.55+e*0.45}) rotate(-4deg)`;}
+  else if(kind==='pop'){el.style.opacity=eOut(p);el.style.transform=`scale(${0.92+eOut(p)*0.08})`;}
+  else if(kind==='rise'){el.style.opacity=e;el.style.transform=`translateY(${(1-e)*30}px)`;}
+  else{el.style.opacity=eOut(p);}}
+window.__seek=(ms)=>{const t=ms/1000;
+  beatEls.forEach((b,k)=>{const inP=(t-(starts[k]-XF))/XF;const outP=k===BEATS.length-1?Infinity:((starts[k]+durs[k])-t)/XF;const op=clamp(Math.min(inP,outP),0,1);
+    if(op<=0.002){b.style.display='none';b.style.opacity=0;return;}b.style.display='flex';b.style.opacity=op;const lt=t-starts[k];b.querySelectorAll('[data-anim],.word').forEach(el=>anim(el,lt));});
+  let cur=0,a=0;for(let k=0;k<BEATS.length;k++){if(t>=a)cur=k;a+=durs[k];}[...prog.children].forEach((n,k)=>n.style.background=k<=cur?'var(--brand)':'var(--line2)');};
+window.__seek(0);
+window.__ready=true;
+</script>
+</body></html>

@@ -77,3 +77,28 @@ public/academy/voice/
 
 # generated quality scorecards
 proof-artifacts/
+content-studio/brand-board.html
+content-studio/thumbnail-board.html
+content-studio/renders/thumbs/
+content-studio/renders/tb-qc-*.png
+content-studio/styles-board.html
+content-studio/renders/thumbs2/
+content-studio/hybrid-board.html
+content-studio/renders/hybrids/
+content-studio/compare-board.html
+content-studio/renders/compare/
+content-studio/dark-board.html
+content-studio/darkhf-board.html
+content-studio/renders/darkhf/
+content-studio/renders/prod/
+content-studio/renders/vo/
+content-studio/video-artifact.html
+content-studio/voicetest.html
+content-studio/renders/voicetest/
+content-studio/renders/vid-frame-*.png
+content-studio/ds-showcase.html
+content-studio/renders/ds-*.png
+content-studio/renders/scenes-proof.png
+
+content-studio/node_modules/
+content-studio/renders/*-proof.png

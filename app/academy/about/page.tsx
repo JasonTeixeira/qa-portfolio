@@ -1,15 +1,33 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { AcademyNav } from '@/components/academy/marketing/AcademyNav'
-import { AcademyFooter } from '@/components/academy/marketing/AcademyFooter'
+import { AcademyNav, AcademyFooter } from '@/components/academy/landing/AcademyChrome'
+import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
+import { getT } from '@/lib/i18n/t'
+import { getLocale } from '@/lib/i18n/server'
+import { localizedAlternates } from '@/lib/i18n/alternates'
 
 const MONO = '"JetBrains Mono", monospace'
 const DISPLAY = 'Fraunces, Georgia, serif'
 
-export const metadata: Metadata = {
-  title: 'About · Sage Academy',
-  description:
-    'Twenty years of incidents taught me one thing: the difference between engineers isn’t what they know — it’s what they can defend.',
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT()
+  const locale = await getLocale()
+  return {
+    title: t('About · Sage Academy'),
+    description: t(
+      "Twenty years of incidents taught me one thing: the difference between engineers isn’t what they know — it’s what they can defend."
+    ),
+    alternates: localizedAlternates('/academy/about', locale),
+    openGraph: {
+      title: t('About · Sage Academy'),
+      description: t('Why this exists — from a builder who ships and operates production software solo.'),
+      images: ['/og?title=About&subtitle=The+difference+is+what+you+can+defend'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/og?title=About&subtitle=The+difference+is+what+you+can+defend'],
+    },
+  }
 }
 
 type Principle = {
@@ -27,7 +45,8 @@ const PRINCIPLES: Principle[] = [
   },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getT()
   return (
     <div
       style={{
@@ -72,7 +91,7 @@ export default function AboutPage() {
             color: '#8FA0FF',
           }}
         >
-          The story · why this exists
+          {t('The story · why this exists')}
         </div>
         <h1
           style={{
@@ -85,7 +104,7 @@ export default function AboutPage() {
             textWrap: 'balance',
           }}
         >
-          I got tired of confident guesses in war rooms.
+          {t('I got tired of confident guesses in war rooms.')}
         </h1>
 
         {/* Byline */}
@@ -124,10 +143,22 @@ export default function AboutPage() {
                 color: '#9598A2',
               }}
             >
-              founder · still writes every field note
+              {t('founder · still writes every field note')}
             </div>
           </div>
         </div>
+
+        {/* Founder welcome — the trust anchor. Real voice, no face; poster-first
+            (preload=none) so it costs nothing until played. */}
+        <figure style={{ margin: '0 0 28px', border: '1px solid #1E1E24', borderRadius: 16, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 28px 70px -34px rgba(0,0,0,0.85)' }}>
+          <video controls preload="none" aria-label={t('A note from the founder — why Sage Academy exists, narrated')} poster="/video/academy/sa-founder.jpg" style={{ display: 'block', width: '100%', height: 'auto', aspectRatio: '16 / 9', background: '#0B0B0E' }}>
+            <source src="/video/academy/sa-founder.mp4" type="video/mp4" />
+            <track kind="captions" srcLang="en" label="English" src="/video/academy/sa-founder.vtt" default />
+          </video>
+          <figcaption style={{ fontFamily: MONO, fontSize: 11, color: '#9598A2', padding: '12px 16px', borderTop: '1px solid #1E1E24' }}>
+            ▸ {t('a 45-second note from me — why this exists, in my own voice')}
+          </figcaption>
+        </figure>
 
         <p
           style={{
@@ -137,12 +168,8 @@ export default function AboutPage() {
             textWrap: 'pretty',
           }}
         >
-          Twenty years of incidents taught me one thing: the difference between
-          engineers isn&apos;t what they know. It&apos;s what they can{' '}
-          <em style={{ color: '#F2EFE9' }}>defend</em>. The senior person in the
-          room isn&apos;t reciting more facts — they&apos;re drawing a smaller
-          map with edges they can stand behind, and saying &ldquo;I don&apos;t
-          know, but here&apos;s the cheapest way to find out.&rdquo;
+          {t("Twenty years of incidents taught me one thing: the difference between engineers isn't what they know. It's what they can")}{' '}
+          <em style={{ color: '#F2EFE9' }}>{t('defend')}</em>{t(". The senior person in the room isn't reciting more facts — they're drawing a smaller map with edges they can stand behind, and saying “I don't know, but here's the cheapest way to find out.”")}
         </p>
         <p
           style={{
@@ -152,11 +179,7 @@ export default function AboutPage() {
             textWrap: 'pretty',
           }}
         >
-          Nobody teaches that. Tutorials teach syntax. Bootcamps teach
-          frameworks. Certificates teach... completing certificates. So
-          engineers accumulate hundreds of hours of watching and none of the
-          thing interviews, reviews, and 3am pages actually test: judgment under
-          uncertainty, proven in public.
+          {t('Nobody teaches that. Tutorials teach syntax. Bootcamps teach frameworks. Certificates teach... completing certificates. So engineers accumulate hundreds of hours of watching and none of the thing interviews, reviews, and 3am pages actually test: judgment under uncertainty, proven in public.')}
         </p>
         <p
           style={{
@@ -166,11 +189,7 @@ export default function AboutPage() {
             textWrap: 'pretty',
           }}
         >
-          Sage Academy is my answer. Every lesson ends in something you can be
-          wrong about — and then fix. Every claim gets a check a skeptic can
-          run. The certificate is a curl command, not a PDF. And the whole thing
-          is built on the loop I watched the best engineers run on autopilot for
-          two decades: frame, route, map, decide, prove.
+          {t('Sage Academy is my answer. Every lesson ends in something you can be wrong about — and then fix. Every claim gets a check a skeptic can run. The certificate is a curl command, not a PDF. And the whole thing is built on the loop I watched the best engineers run on autopilot for two decades: frame, route, map, decide, prove.')}
         </p>
 
         {/* Pull-quote */}
@@ -190,8 +209,7 @@ export default function AboutPage() {
               lineHeight: 1.3,
             }}
           >
-            If we wouldn&apos;t accept &ldquo;trust me&rdquo; in a design review,
-            why do we accept it from education?
+            {t("If we wouldn't accept “trust me” in a design review, why do we accept it from education?")}
           </span>
         </blockquote>
 
@@ -215,7 +233,7 @@ export default function AboutPage() {
               marginBottom: 14,
             }}
           >
-            Operating principles
+            {t('Operating principles')}
           </div>
           {PRINCIPLES.map((principle) => (
             <div
@@ -229,15 +247,34 @@ export default function AboutPage() {
               }}
             >
               <span style={{ color: '#18B663' }}>{principle.num}</span>{' '}
-              {principle.text}
+              {t(principle.text)}
             </div>
           ))}
+        </div>
+
+        {/* Builder credibility — the honest trust anchor. No invented metrics;
+            the claim is simply that a practitioner writes this, not a content team. */}
+        <div
+          style={{
+            border: '1px solid rgba(61,90,254,0.3)',
+            borderRadius: 14,
+            background: 'linear-gradient(165deg, #0E1020, #111115)',
+            padding: 24,
+            marginBottom: 30,
+          }}
+        >
+          <div style={{ fontFamily: MONO, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#8FA0FF', marginBottom: 12 }}>
+            {t('Taught by a builder, not a content company')}
+          </div>
+          <p style={{ margin: 0, fontSize: 15, color: '#B6B6C0', lineHeight: 1.65 }}>
+            {t("I don't teach engineering from a textbook. I design, build, ship, and operate real production software — solo — and the mental models in here are the exact ones that hold up when you're the only person who can fix it at 3am. Every lesson is the loop I actually run, written by the same hands that ship the systems.")}
+          </p>
         </div>
 
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <Link
-            href="/field-notes"
+            href="/academy/signup"
             style={{
               display: 'inline-flex',
               color: '#fff',
@@ -251,10 +288,10 @@ export default function AboutPage() {
               boxShadow: '0 0 22px rgba(61,90,254,0.35)',
             }}
           >
-            Read the field notes →
+            {t('Start free →')}
           </Link>
           <Link
-            href="/how-it-works"
+            href="/academy/method"
             style={{
               display: 'inline-flex',
               color: '#B6B6C0',
@@ -266,12 +303,28 @@ export default function AboutPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            The manifesto
+            {t('See the method')}
+          </Link>
+          <Link
+            href="/academy/projects"
+            style={{
+              display: 'inline-flex',
+              color: '#B6B6C0',
+              border: '1px solid #2A2A33',
+              textDecoration: 'none',
+              fontSize: 14.5,
+              padding: '12px 26px',
+              borderRadius: 24,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {t("What you'll build")}
           </Link>
         </div>
       </article>
       </main>
 
+      <EcosystemBand />
       <AcademyFooter />
     </div>
   )

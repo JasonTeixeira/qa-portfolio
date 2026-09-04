@@ -1,0 +1,52 @@
+/* Sage Academy — canonical design tokens (from the existing component library).
+   Source: app/globals.css + the .dc.html design system. These govern TEACHING
+   visuals (in-video diagrams, code walkthroughs, charts) and the academy — the
+   isometric thumbnail system (Poppins, vivid) is a separate FEED skin. */
+:root {
+  /* surfaces */
+  --sage-bg: #0B0B0E;
+  --sage-surface-1: #111115;
+  --sage-surface-2: #141418;
+  --sage-surface-3: #1A1A20;
+  --sage-border: #1E1E24;
+  --sage-border-strong: #2A2A33;
+  /* ink */
+  --sage-ink: #F2EFE9;
+  --sage-ink-muted: #9C9CA6;
+  --sage-ink-subtle: #B6B6C0;
+  /* brand accents */
+  --sage-brand: #3D5AFE;      /* primary + focus ring */
+  --sage-magenta: #FF2D9B;
+  --sage-violet: #7C3AED;
+
+  /* THE 10-HUE TEACHING SPECTRUM — one hue per concept, matched lightness so
+     none shouts. Use these for diagram nodes + chart series (NOT the marketing accent). */
+  --hue-client:   #6ECBFF;
+  --hue-cdn:      #4FE3CF;
+  --hue-loadbal:  #FF7DB1;
+  --hue-gateway:  #8FA0FF;
+  --hue-service:  #B79CFF;
+  --hue-cache:    #FFA94D;
+  --hue-database: #5EE08C;
+  --hue-queue:    #F5C64F;
+  --hue-worker:   #E08FFF;
+  --hue-failure:  #FF6B6B;
+  /* semantic (reuse the spectrum) */
+  --ok:    #5EE08C;   /* p50 / passed / grounded */
+  --warn:  #F5C64F;
+  --error: #FF6B6B;   /* tail / failure */
+  --series-cyan: #6ECBFF;
+  --series-mint: #4FE3CF;
+
+  /* type */
+  --font-display: 'Fraunces', Georgia, serif;      /* huge serif headline */
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace; /* kickers, axes, chips */
+
+  /* geometry + motion */
+  --radius-chip: 7px;
+  --radius-card: 14px;
+  --radius-surface: 24px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* signature depth: 4px top rainbow rail · radial bg glow ~5% · dot-grid under diagrams */
+}

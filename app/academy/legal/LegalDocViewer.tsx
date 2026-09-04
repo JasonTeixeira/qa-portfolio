@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './legal.module.css'
 
 type Section = {
@@ -26,7 +27,7 @@ const DOCS: LegalDoc[] = [
       {
         num: '1',
         title: 'The service',
-        body: 'Sage Academy provides courses, labs, evaluation gates, recall systems, and related tooling on a subscription basis. Features may evolve; material removals of paid functionality entitle you to a prorated refund.',
+        body: 'Sage Academy provides courses, labs, evaluation gates, recall systems, and related tooling on a subscription basis. Features may evolve; if we materially remove paid functionality you can cancel and keep access through the period you paid for.',
       },
       {
         num: '2',
@@ -78,34 +79,7 @@ const DOCS: LegalDoc[] = [
       {
         num: '5',
         title: 'Transfers & processors',
-        body: 'Processors: Stripe (billing), Resend (email), our cloud provider (hosting). EU/UK data is handled under SCCs. The full processor list lives at sageideas.dev/processors.',
-      },
-    ],
-  },
-  {
-    label: 'Refund policy',
-    summary:
-      'The 14-day honest guarantee is real: no proof shipped in your first 14 days, full refund, same-day, no argument. After that, cancel anytime and keep access through your paid period. Annual unused time converts to credit if you downgrade.',
-    sections: [
-      {
-        num: '1',
-        title: 'The honest guarantee',
-        body: 'Within 14 days of your first charge: reply "guarantee" to any billing email for a full refund, processed same business day. We may ask one optional question. Abuse (repeat sign-ups) voids eligibility.',
-      },
-      {
-        num: '2',
-        title: 'After 14 days',
-        body: 'Subscriptions are non-refundable but cancellable — access continues through the period you paid for. Exceptional circumstances (medical, bereavement) are handled case-by-case, generously.',
-      },
-      {
-        num: '3',
-        title: 'Plan changes',
-        body: 'Monthly → annual: unused days credit automatically. Annual → monthly: remaining value converts to account credit at the daily rate. Nobody pays for the same week twice.',
-      },
-      {
-        num: '4',
-        title: 'Team plans',
-        body: 'Unused seats refund at the seat rate within 30 days of purchase. Seat reassignment is free and unlimited.',
+        body: 'Processors: Stripe (billing), Resend (email), our cloud provider (hosting). EU/UK data is handled under SCCs. The current processor list is maintained in our full Privacy Policy at sageideas.dev/legal/privacy.',
       },
     ],
   },
@@ -119,9 +93,7 @@ export function LegalDocViewer() {
     <div className={styles.root}>
       <div className={styles.topbar}>
         <Link href="/academy" className={styles.brand}>
-          <span className={styles.diamond} aria-hidden="true">
-            ◆
-          </span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandName}>Sage Academy</span>
         </Link>
         <span className={styles.topnote}>
@@ -132,8 +104,8 @@ export function LegalDocViewer() {
       <main className={styles.main}>
         <h1 className={styles.h1}>The fine print, unfine-printed.</h1>
         <p className={styles.subtitle}>
-          Effective July 2026. Each section starts with the honest summary; the
-          binding text follows it.
+          Effective May 2026. Each section starts with the honest summary; the
+          full binding text lives in the documents linked at the bottom.
         </p>
 
         <div className={styles.tabs} role="tablist" aria-label="Legal documents">
@@ -167,9 +139,21 @@ export function LegalDocViewer() {
           </div>
         ))}
 
+        <div style={{ marginTop: 36, padding: '18px 20px', border: '1px solid #1E1E24', borderRadius: 12, background: '#0E0E12' }}>
+          <div style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#8FA0FF', marginBottom: 12 }}>
+            The full, binding documents
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            <a href="/legal/privacy" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Privacy Policy →</a>
+            <a href="/legal/terms" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Terms of Service →</a>
+            <a href="/legal/cookies" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>Cookie Policy →</a>
+            <a href="/legal/msa" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>MSA →</a>
+            <a href="/legal/nda" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12.5, color: '#C9C9D2', textDecoration: 'none', border: '1px solid #1E1E24', borderRadius: 8, padding: '7px 12px' }}>NDA →</a>
+          </div>
+        </div>
+
         <div className={styles.footer}>
-          Questions about any clause: legal@sageideas.dev · Sage Ideas LLC,
-          Delaware
+          Questions about any clause: legal@sageideas.dev · Sage Ideas LLC, a Florida company (Orlando, FL)
         </div>
       </main>
     </div>

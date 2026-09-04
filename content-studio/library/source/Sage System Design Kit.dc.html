@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0B0E; }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(143,160,255,0.35); }
+  a { color: #8FA0FF; text-decoration: none; }
+  a:hover { color: #B9C4FF; }
+  @keyframes flowDash { to { stroke-dashoffset: -120; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,107,0.35); } 50% { box-shadow: 0 0 0 9px rgba(255,107,107,0); } }
+  @keyframes blinkSoft { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  input[type="range"] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: #26262E; outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #F2EFE9; border: 3px solid #0B0B0E; box-shadow: 0 0 0 1.5px #F2EFE9, 0 4px 12px rgba(0,0,0,0.6); cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #0B0B0E; background-image: radial-gradient(90% 60% at 15% -10%, rgba(110,203,255,0.06) 0%, transparent 55%), radial-gradient(70% 50% at 85% -5%, rgba(224,143,255,0.06) 0%, transparent 60%), radial-gradient(60% 40% at 50% 0%, rgba(255,169,77,0.04) 0%, transparent 60%); color: #F2EFE9; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 1.6;">
+
+  <!-- spectrum rail — the signature -->
+  <div style="height: 4px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+
+  <div style="max-width: 1220px; margin: 0 auto; padding: clamp(44px, 6vw, 80px) clamp(20px, 4vw, 48px) 110px;">
+
+    <!-- ============ HEADER ============ -->
+    <header data-screen-label="Header" style="margin-bottom: 64px;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #9598A2;">
+        <span style="width: 26px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #6ECBFF, #FF7DB1, #8FA0FF);"></span>
+        <span>Sage Academy · System Design Visual System · v1 · locked</span>
+      </div>
+      <h1 style="margin: 18px 0 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.0; letter-spacing: -0.028em; max-width: 16ch; text-wrap: balance;">Every component owns a color. Every color teaches.</h1>
+      <p style="margin: 20px 0 0; color: #9C9CA6; max-width: 64ch; font-size: 17.5px; text-wrap: pretty;">The complete visual arsenal for Sage system-design courses: a ten-hue component spectrum, an icon set, a diagram language, and fully interactive teaching widgets. Built on the Sage foundation — Fraunces display, Hanken body, JetBrains data — so it drops into every course untouched.</p>
+      <nav style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;">
+        <a href="#spectrum" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #8FA0FF; color: #F2EFE9;">01 Spectrum</a>
+        <a href="#icons" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #FFA94D; color: #F2EFE9;">02 Icons</a>
+        <a href="#language" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #5EE08C; color: #F2EFE9;">03 Diagram language</a>
+        <a href="#stage" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #FF7DB1; color: #F2EFE9;">04 Systems stage</a>
+        <a href="#widgets" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #4FE3CF; color: #F2EFE9;">05 Widgets</a>
+        <a href="#callouts" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #E08FFF; color: #F2EFE9;">06 Callouts</a>
+        <a href="#rules" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 8px 14px; border: 1px solid #26262E; border-radius: 100px; color: #B6B6C0;" style-hover="border-color: #F5C64F; color: #F2EFE9;">07 Rules</a>
+      </nav>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+        <span style="color: #9598A2; text-transform: uppercase; letter-spacing: 0.12em; font-size: 9.5px;">System pages</span>
+        <a href="Sage Lesson Layouts.dc.html">Lesson layouts</a>
+        <a href="Sage Mastery & States.dc.html">Mastery &amp; states</a>
+        <a href="Sage Covers & Brand.dc.html">Covers &amp; brand</a>
+        <a href="Sage Data Viz & Widgets.dc.html">Data viz &amp; widgets</a>
+        <a href="Sage Motion & Standards.dc.html">Motion &amp; standards</a>
+        <a href="Sage Domain Diagrams.dc.html">Domain diagrams</a>
+        <a href="Sage Code & Comparison.dc.html">Code &amp; comparison</a>
+        <a href="Sage Algorithms in Motion.dc.html">Algorithms in motion</a>
+        <a href="Sage Data & Cloud.dc.html">Data &amp; cloud</a>
+        <a href="Sage Motion Scenes.dc.html">Motion scenes</a>
+        <a href="Sage Directors Cut.dc.html">Director's cut</a>
+        <a href="Sage Production Package.dc.html">Production package</a>
+      </div>
+    </header>
+
+    <!-- ============ 01 SPECTRUM ============ -->
+    <section id="spectrum" data-screen-label="01 Spectrum" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6ECBFF;">01</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The component spectrum</h2>
+      </div>
+      <p style="margin: 0 0 28px; color: #9C9CA6; max-width: 62ch; font-size: 15.5px;">Ten hues, one per infrastructure concept — identical lightness and chroma so no color shouts over another. A learner who sees orange knows it's a cache before reading a single word.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px;">
+        <sc-for list="{{ spectrum }}" as="s" hint-placeholder-count="10">
+          <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 16px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s, transform 0.2s;" style-hover="border-color: {{ s.hex }}; transform: translateY(-2px);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; border-radius: 11px; background: {{ s.soft }}; border: 1px solid {{ s.borderC }}; display: grid; place-items: center;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: {{ s.hex }}; box-shadow: 0 0 14px {{ s.glow }};"></div>
+              </div>
+              <div>
+                <div style="font-size: 14.5px; font-weight: 700;">{{ s.name }}</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9598A2;">{{ s.hex }}</div>
+              </div>
+            </div>
+            <div style="font-size: 12.5px; color: #9C9CA6; line-height: 1.5;">{{ s.role }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- ============ 02 ICON ARSENAL ============ -->
+    <section id="icons" data-screen-label="02 Icons" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FFA94D;">02</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The icon arsenal</h2>
+      </div>
+      <p style="margin: 0 0 28px; color: #9C9CA6; max-width: 62ch; font-size: 15.5px;">Geometric, 2.5px stroke, drawn on a 48px grid, always seated on the component's soft tile. Never mix with emoji or third-party icon fonts.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;">
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(110,203,255,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(110,203,255,0.09); border: 1px solid rgba(110,203,255,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="8" y="10" width="32" height="24" rx="3" stroke="#6ECBFF" stroke-width="2.5" fill="rgba(110,203,255,0.1)"></rect><line x1="8" y1="17" x2="40" y2="17" stroke="#6ECBFF" stroke-width="2.5"></line><circle cx="13" cy="13.5" r="1.6" fill="#6ECBFF"></circle><line x1="18" y1="40" x2="30" y2="40" stroke="#6ECBFF" stroke-width="2.5" stroke-linecap="round"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Client</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/client</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(79,227,207,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(79,227,207,0.09); border: 1px solid rgba(79,227,207,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="15" stroke="#4FE3CF" stroke-width="2.5" fill="rgba(79,227,207,0.08)"></circle><ellipse cx="24" cy="24" rx="7" ry="15" stroke="#4FE3CF" stroke-width="2.5"></ellipse><line x1="9" y1="24" x2="39" y2="24" stroke="#4FE3CF" stroke-width="2.5"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">CDN / Edge</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/cdn</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(255,125,177,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(255,125,177,0.09); border: 1px solid rgba(255,125,177,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="24" r="5.5" stroke="#FF7DB1" stroke-width="2.5" fill="rgba(255,125,177,0.15)"></circle><circle cx="38" cy="10" r="4" stroke="#FF7DB1" stroke-width="2.5"></circle><circle cx="38" cy="24" r="4" stroke="#FF7DB1" stroke-width="2.5"></circle><circle cx="38" cy="38" r="4" stroke="#FF7DB1" stroke-width="2.5"></circle><line x1="17" y1="21.5" x2="33.5" y2="11.5" stroke="#FF7DB1" stroke-width="2.5"></line><line x1="17.5" y1="24" x2="33.5" y2="24" stroke="#FF7DB1" stroke-width="2.5"></line><line x1="17" y1="26.5" x2="33.5" y2="36.5" stroke="#FF7DB1" stroke-width="2.5"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Load balancer</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/lb</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="15" y="8" width="18" height="32" rx="4" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.1)"></rect><line x1="4" y1="18" x2="15" y2="18" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="4" y1="30" x2="15" y2="30" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="33" y1="24" x2="44" y2="24" stroke="#8FA0FF" stroke-width="2.5"></line><circle cx="24" cy="24" r="3" fill="#8FA0FF"></circle></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">API gateway</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/gateway</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(183,156,255,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(183,156,255,0.09); border: 1px solid rgba(183,156,255,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="10" y="10" width="28" height="28" rx="6" transform="rotate(45 24 24)" stroke="#B79CFF" stroke-width="2.5" fill="rgba(183,156,255,0.1)"></rect><circle cx="24" cy="24" r="5" stroke="#B79CFF" stroke-width="2.5"></circle></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Service</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/service</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(255,169,77,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(255,169,77,0.09); border: 1px solid rgba(255,169,77,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><polygon points="27,6 15,27 23,27 21,42 33,21 25,21" stroke="#FFA94D" stroke-width="2.5" stroke-linejoin="round" fill="rgba(255,169,77,0.15)"></polygon></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Cache</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/cache</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(94,224,140,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(94,224,140,0.09); border: 1px solid rgba(94,224,140,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="14" ry="5.5" stroke="#5EE08C" stroke-width="2.5" fill="rgba(94,224,140,0.14)"></ellipse><line x1="10" y1="12" x2="10" y2="36" stroke="#5EE08C" stroke-width="2.5"></line><line x1="38" y1="12" x2="38" y2="36" stroke="#5EE08C" stroke-width="2.5"></line><path d="M10 36 A14 5.5 0 0 0 38 36" stroke="#5EE08C" stroke-width="2.5"></path><path d="M10 24 A14 5.5 0 0 0 38 24" stroke="#5EE08C" stroke-width="2.5" opacity="0.5"></path></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Database</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/db</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(245,198,79,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(245,198,79,0.09); border: 1px solid rgba(245,198,79,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="5" y="18" width="9" height="12" rx="2" stroke="#F5C64F" stroke-width="2.5" fill="rgba(245,198,79,0.14)"></rect><rect x="17" y="18" width="9" height="12" rx="2" stroke="#F5C64F" stroke-width="2.5" fill="rgba(245,198,79,0.14)"></rect><rect x="29" y="18" width="9" height="12" rx="2" stroke="#F5C64F" stroke-width="2.5" opacity="0.5"></rect><line x1="41" y1="24" x2="46" y2="24" stroke="#F5C64F" stroke-width="2.5"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Queue</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/queue</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(94,224,140,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(94,224,140,0.09); border: 1px solid rgba(94,224,140,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="7" y="12" width="34" height="24" rx="4" stroke="#5EE08C" stroke-width="2.5" fill="rgba(94,224,140,0.07)"></rect><line x1="18.5" y1="12" x2="18.5" y2="36" stroke="#5EE08C" stroke-width="2.5"></line><line x1="29.5" y1="12" x2="29.5" y2="36" stroke="#5EE08C" stroke-width="2.5"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Shard</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/shard</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(94,224,140,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(94,224,140,0.09); border: 1px solid rgba(94,224,140,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="26" height="26" rx="5" stroke="#5EE08C" stroke-width="2.5" opacity="0.45"></rect><rect x="15" y="15" width="26" height="26" rx="5" stroke="#5EE08C" stroke-width="2.5" fill="#111115"></rect></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Replica</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/replica</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><path d="M8 34 A17 17 0 0 1 40 34" stroke="#8FA0FF" stroke-width="2.5"></path><path d="M24 34 L33 20 A17 17 0 0 1 40 34 Z" fill="rgba(143,160,255,0.14)"></path><line x1="24" y1="34" x2="33" y2="20" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round"></line><circle cx="24" cy="34" r="3" fill="#8FA0FF"></circle></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Rate limiter</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/ratelimit</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: border-color 0.2s;" style-hover="border-color: rgba(224,143,255,0.5);">
+          <div style="width: 68px; height: 68px; border-radius: 17px; background: rgba(224,143,255,0.09); border: 1px solid rgba(224,143,255,0.25); display: grid; place-items: center;">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="11" r="5" stroke="#E08FFF" stroke-width="2.5" fill="rgba(224,143,255,0.15)"></circle><circle cx="11" cy="36" r="5" stroke="#E08FFF" stroke-width="2.5"></circle><circle cx="37" cy="36" r="5" stroke="#E08FFF" stroke-width="2.5"></circle><line x1="21" y1="15.5" x2="13.5" y2="31.5" stroke="#E08FFF" stroke-width="2.5"></line><line x1="27" y1="15.5" x2="34.5" y2="31.5" stroke="#E08FFF" stroke-width="2.5"></line><line x1="16" y1="36" x2="32" y2="36" stroke="#E08FFF" stroke-width="2.5"></line></svg>
+          </div>
+          <div style="text-align: center;"><div style="font-size: 13.5px; font-weight: 700;">Consensus</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2;">ic/consensus</div></div>
+        </div>
+
+      </div>
+
+      <!-- course emblems -->
+      <div style="display: flex; align-items: baseline; gap: 14px; margin: 44px 0 8px;">
+        <h3 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 22px; letter-spacing: -0.015em;">Course emblems</h3>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2;">one mark per course · colored by track</span>
+      </div>
+      <p style="margin: 0 0 22px; color: #9C9CA6; max-width: 62ch; font-size: 14.5px;">Every course in the academy carries its own emblem — same grid, same stroke, track hue. Used on course cards, certificates, lesson headers, and the course map.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px;">
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(110,203,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(110,203,255,0.09); border: 1px solid rgba(110,203,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="7" stroke="#6ECBFF" stroke-width="2.5" fill="rgba(110,203,255,0.12)"></circle><circle cx="24" cy="8" r="3.5" fill="#6ECBFF"></circle><circle cx="8" cy="34" r="3.5" fill="#6ECBFF"></circle><circle cx="40" cy="34" r="3.5" fill="#6ECBFF"></circle><line x1="24" y1="12" x2="24" y2="17" stroke="#6ECBFF" stroke-width="2.5"></line><line x1="11" y1="32" x2="18" y2="28" stroke="#6ECBFF" stroke-width="2.5"></line><line x1="37" y1="32" x2="30" y2="28" stroke="#6ECBFF" stroke-width="2.5"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Think Like a Senior Engineer: Concept Maps</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #6ECBFF; margin-top: 2px;">FOUNDATIONS</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(110,203,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(110,203,255,0.09); border: 1px solid rgba(110,203,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><polyline points="18,13 8,24 18,35" stroke="#6ECBFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline><polyline points="30,13 40,24 30,35" stroke="#6ECBFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline><circle cx="24" cy="24" r="3" fill="#6ECBFF"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Programming &amp; CS Foundations</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #6ECBFF; margin-top: 2px;">FOUNDATIONS</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(110,203,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(110,203,255,0.09); border: 1px solid rgba(110,203,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M13 12 H28 A6.5 6.5 0 0 1 28 25 H20 A6.5 6.5 0 0 0 20 38 H35" stroke="#6ECBFF" stroke-width="2.5" stroke-linecap="round"></path><circle cx="9" cy="12" r="2.8" fill="#6ECBFF"></circle><circle cx="39" cy="38" r="2.8" fill="#6ECBFF"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Python Basics</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #6ECBFF; margin-top: 2px;">FOUNDATIONS</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="4" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.08)"></rect><polyline points="13,20 19,25 13,30" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline><line x1="24" y1="30" x2="33" y2="30" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Programming Fundamentals</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="9" y="7" width="30" height="9" rx="2.5" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.1)"></rect><rect x="9" y="19.5" width="30" height="9" rx="2.5" stroke="#8FA0FF" stroke-width="2.5"></rect><rect x="9" y="32" width="30" height="9" rx="2.5" stroke="#8FA0FF" stroke-width="2.5"></rect><circle cx="15" cy="11.5" r="1.8" fill="#8FA0FF"></circle><circle cx="15" cy="24" r="1.8" fill="#8FA0FF"></circle><circle cx="15" cy="36.5" r="1.8" fill="#8FA0FF"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Backend Engineering</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="7" y="9" width="34" height="30" rx="4" stroke="#8FA0FF" stroke-width="2.5"></rect><line x1="7" y1="17" x2="41" y2="17" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="19" y1="17" x2="19" y2="39" stroke="#8FA0FF" stroke-width="2.5"></line><rect x="24" y="22" width="12" height="7" rx="2" fill="rgba(143,160,255,0.35)"></rect></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Frontend &amp; Fullstack Product Engineering</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="17" y="17" width="14" height="14" rx="3" transform="rotate(45 24 24)" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.1)"></rect><circle cx="24" cy="6" r="3" fill="#8FA0FF"></circle><circle cx="6" cy="24" r="3" fill="#8FA0FF"></circle><circle cx="42" cy="24" r="3" fill="#8FA0FF"></circle><line x1="24" y1="9" x2="24" y2="14" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="9" y1="24" x2="14" y2="24" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="39" y1="24" x2="34" y2="24" stroke="#8FA0FF" stroke-width="2.5"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Architecture &amp; System Design</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M24 5 L39 11 V23 C39 33.5 32.5 40 24 43 C15.5 40 9 33.5 9 23 V11 Z" stroke="#8FA0FF" stroke-width="2.5" stroke-linejoin="round" fill="rgba(143,160,255,0.08)"></path><circle cx="24" cy="21" r="4" stroke="#8FA0FF" stroke-width="2.5"></circle><line x1="24" y1="25" x2="24" y2="32" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Security &amp; Identity Engineering</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="15" y="5" width="18" height="38" rx="5" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.08)"></rect><line x1="20" y1="37" x2="28" y2="37" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round"></line><line x1="21" y1="10" x2="27" y2="10" stroke="#8FA0FF" stroke-width="2.5" stroke-linecap="round"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Mobile Engineering Deep Dive</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.06)"></circle><polyline points="16,24.5 22,30.5 33,17.5" stroke="#8FA0FF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">QA / SDET &amp; Test Automation</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="9" cy="30" r="4" stroke="#8FA0FF" stroke-width="2.5"></circle><circle cx="24" cy="30" r="4" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.15)"></circle><circle cx="39" cy="30" r="4" stroke="#8FA0FF" stroke-width="2.5"></circle><line x1="13" y1="30" x2="20" y2="30" stroke="#8FA0FF" stroke-width="2.5"></line><line x1="28" y1="30" x2="35" y2="30" stroke="#8FA0FF" stroke-width="2.5"></line><path d="M9 25 Q24 8 39 25" stroke="#8FA0FF" stroke-width="2.5" stroke-dasharray="3 5"></path></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Networking Fundamentals &amp; Advanced</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(143,160,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(143,160,255,0.09); border: 1px solid rgba(143,160,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="26" height="26" rx="6" stroke="#8FA0FF" stroke-width="2.5" fill="rgba(143,160,255,0.06)"></rect><circle cx="17" cy="17" r="4.5" stroke="#8FA0FF" stroke-width="2.5"></circle><rect x="13" y="27" width="26" height="9" rx="4.5" stroke="#8FA0FF" stroke-width="2.5" fill="#111115"></rect><circle cx="34" cy="31.5" r="2" fill="#8FA0FF"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">UX / UI &amp; Product Design for Engineers</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #8FA0FF; margin-top: 2px;">ENGINEERING</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(94,224,140,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(94,224,140,0.09); border: 1px solid rgba(94,224,140,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="11" rx="13" ry="5" stroke="#5EE08C" stroke-width="2.5" fill="rgba(94,224,140,0.12)"></ellipse><line x1="11" y1="11" x2="11" y2="37" stroke="#5EE08C" stroke-width="2.5"></line><line x1="37" y1="11" x2="37" y2="37" stroke="#5EE08C" stroke-width="2.5"></line><path d="M11 37 A13 5 0 0 0 37 37" stroke="#5EE08C" stroke-width="2.5"></path><path d="M11 24 A13 5 0 0 0 37 24" stroke="#5EE08C" stroke-width="2.5" opacity="0.5"></path></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Databases &amp; Data Modeling</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #5EE08C; margin-top: 2px;">DATA</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(94,224,140,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(94,224,140,0.09); border: 1px solid rgba(94,224,140,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M8 8 H40 L29 24 V37 L19 42 V24 Z" stroke="#5EE08C" stroke-width="2.5" stroke-linejoin="round" fill="rgba(94,224,140,0.08)"></path><circle cx="24" cy="14" r="1.8" fill="#5EE08C"></circle><circle cx="24" cy="20" r="1.8" fill="#5EE08C"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Data Engineering &amp; Analytics Platforms</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #5EE08C; margin-top: 2px;">DATA</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(224,143,255,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(224,143,255,0.09); border: 1px solid rgba(224,143,255,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M24 7 L27.5 20.5 L41 24 L27.5 27.5 L24 41 L20.5 27.5 L7 24 L20.5 20.5 Z" stroke="#E08FFF" stroke-width="2.5" stroke-linejoin="round" fill="rgba(224,143,255,0.1)"></path><circle cx="38" cy="10" r="3" fill="#E08FFF"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">AI Engineering, RAG, Evals, Safety &amp; LLMOps</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #E08FFF; margin-top: 2px;">AI</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(255,169,77,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(255,169,77,0.09); border: 1px solid rgba(255,169,77,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M13 33 H35 A7.5 7.5 0 0 0 35 18 A11 11 0 0 0 14 21 A6.5 6.5 0 0 0 13 33 Z" stroke="#FFA94D" stroke-width="2.5" stroke-linejoin="round" fill="rgba(255,169,77,0.08)"></path><line x1="24" y1="42" x2="24" y2="27" stroke="#FFA94D" stroke-width="2.5" stroke-linecap="round"></line><polyline points="19,32 24,26 29,32" stroke="#FFA94D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Cloud, DevOps &amp; Production Operations</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #FFA94D; margin-top: 2px;">SHIP-IT</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(255,169,77,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(255,169,77,0.09); border: 1px solid rgba(255,169,77,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="5" y="11" width="38" height="26" rx="4" stroke="#FFA94D" stroke-width="2.5" fill="rgba(255,169,77,0.06)"></rect><polyline points="10,27 16,27 20,18 26,33 30,24 38,24" stroke="#FFA94D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Observability, Reliability &amp; Performance</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #FFA94D; margin-top: 2px;">SHIP-IT</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(255,169,77,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(255,169,77,0.09); border: 1px solid rgba(255,169,77,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="9" y="30" width="30" height="8" rx="2.5" stroke="#FFA94D" stroke-width="2.5" fill="rgba(255,169,77,0.1)"></rect><rect x="13.5" y="19" width="21" height="8" rx="2.5" stroke="#FFA94D" stroke-width="2.5"></rect><rect x="18" y="8" width="12" height="8" rx="2.5" stroke="#FFA94D" stroke-width="2.5"></rect></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Platform Engineering &amp; Internal Dev Platforms</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #FFA94D; margin-top: 2px;">SHIP-IT</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(255,169,77,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(255,169,77,0.09); border: 1px solid rgba(255,169,77,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="12" y="6" width="24" height="36" rx="3" stroke="#FFA94D" stroke-width="2.5" fill="rgba(255,169,77,0.06)"></rect><circle cx="19" cy="14" r="1.8" fill="#FFA94D"></circle><circle cx="29" cy="14" r="1.8" fill="#FFA94D"></circle><circle cx="19" cy="22" r="1.8" fill="#FFA94D"></circle><circle cx="29" cy="22" r="1.8" fill="#FFA94D"></circle><rect x="20.5" y="33" width="7" height="9" stroke="#FFA94D" stroke-width="2.5"></rect></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Enterprise IT, SaaS Admin &amp; Business Systems</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #FFA94D; margin-top: 2px;">SHIP-IT</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(245,198,79,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(245,198,79,0.09); border: 1px solid rgba(245,198,79,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="7" y="9" width="34" height="22" rx="6" stroke="#F5C64F" stroke-width="2.5" fill="rgba(245,198,79,0.08)"></rect><path d="M15 31 V40 L23 31" stroke="#F5C64F" stroke-width="2.5" stroke-linejoin="round"></path><polyline points="15,20 21,25.5 32,14.5" stroke="#F5C64F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Interview, Career &amp; Portfolio</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #F5C64F; margin-top: 2px;">GROWTH</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(245,198,79,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(245,198,79,0.09); border: 1px solid rgba(245,198,79,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#F5C64F" stroke-width="2.5"></circle><circle cx="24" cy="24" r="9" stroke="#F5C64F" stroke-width="2.5" opacity="0.6"></circle><circle cx="24" cy="24" r="3.2" fill="#F5C64F"></circle></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Product Execution &amp; Market Feedback</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #F5C64F; margin-top: 2px;">GROWTH</div></div>
+        </div>
+
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; padding: 13px 15px; display: flex; align-items: center; gap: 13px;" style-hover="border-color: rgba(245,198,79,0.5);">
+          <div style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 13px; background: rgba(245,198,79,0.09); border: 1px solid rgba(245,198,79,0.25); display: grid; place-items: center;"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><line x1="15" y1="6" x2="15" y2="42" stroke="#F5C64F" stroke-width="2.5" stroke-linecap="round"></line><path d="M15 9 L37 14.5 L15 21.5 Z" stroke="#F5C64F" stroke-width="2.5" stroke-linejoin="round" fill="rgba(245,198,79,0.15)"></path><line x1="9" y1="42" x2="23" y2="42" stroke="#F5C64F" stroke-width="2.5" stroke-linecap="round"></line></svg></div>
+          <div><div style="font-size: 13px; font-weight: 700; line-height: 1.3;">Engineering Leadership &amp; Staff-Level Execution</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #F5C64F; margin-top: 2px;">GROWTH</div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 03 DIAGRAM LANGUAGE ============ -->
+    <section id="language" data-screen-label="03 Diagram language" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5EE08C;">03</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The diagram language</h2>
+      </div>
+      <p style="margin: 0 0 28px; color: #9C9CA6; max-width: 62ch; font-size: 15.5px;">Four edge grammars and one node anatomy. Every diagram in every course speaks exactly this dialect — nothing else.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;">
+        <!-- edges -->
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; overflow: hidden;">
+          <div style="padding: 14px 20px; border-bottom: 1px solid #1E1E24; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #9598A2;">Edge grammar</div>
+          <div style="padding: 8px 20px 16px; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #17171C;">
+              <svg width="120" height="14" viewBox="0 0 120 14"><line x1="2" y1="7" x2="112" y2="7" stroke="rgba(143,160,255,0.3)" stroke-width="2"></line><line x1="2" y1="7" x2="112" y2="7" stroke="#8FA0FF" stroke-width="2" stroke-dasharray="14 92" style="animation: flowDash 1.4s linear infinite;"></line><circle cx="114" cy="7" r="3.5" fill="#8FA0FF"></circle></svg>
+              <div><div style="font-size: 13.5px; font-weight: 700;">Request · sync</div><div style="font-size: 12px; color: #9598A2;">solid, comet pulse in the caller's hue</div></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #17171C;">
+              <svg width="120" height="14" viewBox="0 0 120 14"><line x1="2" y1="7" x2="112" y2="7" stroke="#F5C64F" stroke-width="2" stroke-dasharray="6 8" style="animation: flowDash 3.2s linear infinite;"></line><circle cx="114" cy="7" r="3.5" fill="#F5C64F"></circle></svg>
+              <div><div style="font-size: 13.5px; font-weight: 700;">Async · fire &amp; forget</div><div style="font-size: 12px; color: #9598A2;">long dash, slow drift — gold by default</div></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #17171C;">
+              <svg width="120" height="14" viewBox="0 0 120 14"><line x1="2" y1="7" x2="112" y2="7" stroke="#5EE08C" stroke-width="2" stroke-dasharray="2 7" style="animation: flowDash 4.5s linear infinite;"></line><circle cx="114" cy="7" r="3.5" fill="#5EE08C"></circle></svg>
+              <div><div style="font-size: 13.5px; font-weight: 700;">Replication</div><div style="font-size: 12px; color: #9598A2;">dotted trickle, always data-green</div></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px; padding: 14px 0;">
+              <svg width="120" height="14" viewBox="0 0 120 14"><line x1="2" y1="7" x2="112" y2="7" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="4 5" style="animation: blinkSoft 1.2s ease-in-out infinite;"></line><line x1="52" y1="1" x2="64" y2="13" stroke="#FF6B6B" stroke-width="2.5"></line><line x1="64" y1="1" x2="52" y2="13" stroke="#FF6B6B" stroke-width="2.5"></line></svg>
+              <div><div style="font-size: 13.5px; font-weight: 700;">Failure path</div><div style="font-size: 12px; color: #9598A2;">broken red, blinking — the lesson lives here</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- node anatomy -->
+        <div style="border: 1px solid #1E1E24; border-radius: 14px; background: #111115; overflow: hidden;">
+          <div style="padding: 14px 20px; border-bottom: 1px solid #1E1E24; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #9598A2;">Node anatomy</div>
+          <div style="padding: 28px 20px; display: grid; place-items: center; background-image: radial-gradient(rgba(242,239,233,0.05) 1px, transparent 1px); background-size: 22px 22px;">
+            <div style="border: 1.5px solid rgba(255,169,77,0.55); border-radius: 12px; background: rgba(255,169,77,0.07); padding: 12px 18px; text-align: center; box-shadow: 0 0 32px rgba(255,169,77,0.12);">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #FFA94D;">cache</div>
+              <div style="font-size: 14.5px; font-weight: 700; margin-top: 2px;">Redis cluster</div>
+              <div style="display: inline-block; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 2px 8px; border-radius: 100px; border: 1px solid rgba(94,224,140,0.4); color: #5EE08C; background: rgba(94,224,140,0.08);">HIT 94%</div>
+            </div>
+          </div>
+          <div style="padding: 14px 20px 18px; border-top: 1px solid #17171C; font-size: 12.5px; color: #9C9CA6; line-height: 1.7;">
+            <span style="color: #F2EFE9; font-weight: 600;">Kicker</span> = component type in its hue · <span style="color: #F2EFE9; font-weight: 600;">label</span> = the real thing · <span style="color: #F2EFE9; font-weight: 600;">status chip</span> = live semantic state. Border 1.5px at 55% hue, fill at 7%, glow only when the node matters right now. Radius 12. Dot-grid canvas underneath, always.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 SYSTEMS STAGE ============ -->
+    <section id="stage" data-screen-label="04 Systems stage" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF7DB1;">04</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The systems stage</h2>
+      </div>
+      <p style="margin: 0 0 24px; color: #9C9CA6; max-width: 66ch; font-size: 15.5px;">The signature interactive of every lesson. Switch the scenario, watch the traffic reroute, click any node to interrogate it. Below: a URL shortener at 120k rps.</p>
+
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; overflow: hidden; box-shadow: 0 32px 80px -36px rgba(0,0,0,0.85);">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px 20px; border-bottom: 1px solid #1E1E24;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #9598A2; margin-right: 6px;">Scenario</span>
+          <sc-for list="{{ scenarioChips }}" as="c" hint-placeholder-count="3">
+            <span tabindex="0" onClick="{{ c.onClick }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 7px 16px; border-radius: 100px; border: 1px solid {{ c.border }}; color: {{ c.ink }}; background: {{ c.bg }}; transition: all 0.2s;">{{ c.label }}</span>
+          </sc-for>
+          <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: {{ scenarioNoteColor }};">{{ scenarioNote }}</span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap;">
+          <!-- diagram -->
+          <div style="flex: 1 1 560px; overflow-x: auto; background-image: radial-gradient(rgba(242,239,233,0.045) 1px, transparent 1px); background-size: 22px 22px;">
+            <div style="position: relative; width: 830px; min-width: 830px; height: 412px; margin: 0 auto;">
+              <svg viewBox="0 0 830 412" style="position: absolute; inset: 0; width: 100%; height: 100%;" preserveAspectRatio="none">
+                <sc-for list="{{ edges }}" as="e" hint-placeholder-count="11">
+                  <g opacity="{{ e.opacity }}">
+                    <path d="{{ e.d }}" fill="none" stroke="{{ e.base }}" stroke-width="1.5"></path>
+                    <path d="{{ e.d }}" fill="none" stroke="{{ e.color }}" stroke-width="{{ e.width }}" stroke-dasharray="{{ e.dash }}" stroke-linecap="round" style="{{ e.style }}"></path>
+                    <circle cx="{{ e.x2 }}" cy="{{ e.y2 }}" r="3" fill="{{ e.color }}"></circle>
+                  </g>
+                </sc-for>
+              </svg>
+              <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="9">
+                <div tabindex="0" onClick="{{ n.onClick }}" style="position: absolute; left: {{ n.left }}; top: {{ n.top }}; width: {{ n.w }}; cursor: pointer; border: 1.5px solid {{ n.border }}; border-radius: 12px; background: {{ n.bg }}; padding: 9px 10px; text-align: center; box-shadow: {{ n.shadow }}; animation: {{ n.anim }}; transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;" style-hover="border-color: {{ n.hue }};">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: {{ n.hue }};">{{ n.kind }}</div>
+                  <div style="font-size: 13px; font-weight: 700; color: {{ n.ink }}; line-height: 1.25; margin-top: 1px;">{{ n.label }}</div>
+                  <sc-if value="{{ n.status }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: inline-block; margin-top: 5px; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 100px; border: 1px solid {{ n.statusBorder }}; color: {{ n.statusColor }}; background: {{ n.statusBg }};">{{ n.status }}</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- inspector -->
+          <div style="flex: 0 0 280px; min-width: 260px; border-left: 1px solid #1E1E24; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #9598A2;">Inspector · click a node</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 38px; height: 38px; border-radius: 10px; background: {{ insp.soft }}; border: 1px solid {{ insp.borderC }}; display: grid; place-items: center;"><div style="width: 11px; height: 11px; border-radius: 50%; background: {{ insp.hex }};"></div></div>
+              <div>
+                <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 18px; letter-spacing: -0.01em;">{{ insp.name }}</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: {{ insp.hex }};">{{ insp.token }}</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: #B6B6C0; line-height: 1.6;">{{ insp.role }}</div>
+            <div style="border-top: 1px solid #1E1E24; padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #9598A2;">Signals</div>
+              <sc-for list="{{ insp.signals }}" as="sg" hint-placeholder-count="3">
+                <div style="display: flex; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px;"><span style="color: #9598A2;">{{ sg.k }}</span><span style="color: {{ sg.c }}; font-weight: 600;">{{ sg.v }}</span></div>
+              </sc-for>
+            </div>
+            <div style="border: 1px solid {{ insp.noteBorder }}; background: {{ insp.noteBg }}; border-radius: 10px; padding: 12px 14px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: {{ insp.noteInk }}; margin-bottom: 5px;">In this scenario</div>
+              <div style="font-size: 12.5px; color: #D9D6CF; line-height: 1.55;">{{ insp.note }}</div>
+            </div>
+            <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid #1E1E24; font-size: 12.5px; color: #9C9CA6; line-height: 1.6; font-style: italic;">{{ insp.teach }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 WIDGETS ============ -->
+    <section id="widgets" data-screen-label="05 Widgets" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #4FE3CF;">05</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The teaching widgets</h2>
+      </div>
+      <p style="margin: 0 0 28px; color: #9C9CA6; max-width: 62ch; font-size: 15.5px;">Three interaction patterns every course reuses: turn the dials, feel the tradeoff, get judged. All live — try them.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;">
+
+        <!-- capacity calculator -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #FFA94D;">Widget · capacity dial</div>
+            <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; letter-spacing: -0.012em; margin-top: 5px;">Do the napkin math.</div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span style="color: #B6B6C0;">Read traffic</span><span style="font-family: 'JetBrains Mono', monospace; color: #F2EFE9; font-weight: 600;">{{ rpsLabel }}</span></div>
+            <input type="range" min="1" max="500" step="1" value="{{ rpsK }}" onChange="{{ onRps }}" style="width: 100%; accent-color: #FFA94D;">
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span style="color: #B6B6C0;">Cache hit ratio</span><span style="font-family: 'JetBrains Mono', monospace; color: #F2EFE9; font-weight: 600;">{{ hitLabel }}</span></div>
+            <input type="range" min="0" max="99" step="1" value="{{ hit }}" onChange="{{ onHit }}" style="width: 100%; accent-color: #FFA94D;">
+          </div>
+          <div style="height: 12px; border-radius: 6px; overflow: hidden; display: flex; border: 1px solid #26262E;">
+            <div style="width: {{ barHit }}; background: linear-gradient(90deg, #FFA94D, #F5C64F); transition: width 0.3s;"></div>
+            <div style="flex: 1; background: rgba(94,224,140,0.35); transition: width 0.3s;"></div>
+          </div>
+          <div style="display: flex; gap: 20px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9598A2;"><span style="color: #FFA94D;">■ absorbed by cache</span><span style="color: #5EE08C;">■ hits origin</span></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid #1E1E24; padding-top: 16px;">
+            <div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; text-transform: uppercase; letter-spacing: 0.1em;">Origin load</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; color: {{ verdictColor }}; margin-top: 3px;">{{ originLabel }}</div></div>
+            <div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9598A2; text-transform: uppercase; letter-spacing: 0.1em;">App servers @8k</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; color: #F2EFE9; margin-top: 3px;">{{ serverLabel }}</div></div>
+          </div>
+          <div style="font-size: 13px; line-height: 1.55; color: {{ verdictColor }};">{{ verdictText }}</div>
+        </div>
+
+        <!-- CAP picker -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #E08FFF;">Widget · tradeoff picker</div>
+            <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; letter-spacing: -0.012em; margin-top: 5px;">CAP: pick two.</div>
+          </div>
+          <div style="display: flex; justify-content: center; gap: 18px; padding: 14px 0;">
+            <sc-for list="{{ capNodes }}" as="cn" hint-placeholder-count="3">
+              <div tabindex="0" onClick="{{ cn.onClick }}" style="cursor: pointer; width: 92px; height: 92px; border-radius: 50%; border: 1.5px solid {{ cn.border }}; background: {{ cn.bg }}; box-shadow: {{ cn.shadow }}; display: grid; place-items: center; text-align: center; transition: all 0.25s;">
+                <div><div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 26px; color: {{ cn.ink }};">{{ cn.letter }}</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.08em; color: #9598A2;">{{ cn.word }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border: 1px solid {{ capBorder }}; background: {{ capBg }}; border-radius: 12px; padding: 16px 18px; min-height: 108px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: {{ capInk }}; margin-bottom: 6px;">{{ capTitle }}</div>
+            <div style="font-size: 13.5px; color: #D9D6CF; line-height: 1.6;">{{ capText }}</div>
+          </div>
+          <div style="font-size: 12.5px; color: #9598A2; font-style: italic;">Pattern: mutually exclusive choices with a consequence panel — never a right answer, always a cost.</div>
+        </div>
+
+        <!-- quiz -->
+        <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #111115; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6ECBFF;">Widget · checkpoint</div>
+            <div style="font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 20px; letter-spacing: -0.012em; margin-top: 5px; line-height: 1.25;">A user double-clicks "Pay". Two identical POSTs arrive. What saves you?</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ quizOptions }}" as="q" hint-placeholder-count="4">
+              <div tabindex="0" onClick="{{ q.onClick }}" style="cursor: pointer; border: 1px solid {{ q.border }}; background: {{ q.bg }}; border-radius: 11px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; transition: all 0.2s;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ q.markColor }}; width: 18px; flex-shrink: 0;">{{ q.mark }}</span>
+                <span style="font-size: 14px; color: {{ q.ink }}; font-weight: 500;">{{ q.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="min-height: 44px; font-size: 13px; line-height: 1.55; color: {{ quizFeedbackColor }};">{{ quizFeedback }}</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 06 CALLOUTS ============ -->
+    <section id="callouts" data-screen-label="06 Callouts" style="margin-bottom: 80px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #E08FFF;">06</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">The callout voices</h2>
+      </div>
+      <p style="margin: 0 0 28px; color: #9C9CA6; max-width: 62ch; font-size: 15.5px;">Four voices, four hues. A learner should know what kind of sentence is coming before reading it.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <div style="border: 1px solid rgba(143,160,255,0.3); background: rgba(143,160,255,0.05); border-radius: 14px; padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #8FA0FF; margin-bottom: 9px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #8FA0FF;"></span>Key insight</div>
+          <div style="font-size: 14.5px; line-height: 1.6; color: #E7E4DD;">The cache isn't an optimization — it's a load-shedding contract. Design for the miss, not the hit.</div>
+        </div>
+        <div style="border: 1px solid rgba(245,198,79,0.3); background: rgba(245,198,79,0.05); border-radius: 14px; padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #F5C64F; margin-bottom: 9px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #F5C64F;"></span>Tradeoff</div>
+          <div style="font-size: 14.5px; line-height: 1.6; color: #E7E4DD;">Fan-out on write makes reads instant and celebrities expensive. Fan-out on read flips it. Pick per user tier.</div>
+        </div>
+        <div style="border: 1px solid rgba(255,107,107,0.3); background: rgba(255,107,107,0.05); border-radius: 14px; padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #FF6B6B; margin-bottom: 9px;"><span style="width: 9px; height: 9px; background: #FF6B6B; clip-path: polygon(50% 0, 100% 100%, 0 100%);"></span>Failure mode</div>
+          <div style="font-size: 14.5px; line-height: 1.6; color: #E7E4DD;">TTLs expiring together = a stampede. Ten thousand misses hit the primary in the same second. Jitter the TTL.</div>
+        </div>
+        <div style="border: 1px solid rgba(79,227,207,0.3); background: rgba(79,227,207,0.05); border-radius: 14px; padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #4FE3CF; margin-bottom: 9px;"><span style="width: 8px; height: 8px; border: 1.5px solid #4FE3CF; border-radius: 2px;"></span>Capacity math</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.9; color: #E7E4DD;">100M urls/day ≈ 1,160 wps<br>reads 10:1 → 11.6k rps<br>×5yr ≈ 180B rows → shard</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 07 RULES ============ -->
+    <section id="rules" data-screen-label="07 Rules" style="border: 1px solid #1E1E24; border-radius: 16px; background: linear-gradient(170deg, #14141A, #101014); padding: clamp(28px, 4vw, 44px); position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #F5C64F;">07</span>
+        <h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 540; font-size: 32px; letter-spacing: -0.02em;">Locked in.</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 32px; font-size: 14.5px; color: #B6B6C0; line-height: 1.7;">
+        <div>— One hue per component type, everywhere, forever.</div>
+        <div>— Color at 7% fill / 55% border / 100% ink. Never flood a surface with a hue.</div>
+        <div>— Diagrams sit on the dot grid; nodes use the anatomy, edges use the grammar.</div>
+        <div>— Every lesson gets one systems stage; every concept gets one widget rep.</div>
+        <div>— Fraunces speaks, Hanken explains, JetBrains measures. No fourth voice.</div>
+        <div>— Motion is transform + opacity + dash offset. Nothing bounces.</div>
+        <div>— Failure is red and blinking only while it's the point of the lesson.</div>
+        <div>— No emoji, no stock icons, no gradients louder than the spectrum rail.</div>
+      </div>
+    </section>
+
+  </div>
+  <div style="height: 4px; background: linear-gradient(90deg, #8FA0FF, #B79CFF, #E08FFF, #FF7DB1, #FFA94D, #F5C64F, #5EE08C, #4FE3CF, #6ECBFF);"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;animateFlows&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Diagram stage&quot;}, &quot;glowIntensity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0, &quot;max&quot;: 1.5, &quot;step&quot;: 0.1, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Diagram stage&quot;}}">
+class Component extends DCLogic {
+  state = {
+    scenario: 'steady',
+    selected: 'cache',
+    rpsK: 120,
+    hit: 90,
+    cap: ['C', 'P'],
+    quizPick: null
+  };
+
+  hues() {
+    return {
+      client:  '#6ECBFF', cdn: '#4FE3CF', lb: '#FF7DB1', gateway: '#8FA0FF',
+      service: '#B79CFF', cache: '#FFA94D', db: '#5EE08C', queue: '#F5C64F',
+      worker:  '#E08FFF', failure: '#FF6B6B'
+    };
+  }
+
+  rgba(hex, a) {
+    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  }
+
+  renderVals() {
+    const P = this.hues();
+    const rgba = this.rgba.bind(this);
+    const scenario = this.state.scenario;
+    const selected = this.state.selected;
+    const animate = this.props.animateFlows ?? true;
+    const glowMul = this.props.glowIntensity ?? 1;
+
+    // ---------- spectrum ----------
+    const spectrumMeta = [
+      { key: 'client',  name: 'Client',        role: 'Browsers, apps — the edge of the world. Where latency is felt.' },
+      { key: 'cdn',     name: 'CDN / Edge',    role: 'Static and cached content, served from the nearest city.' },
+      { key: 'lb',      name: 'Load balancer', role: 'Spreads traffic, health-checks, and quietly removes the dead.' },
+      { key: 'gateway', name: 'API gateway',   role: 'Auth, routing, rate limits — the front door with a bouncer.' },
+      { key: 'service', name: 'Service',       role: 'Stateless compute. Horizontally scalable by design.' },
+      { key: 'cache',   name: 'Cache',         role: 'Hot data in milliseconds. Design for the miss.' },
+      { key: 'db',      name: 'Database',      role: 'The source of truth — shards, replicas, and careful writes.' },
+      { key: 'queue',   name: 'Queue',         role: 'The async buffer. Absorbs spikes, enables backpressure.' },
+      { key: 'worker',  name: 'Worker',        role: 'Background consumers doing the slow work off the request path.' },
+      { key: 'failure', name: 'Failure',       role: 'The thing you actually design for. Red is a location, not a mood.' }
+    ];
+    const spectrum = spectrumMeta.map(s => ({
+      ...s, hex: P[s.key], soft: rgba(P[s.key], 0.09), borderC: rgba(P[s.key], 0.3), glow: rgba(P[s.key], 0.5)
+    }));
+
+    // ---------- systems stage ----------
+    const baseNodes = [
+      { id: 'client',  label: 'Client',           kind: 'client',  hue: 'client',  left: 10,  top: 182, w: 104 },
+      { id: 'cdn',     label: 'CDN edge',         kind: 'cdn',     hue: 'cdn',     left: 150, top: 58,  w: 110 },
+      { id: 'lb',      label: 'Load balancer',    kind: 'lb',      hue: 'lb',      left: 146, top: 300, w: 120 },
+      { id: 'svc',     label: 'shorten-svc ×3',   kind: 'service', hue: 'service', left: 322, top: 178, w: 128 },
+      { id: 'cache',   label: 'Redis cache',      kind: 'cache',   hue: 'cache',   left: 516, top: 58,  w: 114 },
+      { id: 'db',      label: 'Postgres primary', kind: 'database',hue: 'db',      left: 508, top: 300, w: 132 },
+      { id: 'queue',   label: 'Event queue',      kind: 'queue',   hue: 'queue',   left: 688, top: 58,  w: 112 },
+      { id: 'worker',  label: 'Analytics worker', kind: 'worker',  hue: 'worker',  left: 682, top: 178, w: 124 },
+      { id: 'replica', label: 'Read replica',     kind: 'database',hue: 'db',      left: 690, top: 300, w: 118 }
+    ];
+    const center = {};
+    baseNodes.forEach(n => { center[n.id] = { x: n.left + n.w / 2, y: n.top + 30 }; });
+
+    // per-scenario node status + emphasis
+    const nodeState = {
+      steady: {
+        cache:   { status: 'HIT 94%', tone: 'db', lit: true },
+        svc:     { status: '38ms p99', tone: 'db', lit: true },
+        db:      { status: 'quiet', tone: null },
+        queue:   { status: 'drained', tone: null },
+        lb:      { lit: true }, client: { lit: true }
+      },
+      miss: {
+        cache:   { status: 'MISS', tone: 'queue', lit: true },
+        db:      { status: '+1 read · 8ms', tone: 'gateway', lit: true },
+        svc:     { status: 'refill key', tone: 'queue', lit: true },
+        lb:      { lit: true }, client: { lit: true }
+      },
+      failure: {
+        db:      { status: 'DOWN', tone: 'failure', broken: true },
+        replica: { status: 'PROMOTED', tone: 'db', lit: true },
+        queue:   { status: 'BACKLOG 12k ↑', tone: 'queue', lit: true },
+        svc:     { status: 'DEGRADED · writes queued', tone: 'queue', lit: true },
+        cache:   { status: 'serving stale', tone: 'queue', lit: true },
+        lb:      { lit: true }, client: { lit: true }
+      }
+    };
+    const toneHex = { db: P.db, queue: P.queue, gateway: P.gateway, failure: P.failure };
+
+    const nodes = baseNodes.map(n => {
+      const st = (nodeState[scenario] || {})[n.id] || {};
+      const hex = st.broken ? P.failure : P[n.hue];
+      const isSel = selected === n.id;
+      const emphasized = st.lit || st.broken || isSel;
+      const statusHex = st.tone ? toneHex[st.tone] : '#9598A2';
+      return {
+        id: n.id, label: n.label, kind: n.kind,
+        left: n.left + 'px', top: n.top + 'px', w: n.w + 'px',
+        hue: hex,
+        ink: emphasized ? '#F2EFE9' : '#B6B6C0',
+        border: st.broken ? rgba(P.failure, 0.7) : (emphasized ? rgba(hex, 0.6) : '#26262E'),
+        bg: st.broken ? rgba(P.failure, 0.09) : (emphasized ? rgba(hex, 0.07) : '#111115'),
+        shadow: isSel
+          ? '0 0 0 2px ' + rgba(hex, 0.55) + ', 0 0 ' + Math.round(36 * glowMul) + 'px ' + rgba(hex, 0.22 * glowMul)
+          : (emphasized ? '0 0 ' + Math.round(26 * glowMul) + 'px ' + rgba(hex, 0.13 * glowMul) : 'none'),
+        anim: st.broken ? 'pulseRed 1.6s ease-in-out infinite' : 'none',
+        status: st.status || '',
+        statusColor: statusHex,
+        statusBorder: st.tone ? rgba(statusHex, 0.4) : '#26262E',
+        statusBg: st.tone ? rgba(statusHex, 0.08) : 'transparent',
+        onClick: () => this.setState({ selected: n.id })
+      };
+    });
+
+    // edges
+    const baseEdges = [
+      { id: 'c-cdn',   a: 'client', b: 'cdn' },
+      { id: 'c-lb',    a: 'client', b: 'lb' },
+      { id: 'cdn-svc', a: 'cdn',    b: 'svc' },
+      { id: 'lb-svc',  a: 'lb',     b: 'svc' },
+      { id: 'svc-cache', a: 'svc',  b: 'cache' },
+      { id: 'svc-db',  a: 'svc',    b: 'db' },
+      { id: 'svc-queue', a: 'svc',  b: 'queue' },
+      { id: 'q-worker', a: 'queue', b: 'worker' },
+      { id: 'w-rep',   a: 'worker', b: 'replica' },
+      { id: 'db-rep',  a: 'db',     b: 'replica' },
+      { id: 'svc-rep', a: 'svc',    b: 'replica' }
+    ];
+    // per-scenario edge treatments — every edge = visible base line + animated pulse overlay
+    const dim = { base: 'transparent', color: '#26262E', dash: '', style: '', width: 1.5, opacity: 1 };
+    const lit = (hex, dash, secs, width) => ({
+      base: rgba(hex, 0.25), color: hex, dash: dash, width: width || 2,
+      style: animate ? 'animation: flowDash ' + secs + 's linear infinite;' : '',
+      opacity: 1
+    });
+    const edgeMap = {
+      steady: {
+        'c-lb': lit(P.client, '14 92', 1.6), 'lb-svc': lit(P.service, '14 92', 1.6),
+        'svc-cache': lit(P.cache, '14 92', 1.2, 2.5),
+        'c-cdn': lit(P.cdn, '14 92', 2.4), 'cdn-svc': dim,
+        'svc-queue': lit(P.queue, '6 8', 3.4), 'q-worker': lit(P.queue, '6 8', 3.4),
+        'w-rep': dim, 'db-rep': lit(P.db, '2 7', 4.5), 'svc-db': dim, 'svc-rep': { ...dim, opacity: 0 }
+      },
+      miss: {
+        'c-lb': lit(P.client, '14 92', 1.6), 'lb-svc': lit(P.service, '14 92', 1.6),
+        'svc-cache': lit(P.queue, '5 6', 1.4, 2.5),
+        'svc-db': lit(P.gateway, '14 92', 1.4, 2.5),
+        'c-cdn': dim, 'cdn-svc': dim,
+        'svc-queue': lit(P.queue, '6 8', 3.4), 'q-worker': lit(P.queue, '6 8', 3.4),
+        'w-rep': dim, 'db-rep': lit(P.db, '2 7', 4.5), 'svc-rep': { ...dim, opacity: 0 }
+      },
+      failure: {
+        'c-lb': lit(P.client, '14 92', 1.6), 'lb-svc': lit(P.service, '14 92', 1.6),
+        'svc-cache': lit(P.cache, '14 92', 1.6),
+        'svc-db': { color: P.failure, dash: '4 5', width: 2, opacity: 1, style: animate ? 'animation: blinkSoft 1.2s ease-in-out infinite;' : '' },
+        'svc-rep': lit(P.db, '14 92', 1.4, 2.5),
+        'db-rep': { ...dim, opacity: 0.4 },
+        'svc-queue': lit(P.queue, '6 8', 1.8, 2.5), 'q-worker': { ...dim, opacity: 0.7 },
+        'c-cdn': dim, 'cdn-svc': dim, 'w-rep': dim
+      }
+    };
+    const nodeH = id => {
+      const st = (nodeState[scenario] || {})[id] || {};
+      return st.status ? 66 : 48;
+    };
+    const rectFor = id => {
+      const n = baseNodes.find(x => x.id === id);
+      return { hw: n.w / 2 + 10, hh: nodeH(id) / 2 + 10 };
+    };
+    const trimPoint = (from, to, rect) => {
+      const dx = to.x - from.x, dy = to.y - from.y;
+      const tx = dx !== 0 ? rect.hw / Math.abs(dx) : Infinity;
+      const ty = dy !== 0 ? rect.hh / Math.abs(dy) : Infinity;
+      const t = Math.min(tx, ty, 0.48);
+      return { x: from.x + dx * t, y: from.y + dy * t };
+    };
+    const edges = baseEdges.map(e => {
+      const t = (edgeMap[scenario] || {})[e.id] || dim;
+      const A = center[e.a], B = center[e.b];
+      const p1 = trimPoint(A, B, rectFor(e.a));
+      const p2 = trimPoint(B, A, rectFor(e.b));
+      const dx = p2.x - p1.x, dy = p2.y - p1.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const mx = (p1.x + p2.x) / 2, my = (p1.y + p2.y) / 2;
+      let d;
+      if (Math.abs(dx) < 8 || Math.abs(dy) < 8) {
+        d = 'M ' + p1.x.toFixed(1) + ' ' + p1.y.toFixed(1) + ' L ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+      } else {
+        const k = Math.min(22, len * 0.13);
+        let px = -dy / len, py = dx / len;
+        const ccx = 415, ccy = 206;
+        const dA = (mx + px * k - ccx) * (mx + px * k - ccx) + (my + py * k - ccy) * (my + py * k - ccy);
+        const dB = (mx - px * k - ccx) * (mx - px * k - ccx) + (my - py * k - ccy) * (my - py * k - ccy);
+        if (dA < dB) { px = -px; py = -py; }
+        d = 'M ' + p1.x.toFixed(1) + ' ' + p1.y.toFixed(1) + ' Q ' + (mx + px * k).toFixed(1) + ' ' + (my + py * k).toFixed(1) + ' ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+      }
+      return { d: d, x2: p2.x, y2: p2.y, base: t.base, color: t.color, dash: t.dash, width: t.width, style: t.style, opacity: t.opacity };
+    });
+
+    const scenarioDefs = [
+      { id: 'steady',  label: 'Steady state', hex: P.db,      note: 'cache absorbs 94% of reads' },
+      { id: 'miss',    label: 'Cache miss',   hex: P.queue,   note: 'one read falls through — +8ms' },
+      { id: 'failure', label: 'Primary down', hex: P.failure, note: 'failover: replica promoted, writes queued' }
+    ];
+    const active = scenarioDefs.find(s => s.id === scenario);
+    const scenarioChips = scenarioDefs.map(s => ({
+      label: s.label,
+      border: s.id === scenario ? rgba(s.hex, 0.55) : '#26262E',
+      bg: s.id === scenario ? rgba(s.hex, 0.1) : 'transparent',
+      ink: s.id === scenario ? s.hex : '#9C9CA6',
+      onClick: () => this.setState({ scenario: s.id })
+    }));
+
+    // inspector
+    const inspMeta = {
+      client:  { name: 'Client', token: 'sys/client · #6ECBFF', role: 'Everything starts and ends here. Judge every design by what this box feels.', teach: 'Teach: latency budgets are set at the client, spent everywhere else.' },
+      cdn:     { name: 'CDN edge', token: 'sys/cdn · #4FE3CF', role: 'Serves the redirect page and assets from the nearest PoP.', teach: 'Teach: the fastest request is the one that never reaches you.' },
+      lb:      { name: 'Load balancer', token: 'sys/lb · #FF7DB1', role: 'Round-robins across three service instances; health-checks every 5s.', teach: 'Teach: LBs don\u2019t add capacity — they buy you the right to add it.' },
+      svc:     { name: 'shorten-svc ×3', token: 'sys/service · #B79CFF', role: 'Stateless. Encodes IDs, checks the cache, owns no data of its own.', teach: 'Teach: statelessness is what makes ×3 become ×30 without a meeting.' },
+      cache:   { name: 'Redis cache', token: 'sys/cache · #FFA94D', role: 'Hot URL mappings, LRU, 24h TTL with jitter.', teach: 'Teach: the cache\u2019s real job is protecting the database\u2019s p99.' },
+      db:      { name: 'Postgres primary', token: 'sys/db · #5EE08C', role: 'Source of truth for the URL table. All writes land here.', teach: 'Teach: everything upstream exists to keep this box calm.' },
+      queue:   { name: 'Event queue', token: 'sys/queue · #F5C64F', role: 'Click events buffered off the request path.', teach: 'Teach: a queue converts a spike into a schedule.' },
+      worker:  { name: 'Analytics worker', token: 'sys/worker · #E08FFF', role: 'Drains the queue, aggregates clicks, reads from the replica.', teach: 'Teach: slow work belongs behind a queue, reading from a replica.' },
+      replica: { name: 'Read replica', token: 'sys/db · #5EE08C', role: 'Async replication, ~200ms lag. Serves analytics reads.', teach: 'Teach: a replica is a promise with lag — say the lag out loud.' }
+    };
+    const inspNotes = {
+      steady: {
+        client: 'Sees 32ms median. Happy and oblivious — as designed.',
+        cdn: 'Handling static assets; not in the hot path for API calls.',
+        lb: 'All three instances healthy. Even spread.',
+        svc: 'p99 38ms. Nearly every read answered from cache.',
+        cache: '94% hit ratio. The primary barely notices 120k rps.',
+        db: 'A quiet ~7k rps of misses and writes. Exactly the plan.',
+        queue: 'Drained in real time. Depth ≈ 0.',
+        worker: 'Keeping up easily at current click volume.',
+        replica: 'Replication lag 180ms. No one is stressed.'
+      },
+      miss: {
+        client: 'This one request takes 40ms instead of 32. Nobody notices — that\u2019s the point.',
+        cdn: 'Uninvolved. The miss is an origin story.',
+        lb: 'Routine. Routing is scenario-independent.',
+        svc: 'Falls through to Postgres, then refills the key with jittered TTL.',
+        cache: 'MISS. The question that matters: what do 10,000 simultaneous misses do?',
+        db: 'One extra indexed read, 8ms. Fine alone — deadly in a stampede.',
+        queue: 'Unaffected. Async paths don\u2019t care about read misses.',
+        worker: 'Unaffected.',
+        replica: 'Unaffected.'
+      },
+      failure: {
+        client: 'Reads still work (stale-friendly). Writes see a spinner, not an error.',
+        cdn: 'Still serving. Edge caching is your first failover.',
+        lb: 'Healthy — the failure is a layer below it.',
+        svc: 'Serving stale reads, queueing writes. Degraded, not down.',
+        cache: 'Now the only fast source of truth. Stale beats absent.',
+        db: 'DOWN. The lesson: what did you decide *before* this moment?',
+        queue: 'Absorbing every write. Depth 12k and climbing — backpressure is next.',
+        worker: 'Paused analytics — it\u2019s not essential. Shedding load deliberately.',
+        replica: 'Promoted to primary. The 200ms lag just became lost writes — discuss.'
+      }
+    };
+    const baseSignals = {
+      client:  [['p50', '32ms'], ['p99', '118ms'], ['error rate', '0.01%']],
+      cdn:     [['offload', '61%'], ['pop hit', '97%'], ['asset ttl', '7d']],
+      lb:      [['healthy', '3/3'], ['algo', 'round robin'], ['checks', '5s']],
+      svc:     [['pods', '3'], ['cpu', '41%'], ['p99', '38ms']],
+      cache:   [['hit ratio', '94%'], ['keys', '48M'], ['evictions', '~2k/s']],
+      db:      [['reads', '7.2k rps'], ['writes', '1.1k rps'], ['p99', '8ms']],
+      queue:   [['depth', '0'], ['in', '1.4k/s'], ['ack', '1.4k/s']],
+      worker:  [['lag', '0s'], ['batch', '500'], ['reads', 'replica']],
+      replica: [['lag', '180ms'], ['reads', '2.3k rps'], ['role', 'replica']]
+    };
+    const sigTone = { g: P.db, y: P.queue, r: P.failure, b: P.gateway };
+    const sigOverrides = {
+      miss: {
+        cache: [['hit ratio', 'MISS → refill', 'y'], ['keys', '48M'], ['stampede risk', 'low', 'g']],
+        db:    [['reads', '+1 · 8ms', 'b'], ['writes', '1.1k rps'], ['p99', '8ms']]
+      },
+      failure: {
+        db:      [['status', 'DOWN', 'r'], ['reads', '—', 'r'], ['writes', '—', 'r']],
+        replica: [['role', 'PRIMARY', 'g'], ['lag', '—'], ['reads', 'all', 'g']],
+        queue:   [['depth', '12,400 ↑', 'y'], ['in', '2.9k/s', 'y'], ['ack', '0/s', 'r']],
+        svc:     [['pods', '3'], ['p99', '210ms', 'y'], ['mode', 'degraded', 'y']],
+        cache:   [['hit ratio', 'stale-ok', 'y'], ['keys', '48M'], ['ttl', 'extended', 'y']]
+      }
+    };
+    const rawSig = (sigOverrides[scenario] || {})[selected] || baseSignals[selected];
+    const signals = rawSig.map(s => ({ k: s[0], v: s[1], c: s[2] ? sigTone[s[2]] : '#D9D6CF' }));
+
+    const selMeta = inspMeta[selected];
+    const selHex = P[baseNodes.find(n => n.id === selected).hue];
+    const noteToneHex = scenario === 'failure' ? P.failure : scenario === 'miss' ? P.queue : P.db;
+    const insp = {
+      name: selMeta.name, token: selMeta.token, role: selMeta.role, teach: selMeta.teach,
+      hex: selHex, soft: rgba(selHex, 0.09), borderC: rgba(selHex, 0.3),
+      note: inspNotes[scenario][selected],
+      noteBorder: rgba(noteToneHex, 0.3), noteBg: rgba(noteToneHex, 0.05), noteInk: noteToneHex,
+      signals: signals
+    };
+
+    // ---------- capacity widget ----------
+    const rpsK = this.state.rpsK, hit = this.state.hit;
+    const total = rpsK * 1000;
+    const origin = Math.round(total * (1 - hit / 100));
+    const servers = Math.max(1, Math.ceil(origin / 8000));
+    const fmt = n => n >= 1000 ? (n / 1000 >= 100 ? Math.round(n / 1000) + 'k' : (n / 1000).toFixed(1) + 'k') : String(n);
+    let verdictColor, verdictText;
+    if (origin > 120000) { verdictColor = P.failure; verdictText = 'The primary can\u2019t survive this. Shard, add replicas, or fix the hit ratio — pick before it picks for you.'; }
+    else if (origin > 30000) { verdictColor = P.queue; verdictText = 'Origin load is heavy. Read replicas are now a requirement, not an optimization.'; }
+    else { verdictColor = P.db; verdictText = 'The cache is doing its job — origin load is calm and one primary can breathe.'; }
+
+    // ---------- CAP widget ----------
+    const cap = this.state.cap;
+    const capMeta = [
+      { letter: 'C', word: 'Consistency', hex: P.gateway },
+      { letter: 'A', word: 'Availability', hex: P.cache },
+      { letter: 'P', word: 'Partition tol.', hex: P.cdn }
+    ];
+    const capNodes = capMeta.map(m => {
+      const on = cap.includes(m.letter);
+      return {
+        letter: m.letter, word: m.word,
+        border: on ? rgba(m.hex, 0.65) : '#26262E',
+        bg: on ? rgba(m.hex, 0.1) : '#0E0E12',
+        ink: on ? m.hex : '#5C5C66',
+        shadow: on ? '0 0 28px ' + rgba(m.hex, 0.2) : 'none',
+        onClick: () => {
+          let next = cap.includes(m.letter) ? cap.filter(x => x !== m.letter) : [...cap, m.letter];
+          if (next.length > 2) next = next.slice(-2);
+          this.setState({ cap: next });
+        }
+      };
+    });
+    const capKey = [...cap].sort().join('');
+    const capVerdicts = {
+      CP: { title: 'CP — consistent under partition', text: 'When the network splits, some requests must fail rather than lie. Banks, inventory, anything where a wrong answer costs more than no answer.', hex: P.gateway },
+      AP: { title: 'AP — always answers, maybe stale', text: 'Every node responds even when partitioned; you reconcile later. Feeds, carts, likes — where a stale answer beats an error page.', hex: P.cache },
+      AC: { title: 'CA — the trap answer', text: 'Only exists while the network is perfect. Networks are never perfect. Saying "CA" in an interview means you haven\u2019t met a partition yet.', hex: P.failure }
+    };
+    const cv = cap.length === 2 ? capVerdicts[capKey] : null;
+    const capTitle = cv ? cv.title : 'Pick two';
+    const capText = cv ? cv.text : 'The network decides the third one for you — partitions are not optional in a distributed system.';
+    const capHex = cv ? cv.hex : '#9598A2';
+
+    // ---------- quiz ----------
+    const pick = this.state.quizPick;
+    const quizData = [
+      { label: 'A retry queue in front of the database', correct: false },
+      { label: 'An idempotency key on the payment request', correct: true },
+      { label: 'A faster database', correct: false },
+      { label: 'Sticky sessions on the load balancer', correct: false }
+    ];
+    const quizOptions = quizData.map((q, i) => {
+      const chosen = pick === i;
+      const reveal = pick !== null;
+      let border = '#26262E', bg = 'transparent', ink = '#D9D6CF', mark = String.fromCharCode(65 + i), markColor = '#9598A2';
+      if (reveal && q.correct) { border = rgba(P.db, 0.55); bg = rgba(P.db, 0.07); ink = '#F2EFE9'; mark = '✓'; markColor = P.db; }
+      else if (reveal && chosen && !q.correct) { border = rgba(P.failure, 0.55); bg = rgba(P.failure, 0.06); mark = '✕'; markColor = P.failure; }
+      else if (reveal) { ink = '#6E6E78'; }
+      return { label: q.label, border, bg, ink, mark, markColor, onClick: () => this.setState({ quizPick: i }) };
+    });
+    let quizFeedback = 'Pattern: one sharp scenario, four plausible answers, instant judgment in semantic color.';
+    let quizFeedbackColor = '#9598A2';
+    if (pick !== null) {
+      if (quizData[pick].correct) { quizFeedback = 'Right. Same key → the second POST is recognized and returns the first result. Retries become free.'; quizFeedbackColor = P.db; }
+      else { quizFeedback = 'Not quite — that changes speed or routing, but both requests still execute. Only an idempotency key makes the duplicate harmless.'; quizFeedbackColor = P.failure; }
+    }
+
+    return {
+      spectrum,
+      nodes, edges, scenarioChips,
+      scenarioNote: active.note, scenarioNoteColor: active.hex,
+      insp,
+      rpsK, hit,
+      rpsLabel: fmt(total) + ' rps', hitLabel: hit + '%',
+      onRps: e => this.setState({ rpsK: +e.target.value }),
+      onHit: e => this.setState({ hit: +e.target.value }),
+      barHit: hit + '%',
+      originLabel: fmt(origin), serverLabel: '×' + servers,
+      verdictColor, verdictText,
+      capNodes, capTitle, capText,
+      capBorder: rgba(capHex === '#9598A2' ? '#9598A2' : capHex, 0.3),
+      capBg: capHex === '#9598A2' ? 'transparent' : rgba(capHex, 0.05),
+      capInk: capHex,
+      quizOptions, quizFeedback, quizFeedbackColor
+    };
+  }
+}
+</script>
+</body>
+</html>

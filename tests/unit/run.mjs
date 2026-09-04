@@ -82,6 +82,66 @@ test('sprout lab: normalizes prompts and strips source noise from display answer
   );
 });
 
+test('newsletter tokens require an explicit secret, bind purpose, and reject tampering', async () => {
+  const previous = process.env.NEWSLETTER_SECRET;
+  process.env.NEWSLETTER_SECRET = 'unit-newsletter-secret-that-is-long-enough';
+  try {
+    const { signToken, verifyToken } = await import('../../lib/newsletter.ts');
+    const token = signToken(' Reader@Example.com ', 'academy', 'confirm');
+    assert.deepEqual(verifyToken(token, 'confirm'), { email: 'reader@example.com', source: 'academy' });
+    assert.equal(verifyToken(token, 'unsubscribe'), null);
+    assert.equal(verifyToken(`${token.slice(0, -1)}x`, 'confirm'), null);
+    assert.equal(verifyToken(`${token}.extra`, 'confirm'), null);
+  } finally {
+    if (previous === undefined) delete process.env.NEWSLETTER_SECRET;
+    else process.env.NEWSLETTER_SECRET = previous;
+  }
+
+  const { signToken } = await import('../../lib/newsletter.ts');
+  assert.throws(() => signToken('reader@example.com'), /NEWSLETTER_SECRET/);
+});
+
+test('newsletter and session boundaries reject unsigned unsubscribe and shared auth caching', async () => {
+  const [middleware, funnel, unsubscribe, confirm, audience, emailSender] = await Promise.all([
+    readFile(new URL('../../lib/supabase/middleware.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../../app/api/funnel/intake/route.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../../app/api/newsletter/unsubscribe/route.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../../app/api/newsletter/confirm/route.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../../lib/newsletter-audience.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../../lib/email/send.ts', import.meta.url), 'utf8'),
+  ]);
+  assert.doesNotMatch(middleware, /Cache-Control['"], ['"]public/);
+  assert.doesNotMatch(funnel, /addContact/);
+  assert.match(unsubscribe, /verifyToken\(token, ['"]unsubscribe['"]\)/);
+  assert.doesNotMatch(unsubscribe, /searchParams\.get\(['"]email['"]\)/);
+  assert.match(emailSender, /signToken\(recipient, ['"]email['"], ['"]unsubscribe['"]\)/);
+  assert.match(audience, /NewsletterAudienceResult/);
+  assert.match(unsubscribe, /if \(!result\.ok\)/);
+  assert.match(confirm, /if \(!audienceResult\.ok\)/);
+});
+
+test('missing auth configuration fails closed on protected routes', async () => {
+  const { requiresConfiguredAuth } = await import('../../lib/supabase/middleware.ts');
+  assert.equal(requiresConfiguredAuth('/admin'), true);
+  assert.equal(requiresConfiguredAuth('/portal/invoices'), true);
+  assert.equal(requiresConfiguredAuth('/academy-admin/course'), true);
+  assert.equal(requiresConfiguredAuth('/academy/dashboard'), true);
+  assert.equal(requiresConfiguredAuth('/academy/catalog'), false);
+  assert.equal(requiresConfiguredAuth('/field-notes'), false);
+
+  const middleware = await readFile(new URL('../../lib/supabase/middleware.ts', import.meta.url), 'utf8');
+  assert.match(middleware, /Authentication unavailable/);
+  assert.match(middleware, /status: 503/);
+});
+
+test('email health diagnostics keep credentials out of URLs and validate recipients', async () => {
+  const route = await readFile(new URL('../../app/api/health/email/route.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(route, /searchParams\.get\(['"]secret['"]\)/);
+  assert.match(route, /headers\.get\(['"]authorization['"]\)/);
+  assert.match(route, /isValidEmail/);
+  assert.match(route, /Cache-Control['"]:\s*['"]no-store/);
+});
+
 test('next proxy convention: root request boundary uses proxy.ts, not deprecated middleware.ts', async () => {
   const proxy = await readFile(new URL('../../proxy.ts', import.meta.url), 'utf8');
   assert.match(proxy, /export async function proxy\(request: NextRequest\)/);
@@ -9077,13 +9137,13 @@ test('gamification: pickCelebration fires streak only on a milestone day', async
   });
   assert.equal(hit?.kind, 'streak');
   assert.equal(hit?.value, 7);
-  // 6 is NOT a milestone → no streak celebration
+  // 6 is NOT a milestone → no streak celebration (a routine +XP nudge is fine, just not 'streak')
   const miss = pickCelebration({
     ...base,
     streak: { current: 6, longest: 6, freezes: 2, activeToday: true },
     awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
   });
-  assert.equal(miss, null);
+  assert.notEqual(miss?.kind, 'streak');
 });
 
 test('gamification: pickCelebration returns goal-hit when only the goal was met', async () => {
@@ -9098,18 +9158,22 @@ test('gamification: pickCelebration returns goal-hit when only the goal was met'
   assert.equal(c?.value, 40);
 });
 
-test('gamification: pickCelebration is null when nothing notable happened', async () => {
+test('gamification: pickCelebration gives a routine +XP nudge when XP was awarded but no milestone hit', async () => {
   const { pickCelebration } = await import('../../lib/academy/gamification-logic.ts');
-  assert.equal(
-    pickCelebration({
-      streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
-      xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
-      dailyGoal: { goalXp: 40, todayXp: 20, met: false },
-      awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
-    }),
-    null,
-  );
-  // no award at all → null
+  const c = pickCelebration({
+    streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
+    xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
+    dailyGoal: { goalXp: 40, todayXp: 20, met: false },
+    awarded: { xp: 20, leveledUp: false, streakIncreased: true, freezeUsed: false, goalJustMet: false },
+  });
+  assert.equal(c?.kind, 'progress');
+  assert.equal(c?.value, 20);
+  assert.equal(c?.label, '+20 XP');
+});
+
+test('gamification: pickCelebration is null only when no XP was awarded', async () => {
+  const { pickCelebration } = await import('../../lib/academy/gamification-logic.ts');
+  // no award object at all → null
   assert.equal(
     pickCelebration({
       streak: { current: 2, longest: 5, freezes: 2, activeToday: false },
@@ -9118,9 +9182,48 @@ test('gamification: pickCelebration is null when nothing notable happened', asyn
     }),
     null,
   );
+  // awarded but zero XP → null
+  assert.equal(
+    pickCelebration({
+      streak: { current: 2, longest: 5, freezes: 2, activeToday: true },
+      xp: { total: 40, weekly: 40, level: 1, intoLevel: 40, toNext: 110, pct: 27 },
+      dailyGoal: { goalXp: 40, todayXp: 20, met: false },
+      awarded: { xp: 0, leveledUp: false, streakIncreased: false, freezeUsed: false, goalJustMet: false },
+    }),
+    null,
+  );
 });
 
 // ------------------------------------------------------- fsrs: scheduling
+
+test('curriculum-graph: computeTiers ranks by longest prereq path', async () => {
+  const { computeTiers, CURRICULUM_PREREQS } = await import('../../lib/academy/curriculum-graph.ts');
+  const tiers = computeTiers(CURRICULUM_PREREQS);
+  assert.equal(tiers.foundations, 0);           // entry point
+  assert.equal(tiers.backend, 1);               // needs foundations
+  assert.equal(tiers['ai-engineering'], 2);     // needs foundations + backend
+  assert.equal(tiers.career, 3);                // needs ai-engineering + architecture
+});
+
+test('curriculum-graph: buildCurriculumGraph — 12 software-AI nodes, live tracks available, prereq edges met by progress', async () => {
+  const { buildCurriculumGraph } = await import('../../lib/academy/curriculum-graph.ts');
+  const g = buildCurriculumGraph();
+  assert.equal(g.nodes.length, 12);
+  const byId = Object.fromEntries(g.nodes.map((n) => [n.id, n]));
+  // live tracks are startable (soft locks — never "locked")
+  assert.equal(byId.foundations.state, 'available');
+  assert.equal(byId['ai-engineering'].state, 'available');
+  // building tracks read as building
+  assert.equal(byId.backend.state, 'building');
+  // an edge is "met" only when the prereq is complete
+  const aiEdges = g.edges.filter((e) => e.to === 'ai-engineering');
+  assert.ok(aiEdges.length >= 1);
+  assert.ok(aiEdges.every((e) => e.met === false));
+  // now complete foundations → its outgoing edges flip to met
+  const g2 = buildCurriculumGraph({ foundations: { pct: 100 } });
+  assert.equal(g2.nodes.find((n) => n.id === 'foundations').state, 'complete');
+  assert.ok(g2.edges.filter((e) => e.from === 'foundations').every((e) => e.met === true));
+});
 
 test('fsrs: scheduler is configured at 0.90 target retention', async () => {
   const { fsrs, generatorParameters } = await import('ts-fsrs');

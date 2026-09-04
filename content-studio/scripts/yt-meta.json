@@ -1,0 +1,164 @@
+[
+ {
+  "slug": "rag",
+  "title": "RAG that doesn't lie: answer from the source (or don't)",
+  "file": "renders/video/pub/rag.mp4",
+  "thumb": "renders/thumbs-ship/rag-16x9.png",
+  "tags": [
+   "RAG",
+   "retrieval augmented generation",
+   "RAG tutorial",
+   "LLM",
+   "AI engineering",
+   "hallucination",
+   "vector search",
+   "embeddings",
+   "LLM evals",
+   "grounding",
+   "chat with your docs",
+   "build a RAG app",
+   "AI app development"
+  ],
+  "desc": "Ship an LLM on your own documents and it answers with total confidence — then makes the answer up. In this lesson you'll learn how RAG (Retrieval-Augmented Generation) actually fixes that: retrieve the real page, answer only from it, cite the source, refuse when the answer isn't there, and prove it's grounded with a number you can gate a deploy on.\n\nRAG is the backbone of almost every serious AI product today — customer-support bots, internal search, coding assistants, and every \"chat with your docs\" feature. Get it wrong and your AI confidently lies to real users. Get it right and you have something you can actually trust in production. If you're building anything on top of a large language model, this is the first thing to master — and we build it up from zero, in plain English, with a real worked example.\n\n🎯 In this video, you'll learn:\n• Why LLMs hallucinate — and why a bigger, more expensive model does NOT fix it\n• The core RAG idea explained with a simple open-book vs closed-book analogy\n• Retrieval end to end: chunking your docs, embedding them as vectors, and nearest-neighbor search (top-k)\n• Answering strictly from the retrieved context, with citations back to the source\n• The one-line guardrail that lets your AI say \"I don't know\" instead of inventing\n• How to test that answers are actually grounded — turning \"seems fine\" into a real metric\n\n⏱ Chapters\n0:00 The problem: AIs make things up\n0:42 Why a bigger model won't help\n0:58 The fix: RAG (open-book)\n1:17 How it works: retrieve + answer\n1:47 The step everyone skips\n2:03 A real example\n2:34 3 common mistakes\n2:57 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: RAG, retrieval augmented generation, RAG tutorial, LLM, AI engineering, hallucination, vector search, embeddings, LLM evals, grounding, chat with your docs, build a RAG app, AI app development.\n\n#RAG #AIEngineering #LLM #MachineLearning"
+ },
+ {
+  "slug": "evals",
+  "title": "LLM Evals: stop shipping on vibes — test your AI for real",
+  "file": "renders/video/pub/evals.mp4",
+  "thumb": "renders/thumbs-ship/evals-16x9.png",
+  "tags": [
+   "LLM evals",
+   "AI evaluation",
+   "LLM-as-judge",
+   "AI testing",
+   "prompt engineering",
+   "RAG evals",
+   "machine learning",
+   "AI engineering",
+   "model evaluation",
+   "LLMOps",
+   "ML testing",
+   "regression testing"
+  ],
+  "desc": "\"It works in the three examples I tried\" is not a test — it's a guess, and guesses don't survive production. In this lesson you'll learn how to actually measure an LLM feature so a small prompt change can't quietly break it: build a real dataset, score it automatically, and gate bad changes before they ever ship.\n\nEvals are the single thing that separates hobby projects from production AI. Every team that ships reliable LLM features has one habit in common — they measure. Without an eval you're editing prompts in the dark and hoping nothing regresses. This is the discipline that lets you move fast without breaking your product, and it's far simpler to set up than most people think.\n\n🎯 In this video, you'll learn:\n• Why \"testing by vibes\" silently breaks things you can't see\n• Building a ground-truth dataset — your answer key of real cases\n• Scoring answers automatically, including LLM-as-judge with a rubric\n• Wiring the score into CI so a failing change is blocked from shipping\n• Slicing the score by category so a healthy average can't hide one broken area\n• Growing a \"golden set\" from real production failures\n\n⏱ Chapters\n0:00 Why \"it works\" isn't a test\n0:43 Build an eval (3 parts)\n1:12 Scoring: LLM-as-judge\n1:39 The gate: block bad changes\n2:07 The big mistake: averages hide\n2:24 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: LLM evals, AI evaluation, LLM-as-judge, AI testing, prompt engineering, RAG evals, machine learning, AI engineering, model evaluation, LLMOps, ML testing, regression testing.\n\n#LLM #AIEngineering #MachineLearning #LLMOps"
+ },
+ {
+  "slug": "embeddings",
+  "title": "Embeddings & vector search: why \"nearest\" isn't \"relevant\"",
+  "file": "renders/video/pub/embeddings.mp4",
+  "thumb": "renders/thumbs-ship/embeddings-16x9.png",
+  "tags": [
+   "embeddings",
+   "vector search",
+   "vector database",
+   "semantic search",
+   "cosine similarity",
+   "nearest neighbor",
+   "re-ranking",
+   "RAG",
+   "AI engineering",
+   "hybrid search",
+   "embedding models",
+   "retrieval"
+  ],
+  "desc": "Search that matches meaning instead of keywords — that's embeddings, and it powers modern AI search. But the closest vector isn't always the right passage, and that one gap quietly wrecks most RAG demos. In this lesson you'll learn how embeddings and vector search really work, and how to make them return the right thing.\n\nEmbeddings and vector search are the engine behind semantic search, recommendations, RAG, and long-term memory for AI agents. Understanding how \"meaning as numbers\" actually works — and exactly where it fails — is fundamental to building AI that retrieves the right information instead of confidently pulling the wrong passage.\n\n🎯 In this video, you'll learn:\n• What an embedding is: turning text into a vector that captures meaning\n• Cosine similarity and nearest-neighbor search, explained simply\n• Why \"nearest\" is not the same as \"most relevant\" — the trap that breaks RAG\n• How a re-ranker fixes relevance with a cheap second pass\n• Hybrid search: combining vectors for meaning with keywords for exact matches\n\n⏱ Chapters\n0:00 Keyword search vs meaning\n0:28 What embeddings are\n0:59 Nearest-neighbor search\n1:13 Nearest ≠ relevant\n1:26 Re-ranking (the fix)\n1:52 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: embeddings, vector search, vector database, semantic search, cosine similarity, nearest neighbor, re-ranking, RAG, AI engineering, hybrid search, embedding models, retrieval.\n\n#Embeddings #VectorSearch #RAG #AIEngineering"
+ },
+ {
+  "slug": "chunking",
+  "title": "Chunking: the boring choice that makes or breaks RAG",
+  "file": "renders/video/pub/chunking.mp4",
+  "thumb": "renders/thumbs-ship/chunking-16x9.png",
+  "tags": [
+   "chunking",
+   "RAG",
+   "retrieval augmented generation",
+   "text splitting",
+   "chunk size",
+   "embeddings",
+   "vector search",
+   "document processing",
+   "AI engineering",
+   "LLM",
+   "RAG tutorial"
+  ],
+  "desc": "Same documents, same model, garbage answers — nine times out of ten it's not the model, it's how you chopped up the docs. Chunking is a knob, not a guess. In this lesson you'll learn how to split your documents so retrieval actually works.\n\nChunking is the unglamorous decision that silently makes or breaks every RAG system. Teams burn weeks tuning models and prompts while the real bug is how they split their documents into pieces. Master this one step and half of your retrieval problems simply disappear — it's the highest-leverage, lowest-glamour skill in the whole pipeline.\n\n🎯 In this video, you'll learn:\n• Why chunks that are too big dilute the match and drown the model in noise\n• Why chunks that are too small cut ideas in half and lose context\n• Splitting on structure — paragraphs and headings — instead of a fixed character count\n• Adding overlap so ideas that cross a boundary aren't lost\n• Tagging each chunk with its source so your AI can cite it\n• Treating chunking as a setting you measure with an eval, not a number you guess\n\n⏱ Chapters\n0:00 Why your RAG returns garbage\n0:42 Too big vs too small\n1:04 Split on meaning\n1:16 Overlap the edges\n1:39 Test your chunking\n1:52 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: chunking, RAG, retrieval augmented generation, text splitting, chunk size, embeddings, vector search, document processing, AI engineering, LLM, RAG tutorial.\n\n#Chunking #RAG #AIEngineering #LLM"
+ },
+ {
+  "slug": "agents",
+  "title": "AI Agents explained: the loop, the tools, and the leash",
+  "file": "renders/video/pub/agents.mp4",
+  "thumb": "renders/thumbs-ship/agents-16x9.png",
+  "tags": [
+   "AI agents",
+   "LLM agents",
+   "agentic AI",
+   "tool use",
+   "function calling",
+   "AI engineering",
+   "autonomous agents",
+   "agent loop",
+   "ReAct",
+   "AI automation",
+   "agent tutorial"
+  ],
+  "desc": "A chatbot answers; an agent acts — it books the flight, files the ticket, runs the query. And the moment an AI can take actions, it can go wrong in ways a chatbot never could. In this lesson you'll learn the simple loop that powers every AI agent, and the safety rails every good one needs.\n\nAI agents are the frontier of applied AI: systems that don't just respond, but take real actions in the world. They're also where things get genuinely risky — an agent that can act can also cause damage. Understanding the underlying loop, the role of tools, and how to constrain the whole thing is essential before you let an AI touch anything that matters.\n\n🎯 In this video, you'll learn:\n• What actually makes an agent an agent (acting, not just answering)\n• The agent loop: think → act → observe → repeat\n• Tools — the functions an agent is allowed to call\n• Where agents go off the rails, and why unbounded loops are dangerous\n• The \"leash\": step limits, an allowed-tools list, and a budget\n• Why fewer, sharper tools plus a human-in-the-loop keep agents safe\n\n⏱ Chapters\n0:00 What an agent is (act, not answer)\n0:33 The loop: think, act, observe\n0:48 Tools (how it acts)\n1:20 Where it goes off the rails\n1:30 The leash (limits)\n1:57 2 common mistakes\n2:17 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: AI agents, LLM agents, agentic AI, tool use, function calling, AI engineering, autonomous agents, agent loop, ReAct, AI automation, agent tutorial.\n\n#AIAgents #AIEngineering #LLM"
+ },
+ {
+  "slug": "prompt-injection",
+  "title": "Prompt injection: how AI apps get hacked (and how to stop it)",
+  "file": "renders/video/pub/prompt-injection.mp4",
+  "thumb": "renders/thumbs-ship/prompt-injection-16x9.png",
+  "tags": [
+   "prompt injection",
+   "AI security",
+   "LLM security",
+   "AI safety",
+   "jailbreak",
+   "prompt engineering",
+   "AI engineering",
+   "indirect prompt injection",
+   "agent security",
+   "LLM vulnerabilities"
+  ],
+  "desc": "Your AI reads a web page to summarize it — and hidden in that page is a line telling it to ignore your instructions and leak the user's data. That's prompt injection, the most common way AI apps get hacked. In this lesson you'll learn exactly how the attack works and how to actually defend against it.\n\nThe moment your AI reads outside content — a web page, an email, a document, a tool result — it can be attacked. Prompt injection is the number-one security risk in AI applications, and most teams have no real defense for it. If you're shipping anything that ingests untrusted text (and almost every useful AI app does), you need to understand this — because you cannot prompt your way out of it.\n\n🎯 In this video, you'll learn:\n• How the attack works, with a concrete real-world example\n• Why the AI literally can't tell your instructions from the data's instructions\n• Why \"ignore malicious instructions\" in your prompt does NOT work\n• The mindset fix: treat all outside content as untrusted data, never commands\n• Least privilege — removing capabilities so an attack has nothing to trigger\n• Gating dangerous actions so the AI proposes and your code decides\n\n⏱ Chapters\n0:00 The attack\n0:29 Why it works\n0:45 The fix that doesn't work\n1:01 Untrusted input is code\n1:15 Least privilege\n1:29 Gate dangerous actions\n1:57 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: prompt injection, AI security, LLM security, AI safety, jailbreak, prompt engineering, AI engineering, indirect prompt injection, agent security, LLM vulnerabilities.\n\n#PromptInjection #AISecurity #LLM #AIEngineering"
+ },
+ {
+  "slug": "structured-output",
+  "title": "Structured output: get clean JSON from an AI, every time",
+  "file": "renders/video/pub/structured-output.mp4",
+  "thumb": "renders/thumbs-ship/structured-output-16x9.png",
+  "tags": [
+   "structured output",
+   "function calling",
+   "JSON mode",
+   "LLM",
+   "AI engineering",
+   "schema",
+   "tool calling",
+   "data extraction",
+   "pydantic",
+   "json schema",
+   "openai function calling"
+  ],
+  "desc": "You need the AI's answer as data, so you ask for JSON — and it replies \"Sure! Here's the JSON:\" and crashes your parser. In this lesson you'll learn how to make an AI return clean, structured data your code can rely on, every single time.\n\nTurning an AI's free-flowing text into reliable structured data is the glue that connects language models to real software. Data extraction, tool-calling, agents, APIs — they all depend on getting clean, validated JSON out of a model that loves to add a friendly sentence and break your code. This is one of the most practical skills for anyone building AI features.\n\n🎯 In this video, you'll learn:\n• Defining a schema — the exact fields and types you expect back\n• Using structured output / function calling to force valid JSON\n• A real example: extracting clean fields from a messy invoice\n• The trap: valid JSON is not the same as correct JSON\n• Validate-and-retry loops that feed errors back and self-correct\n\n⏱ Chapters\n0:00 The problem: broken JSON\n0:31 Define a schema\n0:47 Force the AI to fill it\n1:03 A real example\n1:16 The trap: valid ≠ correct\n1:29 Validate + retry\n1:47 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: structured output, function calling, JSON mode, LLM, AI engineering, schema, tool calling, data extraction, pydantic, json schema, openai function calling.\n\n#LLM #AIEngineering #StructuredOutput"
+ },
+ {
+  "slug": "context-windows",
+  "title": "Context windows: why more context makes your AI worse",
+  "file": "renders/video/pub/context-windows.mp4",
+  "thumb": "renders/thumbs-ship/context-windows-16x9.png",
+  "tags": [
+   "context window",
+   "lost in the middle",
+   "LLM",
+   "prompt engineering",
+   "tokens",
+   "long context",
+   "RAG",
+   "AI engineering",
+   "context length",
+   "llm context"
+  ],
+  "desc": "You pasted a hundred pages into the prompt to be safe, and the AI still missed the one line that mattered. The context window isn't a memory dump. In this lesson you'll learn what a context window really is and how to use it so your AI actually finds the answer.\n\nEvery prompt you write lives inside a context window, and how you fill it decides whether your AI finds the answer or walks right past it. Understanding token budgets and the surprising \"lost in the middle\" effect is one of the highest-leverage skills in prompt engineering — it quietly fixes a huge class of AI bugs that look like the model \"just isn't smart enough.\"\n\n🎯 In this video, you'll learn:\n• What a context window really is — a fixed budget of tokens\n• The \"lost in the middle\" effect: why buried information gets ignored\n• Packing on purpose — putting the most important info at the edges\n• Retrieving only what's relevant instead of stuffing everything in\n• Compressing long chat history so it stays small and sharp\n\n⏱ Chapters\n0:00 The problem: 100 pages, missed\n0:26 What a context window is\n0:41 Lost in the middle\n0:55 Pack on purpose\n1:09 Retrieve, don't stuff\n1:45 Recap\n\n👤 Who this is for: developers, founders, and builders working with LLMs. No PhD required — just plain-English explanations, real examples, and diagrams for every idea.\n\n🔧 Build it hands-on\nThis exact system is a free, interactive lab inside Sage Academy → https://sageideas.dev/academy\n\n📚 About this channel\nSage Academy teaches AI engineering the honest way — clear, no-hype lessons on building AI that actually works in production. This is part of the AI Engineering series. New lessons regularly, so subscribe and hit the bell.\n\n💬 Got a question, or a topic you want covered next? Drop it in the comments — I read them.\n\nProof, not paper.\n\n🔎 Topics covered: context window, lost in the middle, LLM, prompt engineering, tokens, long context, RAG, AI engineering, context length, llm context.\n\n#LLM #AIEngineering #ContextWindow #PromptEngineering"
+ }
+]

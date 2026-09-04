@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "programVersion": "sageideas-production-program-loop-v1",
+  "generatedAt": "2026-09-04T15:46:00.000Z",
+  "status": "pass_local_code_review",
+  "scope": [
+    "authentication and authorization middleware",
+    "Academy checkout change",
+    "newsletter subscribe, confirm, and unsubscribe boundaries",
+    "email health diagnostics",
+    "Discord content-factory cron and voice attachments",
+    "new database migration source",
+    "production and development dependency graphs",
+    "staged secret scan"
+  ],
+  "proof": {
+    "unitTests": "334 passed, 0 failed",
+    "typecheck": "pass",
+    "lint": "pass with non-blocking warning backlog",
+    "productionDependencyAudit": "0 vulnerabilities",
+    "secretScan": "gitleaks staged diff: no leaks found",
+    "approvalBoundaryAudit": "pass",
+    "academyCertification": "uncertified",
+    "labTrust": "untrusted_current_runtime"
+  },
+  "remediatedFindings": [
+    {
+      "severity": "high",
+      "code": "shared_cache_on_auth_middleware",
+      "resolution": "Removed public shared-cache headers from the auth-aware middleware response path."
+    },
+    {
+      "severity": "high",
+      "code": "missing_auth_config_failed_open",
+      "resolution": "Protected admin, portal, Academy admin, and private Academy routes now return 503 when Supabase auth configuration is absent."
+    },
+    {
+      "severity": "high",
+      "code": "unsigned_newsletter_unsubscribe",
+      "resolution": "Confirmation and unsubscribe tokens now use a dedicated 32+ character secret, bind an explicit purpose, expire, reject malformed input, and use timing-safe comparison."
+    },
+    {
+      "severity": "high",
+      "code": "newsletter_audience_failure_claimed_success",
+      "resolution": "Audience provider failures now propagate as explicit failed results; routes no longer claim a successful subscription-state change."
+    },
+    {
+      "severity": "high",
+      "code": "email_health_secret_in_query",
+      "resolution": "Moved health authorization to a Bearer header, added recipient validation and no-store responses, and fail-closed when CRON_SECRET is absent."
+    },
+    {
+      "severity": "medium",
+      "code": "atlas_preconfirmation_enrollment",
+      "resolution": "Removed audience enrollment from the one-off Atlas path email; only the confirmation route can add newsletter membership."
+    },
+    {
+      "severity": "high",
+      "code": "production_dependency_advisories",
+      "resolution": "Updated direct packages and pinned compatible secure transitive runtimes; npm audit --omit=dev reports zero vulnerabilities."
+    }
+  ],
+  "unresolvedCriticalOrHigh": [],
+  "devOnlyExceptions": [
+    "Latest @lhci/cli retains an upstream Lighthouse/Puppeteer advisory chain; it is not imported by application runtime.",
+    "Latest http-server retains an upstream qs advisory chain; it is restricted to local static-export preview."
+  ],
+  "externalEvidencePending": [
+    "Fresh Discord permission/security smoke requires configured Supabase and Discord credentials and remains outside the local code-review claim.",
+    "Migration 0113 is authored and statically verified but has not been applied to any database.",
+    "No checkout session, email, Discord message, deployment, or other external mutation was performed."
+  ]
+}

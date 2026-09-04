@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/></head><body>
+<script type="module">
+import { mount, H } from '../library/motion-engine.js';
+import * as P from '../library/primitives.js';
+const { wrap, cap, key, kicker, stamp, beat } = H;
+const card=(c,t,s)=>`<div style="border:2px solid var(--${c});border-radius:18px;padding:24px 32px;min-width:190px"><div style="font-family:var(--display);font-size:32px">${t}</div><div style="font-family:var(--mono);font-size:18px;color:var(--${c});margin-top:8px">${s}</div></div>`;
+const BEATS = [
+ ['01',10, beat(kicker('learn',0.2,"today you'll learn"), wrap('pop','test',1.0,`<div class="big">Test your AI.<br><span class="accent">Don't hope.</span></div>`), cap('eval',3.0,'Build an <b>eval</b> — and catch bad changes before your users do.'))],
+ ['02',8, beat(kicker('problem',0.2,'the problem'), wrap('pop','examples',1.2, P.terminal([{t:'example 1  ✓',c:'g'},{t:'example 2  ✓',c:'g'},{t:'example 3  ✓',c:'g'}],{cmd:'▸ the 3 you tried'})), cap('guess',4.5,'Three examples isn\'t a test — it\'s a <b>guess.</b>'))],
+ ['03',9, beat(wrap('pop','tweak',0.3,`<div class="row">${card('gateway','prompt v1','?')}<span style="font-size:36px;color:var(--muted)">vs</span>${card('gateway','prompt v2','?')}</div>`), cap('vibes',4.5,'Better — or did you break five other things? That\'s <b>testing by vibes.</b>'))],
+ ['04',9, beat(kicker('fix',0.2,'the fix: an eval'), wrap('pop','parts',1.2, P.steps([{l:'Real examples',c:'client'},{l:'A way to score them',c:'service'},{l:'A passing grade',c:'db'}])), key('test',6.0,'an eval = an automated test for your AI'))],
+ ['05',9, beat(kicker('one',0.2,'part 1 — the examples'), wrap('pop','answer',1.2, P.table(['question','accepted answer'],[['refund window?','30 days'],['who qualifies?','see policy §4'],['how to file?','see §5']])), cap('checked',5.5,'Your answer key. <b>20 checked examples</b> beat 20,000 you never looked at.'))],
+ ['06',9, beat(kicker('two',0.2,'part 2 — the score'), wrap('pop','grade',1.2, P.flow([{l:'answer',icon:'message-square',c:'client'},{l:'+ checklist',icon:'clipboard-list',c:'service'},{l:'Judge AI',icon:'scale',c:'gateway'},{l:'score',icon:'badge-check',c:'db'}],{gap:12})), key('judge',6.0,'ask a second AI to grade it — "LLM-as-judge"'))],
+ ['07',8, beat(wrap('pop','number',0.5, P.bars([{v:82,c:'db'},{v:74},{v:91},{v:63,c:'warn'},{v:88}])), cap('feeling',3.5,'Run every example → one <b>number</b>, instead of a feeling.'))],
+ ['08',9, beat(kicker('three',0.2,'part 3 — the gate'), wrap('pop','tests',1.2, P.terminal([{t:'eval score: 0.71',c:'r'},{t:'passing grade: 0.85'},{t:'✗ change blocked',c:'r'}],{cmd:'▸ automated tests'})), key('ship',6.0,'below the bar → it does not ship'))],
+ ['09',9, beat(kicker('why',0.2,'why it matters'), wrap('pop','improve',1.0, P.groupedBars([{v:[88]},{v:[76]}])), stamp('fail','twelve',4.5,'−12% · CAUGHT'))],
+ ['10',9, beat(kicker('mistake',0.2,'the big mistake'), wrap('pop','average',1.0, P.hbars([{l:'billing',v:94},{l:'refunds',v:91},{l:'enterprise',v:31,c:'failure'}])), cap('slice',5.0,'One number hides a broken category. <b>Slice the score</b> to find it.'))],
+ ['11',10, beat(kicker('recap',0.2,'recap'), wrap('rise','examples',1.0, P.steps([{l:'Real examples',c:'client'},{l:'A way to score them',c:'service'},{l:'A gate that blocks bad changes',c:'warn'},{l:'Slices so nothing hides',c:'db'}])), key('measure',6.5,'you can\'t ship what you can\'t measure'))],
+ ['12',13, beat(wrap('fade','free',0.3,`<div class="big">Build the harness,<br><span class="accent">free.</span></div>`), H.door('academy',5.0), H.mark('Proof',8.0))],
+];
+mount(BEATS);
+</script></body></html>

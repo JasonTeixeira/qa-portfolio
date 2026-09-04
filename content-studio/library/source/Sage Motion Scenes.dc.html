@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0B0E; }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(143,160,255,0.35); }
+  a { color: #8FA0FF; text-decoration: none; }
+  a:hover { color: #B9C4FF; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes reqDot {
+    0% { left: 36px; top: 118px; }
+    16% { left: 158px; top: 118px; }
+    34% { left: 300px; top: 48px; }
+    50% { left: 442px; top: 48px; }
+    64% { left: 300px; top: 48px; }
+    82% { left: 158px; top: 118px; }
+    100% { left: 36px; top: 118px; }
+  }
+  @keyframes latencyDrop { 0% { width: 88%; } 30% { width: 88%; } 100% { width: 26%; } }
+  input[type="range"] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: #26262E; outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #F2EFE9; border: 3px solid #0B0B0E; box-shadow: 0 0 0 1.5px #F2EFE9; cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #0B0B0E; background-image: radial-gradient(90% 60% at 20% -10%, rgba(143,160,255,0.05) 0%, transparent 55%), radial-gradient(70% 50% at 85% -5%, rgba(255,169,77,0.04) 0%, transparent 60%); color: #F2EFE9; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 1.6;">
+  <div style="height: 4px; background: linear-gradient(90deg, #6ECBFF, #4FE3CF, #5EE08C, #F5C64F, #FFA94D, #FF7DB1, #E08FFF, #B79CFF, #8FA0FF);"></div>
+
+  <div style="max-width: 1220px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 4vw, 48px) 110px;">
+
+    <header data-screen-label="Header" style="margin-bottom: 60px;">
+      <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #9598A2;">
+        <span style="width: 26px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #8FA0FF, #FFA94D);"></span>
+        <span>Sage Academy · Phase 10 · Motion scenes · <a href="Sage System Design Kit.dc.html">← the kit</a></span>
+      </div>
+      <h1 style="margin: 16px 0 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(38px, 5vw, 64px); line-height: 1.02; letter-spacing: -0.026em; max-width: 18ch; text-wrap: balance;">The moments that make a lesson unforgettable.</h1>
+      <p style="margin: 18px 0 0; color: #9C9CA6; max-width: 66ch; font-size: 17px; text-wrap: pretty;">Scripted, replayable motion scenes — one per lesson, placed at the exact moment the concept clicks. All obey the motion spec: transform, opacity, dash offset. Nothing bounces.</p>
+    </header>
+
+    <!-- ============ LIFE OF A REQUEST ============ -->
+    <section data-screen-label="Life of a request" style="margin-bottom: 40px;">
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #1E1E24; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #8FA0FF;">scene/request-life · the 40ms round trip</span>
+          <span tabindex="0" onClick="{{ reqReplay }}" style="margin-left: auto; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(143,160,255,0.45); color: #8FA0FF;" style-hover="background: rgba(143,160,255,0.08);">↺ replay</span>
+        </div>
+        <div style="overflow-x: auto; background-image: radial-gradient(rgba(242,239,233,0.045) 1px, transparent 1px); background-size: 22px 22px;">
+          <div style="position: relative; width: 620px; min-width: 620px; height: 200px; margin: 0 auto;">
+            <svg viewBox="0 0 620 200" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+              <line x1="90" y1="126" x2="150" y2="126" stroke="rgba(110,203,255,0.3)" stroke-width="1.5"></line>
+              <line x1="212" y1="112" x2="290" y2="66" stroke="rgba(183,156,255,0.3)" stroke-width="1.5"></line>
+              <line x1="360" y1="56" x2="432" y2="56" stroke="rgba(255,169,77,0.3)" stroke-width="1.5"></line>
+            </svg>
+            <div key="{{ reqKey }}" style="position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #8FA0FF; box-shadow: 0 0 16px rgba(143,160,255,0.7); animation: reqDot 4s cubic-bezier(0.45, 0, 0.55, 1) both; z-index: 2;"></div>
+            <div style="position: absolute; left: 14px; top: 96px; width: 82px; border: 1.5px solid rgba(110,203,255,0.55); border-radius: 10px; background: rgba(110,203,255,0.07); padding: 7px 6px; text-align: center;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: #6ECBFF;">client</div><div style="font-size: 12px; font-weight: 700;">Browser</div></div>
+            <div style="position: absolute; left: 152px; top: 96px; width: 88px; border: 1.5px solid rgba(255,125,177,0.55); border-radius: 10px; background: rgba(255,125,177,0.07); padding: 7px 6px; text-align: center;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: #FF7DB1;">lb</div><div style="font-size: 12px; font-weight: 700;">Balancer</div></div>
+            <div style="position: absolute; left: 288px; top: 26px; width: 88px; border: 1.5px solid rgba(183,156,255,0.55); border-radius: 10px; background: rgba(183,156,255,0.07); padding: 7px 6px; text-align: center;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: #B79CFF;">service</div><div style="font-size: 12px; font-weight: 700;">api-2</div></div>
+            <div style="position: absolute; left: 434px; top: 26px; width: 88px; border: 1.5px solid rgba(255,169,77,0.55); border-radius: 10px; background: rgba(255,169,77,0.07); padding: 7px 6px; text-align: center;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: #FFA94D;">cache</div><div style="font-size: 12px; font-weight: 700;">Redis · HIT</div></div>
+            <div style="position: absolute; left: 14px; bottom: 12px; right: 14px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #9598A2;">
+              <span>0ms · TLS reused</span><span style="color: #FF7DB1;">+2ms route</span><span style="color: #B79CFF;">+6ms handler</span><span style="color: #FFA94D;">+1ms cache</span><span style="color: #5EE08C;">40ms total, home</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONSISTENT HASHING ============ -->
+    <section data-screen-label="Consistent hashing" style="margin-bottom: 40px;">
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #1E1E24; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #4FE3CF;">scene/hash-ring · consistent hashing · live</span>
+          <span tabindex="0" onClick="{{ ringAdd }}" style="margin-left: auto; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(94,224,140,0.45); color: #5EE08C;" style-hover="background: rgba(94,224,140,0.08);">+ add node</span>
+          <span tabindex="0" onClick="{{ ringRemove }}" style="cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,107,107,0.45); color: #FF6B6B;" style-hover="background: rgba(255,107,107,0.08);">− remove node</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 0 1 340px; padding: 20px; display: grid; place-items: center;">
+            <svg viewBox="0 0 280 280" style="width: 100%; max-width: 280px; height: auto;">
+              <circle cx="140" cy="140" r="104" stroke="#26262E" stroke-width="2" fill="none"></circle>
+              <sc-for list="{{ ringKeys }}" as="k" hint-placeholder-count="12">
+                <circle cx="{{ k.x }}" cy="{{ k.y }}" r="5" fill="{{ k.color }}" style="transition: fill 0.4s;"></circle>
+              </sc-for>
+              <sc-for list="{{ ringNodes }}" as="n" hint-placeholder-count="3">
+                <g>
+                  <circle cx="{{ n.x }}" cy="{{ n.y }}" r="13" stroke="{{ n.hex }}" stroke-width="2" fill="{{ n.bg }}"></circle>
+                  <text x="{{ n.x }}" y="{{ n.ty }}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="{{ n.hex }}">{{ n.id }}</text>
+                </g>
+              </sc-for>
+            </svg>
+          </div>
+          <div style="flex: 1 1 300px; padding: 22px; border-left: 1px solid #1E1E24; display: flex; flex-direction: column; gap: 12px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #9598A2;">Key ownership · 12 keys</div>
+            <sc-for list="{{ ringStats }}" as="s" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {{ s.hex }}; min-width: 30px;">{{ s.id }}</span>
+                <div style="flex: 1; height: 7px; border-radius: 4px; background: #1E1E24; overflow: hidden;"><div style="width: {{ s.pct }}; height: 100%; background: {{ s.hex }}; transition: width 0.4s;"></div></div>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9598A2; min-width: 50px; text-align: right;">{{ s.count }} keys</span>
+              </div>
+            </sc-for>
+            <div style="border-top: 1px solid #1E1E24; padding-top: 12px; min-height: 40px; font-size: 13px; color: {{ ringNoteColor }}; line-height: 1.6;">{{ ringNote }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BACKPRESSURE ============ -->
+    <section data-screen-label="Backpressure" style="margin-bottom: 40px;">
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; padding: 24px;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #F5C64F;">scene/backpressure · live simulation</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9598A2;">the queue depth integrates the rate gap — watch it happen</span>
+        </div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 7px;"><span style="color: #B6B6C0;">Producer rate</span><span style="font-family: 'JetBrains Mono', monospace; color: #6ECBFF; font-weight: 600;">{{ bpInLabel }}</span></div>
+              <input type="range" min="200" max="4000" step="100" value="{{ bpIn }}" onChange="{{ onBpIn }}" style="width: 100%;">
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 7px;"><span style="color: #B6B6C0;">Consumer rate</span><span style="font-family: 'JetBrains Mono', monospace; color: #E08FFF; font-weight: 600;">{{ bpOutLabel }}</span></div>
+              <input type="range" min="200" max="4000" step="100" value="{{ bpOut }}" onChange="{{ onBpOut }}" style="width: 100%;">
+            </div>
+          </div>
+          <div style="flex: 1 1 320px;">
+            <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-bottom: 7px;"><span style="color: #9598A2;">queue depth</span><span style="color: {{ bpColor }};">{{ bpDepthLabel }}</span></div>
+            <div style="height: 30px; border: 1px solid #26262E; border-radius: 9px; overflow: hidden; background: #0D0D11;">
+              <div style="width: {{ bpFill }}; height: 100%; background: linear-gradient(90deg, {{ bpColor }}88, {{ bpColor }}); transition: width 0.25s linear;"></div>
+            </div>
+            <div style="min-height: 22px; margin-top: 10px; font-size: 13px; color: {{ bpColor }};">{{ bpVerdict }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCALE-OUT ============ -->
+    <section data-screen-label="Scale out">
+      <div style="border: 1px solid #1E1E24; border-radius: 16px; background: #101014; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #1E1E24; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: #B79CFF;">scene/scale-out · pods join, p99 falls</span>
+          <span tabindex="0" onClick="{{ scaleReplay }}" style="margin-left: auto; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(183,156,255,0.45); color: #B79CFF;" style-hover="background: rgba(183,156,255,0.08);">↺ replay</span>
+        </div>
+        <div style="padding: 26px 24px; display: flex; gap: 28px; flex-wrap: wrap; align-items: center;">
+          <div key="{{ scaleKey }}" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF;">pod</div>
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;">pod</div>
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;">pod</div>
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;">pod</div>
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.2s both;">pod</div>
+            <div style="width: 58px; height: 58px; border: 1.5px solid rgba(183,156,255,0.6); border-radius: 13px; background: rgba(183,156,255,0.09); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #B79CFF; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.7s both;">pod</div>
+          </div>
+          <div style="flex: 1; min-width: 260px;">
+            <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; margin-bottom: 7px;"><span style="color: #9598A2;">p99 latency</span><span style="color: #5EE08C;">2.1s → 180ms</span></div>
+            <div style="height: 22px; border: 1px solid #26262E; border-radius: 8px; overflow: hidden; background: #0D0D11;">
+              <div key="{{ scaleKey }}" style="height: 100%; background: linear-gradient(90deg, #5EE08C, #F5C64F, #FF6B6B); animation: latencyDrop 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;"></div>
+            </div>
+            <div style="font-size: 12.5px; color: #9598A2; margin-top: 10px; line-height: 1.6;">Stateless services make this legal: each joining pod takes an equal slice of traffic, and the p99 collapses. The bar and the pods animate on one clock — cause and effect in a single glance.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <div style="height: 4px; background: linear-gradient(90deg, #8FA0FF, #B79CFF, #E08FFF, #FF7DB1, #FFA94D, #F5C64F, #5EE08C, #4FE3CF, #6ECBFF);"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { reqKey: 0, scaleKey: 0, ringCount: 3, ringNote: '', ringNoteColor: '#9598A2', bpIn: 1400, bpOut: 1400, bpDepth: 0 };
+
+  componentDidMount() {
+    this._timer = setInterval(() => {
+      this.setState(s => {
+        const delta = (s.bpIn - s.bpOut) * 0.12;
+        return { bpDepth: Math.max(0, Math.min(20000, s.bpDepth + delta)) };
+      });
+    }, 250);
+  }
+  componentWillUnmount() { clearInterval(this._timer); }
+
+  rgba(hex, a) {
+    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  }
+
+  ringOwners(count) {
+    const nodeAngles = [20, 140, 260, 80, 200].slice(0, count);
+    const keyAngles = [10, 40, 75, 95, 130, 155, 190, 215, 240, 270, 300, 340];
+    return keyAngles.map(ka => {
+      let best = null, bestDist = 361;
+      nodeAngles.forEach((na, i) => {
+        const d = (na - ka + 360) % 360;
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    });
+  }
+
+  renderVals() {
+    const rgba = this.rgba.bind(this);
+    const HUES = ['#4FE3CF', '#F5C64F', '#FF7DB1', '#8FA0FF', '#5EE08C'];
+    const nodeAngles = [20, 140, 260, 80, 200];
+    const keyAngles = [10, 40, 75, 95, 130, 155, 190, 215, 240, 270, 300, 340];
+    const cx = 140, cy = 140, r = 104;
+    const pt = (a, rad) => ({ x: cx + rad * Math.cos((a - 90) * Math.PI / 180), y: cy + rad * Math.sin((a - 90) * Math.PI / 180) });
+
+    const count = this.state.ringCount;
+    const owners = this.ringOwners(count);
+    const ringKeys = keyAngles.map((a, i) => {
+      const p = pt(a, r);
+      return { x: p.x.toFixed(1), y: p.y.toFixed(1), color: HUES[owners[i]] };
+    });
+    const ringNodes = nodeAngles.slice(0, count).map((a, i) => {
+      const p = pt(a, r);
+      return { id: 'N' + (i + 1), x: p.x.toFixed(1), y: p.y.toFixed(1), ty: (p.y + 3.5).toFixed(1), hex: HUES[i], bg: rgba(HUES[i], 0.12) };
+    });
+    const ringStats = nodeAngles.slice(0, count).map((a, i) => {
+      const c = owners.filter(o => o === i).length;
+      return { id: 'N' + (i + 1), hex: HUES[i], count: c, pct: Math.round(c / 12 * 100) + '%' };
+    });
+    const moved = (from, to) => {
+      const a = this.ringOwners(from), b = this.ringOwners(to);
+      return a.filter((o, i) => o !== b[i]).length;
+    };
+
+    // backpressure
+    const depth = this.state.bpDepth;
+    const fillPct = depth / 20000;
+    const bpColor = fillPct < 0.3 ? '#5EE08C' : fillPct < 0.75 ? '#F5C64F' : '#FF6B6B';
+    let bpVerdict = 'Balanced — depth holds steady. This queue is a buffer, not a landfill.';
+    if (this.state.bpIn > this.state.bpOut && fillPct >= 0.75) bpVerdict = 'Saturating. Next: shed load, slow producers, or add consumers — physics won\u2019t negotiate.';
+    else if (this.state.bpIn > this.state.bpOut) bpVerdict = 'Producers outpace consumers — depth climbs linearly. Every second of imbalance is stored, not forgotten.';
+    else if (this.state.bpIn < this.state.bpOut && depth > 100) bpVerdict = 'Draining — consumers are catching up on the backlog.';
+    else if (this.state.bpIn < this.state.bpOut) bpVerdict = 'Consumers idle — headroom for a burst. That headroom IS your resilience.';
+
+    return {
+      reqKey: 'r' + this.state.reqKey,
+      reqReplay: () => this.setState(s => ({ reqKey: s.reqKey + 1 })),
+      scaleKey: 's' + this.state.scaleKey,
+      scaleReplay: () => this.setState(s => ({ scaleKey: s.scaleKey + 1 })),
+      ringKeys, ringNodes, ringStats,
+      ringAdd: () => {
+        if (this.state.ringCount >= 5) { this.setState({ ringNote: 'Five nodes is the demo\u2019s cap — the lesson\u2019s already made.', ringNoteColor: '#9598A2' }); return; }
+        const m = moved(this.state.ringCount, this.state.ringCount + 1);
+        this.setState(s => ({ ringCount: s.ringCount + 1, ringNote: 'Node joined — only ' + m + ' of 12 keys moved. Naive mod-N hashing would have moved nearly all of them.', ringNoteColor: '#5EE08C' }));
+      },
+      ringRemove: () => {
+        if (this.state.ringCount <= 2) { this.setState({ ringNote: 'Two nodes minimum — remove one more and it\u2019s just a very expensive single server.', ringNoteColor: '#9598A2' }); return; }
+        const m = moved(this.state.ringCount, this.state.ringCount - 1);
+        this.setState(s => ({ ringCount: s.ringCount - 1, ringNote: 'Node left — its ' + m + ' keys slid clockwise to the next node. Nobody else\u2019s keys moved at all.', ringNoteColor: '#FF6B6B' }));
+      },
+      ringNote: this.state.ringNote || 'Each key belongs to the next node clockwise. Add or remove a node and count what actually moves.',
+      ringNoteColor: this.state.ringNoteColor,
+      bpIn: this.state.bpIn, bpOut: this.state.bpOut,
+      bpInLabel: this.state.bpIn + ' msg/s', bpOutLabel: this.state.bpOut + ' msg/s',
+      onBpIn: e => this.setState({ bpIn: +e.target.value }),
+      onBpOut: e => this.setState({ bpOut: +e.target.value }),
+      bpDepthLabel: Math.round(depth).toLocaleString() + ' msgs',
+      bpFill: Math.max(0.5, fillPct * 100) + '%',
+      bpColor, bpVerdict
+    };
+  }
+}
+</script>
+</body>
+</html>

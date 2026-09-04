@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "programVersion": "sageideas-production-program-loop-v1",
+  "inventoryHash": "sha256:5e461ccb2212202f51c7ca0e22fb57fe0c7ab9a31e6c060b7f26ff2559c34522",
+  "generatedAt": "2026-09-04T15:46:36.606Z",
+  "ok": true,
+  "fixtureProof": {
+    "knownGoodPassed": true,
+    "deliberatelyBrokenDetected": [
+      "academy_certification_unproven",
+      "dependency_cycle",
+      "duplicate_migration_version",
+      "lab_trust_unproven",
+      "required_script_missing",
+      "required_script_missing",
+      "security_evidence_missing",
+      "unsafe_command"
+    ]
+  },
+  "stateStatus": "active",
+  "currentWorkstream": "repository-foundation",
+  "boardStatus": "not_local_production_candidate",
+  "backlogItems": 3,
+  "trust": {
+    "academyCertification": "uncertified",
+    "labTrust": "untrusted_current_runtime",
+    "labEvidence": "practice_only"
+  },
+  "failures": []
+}

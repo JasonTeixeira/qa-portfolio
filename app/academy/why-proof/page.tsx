@@ -115,7 +115,7 @@ export default function WhyProofPage() {
             absolutely-positioned art from the mock; masked, no layout impact */}
         <img
           id="proof-hero-art"
-          src="/art/academy/manifesto-art.png"
+          src="/art/academy/manifesto-art.webp"
           alt=""
           style={{
             position: 'absolute',

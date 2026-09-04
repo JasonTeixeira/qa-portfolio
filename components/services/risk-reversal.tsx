@@ -1,11 +1,6 @@
-import { ShieldCheck, Calendar, Unlock } from 'lucide-react'
+import { Calendar, Unlock } from 'lucide-react'
 
 const pillars = [
-  {
-    icon: ShieldCheck,
-    title: "Money-back if you're not happy in week 1",
-    body: "Reset the engagement before momentum builds. No invoices to dispute, no awkward email.",
-  },
   {
     icon: Calendar,
     title: 'Async-first, weekly demos, no surprises',

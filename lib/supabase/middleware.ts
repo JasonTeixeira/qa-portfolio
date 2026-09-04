@@ -88,6 +88,54 @@ function isPortalChrome(pathname: string) {
   );
 }
 
+function isAcademyPublicRoute(pathname: string): boolean {
+  return (
+    pathname === '/academy' ||
+    pathname === '/academy/opengraph-image' ||
+    /^\/academy\/(catalog|pricing|why-proof|how-we-audit)\/opengraph-image$/.test(pathname) ||
+    pathname === '/academy/how-we-audit' ||
+    pathname === '/academy/signup' ||
+    pathname === '/academy/join' ||
+    pathname === '/academy/engine' ||
+    pathname === '/academy/engine/lab' ||
+    pathname === '/academy/resources/sprint-loop' ||
+    pathname === '/academy/efficacy' ||
+    pathname === '/academy/legal' ||
+    pathname === '/academy/guarantee' ||
+    pathname === '/academy/interview/guarantee' ||
+    pathname === '/academy/starter' ||
+    pathname === '/academy/map' ||
+    pathname === '/academy/method' ||
+    pathname === '/academy/projects' ||
+    pathname === '/academy/try' ||
+    pathname === '/academy/catalog' ||
+    pathname === '/academy/why-proof' ||
+    pathname === '/academy/pricing' ||
+    pathname === '/academy/about' ||
+    pathname === '/academy/proof-not-paper' ||
+    pathname === '/academy/help' ||
+    pathname === '/academy/interview/mastery' ||
+    pathname.startsWith('/academy/voice/') ||
+    pathname.startsWith('/academy/u/') ||
+    pathname.startsWith('/academy/certificate/') ||
+    pathname === '/academy/concepts' ||
+    pathname.startsWith('/academy/concepts/') ||
+    pathname === '/academy/labs' ||
+    pathname.startsWith('/academy/labs/') ||
+    /^\/academy\/course\/[^/]+$/.test(pathname)
+  );
+}
+
+export function requiresConfiguredAuth(pathname: string): boolean {
+  return pathname === '/admin'
+    || pathname.startsWith('/admin/')
+    || pathname === '/portal'
+    || pathname.startsWith('/portal/')
+    || pathname === '/academy-admin'
+    || pathname.startsWith('/academy-admin/')
+    || (pathname.startsWith('/academy/') && !isAcademyPublicRoute(pathname));
+}
+
 // Build a redirect response that carries any refreshed-session cookies from
 // `source` (the response that the supabase-ssr setAll callback writes to).
 // Without this, redirects from middleware drop the refresh-cookie set, which
@@ -110,14 +158,19 @@ export async function updateSession(request: NextRequest) {
 
   let response = NextResponse.next({ request: { headers: forwardedHeaders } });
 
-  // Resilience: when Supabase env is absent (local dev without keys, or a prod
-  // misconfig), skip auth entirely instead of 500-ing every request. Public
-  // marketing pages still render; auth-gated zones simply won't have a user.
-  // In production with env configured, behavior is unchanged.
+  // Public pages remain available without local Supabase configuration, but an
+  // auth-gated route must never become public because credentials are missing.
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     response.headers.set('x-pathname', pathname + (search || ''));
     if (isPortalChrome(pathname)) {
       response.headers.set('x-portal', '1');
+    }
+    const localAdminPreview = pathname.startsWith('/admin')
+      && process.env.NODE_ENV !== 'production'
+      && process.env.LOCAL_ADMIN_BYPASS === 'job-os-preview'
+      && !process.env.VERCEL;
+    if (requiresConfiguredAuth(pathname) && !localAdminPreview) {
+      return NextResponse.json({ error: 'Authentication unavailable' }, { status: 503 });
     }
     return response;
   }
@@ -176,39 +229,7 @@ export async function updateSession(request: NextRequest) {
   // resources) requires a signed-in account — you must log in to see the actual academy.
   // Public stays: the marketing landing (/academy), signup, pricing (/join), the sprint
   // demo (/engine), the printable sprint-loop, and shareable certificates.
-  const isAcademyPublic =
-    pathname === '/academy' ||
-    // Metadata image routes must stay reachable by link-unfurl crawlers.
-    pathname === '/academy/opengraph-image' ||
-    /^\/academy\/(catalog|pricing|why-proof|how-we-audit)\/opengraph-image$/.test(pathname) ||
-    pathname === '/academy/how-we-audit' ||
-    pathname === '/academy/signup' ||
-    pathname === '/academy/join' ||
-    pathname === '/academy/engine' ||
-    pathname === '/academy/engine/lab' ||
-    pathname === '/academy/resources/sprint-loop' ||
-    pathname === '/academy/efficacy' ||
-    pathname === '/academy/legal' ||
-    pathname === '/academy/guarantee' ||
-    // Main-menu marketing pages: public sell surfaces in the academy skin.
-    pathname === '/academy/catalog' ||
-    pathname === '/academy/why-proof' ||
-    pathname === '/academy/pricing' ||
-    pathname === '/academy/about' ||
-    pathname === '/academy/help' ||
-    // Interview Mastery add-on: the marketing/pricing landing is public (like /academy + /join).
-    // Every other /academy/interview/* surface stays behind needsAcademyLogin.
-    pathname === '/academy/interview/mastery' ||
-    pathname.startsWith('/academy/voice/') ||
-    pathname.startsWith('/academy/u/') ||
-    pathname.startsWith('/academy/certificate/') ||
-    // Concept pages: programmatic-SEO lesson previews — public by design.
-    pathname === '/academy/concepts' ||
-    pathname.startsWith('/academy/concepts/') ||
-    // Course landings are the per-course sell pages — public like /academy.
-    // Exactly one segment after /course/: the lesson player, map, and every
-    // deeper surface stay behind needsAcademyLogin.
-    /^\/academy\/course\/[^/]+$/.test(pathname);
+  const isAcademyPublic = isAcademyPublicRoute(pathname);
   const needsAcademyLogin = pathname.startsWith('/academy/') && !isAcademyPublic;
 
   if (

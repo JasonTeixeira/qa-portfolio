@@ -6,6 +6,7 @@ import { GoalPicker } from '@/components/academy/goals/GoalPicker'
 import { Icon } from '@/components/academy/ui/Icon'
 import { Course00 } from './Course00'
 import { VoiceNote } from './VoiceNote'
+import { SageMark } from '@/components/academy/brand/SageMark'
 import styles from './onboarding.module.css'
 
 const GOALS = [
@@ -79,7 +80,7 @@ export function OnboardingFlow({ initialGoalKey = null }: Props) {
     <div className={styles.page}>
       <header className={styles.topbar}>
         <span className={styles.brand}>
-          <span className={styles.brandMark} aria-hidden="true">◆</span>
+          <SageMark size={24} radius={7} />
           <span className={styles.brandName}>Sage Academy</span>
         </span>
         <span className={styles.breadcrumb}>

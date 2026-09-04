@@ -163,3 +163,61 @@ export function buildService(args: {
     },
   }
 }
+
+/**
+ * Course structured data — the schema that lets Google render a course card
+ * in search. `offers` (a subscription Offer) satisfies Google's requirement
+ * that a Course carry either offers or a hasCourseInstance.
+ */
+export function buildCourse(args: {
+  name: string
+  description: string
+  url: string
+  priceCents?: number
+  cadence?: 'monthly' | 'yearly'
+  workload?: string
+}): LdObject {
+  const hasPrice = typeof args.priceCents === 'number' && args.priceCents > 0
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: args.name,
+    description: args.description,
+    url: args.url,
+    provider: {
+      '@type': 'Organization',
+      name: 'Sage Academy',
+      sameAs: SITE,
+    },
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      ...(args.workload ? { courseWorkload: args.workload } : {}),
+    },
+    ...(hasPrice
+      ? {
+          offers: {
+            '@type': 'Offer',
+            url: args.url,
+            priceCurrency: 'USD',
+            price: (args.priceCents! / 100).toFixed(0),
+            category: args.cadence === 'yearly' ? 'Subscription (annual)' : 'Subscription',
+            availability: 'https://schema.org/InStock',
+          },
+        }
+      : {}),
+  }
+}
+
+/** FAQPage structured data — eligible for the FAQ rich result. */
+export function buildFAQPage(items: { question: string; answer: string }[]): LdObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((it) => ({
+      '@type': 'Question',
+      name: it.question,
+      acceptedAnswer: { '@type': 'Answer', text: it.answer },
+    })),
+  }
+}

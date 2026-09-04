@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { readFile, mkdir, writeFile } from 'node:fs/promises'
+import { readFile, mkdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import { createHash } from 'node:crypto'
@@ -274,6 +274,7 @@ async function rebuildProgramArtifacts({ includeTask = true } = {}) {
     writeJson(paths.board, board),
     writeJson(paths.backlog, backlog),
     ...(task ? [writeJson(paths.task, task)] : []),
+    ...(includeTask && !task ? [rm(paths.task, { force: true })] : []),
   ])
   return { inventory, graph, packageJson, state, observations, findings, board, backlog, task }
 }

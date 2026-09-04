@@ -278,6 +278,8 @@ test('package scripts expose the complete local program control surface', () => 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance:e2e'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:observability-recovery'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:release-readiness'))
+  const programCli = readFileSync('tools/project-program/cli.mjs', 'utf8')
+  assert.match(programCli, /rm\(paths\.task,\s*\{\s*force:\s*true\s*\}\)/, 'boundary transitions must remove stale safe-local task packets')
 })
 
 test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {

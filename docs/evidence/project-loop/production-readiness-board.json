@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T16:21:15.322Z",
-  "inventoryHash": "sha256:900ae1ee39386a4b1d7b286ae1e7e008fbff9d55d53f56cb84f4398a9f238416",
+  "generatedAt": "2026-09-04T16:46:48.415Z",
+  "inventoryHash": "sha256:9162659750ff789c8b4b4c62ebba6aa8057f96923761695c0e85845e1fbeb52c",
   "overallStatus": "not_local_production_candidate",
   "trust": {
     "academyCertification": "uncertified",
@@ -12,7 +12,7 @@
   "summary": {
     "totalWorkstreams": 14,
     "safeLocalWorkstreams": 12,
-    "greenLocalWorkstreams": 2,
+    "greenLocalWorkstreams": 3,
     "criticalFindings": 0,
     "highFindings": 0
   },
@@ -69,17 +69,9 @@
         "security controls"
       ],
       "sequence": 3,
-      "status": "in_progress",
-      "findingCount": 1,
-      "findings": [
-        {
-          "code": "security_review_pending",
-          "severity": "medium",
-          "workstreamId": "auth-security",
-          "summary": "The production security review remains pending for auth, billing, and user-data boundaries.",
-          "details": {}
-        }
-      ]
+      "status": "green_local_checkpoint",
+      "findingCount": 0,
+      "findings": []
     },
     {
       "id": "data-integrity",
@@ -96,7 +88,7 @@
         "backup design"
       ],
       "sequence": 4,
-      "status": "pending",
+      "status": "in_progress",
       "findingCount": 0,
       "findings": []
     },

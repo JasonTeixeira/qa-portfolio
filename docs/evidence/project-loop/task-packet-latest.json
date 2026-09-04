@@ -1,37 +1,29 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T16:21:15.322Z",
-  "inventoryHash": "sha256:900ae1ee39386a4b1d7b286ae1e7e008fbff9d55d53f56cb84f4398a9f238416",
+  "generatedAt": "2026-09-04T16:46:48.415Z",
+  "inventoryHash": "sha256:9162659750ff789c8b4b4c62ebba6aa8057f96923761695c0e85845e1fbeb52c",
   "workstream": {
-    "id": "auth-security",
-    "label": "Authentication, authorization, and application security",
+    "id": "data-integrity",
+    "label": "Data model, migrations, RLS, and persistence integrity",
     "dependsOn": [
-      "build-quality"
+      "auth-security"
     ],
     "boundary": "safe_local",
     "scope": [
-      "auth",
-      "authorization",
-      "sessions",
-      "input validation",
-      "security controls"
+      "Supabase",
+      "migrations",
+      "RLS",
+      "data contracts",
+      "backup design"
     ],
-    "sequence": 3,
-    "workstreamId": "auth-security",
+    "sequence": 4,
+    "workstreamId": "data-integrity",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null
   },
-  "findings": [
-    {
-      "code": "security_review_pending",
-      "severity": "medium",
-      "workstreamId": "auth-security",
-      "summary": "The production security review remains pending for auth, billing, and user-data boundaries.",
-      "details": {}
-    }
-  ],
+  "findings": [],
   "mutationBoundary": "safe_local_only",
   "trustBoundary": {
     "academyCertification": "uncertified",
@@ -71,6 +63,7 @@
   "commands": [
     "npm run project:program:test",
     "npm run test:unit",
+    "npm run test:security",
     "npm run typecheck",
     "npm run lint",
     "npm run build",

@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T17:22:08.467Z",
-  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+  "generatedAt": "2026-09-04T17:28:31.951Z",
+  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
   "git": {
-    "head": "2238e126255464448b1f7e0975bff49df4cfe739",
+    "head": "1495a41fa3a0098c4643cbc8f6ae4a85df131c89",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3850,
+    "trackedFiles": 3849,
     "appPages": 234,
     "routeHandlers": 133,
     "apiRoutes": 125,
@@ -3381,7 +3381,6 @@
     "infra/aws-api/main.tf",
     "infra/aws-api/outputs.tf",
     "infra/aws-api/src/index.js",
-    "infra/aws-api/terraform.tfvars",
     "infra/aws-api/terraform.tfvars.example",
     "infra/aws-api/variables.tf",
     "infra/aws-newsletter/.terraform.lock.hcl",

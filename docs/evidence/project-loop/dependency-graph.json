@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
   "workstreams": [
     {
       "id": "repository-foundation",

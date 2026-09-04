@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T17:22:08.475Z",
-  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+  "generatedAt": "2026-09-04T17:28:31.963Z",
+  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
   "overallStatus": "not_local_production_candidate",
   "trust": {
     "academyCertification": "uncertified",
@@ -12,7 +12,7 @@
   "summary": {
     "totalWorkstreams": 14,
     "safeLocalWorkstreams": 12,
-    "greenLocalWorkstreams": 3,
+    "greenLocalWorkstreams": 4,
     "criticalFindings": 0,
     "highFindings": 0
   },
@@ -88,7 +88,7 @@
         "backup design"
       ],
       "sequence": 4,
-      "status": "in_progress",
+      "status": "green_local_checkpoint",
       "findingCount": 0,
       "findings": []
     },
@@ -108,7 +108,7 @@
         "billing tests"
       ],
       "sequence": 5,
-      "status": "pending",
+      "status": "in_progress",
       "findingCount": 0,
       "findings": []
     },

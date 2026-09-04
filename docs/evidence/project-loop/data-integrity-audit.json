@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "contractVersion": "data-integrity-v1",
-  "generatedAt": "2026-09-04T17:17:21.738Z",
+  "generatedAt": "2026-09-04T17:23:41.340Z",
   "status": "local_static_green",
   "migrationAudit": {
     "ok": true,

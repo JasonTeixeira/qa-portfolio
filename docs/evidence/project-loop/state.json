@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
   "status": "active",
   "generatedAt": "2026-09-04T15:09:39.153Z",
-  "updatedAt": "2026-09-04T17:22:08.473Z",
+  "updatedAt": "2026-09-04T17:28:31.891Z",
   "queue": [
     {
       "id": "repository-foundation",
@@ -348,24 +348,62 @@
           "evidence": "No unresolved local critical/high finding; npm audit 0; gitleaks 0; CSP/admin-MFA fail closed in production; live follow-up remains approval-bound"
         }
       }
+    },
+    {
+      "workstreamId": "data-integrity",
+      "status": "green_local_checkpoint",
+      "commit": "1495a41fa3a0098c4643cbc8f6ae4a85df131c89",
+      "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
+      "completedAt": "2026-09-04T17:28:31.891Z",
+      "gates": {
+        "focusedTests": {
+          "status": "pass",
+          "evidence": "8 data-integrity contracts passed, including known-good and deliberately broken fixtures; 129 SQL files audited; 279/279 created tables RLS-covered"
+        },
+        "unitTests": {
+          "status": "pass",
+          "evidence": "334 passed, 0 failed"
+        },
+        "typecheck": {
+          "status": "pass",
+          "evidence": "tsc --noEmit"
+        },
+        "lint": {
+          "status": "pass",
+          "evidence": "eslint: 0 errors, 0 warnings"
+        },
+        "build": {
+          "status": "pass",
+          "evidence": "Next.js 16.3.4 production build; desktop and mobile Lighthouse matrices passed"
+        },
+        "diffCheck": {
+          "status": "pass",
+          "evidence": "git diff --check, git diff --cached --check, and staged added-lines secret scan"
+        },
+        "securityReview": {
+          "status": "pass",
+          "evidence": "No unresolved local critical/high finding; dependency audit 0; added-lines Gitleaks 0; remote RLS/seed/cleanup fail closed; credential rotation and hosted restore/RLS proof remain external approval gates"
+        }
+      }
     }
   ],
   "current": {
-    "id": "data-integrity",
-    "label": "Data model, migrations, RLS, and persistence integrity",
+    "id": "billing",
+    "label": "Billing and entitlement correctness",
     "dependsOn": [
-      "auth-security"
+      "auth-security",
+      "data-integrity"
     ],
     "boundary": "safe_local",
     "scope": [
-      "Supabase",
-      "migrations",
-      "RLS",
-      "data contracts",
-      "backup design"
+      "checkout",
+      "webhooks",
+      "entitlements",
+      "refund states",
+      "billing tests"
     ],
-    "sequence": 4,
-    "workstreamId": "data-integrity",
+    "sequence": 5,
+    "workstreamId": "billing",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null
@@ -429,6 +467,11 @@
       "from": "sha256:75963b559becc82b7961f20acc1cfd52e6604a1101730643a20c0fcfb55aa31e",
       "to": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
       "observedAt": "2026-09-04T17:22:08.473Z"
+    },
+    {
+      "from": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+      "to": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
+      "observedAt": "2026-09-04T17:27:55.844Z"
     }
   ]
 }

@@ -1,24 +1,25 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T17:22:08.475Z",
-  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
+  "generatedAt": "2026-09-04T17:28:31.964Z",
+  "inventoryHash": "sha256:cc7ee4c3452b7ff6ec97a09390881524ae0b463ae04d8e2f31e13b9c0f151d5c",
   "workstream": {
-    "id": "data-integrity",
-    "label": "Data model, migrations, RLS, and persistence integrity",
+    "id": "billing",
+    "label": "Billing and entitlement correctness",
     "dependsOn": [
-      "auth-security"
+      "auth-security",
+      "data-integrity"
     ],
     "boundary": "safe_local",
     "scope": [
-      "Supabase",
-      "migrations",
-      "RLS",
-      "data contracts",
-      "backup design"
+      "checkout",
+      "webhooks",
+      "entitlements",
+      "refund states",
+      "billing tests"
     ],
-    "sequence": 4,
-    "workstreamId": "data-integrity",
+    "sequence": 5,
+    "workstreamId": "billing",
     "attemptCount": 0,
     "repeatedFailureCount": 0,
     "failureFingerprint": null

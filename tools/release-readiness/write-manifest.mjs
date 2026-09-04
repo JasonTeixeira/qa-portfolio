@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import { auditReleaseReadiness, sha256 } from '../../lib/release-readiness/contract.mjs'
-import { WORKSTREAMS } from '../project-program/core.mjs'
+import { WORKSTREAM_GRAPH } from '../project-program/core.mjs'
 
 const root = process.cwd()
 const evidenceDir = path.join(root, 'docs/evidence/project-loop')
@@ -28,7 +28,7 @@ const evidenceHashes = Object.fromEntries(await Promise.all(Object.entries(evide
   key,
   { path: file, sha256: sha256(await readText(file)) },
 ])))
-const safeWorkstreams = WORKSTREAMS.filter((workstream) => workstream.boundary === 'safe_local')
+const safeWorkstreams = WORKSTREAM_GRAPH.filter((workstream) => workstream.boundary === 'safe_local')
 const completedSafe = state.completed.filter((checkpoint) => safeWorkstreams.some((workstream) => workstream.id === checkpoint.workstreamId))
 const releaseCommit = git('rev-parse', 'HEAD')
 const date = new Date().toISOString().slice(0, 10)

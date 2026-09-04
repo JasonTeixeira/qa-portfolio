@@ -42,7 +42,7 @@ export async function CompareTable() {
           </p>
         </div>
 
-        <div style={{ marginTop: 40, overflowX: 'auto' }}>
+        <div aria-label={t('Course comparison table')} tabIndex={0} style={{ marginTop: 40, overflowX: 'auto' }}>
           <table style={{ width: '100%', minWidth: 640, borderCollapse: 'separate', borderSpacing: 0 }}>
             <thead>
               <tr>

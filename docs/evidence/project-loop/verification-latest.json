@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "inventoryHash": "sha256:038fe370979f050e66a4189c0dc9660edb3242bf6215ce6bf533add668ec1193",
-  "generatedAt": "2026-09-04T20:16:17.491Z",
+  "inventoryHash": "sha256:f84001efadb388dc089605bbf7f79130fe44cb7928611ff7e1999f1dea42a884",
+  "generatedAt": "2026-09-04T20:48:40.436Z",
   "ok": true,
   "fixtureProof": {
     "knownGoodPassed": true,
@@ -18,7 +18,7 @@
     ]
   },
   "stateStatus": "active",
-  "currentWorkstream": "communications-jobs",
+  "currentWorkstream": "accessibility-performance",
   "boardStatus": "not_local_production_candidate",
   "backlogItems": 0,
   "trust": {

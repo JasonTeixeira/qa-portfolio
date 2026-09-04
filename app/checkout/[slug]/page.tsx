@@ -28,9 +28,9 @@ export default async function CheckoutReviewPage({
   const recurring = Boolean(care)
 
   return (
-    <main className="min-h-screen bg-[#09090B] px-4 py-20 text-[#FAFAFA]">
+    <div className="min-h-screen bg-[#09090B] px-4 py-20 text-[#FAFAFA]">
       <div className="mx-auto max-w-2xl">
-        <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-[#3D5AFE]">
+        <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-[#8FA0FF]">
           Review before checkout
         </p>
         <h1 className="mb-4 text-4xl font-semibold tracking-tight">{offer.name}</h1>
@@ -66,11 +66,11 @@ export default async function CheckoutReviewPage({
           </Link>
         </div>
 
-        <p className="mt-8 text-xs leading-relaxed text-[#78716C]">
+        <p className="mt-8 text-xs leading-relaxed text-[#A8A29E]">
           The next step opens Stripe’s hosted checkout. No payment is taken until you review and submit there.
-          Need help? <a href="mailto:sage@sageideas.dev" className="text-[#8FA0FF]">sage@sageideas.dev</a>
+          Need help? <a href="mailto:sage@sageideas.dev" className="text-[#8FA0FF] underline underline-offset-2">sage@sageideas.dev</a>
         </p>
       </div>
-    </main>
+    </div>
   )
 }

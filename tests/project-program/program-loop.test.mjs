@@ -270,6 +270,8 @@ test('package scripts expose the complete local program control surface', () => 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:academy-production'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:admin'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:communications'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance:e2e'))
 })
 
 test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {

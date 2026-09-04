@@ -33,7 +33,7 @@ function Stepper({ step }: { step: Step }) {
               aria-current={active ? 'step' : undefined}
               className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-mono border ${
                 done
-                  ? 'bg-[#3D5AFE] border-[#3D5AFE] text-[#09090B]'
+                  ? 'bg-[#3D5AFE] border-[#3D5AFE] text-white'
                   : active
                     ? 'border-[#3D5AFE] text-[#3D5AFE]'
                     : 'border-[#2A2826] text-[#52525B]'
@@ -55,7 +55,7 @@ function Stepper({ step }: { step: Step }) {
 const inputClass = 'w-full rounded-lg border border-[#2A2826] bg-[#0B0A09] px-3 py-2.5 text-sm text-[#FAFAFA] placeholder:text-[#52525B] focus:border-[#3D5AFE] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/40'
 const labelClass = 'block text-[10px] font-mono uppercase tracking-widest text-[#78716C]'
 const backClass = 'flex-1 rounded-lg border border-[#2A2826] bg-[#0B0A09] px-4 py-2.5 text-center text-sm font-medium text-[#FAFAFA] hover:border-[#3F3F46] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60'
-const continueClass = 'flex-[2] rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors'
+const continueClass = 'flex-[2] rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B] transition-colors'
 
 export function StudioSignupWizard({
   initialEmail = '',
@@ -125,7 +125,7 @@ export function StudioSignupWizard({
               className={inputClass}
             />
           </div>
-          <button type="button" onClick={() => advance(1, 2)} className="w-full rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-[#09090B] hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3D5AFE]/60">
+          <button type="button" onClick={() => advance(1, 2)} className="w-full rounded-lg bg-[#3D5AFE] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#2F46D8] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]">
             Continue
           </button>
         </section>

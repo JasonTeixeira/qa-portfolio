@@ -9,6 +9,7 @@ import { EcosystemBand } from '@/components/academy/landing/EcosystemBand'
 import { getAcademyRegistryCourse } from '@/lib/academy/registry'
 import type { TopicKey } from '@/lib/academy/topics'
 import { CatalogGrid, type CatalogCard, type TrackKey } from './CatalogGrid'
+import { SkipToContent } from '@/components/skip-to-content'
 
 /**
  * The public course catalog, implemented 1:1 from
@@ -305,6 +306,7 @@ export default async function CatalogPage() {
 
   return (
     <>
+      <SkipToContent />
       <AcademyNav />
       <div
         style={{
@@ -319,6 +321,7 @@ export default async function CatalogPage() {
           overflowX: 'clip',
         }}
       >
+        <main id="main-content" tabIndex={-1}>
         {/* ============ HERO ============ */}
         <header
           style={{
@@ -500,6 +503,7 @@ export default async function CatalogPage() {
         </section>
 
         <EcosystemBand current="catalog" />
+        </main>
         <AcademyFooter />
       </div>
     </>

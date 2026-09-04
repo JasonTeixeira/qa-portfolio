@@ -45,6 +45,7 @@ export function AcademyNav() {
   const t = useT()
   return (
     <nav
+      aria-label="Academy navigation"
       style={{
         position: 'sticky',
         top: 0,

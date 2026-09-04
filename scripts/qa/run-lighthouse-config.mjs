@@ -4,6 +4,8 @@ import { createServer } from 'node:net'
 import path from 'node:path'
 import process from 'node:process'
 
+import { evaluateLighthouseAssertions } from '../../lib/accessibility-performance/contract.mjs'
+
 const root = process.cwd()
 const configArg = process.argv.find((value) => value.startsWith('--config='))?.slice('--config='.length) ?? 'lighthouserc.json'
 const configPath = path.resolve(root, configArg)
@@ -97,20 +99,6 @@ function lighthouseArgs(url, outputPath) {
   return args
 }
 
-function evaluate(report) {
-  const results = []
-  for (const [key, rule] of Object.entries(assertions)) {
-    const match = key.match(/^categories:(.+)$/)
-    if (!match || !Array.isArray(rule)) continue
-    const [level, options = {}] = rule
-    const score = report.categories?.[match[1]]?.score
-    const minScore = Number(options.minScore ?? 0)
-    const passed = typeof score === 'number' && score >= minScore
-    results.push({ key, level, score: score ?? null, minScore, passed })
-  }
-  return results
-}
-
 async function stopServer(server) {
   if (server.exitCode !== null) return
   await new Promise((resolve) => {
@@ -146,7 +134,7 @@ try {
     const outputPath = path.join(outputDir, `${name}.json`)
     await run(lighthouseBin, lighthouseArgs(url, outputPath), { capture: true })
     const report = JSON.parse(await readFile(outputPath, 'utf8'))
-    results.push({ url: url.toString(), outputPath: path.relative(root, outputPath), assertions: evaluate(report) })
+    results.push({ url: url.toString(), outputPath: path.relative(root, outputPath), assertions: evaluateLighthouseAssertions(report, assertions) })
   }
 } finally {
   await stopServer(server)
@@ -154,10 +142,10 @@ try {
 
 const failures = results.flatMap((result) => result.assertions
   .filter((assertion) => !assertion.passed && assertion.level === 'error')
-  .map((assertion) => `${result.url}: ${assertion.key} ${assertion.score} < ${assertion.minScore}`))
+  .map((assertion) => `${result.url}: ${assertion.key} value ${assertion.value} outside ${assertion.minScore ?? assertion.maxNumericValue}`))
 const warnings = results.flatMap((result) => result.assertions
   .filter((assertion) => !assertion.passed && assertion.level === 'warn')
-  .map((assertion) => `${result.url}: ${assertion.key} ${assertion.score} < ${assertion.minScore}`))
+  .map((assertion) => `${result.url}: ${assertion.key} value ${assertion.value} outside ${assertion.minScore ?? assertion.maxNumericValue}`))
 const summary = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),

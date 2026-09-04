@@ -6,6 +6,7 @@ import { IdempotencyLab } from '@/components/academy/sample/IdempotencyLab'
 import { getT } from '@/lib/i18n/t'
 import { getLocale } from '@/lib/i18n/server'
 import { localizedAlternates } from '@/lib/i18n/alternates'
+import { SkipToContent } from '@/components/skip-to-content'
 
 const INK = '#F2EFE9'
 const DIM = '#9C9CA6'
@@ -104,9 +105,10 @@ export default async function TryLessonPage() {
   const t = await getT()
   return (
     <>
+      <SkipToContent />
       <AcademyNav />
       <div style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip', minHeight: '100vh' }}>
-        <main style={{ maxWidth: 760, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(20px, 4vw, 40px) 100px' }}>
+        <main id="main-content" tabIndex={-1} style={{ maxWidth: 760, margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(20px, 4vw, 40px) 100px' }}>
           {/* lesson chrome */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={kicker}>{t('Free sample lesson · no signup')}</div>

@@ -13,6 +13,7 @@ import { StickyCta } from './StickyCta'
 import { SplashIntro } from './SplashIntro'
 import { AtlasLauncher } from '../atlas/AtlasLauncher'
 import { getT } from '@/lib/i18n/t'
+import { SkipToContent } from '@/components/skip-to-content'
 
 /**
  * The front page, implemented 1:1 from
@@ -88,9 +89,9 @@ const ARC = [
 const COURSES = [
   { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.webp', name: 'Engineering Judgment & the Sage Learning OS', outcome: 'Turn a messy incident into a decision a reviewer can inspect. The loop every other course runs on.', meta: '16 lessons · 4 modules', artifact: 'decision memo', href: '/academy/course/career-engineering_judgment_foundation' },
   { track: 'Foundations', tint: '#6E83FF', emblem: '/art/academy/emblem-foundations.webp', name: 'Think Like a Senior Engineer: Concept Maps', outcome: 'Build maps you can defend the edges of — for systems, codebases, and outages.', meta: '30 lessons · 6 modules', artifact: 'concept atlas', href: '/academy/catalog' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Programming Fundamentals', outcome: 'The mechanics under the syntax: memory, state, control flow, and honest debugging.', meta: '18 lessons · 2 modules', artifact: 'debug log', href: '/academy/course/programming-fundamentals' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Backend Engineering', outcome: 'APIs, queues, idempotency, and failure repair under real load.', meta: '20 lessons · 5 modules', artifact: 'production API', href: '/academy/catalog' },
-  { track: 'Engineering', tint: ACCENT, emblem: '/art/academy/emblem-engineering.webp', name: 'Frontend & Fullstack Product Engineering', outcome: 'Product surfaces with real data flow, accessibility, and request-path judgment.', meta: '20 lessons · 5 modules', artifact: 'fullstack app', href: '/academy/catalog' },
+  { track: 'Engineering', tint: '#8FA0FF', emblem: '/art/academy/emblem-engineering.webp', name: 'Programming Fundamentals', outcome: 'The mechanics under the syntax: memory, state, control flow, and honest debugging.', meta: '18 lessons · 2 modules', artifact: 'debug log', href: '/academy/course/programming-fundamentals' },
+  { track: 'Engineering', tint: '#8FA0FF', emblem: '/art/academy/emblem-engineering.webp', name: 'Backend Engineering', outcome: 'APIs, queues, idempotency, and failure repair under real load.', meta: '20 lessons · 5 modules', artifact: 'production API', href: '/academy/catalog' },
+  { track: 'Engineering', tint: '#8FA0FF', emblem: '/art/academy/emblem-engineering.webp', name: 'Frontend & Fullstack Product Engineering', outcome: 'Product surfaces with real data flow, accessibility, and request-path judgment.', meta: '20 lessons · 5 modules', artifact: 'fullstack app', href: '/academy/catalog' },
   { track: 'Data', tint: GREEN, emblem: '/art/academy/emblem-data.webp', name: 'Databases & Data Modeling', outcome: 'Schemas that survive review — modeling, constraints, and migration judgment.', meta: '20 lessons · 5 modules', artifact: 'schema review', href: '/academy/catalog' },
 ]
 
@@ -133,6 +134,7 @@ export async function SageHome() {
 
   return (
     <>
+      <SkipToContent />
       <SplashIntro />
       <AtlasLauncher />
       <AcademyNav />
@@ -159,7 +161,7 @@ export async function SageHome() {
           }}
         />
 
-        <main>
+        <main id="main-content" tabIndex={-1}>
 
         {/* ============ A. HERO ============ */}
         <header style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 104px) clamp(20px, 4vw, 48px) clamp(48px, 6vw, 80px)' }}>

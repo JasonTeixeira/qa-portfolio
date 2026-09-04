@@ -252,6 +252,8 @@ test('package scripts expose the complete local program control surface', () => 
     'audit:communications': 'tsx tools/communications/write-audit.ts',
     'test:observability-recovery': 'tsx --test tests/observability-recovery/observability-recovery.test.ts && npm run audit:observability-recovery',
     'audit:observability-recovery': 'tsx tools/observability-recovery/write-audit.ts',
+    'test:release-readiness': 'node --test tests/release-readiness/release-readiness.test.mjs',
+    'audit:release-readiness': 'node tools/release-readiness/write-manifest.mjs',
     'test:academy-production': 'npm run academy:audit:test && npm run academy:audit:all && npm run academy:program:verify && npm run academy:registry:verify && npm run academy:lab-evaluator:test',
     'project:program:inventory': 'node tools/project-program/cli.mjs inventory',
     'project:program:plan': 'node tools/project-program/cli.mjs plan',
@@ -275,6 +277,7 @@ test('package scripts expose the complete local program control surface', () => 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance:e2e'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:observability-recovery'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:release-readiness'))
 })
 
 test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {

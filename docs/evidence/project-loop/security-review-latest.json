@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T22:30:00.000Z",
+  "generatedAt": "2026-09-04T22:55:00.000Z",
   "status": "pass_local_code_review",
   "scope": [
     "canonical admin role and MFA boundary",
@@ -19,13 +19,15 @@
     "semantic and visual authentication and checkout changes",
     "public health and telemetry privacy boundaries",
     "Sentry event scrubbing and trace sampling",
-    "alert, incident, rollback, and recovery contracts"
+    "alert, incident, rollback, and recovery contracts",
+    "release manifest, evidence hashing, and checkpoint reconciliation",
+    "Git ancestry and external approval boundaries"
   ],
   "proof": {
     "adminContracts": "5 passed, 0 failed; 36 privileged files audited with 0 findings",
     "securityTests": "15 passed, 0 failed",
     "unitTests": "334 passed, 0 failed",
-    "canonicalObserver": "22 passed, 0 failed",
+    "canonicalObserver": "23 passed, 0 failed",
     "typecheck": "pass",
     "lint": "pass with 0 errors and 0 warnings",
     "productionBuild": "pass",
@@ -39,6 +41,7 @@
     "desktopLighthouse": "6 public routes passed accessibility >= 0.95, LCP <= 2500 ms, CLS <= 0.1, and TBT <= 200 ms",
     "mobileLighthouse": "6 public routes passed accessibility >= 0.95, LCP <= 2500 ms, CLS <= 0.1, and TBT <= 300 ms",
     "observabilityRecoveryContracts": "6 passed, 0 failed; deliberately broken contract, telemetry privacy, alerts, recovery evidence, and repository audit proved",
+    "releaseReadinessContracts": "3 passed, 0 failed; stale evidence, trust fabrication, secret values, skipped boundaries, hashes, and ancestry are fail-closed",
     "academyCertification": "uncertified",
     "labTrust": "untrusted_current_runtime"
   },
@@ -102,6 +105,11 @@
       "severity": "high",
       "code": "observability_false_green",
       "resolution": "Query failures return unavailable/503 and no-sample states remain unknown; the diagnostic ratio is no longer presented as a true error-rate SLO."
+    },
+    {
+      "severity": "high",
+      "code": "release_evidence_unbound",
+      "resolution": "The release gate now reconciles all local checkpoints, re-hashes required evidence, validates Git ancestry, rejects secret values, and preserves every external approval boundary."
     }
   ],
   "unresolvedCriticalOrHigh": [],
@@ -115,6 +123,7 @@
     "Complete assistive-technology and disabled-user testing plus a field Core Web Vitals observation window.",
     "Configure and prove alert delivery/escalation plus release-correlated scrubbed Sentry events in isolated staging.",
     "Perform approved isolated deployment rollback and database/storage recovery drills with measured evidence.",
+    "Obtain CI/code-host review plus staging, controlled evaluator, expert, accessibility, and learner-beta evidence before any production approval.",
     "No database, credential, deployment, push, payment, or other external mutation was performed."
   ]
 }

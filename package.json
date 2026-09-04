@@ -86,6 +86,8 @@
     "audit:accessibility-performance": "node tools/accessibility-performance/write-audit.mjs",
     "test:observability-recovery": "tsx --test tests/observability-recovery/observability-recovery.test.ts && npm run audit:observability-recovery",
     "audit:observability-recovery": "tsx tools/observability-recovery/write-audit.ts",
+    "test:release-readiness": "node --test tests/release-readiness/release-readiness.test.mjs",
+    "audit:release-readiness": "node tools/release-readiness/write-manifest.mjs",
     "test:critical-journeys:e2e": "playwright test --config=playwright.critical-journeys.config.ts",
     "audit:critical-journeys": "tsx tools/journeys/write-audit.ts",
     "audit:data-integrity": "node tools/data-integrity/cli.mjs",

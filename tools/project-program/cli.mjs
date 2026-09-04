@@ -2,6 +2,9 @@ import { spawnSync } from 'node:child_process'
 import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
+import { createHash } from 'node:crypto'
+
+import { auditReleaseReadiness } from '../../lib/release-readiness/contract.mjs'
 
 import {
   PROGRAM_VERSION,
@@ -32,6 +35,9 @@ const paths = Object.freeze({
   verification: path.join(evidenceDir, 'verification-latest.json'),
   board: path.join(evidenceDir, 'production-readiness-board.json'),
   backlog: path.join(evidenceDir, 'remediation-backlog.json'),
+  releaseManifest: path.join(evidenceDir, 'release-manifest.json'),
+  releaseAudit: path.join(evidenceDir, 'release-readiness-audit.json'),
+  releaseHandoff: path.join(evidenceDir, 'release-handoff.md'),
 })
 
 const REQUIRED_SCRIPTS = Object.freeze({
@@ -60,6 +66,7 @@ const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'communications-production-contract', command: 'npm run test:communications', severity: 'critical', workstreamId: 'communications-jobs' },
   { id: 'accessibility-performance-contract', command: 'npm run test:accessibility-performance', severity: 'critical', workstreamId: 'accessibility-performance' },
   { id: 'observability-recovery-contract', command: 'npm run test:observability-recovery', severity: 'critical', workstreamId: 'observability-recovery' },
+  { id: 'release-readiness-contract', command: 'npm run test:release-readiness', severity: 'critical', workstreamId: 'release-readiness' },
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },
@@ -402,13 +409,56 @@ async function verify() {
 
 async function releaseVerify() {
   const result = await verify()
-  const { state, board, observations } = await rebuildProgramArtifacts({ includeTask: false })
+  const { state, board, observations, inventory, packageJson } = await rebuildProgramArtifacts({ includeTask: false })
   const failures = []
   if (!observations?.ok) failures.push('deterministic local observations are not all green')
   if (board.overallStatus !== 'local_production_candidate') failures.push(`readiness board is ${board.overallStatus}`)
   if (state.current?.boundary === 'safe_local') failures.push(`safe-local work remains: ${state.current.id}`)
   if (state.trustBoundary.academyCertification !== 'uncertified') failures.push('Academy certification claim is not evidence-safe')
   if (!['practice_only', 'untrusted_current_runtime'].includes(state.trustBoundary.labTrust)) failures.push('Lab trust claim is not evidence-safe')
+  const [manifest, releaseAudit, handoffSource] = await Promise.all([
+    readJson(paths.releaseManifest, { optional: true }),
+    readJson(paths.releaseAudit, { optional: true }),
+    readFile(paths.releaseHandoff, 'utf8').catch(() => ''),
+  ])
+  if (!manifest || !releaseAudit) {
+    failures.push('release manifest or audit is missing')
+  } else {
+    const safeWorkstreamIds = WORKSTREAM_GRAPH.filter((workstream) => workstream.boundary === 'safe_local').map((workstream) => workstream.id)
+    const completedIds = state.completed.filter((checkpoint) => safeWorkstreamIds.includes(checkpoint.workstreamId)).map((checkpoint) => checkpoint.workstreamId)
+    const contractFindings = auditReleaseReadiness({
+      packageScripts: packageJson.scripts,
+      manifest,
+      canonical: {
+        programVersion: state.programVersion,
+        inventoryHash: inventory.inventoryHash,
+        safeWorkstreamIds,
+        completedIds,
+        currentId: state.current?.id ?? null,
+        currentBoundary: state.current?.boundary ?? null,
+        observations,
+        dependencyAudit: observations?.dependencyAudit,
+      },
+      handoffSource,
+    })
+    if (contractFindings.length) failures.push(`release contract findings: ${contractFindings.map((finding) => finding.code).join(', ')}`)
+    if (releaseAudit.status !== 'pass' || releaseAudit.manifestStatus !== 'local_production_candidate') failures.push('release audit is not a passing local candidate')
+    for (const [name, evidence] of Object.entries(manifest.evidenceHashes ?? {})) {
+      const resolved = path.resolve(root, evidence.path ?? '')
+      if (!resolved.startsWith(`${root}${path.sep}`)) {
+        failures.push(`release evidence escapes repository: ${name}`)
+        continue
+      }
+      try {
+        const actual = `sha256:${createHash('sha256').update(await readFile(resolved)).digest('hex')}`
+        if (actual !== evidence.sha256) failures.push(`release evidence hash mismatch: ${name}`)
+      } catch {
+        failures.push(`release evidence missing: ${name}`)
+      }
+    }
+    const ancestor = spawnSync('git', ['merge-base', '--is-ancestor', manifest.releaseCommit, 'HEAD'], { cwd: root })
+    if (ancestor.status !== 0) failures.push('release commit is not an ancestor of HEAD')
+  }
   if (failures.length) throw new Error(`Local Production Candidate gate failed: ${failures.join('; ')}`)
   return response('release-verify', 'local_production_candidate', result.observation, ['Request explicit approval before staging deployment or external mutation.'])
 }

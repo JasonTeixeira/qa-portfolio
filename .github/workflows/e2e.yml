@@ -20,11 +20,15 @@ jobs:
       - run: npm ci
       - run: npx playwright install chromium
       - name: RLS isolation tests
+        if: github.event_name == 'workflow_dispatch' && vars.RLS_TEST_ALLOW_REMOTE == 'true'
         run: npm run test:rls
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RLS_TEST_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          RLS_TEST_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          RLS_TEST_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RLS_TEST_ALLOW_REMOTE: ${{ vars.RLS_TEST_ALLOW_REMOTE }}
+          SAGE_TEST_CLIENT1_PASSWORD: ${{ secrets.SAGE_TEST_CLIENT1_PASSWORD }}
+          SAGE_TEST_CLIENT2_PASSWORD: ${{ secrets.SAGE_TEST_CLIENT2_PASSWORD }}
       - name: Resolve Playwright base URL
         id: base-url
         run: |
@@ -120,6 +124,10 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SAGE_TEST_ADMIN_PASSWORD: ${{ secrets.SAGE_TEST_ADMIN_PASSWORD }}
+          SAGE_TEST_CLIENT1_PASSWORD: ${{ secrets.SAGE_TEST_CLIENT1_PASSWORD }}
+          SAGE_TEST_CLIENT2_PASSWORD: ${{ secrets.SAGE_TEST_CLIENT2_PASSWORD }}
+          SAGE_TEST_PENDING_PASSWORD: ${{ secrets.SAGE_TEST_PENDING_PASSWORD }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

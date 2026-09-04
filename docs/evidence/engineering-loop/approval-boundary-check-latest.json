@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-09-04T16:45:04.717Z",
+  "timestamp": "2026-09-04T17:22:06.668Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [
@@ -349,6 +349,18 @@
     {
       "script": "rag:sync-sources",
       "command": "tsx --env-file=.env.local scripts/rag/sync-sources.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "seed:test-data",
+      "command": "tsx scripts/seed-test-data.ts",
+      "approvalBoundary": "requires_explicit_user_approval_before_running",
+      "includedInLocalRelease": false
+    },
+    {
+      "script": "test:cleanup",
+      "command": "tsx tests/db/cleanup.ts",
       "approvalBoundary": "requires_explicit_user_approval_before_running",
       "includedInLocalRelease": false
     }

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T16:46:48.415Z",
-  "inventoryHash": "sha256:9162659750ff789c8b4b4c62ebba6aa8057f96923761695c0e85845e1fbeb52c",
+  "generatedAt": "2026-09-04T17:22:08.475Z",
+  "inventoryHash": "sha256:16ba2b9520134d6441702dede0052ac84f56c724bbd590b8e8e76754a6a439a8",
   "workstream": {
     "id": "data-integrity",
     "label": "Data model, migrations, RLS, and persistence integrity",
@@ -64,6 +64,7 @@
     "npm run project:program:test",
     "npm run test:unit",
     "npm run test:security",
+    "npm run test:data-integrity",
     "npm run typecheck",
     "npm run lint",
     "npm run build",

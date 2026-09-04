@@ -71,6 +71,8 @@
     "test:e2e:local:acquisition": "node --env-file-if-exists=.env.local scripts/ops/run-playwright.mjs test tests/e2e/admin/acquisition.spec.ts --config=playwright.e2e.config.ts --project=chromium",
     "db:push": "node --env-file-if-exists=.env.local scripts/ops/supabase-cli.mjs db push",
     "test:rls": "node --env-file-if-exists=.env.local tests/rls/run.mjs && node --env-file-if-exists=.env.local tests/rls/signed-in.mjs && node --env-file-if-exists=.env.local tests/rls/audit-log.mjs && node --env-file-if-exists=.env.local tests/rls/uploads.mjs",
+    "test:data-integrity": "node --test tests/data-integrity/data-integrity.test.mjs",
+    "audit:data-integrity": "node tools/data-integrity/cli.mjs",
     "test:unit": "tsx tests/unit/run.mjs",
     "test:security": "tsx --test tests/security/application-boundaries.test.ts",
     "academy:audit-courses": "tsx scripts/academy/authoring/audit-courses.ts",

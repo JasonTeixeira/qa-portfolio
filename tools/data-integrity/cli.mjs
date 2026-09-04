@@ -21,14 +21,23 @@ async function main() {
   );
   const migrations = await readMigrations(path.join(root, 'supabase', 'migrations'));
   const legacy = await readMigrations(path.join(root, 'supabase', 'legacy_migrations'));
+  const foundation = await Promise.all(
+    manifest.baseline.foundationFiles.map(async (filename) => ({
+      filename,
+      sql: await readFile(path.join(root, 'supabase', filename), 'utf8'),
+    })),
+  );
   const migrationAudit = auditMigrationChain({
     migrations,
     baselineMigrations: legacy,
+    foundationMigrations: foundation,
     manifest,
   });
   const baselineHash = buildMigrationChainHash(legacy);
+  const foundationHash = buildMigrationChainHash(foundation);
   const baselineOk = baselineHash === manifest.baseline.chainHash
-    && legacy.length === manifest.baseline.files.length;
+    && legacy.length === manifest.baseline.files.length
+    && foundationHash === manifest.baseline.foundationChainHash;
 
   const evidence = {
     schemaVersion: 1,
@@ -38,6 +47,9 @@ async function main() {
     migrationAudit,
     legacyBaseline: {
       mode: manifest.baseline.mode,
+      foundationFileCount: foundation.length,
+      foundationChainHash: foundationHash,
+      foundationManifestHash: manifest.baseline.foundationChainHash,
       fileCount: legacy.length,
       chainHash: baselineHash,
       manifestHash: manifest.baseline.chainHash,

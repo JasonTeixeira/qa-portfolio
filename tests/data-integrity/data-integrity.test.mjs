@@ -30,6 +30,14 @@ async function legacyMigrations() {
   })))
 }
 
+async function repositoryFoundationMigrations() {
+  const manifest = await readJson('supabase/migration-manifest.json')
+  return Promise.all(manifest.baseline.foundationFiles.map(async (filename) => ({
+    filename,
+    sql: await readFile(path.resolve('supabase', filename), 'utf8'),
+  })))
+}
+
 test('known-good fixture passes and deliberately broken fixture fails closed', async () => {
   const good = await readJson('tests/data-integrity/fixtures/known-good.json')
   good.manifest.chainHash = buildMigrationChainHash(good.migrations)
@@ -54,14 +62,21 @@ test('known-good fixture passes and deliberately broken fixture fails closed', a
 test('repository migration chain is contiguous, immutable, RLS-covered, and security-definer safe', async () => {
   const migrations = await repositoryMigrations()
   const baselineMigrations = await legacyMigrations()
+  const foundationMigrations = await repositoryFoundationMigrations()
   const manifest = await readJson('supabase/migration-manifest.json')
-  const result = auditMigrationChain({ migrations, baselineMigrations, manifest })
+  const result = auditMigrationChain({
+    migrations,
+    baselineMigrations,
+    foundationMigrations,
+    manifest,
+  })
 
   assert.deepEqual(result.findings, [])
   assert.equal(result.ok, true)
   assert.equal(result.summary.migrationCount, 115)
   assert.equal(result.summary.baselineFileCount, 14)
-  assert.equal(result.summary.schemaFileCount, 129)
+  assert.equal(result.summary.foundationFileCount, 2)
+  assert.equal(result.summary.schemaFileCount, 131)
   assert.equal(result.summary.incrementalStart, 6)
   assert.equal(result.summary.incrementalEnd, 120)
   assert.equal(result.summary.createdTables, result.summary.rlsEnabledTables)
@@ -81,6 +96,16 @@ test('legacy baseline is explicit, ordered, and hash-bound instead of being mist
   assert.equal(manifest.baseline.requiresLiveReconciliation, true)
   assert.deepEqual([...manifest.baseline.files].sort(), legacyNames)
   assert.equal(manifest.baseline.chainHash, buildMigrationChainHash(legacyMigrations))
+
+  const foundation = await repositoryFoundationMigrations()
+  assert.deepEqual(manifest.baseline.foundationFiles, [
+    'schema_part1_tables.sql',
+    'schema_part2_seed.sql',
+  ])
+  assert.equal(
+    manifest.baseline.foundationChainHash,
+    buildMigrationChainHash(foundation),
+  )
 })
 
 test('remote RLS tests have no embedded project, key, or account credentials and require explicit opt-in', async () => {

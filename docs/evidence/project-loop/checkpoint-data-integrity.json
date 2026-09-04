@@ -35,5 +35,7 @@
     }
   },
   "academyCertification": "uncertified",
-  "labTrust": "untrusted_current_runtime"
+  "labTrust": "untrusted_current_runtime",
+  "supersededBy": "checkpoint-data-integrity-correction.json",
+  "supersessionReason": "The original checkpoint omitted the two foundational supabase/schema_part*.sql files from its immutable baseline."
 }

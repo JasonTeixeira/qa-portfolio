@@ -60,7 +60,12 @@ function securityDefinerFindings(migrations) {
   return findings
 }
 
-export function auditMigrationChain({ migrations, baselineMigrations = [], manifest }) {
+export function auditMigrationChain({
+  migrations,
+  baselineMigrations = [],
+  foundationMigrations = [],
+  manifest,
+}) {
   const findings = []
   const sorted = [...migrations].sort((left, right) => left.filename.localeCompare(right.filename))
   const parsed = sorted.map((migration) => ({
@@ -108,7 +113,11 @@ export function auditMigrationChain({ migrations, baselineMigrations = [], manif
     }))
   }
 
-  const schemaMigrations = [...baselineMigrations, ...sorted]
+  const schemaMigrations = [
+    ...foundationMigrations,
+    ...baselineMigrations,
+    ...sorted,
+  ]
   const allSql = schemaMigrations.map(({ sql }) => sql).join('\n')
   const createdTables = new Set(tableNames(
     allSql,
@@ -165,6 +174,7 @@ export function auditMigrationChain({ migrations, baselineMigrations = [], manif
     summary: {
       migrationCount: sorted.length,
       baselineFileCount: baselineMigrations.length,
+      foundationFileCount: foundationMigrations.length,
       schemaFileCount: schemaMigrations.length,
       incrementalStart: start,
       incrementalEnd: end,

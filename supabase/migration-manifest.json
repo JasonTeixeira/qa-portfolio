@@ -4,6 +4,11 @@
   "baseline": {
     "mode": "legacy_manifest",
     "requiresLiveReconciliation": true,
+    "foundationFiles": [
+      "schema_part1_tables.sql",
+      "schema_part2_seed.sql"
+    ],
+    "foundationChainHash": "sha256:751263967951f9325b04413ae4091cd85c4e0d2d7d5819801499957d8927dae5",
     "chainHash": "sha256:308d8908891a9e14eac717981a4c3079fd8b0485d256679d9d15adba3707067b",
     "allowedAnonGrants": [
       {

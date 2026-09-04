@@ -25,14 +25,14 @@ Academy certification remains `uncertified`. Lab runtime remains `untrusted_curr
 1. **Resolved — embedded hosted RLS target and reusable test credentials.** Five RLS entry points previously defaulted to a real project and repository-published credentials. They now load one fail-closed configuration module. A non-local target requires `RLS_TEST_ALLOW_REMOTE=true`; authenticated checks require secret-managed passwords and a service-role key.
 2. **Resolved — unguarded test-data mutation.** Seed and cleanup scripts now require independent approval flags. The approval-boundary audit classifies both commands as external mutations and excludes them from local release verification.
 3. **Resolved — tracked infrastructure credential.** A high-entropy metrics token was found in `infra/aws-api/terraform.tfvars`. The tracked runtime file was removed, all Terraform variable files are ignored, and a placeholder-only example was added. The old value must be rotated externally because removal from the working tree cannot invalidate a deployed credential or erase Git history.
-4. **Resolved — incomplete legacy coverage.** The first audit revision hash-bound the 14 legacy files but scanned only incremental SQL semantics. The final contract scans all 129 SQL files for RLS coverage, unsafe definer functions, anonymous grants, and destructive statements while retaining separate immutable chain hashes.
+4. **Resolved — incomplete baseline coverage.** The first audit revision hash-bound the 14 legacy files but omitted the two foundational schema/seed files. The corrected contract separately hash-binds those files and scans all 131 SQL files for RLS coverage, unsafe definer functions, anonymous grants, and destructive statements.
 5. **Pending external approval — credential invalidation.** Rotate the four formerly published test-account passwords and the former metrics token, then confirm they are absent from production. Do not reuse those values in staging.
 6. **Pending external approval — hosted proof.** Reconcile the live migration ledger/schema, run tenant and anonymous RLS probes against isolated staging, verify provider backup/PITR settings, and complete an isolated restore drill with measured RPO/RTO.
 
 ## Proof reviewed
 
 - `npm run test:data-integrity`: 8/8 contracts passed, including known-good and deliberately broken fixtures.
-- `npm run audit:data-integrity`: `local_static_green`; 115 incremental migrations, 14 baseline files, 279/279 created tables with RLS, and 14 definer functions covered.
+- `npm run audit:data-integrity`: `local_static_green`; 115 incremental migrations, 14 legacy files, two foundational files, 295/295 created tables with RLS, and 14 definer functions covered.
 - Canonical program observer: all 11 commands passed (program, 334 unit tests, security, data integrity, typecheck, lint, build, desktop/mobile Lighthouse, approval boundaries, and diff check).
 - Dependency audit: zero production and development findings.
 - Added-lines Gitleaks scan: 74.23 KB scanned, zero findings.

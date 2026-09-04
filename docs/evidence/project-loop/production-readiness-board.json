@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T15:48:05.869Z",
-  "inventoryHash": "sha256:5e461ccb2212202f51c7ca0e22fb57fe0c7ab9a31e6c060b7f26ff2559c34522",
+  "generatedAt": "2026-09-04T16:20:18.368Z",
+  "inventoryHash": "sha256:900ae1ee39386a4b1d7b286ae1e7e008fbff9d55d53f56cb84f4398a9f238416",
   "overallStatus": "not_local_production_candidate",
   "trust": {
     "academyCertification": "uncertified",
@@ -51,39 +51,8 @@
       ],
       "sequence": 2,
       "status": "in_progress",
-      "findingCount": 1,
-      "findings": [
-        {
-          "code": "dev_dependency_exception",
-          "severity": "medium",
-          "workstreamId": "build-quality",
-          "summary": "Dev-only dependency audit has 9 findings isolated from the production graph.",
-          "details": {
-            "info": 0,
-            "low": 0,
-            "moderate": 3,
-            "high": 6,
-            "critical": 0,
-            "total": 9,
-            "ok": false,
-            "exceptionCount": 2,
-            "exceptions": [
-              {
-                "package": "@lhci/cli@0.15.1",
-                "scope": "local_and_ci_performance_tooling_only",
-                "reason": "Current upstream LHCI depends on a Lighthouse/Puppeteer chain with no non-breaking patched release; npm proposes an older major downgrade.",
-                "control": "Never imported by application runtime; production audit is executed independently with --omit=dev."
-              },
-              {
-                "package": "http-server@14.1.1",
-                "scope": "local_static_export_server_only",
-                "reason": "Latest upstream release retains a vulnerable qs transitive dependency.",
-                "control": "Only binds a local export preview; never imported or deployed in the production application."
-              }
-            ]
-          }
-        }
-      ]
+      "findingCount": 0,
+      "findings": []
     },
     {
       "id": "auth-security",

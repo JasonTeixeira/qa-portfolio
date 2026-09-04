@@ -74,15 +74,15 @@ const LOOP: [string, string][] = [
 const LOOP_DOTS = [ACCENT, ACCENT, ACCENT, ACCENT, GREEN, GREEN, AMBER, ACCENT, ACCENT, GREEN]
 
 const ARC = [
-  { num: '01', name: 'Sprint contract', desc: 'the outcome, the proof, what NOT to claim', numColor: '#4A4A54', weight: 500, ink: '#B6B6C0' },
-  { num: '04', name: 'Pretest', desc: 'a productive failure → the "oh!" reveal', numColor: '#4A4A54', weight: 500, ink: '#B6B6C0' },
-  { num: '05', name: 'Concept', desc: 'ONE mental model, ≤40 words, paired visual', numColor: '#4A4A54', weight: 500, ink: '#B6B6C0' },
+  { num: '01', name: 'Sprint contract', desc: 'the outcome, the proof, what NOT to claim', numColor: '#9598A2', weight: 500, ink: '#B6B6C0' },
+  { num: '04', name: 'Pretest', desc: 'a productive failure → the "oh!" reveal', numColor: '#9598A2', weight: 500, ink: '#B6B6C0' },
+  { num: '05', name: 'Concept', desc: 'ONE mental model, ≤40 words, paired visual', numColor: '#9598A2', weight: 500, ink: '#B6B6C0' },
   { num: '06', name: 'Diagram', desc: 'the system, suspect edge lit', numColor: '#8FA0FF', weight: 700, ink: INK },
   { num: '07', name: 'Code walkthrough', desc: 'real code, stepped and annotated', numColor: '#8FA0FF', weight: 700, ink: INK },
   { num: '08', name: 'Compare', desc: 'weak vs gold, side by side', numColor: '#8FA0FF', weight: 700, ink: INK },
   { num: '11', name: 'Verification', desc: '"prove it — no vibes": confirmable items', numColor: GREEN, weight: 700, ink: INK },
-  { num: '12', name: 'Teachback', desc: 'say it back in your own words', numColor: '#4A4A54', weight: 500, ink: '#B6B6C0' },
-  { num: '14', name: 'Spaced review', desc: 'seeds the 1 / 3 / 7 / 30-day recall', numColor: '#4A4A54', weight: 500, ink: '#B6B6C0' },
+  { num: '12', name: 'Teachback', desc: 'say it back in your own words', numColor: '#9598A2', weight: 500, ink: '#B6B6C0' },
+  { num: '14', name: 'Spaced review', desc: 'seeds the 1 / 3 / 7 / 30-day recall', numColor: '#9598A2', weight: 500, ink: '#B6B6C0' },
 ]
 
 const COURSES = [
@@ -159,6 +159,8 @@ export async function SageHome() {
           }}
         />
 
+        <main>
+
         {/* ============ A. HERO ============ */}
         <header style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(56px, 8vw, 104px) clamp(20px, 4vw, 48px) clamp(48px, 6vw, 80px)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(36px, 5vw, 72px)', alignItems: 'center' }}>
@@ -221,7 +223,7 @@ export async function SageHome() {
               <figure style={{ margin: 0, position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#2A2A33', border: `1px solid ${LINE}`, borderRadius: 14, overflow: 'hidden' }}>
                 <div style={{ background: '#111115', padding: 22 }}>
                   <div style={{ ...mono, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: AMBER, marginBottom: 14 }}>▲ {t('Weak · a bag of boxes')}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, opacity: 0.7, marginBottom: 16 }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
                     {['API', 'DB', 'Queue?', '…stuff'].map((s) => (
                       <span key={s} style={{ border: '1px solid #2A2A33', borderRadius: 6, padding: '6px 12px', fontSize: 12, color: '#9598A2' }}>{t(s)}</span>
                     ))}
@@ -253,10 +255,12 @@ export async function SageHome() {
                 <div style={kicker}>{t('The Sage Learning OS')}</div>
                 <h2 style={h2}>{t('Every course is an instance of the loop senior engineers run on autopilot.')}</h2>
               </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img
                 src="/art/academy/loop-brush.webp"
                 alt="The Sage loop: frame, route, map, decide, prove"
+                width={1200}
+                height={670}
                 style={{ width: 'min(340px, 100%)', flex: '0 1 auto', margin: '-20px 0', WebkitMaskImage: 'radial-gradient(72% 82% at 50% 50%, #000 42%, transparent 96%)', maskImage: 'radial-gradient(72% 82% at 50% 50%, #000 42%, transparent 96%)' }}
               />
             </div>
@@ -264,7 +268,7 @@ export async function SageHome() {
               {LOOP.map(([name, desc], i) => (
                 <div key={name} style={{ background: '#111115', padding: 20, minHeight: 118, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ ...mono, fontSize: 10, color: '#4A4A54' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span style={{ ...mono, fontSize: 10, color: '#9598A2' }}>{String(i + 1).padStart(2, '0')}</span>
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: LOOP_DOTS[i] }} />
                   </div>
                   <div style={{ ...serif, fontWeight: 600, fontSize: 19, letterSpacing: '-0.01em' }}>{name}</div>
@@ -307,7 +311,7 @@ export async function SageHome() {
                   <div style={{ whiteSpace: 'pre', color: '#B6B6C0' }}>def retry_charge(order, attempts=3):</div>
                   <div style={{ whiteSpace: 'pre', color: '#B6B6C0' }}>    for i in range(attempts):</div>
                   <div style={{ whiteSpace: 'pre', background: 'rgba(229,72,77,0.10)', borderLeft: '2px solid #E5484D', color: INK }}>        charge(order)  # ✗ no idempotency key</div>
-                  <div style={{ whiteSpace: 'pre', color: '#5A5A64' }}># FAIL: 3 charges issued for 1 order</div>
+                  <div style={{ whiteSpace: 'pre', color: '#9598A2' }}># FAIL: 3 charges issued for 1 order</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderTop: `1px solid ${LINE}` }}>
                   <span style={{ ...mono, fontSize: 11, color: '#E5484D' }}>✗ {t('check failed · 1 expected, 3 found')}</span>
@@ -381,15 +385,17 @@ export async function SageHome() {
                 <p style={{ margin: 0, color: '#9C9CA6', maxWidth: '46ch', textWrap: 'pretty' }}>
                   {t('Decision memos and passing proofs — pick any claim, follow the artifact, see for yourself. Certificates are auto-issued on genuine completion, verifiable by code.')}
                 </p>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img
                   src="/art/academy/proof-brush.webp"
                   alt=""
+                  width={1200}
+                  height={670}
                   style={{ display: 'block', width: 'min(400px, 90%)', margin: '4px 0 -24px -12px', pointerEvents: 'none', WebkitMaskImage: 'radial-gradient(75% 78% at 50% 50%, #000 38%, transparent 95%)', maskImage: 'radial-gradient(75% 78% at 50% 50%, #000 38%, transparent 95%)' }}
                 />
               </div>
               <div style={{ border: `1px solid ${LINE}`, borderRadius: 14, background: '#111115', overflow: 'hidden' }}>
-                <div style={{ ...mono, display: 'grid', gridTemplateColumns: 'minmax(120px, 1.2fr) minmax(120px, 1.2fr) auto', gap: 14, padding: '12px 22px', borderBottom: `1px solid ${LINE}`, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4A4A54' }}>
+                <div style={{ ...mono, display: 'grid', gridTemplateColumns: 'minmax(120px, 1.2fr) minmax(120px, 1.2fr) auto', gap: 14, padding: '12px 22px', borderBottom: `1px solid ${LINE}`, fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9598A2' }}>
                   <span>{t('Claim')}</span><span>{t('Artifact')}</span><span>{t('Verdict')}</span>
                 </div>
                 {EVIDENCE.map((e) => (
@@ -461,7 +467,7 @@ export async function SageHome() {
         <section style={{ ...section, background: '#0D0D11', overflow: 'hidden' }}>
           <div style={{ maxWidth: 1240, margin: '0 auto', padding: 'clamp(72px, 10vw, 140px) clamp(20px, 4vw, 48px)', position: 'relative' }}>
             <div style={{ ...serif, position: 'absolute', right: -40, top: '50%', transform: 'translateY(-50%)', fontWeight: 700, fontSize: 'clamp(180px, 26vw, 360px)', lineHeight: 1, color: 'rgba(255,255,255,0.025)', userSelect: 'none', pointerEvents: 'none' }}>94</div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <img
               src="/art/academy/band-brush.webp"
               alt=""
@@ -473,7 +479,7 @@ export async function SageHome() {
             </div>
             <div style={{ marginTop: 24, fontSize: 15, color: '#9598A2', maxWidth: '44ch' }}>
               {t('Every claim on this page follows its own rule.')}{' '}
-              <Link href="/academy/proof-not-paper" style={{ color: '#8FA0FF', textDecoration: 'none' }}>{t('Read the manifesto →')}</Link>
+              <Link href="/academy/proof-not-paper" style={{ color: '#8FA0FF', textDecoration: 'underline', textUnderlineOffset: 3 }}>{t('Read the manifesto →')}</Link>
             </div>
             {/* The anti-cert film — narrated, poster-first. Left-aligned to clear the right-side art. */}
             <figure style={{ position: 'relative', zIndex: 1, margin: 'clamp(32px, 5vw, 52px) 0 0', maxWidth: 620, border: `1px solid ${LINE}`, borderRadius: 16, overflow: 'hidden', background: '#0B0B0E', boxShadow: '0 28px 70px -32px rgba(0,0,0,0.85)' }}>
@@ -553,6 +559,7 @@ export async function SageHome() {
           </div>
         </section>
 
+        </main>
         <AcademyFooter />
       </div>
     </>

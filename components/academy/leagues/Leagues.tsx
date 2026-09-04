@@ -52,7 +52,7 @@ function weekDetail(row: StandingRow, total: number, tier: number, relegateZone:
 
 export function Leagues({
   standings,
-  nextRank,
+  nextRank: _nextRank,
   inviteLink,
 }: {
   standings: LeagueStandings

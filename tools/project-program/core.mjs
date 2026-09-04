@@ -109,6 +109,8 @@ export const SAFE_LOCAL_COMMANDS = Object.freeze([
   'npm run typecheck',
   'npm run lint',
   'npm run build',
+  'npm run test:lh:config',
+  'npm run test:lh:config:mobile',
   'npm run ops:approval-boundaries',
   'git diff --check',
 ])
@@ -168,14 +170,15 @@ export function classifyDependencyAudit({ all, production, devExceptions = [] })
     Object.keys(allCounts).map((severity) => [severity, Math.max(0, allCounts[severity] - productionCounts[severity])]),
   )
   const productionOk = productionCounts.total === 0
+  const applicableExceptions = devOnlyCounts.total > 0 ? devExceptions : []
   return {
     ok: productionOk,
     production: { ...productionCounts, ok: productionOk },
     devOnly: {
       ...devOnlyCounts,
       ok: devOnlyCounts.total === 0,
-      exceptionCount: devExceptions.length,
-      exceptions: clone(devExceptions),
+      exceptionCount: applicableExceptions.length,
+      exceptions: clone(applicableExceptions),
     },
     policy: 'production dependency graph must contain zero known vulnerabilities; dev-only findings require an explicit evidence exception',
   }

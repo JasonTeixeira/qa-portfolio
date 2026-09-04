@@ -16,8 +16,10 @@
   "proof": {
     "unitTests": "334 passed, 0 failed",
     "typecheck": "pass",
-    "lint": "pass with non-blocking warning backlog",
-    "productionDependencyAudit": "0 vulnerabilities",
+    "lint": "pass with 0 errors and 0 warnings",
+    "dependencyAudit": "0 vulnerabilities across production and development dependency graphs",
+    "lighthouseDesktop": "6/6 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
+    "lighthouseMobile": "5/5 routes pass configured performance, accessibility, best-practices, and SEO thresholds",
     "secretScan": "gitleaks staged diff: no leaks found",
     "approvalBoundaryAudit": "pass",
     "academyCertification": "uncertified",
@@ -58,13 +60,25 @@
       "severity": "high",
       "code": "production_dependency_advisories",
       "resolution": "Updated direct packages and pinned compatible secure transitive runtimes; npm audit --omit=dev reports zero vulnerabilities."
+    },
+    {
+      "severity": "medium",
+      "code": "development_dependency_advisories",
+      "resolution": "Replaced @lhci/cli and http-server with a local Lighthouse runner and native static server; full npm audit reports zero vulnerabilities."
+    },
+    {
+      "severity": "medium",
+      "code": "homepage_accessibility_threshold",
+      "resolution": "Added semantic main content, corrected footer heading order and comparison-table headers, restored accessible contrast and link affordance, and supplied intrinsic image dimensions; desktop and mobile Lighthouse accessibility now score 0.97."
+    },
+    {
+      "severity": "low",
+      "code": "deprecated_edge_runtime",
+      "resolution": "Moved both Open Graph image routes to the supported Node.js runtime and proved 1200x630 PNG responses locally."
     }
   ],
   "unresolvedCriticalOrHigh": [],
-  "devOnlyExceptions": [
-    "Latest @lhci/cli retains an upstream Lighthouse/Puppeteer advisory chain; it is not imported by application runtime.",
-    "Latest http-server retains an upstream qs advisory chain; it is restricted to local static-export preview."
-  ],
+  "devOnlyExceptions": [],
   "externalEvidencePending": [
     "Fresh Discord permission/security smoke requires configured Supabase and Discord credentials and remains outside the local code-review claim.",
     "Migration 0113 is authored and statically verified but has not been applied to any database.",

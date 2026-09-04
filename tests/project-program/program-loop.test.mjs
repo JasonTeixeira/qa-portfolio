@@ -4,6 +4,7 @@ import test from 'node:test'
 
 import {
   PROGRAM_VERSION,
+  SAFE_LOCAL_COMMANDS,
   WORKSTREAM_GRAPH,
   assertSafeCommands,
   auditContractFixture,
@@ -231,6 +232,14 @@ test('dependency audit blocks production risk while preserving dev-only exceptio
     devExceptions: [],
   })
   assert.equal(exposed.ok, false)
+
+  const clean = classifyDependencyAudit({
+    all: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+    production: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+    devExceptions: [{ package: 'obsolete-exception', reason: 'No longer applicable.' }],
+  })
+  assert.equal(clean.devOnly.exceptionCount, 0)
+  assert.deepEqual(clean.devOnly.exceptions, [])
 })
 
 test('package scripts expose the complete local program control surface', () => {
@@ -251,4 +260,36 @@ test('package scripts expose the complete local program control surface', () => 
   for (const [name, command] of Object.entries(expected)) {
     assert.equal(packageJson.scripts?.[name], command, `missing or changed package script: ${name}`)
   }
+})
+
+test('build tooling uses the supported Node runtime and has no vulnerable legacy wrappers', () => {
+  const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
+  const workflows = [
+    '.github/workflows/ci.yml',
+    '.github/workflows/e2e.yml',
+    '.github/workflows/prod-synthetic-monitor.yml',
+    '.github/workflows/i18n.yml',
+    '.github/workflows/qa-portfolio-verification.yml',
+    '.github/workflows/sage-gate.yml',
+    '.github/workflows/quality-snapshot.yml',
+    '.github/workflows/qa-metrics-template.yml',
+  ].map((file) => readFileSync(file, 'utf8')).join('\n')
+  const ciWorkflow = readFileSync('.github/workflows/ci.yml', 'utf8')
+  const staticServer = readFileSync('scripts/serve-export.mjs', 'utf8')
+  const lighthouseRunner = readFileSync('scripts/qa/run-lighthouse-config.mjs', 'utf8')
+  const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
+
+  assert.equal(packageJson.engines?.node, '>=22.19.0')
+  assert.equal(packageJson.devDependencies?.['@lhci/cli'], undefined)
+  assert.equal(packageJson.devDependencies?.['http-server'], undefined)
+  assert.equal(packageJson.devDependencies?.lighthouse, '13.4.1')
+  assert.doesNotMatch(workflows, /node-version:\s*['"]?20/)
+  assert.doesNotMatch(workflows, /@lhci\/cli/)
+  assert.doesNotMatch(ciWorkflow, /continue-on-error:\s*true/)
+  assert.doesNotMatch(staticServer, /\b(?:npx|http-server|spawn)\b/)
+  assert.match(lighthouseRunner, /node_modules.*\.bin.*lighthouse/)
+  assert.match(lighthouseRunner, /listen\(0/)
+  assert.doesNotMatch(ogRoutes, /runtime\s*=\s*['"]edge['"]/)
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config:mobile'))
 })

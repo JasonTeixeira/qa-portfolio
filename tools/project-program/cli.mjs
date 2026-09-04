@@ -53,6 +53,8 @@ const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },
+  { id: 'lighthouse-desktop', command: 'npm run test:lh:config', severity: 'high', workstreamId: 'build-quality' },
+  { id: 'lighthouse-mobile', command: 'npm run test:lh:config:mobile', severity: 'high', workstreamId: 'build-quality' },
   { id: 'approval-boundaries', command: 'npm run ops:approval-boundaries', severity: 'critical', workstreamId: 'auth-security' },
   { id: 'diff-check', command: 'git diff --check', severity: 'high', workstreamId: 'repository-foundation' },
 ])
@@ -305,20 +307,7 @@ function dependencyAudit() {
   return classifyDependencyAudit({
     all: all.counts,
     production: production.counts,
-    devExceptions: [
-      {
-        package: '@lhci/cli@0.15.1',
-        scope: 'local_and_ci_performance_tooling_only',
-        reason: 'Current upstream LHCI depends on a Lighthouse/Puppeteer chain with no non-breaking patched release; npm proposes an older major downgrade.',
-        control: 'Never imported by application runtime; production audit is executed independently with --omit=dev.',
-      },
-      {
-        package: 'http-server@14.1.1',
-        scope: 'local_static_export_server_only',
-        reason: 'Latest upstream release retains a vulnerable qs transitive dependency.',
-        control: 'Only binds a local export preview; never imported or deployed in the production application.',
-      },
-    ],
+    devExceptions: [],
   })
 }
 

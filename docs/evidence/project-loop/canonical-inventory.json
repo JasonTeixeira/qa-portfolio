@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T15:48:05.850Z",
-  "inventoryHash": "sha256:5e461ccb2212202f51c7ca0e22fb57fe0c7ab9a31e6c060b7f26ff2559c34522",
+  "generatedAt": "2026-09-04T16:20:18.348Z",
+  "inventoryHash": "sha256:900ae1ee39386a4b1d7b286ae1e7e008fbff9d55d53f56cb84f4398a9f238416",
   "git": {
-    "head": "44e7cbe1af713ce289feafe412156f4b1a7f7b20",
+    "head": "544c0e4b810f742620eac308485a8d9b278d7f77",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3837,
+    "trackedFiles": 3838,
     "appPages": 234,
     "routeHandlers": 133,
     "apiRoutes": 125,
@@ -276,6 +276,8 @@
     "test:e2e:local",
     "test:e2e:local:acquisition",
     "test:lh",
+    "test:lh:config",
+    "test:lh:config:mobile",
     "test:lh:ux8",
     "test:lh:ux8:mobile",
     "test:links",
@@ -4243,6 +4245,7 @@
     "scripts/qa/cwv-budget-report.mjs",
     "scripts/qa/lighthouse-ux8.mjs",
     "scripts/qa/public-visual-audit.mjs",
+    "scripts/qa/run-lighthouse-config.mjs",
     "scripts/rag/baseline.mjs",
     "scripts/rag/check-rag-migrations.mjs",
     "scripts/rag/chunk-documents.ts",

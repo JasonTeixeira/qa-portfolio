@@ -22,7 +22,7 @@ import { SageMark } from '../brand/SageMark'
 const INK = '#F2EFE9'
 const DIM = '#B6B6C0'
 const MUTED = '#9598A2'
-const FAINT = '#4A4A54'
+const FAINT = '#9598A2'
 const LINE = '#1E1E24'
 const BLUE = '#3D5AFE'
 
@@ -206,9 +206,9 @@ export function AcademyFooter() {
           </div>
           {FOOTER_COLS.map((col) => (
             <div key={col.head}>
-              <h4 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
+              <h2 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
                 {t(col.head)}
-              </h4>
+              </h2>
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
                 {col.links.map((l) => (
                   <li key={l.label}>
@@ -231,9 +231,9 @@ export function AcademyFooter() {
             </div>
           ))}
           <div>
-            <h4 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
+            <h2 style={{ ...mono, margin: '0 0 14px', fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.14em', color: FAINT }}>
               {t('The Monday note')}
-            </h4>
+            </h2>
             <p style={{ margin: '0 0 12px', fontSize: 13, color: '#9C9CA6', lineHeight: 1.55 }}>
               {t('One real incident, mapped in public — in your inbox every Monday.')}
             </p>

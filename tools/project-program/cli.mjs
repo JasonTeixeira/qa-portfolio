@@ -55,6 +55,7 @@ const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'billing-contract', command: 'npm run test:billing', severity: 'critical', workstreamId: 'billing' },
   { id: 'billing-sql-integration', command: 'npm run test:billing:sql', severity: 'critical', workstreamId: 'billing' },
   { id: 'critical-journey-contract', command: 'npm run test:critical-journeys', severity: 'critical', workstreamId: 'critical-user-journeys' },
+  { id: 'academy-production-contract', command: 'npm run test:academy-production', severity: 'critical', workstreamId: 'academy' },
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },

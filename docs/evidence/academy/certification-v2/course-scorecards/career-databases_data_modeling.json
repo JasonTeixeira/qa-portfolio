@@ -2,10 +2,10 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
-  "generatedAt": "2026-09-04T15:34:36.703Z",
+  "generatedAt": "2026-09-04T19:22:22.157Z",
   "courseSlug": "career-databases_data_modeling",
   "title": "Databases and Data Modeling",
-  "contentHash": "sha256:14b3a8f2ee7692c9fce37cd478b0012358b32149a963f23b125cdef9b95ccb84",
+  "contentHash": "sha256:6fc268e4be2fb8f076eedadf8069ec075c662c598924c52f587847b7973612a1",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -41,49 +41,18 @@
     },
     "pedagogy": {
       "id": "pedagogy",
-      "status": "fail",
-      "score": 0,
+      "status": "pending",
+      "score": null,
       "checks": [
         {
           "id": "lesson-rollup-pedagogy",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pending",
           "required": true,
           "summary": "0/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Required standard loop sections are out of order.",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "efc04798b9aab59b",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "seed-fixtures-test-data"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Required standard loop sections are out of order.",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "945b2fb60059f07d",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "data-quality-checks"
-        },
-        {
-          "severity": "high",
-          "category": "pedagogy",
-          "message": "Required standard loop sections are out of order.",
-          "remediation": "Restore the standard learning loop without replacing course-specific teaching with boilerplate.",
-          "mode": "deterministic",
-          "id": "9ae4da44f72c8217",
-          "courseSlug": "career-databases_data_modeling",
-          "lessonSlug": "observability-incidents"
-        }
-      ]
+      "findings": []
     },
     "assessments": {
       "id": "assessments",
@@ -487,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 98.3,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {

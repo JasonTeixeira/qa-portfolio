@@ -75,6 +75,7 @@
     "test:billing": "tsx --test tests/billing/billing-integrity.test.ts",
     "test:billing:sql": "node tools/billing/run-sql-integration.mjs",
     "test:critical-journeys": "tsx --test tests/critical-journeys/critical-journeys.test.ts",
+    "test:academy-production": "npm run academy:audit:test && npm run academy:audit:all && npm run academy:program:verify && npm run academy:registry:verify && npm run academy:lab-evaluator:test",
     "test:critical-journeys:e2e": "playwright test --config=playwright.critical-journeys.config.ts",
     "audit:critical-journeys": "tsx tools/journeys/write-audit.ts",
     "audit:data-integrity": "node tools/data-integrity/cli.mjs",

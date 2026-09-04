@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
-  "generatedAt": "2026-09-04T15:34:36.703Z",
+  "generatedAt": "2026-09-04T19:22:22.157Z",
   "authority": "scripts/academy/quality/v2/run.ts",
   "labTrust": "untrusted_current_runtime",
   "certificationPolicy": "No course is certified by this audit. Eligibility requires zero hard fails and zero required pending checks.",
@@ -345,11 +345,11 @@
       "courseSlug": "career-programming_cs_foundations",
       "title": "Programming and Computer Science Foundations",
       "lessonCount": 20,
-      "contentHash": "sha256:ecb4fcf69368af526ec5898f32834cd2db5fb0b4ebacf348eb0d38c196af501b",
+      "contentHash": "sha256:70ea39669c9d7608ccad1583d39cdcce903514e1501fd4e76a6b8a4107d00b35",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 99.4,
+      "deterministicScore": 100,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -375,8 +375,8 @@
           "score": null
         },
         "structure": {
-          "status": "fail",
-          "score": 0
+          "status": "pass",
+          "score": 100
         },
         "pedagogy": {
           "status": "pending",
@@ -1583,11 +1583,11 @@
       "courseSlug": "career-databases_data_modeling",
       "title": "Databases and Data Modeling",
       "lessonCount": 20,
-      "contentHash": "sha256:14b3a8f2ee7692c9fce37cd478b0012358b32149a963f23b125cdef9b95ccb84",
+      "contentHash": "sha256:6fc268e4be2fb8f076eedadf8069ec075c662c598924c52f587847b7973612a1",
       "labTrust": "untrusted_current_runtime",
       "decision": "blocked",
       "certificationStatus": "uncertified",
-      "deterministicScore": 98.3,
+      "deterministicScore": 100,
       "compositeScore": null,
       "hardFailCount": 20,
       "hardFailCounts": {
@@ -1617,8 +1617,8 @@
           "score": 100
         },
         "pedagogy": {
-          "status": "fail",
-          "score": 0
+          "status": "pending",
+          "score": null
         },
         "assessments": {
           "status": "pass",

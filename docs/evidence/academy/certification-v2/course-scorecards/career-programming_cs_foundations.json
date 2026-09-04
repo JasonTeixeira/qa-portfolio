@@ -2,10 +2,10 @@
   "schemaVersion": 2,
   "harnessVersion": "2.0.0",
   "registryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
-  "generatedAt": "2026-09-04T15:34:36.703Z",
+  "generatedAt": "2026-09-04T19:22:22.157Z",
   "courseSlug": "career-programming_cs_foundations",
   "title": "Programming and Computer Science Foundations",
-  "contentHash": "sha256:ecb4fcf69368af526ec5898f32834cd2db5fb0b4ebacf348eb0d38c196af501b",
+  "contentHash": "sha256:70ea39669c9d7608ccad1583d39cdcce903514e1501fd4e76a6b8a4107d00b35",
   "lessonCount": 20,
   "labTrust": "untrusted_current_runtime",
   "dimensions": {
@@ -26,29 +26,18 @@
     },
     "structure": {
       "id": "structure",
-      "status": "fail",
-      "score": 0,
+      "status": "pass",
+      "score": 100,
       "checks": [
         {
           "id": "lesson-rollup-structure",
           "mode": "deterministic",
-          "status": "fail",
+          "status": "pass",
           "required": true,
-          "summary": "19/20 lesson(s) passed this dimension."
+          "summary": "20/20 lesson(s) passed this dimension."
         }
       ],
-      "findings": [
-        {
-          "severity": "high",
-          "category": "structure",
-          "message": "lesson block 8: callout field 'tone' must be one of tip | note",
-          "remediation": "Repair the block so it satisfies the runtime LessonBlock contract.",
-          "mode": "deterministic",
-          "id": "f43d10a8826205d4",
-          "courseSlug": "career-programming_cs_foundations",
-          "lessonSlug": "heaps-top-k"
-        }
-      ]
+      "findings": []
     },
     "pedagogy": {
       "id": "pedagogy",
@@ -467,7 +456,7 @@
       "findings": []
     }
   },
-  "deterministicScore": 99.4,
+  "deterministicScore": 100,
   "compositeScore": null,
   "hardFails": [
     {

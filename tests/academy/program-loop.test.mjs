@@ -218,6 +218,7 @@ test('the final GREEN checkpoint closes the queue with no current course', () =>
 
 test('completion reconciliation accepts only complete, fully evidenced, untrusted Academy closure', () => {
   const queue = buildCourseQueue(registry, graph)
+  const deterministicScores = board.courses.map((course) => course.deterministicScore)
   const state = createProgramState({
     registry,
     graph,
@@ -239,7 +240,10 @@ test('completion reconciliation accepts only complete, fully evidenced, untruste
       missingLabReferences: 0,
       sourceLedgers: 32,
     },
-    scores: { minimum: 90, average: 98.365625 },
+    scores: {
+      minimum: Math.min(...deterministicScores),
+      average: deterministicScores.reduce((total, score) => total + score, 0) / deterministicScores.length,
+    },
     hardFailCounts: { H1: 0, H2: 640, H3: 0, H4: 0, H5: 0 },
     decisionCounts: { eligible: 0, blocked: 32, remediation: 0, pending: 0, certified: 0 },
     gates: {

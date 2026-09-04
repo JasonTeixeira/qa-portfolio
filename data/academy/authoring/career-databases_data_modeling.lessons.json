@@ -5481,14 +5481,6 @@
       "caption": "The gold version costs four extra lines (pin the clock, fix the IDs, order the inserts, reset) and buys a suite that never flakes on data."
     },
     {
-      "type": "debug",
-      "symptom": "Tests pass when run alone but fail when the suite runs in parallel: 'duplicate key value violates unique constraint users_email_key'. The fixture itself looks correct.",
-      "brokenCode": "BEGIN;\nINSERT INTO users (id, email) VALUES (1, 'ada@example.test');\n-- no TRUNCATE, no ON CONFLICT, no teardown between tests\nINSERT INTO orders (id, user_id) VALUES (10, 1);\nCOMMIT;",
-      "language": "bash",
-      "task": "Two tests share this seed and both run it. Find why parallel runs collide, and fix it so the fixture is idempotent and isolated. Keep the repaired failure case as a regression check so the defect cannot silently return.",
-      "fix": "The seed has no reset and no conflict handling, so the second test re-inserts id 1 and hits the UNIQUE constraint. Add `TRUNCATE orders, users RESTART IDENTITY CASCADE;` at the top (or `ON CONFLICT (id) DO NOTHING` on each INSERT) and a teardown after each test. Better: give each parallel worker its own transaction that ROLLBACKs at test end (isolation), so workers never share committed fixture rows at all."
-    },
-    {
       "type": "callout",
       "tone": "tip",
       "text": "The senior tell: fixtures live in version control next to the migration that shaped the schema, and the seed is re-derived whenever the schema changes — never hand-patched. SWEBOK V4 (data quality model in Software Quality; configuration management) and ACM/IEEE CS2023 support treating this as data-quality and change-control discipline: test data is an artifact with the same change-control as the schema it populates. (SWEBOK does not tie test data to schemas specifically; that framing is inference, not a stated standard.) A fixture that drifts from the current constraints is a silent lie your whole suite trusts."
@@ -5512,6 +5504,14 @@
       "starter": "-- Schema: orders.user_id references users.id (FK).\nCREATE TABLE users (\n  id         INTEGER PRIMARY KEY,\n  email      TEXT NOT NULL,\n  created_at TEXT NOT NULL\n);\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  user_id     INTEGER NOT NULL REFERENCES users(id),\n  total_cents INTEGER NOT NULL,\n  placed_at   TEXT NOT NULL\n);\n\n-- TODO: Write the seed fixtures below.\n-- Rules from the lesson:\n--   1. Insert PARENT rows (users) before CHILD rows (orders) so every\n--      order.user_id points at a user that already exists (FK-safe).\n--   2. Use FIXED timestamp literals, never NOW()/CURRENT_TIMESTAMP, so the\n--      data is identical on every run (deterministic).\n-- Seed exactly these fixtures:\n--   users:  id 1 ada@example.test, id 2 lin@example.test, id 3 mei@example.test\n--           (all created_at '2024-01-01T12:00:00Z')\n--   orders: id 10 -> user 1, 4200 cents\n--           id 11 -> user 1,  800 cents\n--           id 12 -> user 2,  900 cents\n--           (all placed_at '2024-01-01T12:00:00Z')\n-- NOTE: user 3 (mei) intentionally has NO orders.\n\n-- INSERT INTO users ... ;\n-- INSERT INTO orders ... ;\n\n-- Report (do not edit): per-user order count and total.\nSELECT u.email AS email,\n       COUNT(o.id) AS order_count,\n       COALESCE(SUM(o.total_cents), 0) AS total_cents\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.id\nGROUP BY u.id, u.email\nORDER BY u.email;",
       "check": "email | order_count | total_cents\nada@example.test | 2 | 5000\nlin@example.test | 1 | 900\nmei@example.test | 0 | 0",
       "language": "sql"
+    },
+    {
+      "type": "debug",
+      "symptom": "Tests pass when run alone but fail when the suite runs in parallel: 'duplicate key value violates unique constraint users_email_key'. The fixture itself looks correct.",
+      "brokenCode": "BEGIN;\nINSERT INTO users (id, email) VALUES (1, 'ada@example.test');\n-- no TRUNCATE, no ON CONFLICT, no teardown between tests\nINSERT INTO orders (id, user_id) VALUES (10, 1);\nCOMMIT;",
+      "language": "bash",
+      "task": "Two tests share this seed and both run it. Find why parallel runs collide, and fix it so the fixture is idempotent and isolated. Keep the repaired failure case as a regression check so the defect cannot silently return.",
+      "fix": "The seed has no reset and no conflict handling, so the second test re-inserts id 1 and hits the UNIQUE constraint. Add `TRUNCATE orders, users RESTART IDENTITY CASCADE;` at the top (or `ON CONFLICT (id) DO NOTHING` on each INSERT) and a teardown after each test. Better: give each parallel worker its own transaction that ROLLBACKs at test end (isolation), so workers never share committed fixture rows at all."
     },
     {
       "type": "tradeoff",
@@ -5910,14 +5910,6 @@
       "caption": "The teaching signal: a check you have never seen fail is a check you cannot trust. Make it fail once on purpose before you rely on it passing."
     },
     {
-      "type": "debug",
-      "symptom": "The uniqueness check reports PASS on a table you KNOW has duplicate order_ids — finance found them last week.",
-      "brokenCode": "-- 'uniqueness' check\nSELECT order_id FROM orders WHERE order_id IS NOT NULL;",
-      "language": "bash",
-      "task": "This query can only ever pass (it returns every non-null order_id, which the author reads as 'they all exist'). Rewrite it so it returns ONLY the rows that violate the uniqueness invariant — and explain why the original is theater. Keep the repaired failure case as a regression check so the defect cannot silently return.",
-      "fix": "SELECT order_id, COUNT(*) FROM orders GROUP BY order_id HAVING COUNT(*) > 1;  — The original checked presence, not uniqueness: 'is the column populated' instead of 'is the key actually unique'. A check must return the VIOLATING set (duplicates), so an empty result is the only thing that means PASS. The duplicate-key incident was invisible because the check could not express the invariant it claimed to guard."
-    },
-    {
       "type": "callout",
       "tone": "tip",
       "text": "Standards grounding (SWEBOK V4 Software Quality, which defines a general data quality model): the senior tell is treating a quality rule as an executable, falsifiable assertion versioned alongside the schema — not a paragraph in a runbook. (SWEBOK defines data-quality characteristics but does not prescribe executable assertions versioned with a schema; that specific practice is the author's, not the standard's.) If your check isn't a query you can run in CI and watch turn red, it isn't enforced; it's a hope. Run the contract pre-promote and again post-migration so the rollback decision keys off evidence, not vibes."
@@ -5941,6 +5933,14 @@
       "starter": "-- Data-quality contract lab · SQLite (sql.js), runs fresh in your browser.\n-- In the lesson, a PASSING check returns ZERO rows; any returned row is a violation to fix.\n-- Here we INVERT that: your job is to LIST the violating orders so a human can triage them.\n\nCREATE TABLE orders (\n  id          INTEGER PRIMARY KEY,\n  customer_id INTEGER,\n  amount      REAL,\n  status      TEXT,\n  shipped_at  TEXT      -- ISO date, or NULL if not yet shipped\n);\n\nINSERT INTO orders (id, customer_id, amount, status, shipped_at) VALUES\n  (1, 100,  49.99, 'shipped',    '2026-06-01'),  -- clean\n  (2, 101,  -5.00, 'refunded',    NULL),          -- BAD: amount < 0\n  (3, 102, 120.00, 'shipped',     NULL),          -- BAD: shipped but no shipped_at\n  (4, 103,   0.00, 'pending',     NULL),          -- clean (0 is allowed)\n  (5, 104, -19.50, 'shipped',     NULL),          -- BAD: amount < 0 AND shipped w/o date\n  (6, 105,  75.25, 'shipped',    '2026-06-10'),   -- clean\n  (7, 106,  10.00, 'pending',     NULL);          -- clean\n\n-- DOMAIN INVARIANT: amount must be >= 0, and status='shipped' implies shipped_at IS NOT NULL.\n-- TODO: SELECT the id of every order that VIOLATES the invariant.\n-- Return one column named \"id\", ordered by id ascending.\n",
       "check": "id\n2\n3\n5",
       "language": "sql"
+    },
+    {
+      "type": "debug",
+      "symptom": "The uniqueness check reports PASS on a table you KNOW has duplicate order_ids — finance found them last week.",
+      "brokenCode": "-- 'uniqueness' check\nSELECT order_id FROM orders WHERE order_id IS NOT NULL;",
+      "language": "bash",
+      "task": "This query can only ever pass (it returns every non-null order_id, which the author reads as 'they all exist'). Rewrite it so it returns ONLY the rows that violate the uniqueness invariant — and explain why the original is theater. Keep the repaired failure case as a regression check so the defect cannot silently return.",
+      "fix": "SELECT order_id, COUNT(*) FROM orders GROUP BY order_id HAVING COUNT(*) > 1;  — The original checked presence, not uniqueness: 'is the column populated' instead of 'is the key actually unique'. A check must return the VIOLATING set (duplicates), so an empty result is the only thing that means PASS. The duplicate-key incident was invisible because the check could not express the invariant it claimed to guard."
     },
     {
       "type": "tradeoff",
@@ -8204,20 +8204,20 @@
       "caption": "Stale-symptom resolution ≠ root-cause resolution. The right column traces every claim to a metric, a plan, and a named migration — so the same regression cannot silently return, and the capstone can reuse the packet verbatim."
     },
     {
-      "type": "debug",
-      "symptom": "After a migration, writes to orders intermittently hang for seconds and some checkout transactions time out — but EXPLAIN on the SELECT looks fine and CPU is normal. The metric layer alone says nothing useful.",
-      "brokenCode": "-- migration 0143 (ran during peak traffic)\nBEGIN;\nALTER TABLE orders ADD COLUMN risk_score numeric NOT NULL DEFAULT 0;\nUPDATE orders SET risk_score = compute_risk(customer_id);  -- rewrites 8.4M rows\nCREATE INDEX idx_orders_risk ON orders (risk_score);\nCOMMIT;",
-      "language": "bash",
-      "task": "The symptom is lock contention, not a slow plan — so the right signal is the LOCK layer, not pg_stat_statements. Name the observability signal that exposes it and the safer migration shape. Keep the repaired failure case as a regression check so the defect cannot silently return.",
-      "fix": "Inspect pg_locks / pg_stat_activity (wait_event_type = 'Lock'): the long transaction holds an ACCESS EXCLUSIVE lock on orders for the whole rewrite, blocking every concurrent write until COMMIT. That is the signal a CPU/latency dashboard hides. The fix is to stop holding one giant lock: add the column with a cheap default, backfill risk_score in batched transactions outside the migration, and build the index with CREATE INDEX CONCURRENTLY so it does not lock writes. Same end state, no peak-hour ACCESS EXCLUSIVE lock — and the rollback trigger watches lock-wait time, not just latency."
-    },
-    {
       "type": "lab",
       "title": "Find the regressed query and confirm its missing index",
       "summary": "Join a query-stats table against the index catalog to surface statements that regressed after a deploy AND have no index on their filter column — the exact triage move from the lesson — running it in the browser against an in-memory SQLite database.",
       "starter": "-- Incident triage: a deploy at 14:00 made the app slow.\n-- You have two observability tables captured from the database.\n\n-- query_stats: one row per statement the DB executed a lot.\n--   filter_column = the column the statement filters on (like pg_stat_statements normalized text)\n--   mean_ms_before / mean_ms_after = mean execution time before vs after the deploy\nCREATE TABLE query_stats (\n  statement       TEXT NOT NULL,\n  table_name      TEXT NOT NULL,\n  filter_column   TEXT NOT NULL,\n  calls           INTEGER NOT NULL,\n  mean_ms_before  REAL NOT NULL,\n  mean_ms_after   REAL NOT NULL\n);\n\n-- indexes: the index catalog AFTER the deploy (which indexes still exist).\nCREATE TABLE indexes (\n  table_name    TEXT NOT NULL,\n  indexed_column TEXT NOT NULL\n);\n\nINSERT INTO query_stats (statement, table_name, filter_column, calls, mean_ms_before, mean_ms_after) VALUES\n  ('SELECT * FROM orders WHERE customer_id = $1',   'orders',   'customer_id',  90000, 3.0,   842.0),\n  ('SELECT * FROM sessions WHERE token = $1',       'sessions', 'token',        50000, 2.5,   2.7),\n  ('SELECT * FROM shipments WHERE order_id = $1',    'shipments','order_id',     12000, 4.0,   611.0),\n  ('SELECT * FROM users WHERE email = $1',           'users',    'email',        8000,  1.8,   1.9),\n  ('SELECT * FROM invoices WHERE account_id = $1',   'invoices', 'account_id',   3000,  5.0,   9.0);\n\n-- indexes remaining after the deploy (customer_id and order_id indexes were dropped):\nINSERT INTO indexes (table_name, indexed_column) VALUES\n  ('sessions', 'token'),\n  ('users',    'email'),\n  ('invoices', 'account_id');\n\n-- TODO:\n-- Report every statement that REGRESSED after the deploy\n-- (mean_ms_after is at least 10x mean_ms_before) AND whose filter_column\n-- has NO matching index in the `indexes` catalog for its table.\n-- Return columns: table_name, filter_column, mean_ms_after\n-- Order by mean_ms_after descending.",
       "check": "table_name | filter_column | mean_ms_after\norders | customer_id | 842.0\nshipments | order_id | 611.0",
       "language": "sql"
+    },
+    {
+      "type": "debug",
+      "symptom": "After a migration, writes to orders intermittently hang for seconds and some checkout transactions time out — but EXPLAIN on the SELECT looks fine and CPU is normal. The metric layer alone says nothing useful.",
+      "brokenCode": "-- migration 0143 (ran during peak traffic)\nBEGIN;\nALTER TABLE orders ADD COLUMN risk_score numeric NOT NULL DEFAULT 0;\nUPDATE orders SET risk_score = compute_risk(customer_id);  -- rewrites 8.4M rows\nCREATE INDEX idx_orders_risk ON orders (risk_score);\nCOMMIT;",
+      "language": "bash",
+      "task": "The symptom is lock contention, not a slow plan — so the right signal is the LOCK layer, not pg_stat_statements. Name the observability signal that exposes it and the safer migration shape. Keep the repaired failure case as a regression check so the defect cannot silently return.",
+      "fix": "Inspect pg_locks / pg_stat_activity (wait_event_type = 'Lock'): the long transaction holds an ACCESS EXCLUSIVE lock on orders for the whole rewrite, blocking every concurrent write until COMMIT. That is the signal a CPU/latency dashboard hides. The fix is to stop holding one giant lock: add the column with a cheap default, backfill risk_score in batched transactions outside the migration, and build the index with CREATE INDEX CONCURRENTLY so it does not lock writes. Same end state, no peak-hour ACCESS EXCLUSIVE lock — and the rollback trigger watches lock-wait time, not just latency."
     },
     {
       "type": "tradeoff",

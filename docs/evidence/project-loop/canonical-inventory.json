@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-04T19:12:58.649Z",
-  "inventoryHash": "sha256:9465a2e0c209fde0a5c17af41c81969c54edb0612d9d2d90439129447f372416",
+  "generatedAt": "2026-09-04T19:26:52.999Z",
+  "inventoryHash": "sha256:7eb6433720d9527a6ace3a3a788b20235ddabe03d682fd0dc89da082e8f5c418",
   "git": {
-    "head": "8f062a2982f61984d2fad2a98cea941ecba00454",
+    "head": "10fe6030f6e5a687c0d3aef8ba31c32332071505",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
@@ -272,6 +272,7 @@
     "start",
     "start:local",
     "stop:local",
+    "test:academy-production",
     "test:all",
     "test:billing",
     "test:billing:sql",

@@ -29,11 +29,17 @@ test('Databases implements the complete evidence-first mastery loop in all 20 le
     const contract = blocks.find((block) => block.type === 'sprint-contract')
     assert(contract, `${key}: missing sprint contract`)
     const intensity = contract.intensity as SprintIntensity
-    const blockTypes = blocks.map((block) => block.type)
+    const blockTypes = blocks.map((block) => String(block.type))
 
     for (const required of REQUIRED_SECTIONS[intensity]) {
       assert(blockTypes.includes(required), `${key}: missing ${required}`)
     }
+    const orderedSections = blockTypes.filter((type) => REQUIRED_SECTIONS[intensity].includes(type))
+    assert.deepEqual(
+      orderedSections,
+      REQUIRED_SECTIONS[intensity],
+      `${key}: required mastery-loop sections are out of order`,
+    )
     for (const required of ['calibration', 'unlock-gate']) {
       assert(blockTypes.includes(required), `${key}: missing ${required}`)
     }

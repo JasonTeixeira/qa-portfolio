@@ -10,7 +10,7 @@ import {
 
 test('application adapter exposes the generated canonical registry', () => {
   assert.equal(academyRegistry.totals.courses, 32)
-  assert.equal(academyRegistry.totals.lessons, 632)
+  assert.equal(academyRegistry.totals.lessons, 640)
   assert.equal(
     resolveAcademyCourseSlug('programming-fundamentals'),
     'programming-fundamentals',

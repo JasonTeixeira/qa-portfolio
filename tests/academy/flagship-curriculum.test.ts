@@ -10,6 +10,7 @@ import {
   loadFlagshipCompetencyGraph,
   validateFlagshipCompetencyGraph,
 } from '../../lib/academy/flagship-competency-graph'
+import { validateBlocks } from '../../lib/academy/validate-blocks'
 
 const registry = JSON.parse(readFileSync('data/academy/registry.json', 'utf8'))
 
@@ -110,6 +111,12 @@ test('every flagship foundation course implements its declared learning loop wit
     assert.equal(Object.keys(lessons).length, expectedLessons, `${courseSlug}: lesson count drift`)
     for (const [lessonSlug, blocks] of Object.entries(lessons)) {
       const key = `${courseSlug}/${lessonSlug}`
+      const validation = validateBlocks(blocks)
+      assert.equal(
+        validation.ok,
+        true,
+        `${key}: ${validation.ok ? 'valid runtime lesson blocks' : validation.errors.join('; ')}`,
+      )
       const contract = blocks.find((block) => block.type === 'sprint-contract')
       assert(contract, `${key}: missing sprint contract`)
       const intensity = contract.intensity as SprintIntensity

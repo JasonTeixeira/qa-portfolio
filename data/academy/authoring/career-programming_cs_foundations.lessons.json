@@ -4831,7 +4831,7 @@
     },
     {
       "type": "callout",
-      "tone": "warning",
+      "tone": "note",
       "text": "Prediction checkpoint: before running the build, name the failure you expect and the invariant it violates. Then reproduce it in the lab and compare your diagnosis with the broken-case evidence after the build."
     },
     {

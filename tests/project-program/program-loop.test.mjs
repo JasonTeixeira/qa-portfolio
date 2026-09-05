@@ -304,6 +304,7 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
     '.github/workflows/qa-metrics-template.yml',
   ].map((file) => readFileSync(file, 'utf8')).join('\n')
   const ciWorkflow = readFileSync('.github/workflows/ci.yml', 'utf8')
+  const e2eWorkflow = readFileSync('.github/workflows/e2e.yml', 'utf8')
   const sageGateWorkflow = readFileSync('.github/workflows/sage-gate.yml', 'utf8')
   const staticServer = readFileSync('scripts/serve-export.mjs', 'utf8')
   const lighthouseRunner = readFileSync('scripts/qa/run-lighthouse-config.mjs', 'utf8')
@@ -316,6 +317,13 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.doesNotMatch(workflows, /node-version:\s*['"]?20/)
   assert.doesNotMatch(workflows, /@lhci\/cli/)
   assert.doesNotMatch(ciWorkflow, /continue-on-error:\s*true/)
+  assert.doesNotMatch(
+    e2eWorkflow,
+    /https:\/\/(?:qa-portfolio-sage-ideas\.vercel\.app|www\.sageideas\.dev)/,
+    'CI E2E must never target a production or production-project URL',
+  )
+  assert.match(e2eWorkflow, /run:\s*npm run test:critical-journeys:e2e/)
+  assert.doesNotMatch(e2eWorkflow, /run:\s*npm run test:e2e(?:\s|$)/)
   assert.match(
     sageGateWorkflow,
     /name:\s*gitleaks[\s\S]*?env:\s*\n\s+GITHUB_TOKEN:\s*\$\{\{\s*secrets\.GITHUB_TOKEN\s*\}\}/,

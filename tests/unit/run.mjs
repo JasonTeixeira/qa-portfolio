@@ -735,6 +735,42 @@ test('sagebot human appeal harness: blocks cold markdown regressions', async () 
   assert.ok(broken.failures.includes('proof_and_regression_gates:ask_sage_smoke_proves_embed'));
 });
 
+function syntheticSourceFile(relativePath, textSample) {
+  const extension = relativePath.slice(relativePath.lastIndexOf('.'));
+  return {
+    absolutePath: `/synthetic/${relativePath}`,
+    relativePath,
+    extension,
+    sizeBytes: Buffer.byteLength(textSample),
+    textSample,
+  };
+}
+
+function careerHarnessFixtureFiles() {
+  const rich = '# Project Lab Challenge\ninterview portfolio capstone diagnostic weekly blocker practice manifest rubric validator test audit scorecard contract runbook schema evidence';
+  const buildLab = '# Project Lab Challenge\ninterview portfolio capstone diagnostic weekly practice manifest rubric validator test audit scorecard contract schema evidence';
+  return [
+    ...Array.from({ length: 20 }, (_, index) => syntheticSourceFile(`courses/${index}/course_manifest.json`, rich)),
+    ...Array.from({ length: 50 }, (_, index) => syntheticSourceFile(`practice/day_${index}_py_challenge.md`, buildLab)),
+    ...Array.from({ length: 15 }, (_, index) => syntheticSourceFile(`learning_engine/rubric_${index}_validator.md`, rich)),
+    ...Array.from({ length: 15 }, (_, index) => syntheticSourceFile(`curriculum_architecture/content_marketing_${index}.md`, rich)),
+  ];
+}
+
+function sageKernelHarnessFixtureFiles() {
+  const rich = '# Operator Workflow\ngetting started guide dashboard command prompt template checklist example operator runbook visual proof policy schema test eval audit security contract durable approval boundary observability';
+  return [
+    ...Array.from({ length: 15 }, (_, index) => syntheticSourceFile(`docs/getting_started_${index}.md`, rich)),
+    ...Array.from({ length: 5 }, (_, index) => syntheticSourceFile(`packages/evals/eval_${index}.ts`, rich)),
+    ...Array.from({ length: 5 }, (_, index) => syntheticSourceFile(`packages/proof/proof_${index}.ts`, rich)),
+    ...Array.from({ length: 10 }, (_, index) => syntheticSourceFile(`packages/operate/worker_${index}.ts`, rich)),
+    ...Array.from({ length: 10 }, (_, index) => syntheticSourceFile(`packages/intelligence/dashboard_${index}.ts`, rich)),
+    ...Array.from({ length: 10 }, (_, index) => syntheticSourceFile(`packages/core/question_prompt_review_${index}.ts`, rich)),
+    ...Array.from({ length: 10 }, (_, index) => syntheticSourceFile(`docs/release_runbook_blocker_${index}.md`, rich)),
+    ...Array.from({ length: 40 }, (_, index) => syntheticSourceFile(`docs/reference_${index}.md`, rich)),
+  ];
+}
+
 test('career content harness: scores AI Career OS sources without claiming live proof', async () => {
   const {
     buildCareerContentHarness,
@@ -742,7 +778,8 @@ test('career content harness: scores AI Career OS sources without claiming live 
   } = await import('../../lib/discord/career-content-harness.ts');
 
   const result = await buildCareerContentHarness({
-    sourceRoot: '/Users/Sage/AI_CAREER_OPERATING_SYSTEM',
+    sourceRoot: '/synthetic/career-os',
+    sourceFiles: careerHarnessFixtureFiles(),
     maxFiles: 12000,
     candidateLimit: 30,
   });
@@ -783,7 +820,9 @@ test('sage-kernel content harness: scores source repo and creates approval-gated
   } = await import('../../lib/discord/sage-kernel-content-harness.ts');
 
   const result = await buildSageKernelContentHarness({
-    sourceRoot: '/Users/Sage/code/external/sage-kernel',
+    sourceRoot: '/synthetic/sage-kernel',
+    sourceFiles: sageKernelHarnessFixtureFiles(),
+    sourceCommit: '0123456789abcdef0123456789abcdef01234567',
     maxFiles: 8000,
     candidateLimit: 40,
     draftLimit: 12,

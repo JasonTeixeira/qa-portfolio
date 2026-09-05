@@ -304,6 +304,7 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
     '.github/workflows/qa-metrics-template.yml',
   ].map((file) => readFileSync(file, 'utf8')).join('\n')
   const ciWorkflow = readFileSync('.github/workflows/ci.yml', 'utf8')
+  const sageGateWorkflow = readFileSync('.github/workflows/sage-gate.yml', 'utf8')
   const staticServer = readFileSync('scripts/serve-export.mjs', 'utf8')
   const lighthouseRunner = readFileSync('scripts/qa/run-lighthouse-config.mjs', 'utf8')
   const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
@@ -315,6 +316,11 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.doesNotMatch(workflows, /node-version:\s*['"]?20/)
   assert.doesNotMatch(workflows, /@lhci\/cli/)
   assert.doesNotMatch(ciWorkflow, /continue-on-error:\s*true/)
+  assert.match(
+    sageGateWorkflow,
+    /name:\s*gitleaks[\s\S]*?env:\s*\n\s+GITHUB_TOKEN:\s*\$\{\{\s*secrets\.GITHUB_TOKEN\s*\}\}/,
+    'pull-request secret scanning must receive the least-privilege automatic GitHub token',
+  )
   assert.doesNotMatch(staticServer, /\b(?:npx|http-server|spawn)\b/)
   assert.match(lighthouseRunner, /node_modules.*\.bin.*lighthouse/)
   assert.match(lighthouseRunner, /listen\(0/)

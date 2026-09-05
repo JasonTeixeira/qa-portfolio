@@ -10,7 +10,6 @@ import { LABS } from '@/data/academy/labs'
 import { CompareTable } from './CompareTable'
 import { FaqSection } from './FaqSection'
 import { StickyCta } from './StickyCta'
-import { SplashIntro } from './SplashIntro'
 import { AtlasLauncher } from '../atlas/AtlasLauncher'
 import { getT } from '@/lib/i18n/t'
 import { SkipToContent } from '@/components/skip-to-content'
@@ -135,7 +134,6 @@ export async function SageHome() {
   return (
     <>
       <SkipToContent />
-      <SplashIntro />
       <AtlasLauncher />
       <AcademyNav />
       <StickyCta />

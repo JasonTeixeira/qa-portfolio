@@ -310,6 +310,10 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   const lighthouseRunner = readFileSync('scripts/qa/run-lighthouse-config.mjs', 'utf8')
   const googleAnalytics = readFileSync('components/analytics/google-analytics.tsx', 'utf8')
   const posthogProvider = readFileSync('components/analytics/posthog-provider.tsx', 'utf8')
+  const localeProvider = readFileSync('components/i18n/locale-provider.tsx', 'utf8')
+  const rootLayout = readFileSync('app/layout.tsx', 'utf8')
+  const academyHome = readFileSync('components/academy/landing/SageHome.tsx', 'utf8')
+  const atlasLauncher = readFileSync('components/academy/atlas/AtlasLauncher.tsx', 'utf8')
   const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
 
   assert.equal(packageJson.engines?.node, '>=22.19.0')
@@ -339,6 +343,8 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.doesNotMatch(staticServer, /\b(?:npx|http-server|spawn)\b/)
   assert.match(lighthouseRunner, /node_modules.*\.bin.*lighthouse/)
   assert.match(lighthouseRunner, /listen\(0/)
+  assert.match(lighthouseRunner, /environment\?\.benchmarkIndex/)
+  assert.match(lighthouseRunner, /calculateCpuSlowdownMultiplier/)
   assert.match(
     googleAnalytics,
     /googletagmanager\.com\/gtag\/js[\s\S]*?strategy="lazyOnload"/,
@@ -352,6 +358,12 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   )
   assert.doesNotMatch(posthogProvider, /^import posthog from ['"]posthog-js['"]/m)
   assert.match(posthogProvider, /import\(['"]posthog-js['"]\)/)
+  assert.doesNotMatch(localeProvider, /import\s+\{[^}]*\btranslate\b[^}]*\}\s+from\s+['"]@\/lib\/i18n\/messages['"]/)
+  assert.match(localeProvider, /import\s+type\s+\{\s*Messages\s*\}\s+from\s+['"]@\/lib\/i18n\/messages['"]/)
+  assert.match(rootLayout, /getClientMessages\(locale\)/)
+  assert.doesNotMatch(academyHome, /<SplashIntro\b/, 'the first visit must not block learning content behind a timed splash')
+  assert.doesNotMatch(atlasLauncher, /AUTO_OPEN_DELAY|\buseEffect\b|import\s+\{\s*AtlasIntake\s*\}/)
+  assert.match(atlasLauncher, /lazy\([\s\S]*?import\(['"]\.\/AtlasIntake['"]\)/)
   assert.doesNotMatch(ogRoutes, /runtime\s*=\s*['"]edge['"]/)
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config:mobile'))

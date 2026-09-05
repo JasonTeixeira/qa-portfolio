@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-05T14:03:32.403Z",
-  "inventoryHash": "sha256:64afc69a0efc3a83956c70c4c9e3fff8aaea05ec69dd68f55a014919592592be",
+  "generatedAt": "2026-09-05T14:46:57.516Z",
+  "inventoryHash": "sha256:91c113dc3eb9630006a91fd342c2146bd31fefed83e7a3ad4d07dbaab4e74cfc",
   "git": {
-    "head": "c973f277137ae731e3e31104f6c3e47d0673a50c",
+    "head": "cf56aa9cbbed0b40da720fc04e05ec11cdebb8c2",
     "branch": "production/01-program-loop-v1",
     "mergeInProgress": false
   },
   "academyRegistryVersion": "sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828",
   "counts": {
-    "trackedFiles": 3521,
+    "trackedFiles": 3523,
     "appPages": 235,
     "routeHandlers": 132,
     "apiRoutes": 125,
@@ -3143,6 +3143,7 @@
     "lib/academy/waitlist-welcome.ts",
     "lib/academy/welcome-audio.ts",
     "lib/accessibility-performance/contract.mjs",
+    "lib/accessibility-performance/cpu-calibration.mjs",
     "lib/acquisition/analytics.ts",
     "lib/acquisition/audit.ts",
     "lib/acquisition/crm.ts",
@@ -3254,6 +3255,7 @@
     "lib/githubArtifacts.ts",
     "lib/helpArticles.ts",
     "lib/i18n/alternates.ts",
+    "lib/i18n/client-catalog.mjs",
     "lib/i18n/config.ts",
     "lib/i18n/href.ts",
     "lib/i18n/messages.ts",

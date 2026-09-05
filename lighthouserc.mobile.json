@@ -25,8 +25,12 @@
         },
         "throttling": {
           "rttMs": 40,
-          "throughputKbps": 10240,
-          "cpuSlowdownMultiplier": 4
+          "throughputKbps": 10240
+        },
+        "cpuCalibration": {
+          "enabled": true,
+          "runs": 3,
+          "strategy": "lighthouse-official-mid-tier-mobile-v1"
         },
         "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
       }

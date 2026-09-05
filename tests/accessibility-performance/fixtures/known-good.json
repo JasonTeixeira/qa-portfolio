@@ -40,7 +40,13 @@
         "settings": {
           "onlyCategories": ["performance", "accessibility", "best-practices", "seo"],
           "formFactor": "mobile",
-          "screenEmulation": { "width": 390, "height": 844 }
+          "screenEmulation": { "width": 390, "height": 844 },
+          "cpuCalibration": {
+            "enabled": true,
+            "runs": 3,
+            "strategy": "lighthouse-official-mid-tier-mobile-v1"
+          },
+          "throttling": { "rttMs": 40, "throughputKbps": 10240 }
         }
       },
       "assert": {

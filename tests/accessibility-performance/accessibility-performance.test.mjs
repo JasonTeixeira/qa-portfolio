@@ -8,6 +8,11 @@ import {
   auditAccessibilityPerformanceContract,
   evaluateLighthouseAssertions,
 } from '../../lib/accessibility-performance/contract.mjs'
+import {
+  calculateCpuSlowdownMultiplier,
+  selectMedianBenchmarkIndex,
+} from '../../lib/accessibility-performance/cpu-calibration.mjs'
+import { clientMessagesForLocale } from '../../lib/i18n/client-catalog.mjs'
 
 const fixture = (name) => JSON.parse(readFileSync(`tests/accessibility-performance/fixtures/${name}.json`, 'utf8'))
 
@@ -24,6 +29,7 @@ test('deliberately broken fixture is rejected across every production dimension'
     'accessibility_not_hard_gated',
     'core_web_vital_not_hard_gated',
     'mobile_profile_missing',
+    'cpu_calibration_missing',
     'zoom_disabled',
     'focus_contract_missing',
     'reduced_motion_contract_missing',
@@ -34,6 +40,35 @@ test('deliberately broken fixture is rejected across every production dimension'
     'keyboard_contract_missing',
     'responsive_overflow_contract_missing',
   ]) assert.ok(codes.has(code), `expected broken fixture finding: ${code}`)
+})
+
+test('mobile CPU calibration matches the official Lighthouse calculator policy', () => {
+  assert.equal(calculateCpuSlowdownMultiplier(150), 1)
+  assert.equal(calculateCpuSlowdownMultiplier(475), 1.5)
+  assert.equal(calculateCpuSlowdownMultiplier(800), 2)
+  assert.equal(calculateCpuSlowdownMultiplier(1050), 2.5)
+  assert.equal(calculateCpuSlowdownMultiplier(1300), 3)
+  assert.equal(calculateCpuSlowdownMultiplier(1533), 4)
+  assert.equal(calculateCpuSlowdownMultiplier(2889), 9.8)
+})
+
+test('mobile CPU calibration fails closed for invalid or underpowered runners', () => {
+  for (const value of [undefined, null, Number.NaN, Number.POSITIVE_INFINITY, -1, 149.9]) {
+    assert.throws(() => calculateCpuSlowdownMultiplier(value), /benchmarkIndex|too slow/)
+  }
+})
+
+test('mobile CPU calibration uses the median of an odd sample set', () => {
+  assert.equal(selectMedianBenchmarkIndex([510, 470, 490]), 490)
+  assert.throws(() => selectMedianBenchmarkIndex([]), /non-empty odd number/)
+  assert.throws(() => selectMedianBenchmarkIndex([400, 500]), /non-empty odd number/)
+  assert.throws(() => selectMedianBenchmarkIndex([400, Number.NaN, 500]), /finite/)
+})
+
+test('default-English pages send no redundant client catalog while localized pages retain translations', () => {
+  const messages = { Services: 'Servicios' }
+  assert.deepEqual(clientMessagesForLocale('en', 'en', messages), {})
+  assert.equal(clientMessagesForLocale('es', 'en', messages), messages)
 })
 
 test('Lighthouse evaluator hard-fails metrics and scores outside their budgets', () => {

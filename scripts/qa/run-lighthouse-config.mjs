@@ -1,10 +1,14 @@
 import { spawn } from 'node:child_process'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import path from 'node:path'
 import process from 'node:process'
 
 import { evaluateLighthouseAssertions } from '../../lib/accessibility-performance/contract.mjs'
+import {
+  calculateCpuSlowdownMultiplier,
+  selectMedianBenchmarkIndex,
+} from '../../lib/accessibility-performance/cpu-calibration.mjs'
 
 const root = process.cwd()
 const configArg = process.argv.find((value) => value.startsWith('--config='))?.slice('--config='.length) ?? 'lighthouserc.json'
@@ -75,13 +79,13 @@ async function waitForServer(url, timeoutMs) {
   throw new Error(`Lighthouse target did not become ready: ${lastError}`)
 }
 
-function lighthouseArgs(url, outputPath) {
+function lighthouseArgs(url, outputPath, overrides = {}) {
   const settings = collect.settings ?? {}
   const args = [
     url.toString(),
     '--output=json',
     `--output-path=${outputPath}`,
-    `--only-categories=${(settings.onlyCategories ?? ['performance', 'accessibility', 'best-practices', 'seo']).join(',')}`,
+    `--only-categories=${(overrides.onlyCategories ?? settings.onlyCategories ?? ['performance', 'accessibility', 'best-practices', 'seo']).join(',')}`,
     '--chrome-flags=--headless=new --no-sandbox',
   ]
   if (settings.preset === 'desktop') args.push('--preset=desktop')
@@ -91,12 +95,50 @@ function lighthouseArgs(url, outputPath) {
     if (screen.width) args.push(`--screenEmulation.width=${screen.width}`)
     if (screen.height) args.push(`--screenEmulation.height=${screen.height}`)
     if (screen.deviceScaleFactor) args.push(`--screenEmulation.deviceScaleFactor=${screen.deviceScaleFactor}`)
-    const throttling = settings.throttling ?? {}
+    const throttling = {
+      ...(settings.throttling ?? {}),
+      ...(overrides.cpuSlowdownMultiplier === undefined ? {} : { cpuSlowdownMultiplier: overrides.cpuSlowdownMultiplier }),
+    }
     for (const key of ['rttMs', 'throughputKbps', 'cpuSlowdownMultiplier']) {
       if (throttling[key] !== undefined) args.push(`--throttling.${key}=${throttling[key]}`)
     }
   }
   return args
+}
+
+function benchmarkIndexFrom(report) {
+  const benchmarkIndex = report?.environment?.benchmarkIndex
+  if (!Number.isFinite(benchmarkIndex)) throw new Error('Lighthouse calibration report did not contain a finite environment.benchmarkIndex')
+  return benchmarkIndex
+}
+
+async function calibrateCpu(url, outputDir) {
+  const calibration = collect.settings?.cpuCalibration
+  if (profile !== 'mobile' || calibration?.enabled !== true) return null
+  const runs = Number(calibration.runs)
+  if (!Number.isInteger(runs) || runs < 3 || runs % 2 === 0) {
+    throw new Error('Mobile Lighthouse CPU calibration requires an odd number of runs greater than or equal to three')
+  }
+
+  const benchmarkIndexSamples = []
+  for (let index = 0; index < runs; index += 1) {
+    const outputPath = path.join(outputDir, `calibration-${String(index + 1).padStart(2, '0')}.json`)
+    await run(lighthouseBin, lighthouseArgs(url, outputPath, {
+      onlyCategories: ['performance'],
+      cpuSlowdownMultiplier: 1,
+    }), { capture: true })
+    const report = JSON.parse(await readFile(outputPath, 'utf8'))
+    benchmarkIndexSamples.push(benchmarkIndexFrom(report))
+  }
+
+  const benchmarkIndex = selectMedianBenchmarkIndex(benchmarkIndexSamples)
+  return {
+    strategy: calibration.strategy,
+    source: 'https://lighthouse-cpu-throttling-calculator.vercel.app/',
+    benchmarkIndexSamples,
+    benchmarkIndex,
+    cpuSlowdownMultiplier: calculateCpuSlowdownMultiplier(benchmarkIndex),
+  }
 }
 
 async function stopServer(server) {
@@ -111,6 +153,7 @@ async function stopServer(server) {
   })
 }
 
+await rm(outputDir, { recursive: true, force: true })
 await mkdir(outputDir, { recursive: true })
 const port = await availablePort()
 if (!port) throw new Error('Unable to allocate a local Lighthouse port')
@@ -127,14 +170,26 @@ const server = spawn(process.execPath, ['scripts/serve-prod.mjs'], {
 })
 
 const results = []
+let cpuCalibration = null
 try {
   await waitForServer(urls[0], Number(collect.startServerReadyTimeout ?? 60_000))
+  cpuCalibration = await calibrateCpu(urls[0], outputDir)
   for (const [index, url] of urls.entries()) {
     const name = `${String(index + 1).padStart(2, '0')}-${url.pathname.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-') || 'home'}`
     const outputPath = path.join(outputDir, `${name}.json`)
-    await run(lighthouseBin, lighthouseArgs(url, outputPath), { capture: true })
+    await run(lighthouseBin, lighthouseArgs(url, outputPath, {
+      cpuSlowdownMultiplier: cpuCalibration?.cpuSlowdownMultiplier,
+    }), { capture: true })
     const report = JSON.parse(await readFile(outputPath, 'utf8'))
-    results.push({ url: url.toString(), outputPath: path.relative(root, outputPath), assertions: evaluateLighthouseAssertions(report, assertions) })
+    results.push({
+      url: url.toString(),
+      outputPath: path.relative(root, outputPath),
+      environment: {
+        benchmarkIndex: benchmarkIndexFrom(report),
+        cpuSlowdownMultiplier: report?.configSettings?.throttling?.cpuSlowdownMultiplier ?? null,
+      },
+      assertions: evaluateLighthouseAssertions(report, assertions),
+    })
   }
 } finally {
   await stopServer(server)
@@ -151,6 +206,7 @@ const summary = {
   generatedAt: new Date().toISOString(),
   config: path.relative(root, configPath),
   profile,
+  cpuCalibration,
   ok: failures.length === 0,
   failures,
   warnings,

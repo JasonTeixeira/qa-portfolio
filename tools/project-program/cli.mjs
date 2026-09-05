@@ -18,6 +18,7 @@ import {
   buildTaskPacket,
   classifyDependencyAudit,
   createProgramState,
+  isCanonicalProjectFile,
   recordFailure,
   recordGreenCheckpoint,
   topologicalWorkstreams,
@@ -108,8 +109,7 @@ function canonicalFiles() {
   return output
     .split('\0')
     .filter(Boolean)
-    .filter((file) => !file.startsWith('docs/evidence/project-loop/'))
-    .filter((file) => !file.startsWith('.next/'))
+    .filter(isCanonicalProjectFile)
     .sort()
 }
 

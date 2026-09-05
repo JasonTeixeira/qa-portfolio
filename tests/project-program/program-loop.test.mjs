@@ -14,6 +14,7 @@ import {
   buildTaskPacket,
   classifyDependencyAudit,
   createProgramState,
+  isCanonicalProjectFile,
   recordFailure,
   recordGreenCheckpoint,
   topologicalWorkstreams,
@@ -26,6 +27,14 @@ const fixture = (name) => JSON.parse(
 )
 
 const generatedAt = '2026-09-04T12:00:00.000Z'
+
+test('canonical inventory excludes generated evidence that verification commands rewrite', () => {
+  assert.equal(isCanonicalProjectFile('app/page.tsx'), true)
+  assert.equal(isCanonicalProjectFile('docs/academy/CONTROLLED_LAB_EVALUATOR.md'), true)
+  assert.equal(isCanonicalProjectFile('docs/evidence/project-loop/observations-latest.json'), false)
+  assert.equal(isCanonicalProjectFile('docs/evidence/academy/certification-v2/2026-09-05.json'), false)
+  assert.equal(isCanonicalProjectFile('.next/server/app/page.js'), false)
+})
 
 test('known-good contract passes and deliberately broken fixture fails closed', () => {
   const good = auditContractFixture(fixture('known-good'))

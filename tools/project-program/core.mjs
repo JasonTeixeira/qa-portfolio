@@ -150,6 +150,10 @@ const FORBIDDEN_COMMAND_PATTERNS = Object.freeze([
   { code: 'approval_bypass', pattern: /SAGE_ALLOW_|--force\b|--no-verify\b/ },
 ])
 
+export function isCanonicalProjectFile(file) {
+  return !file.startsWith('docs/evidence/') && !file.startsWith('.next/')
+}
+
 function clone(value) {
   return structuredClone(value)
 }

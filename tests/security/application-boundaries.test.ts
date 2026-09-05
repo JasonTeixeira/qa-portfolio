@@ -133,6 +133,22 @@ test('public service-role ingestion is schema bounded and rate limited', async (
   assert.match(error, /schema\.safeParse/)
 })
 
+test('academy billing portal fails closed before constructing unavailable provider clients', async () => {
+  const billingPortal = await source('app/api/academy/billing/portal/route.ts')
+
+  assert.match(billingPortal, /isSupabasePublicConfigured\(\)/)
+  assert.match(billingPortal, /SUPABASE_SERVICE_ROLE_KEY/)
+  assert.ok(
+    billingPortal.indexOf('isSupabasePublicConfigured()') <
+      billingPortal.indexOf('createSupabaseServerClient()'),
+    'public Supabase readiness must be checked before constructing the auth client',
+  )
+  assert.ok(
+    billingPortal.indexOf('SUPABASE_SERVICE_ROLE_KEY') < billingPortal.indexOf('supabaseAdmin()'),
+    'service-role readiness must be checked before constructing the admin client',
+  )
+})
+
 test('public portal health is minimal and does not expose environment or database detail', async () => {
   const health = await source('app/api/portal/health/route.ts')
 

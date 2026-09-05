@@ -5,7 +5,10 @@ import path from 'node:path'
 import process from 'node:process'
 import { computeMedianRun } from 'lighthouse/core/lib/median-run.js'
 
-import { evaluateLighthouseAssertions } from '../../lib/accessibility-performance/contract.mjs'
+import {
+  assertionsForExecutionMode,
+  evaluateLighthouseAssertions,
+} from '../../lib/accessibility-performance/contract.mjs'
 import {
   calculateCpuSlowdownMultiplier,
   resolveCpuExecutionMode,
@@ -41,6 +44,7 @@ if (profile === 'mobile' && cpuMode === 'calibrated'
 const measurementRuns = profile === 'mobile' && cpuMode === 'provided'
   ? 1
   : configuredMeasurementRuns
+const executionAssertions = assertionsForExecutionMode(assertions, { profile, cpuMode })
 const outputDir = path.join(root, '.lighthouseci', `config-${profile}`)
 const lighthouseBin = path.join(root, 'node_modules', '.bin', 'lighthouse')
 
@@ -232,7 +236,7 @@ try {
         throttlingMethod: report?.configSettings?.throttlingMethod ?? null,
         configuredCpuSlowdownMultiplier: report?.configSettings?.throttling?.cpuSlowdownMultiplier ?? null,
       },
-      assertions: evaluateLighthouseAssertions(report, assertions),
+      assertions: evaluateLighthouseAssertions(report, executionAssertions),
     })
   }
 } finally {
@@ -252,6 +256,9 @@ const summary = {
   profile,
   cpuMode,
   measurementRuns,
+  assertionPolicy: profile === 'mobile' && cpuMode === 'provided'
+    ? 'host-native-structural-smoke-timing-advisory'
+    : 'canonical-release-proof',
   cpuCalibration,
   ok: failures.length === 0,
   failures,

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-05T16:23:24.359Z",
-  "inventoryHash": "sha256:2aaebfd64f07966a47bb25a4bceaf8c11e8f228ed99fdf174bbadf2779d58774",
+  "generatedAt": "2026-09-05T17:09:46.292Z",
+  "inventoryHash": "sha256:86d4fc5d9c57c4cb75b892fbc34e580d4a640b29716ff88412af0f0b8a213a20",
   "overallStatus": "local_production_candidate",
   "trust": {
     "academyCertification": "uncertified",

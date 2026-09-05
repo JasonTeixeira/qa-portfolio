@@ -318,6 +318,9 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   const heroTicker = readFileSync('components/academy/landing/HeroTicker.tsx', 'utf8')
   const academyChrome = readFileSync('components/academy/landing/AcademyChrome.tsx', 'utf8')
   const newsletterSignup = readFileSync('components/academy/landing/NewsletterSignup.tsx', 'utf8')
+  const sageChat = readFileSync('components/academy/landing/SageChat.tsx', 'utf8')
+  const sageChatPanel = readFileSync('components/academy/landing/SageChatPanel.tsx', 'utf8')
+  const academyAnalytics = readFileSync('components/academy/landing/academyAnalytics.ts', 'utf8')
   const atlasLauncher = readFileSync('components/academy/atlas/AtlasLauncher.tsx', 'utf8')
   const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
 
@@ -353,6 +356,7 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.match(lighthouseRunner, /resolveCpuExecutionMode/)
   assert.match(lighthouseRunner, /computeMedianRun/)
   assert.match(lighthouseRunner, /measurementRuns/)
+  assert.match(lighthouseRunner, /assertionsForExecutionMode/)
   assert.match(
     ciWorkflow,
     /name:\s*Verify committed calibrated mobile proof\s*\n\s*run:\s*npm run project:release:verify/,
@@ -397,6 +401,12 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.match(academyChrome, /<NewsletterSignup\b/)
   assert.match(newsletterSignup, /^['"]use client['"]/m, 'only the interactive newsletter form should hydrate')
   assert.match(newsletterSignup, /\/api\/newsletter\/subscribe/)
+  assert.doesNotMatch(`${sageChat}\n${sageChatPanel}\n${academyAnalytics}`, /^import posthog from ['"]posthog-js['"]/m, 'academy analytics must not eagerly load the PostHog client')
+  assert.match(academyAnalytics, /import\(['"]posthog-js['"]\)/)
+  assert.doesNotMatch(sageChatPanel, /question:\s*text/, 'free-form chat text must not be copied into analytics')
+  assert.match(sageChat, /lazy\([\s\S]*?import\(['"]\.\/SageChatPanel['"]\)/)
+  assert.doesNotMatch(sageChat, /const REPLIES\b/, 'chat reply engine must load only after learner intent')
+  assert.match(sageChatPanel, /const REPLIES\b/)
   assert.doesNotMatch(atlasLauncher, /AUTO_OPEN_DELAY|\buseEffect\b|import\s+\{\s*AtlasIntake\s*\}/)
   assert.match(atlasLauncher, /lazy\([\s\S]*?import\(['"]\.\/AtlasIntake['"]\)/)
   assert.doesNotMatch(ogRoutes, /runtime\s*=\s*['"]edge['"]/)

@@ -7,6 +7,7 @@ import {
   REQUIRED_ACCESSIBILITY_ROUTES,
   auditAccessibilityPerformanceContract,
   evaluateLighthouseAssertions,
+  assertionsForExecutionMode,
 } from '../../lib/accessibility-performance/contract.mjs'
 import {
   calculateCpuSlowdownMultiplier,
@@ -115,6 +116,19 @@ test('Lighthouse evaluator tolerates machine epsilon at an exact budget but not 
   const overage = evaluateLighthouseAssertions({ audits: { 'total-blocking-time': { numericValue: 300.000001 } } }, assertions)
   assert.equal(boundary[0].passed, true)
   assert.equal(overage[0].passed, false)
+})
+
+test('host-native mobile smoke reports hardware-variant timing without replacing calibrated hard gates', () => {
+  const canonical = fixture('known-good').mobileConfig.ci.assert.assertions
+  const smoke = assertionsForExecutionMode(canonical, { profile: 'mobile', cpuMode: 'provided' })
+
+  assert.equal(canonical['largest-contentful-paint'][0], 'error')
+  assert.equal(canonical['total-blocking-time'][0], 'error')
+  assert.equal(smoke['largest-contentful-paint'][0], 'warn')
+  assert.equal(smoke['total-blocking-time'][0], 'warn')
+  assert.equal(smoke['cumulative-layout-shift'][0], 'error')
+  assert.equal(smoke['categories:accessibility'][0], 'error')
+  assert.deepEqual(assertionsForExecutionMode(canonical, { profile: 'mobile', cpuMode: 'calibrated' }), canonical)
 })
 
 test('the repository contract covers every critical public route', () => {

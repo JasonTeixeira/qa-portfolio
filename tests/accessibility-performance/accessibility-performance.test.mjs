@@ -31,6 +31,7 @@ test('deliberately broken fixture is rejected across every production dimension'
     'core_web_vital_not_hard_gated',
     'mobile_profile_missing',
     'cpu_calibration_missing',
+    'performance_sampling_missing',
     'zoom_disabled',
     'focus_contract_missing',
     'reduced_motion_contract_missing',
@@ -66,6 +67,13 @@ test('mobile CPU calibration uses the median of an odd sample set', () => {
   assert.throws(() => selectMedianBenchmarkIndex([400, Number.NaN, 500]), /finite/)
 })
 
+test('mobile performance proof requires an odd multi-run sample', () => {
+  const underSampled = fixture('known-good')
+  underSampled.mobileConfig.ci.collect.numberOfRuns = 1
+  const codes = new Set(auditAccessibilityPerformanceContract(underSampled).map((finding) => finding.code))
+  assert.ok(codes.has('performance_sampling_missing'))
+})
+
 test('mobile CPU execution mode defaults to calibrated and rejects ambiguous bypasses', () => {
   assert.equal(resolveCpuExecutionMode(undefined), 'calibrated')
   assert.equal(resolveCpuExecutionMode('calibrated'), 'calibrated')
@@ -99,6 +107,14 @@ test('Lighthouse evaluator hard-fails metrics and scores outside their budgets',
   const results = evaluateLighthouseAssertions(report, assertions)
   assert.equal(results.length, 4)
   assert.ok(results.every((result) => result.passed === false && result.level === 'error'))
+})
+
+test('Lighthouse evaluator tolerates machine epsilon at an exact budget but not a measurable overage', () => {
+  const assertions = { 'total-blocking-time': ['error', { maxNumericValue: 300 }] }
+  const boundary = evaluateLighthouseAssertions({ audits: { 'total-blocking-time': { numericValue: 300.0000000000002 } } }, assertions)
+  const overage = evaluateLighthouseAssertions({ audits: { 'total-blocking-time': { numericValue: 300.000001 } } }, assertions)
+  assert.equal(boundary[0].passed, true)
+  assert.equal(overage[0].passed, false)
 })
 
 test('the repository contract covers every critical public route', () => {

@@ -313,6 +313,11 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   const localeProvider = readFileSync('components/i18n/locale-provider.tsx', 'utf8')
   const rootLayout = readFileSync('app/layout.tsx', 'utf8')
   const academyHome = readFileSync('components/academy/landing/SageHome.tsx', 'utf8')
+  const heroLabLauncher = readFileSync('components/academy/landing/HeroLabLauncher.tsx', 'utf8')
+  const deferredVideoSection = readFileSync('components/academy/landing/DeferredVideoSection.tsx', 'utf8')
+  const heroTicker = readFileSync('components/academy/landing/HeroTicker.tsx', 'utf8')
+  const academyChrome = readFileSync('components/academy/landing/AcademyChrome.tsx', 'utf8')
+  const newsletterSignup = readFileSync('components/academy/landing/NewsletterSignup.tsx', 'utf8')
   const atlasLauncher = readFileSync('components/academy/atlas/AtlasLauncher.tsx', 'utf8')
   const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
 
@@ -346,9 +351,15 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.match(lighthouseRunner, /environment\?\.benchmarkIndex/)
   assert.match(lighthouseRunner, /calculateCpuSlowdownMultiplier/)
   assert.match(lighthouseRunner, /resolveCpuExecutionMode/)
+  assert.match(lighthouseRunner, /computeMedianRun/)
+  assert.match(lighthouseRunner, /measurementRuns/)
   assert.match(
     ciWorkflow,
     /name:\s*Verify committed calibrated mobile proof\s*\n\s*run:\s*npm run project:release:verify/,
+  )
+  assert.match(
+    ciWorkflow,
+    /lighthouse-mobile:[\s\S]*?uses:\s*actions\/checkout@v4\s*\n\s*with:\s*\n\s*fetch-depth:\s*0/,
   )
   assert.match(
     ciWorkflow,
@@ -371,6 +382,21 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.match(localeProvider, /import\s+type\s+\{\s*Messages\s*\}\s+from\s+['"]@\/lib\/i18n\/messages['"]/)
   assert.match(rootLayout, /getClientMessages\(locale\)/)
   assert.doesNotMatch(academyHome, /<SplashIntro\b/, 'the first visit must not block learning content behind a timed splash')
+  assert.doesNotMatch(academyHome, /from ['"]\.\/HeroLab['"]|from ['"]\.\/VideoSection['"]/, 'heavy homepage interactions must not hydrate before learner intent')
+  assert.match(academyHome, /<HeroLabLauncher\b/)
+  assert.match(academyHome, /<DeferredVideoSection\b/)
+  assert.match(heroLabLauncher, /lazy\([\s\S]*?import\(['"]\.\/HeroLab['"]\)/)
+  assert.match(deferredVideoSection, /IntersectionObserver/)
+  assert.match(deferredVideoSection, /lazy\([\s\S]*?import\(['"]\.\/VideoSection['"]\)/)
+  assert.doesNotMatch(heroTicker, /^['"]use client['"]/m, 'truthful ticker copy must render without client-side rotation')
+  assert.doesNotMatch(academyChrome, /^['"]use client['"]/m, 'academy navigation and footer chrome must render on the server')
+  assert.doesNotMatch(academyChrome, /\buseState\b|\buseT\b/, 'chrome hover and translation must not hydrate the whole footer')
+  assert.doesNotMatch(academyChrome, /\bLocaleLink\b/, 'static academy links must not each become a client island')
+  assert.match(academyChrome, /\bgetT\b/)
+  assert.match(academyChrome, /\blocalizeHref\b/)
+  assert.match(academyChrome, /<NewsletterSignup\b/)
+  assert.match(newsletterSignup, /^['"]use client['"]/m, 'only the interactive newsletter form should hydrate')
+  assert.match(newsletterSignup, /\/api\/newsletter\/subscribe/)
   assert.doesNotMatch(atlasLauncher, /AUTO_OPEN_DELAY|\buseEffect\b|import\s+\{\s*AtlasIntake\s*\}/)
   assert.match(atlasLauncher, /lazy\([\s\S]*?import\(['"]\.\/AtlasIntake['"]\)/)
   assert.doesNotMatch(ogRoutes, /runtime\s*=\s*['"]edge['"]/)

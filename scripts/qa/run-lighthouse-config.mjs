@@ -3,6 +3,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import path from 'node:path'
 import process from 'node:process'
+import { computeMedianRun } from 'lighthouse/core/lib/median-run.js'
 
 import { evaluateLighthouseAssertions } from '../../lib/accessibility-performance/contract.mjs'
 import {
@@ -29,6 +30,17 @@ const profile = configArg.includes('mobile') ? 'mobile' : 'desktop'
 const cpuMode = profile === 'mobile'
   ? resolveCpuExecutionMode(process.env.LIGHTHOUSE_CPU_MODE)
   : 'configured'
+const configuredMeasurementRuns = Number(collect.numberOfRuns ?? 1)
+if (!Number.isInteger(configuredMeasurementRuns) || configuredMeasurementRuns < 1) {
+  throw new Error('Lighthouse numberOfRuns must be a positive integer')
+}
+if (profile === 'mobile' && cpuMode === 'calibrated'
+    && (configuredMeasurementRuns < 3 || configuredMeasurementRuns % 2 === 0)) {
+  throw new Error('Calibrated mobile Lighthouse requires an odd numberOfRuns greater than or equal to three')
+}
+const measurementRuns = profile === 'mobile' && cpuMode === 'provided'
+  ? 1
+  : configuredMeasurementRuns
 const outputDir = path.join(root, '.lighthouseci', `config-${profile}`)
 const lighthouseBin = path.join(root, 'node_modules', '.bin', 'lighthouse')
 
@@ -183,15 +195,38 @@ try {
   cpuCalibration = await calibrateCpu(urls[0], outputDir)
   for (const [index, url] of urls.entries()) {
     const name = `${String(index + 1).padStart(2, '0')}-${url.pathname.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-') || 'home'}`
-    const outputPath = path.join(outputDir, `${name}.json`)
-    await run(lighthouseBin, lighthouseArgs(url, outputPath, {
-      cpuSlowdownMultiplier: cpuMode === 'provided' ? 1 : cpuCalibration?.cpuSlowdownMultiplier,
-      throttlingMethod: cpuMode === 'provided' ? 'provided' : undefined,
-    }), { capture: true })
-    const report = JSON.parse(await readFile(outputPath, 'utf8'))
+    const samples = []
+    for (let runIndex = 0; runIndex < measurementRuns; runIndex += 1) {
+      const runSuffix = measurementRuns === 1 ? '' : `-run-${String(runIndex + 1).padStart(2, '0')}`
+      const outputPath = path.join(outputDir, `${name}${runSuffix}.json`)
+      await run(lighthouseBin, lighthouseArgs(url, outputPath, {
+        cpuSlowdownMultiplier: cpuMode === 'provided' ? 1 : cpuCalibration?.cpuSlowdownMultiplier,
+        throttlingMethod: cpuMode === 'provided' ? 'provided' : undefined,
+      }), { capture: true })
+      samples.push({ outputPath, report: JSON.parse(await readFile(outputPath, 'utf8')) })
+    }
+    const report = measurementRuns === 1
+      ? samples[0].report
+      : computeMedianRun(samples.map((sample) => sample.report))
+    const selectedRunIndex = samples.findIndex((sample) => sample.report === report)
+    const selected = samples[selectedRunIndex]
     results.push({
       url: url.toString(),
-      outputPath: path.relative(root, outputPath),
+      outputPath: path.relative(root, selected.outputPath),
+      measurement: {
+        strategy: measurementRuns === 1 ? 'single-host-native-smoke' : 'lighthouse-official-median-run',
+        configuredRuns: configuredMeasurementRuns,
+        executedRuns: measurementRuns,
+        selectedRun: selectedRunIndex + 1,
+        samples: samples.map((sample, sampleIndex) => ({
+          run: sampleIndex + 1,
+          outputPath: path.relative(root, sample.outputPath),
+          firstContentfulPaint: sample.report?.audits?.['first-contentful-paint']?.numericValue ?? null,
+          interactive: sample.report?.audits?.interactive?.numericValue ?? null,
+          largestContentfulPaint: sample.report?.audits?.['largest-contentful-paint']?.numericValue ?? null,
+          totalBlockingTime: sample.report?.audits?.['total-blocking-time']?.numericValue ?? null,
+        })),
+      },
       environment: {
         benchmarkIndex: benchmarkIndexFrom(report),
         throttlingMethod: report?.configSettings?.throttlingMethod ?? null,
@@ -216,6 +251,7 @@ const summary = {
   config: path.relative(root, configPath),
   profile,
   cpuMode,
+  measurementRuns,
   cpuCalibration,
   ok: failures.length === 0,
   failures,

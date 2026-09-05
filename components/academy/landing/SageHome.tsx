@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { getAcademyStats } from './stats'
 import { AcademyNav, AcademyFooter } from './AcademyChrome'
 import { HeroTicker } from './HeroTicker'
-import { HeroLab } from './HeroLab'
+import { HeroLabLauncher } from './HeroLabLauncher'
 import { ProofWall } from './ProofWall'
-import { VideoSection } from './VideoSection'
+import { DeferredVideoSection } from './DeferredVideoSection'
 import { LabsHomeSection } from './LabsHomeSection'
 import { LABS } from '@/data/academy/labs'
 import { CompareTable } from './CompareTable'
@@ -192,7 +192,7 @@ export async function SageHome() {
 
             {/* hero visual: interactive in-browser lab */}
             <div data-reveal style={{ minWidth: 0, ['--reveal-i' as string]: 4 } as React.CSSProperties}>
-              <HeroLab />
+              <HeroLabLauncher />
             </div>
           </div>
         </header>
@@ -330,7 +330,7 @@ export async function SageHome() {
         </section>
 
         {/* ============ D2. THE IDEAS IN MOTION (explainer videos) ============ */}
-        <VideoSection />
+        <DeferredVideoSection />
 
         {/* ============ E. CATALOG PREVIEW ============ */}
         <section id="catalog" style={section}>

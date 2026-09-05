@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-05T17:47:12.600Z",
+  "generatedAt": "2026-09-05T17:50:29.209Z",
   "status": "passed",
   "expected": 15,
   "passed": 15,
@@ -9,12 +9,12 @@
     {
       "title": "chromium › accessibility-performance.spec.ts › the axe gate proves its deliberately broken and known-good fixtures",
       "status": "passed",
-      "durationMs": 716
+      "durationMs": 668
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › / meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 2276
+      "durationMs": 2323
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /services meets automated WCAG 2.2 AA and responsive contracts",
@@ -24,62 +24,62 @@
     {
       "title": "chromium › accessibility-performance.spec.ts › /work meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1934
+      "durationMs": 1973
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /pricing meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1883
+      "durationMs": 1848
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /blog meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 2149
+      "durationMs": 2205
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /contact meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1914
+      "durationMs": 1917
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /login meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1637
+      "durationMs": 1644
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /signup meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1675
+      "durationMs": 1633
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /academy/catalog meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 2008
+      "durationMs": 2062
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /academy/method meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1867
+      "durationMs": 1841
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /academy/labs meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 2435
+      "durationMs": 2459
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /academy/try meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1771
+      "durationMs": 1783
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › /checkout/audit meets automated WCAG 2.2 AA and responsive contracts",
       "status": "passed",
-      "durationMs": 1768
+      "durationMs": 1797
     },
     {
       "title": "chromium › accessibility-performance.spec.ts › skip navigation is the first keyboard stop and transfers focus to main",
       "status": "passed",
-      "durationMs": 415
+      "durationMs": 405
     }
   ]
 }

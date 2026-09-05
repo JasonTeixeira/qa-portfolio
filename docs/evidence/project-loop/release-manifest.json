@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-05T17:10:15.891Z",
-  "releaseId": "local-candidate-2026-09-05-501b2126",
-  "releaseCommit": "501b2126275bf25fe9e3f2c80ab22e699e387770",
+  "generatedAt": "2026-09-05T17:56:35.773Z",
+  "releaseId": "local-candidate-2026-09-05-6989ee90",
+  "releaseCommit": "6989ee9050862cdb06d0c4d5447cef3cb122c322",
   "branch": "production/01-program-loop-v1",
   "inventoryHash": "sha256:86d4fc5d9c57c4cb75b892fbc34e580d4a640b29716ff88412af0f0b8a213a20",
   "status": "local_production_candidate",
@@ -96,7 +96,7 @@
   "evidenceHashes": {
     "observations": {
       "path": "docs/evidence/project-loop/observations-latest.json",
-      "sha256": "sha256:35f93e7fdd98175d5845f77713efa0d52b0757ccc59eaecac3b882ec143d8183"
+      "sha256": "sha256:33af90630de02a6e4a930bae1fd506e530889fa4a4fe4edbd54fb73bfd7b58c0"
     },
     "securityReview": {
       "path": "docs/evidence/project-loop/security-review-latest.json",
@@ -104,11 +104,11 @@
     },
     "accessibilityPerformance": {
       "path": "docs/evidence/project-loop/accessibility-performance-audit.json",
-      "sha256": "sha256:e03f46a9753da9d44ddd05d992c2916e98766867a268804e798d10ca7f4d3392"
+      "sha256": "sha256:da22ade15515977532024952af25c1d6beb6a6706e3d4101d99e13d517651381"
     },
     "observabilityRecovery": {
       "path": "docs/evidence/project-loop/observability-recovery-audit.json",
-      "sha256": "sha256:888badf4ed82b627ccbe7f918f62bddda700145d635616d0cacf4ef128bb326b"
+      "sha256": "sha256:c105b3e95b0b526b7f2577cda5f07288f96451575b286d548ee7b4e4ea7b8881"
     }
   },
   "runtimeRequirements": [

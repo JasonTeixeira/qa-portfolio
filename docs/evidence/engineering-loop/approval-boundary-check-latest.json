@@ -1,7 +1,7 @@
 {
   "ok": true,
   "version": "approval-boundary-check-v1",
-  "timestamp": "2026-09-05T17:09:44.589Z",
+  "timestamp": "2026-09-05T17:56:02.763Z",
   "mutationMode": "local_file_evidence_only",
   "command": "npm run ops:approval-boundaries",
   "localReleaseRoots": [

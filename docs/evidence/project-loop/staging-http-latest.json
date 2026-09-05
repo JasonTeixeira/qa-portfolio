@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-05T19:18:48.256Z",
+  "generatedAt": "2026-09-05T19:47:47.810Z",
   "status": "pass",
   "classification": "stateless_staging_verified",
   "expected": {
-    "baseURL": "https://sageideas-academy-staging-btqq5jasl-sage-ideas.vercel.app",
-    "deploymentId": "dpl_4XUZE6HwCKz8AHidpiq61gg9sGcx",
-    "commitSha": "a0098a861d68480f68810c48d2cb2e71befb5e55",
+    "baseURL": "https://sageideas-academy-staging-js73jqntw-sage-ideas.vercel.app",
+    "deploymentId": "dpl_D4bosTT24UBnEPVvxoVpFs7WLbLV",
+    "commitSha": "8e3c083901911a8eedc6823082eab0fb88d457f5",
     "branch": "production/01-program-loop-v1"
   },
   "deployment": {
-    "id": "dpl_4XUZE6HwCKz8AHidpiq61gg9sGcx",
+    "id": "dpl_D4bosTT24UBnEPVvxoVpFs7WLbLV",
     "name": "sageideas-academy-staging",
-    "url": "sageideas-academy-staging-btqq5jasl-sage-ideas.vercel.app",
+    "url": "sageideas-academy-staging-js73jqntw-sage-ideas.vercel.app",
     "readyState": "READY",
     "target": null,
     "meta": {
-      "gitCommitSha": "a0098a861d68480f68810c48d2cb2e71befb5e55",
+      "gitCommitSha": "8e3c083901911a8eedc6823082eab0fb88d457f5",
       "gitCommitRef": "production/01-program-loop-v1"
     }
   },

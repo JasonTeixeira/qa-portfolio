@@ -1,6 +1,6 @@
 # Academy lab evaluator Step 4B readiness
 
-- Generated: 2026-09-05T18:35:33.898Z
+- Generated: 2026-09-05T19:49:40.489Z
 - Release: `flagship-labs-2026-09-05.1`
 - Registry: `sha256:fbcfb4642f5f5239fa36e072fc24f3a9cbe19afc03b43261bbc863222edce828`
 - Candidate labs: 5

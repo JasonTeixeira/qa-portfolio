@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-05T17:09:44.351Z",
+  "generatedAt": "2026-09-05T17:47:12.816Z",
   "standard": "WCAG 2.2 Level AA automated subset",
   "status": "pass",
   "routeCoverage": {
@@ -14,6 +14,8 @@
       "/login",
       "/signup",
       "/academy/catalog",
+      "/academy/method",
+      "/academy/labs",
       "/academy/try",
       "/checkout/audit"
     ],
@@ -37,8 +39,8 @@
   "executionEvidence": {
     "browser": {
       "status": "passed",
-      "expected": 13,
-      "passed": 13,
+      "expected": 15,
+      "passed": 15,
       "failed": 0
     },
     "lighthouseDesktop": {

@@ -69,7 +69,7 @@ export default async function MethodPage() {
   return (
     <>
       <AcademyNav />
-      <div style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip' }}>
+      <main id="main-content" tabIndex={-1} style={{ background: '#0B0B0E', color: INK, fontFamily: 'var(--font-sans), sans-serif', overflowX: 'clip' }}>
         {/* ── HERO ── */}
         <header className="sage-rise" style={{ ...container, backgroundImage: 'radial-gradient(90% 55% at 50% -8%, rgba(61,90,254,0.09) 0%, transparent 58%)' }}>
           <div style={kicker}>{t('The method')}</div>
@@ -192,7 +192,7 @@ export default async function MethodPage() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
       <EcosystemBand current="method" />
       <AcademyFooter />
     </>

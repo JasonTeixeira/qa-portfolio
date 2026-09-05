@@ -146,6 +146,7 @@ test('the repository contract covers every critical public route', () => {
   assert.deepEqual(REQUIRED_PUBLIC_ROUTES, ['/', '/services', '/work', '/pricing', '/blog', '/contact'])
   assert.deepEqual(REQUIRED_ACCESSIBILITY_ROUTES, [
     '/', '/services', '/work', '/pricing', '/blog', '/contact',
-    '/login', '/signup', '/academy/catalog', '/academy/try', '/checkout/audit',
+    '/login', '/signup', '/academy/catalog', '/academy/method', '/academy/labs',
+    '/academy/try', '/checkout/audit',
   ])
 })

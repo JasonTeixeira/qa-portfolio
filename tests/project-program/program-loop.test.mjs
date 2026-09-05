@@ -317,6 +317,11 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.doesNotMatch(workflows, /node-version:\s*['"]?20/)
   assert.doesNotMatch(workflows, /@lhci\/cli/)
   assert.doesNotMatch(ciWorkflow, /continue-on-error:\s*true/)
+  assert.match(
+    ciWorkflow,
+    /name:\s*Production smoke verification\s*\n\s+if:\s*github\.event_name != 'pull_request'\s*\n\s+run:\s*npm run verify:prod/,
+    'pull requests must not verify or depend on the live production deployment',
+  )
   assert.doesNotMatch(
     e2eWorkflow,
     /https:\/\/(?:qa-portfolio-sage-ideas\.vercel\.app|www\.sageideas\.dev)/,

@@ -1,7 +1,7 @@
 name: CI
 
-# Fast feedback on every push: lint, content validation, typecheck, unit tests,
-# build, and production smoke verification.
+# Candidate quality runs on pull requests. Live production smoke verification
+# runs only after a main-branch push or an explicit workflow dispatch.
 
 on:
   workflow_dispatch:
@@ -60,6 +60,7 @@ jobs:
         run: npm run build
 
       - name: Production smoke verification
+        if: github.event_name != 'pull_request'
         run: npm run verify:prod
 
   lighthouse:

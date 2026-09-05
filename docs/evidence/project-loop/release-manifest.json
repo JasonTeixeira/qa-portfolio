@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "programVersion": "sageideas-production-program-loop-v1",
-  "generatedAt": "2026-09-05T15:13:40.256Z",
-  "releaseId": "local-candidate-2026-09-05-3eb5436a",
-  "releaseCommit": "3eb5436a41873830d7c27e4ace2ef7e2f9a86e98",
+  "generatedAt": "2026-09-05T16:23:23.977Z",
+  "releaseId": "local-candidate-2026-09-05-fffca80e",
+  "releaseCommit": "fffca80ecca57ecd4507fd4f14a12f91c0df3280",
   "branch": "production/01-program-loop-v1",
-  "inventoryHash": "sha256:91c113dc3eb9630006a91fd342c2146bd31fefed83e7a3ad4d07dbaab4e74cfc",
+  "inventoryHash": "sha256:2aaebfd64f07966a47bb25a4bceaf8c11e8f228ed99fdf174bbadf2779d58774",
   "status": "local_production_candidate",
   "trust": {
     "academyCertification": "uncertified",
@@ -96,7 +96,7 @@
   "evidenceHashes": {
     "observations": {
       "path": "docs/evidence/project-loop/observations-latest.json",
-      "sha256": "sha256:c16cad668f34c546581af14fd71d3d8a01c626674e8d920e10e44716733d65e7"
+      "sha256": "sha256:83e8a06ff681174db3a861e7a8e5c52bc5e13a6f281b06b146161a6a03fd8d55"
     },
     "securityReview": {
       "path": "docs/evidence/project-loop/security-review-latest.json",
@@ -104,11 +104,11 @@
     },
     "accessibilityPerformance": {
       "path": "docs/evidence/project-loop/accessibility-performance-audit.json",
-      "sha256": "sha256:a1381e718da976a04dd2a6bc14199078a4be8708830c1f399d53d3393f832330"
+      "sha256": "sha256:55c08045571f4edbc4bb2bc69c23dd8a1157dd8c9bb6e8679f1dc12a56724e7b"
     },
     "observabilityRecovery": {
       "path": "docs/evidence/project-loop/observability-recovery-audit.json",
-      "sha256": "sha256:41146596808ec8df4dbacba88b9000774220cec228d10519aa6704ac05d4265a"
+      "sha256": "sha256:c6e1cf2ce9f10de70c2c049cbf2157fdbef06819b2d755f5536162dee94ec10d"
     }
   },
   "runtimeRequirements": [

@@ -29,6 +29,8 @@ test('the axe gate proves its deliberately broken and known-good fixtures', asyn
 
 for (const route of REQUIRED_ACCESSIBILITY_ROUTES) {
   test(`${route} meets automated WCAG 2.2 AA and responsive contracts`, async ({ page }) => {
+    const pageErrors: string[] = []
+    page.on('pageerror', (error) => pageErrors.push(error.message))
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     const response = await page.goto(route, { waitUntil: 'domcontentloaded' })
@@ -36,6 +38,8 @@ for (const route of REQUIRED_ACCESSIBILITY_ROUTES) {
     // Let finite entrance transitions settle without waiting for analytics or
     // other intentionally blocked external traffic to become network-idle.
     await page.waitForTimeout(1_000)
+
+    expect(pageErrors, `${route} emitted browser errors during hydration`).toEqual([])
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])

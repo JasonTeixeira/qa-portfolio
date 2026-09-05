@@ -15,6 +15,7 @@ import {
   selectMedianBenchmarkIndex,
 } from '../../lib/accessibility-performance/cpu-calibration.mjs'
 import { clientMessagesForLocale } from '../../lib/i18n/client-catalog.mjs'
+import { validateStagingPreviewTarget } from '../../lib/staging/preview-target.mjs'
 
 const fixture = (name) => JSON.parse(readFileSync(`tests/accessibility-performance/fixtures/${name}.json`, 'utf8'))
 
@@ -149,4 +150,21 @@ test('the repository contract covers every critical public route', () => {
     '/login', '/signup', '/academy/catalog', '/academy/method', '/academy/labs',
     '/academy/try', '/checkout/audit',
   ])
+})
+
+test('hosted browser proof accepts only immutable SageIdeas staging preview URLs', () => {
+  assert.equal(
+    validateStagingPreviewTarget('https://sageideas-academy-staging-d8rvzxtyp-sage-ideas.vercel.app').href,
+    'https://sageideas-academy-staging-d8rvzxtyp-sage-ideas.vercel.app/',
+  )
+
+  for (const unsafeTarget of [
+    'https://sageideas.dev',
+    'https://sageideas-academy-staging.vercel.app',
+    'https://sageideas-academy-staging-sage-ideas.vercel.app',
+    'https://attacker.vercel.app',
+    'http://sageideas-academy-staging-fake-sage-ideas.vercel.app',
+    'https://user:secret@sageideas-academy-staging-fake-sage-ideas.vercel.app',
+    'https://sageideas-academy-staging-fake-sage-ideas.vercel.app/path',
+  ]) assert.throws(() => validateStagingPreviewTarget(unsafeTarget), /immutable SageIdeas staging Preview URL/)
 })

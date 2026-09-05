@@ -2,12 +2,32 @@ import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
 import { REQUIRED_ACCESSIBILITY_ROUTES } from '../../lib/accessibility-performance/contract.mjs'
+import { isApprovedStagingPreviewHostname } from '../../lib/staging/preview-target.mjs'
 
-test.beforeEach(async ({ context }) => {
+test.beforeEach(async ({ context }, testInfo) => {
+  const configuredBaseURL = testInfo.project.use.baseURL
+  if (typeof configuredBaseURL !== 'string') throw new Error('Playwright baseURL is required.')
+  const allowedHostname = new URL(configuredBaseURL).hostname
+  const stagingBypass = process.env.STAGING_BYPASS_SECRET?.trim()
+
   await context.route(/^https?:\/\//, async (route) => {
     const hostname = new URL(route.request().url()).hostname
-    if (['127.0.0.1', 'localhost', '::1'].includes(hostname)) await route.continue()
-    else await route.abort('blockedbyclient')
+    if (hostname !== allowedHostname) {
+      await route.abort('blockedbyclient')
+      return
+    }
+
+    if (stagingBypass && isApprovedStagingPreviewHostname(hostname)) {
+      await route.continue({
+        headers: {
+          ...route.request().headers(),
+          'x-vercel-protection-bypass': stagingBypass,
+        },
+      })
+      return
+    }
+
+    await route.continue()
   })
 })
 

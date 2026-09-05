@@ -83,6 +83,7 @@
     "audit:communications": "tsx tools/communications/write-audit.ts",
     "test:accessibility-performance": "node --test tests/accessibility-performance/accessibility-performance.test.mjs && npm run audit:accessibility-performance",
     "test:accessibility-performance:e2e": "playwright test --config=playwright.accessibility-performance.config.ts",
+    "test:staging:browser": "playwright test --config=playwright.staging.config.ts",
     "audit:accessibility-performance": "node tools/accessibility-performance/write-audit.mjs",
     "test:observability-recovery": "tsx --test tests/observability-recovery/observability-recovery.test.ts && npm run audit:observability-recovery",
     "audit:observability-recovery": "tsx tools/observability-recovery/write-audit.ts",

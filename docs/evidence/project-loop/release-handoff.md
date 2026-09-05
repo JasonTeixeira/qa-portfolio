@@ -4,8 +4,8 @@ Local Production Candidate is not deployment approval. It proves the safe-local 
 
 ## Local proof
 
-- Release: `local-candidate-2026-09-05-988e703b`
-- Commit: `988e703b343c987fe7b09a79effeb1d04ec9d74e`
+- Release: `local-candidate-2026-09-05-dd2ac9c8`
+- Commit: `dd2ac9c8a93da78db3c76d7d8ce02979dd62e166`
 - Inventory: `sha256:64afc69a0efc3a83956c70c4c9e3fff8aaea05ec69dd68f55a014919592592be`
 - Status: `local_production_candidate`
 - Observations: 23, failures: 0

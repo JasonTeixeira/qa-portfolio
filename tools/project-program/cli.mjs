@@ -52,6 +52,11 @@ const REQUIRED_SCRIPTS = Object.freeze({
   'project:program:checkpoint': 'node tools/project-program/cli.mjs checkpoint',
   'project:program:fail': 'node tools/project-program/cli.mjs fail',
   'project:release:verify': 'node tools/project-program/cli.mjs release-verify',
+  'test:staging:http': 'node --test tests/staging/staging-http-audit.test.mjs',
+  'test:staging:contracts': 'node --test tests/staging/*.test.mjs',
+  'staging:http:verify': 'node tools/staging/verify-http.mjs',
+  'staging:rollback:verify': 'node tools/staging/verify-rollback.mjs',
+  'staging:readiness:audit': 'node tools/staging/write-production-readiness-audit.mjs',
 })
 
 const OBSERVATION_COMMANDS = Object.freeze([
@@ -68,6 +73,7 @@ const OBSERVATION_COMMANDS = Object.freeze([
   { id: 'accessibility-performance-contract', command: 'npm run test:accessibility-performance', severity: 'critical', workstreamId: 'accessibility-performance' },
   { id: 'observability-recovery-contract', command: 'npm run test:observability-recovery', severity: 'critical', workstreamId: 'observability-recovery' },
   { id: 'release-readiness-contract', command: 'npm run test:release-readiness', severity: 'critical', workstreamId: 'release-readiness' },
+  { id: 'staging-contracts', command: 'npm run test:staging:contracts', severity: 'critical', workstreamId: 'staging-validation' },
   { id: 'typecheck', command: 'npm run typecheck', severity: 'high', workstreamId: 'build-quality' },
   { id: 'lint', command: 'npm run lint', severity: 'high', workstreamId: 'build-quality' },
   { id: 'production-build', command: 'npm run build', severity: 'critical', workstreamId: 'build-quality' },

@@ -274,6 +274,11 @@ test('package scripts expose the complete local program control surface', () => 
     'project:program:checkpoint': 'node tools/project-program/cli.mjs checkpoint',
     'project:program:fail': 'node tools/project-program/cli.mjs fail',
     'project:release:verify': 'node tools/project-program/cli.mjs release-verify',
+    'test:staging:http': 'node --test tests/staging/staging-http-audit.test.mjs',
+    'test:staging:contracts': 'node --test tests/staging/*.test.mjs',
+    'staging:http:verify': 'node tools/staging/verify-http.mjs',
+    'staging:rollback:verify': 'node tools/staging/verify-rollback.mjs',
+    'staging:readiness:audit': 'node tools/staging/write-production-readiness-audit.mjs',
   }
 
   for (const [name, command] of Object.entries(expected)) {
@@ -287,6 +292,7 @@ test('package scripts expose the complete local program control surface', () => 
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:accessibility-performance:e2e'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:observability-recovery'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:release-readiness'))
+  assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:staging:contracts'))
   const programCli = readFileSync('tools/project-program/cli.mjs', 'utf8')
   assert.match(programCli, /rm\(paths\.task,\s*\{\s*force:\s*true\s*\}\)/, 'boundary transitions must remove stale safe-local task packets')
 })

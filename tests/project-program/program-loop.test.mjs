@@ -308,6 +308,8 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   const sageGateWorkflow = readFileSync('.github/workflows/sage-gate.yml', 'utf8')
   const staticServer = readFileSync('scripts/serve-export.mjs', 'utf8')
   const lighthouseRunner = readFileSync('scripts/qa/run-lighthouse-config.mjs', 'utf8')
+  const googleAnalytics = readFileSync('components/analytics/google-analytics.tsx', 'utf8')
+  const posthogProvider = readFileSync('components/analytics/posthog-provider.tsx', 'utf8')
   const ogRoutes = [readFileSync('app/og/route.tsx', 'utf8'), readFileSync('app/og/academy/route.tsx', 'utf8')].join('\n')
 
   assert.equal(packageJson.engines?.node, '>=22.19.0')
@@ -337,6 +339,19 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.doesNotMatch(staticServer, /\b(?:npx|http-server|spawn)\b/)
   assert.match(lighthouseRunner, /node_modules.*\.bin.*lighthouse/)
   assert.match(lighthouseRunner, /listen\(0/)
+  assert.match(
+    googleAnalytics,
+    /googletagmanager\.com\/gtag\/js[\s\S]*?strategy="lazyOnload"/,
+    'third-party analytics must not compete with initial page interactivity',
+  )
+  assert.match(googleAnalytics, /NEXT_PUBLIC_GA4_REQUIRE_CONSENT !== 'false'/)
+  assert.match(
+    googleAnalytics,
+    /\{canLoadAnalytics && \([\s\S]*?googletagmanager\.com\/gtag\/js/,
+    'Google Analytics must fail closed until explicit consent',
+  )
+  assert.doesNotMatch(posthogProvider, /^import posthog from ['"]posthog-js['"]/m)
+  assert.match(posthogProvider, /import\(['"]posthog-js['"]\)/)
   assert.doesNotMatch(ogRoutes, /runtime\s*=\s*['"]edge['"]/)
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config'))
   assert.ok(SAFE_LOCAL_COMMANDS.includes('npm run test:lh:config:mobile'))

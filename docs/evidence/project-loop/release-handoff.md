@@ -4,9 +4,9 @@ Local Production Candidate is not deployment approval. It proves the safe-local 
 
 ## Local proof
 
-- Release: `local-candidate-2026-09-05-fffca80e`
-- Commit: `fffca80ecca57ecd4507fd4f14a12f91c0df3280`
-- Inventory: `sha256:2aaebfd64f07966a47bb25a4bceaf8c11e8f228ed99fdf174bbadf2779d58774`
+- Release: `local-candidate-2026-09-05-501b2126`
+- Commit: `501b2126275bf25fe9e3f2c80ab22e699e387770`
+- Inventory: `sha256:86d4fc5d9c57c4cb75b892fbc34e580d4a640b29716ff88412af0f0b8a213a20`
 - Status: `local_production_candidate`
 - Observations: 23, failures: 0
 - Dependencies: 0 known vulnerabilities
@@ -51,7 +51,7 @@ Local Production Candidate is not deployment approval. It proves the safe-local 
 
 ## Evidence hashes
 
-- observations: `sha256:83e8a06ff681174db3a861e7a8e5c52bc5e13a6f281b06b146161a6a03fd8d55` — docs/evidence/project-loop/observations-latest.json
+- observations: `sha256:35f93e7fdd98175d5845f77713efa0d52b0757ccc59eaecac3b882ec143d8183` — docs/evidence/project-loop/observations-latest.json
 - securityReview: `sha256:7eae1a14f09116f3e9a674a0a44182952a93503b5420177562e478706a79ba89` — docs/evidence/project-loop/security-review-latest.json
-- accessibilityPerformance: `sha256:55c08045571f4edbc4bb2bc69c23dd8a1157dd8c9bb6e8679f1dc12a56724e7b` — docs/evidence/project-loop/accessibility-performance-audit.json
-- observabilityRecovery: `sha256:c6e1cf2ce9f10de70c2c049cbf2157fdbef06819b2d755f5536162dee94ec10d` — docs/evidence/project-loop/observability-recovery-audit.json
+- accessibilityPerformance: `sha256:e03f46a9753da9d44ddd05d992c2916e98766867a268804e798d10ca7f4d3392` — docs/evidence/project-loop/accessibility-performance-audit.json
+- observabilityRecovery: `sha256:888badf4ed82b627ccbe7f918f62bddda700145d635616d0cacf4ef128bb326b` — docs/evidence/project-loop/observability-recovery-audit.json

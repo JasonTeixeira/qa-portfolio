@@ -10,6 +10,7 @@ import {
 } from '../../lib/accessibility-performance/contract.mjs'
 import {
   calculateCpuSlowdownMultiplier,
+  resolveCpuExecutionMode,
   selectMedianBenchmarkIndex,
 } from '../../lib/accessibility-performance/cpu-calibration.mjs'
 import { clientMessagesForLocale } from '../../lib/i18n/client-catalog.mjs'
@@ -63,6 +64,15 @@ test('mobile CPU calibration uses the median of an odd sample set', () => {
   assert.throws(() => selectMedianBenchmarkIndex([]), /non-empty odd number/)
   assert.throws(() => selectMedianBenchmarkIndex([400, 500]), /non-empty odd number/)
   assert.throws(() => selectMedianBenchmarkIndex([400, Number.NaN, 500]), /finite/)
+})
+
+test('mobile CPU execution mode defaults to calibrated and rejects ambiguous bypasses', () => {
+  assert.equal(resolveCpuExecutionMode(undefined), 'calibrated')
+  assert.equal(resolveCpuExecutionMode('calibrated'), 'calibrated')
+  assert.equal(resolveCpuExecutionMode('provided'), 'provided')
+  for (const value of ['', 'off', 'false', '1']) {
+    assert.throws(() => resolveCpuExecutionMode(value), /LIGHTHOUSE_CPU_MODE/)
+  }
 })
 
 test('default-English pages send no redundant client catalog while localized pages retain translations', () => {

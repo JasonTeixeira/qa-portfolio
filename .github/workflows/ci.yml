@@ -115,5 +115,9 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
-      - name: Run Lighthouse mobile
+      - name: Verify committed calibrated mobile proof
+        run: npm run project:release:verify
+      - name: Run Lighthouse mobile shared-runner smoke
+        env:
+          LIGHTHOUSE_CPU_MODE: provided
         run: npm run test:lh:config:mobile

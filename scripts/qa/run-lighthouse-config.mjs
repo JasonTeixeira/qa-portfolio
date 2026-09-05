@@ -7,6 +7,7 @@ import process from 'node:process'
 import { evaluateLighthouseAssertions } from '../../lib/accessibility-performance/contract.mjs'
 import {
   calculateCpuSlowdownMultiplier,
+  resolveCpuExecutionMode,
   selectMedianBenchmarkIndex,
 } from '../../lib/accessibility-performance/cpu-calibration.mjs'
 
@@ -25,6 +26,9 @@ if (configuredUrls.some((url) => !['127.0.0.1', 'localhost'].includes(url.hostna
 if (configuredUrls.some((url) => (url.port || '80') !== (configuredUrls[0].port || '80'))) throw new Error('All Lighthouse URLs must use one local port')
 
 const profile = configArg.includes('mobile') ? 'mobile' : 'desktop'
+const cpuMode = profile === 'mobile'
+  ? resolveCpuExecutionMode(process.env.LIGHTHOUSE_CPU_MODE)
+  : 'configured'
 const outputDir = path.join(root, '.lighthouseci', `config-${profile}`)
 const lighthouseBin = path.join(root, 'node_modules', '.bin', 'lighthouse')
 
@@ -91,16 +95,19 @@ function lighthouseArgs(url, outputPath, overrides = {}) {
   if (settings.preset === 'desktop') args.push('--preset=desktop')
   if (settings.formFactor === 'mobile') {
     args.push('--form-factor=mobile')
+    if (overrides.throttlingMethod) args.push(`--throttling-method=${overrides.throttlingMethod}`)
     const screen = settings.screenEmulation ?? {}
     if (screen.width) args.push(`--screenEmulation.width=${screen.width}`)
     if (screen.height) args.push(`--screenEmulation.height=${screen.height}`)
     if (screen.deviceScaleFactor) args.push(`--screenEmulation.deviceScaleFactor=${screen.deviceScaleFactor}`)
-    const throttling = {
-      ...(settings.throttling ?? {}),
-      ...(overrides.cpuSlowdownMultiplier === undefined ? {} : { cpuSlowdownMultiplier: overrides.cpuSlowdownMultiplier }),
-    }
-    for (const key of ['rttMs', 'throughputKbps', 'cpuSlowdownMultiplier']) {
-      if (throttling[key] !== undefined) args.push(`--throttling.${key}=${throttling[key]}`)
+    if (overrides.throttlingMethod !== 'provided') {
+      const throttling = {
+        ...(settings.throttling ?? {}),
+        ...(overrides.cpuSlowdownMultiplier === undefined ? {} : { cpuSlowdownMultiplier: overrides.cpuSlowdownMultiplier }),
+      }
+      for (const key of ['rttMs', 'throughputKbps', 'cpuSlowdownMultiplier']) {
+        if (throttling[key] !== undefined) args.push(`--throttling.${key}=${throttling[key]}`)
+      }
     }
   }
   return args
@@ -114,7 +121,7 @@ function benchmarkIndexFrom(report) {
 
 async function calibrateCpu(url, outputDir) {
   const calibration = collect.settings?.cpuCalibration
-  if (profile !== 'mobile' || calibration?.enabled !== true) return null
+  if (profile !== 'mobile' || cpuMode !== 'calibrated' || calibration?.enabled !== true) return null
   const runs = Number(calibration.runs)
   if (!Number.isInteger(runs) || runs < 3 || runs % 2 === 0) {
     throw new Error('Mobile Lighthouse CPU calibration requires an odd number of runs greater than or equal to three')
@@ -178,7 +185,8 @@ try {
     const name = `${String(index + 1).padStart(2, '0')}-${url.pathname.replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9]+/gi, '-') || 'home'}`
     const outputPath = path.join(outputDir, `${name}.json`)
     await run(lighthouseBin, lighthouseArgs(url, outputPath, {
-      cpuSlowdownMultiplier: cpuCalibration?.cpuSlowdownMultiplier,
+      cpuSlowdownMultiplier: cpuMode === 'provided' ? 1 : cpuCalibration?.cpuSlowdownMultiplier,
+      throttlingMethod: cpuMode === 'provided' ? 'provided' : undefined,
     }), { capture: true })
     const report = JSON.parse(await readFile(outputPath, 'utf8'))
     results.push({
@@ -186,7 +194,8 @@ try {
       outputPath: path.relative(root, outputPath),
       environment: {
         benchmarkIndex: benchmarkIndexFrom(report),
-        cpuSlowdownMultiplier: report?.configSettings?.throttling?.cpuSlowdownMultiplier ?? null,
+        throttlingMethod: report?.configSettings?.throttlingMethod ?? null,
+        configuredCpuSlowdownMultiplier: report?.configSettings?.throttling?.cpuSlowdownMultiplier ?? null,
       },
       assertions: evaluateLighthouseAssertions(report, assertions),
     })
@@ -206,6 +215,7 @@ const summary = {
   generatedAt: new Date().toISOString(),
   config: path.relative(root, configPath),
   profile,
+  cpuMode,
   cpuCalibration,
   ok: failures.length === 0,
   failures,

@@ -345,6 +345,15 @@ test('build tooling uses the supported Node runtime and has no vulnerable legacy
   assert.match(lighthouseRunner, /listen\(0/)
   assert.match(lighthouseRunner, /environment\?\.benchmarkIndex/)
   assert.match(lighthouseRunner, /calculateCpuSlowdownMultiplier/)
+  assert.match(lighthouseRunner, /resolveCpuExecutionMode/)
+  assert.match(
+    ciWorkflow,
+    /name:\s*Verify committed calibrated mobile proof\s*\n\s*run:\s*npm run project:release:verify/,
+  )
+  assert.match(
+    ciWorkflow,
+    /name:\s*Run Lighthouse mobile shared-runner smoke[\s\S]*?LIGHTHOUSE_CPU_MODE:\s*provided[\s\S]*?run:\s*npm run test:lh:config:mobile/,
+  )
   assert.match(
     googleAnalytics,
     /googletagmanager\.com\/gtag\/js[\s\S]*?strategy="lazyOnload"/,

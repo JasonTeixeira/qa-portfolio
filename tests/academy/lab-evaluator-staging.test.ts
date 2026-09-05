@@ -381,6 +381,21 @@ describe('academy Step 4B staging activation contract', () => {
     assert.equal(publicManifest.includes('expectedStdout'), false)
   })
 
+  it('pins the public activation candidate to the canonical registry and current lab blocks', () => {
+    const canonicalRegistry = JSON.parse(readFileSync('data/academy/registry.json', 'utf8'))
+    const publicManifest = JSON.parse(readFileSync('data/academy/lab-evaluator/flagship-activation.json', 'utf8'))
+    const parsed = parseFlagshipActivationManifest(publicManifest, canonicalRegistry)
+    const normalizedLanguage: Record<string, string> = { js: 'javascript', javascript: 'javascript', python: 'python', sql: 'sql' }
+
+    for (const lab of parsed.labs) {
+      const [courseSlug, lessonSlug] = lab.labKey.split('/')
+      const lessons = JSON.parse(readFileSync(`data/academy/authoring/${courseSlug}.lessons.json`, 'utf8'))
+      const block = lessons[lessonSlug]?.[lab.blockIndex]
+      assert.equal(block?.type, 'lab', `${lab.labKey} block ${lab.blockIndex} must remain the selected lab`)
+      assert.equal(normalizedLanguage[block?.language], lab.language, `${lab.labKey} language must remain pinned`)
+    }
+  })
+
   it('accepts a managed Vercel Sandbox attestation shape without any evaluator URL pin', () => {
     const { privateKey, publicKey } = generateKeyPairSync('ed25519')
     const projectId = 'prj_SBmFLCJVJLo7SyDx1wIjkrkc4exe'
